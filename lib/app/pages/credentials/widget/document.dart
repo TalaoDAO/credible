@@ -1,6 +1,5 @@
 import 'package:credible/app/pages/credentials/models/credential.dart';
-import 'package:credible/app/pages/credentials/widget/document/body.dart';
-import 'package:credible/app/pages/credentials/widget/document/header.dart';
+import 'package:credible/app/shared/model/credential.dart';
 import 'package:credible/app/shared/ui/ui.dart';
 import 'package:credible/app/shared/widget/base/box_decoration.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,12 +7,10 @@ import 'package:flutter/material.dart';
 
 class DocumentWidget extends StatelessWidget {
   final CredentialModel item;
-  final Widget? trailing;
 
   const DocumentWidget({
     Key? key,
     required this.item,
-    this.trailing,
   }) : super(key: key);
 
   @override
@@ -30,21 +27,15 @@ class DocumentWidget extends StatelessWidget {
           // value: animation.value,
           borderRadius: BorderRadius.circular(20.0),
         ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 12.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              DocumentHeader(item: item),
-              const SizedBox(height: 48.0),
-              // const DocumentTicketSeparator(),
-              DocumentBody(
-                item: item,
-                trailing: trailing,
-              ),
-            ],
-          ),
-        ),
+        child: identityPass(context),
       );
+
+  Widget identityPass(BuildContext context) {
+    final credential = Credential.fromJson(item.data);
+
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: credential.displayDetail(context, item),
+    );
+  }
 }

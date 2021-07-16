@@ -1,13 +1,12 @@
 import 'package:credible/app/pages/credentials/models/credential.dart';
 import 'package:credible/app/pages/credentials/models/credential_status.dart';
+import 'package:credible/app/shared/model/credential.dart';
 import 'package:credible/app/shared/ui/ui.dart';
 import 'package:credible/app/shared/widget/base/box_decoration.dart';
 import 'package:credible/app/shared/widget/hero_workaround.dart';
-import 'package:credible/app/shared/widget/tooltip_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class _BaseItem extends StatefulWidget {
   final Widget child;
@@ -94,47 +93,6 @@ class __BaseItemState extends State<_BaseItem>
       );
 }
 
-class _LabeledItem extends StatelessWidget {
-  final String icon;
-  final String label;
-  final String hero;
-  final String value;
-
-  const _LabeledItem({
-    Key? key,
-    required this.icon,
-    required this.label,
-    required this.hero,
-    required this.value,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) => Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SvgPicture.asset(
-            icon,
-            width: 16.0,
-            height: 16.0,
-            color: UiKit.text.colorTextBody1,
-          ),
-          const SizedBox(width: 8.0),
-          Expanded(
-            child: TooltipText(
-              tag: hero,
-              text: value,
-              tooltip: '$label $value',
-              style: GoogleFonts.poppins(
-                color: UiKit.text.colorTextBody1,
-                fontSize: 12.0,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),
-        ],
-      );
-}
-
 class CredentialsListItem extends StatelessWidget {
   final CredentialModel item;
   final VoidCallback? onTap;
@@ -155,78 +113,45 @@ class CredentialsListItem extends StatelessWidget {
                   '/credentials/detail',
                   arguments: item,
                 ),
-        child: Row(
-          children: <Widget>[
-            Container(
-              padding: const EdgeInsets.all(16.0),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16.0),
-              ),
-              child: HeroFix(
-                tag: 'credential/${item.id}/icon',
-                child: selected == null
-                    ? SvgPicture.asset(
-                        'assets/brand/spruce-icon.svg',
-                        width: 24.0,
-                        height: 24.0,
+        child: displayListElement(context),
+      );
+
+  Row displayListElement(BuildContext context) {
+    final credential = Credential.fromJson(item.data);
+    return Row(
+      children: <Widget>[
+        Container(
+          padding: const EdgeInsets.all(16.0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16.0),
+          ),
+          child: HeroFix(
+            tag: 'credential/${item.id}/icon',
+            child: selected == null
+                ? SvgPicture.asset(
+                    'assets/brand/spruce-icon.svg',
+                    width: 24.0,
+                    height: 24.0,
+                    color: UiKit.palette.icon,
+                  )
+                : selected!
+                    ? Icon(
+                        Icons.check_box,
+                        size: 24.0,
                         color: UiKit.palette.icon,
                       )
-                    : selected!
-                        ? Icon(
-                            Icons.check_box,
-                            size: 24.0,
-                            color: UiKit.palette.icon,
-                          )
-                        : Icon(
-                            Icons.check_box_outline_blank,
-                            size: 24.0,
-                            color: UiKit.palette.icon,
-                          ),
-              ),
-            ),
-            const SizedBox(width: 16.0),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  TooltipText(
-                    tag: 'credential/${item.id}/id',
-                    text: item.id,
-                    style: GoogleFonts.poppins(
-                      color: UiKit.text.colorTextBody1,
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const SizedBox(height: 8.0),
-                  Expanded(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Expanded(
-                          child: _LabeledItem(
-                            icon: 'assets/icon/location-target.svg',
-                            label: 'Issued by:',
-                            hero: 'credential/${item.id}/issuer',
-                            value: item.issuer,
-                          ),
-                        ),
-                        const SizedBox(width: 16.0),
-                        Expanded(
-                          child: _LabeledItem(
-                            icon: 'assets/icon/time-clock.svg',
-                            label: 'Valid thru:',
-                            hero: 'credential/${item.id}/valid',
-                            value: '01/22',
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
+                    : Icon(
+                        Icons.check_box_outline_blank,
+                        size: 24.0,
+                        color: UiKit.palette.icon,
+                      ),
+          ),
         ),
-      );
+        const SizedBox(width: 16.0),
+        Expanded(
+          child: credential.displayList(context, item),
+        ),
+      ],
+    );
+  }
 }
