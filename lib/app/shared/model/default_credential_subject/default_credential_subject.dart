@@ -54,14 +54,16 @@ class DefaultCredentialSubject extends CredentialSubject {
                 ),
               ),
               const SizedBox(width: 16.0),
-              Expanded(
-                child: LabeledItem(
-                  icon: 'assets/icon/time-clock.svg',
-                  label: 'Valid thru:',
-                  hero: 'credential/${item.id}/valid',
-                  value: '01/22',
+              if (item.expirationDate != null)
+                Expanded(
+                  child: LabeledItem(
+                    icon: 'assets/icon/time-clock.svg',
+                    label: 'Valid thru:',
+                    hero: 'credential/${item.id}/valid',
+                    value: DateFormat(DateFormat.YEAR_NUM_MONTH_DAY)
+                        .format(item.expirationDate!),
+                  ),
                 ),
-              ),
             ],
           ),
         ),

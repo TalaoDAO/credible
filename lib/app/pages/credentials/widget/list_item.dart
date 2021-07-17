@@ -93,6 +93,47 @@ class __BaseItemState extends State<_BaseItem>
       );
 }
 
+class _LabeledItem extends StatelessWidget {
+  final String icon;
+  final String label;
+  final String hero;
+  final String value;
+
+  const _LabeledItem({
+    Key? key,
+    required this.icon,
+    required this.label,
+    required this.hero,
+    required this.value,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) => Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SvgPicture.asset(
+            icon,
+            width: 16.0,
+            height: 16.0,
+            color: UiKit.text.colorTextBody1,
+          ),
+          const SizedBox(width: 8.0),
+          Expanded(
+            child: TooltipText(
+              tag: hero,
+              text: value,
+              tooltip: '$label $value',
+              style: GoogleFonts.poppins(
+                color: UiKit.text.colorTextBody1,
+                fontSize: 12.0,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+        ],
+      );
+}
+
 class CredentialsListItem extends StatelessWidget {
   final CredentialModel item;
   final VoidCallback? onTap;
