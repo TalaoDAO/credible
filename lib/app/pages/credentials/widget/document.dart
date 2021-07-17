@@ -1,16 +1,43 @@
 import 'package:credible/app/pages/credentials/models/credential.dart';
-import 'package:credible/app/shared/model/credential.dart';
+import 'package:credible/app/pages/credentials/widget/document/body.dart';
+import 'package:credible/app/pages/credentials/widget/document/header.dart';
 import 'package:credible/app/shared/ui/ui.dart';
 import 'package:credible/app/shared/widget/base/box_decoration.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+class DocumentWidgetModel {
+  final String issuedBy;
+  final String status;
+
+  const DocumentWidgetModel(this.issuedBy, this.status);
+
+  factory DocumentWidgetModel.fromCredentialModel(CredentialModel model) {
+    late String status;
+
+    switch (model.status) {
+      case CredentialStatus.active:
+        status = 'Active';
+        break;
+      case CredentialStatus.expired:
+        status = 'Expired';
+        break;
+      case CredentialStatus.revoked:
+        status = 'Revoked';
+        break;
+    }
+
+    return DocumentWidgetModel(model.issuer, status);
+  }
+}
+
 class DocumentWidget extends StatelessWidget {
-  final CredentialModel item;
+  final DocumentWidgetModel model;
+
 
   const DocumentWidget({
     Key? key,
-    required this.item,
+    required this.model,
   }) : super(key: key);
 
   @override
