@@ -21,7 +21,7 @@ class DocumentBodyWidgetModel {
 }
 
 class DocumentBody extends StatelessWidget {
-  final DocumentBodyWidgetModel model;
+  final CredentialModel model;
   final Widget? trailing;
 
   const DocumentBody({
@@ -31,39 +31,44 @@ class DocumentBody extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Container(
-        margin: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: DocumentItemWidget(
-                    label: 'NPI:',
-                    value: model.npi,
-                  ),
+  Widget build(BuildContext context) {
+    final documentBodyWidgetModel =
+        DocumentBodyWidgetModel.fromCredentialModel(model);
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: DocumentItemWidget(
+                  label: 'NPI:',
+                  value: documentBodyWidgetModel.npi,
                 ),
-                const SizedBox(width: 8.0),
-                Expanded(
-                  child: DocumentItemWidget(
-                    label: 'Issued by:',
-                    value: model.issuedBy,
-                  ),
+              ),
+              const SizedBox(width: 8.0),
+              Expanded(
+                child: DocumentItemWidget(
+                  label: 'Issued by:',
+                  value: documentBodyWidgetModel.issuedBy,
                 ),
-              ],
-            ),
-            const SizedBox(height: 20.0),
-            DocumentItemWidget(
-              label: 'Email:',
-              value: model.email,
-            ),
-            const SizedBox(height: 20.0),
-            DocumentItemWidget(label: 'Issued at:', value: model.issuedAt),
-            if (trailing != null) const SizedBox(height: 20.0),
-            if (trailing != null) trailing!,
-          ],
-        ),
-      );
+              ),
+            ],
+          ),
+          const SizedBox(height: 20.0),
+          DocumentItemWidget(
+            label: 'Email:',
+            value: documentBodyWidgetModel.email,
+          ),
+          const SizedBox(height: 20.0),
+          DocumentItemWidget(
+              label: 'Issued at:', value: documentBodyWidgetModel.issuedAt),
+          if (trailing != null) const SizedBox(height: 20.0),
+          if (trailing != null) trailing!,
+        ],
+      ),
+    );
+  }
 }

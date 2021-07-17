@@ -131,7 +131,7 @@ class _CredentialsDetailState
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           DocumentWidget(
-            model: DocumentWidgetModel.fromCredentialModel(widget.item),
+            model: widget.item,
           ),
           const SizedBox(height: 64.0),
           if (verification == VerificationState.Unverified)
