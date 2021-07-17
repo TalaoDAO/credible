@@ -1,6 +1,6 @@
 import 'package:credible/app/pages/credentials/models/credential.dart';
-import 'package:credible/app/pages/credentials/widget/document/body.dart';
-import 'package:credible/app/pages/credentials/widget/document/header.dart';
+import 'package:credible/app/pages/credentials/models/credential_status.dart';
+import 'package:credible/app/shared/model/credential.dart';
 import 'package:credible/app/shared/ui/ui.dart';
 import 'package:credible/app/shared/widget/base/box_decoration.dart';
 import 'package:flutter/cupertino.dart';
@@ -32,8 +32,7 @@ class DocumentWidgetModel {
 }
 
 class DocumentWidget extends StatelessWidget {
-  final DocumentWidgetModel model;
-
+  final CredentialModel model;
 
   const DocumentWidget({
     Key? key,
@@ -58,11 +57,11 @@ class DocumentWidget extends StatelessWidget {
       );
 
   Widget identityPass(BuildContext context) {
-    final credential = Credential.fromJson(item.data);
+    final credential = Credential.fromJson(model.data);
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: credential.displayDetail(context, item),
+      child: credential.displayDetail(context, model),
     );
   }
 }

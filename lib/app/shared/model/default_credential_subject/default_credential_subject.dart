@@ -7,6 +7,7 @@ import 'package:credible/app/shared/ui/ui.dart';
 import 'package:credible/app/shared/widget/tooltip_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'default_credential_subject.g.dart';
@@ -79,11 +80,11 @@ class DefaultCredentialSubject extends CredentialSubject {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          DocumentHeader(item: item),
+          DocumentHeader(model: item),
           const SizedBox(height: 48.0),
           // const DocumentTicketSeparator(),
           DocumentBody(
-            item: item,
+            model: item,
           ),
         ],
       ),

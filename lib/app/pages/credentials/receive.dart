@@ -79,7 +79,7 @@ class _CredentialsReceivePageState
                         padding: const EdgeInsets.all(24.0),
                         child: TooltipText(
                           text:
-                            '${widget.url.host} ${localizations.credentialReceiveHost}',
+                              '${widget.url.host} ${localizations.credentialReceiveHost}',
                           maxLines: 3,
                           textAlign: TextAlign.center,
                           style: Theme.of(context).textTheme.bodyText1,
@@ -89,8 +89,7 @@ class _CredentialsReceivePageState
                   ],
                 ),
                 const SizedBox(height: 16.0),
-                DocumentWidget(
-                    model: DocumentWidgetModel.fromCredentialModel(credential)),
+                DocumentWidget(model: credential),
                 const SizedBox(height: 24.0),
                 BaseButton.primary(
                   onPressed: widget.onSubmit,
