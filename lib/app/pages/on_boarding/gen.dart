@@ -20,11 +20,12 @@ class _OnBoardingGenPageState extends State<OnBoardingGenPage> {
   @override
   void initState() {
     super.initState();
-
-    generateKey();
+    Future.delayed(Duration.zero, () {
+      generateKey(context);
+    });
   }
 
-  Future<void> generateKey() async {
+  Future<void> generateKey(BuildContext context) async {
     final localizations = AppLocalizations.of(context)!;
     try {
       final mnemonic = (await SecureStorageProvider.instance.get('mnemonic'))!;
