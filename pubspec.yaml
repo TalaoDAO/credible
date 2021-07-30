@@ -57,6 +57,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  integration_test:
+    sdk: flutter
   #intl_translation: ^0.17.10
   pedantic: ^1.11.0
   #flutter_launcher_icons: ^0.8.1
