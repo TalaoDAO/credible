@@ -13,7 +13,8 @@ class Credential {
   final List<String> type;
   final String issuer;
   final String issuanceDate;
-  final Proof proof;
+  @JsonKey(fromJson: _fromJsonProofs)
+  final List<Proof> proof;
   final CredentialSubject credentialSubject;
 
   Credential(this.id, this.type, this.issuer, this.issuanceDate, this.proof,
@@ -26,13 +27,15 @@ class Credential {
           ['dummy'],
           'dummy',
           'dummy',
-          Proof(
-            'dummy',
-            'dummy',
-            'dummy',
-            'dummy',
-            'dummy',
-          ),
+          [
+            Proof(
+              'dummy',
+              'dummy',
+              'dummy',
+              'dummy',
+              'dummy',
+            )
+          ],
           DefaultCredentialSubject('dummy', 'dummy'));
     }
     return _$CredentialFromJson(json);
@@ -77,5 +80,14 @@ class Credential {
               )
             ],
           );
+  }
+
+  static List<Proof> _fromJsonProofs(json) {
+    if (json is List) {
+      return (json)
+          .map((e) => Proof.fromJson(e as Map<String, dynamic>))
+          .toList();
+    }
+    return [Proof.fromJson(json)];
   }
 }

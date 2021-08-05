@@ -12,7 +12,7 @@ Credential _$CredentialFromJson(Map<String, dynamic> json) {
     (json['type'] as List<dynamic>).map((e) => e as String).toList(),
     json['issuer'] as String,
     json['issuanceDate'] as String,
-    Proof.fromJson(json['proof'] as Map<String, dynamic>),
+    Credential._fromJsonProofs(json['proof']),
     CredentialSubject.fromJson(
         json['credentialSubject'] as Map<String, dynamic>),
   );
