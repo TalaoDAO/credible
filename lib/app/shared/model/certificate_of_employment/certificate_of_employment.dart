@@ -25,8 +25,8 @@ class CertificateOfEmployment extends CredentialSubject {
   String employmentType;
   @JsonKey(defaultValue: '')
   String jobTitle;
-  @JsonKey(defaultValue: 0)
-  int baseSalary;
+  @JsonKey(defaultValue: '')
+  String baseSalary;
 
   CertificateOfEmployment(
       this.id,

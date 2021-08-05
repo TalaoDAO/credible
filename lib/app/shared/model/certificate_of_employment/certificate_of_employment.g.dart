@@ -18,7 +18,7 @@ CertificateOfEmployment _$CertificateOfEmploymentFromJson(
     SignatureLines.fromJson(json['signatureLines'] as Map<String, dynamic>),
     json['employmentType'] as String? ?? '',
     json['jobTitle'] as String? ?? '',
-    json['baseSalary'] as int? ?? 0,
+    json['baseSalary'] as String? ?? '',
   );
 }
 
