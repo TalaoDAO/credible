@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "309277174285",
+    "project_id": "talao-5431a",
+    "storage_bucket": "talao-5431a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:309277174285:android:84961cfa42138e815b4344",
+        "android_client_info": {
+          "package_name": "co.talao.wallet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "309277174285-duhpsvhjl78amlgrnv7tt3uq46avv9mf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "co.talao.wallet",
+            "certificate_hash": "251279b74df741a54dd7cc3fabf65a049ee8e81f"
+          }
+        },
+        {
+          "client_id": "309277174285-edkrvpu9md2l8m7ki0lgs1p38t3mu59u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGT9dc-wZA3t85ebYZmJhAE7hn9LbRMdA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "309277174285-edkrvpu9md2l8m7ki0lgs1p38t3mu59u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
