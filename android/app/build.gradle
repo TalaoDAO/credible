@@ -28,6 +28,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
@@ -43,7 +44,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.spruceid.app.credible"
+        applicationId "co.talao.wallet"
         minSdkVersion 24
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
