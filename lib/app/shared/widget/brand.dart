@@ -28,14 +28,6 @@ class Brand extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          HeroFix(
-            tag: 'splash/icon',
-            child: Container(
-              width: MediaQuery.of(context).size.width * 0.2,
-              height: MediaQuery.of(context).size.width * 0.2,
-              child: Image.asset('assets/brand/logo_talao.png'),
-            ),
-          ),
           const SizedBox(height: 32.0),
           HeroFix(
             tag: 'splash/title',
