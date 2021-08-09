@@ -23,7 +23,7 @@ class OnBoardingSuccessPage extends StatelessWidget {
             child: Container(
               width: MediaQuery.of(context).size.width * 0.2,
               height: MediaQuery.of(context).size.width * 0.2,
-              child: SvgPicture.asset('assets/brand/logo-circular.svg'),
+              child: Image.asset('assets/brand/logo_talao.png'),
             ),
           ),
           const SizedBox(height: 32.0),
