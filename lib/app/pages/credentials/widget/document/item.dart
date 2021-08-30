@@ -1,5 +1,5 @@
-import 'package:credible/app/shared/ui/ui.dart';
-import 'package:credible/app/shared/widget/tooltip_text.dart';
+import 'package:talao/app/shared/ui/ui.dart';
+import 'package:talao/app/shared/widget/tooltip_text.dart';
 import 'package:flutter/material.dart';
 
 class DocumentItemWidget extends StatelessWidget {

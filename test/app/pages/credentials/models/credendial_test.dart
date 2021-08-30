@@ -1,4 +1,4 @@
-import 'package:credible/app/pages/credentials/models/credential.dart';
+import 'package:talao/app/pages/credentials/models/credential.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

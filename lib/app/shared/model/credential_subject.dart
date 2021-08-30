@@ -1,11 +1,11 @@
-import 'package:credible/app/pages/credentials/models/credential.dart';
-import 'package:credible/app/shared/model/certificate_of_employment/certificate_of_employment.dart';
-import 'package:credible/app/shared/model/default_credential_subject/default_credential_subject.dart';
-import 'package:credible/app/shared/model/email_pass/email_pass.dart';
-import 'package:credible/app/shared/model/identity_pass/identity_pass.dart';
-import 'package:credible/app/shared/model/professional_experience_assessment/professional_experience_assessment.dart';
-import 'package:credible/app/shared/model/resident_card/resident_card.dart';
-import 'package:credible/app/shared/ui/ui.dart';
+import 'package:talao/app/pages/credentials/models/credential.dart';
+import 'package:talao/app/shared/model/certificate_of_employment/certificate_of_employment.dart';
+import 'package:talao/app/shared/model/default_credential_subject/default_credential_subject.dart';
+import 'package:talao/app/shared/model/email_pass/email_pass.dart';
+import 'package:talao/app/shared/model/identity_pass/identity_pass.dart';
+import 'package:talao/app/shared/model/professional_experience_assessment/professional_experience_assessment.dart';
+import 'package:talao/app/shared/model/resident_card/resident_card.dart';
+import 'package:talao/app/shared/ui/ui.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 

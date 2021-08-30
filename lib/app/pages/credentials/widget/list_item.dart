@@ -1,10 +1,10 @@
-import 'package:credible/app/pages/credentials/models/credential.dart';
-import 'package:credible/app/pages/credentials/models/credential_status.dart';
-import 'package:credible/app/shared/model/credential.dart';
-import 'package:credible/app/shared/ui/ui.dart';
-import 'package:credible/app/shared/widget/base/box_decoration.dart';
-import 'package:credible/app/shared/widget/hero_workaround.dart';
-import 'package:credible/app/shared/widget/tooltip_text.dart';
+import 'package:talao/app/pages/credentials/models/credential.dart';
+import 'package:talao/app/pages/credentials/models/credential_status.dart';
+import 'package:talao/app/shared/model/credential.dart';
+import 'package:talao/app/shared/ui/ui.dart';
+import 'package:talao/app/shared/widget/base/box_decoration.dart';
+import 'package:talao/app/shared/widget/hero_workaround.dart';
+import 'package:talao/app/shared/widget/tooltip_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/flutter_svg.dart';

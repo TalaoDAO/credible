@@ -1,5 +1,5 @@
-import 'package:credible/app/shared/ui/base/text.dart';
-import 'package:credible/app/shared/ui/degen/palette.dart';
+import 'package:talao/app/shared/ui/base/text.dart';
+import 'package:talao/app/shared/ui/degen/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 

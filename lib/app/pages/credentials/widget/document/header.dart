@@ -1,7 +1,7 @@
-import 'package:credible/app/pages/credentials/models/credential.dart';
-import 'package:credible/app/pages/credentials/widget/document/item.dart';
-import 'package:credible/app/shared/ui/ui.dart';
-import 'package:credible/app/shared/widget/tooltip_text.dart';
+import 'package:talao/app/pages/credentials/models/credential.dart';
+import 'package:talao/app/pages/credentials/widget/document/item.dart';
+import 'package:talao/app/shared/ui/ui.dart';
+import 'package:talao/app/shared/widget/tooltip_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

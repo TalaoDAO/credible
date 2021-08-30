@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import 'package:credible/app/pages/qr_code/bloc/qrcode.dart';
-import 'package:credible/app/shared/widget/base/page.dart';
-import 'package:credible/app/shared/widget/confirm_dialog.dart';
-import 'package:credible/app/shared/widget/navigation_bar.dart';
+import 'package:talao/app/pages/qr_code/bloc/qrcode.dart';
+import 'package:talao/app/shared/widget/base/page.dart';
+import 'package:talao/app/shared/widget/confirm_dialog.dart';
+import 'package:talao/app/shared/widget/navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';

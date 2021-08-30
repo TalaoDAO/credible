@@ -1,16 +1,16 @@
 import 'dart:convert';
 
-import 'package:credible/app/interop/didkit/didkit.dart';
-import 'package:credible/app/pages/credentials/blocs/wallet.dart';
-import 'package:credible/app/pages/credentials/models/credential.dart';
-import 'package:credible/app/pages/credentials/models/verification_state.dart';
-import 'package:credible/app/pages/credentials/widget/document.dart';
-import 'package:credible/app/shared/ui/ui.dart';
-import 'package:credible/app/shared/widget/back_leading_button.dart';
-import 'package:credible/app/shared/widget/base/button.dart';
-import 'package:credible/app/shared/widget/base/page.dart';
-import 'package:credible/app/shared/widget/confirm_dialog.dart';
-import 'package:credible/app/shared/widget/text_field_dialog.dart';
+import 'package:talao/app/interop/didkit/didkit.dart';
+import 'package:talao/app/pages/credentials/blocs/wallet.dart';
+import 'package:talao/app/pages/credentials/models/credential.dart';
+import 'package:talao/app/pages/credentials/models/verification_state.dart';
+import 'package:talao/app/pages/credentials/widget/document.dart';
+import 'package:talao/app/shared/ui/ui.dart';
+import 'package:talao/app/shared/widget/back_leading_button.dart';
+import 'package:talao/app/shared/widget/base/button.dart';
+import 'package:talao/app/shared/widget/base/page.dart';
+import 'package:talao/app/shared/widget/confirm_dialog.dart';
+import 'package:talao/app/shared/widget/text_field_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/flutter_svg.dart';

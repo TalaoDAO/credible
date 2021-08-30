@@ -1,5 +1,5 @@
-import 'package:credible/app/pages/credentials/models/credential.dart';
-import 'package:credible/app/pages/credentials/repositories/credential.dart';
+import 'package:talao/app/pages/credentials/models/credential.dart';
+import 'package:talao/app/pages/credentials/repositories/credential.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:rxdart/rxdart.dart';
 

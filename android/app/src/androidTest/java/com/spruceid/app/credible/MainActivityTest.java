@@ -1,11 +1,11 @@
-package com.spruceid.app.credible;
+package co.talao.wallet;
 
 import androidx.test.rule.ActivityTestRule;
 import dev.flutter.plugins.integration_test.FlutterTestRunner;
 import org.junit.Rule;
 import org.junit.runner.RunWith;
 
-import com.spruceid.app.credible.MainActivity;
+import co.talao.wallet.MainActivity;
 
 @RunWith(FlutterTestRunner.class)
 public class MainActivityTest {

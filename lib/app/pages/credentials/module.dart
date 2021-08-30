@@ -1,11 +1,11 @@
-import 'package:credible/app/pages/credentials/blocs/scan.dart';
-import 'package:credible/app/pages/credentials/pages/detail.dart';
-import 'package:credible/app/pages/credentials/pages/grid.dart';
-import 'package:credible/app/pages/credentials/pages/list.dart';
-import 'package:credible/app/pages/credentials/pick.dart';
-import 'package:credible/app/pages/credentials/present.dart';
-import 'package:credible/app/pages/credentials/receive.dart';
-import 'package:credible/app/pages/credentials/stream.dart';
+import 'package:talao/app/pages/credentials/blocs/scan.dart';
+import 'package:talao/app/pages/credentials/pages/detail.dart';
+import 'package:talao/app/pages/credentials/pages/grid.dart';
+import 'package:talao/app/pages/credentials/pages/list.dart';
+import 'package:talao/app/pages/credentials/pick.dart';
+import 'package:talao/app/pages/credentials/present.dart';
+import 'package:talao/app/pages/credentials/receive.dart';
+import 'package:talao/app/pages/credentials/stream.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

@@ -1,5 +1,5 @@
-import 'package:credible/app/pages/credentials/models/credential.dart';
-import 'package:credible/app/shared/model/credential_subject.dart';
+import 'package:talao/app/pages/credentials/models/credential.dart';
+import 'package:talao/app/shared/model/credential_subject.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 

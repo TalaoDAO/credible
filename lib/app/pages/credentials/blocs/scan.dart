@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
-import 'package:credible/app/interop/didkit/didkit.dart';
-import 'package:credible/app/interop/secure_storage/secure_storage.dart';
-import 'package:credible/app/pages/credentials/blocs/wallet.dart';
-import 'package:credible/app/pages/credentials/models/credential.dart';
-import 'package:credible/app/pages/credentials/repositories/credential.dart';
-import 'package:credible/app/shared/constants.dart';
-import 'package:credible/app/shared/model/message.dart';
+import 'package:talao/app/interop/didkit/didkit.dart';
+import 'package:talao/app/interop/secure_storage/secure_storage.dart';
+import 'package:talao/app/pages/credentials/blocs/wallet.dart';
+import 'package:talao/app/pages/credentials/models/credential.dart';
+import 'package:talao/app/pages/credentials/repositories/credential.dart';
+import 'package:talao/app/shared/constants.dart';
+import 'package:talao/app/shared/model/message.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:logging/logging.dart';

@@ -1,6 +1,6 @@
-import 'package:credible/app/pages/credentials/blocs/wallet.dart';
-import 'package:credible/app/pages/credentials/models/credential.dart';
-import 'package:credible/app/shared/widget/base/page.dart';
+import 'package:talao/app/pages/credentials/blocs/wallet.dart';
+import 'package:talao/app/pages/credentials/models/credential.dart';
+import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';

@@ -1,7 +1,7 @@
-import 'package:credible/app/interop/secure_storage/secure_storage.dart';
-import 'package:credible/app/shared/key_generation.dart';
-import 'package:credible/app/shared/widget/base/page.dart';
-import 'package:credible/app/shared/widget/spinner.dart';
+import 'package:talao/app/interop/secure_storage/secure_storage.dart';
+import 'package:talao/app/shared/key_generation.dart';
+import 'package:talao/app/shared/widget/base/page.dart';
+import 'package:talao/app/shared/widget/spinner.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:logging/logging.dart';

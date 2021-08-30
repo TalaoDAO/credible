@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.spruceid.app.credible">
+    package="co.talao.wallet">
 
-    <application android:name="Credible" 
+    <application android:name="Talao"
         android:allowBackup="false" />
 
     <uses-permission android:name="android.permission.INTERNET" />

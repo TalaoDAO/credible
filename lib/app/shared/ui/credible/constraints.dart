@@ -1,4 +1,4 @@
-import 'package:credible/app/shared/ui/base/constraints.dart';
+import 'package:talao/app/shared/ui/base/constraints.dart';
 import 'package:flutter/material.dart';
 
 class CredibleConstraints extends UiConstraints {

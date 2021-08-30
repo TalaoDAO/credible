@@ -1,15 +1,15 @@
 import 'dart:io';
 
-import 'package:credible/app/pages/credentials/blocs/scan.dart';
-import 'package:credible/app/pages/credentials/blocs/wallet.dart';
-import 'package:credible/app/pages/credentials/module.dart';
-import 'package:credible/app/pages/credentials/repositories/credential.dart';
-import 'package:credible/app/pages/on_boarding/module.dart';
-import 'package:credible/app/pages/profile/module.dart';
-import 'package:credible/app/pages/qr_code/bloc/qrcode.dart';
-import 'package:credible/app/pages/qr_code/display.dart';
-import 'package:credible/app/pages/qr_code/scan.dart';
-import 'package:credible/app/pages/splash.dart';
+import 'package:talao/app/pages/credentials/blocs/scan.dart';
+import 'package:talao/app/pages/credentials/blocs/wallet.dart';
+import 'package:talao/app/pages/credentials/module.dart';
+import 'package:talao/app/pages/credentials/repositories/credential.dart';
+import 'package:talao/app/pages/on_boarding/module.dart';
+import 'package:talao/app/pages/profile/module.dart';
+import 'package:talao/app/pages/qr_code/bloc/qrcode.dart';
+import 'package:talao/app/pages/qr_code/display.dart';
+import 'package:talao/app/pages/qr_code/scan.dart';
+import 'package:talao/app/pages/splash.dart';
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_modular/flutter_modular.dart';

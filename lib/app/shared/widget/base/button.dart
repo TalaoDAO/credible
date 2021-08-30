@@ -1,4 +1,4 @@
-import 'package:credible/app/shared/ui/ui.dart';
+import 'package:talao/app/shared/ui/ui.dart';
 import 'package:flutter/material.dart';
 
 class BaseButton extends StatelessWidget {

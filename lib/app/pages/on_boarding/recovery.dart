@@ -1,9 +1,9 @@
 import 'package:bip39/bip39.dart' as bip39;
-import 'package:credible/app/interop/secure_storage/secure_storage.dart';
-import 'package:credible/app/shared/widget/back_leading_button.dart';
-import 'package:credible/app/shared/widget/base/button.dart';
-import 'package:credible/app/shared/widget/base/page.dart';
-import 'package:credible/app/shared/widget/base/text_field.dart';
+import 'package:talao/app/interop/secure_storage/secure_storage.dart';
+import 'package:talao/app/shared/widget/back_leading_button.dart';
+import 'package:talao/app/shared/widget/base/button.dart';
+import 'package:talao/app/shared/widget/base/page.dart';
+import 'package:talao/app/shared/widget/base/text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

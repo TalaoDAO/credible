@@ -1,5 +1,5 @@
-import 'package:credible/app/app_module.dart';
-import 'package:credible/app/app_widget.dart';
+import 'package:talao/app/app_module.dart';
+import 'package:talao/app/app_widget.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';

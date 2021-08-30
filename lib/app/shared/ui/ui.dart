@@ -1,6 +1,6 @@
-import 'package:credible/app/shared/ui/talao/constraints.dart';
-import 'package:credible/app/shared/ui/talao/palette.dart';
-import 'package:credible/app/shared/ui/talao/text.dart';
+import 'package:talao/app/shared/ui/talao/constraints.dart';
+import 'package:talao/app/shared/ui/talao/palette.dart';
+import 'package:talao/app/shared/ui/talao/text.dart';
 
 import 'base/constraints.dart';
 import 'base/palette.dart';

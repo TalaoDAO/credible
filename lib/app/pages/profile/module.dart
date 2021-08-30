@@ -1,12 +1,12 @@
-import 'package:credible/app/pages/profile/blocs/did.dart';
-import 'package:credible/app/pages/profile/blocs/profile.dart';
-import 'package:credible/app/pages/profile/pages/notices.dart';
-import 'package:credible/app/pages/profile/pages/personal.dart';
-import 'package:credible/app/pages/profile/pages/privacy.dart';
-import 'package:credible/app/pages/profile/pages/recovery.dart';
-import 'package:credible/app/pages/profile/pages/support.dart';
-import 'package:credible/app/pages/profile/pages/terms.dart';
-import 'package:credible/app/pages/profile/profile.dart';
+import 'package:talao/app/pages/profile/blocs/did.dart';
+import 'package:talao/app/pages/profile/blocs/profile.dart';
+import 'package:talao/app/pages/profile/pages/notices.dart';
+import 'package:talao/app/pages/profile/pages/personal.dart';
+import 'package:talao/app/pages/profile/pages/privacy.dart';
+import 'package:talao/app/pages/profile/pages/recovery.dart';
+import 'package:talao/app/pages/profile/pages/support.dart';
+import 'package:talao/app/pages/profile/pages/terms.dart';
+import 'package:talao/app/pages/profile/profile.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 class ProfileModule extends Module {

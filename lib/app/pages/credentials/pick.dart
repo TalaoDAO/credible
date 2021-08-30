@@ -1,8 +1,8 @@
-import 'package:credible/app/pages/credentials/models/credential.dart';
-import 'package:credible/app/pages/credentials/widget/list_item.dart';
-import 'package:credible/app/shared/ui/ui.dart';
-import 'package:credible/app/shared/widget/base/button.dart';
-import 'package:credible/app/shared/widget/base/page.dart';
+import 'package:talao/app/pages/credentials/models/credential.dart';
+import 'package:talao/app/pages/credentials/widget/list_item.dart';
+import 'package:talao/app/shared/ui/ui.dart';
+import 'package:talao/app/shared/widget/base/button.dart';
+import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

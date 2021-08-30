@@ -1,4 +1,4 @@
-import 'package:credible/app/shared/widget/word.dart';
+import 'package:talao/app/shared/widget/word.dart';
 import 'package:flutter/cupertino.dart';
 
 class MnemonicDisplay extends StatelessWidget {

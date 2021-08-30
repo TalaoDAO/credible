@@ -1,9 +1,9 @@
-import 'package:credible/app/pages/credentials/blocs/scan.dart';
-import 'package:credible/app/shared/ui/ui.dart';
-import 'package:credible/app/shared/widget/base/button.dart';
-import 'package:credible/app/shared/widget/base/page.dart';
-import 'package:credible/app/shared/widget/spinner.dart';
-import 'package:credible/app/shared/widget/tooltip_text.dart';
+import 'package:talao/app/pages/credentials/blocs/scan.dart';
+import 'package:talao/app/shared/ui/ui.dart';
+import 'package:talao/app/shared/widget/base/button.dart';
+import 'package:talao/app/shared/widget/base/page.dart';
+import 'package:talao/app/shared/widget/spinner.dart';
+import 'package:talao/app/shared/widget/tooltip_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

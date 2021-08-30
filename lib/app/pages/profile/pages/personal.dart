@@ -1,9 +1,9 @@
-import 'package:credible/app/pages/profile/blocs/profile.dart';
-import 'package:credible/app/pages/profile/models/profile.dart';
-import 'package:credible/app/shared/ui/ui.dart';
-import 'package:credible/app/shared/widget/back_leading_button.dart';
-import 'package:credible/app/shared/widget/base/page.dart';
-import 'package:credible/app/shared/widget/base/text_field.dart';
+import 'package:talao/app/pages/profile/blocs/profile.dart';
+import 'package:talao/app/pages/profile/models/profile.dart';
+import 'package:talao/app/shared/ui/ui.dart';
+import 'package:talao/app/shared/widget/back_leading_button.dart';
+import 'package:talao/app/shared/widget/base/page.dart';
+import 'package:talao/app/shared/widget/base/text_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';

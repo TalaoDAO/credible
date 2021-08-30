@@ -1,5 +1,5 @@
-import 'package:credible/app/shared/widget/base/button.dart';
-import 'package:credible/app/shared/widget/base/page.dart';
+import 'package:talao/app/shared/widget/base/button.dart';
+import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';

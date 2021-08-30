@@ -1,4 +1,4 @@
-import 'package:credible/app/shared/ui/base/palette.dart';
+import 'package:talao/app/shared/ui/base/palette.dart';
 import 'package:flutter/material.dart';
 
 class DegenPalette extends UiPalette {

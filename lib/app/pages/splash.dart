@@ -1,11 +1,11 @@
 import 'dart:convert';
 
-import 'package:credible/app/interop/chapi/chapi.dart';
-import 'package:credible/app/interop/secure_storage/secure_storage.dart';
-import 'package:credible/app/pages/credentials/blocs/scan.dart';
-import 'package:credible/app/shared/ui/ui.dart';
-import 'package:credible/app/shared/widget/base/page.dart';
-import 'package:credible/app/shared/widget/brand.dart';
+import 'package:talao/app/interop/chapi/chapi.dart';
+import 'package:talao/app/interop/secure_storage/secure_storage.dart';
+import 'package:talao/app/pages/credentials/blocs/scan.dart';
+import 'package:talao/app/shared/ui/ui.dart';
+import 'package:talao/app/shared/widget/base/page.dart';
+import 'package:talao/app/shared/widget/brand.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';

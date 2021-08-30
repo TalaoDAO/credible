@@ -1,5 +1,5 @@
-import 'package:credible/app/shared/ui/ui.dart';
-import 'package:credible/app/shared/widget/app_bar.dart';
+import 'package:talao/app/shared/ui/ui.dart';
+import 'package:talao/app/shared/widget/app_bar.dart';
 import 'package:flutter/material.dart';
 
 class BasePage extends StatelessWidget {

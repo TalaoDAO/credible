@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
-import 'package:credible/app/pages/credentials/blocs/scan.dart';
-import 'package:credible/app/shared/model/message.dart';
+import 'package:talao/app/pages/credentials/blocs/scan.dart';
+import 'package:talao/app/shared/model/message.dart';
 import 'package:dio/dio.dart';
 import 'package:logging/logging.dart';
 
