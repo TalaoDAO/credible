@@ -1,4 +1,5 @@
 import 'package:credible/app/pages/credentials/models/credential_status.dart';
+import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 class CredentialModel {

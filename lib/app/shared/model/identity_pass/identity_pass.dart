@@ -54,7 +54,15 @@ class IdentityPass extends CredentialSubject {
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Image.network(recipient.image),
+          child: recipient.image != ''
+              ? Image.network(recipient.image,
+                  loadingBuilder: (context, child, loadingProgress) =>
+                      (loadingProgress == null)
+                          ? child
+                          : CircularProgressIndicator(),
+                  errorBuilder: (context, error, stackTrace) =>
+                      SizedBox.shrink())
+              : SizedBox.shrink(),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),

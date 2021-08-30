@@ -128,6 +128,17 @@
   "personalLastName": "Nom",
   "personalPhone": "Téléphone",
   "personalLocation": "Adresse",
-  "personalMail": "Email"
+  "personalMail": "Email",
+  "residentCard": "Certificat de résidence",
+  "lastName": "Nom",
+  "firstName": "Prénom",
+  "gender": "Sexe",
+  "birthdate": "Date de naissance",
+  "birthplace": "Lieu de naissance",
+  "address": "Adresse",
+  "maritalStatus": "Situation de famille",
+  "nationality": "Nationalité(s)",
+  "identifier": "Identifiant"
+
 }
 

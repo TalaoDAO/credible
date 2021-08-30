@@ -4,6 +4,8 @@ import 'package:credible/app/shared/model/default_credential_subject/default_cre
 import 'package:credible/app/shared/model/email_pass/email_pass.dart';
 import 'package:credible/app/shared/model/identity_pass/identity_pass.dart';
 import 'package:credible/app/shared/model/professional_experience_assessment/professional_experience_assessment.dart';
+import 'package:credible/app/shared/model/resident_card/resident_card.dart';
+import 'package:credible/app/shared/ui/ui.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -16,6 +18,30 @@ class CredentialSubject {
 
   CredentialSubject(this.id, this.type);
 
+  Color get backgroundColor {
+    Color _backgroundColor;
+    switch (type) {
+      case 'ResidentCard':
+        _backgroundColor = Colors.yellowAccent;
+        break;
+      case 'IdentityPass':
+        _backgroundColor = Colors.purpleAccent;
+        break;
+      case 'CertificateOfEmployment':
+        _backgroundColor = Colors.greenAccent;
+        break;
+      case 'EmailPass':
+        _backgroundColor = Colors.brown;
+        break;
+      case 'ProfessionalExperienceAssessment':
+        _backgroundColor = Colors.redAccent;
+        break;
+      default:
+        _backgroundColor = UiKit.palette.credentialBackground;
+    }
+    return _backgroundColor;
+  }
+
   Widget displayInList(BuildContext context, CredentialModel item) {
     return Text('first display');
   }
@@ -26,6 +52,8 @@ class CredentialSubject {
 
   factory CredentialSubject.fromJson(Map<String, dynamic> json) {
     switch (json['type']) {
+      case 'ResidentCard':
+        return ResidentCard.fromJson(json);
       case 'IdentityPass':
         return IdentityPass.fromJson(json);
       case 'CertificateOfEmployment':

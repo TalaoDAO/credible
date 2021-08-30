@@ -4,6 +4,7 @@ import 'package:credible/app/shared/model/default_credential_subject/default_cre
 import 'package:credible/app/shared/model/proof.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 part 'credential.g.dart';
 
@@ -44,21 +45,7 @@ class Credential {
   Map<String, dynamic> toJson() => _$CredentialToJson(this);
 
   Widget displayDetail(BuildContext context, CredentialModel item) {
-    return (credentialSubject is DefaultCredentialSubject)
-        ? credentialSubject.displayDetail(context, item)
-        : Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(type.last.toString()),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(issuer.toString()),
-              ),
-              credentialSubject.displayDetail(context, item),
-            ],
-          );
+    return credentialSubject.displayDetail(context, item);
   }
 
   Widget displayList(BuildContext context, CredentialModel item) {
@@ -68,11 +55,7 @@ class Credential {
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(type.last.toString()),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(issuer.toString()),
+                child: displayType(context, type.last),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -80,6 +63,20 @@ class Credential {
               )
             ],
           );
+  }
+
+  Widget displayType(BuildContext context, String type) {
+    final localizations = AppLocalizations.of(context)!;
+
+    String typeLabel = '';
+    switch (type) {
+      case 'ResidentCard':
+        typeLabel = localizations.residentCard;
+        break;
+      default:
+        typeLabel = type;
+    }
+    return Text(typeLabel.toString());
   }
 
   static List<Proof> _fromJsonProofs(json) {

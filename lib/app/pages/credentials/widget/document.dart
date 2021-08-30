@@ -40,10 +40,25 @@ class DocumentWidget extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Container(
+  Widget build(BuildContext context) {
+    final credential = Credential.fromJson(model.data);
+
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+              color: Colors.black87,
+              blurRadius: 2,
+              spreadRadius: 1.0,
+              offset: Offset(3, 3))
+        ],
+      ),
+      child: Container(
         decoration: BaseBoxDecoration(
-          color: UiKit.palette.credentialBackground,
-          shapeColor: UiKit.palette.credentialDetail.withOpacity(0.2),
+          color: credential.credentialSubject.backgroundColor,
+          shapeColor: UiKit.palette.credentialDetail.withOpacity(0.1),
           value: 0.0,
           shapeSize: 256.0,
           anchors: <Alignment>[
@@ -53,10 +68,12 @@ class DocumentWidget extends StatelessWidget {
           // value: animation.value,
           borderRadius: BorderRadius.circular(20.0),
         ),
-        child: identityPass(context),
-      );
+        child: displayCredentialDetail(context),
+      ),
+    );
+  }
 
-  Widget identityPass(BuildContext context) {
+  Widget displayCredentialDetail(BuildContext context) {
     final credential = Credential.fromJson(model.data);
 
     return Padding(

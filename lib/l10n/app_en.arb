@@ -128,5 +128,16 @@
   "personalLastName": "Last Name",
   "personalPhone": "Phone",
   "personalLocation": "Location",
-  "personalMail": "E-mail"
+  "personalMail": "E-mail",
+  "residentCard": "Resident card",
+  "lastName": "Last name",
+  "firstName": "First name",
+  "gender": "gender",
+  "birthdate": "Birthdate",
+  "birthplace": "Birthplace",
+  "address": "Address",
+  "maritalStatus": "Marital Status",
+  "nationality": "Nationality",
+  "identifier": "identifier"
+
 }
