@@ -94,3 +94,5 @@ app.*.map.json
 **/fastlane/Preview.html
 **/fastlane/screenshots/**/*.png
 **/fastlane/test_output
+/android/app/google-services.json
+/ios/GoogleService-Info.plist

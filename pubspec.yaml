@@ -92,8 +92,7 @@ flutter:
     - assets/icon/wallet-filled.svg
     - assets/icon/location-target.svg
     - assets/icon/time-clock.svg
-    - assets/image/gen.svg
-    - assets/image/scan.svg
+    - assets/image/
     - assets/privacy.md
     - assets/support.md
     - assets/notices.md
