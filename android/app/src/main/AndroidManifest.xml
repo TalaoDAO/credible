@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/launcher_icon"
         android:label="Credible">
         <activity
             android:name=".MainActivity"
