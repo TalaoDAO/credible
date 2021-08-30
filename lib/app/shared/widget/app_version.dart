@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:package_info/package_info.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class AppVersion extends StatelessWidget {
   const AppVersion({
@@ -15,7 +15,7 @@ class AppVersion extends StatelessWidget {
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.done:
-            final appName = snapshot.data?.appName ?? 'Credible';
+            final appName = snapshot.data?.appName ?? 'Talao';
             final version = snapshot.data?.version ?? '0.1.0';
             final buildNumber = snapshot.data?.buildNumber ?? '1';
 
