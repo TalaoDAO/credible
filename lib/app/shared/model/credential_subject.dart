@@ -42,6 +42,30 @@ class CredentialSubject {
     return _backgroundColor;
   }
 
+  Icon get icon {
+    Icon _icon;
+    switch (type) {
+      case 'ResidentCard':
+        _icon = Icon(Icons.home);
+        break;
+      case 'IdentityPass':
+        _icon = Icon(Icons.perm_identity);
+        break;
+      case 'CertificateOfEmployment':
+        _icon = Icon(Icons.work);
+        break;
+      case 'EmailPass':
+        _icon = Icon(Icons.mail);
+        break;
+      case 'ProfessionalExperienceAssessment':
+        _icon = Icon(Icons.add_road_outlined);
+        break;
+      default:
+        _icon = Icon(Icons.device_unknown_sharp);
+    }
+    return _icon;
+  }
+
   Widget displayInList(BuildContext context, CredentialModel item) {
     return Text('first display');
   }

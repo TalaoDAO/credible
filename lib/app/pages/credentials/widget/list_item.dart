@@ -15,6 +15,7 @@ class _BaseItem extends StatefulWidget {
   final VoidCallback? onTap;
   final bool enabled;
   final bool? selected;
+  final Color color;
 
   const _BaseItem({
     Key? key,
@@ -22,6 +23,7 @@ class _BaseItem extends StatefulWidget {
     this.onTap,
     this.enabled = true,
     this.selected,
+    this.color = Colors.white,
   }) : super(key: key);
 
   @override
@@ -36,20 +38,6 @@ class __BaseItemState extends State<_BaseItem>
   @override
   void initState() {
     super.initState();
-
-    // controller = AnimationController(
-    //   duration: Duration(minutes: 4),
-    //   vsync: this,
-    // );
-    //
-    // animation = Tween<double>(begin: 0.0, end: 360.0).animate(controller)
-    //   ..addStatusListener((status) {
-    //     if (status == AnimationStatus.completed) {
-    //       controller.forward(from: 0.0);
-    //     }
-    //   });
-    //
-    // controller.forward();
   }
 
   @override
@@ -64,7 +52,7 @@ class __BaseItemState extends State<_BaseItem>
         child: Container(
           margin: const EdgeInsets.symmetric(vertical: 4.0),
           decoration: BaseBoxDecoration(
-            color: UiKit.palette.credentialBackground,
+            color: widget.color,
             shapeColor: UiKit.palette.credentialDetail.withOpacity(0.2),
             value: 1.0,
             anchors: <Alignment>[
@@ -149,15 +137,20 @@ class CredentialsListItem extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => _BaseItem(
-        enabled: !(item.status != CredentialStatus.active),
-        onTap: onTap ??
-            () => Modular.to.pushNamed(
-                  '/credentials/detail',
-                  arguments: item,
-                ),
-        child: displayListElement(context),
-      );
+  Widget build(BuildContext context) {
+    final credential = Credential.fromJson(item.data);
+
+    return _BaseItem(
+      enabled: !(item.status != CredentialStatus.active),
+      onTap: onTap ??
+          () => Modular.to.pushNamed(
+                '/credentials/detail',
+                arguments: item,
+              ),
+      color: credential.credentialSubject.backgroundColor,
+      child: displayListElement(context),
+    );
+  }
 
   Row displayListElement(BuildContext context) {
     final credential = Credential.fromJson(item.data);
@@ -171,12 +164,7 @@ class CredentialsListItem extends StatelessWidget {
           child: HeroFix(
             tag: 'credential/${item.id}/icon',
             child: selected == null
-                ? SvgPicture.asset(
-                    'assets/brand/spruce-icon.svg',
-                    width: 24.0,
-                    height: 24.0,
-                    color: UiKit.palette.icon,
-                  )
+                ? credential.credentialSubject.icon
                 : selected!
                     ? Icon(
                         Icons.check_box,
