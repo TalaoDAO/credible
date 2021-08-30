@@ -30,7 +30,7 @@ class TalaoPalette extends UiPalette {
   Color get accent => blue;
 
   @override
-  Color get background => Color(0xffF6F7F8);
+  Color get background => Color(0xffefefef);
 
   @override
   Gradient get pageBackground => LinearGradient(

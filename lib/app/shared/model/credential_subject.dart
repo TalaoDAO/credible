@@ -22,7 +22,7 @@ class CredentialSubject {
     Color _backgroundColor;
     switch (type) {
       case 'ResidentCard':
-        _backgroundColor = Colors.yellowAccent;
+        _backgroundColor = Colors.white;
         break;
       case 'IdentityPass':
         _backgroundColor = Colors.purpleAccent;
