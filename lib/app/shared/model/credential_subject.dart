@@ -25,13 +25,13 @@ class CredentialSubject {
         _backgroundColor = Colors.white;
         break;
       case 'IdentityPass':
-        _backgroundColor = Colors.purpleAccent;
+        _backgroundColor = Color(0xfff0adec);
         break;
       case 'CertificateOfEmployment':
         _backgroundColor = Colors.greenAccent;
         break;
       case 'EmailPass':
-        _backgroundColor = Colors.brown;
+        _backgroundColor = Color(0xffedb5ad);
         break;
       case 'ProfessionalExperienceAssessment':
         _backgroundColor = Colors.redAccent;

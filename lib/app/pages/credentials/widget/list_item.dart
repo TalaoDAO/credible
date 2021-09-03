@@ -49,33 +49,49 @@ class __BaseItemState extends State<_BaseItem>
   @override
   Widget build(BuildContext context) => Opacity(
         opacity: !widget.enabled ? 0.33 : 1.0,
-        child: Container(
-          margin: const EdgeInsets.symmetric(vertical: 4.0),
-          decoration: BaseBoxDecoration(
-            color: widget.color,
-            shapeColor: UiKit.palette.credentialDetail.withOpacity(0.2),
-            value: 1.0,
-            anchors: <Alignment>[
-              Alignment.bottomRight,
-            ],
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                color: UiKit.palette.shadow,
-                offset: Offset(0.0, 2.0),
-                blurRadius: 2.0,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black87,
+                    blurRadius: 2,
+                    spreadRadius: 1.0,
+                    offset: Offset(3, 3))
+              ],
+            ),
+            child: Container(
+              // margin: const EdgeInsets.symmetric(vertical: 4.0),
+              decoration: BaseBoxDecoration(
+                color: widget.color,
+                shapeColor: UiKit.palette.credentialDetail.withOpacity(0.1),
+                value: 1.0,
+                anchors: <Alignment>[
+                  Alignment.bottomRight,
+                ],
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                    color: UiKit.palette.shadow,
+                    offset: Offset(0.0, 2.0),
+                    blurRadius: 2.0,
+                  ),
+                ],
+                borderRadius: BorderRadius.circular(20.0),
               ),
-            ],
-            borderRadius: BorderRadius.circular(20.0),
-          ),
-          child: Material(
-            color: Colors.transparent,
-            borderRadius: BorderRadius.circular(20.0),
-            child: InkWell(
-              borderRadius: BorderRadius.circular(20.0),
-              onTap: widget.onTap,
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: IntrinsicHeight(child: widget.child),
+              child: Material(
+                color: Colors.transparent,
+                borderRadius: BorderRadius.circular(20.0),
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(20.0),
+                  onTap: widget.onTap,
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: IntrinsicHeight(child: widget.child),
+                  ),
+                ),
               ),
             ),
           ),
