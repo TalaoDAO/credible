@@ -18,7 +18,7 @@ ResidentCard _$ResidentCardFromJson(Map<String, dynamic> json) {
     json['identifier'] as String? ?? '',
     json['familyName'] as String? ?? '',
     json['image'] as String? ?? '',
-    Author.fromJson(json['author'] as Map<String, dynamic>),
+    Author.fromJson(json['issuedBy'] as Map<String, dynamic>),
     json['birthDate'] as String? ?? '',
     json['givenName'] as String? ?? '',
   );
@@ -36,7 +36,7 @@ Map<String, dynamic> _$ResidentCardToJson(ResidentCard instance) =>
       'identifier': instance.identifier,
       'familyName': instance.familyName,
       'image': instance.image,
-      'author': instance.author,
+      'issuedBy': instance.issuedBy,
       'birthDate': instance.birthDate,
       'givenName': instance.givenName,
     };

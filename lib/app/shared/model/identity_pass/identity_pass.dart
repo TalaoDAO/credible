@@ -12,7 +12,7 @@ class IdentityPass extends CredentialSubject {
   final IdentityPassRecipient recipient;
   @JsonKey(defaultValue: '')
   final String expires;
-  final Author author;
+  final Author issuedBy;
   @override
   final String id;
   @override
@@ -21,7 +21,7 @@ class IdentityPass extends CredentialSubject {
   factory IdentityPass.fromJson(Map<String, dynamic> json) =>
       _$IdentityPassFromJson(json);
 
-  IdentityPass(this.recipient, this.expires, this.author, this.id, this.type)
+  IdentityPass(this.recipient, this.expires, this.issuedBy, this.id, this.type)
       : super(id, type);
 
   @override

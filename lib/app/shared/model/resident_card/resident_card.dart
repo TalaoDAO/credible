@@ -29,7 +29,7 @@ class ResidentCard extends CredentialSubject {
   final String familyName;
   @JsonKey(defaultValue: '')
   final String image;
-  final Author author;
+  final Author issuedBy;
   @JsonKey(defaultValue: '')
   final String birthDate;
   @JsonKey(defaultValue: '')
@@ -49,7 +49,7 @@ class ResidentCard extends CredentialSubject {
       this.identifier,
       this.familyName,
       this.image,
-      this.author,
+      this.issuedBy,
       this.birthDate,
       this.givenName)
       : super(id, type);

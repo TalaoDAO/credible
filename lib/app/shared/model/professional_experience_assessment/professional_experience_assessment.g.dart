@@ -19,7 +19,7 @@ ProfessionalExperienceAssessment _$ProfessionalExperienceAssessmentFromJson(
     json['title'] as String? ?? '',
     json['endDate'] as String? ?? '',
     json['startDate'] as String? ?? '',
-    Author.fromJson(json['author'] as Map<String, dynamic>),
+    Author.fromJson(json['issuedBy'] as Map<String, dynamic>),
   );
 }
 
@@ -31,7 +31,7 @@ Map<String, dynamic> _$ProfessionalExperienceAssessmentToJson(
       'title': instance.title,
       'endDate': instance.endDate,
       'startDate': instance.startDate,
-      'author': instance.author,
+      'issuedBy': instance.issuedBy,
       'expires': instance.expires,
       'email': instance.email,
       'type': instance.type,

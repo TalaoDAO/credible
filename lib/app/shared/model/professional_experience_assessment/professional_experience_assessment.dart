@@ -18,7 +18,7 @@ class ProfessionalExperienceAssessment extends CredentialSubject {
   final String endDate;
   @JsonKey(defaultValue: '')
   final String startDate;
-  final Author author;
+  final Author issuedBy;
   @JsonKey(defaultValue: '')
   final String expires;
   @JsonKey(defaultValue: '')
@@ -31,7 +31,7 @@ class ProfessionalExperienceAssessment extends CredentialSubject {
       _$ProfessionalExperienceAssessmentFromJson(json);
 
   ProfessionalExperienceAssessment(this.expires, this.email, this.id, this.type,
-      this.skills, this.title, this.endDate, this.startDate, this.author)
+      this.skills, this.title, this.endDate, this.startDate, this.issuedBy)
       : super(id, type);
 
   @override

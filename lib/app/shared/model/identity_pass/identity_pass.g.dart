@@ -10,7 +10,7 @@ IdentityPass _$IdentityPassFromJson(Map<String, dynamic> json) {
   return IdentityPass(
     IdentityPassRecipient.fromJson(json['recipient'] as Map<String, dynamic>),
     json['expires'] as String? ?? '',
-    Author.fromJson(json['author'] as Map<String, dynamic>),
+    Author.fromJson(json['issuedBy'] as Map<String, dynamic>),
     json['id'] as String,
     json['type'] as String,
   );
@@ -20,7 +20,7 @@ Map<String, dynamic> _$IdentityPassToJson(IdentityPass instance) =>
     <String, dynamic>{
       'recipient': instance.recipient,
       'expires': instance.expires,
-      'author': instance.author,
+      'issuedBy': instance.issuedBy,
       'id': instance.id,
       'type': instance.type,
     };
