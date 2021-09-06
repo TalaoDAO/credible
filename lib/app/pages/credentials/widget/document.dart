@@ -41,7 +41,7 @@ class DocumentWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final credential = Credential.fromJson(model.data);
+    final credential = Credential.fromJsonOrErrorPage(model.data);
 
     return Container(
       decoration: BoxDecoration(
@@ -74,7 +74,7 @@ class DocumentWidget extends StatelessWidget {
   }
 
   Widget displayCredentialDetail(BuildContext context) {
-    final credential = Credential.fromJson(model.data);
+    final credential = Credential.fromJsonOrErrorPage(model.data);
 
     return Padding(
       padding: const EdgeInsets.all(8.0),

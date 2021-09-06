@@ -9,7 +9,7 @@ void main() {
       IntegrationTestWidgetsFlutterBinding.ensureInitialized()
           as IntegrationTestWidgetsFlutterBinding;
 
-  testWidgets("display CertificateOfEmployment", (WidgetTester tester) async {
+  testWidgets('display CertificateOfEmployment', (WidgetTester tester) async {
     final Finder qrCodeFinder = find.bySemanticsLabel('QR Code');
     await tester.pumpWidget(ModularApp(
       module: AppModule(),

@@ -15,6 +15,11 @@ Credential _$CredentialFromJson(Map<String, dynamic> json) {
     Credential._fromJsonProofs(json['proof']),
     CredentialSubject.fromJson(
         json['credentialSubject'] as Map<String, dynamic>),
+    Credential._fromJsonTranslations(json['description']) ?? [],
+    (json['name'] as List<dynamic>?)
+            ?.map((e) => Translation.fromJson(e as Map<String, dynamic>))
+            .toList() ??
+        [],
   );
 }
 
@@ -23,6 +28,8 @@ Map<String, dynamic> _$CredentialToJson(Credential instance) =>
       'id': instance.id,
       'type': instance.type,
       'issuer': instance.issuer,
+      'description': instance.description,
+      'name': instance.name,
       'issuanceDate': instance.issuanceDate,
       'proof': instance.proof,
       'credentialSubject': instance.credentialSubject,
