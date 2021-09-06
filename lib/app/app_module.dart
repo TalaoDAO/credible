@@ -4,6 +4,7 @@ import 'package:talao/app/pages/credentials/blocs/scan.dart';
 import 'package:talao/app/pages/credentials/blocs/wallet.dart';
 import 'package:talao/app/pages/credentials/module.dart';
 import 'package:talao/app/pages/credentials/repositories/credential.dart';
+import 'package:talao/app/pages/error/pages/error_page.dart';
 import 'package:talao/app/pages/on_boarding/module.dart';
 import 'package:talao/app/pages/profile/module.dart';
 import 'package:talao/app/pages/qr_code/bloc/qrcode.dart';
@@ -70,6 +71,11 @@ class AppModule extends Module {
             name: args.data[0],
             data: args.data[1],
           ),
+          transition: TransitionType.fadeIn,
+        ),
+        ChildRoute(
+          '/error',
+          child: (context, args) => ErrorPage(errorMessage: args.data[0]),
           transition: TransitionType.fadeIn,
         ),
       ];
