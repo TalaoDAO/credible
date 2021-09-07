@@ -70,11 +70,6 @@ class ResidentCard extends CredentialSubject {
 
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(localizations.residentCard,
-              style: Theme.of(context).textTheme.headline6),
-        ),
         Container(child: Image.asset('assets/image/gov-light.png')),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:talao/app/pages/credentials/models/credential.dart';
 import 'package:talao/app/shared/model/author.dart';
@@ -58,7 +59,15 @@ class Credential {
   Map<String, dynamic> toJson() => _$CredentialToJson(this);
 
   Widget displayDetail(BuildContext context, CredentialModel item) {
-    return credentialSubject.displayDetail(context, item);
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: displayName(context, type.last),
+        ),
+        credentialSubject.displayDetail(context, item),
+      ],
+    );
   }
 
   Widget displayList(BuildContext context, CredentialModel item) {
@@ -89,7 +98,11 @@ class Credential {
     if (nameValue == '') {
       nameValue = type;
     }
-    return Text(nameValue.toString());
+    return Text(nameValue.toString(),
+        style: Theme.of(context)
+            .textTheme
+            .bodyText1
+            ?.copyWith(fontWeight: FontWeight.bold));
   }
 
   static List<Proof> _fromJsonProofs(json) {

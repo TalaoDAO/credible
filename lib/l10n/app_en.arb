@@ -138,6 +138,7 @@
   "address": "Address",
   "maritalStatus": "Marital Status",
   "nationality": "Nationality",
-  "identifier": "identifier"
+  "identifier": "identifier",
+  "issuer" : "Issued by"
 
 }
