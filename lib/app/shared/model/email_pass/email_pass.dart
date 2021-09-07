@@ -3,6 +3,7 @@ import 'package:talao/app/shared/model/author.dart';
 import 'package:talao/app/shared/model/credential_subject.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 part 'email_pass.g.dart';
 
@@ -35,19 +36,31 @@ class EmailPass extends CredentialSubject {
 
   @override
   Widget displayDetail(BuildContext context, CredentialModel item) {
+    final localizations = AppLocalizations.of(context)!;
+
     return Column(
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(id),
+          child: Row(
+            children: [
+              Text('${localizations.issuer} '),
+              Text('${issuedBy.name}',
+                  style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
+              Spacer(),
+              Container(height: 30, child: Image.network(issuedBy.logo)),
+            ],
+          ),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(expires),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(email),
+          child: Row(
+            children: [
+              Text('${localizations.personalMail} '),
+              Text('$email',
+                  style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
+            ],
+          ),
         ),
       ],
     );
