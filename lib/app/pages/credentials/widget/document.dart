@@ -7,10 +7,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DocumentWidgetModel {
-  final String issuedBy;
+  final String author;
   final String status;
 
-  const DocumentWidgetModel(this.issuedBy, this.status);
+  const DocumentWidgetModel(this.author, this.status);
 
   factory DocumentWidgetModel.fromCredentialModel(CredentialModel model) {
     late String status;

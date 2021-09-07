@@ -1,4 +1,5 @@
 import 'package:talao/app/pages/credentials/models/credential.dart';
+import 'package:talao/app/shared/model/author.dart';
 import 'package:talao/app/shared/model/certificate_of_employment/signature_lines.dart';
 import 'package:talao/app/shared/model/certificate_of_employment/work_for.dart';
 import 'package:talao/app/shared/model/credential_subject.dart';
@@ -27,6 +28,8 @@ class CertificateOfEmployment extends CredentialSubject {
   String jobTitle;
   @JsonKey(defaultValue: '')
   String baseSalary;
+  @override
+  final Author issuedBy;
 
   CertificateOfEmployment(
       this.id,
@@ -38,8 +41,9 @@ class CertificateOfEmployment extends CredentialSubject {
       this.signatureLines,
       this.employmentType,
       this.jobTitle,
-      this.baseSalary)
-      : super(id, type);
+      this.baseSalary,
+      this.issuedBy)
+      : super(id, type, issuedBy);
 
   factory CertificateOfEmployment.fromJson(Map<String, dynamic> json) =>
       _$CertificateOfEmploymentFromJson(json);

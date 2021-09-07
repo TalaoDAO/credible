@@ -10,6 +10,7 @@ CredentialSubject _$CredentialSubjectFromJson(Map<String, dynamic> json) {
   return CredentialSubject(
     json['id'] as String,
     json['type'] as String,
+    CredentialSubject.fromJsonAuthor(json['issuedBy']),
   );
 }
 
@@ -17,4 +18,5 @@ Map<String, dynamic> _$CredentialSubjectToJson(CredentialSubject instance) =>
     <String, dynamic>{
       'id': instance.id,
       'type': instance.type,
+      'issuedBy': instance.issuedBy,
     };

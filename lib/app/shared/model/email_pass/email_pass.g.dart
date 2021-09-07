@@ -12,6 +12,7 @@ EmailPass _$EmailPassFromJson(Map<String, dynamic> json) {
     json['email'] as String? ?? '',
     json['id'] as String,
     json['type'] as String,
+    CredentialSubject.fromJsonAuthor(json['issuedBy']),
   );
 }
 
@@ -20,4 +21,5 @@ Map<String, dynamic> _$EmailPassToJson(EmailPass instance) => <String, dynamic>{
       'email': instance.email,
       'id': instance.id,
       'type': instance.type,
+      'issuedBy': instance.issuedBy,
     };

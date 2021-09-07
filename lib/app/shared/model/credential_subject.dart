@@ -1,4 +1,5 @@
 import 'package:talao/app/pages/credentials/models/credential.dart';
+import 'package:talao/app/shared/model/author.dart';
 import 'package:talao/app/shared/model/certificate_of_employment/certificate_of_employment.dart';
 import 'package:talao/app/shared/model/default_credential_subject/default_credential_subject.dart';
 import 'package:talao/app/shared/model/email_pass/email_pass.dart';
@@ -15,8 +16,10 @@ part 'credential_subject.g.dart';
 class CredentialSubject {
   final String id;
   final String type;
+  @JsonKey(fromJson: fromJsonAuthor)
+  final Author issuedBy;
 
-  CredentialSubject(this.id, this.type);
+  CredentialSubject(this.id, this.type, this.issuedBy);
 
   Color get backgroundColor {
     Color _backgroundColor;
@@ -91,4 +94,11 @@ class CredentialSubject {
   }
 
   Map<String, dynamic> toJson() => _$CredentialSubjectToJson(this);
+
+  static Author fromJsonAuthor(json) {
+    if (json == null || json == '') {
+      return Author('', '');
+    }
+    return Author.fromJson(json);
+  }
 }

@@ -19,6 +19,7 @@ CertificateOfEmployment _$CertificateOfEmploymentFromJson(
     json['employmentType'] as String? ?? '',
     json['jobTitle'] as String? ?? '',
     json['baseSalary'] as String? ?? '',
+    CredentialSubject.fromJsonAuthor(json['issuedBy']),
   );
 }
 
@@ -35,4 +36,5 @@ Map<String, dynamic> _$CertificateOfEmploymentToJson(
       'employmentType': instance.employmentType,
       'jobTitle': instance.jobTitle,
       'baseSalary': instance.baseSalary,
+      'issuedBy': instance.issuedBy,
     };

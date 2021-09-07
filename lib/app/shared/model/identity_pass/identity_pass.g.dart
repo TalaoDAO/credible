@@ -10,7 +10,7 @@ IdentityPass _$IdentityPassFromJson(Map<String, dynamic> json) {
   return IdentityPass(
     IdentityPassRecipient.fromJson(json['recipient'] as Map<String, dynamic>),
     json['expires'] as String? ?? '',
-    Author.fromJson(json['issuedBy'] as Map<String, dynamic>),
+    CredentialSubject.fromJsonAuthor(json['issuedBy']),
     json['id'] as String,
     json['type'] as String,
   );

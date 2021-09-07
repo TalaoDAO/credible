@@ -29,6 +29,7 @@ class ResidentCard extends CredentialSubject {
   final String familyName;
   @JsonKey(defaultValue: '')
   final String image;
+  @override
   final Author issuedBy;
   @JsonKey(defaultValue: '')
   final String birthDate;
@@ -52,7 +53,7 @@ class ResidentCard extends CredentialSubject {
       this.issuedBy,
       this.birthDate,
       this.givenName)
-      : super(id, type);
+      : super(id, type, issuedBy);
 
   @override
   Map<String, dynamic> toJson() => _$ResidentCardToJson(this);

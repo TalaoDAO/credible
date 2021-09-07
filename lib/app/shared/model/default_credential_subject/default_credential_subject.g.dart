@@ -11,6 +11,7 @@ DefaultCredentialSubject _$DefaultCredentialSubjectFromJson(
   return DefaultCredentialSubject(
     json['id'] as String,
     json['type'] as String,
+    CredentialSubject.fromJsonAuthor(json['issuedBy']),
   );
 }
 
@@ -19,4 +20,5 @@ Map<String, dynamic> _$DefaultCredentialSubjectToJson(
     <String, dynamic>{
       'id': instance.id,
       'type': instance.type,
+      'issuedBy': instance.issuedBy,
     };

@@ -1,5 +1,6 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:talao/app/pages/credentials/models/credential.dart';
+import 'package:talao/app/shared/model/author.dart';
 import 'package:talao/app/shared/model/credential_subject.dart';
 import 'package:talao/app/shared/model/default_credential_subject/default_credential_subject.dart';
 import 'package:talao/app/shared/model/proof.dart';
@@ -15,7 +16,7 @@ class Credential {
   final String id;
   final List<String> type;
   final String issuer;
-  @JsonKey(defaultValue: [], fromJson: _fromJsonTranslations)
+  @JsonKey(fromJson: _fromJsonTranslations)
   final List<Translation> description;
   @JsonKey(defaultValue: [])
   final List<Translation> name;
@@ -49,7 +50,7 @@ class Credential {
             'dummy',
           )
         ],
-        DefaultCredentialSubject('dummy', 'dummy'),
+        DefaultCredentialSubject('dummy', 'dummy', Author('', '')),
         [Translation('en', 'dummy')],
         [Translation('en', 'dummy')]);
   }
@@ -62,33 +63,33 @@ class Credential {
 
   Widget displayList(BuildContext context, CredentialModel item) {
     return (credentialSubject is DefaultCredentialSubject)
-        ? credentialSubject.displayDetail(context, item)
+        ? credentialSubject.displayInList(context, item)
         : Column(
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: displayType(context, type.last),
+                child: displayName(context, type.last),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(DateTime.parse(issuanceDate).toString()),
+                child: Text(credentialSubject.issuedBy.name),
               )
             ],
           );
   }
 
-  Widget displayType(BuildContext context, String type) {
+  Widget displayName(BuildContext context, String type) {
     final localizations = AppLocalizations.of(context)!;
 
-    var typeLabel = '';
-    switch (type) {
-      case 'ResidentCard':
-        typeLabel = localizations.residentCard;
-        break;
-      default:
-        typeLabel = type;
+    var nameValue = name
+            .where((element) => element.language == localizations.localeName)
+            .single
+            .value ??
+        '';
+    if (nameValue == '') {
+      nameValue = type;
     }
-    return Text(typeLabel.toString());
+    return Text(nameValue.toString());
   }
 
   static List<Proof> _fromJsonProofs(json) {

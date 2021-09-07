@@ -19,7 +19,7 @@ ProfessionalExperienceAssessment _$ProfessionalExperienceAssessmentFromJson(
     json['title'] as String? ?? '',
     json['endDate'] as String? ?? '',
     json['startDate'] as String? ?? '',
-    Author.fromJson(json['issuedBy'] as Map<String, dynamic>),
+    CredentialSubject.fromJsonAuthor(json['issuedBy']),
   );
 }
 

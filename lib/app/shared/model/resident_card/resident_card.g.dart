@@ -18,7 +18,7 @@ ResidentCard _$ResidentCardFromJson(Map<String, dynamic> json) {
     json['identifier'] as String? ?? '',
     json['familyName'] as String? ?? '',
     json['image'] as String? ?? '',
-    Author.fromJson(json['issuedBy'] as Map<String, dynamic>),
+    CredentialSubject.fromJsonAuthor(json['issuedBy']),
     json['birthDate'] as String? ?? '',
     json['givenName'] as String? ?? '',
   );

@@ -2,6 +2,7 @@ import 'package:talao/app/pages/credentials/models/credential.dart';
 import 'package:talao/app/pages/credentials/widget/document/body.dart';
 import 'package:talao/app/pages/credentials/widget/document/header.dart';
 import 'package:talao/app/pages/credentials/widget/labeled_item.dart';
+import 'package:talao/app/shared/model/author.dart';
 import 'package:talao/app/shared/model/credential_subject.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/tooltip_text.dart';
@@ -18,11 +19,14 @@ class DefaultCredentialSubject extends CredentialSubject {
   final String id;
   @override
   final String type;
+  @override
+  final Author issuedBy;
 
   factory DefaultCredentialSubject.fromJson(Map<String, dynamic> json) =>
       _$DefaultCredentialSubjectFromJson(json);
 
-  DefaultCredentialSubject(this.id, this.type) : super(id, type);
+  DefaultCredentialSubject(this.id, this.type, this.issuedBy)
+      : super(id, type, issuedBy);
 
   @override
   Map<String, dynamic> toJson() => _$DefaultCredentialSubjectToJson(this);
@@ -30,44 +34,15 @@ class DefaultCredentialSubject extends CredentialSubject {
   @override
   Widget displayInList(BuildContext context, CredentialModel item) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        TooltipText(
-          tag: 'credential/${item.id}/id',
-          text: item.id,
-          style: GoogleFonts.poppins(
-            color: UiKit.text.colorTextBody1,
-            fontSize: 16.0,
-            fontWeight: FontWeight.w600,
-          ),
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(type),
         ),
-        const SizedBox(height: 8.0),
-        Expanded(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Expanded(
-                child: LabeledItem(
-                  icon: 'assets/icon/location-target.svg',
-                  label: 'Issued by:',
-                  hero: 'credential/${item.id}/issuer',
-                  value: item.issuer,
-                ),
-              ),
-              const SizedBox(width: 16.0),
-              if (item.expirationDate != null)
-                Expanded(
-                  child: LabeledItem(
-                    icon: 'assets/icon/time-clock.svg',
-                    label: 'Valid thru:',
-                    hero: 'credential/${item.id}/valid',
-                    value: DateFormat(DateFormat.YEAR_NUM_MONTH_DAY)
-                        .format(item.expirationDate!),
-                  ),
-                ),
-            ],
-          ),
-        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(issuedBy.name),
+        )
       ],
     );
   }

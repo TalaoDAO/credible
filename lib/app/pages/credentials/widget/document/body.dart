@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class DocumentBodyWidgetModel {
-  final String issuedBy;
+  final String author;
   final String email;
   final String npi;
   final String issuedAt;
@@ -13,7 +13,7 @@ class DocumentBodyWidgetModel {
   final Map<String, dynamic> rawData;
 
   const DocumentBodyWidgetModel(
-      this.issuedBy, this.email, this.npi, this.issuedAt, this.rawData);
+      this.author, this.email, this.npi, this.issuedAt, this.rawData);
 
   factory DocumentBodyWidgetModel.fromCredentialModel(CredentialModel model) =>
       DocumentBodyWidgetModel(
@@ -52,7 +52,7 @@ class DocumentBody extends StatelessWidget {
               Expanded(
                 child: DocumentItemWidget(
                   label: 'Issued by:',
-                  value: documentBodyWidgetModel.issuedBy,
+                  value: documentBodyWidgetModel.author,
                 ),
               ),
             ],

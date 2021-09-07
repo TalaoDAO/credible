@@ -1,4 +1,5 @@
 import 'package:talao/app/pages/credentials/models/credential.dart';
+import 'package:talao/app/shared/model/author.dart';
 import 'package:talao/app/shared/model/credential_subject.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -15,11 +16,14 @@ class EmailPass extends CredentialSubject {
   final String id;
   @override
   final String type;
+  @override
+  final Author issuedBy;
 
   factory EmailPass.fromJson(Map<String, dynamic> json) =>
       _$EmailPassFromJson(json);
 
-  EmailPass(this.expires, this.email, this.id, this.type) : super(id, type);
+  EmailPass(this.expires, this.email, this.id, this.type, this.issuedBy)
+      : super(id, type, issuedBy);
 
   @override
   Map<String, dynamic> toJson() => _$EmailPassToJson(this);

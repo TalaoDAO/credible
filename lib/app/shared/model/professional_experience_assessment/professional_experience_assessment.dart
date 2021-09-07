@@ -18,6 +18,7 @@ class ProfessionalExperienceAssessment extends CredentialSubject {
   final String endDate;
   @JsonKey(defaultValue: '')
   final String startDate;
+  @override
   final Author issuedBy;
   @JsonKey(defaultValue: '')
   final String expires;
@@ -32,7 +33,7 @@ class ProfessionalExperienceAssessment extends CredentialSubject {
 
   ProfessionalExperienceAssessment(this.expires, this.email, this.id, this.type,
       this.skills, this.title, this.endDate, this.startDate, this.issuedBy)
-      : super(id, type);
+      : super(id, type, issuedBy);
 
   @override
   Map<String, dynamic> toJson() =>

@@ -12,6 +12,7 @@ class IdentityPass extends CredentialSubject {
   final IdentityPassRecipient recipient;
   @JsonKey(defaultValue: '')
   final String expires;
+  @override
   final Author issuedBy;
   @override
   final String id;
@@ -22,7 +23,7 @@ class IdentityPass extends CredentialSubject {
       _$IdentityPassFromJson(json);
 
   IdentityPass(this.recipient, this.expires, this.issuedBy, this.id, this.type)
-      : super(id, type);
+      : super(id, type, issuedBy);
 
   @override
   Map<String, dynamic> toJson() => _$IdentityPassToJson(this);
