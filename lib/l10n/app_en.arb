@@ -92,7 +92,7 @@
   "scanUnsupportedMessage": "Unsupported message received.",
   "qrCodeSharing": "You are now sharing",
   "qrCodeNoValidMessage": "This QRCode does not contain a valid message.",
-  "profileTitle": "Profile",
+  "profileTitle": "Settings",
   "personalTitle": "Personal",
   "privacyTitle": "Privacy & Security",
   "termsTitle": "Terms & Conditions",
