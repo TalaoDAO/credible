@@ -75,7 +75,7 @@ class AppModule extends Module {
         ),
         ChildRoute(
           '/error',
-          child: (context, args) => ErrorPage(errorMessage: args.data[0]),
+          child: (context, args) => ErrorPage(errorMessage: args.data),
           transition: TransitionType.fadeIn,
         ),
       ];
