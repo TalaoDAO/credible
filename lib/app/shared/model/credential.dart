@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:talao/app/pages/credentials/models/credential.dart';
+import 'package:talao/app/pages/credentials/widget/display_issuer.dart';
 import 'package:talao/app/shared/model/author.dart';
 import 'package:talao/app/shared/model/credential_subject.dart';
 import 'package:talao/app/shared/model/default_credential_subject/default_credential_subject.dart';
@@ -71,20 +72,15 @@ class Credential {
   }
 
   Widget displayList(BuildContext context, CredentialModel item) {
-    return (credentialSubject is DefaultCredentialSubject)
-        ? credentialSubject.displayInList(context, item)
-        : Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: displayName(context, type.last),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(credentialSubject.issuedBy.name),
-              )
-            ],
-          );
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: displayName(context, type.last),
+        ),
+        DisplayIssuer(issuer: credentialSubject.issuedBy)
+      ],
+    );
   }
 
   Widget displayName(BuildContext context, String type) {
