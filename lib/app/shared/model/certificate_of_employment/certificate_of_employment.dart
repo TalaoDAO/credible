@@ -1,10 +1,11 @@
 import 'package:talao/app/pages/credentials/models/credential.dart';
+import 'package:talao/app/pages/credentials/widget/display_issuer.dart';
 import 'package:talao/app/shared/model/author.dart';
-import 'package:talao/app/shared/model/certificate_of_employment/signature_lines.dart';
 import 'package:talao/app/shared/model/certificate_of_employment/work_for.dart';
 import 'package:talao/app/shared/model/credential_subject.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 part 'certificate_of_employment.g.dart';
 
@@ -21,7 +22,6 @@ class CertificateOfEmployment extends CredentialSubject {
   @JsonKey(defaultValue: '')
   String startDate;
   WorkFor workFor;
-  SignatureLines signatureLines;
   @JsonKey(defaultValue: '')
   String employmentType;
   @JsonKey(defaultValue: '')
@@ -38,7 +38,6 @@ class CertificateOfEmployment extends CredentialSubject {
       this.givenName,
       this.startDate,
       this.workFor,
-      this.signatureLines,
       this.employmentType,
       this.jobTitle,
       this.baseSalary,
@@ -58,12 +57,94 @@ class CertificateOfEmployment extends CredentialSubject {
 
   @override
   Widget displayDetail(BuildContext context, CredentialModel item) {
+    final localizations = AppLocalizations.of(context)!;
+
     return Column(
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(id),
+          child: Row(
+            children: [
+              Text('${localizations.firstName} '),
+              Text('$familyName',
+                  style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
+            ],
+          ),
         ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Text('${localizations.lastName} '),
+              Text('$givenName',
+                  style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Text('${localizations.jobTitle} '),
+              Text('$jobTitle',
+                  style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
+            ],
+          ),
+        ),
+        (workFor.name != '')
+            ? Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Text('${localizations.workFor} '),
+                    Text(workFor.name,
+                        style: TextStyle(
+                            inherit: true, fontWeight: FontWeight.w700)),
+                    Spacer(),
+                    (workFor.logo != '')
+                        ? Container(
+                            height: 30, child: Image.network(workFor.logo))
+                        : SizedBox.shrink()
+                  ],
+                ),
+              )
+            : SizedBox.shrink(),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Text('${localizations.startDate} '),
+              Text('$startDate',
+                  style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Text('${localizations.employmentType} '),
+              Text('$employmentType',
+                  style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Text('${localizations.baseSalary} '),
+              Text('$baseSalary',
+                  style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: DisplayIssuer(
+            issuer: issuedBy,
+          ),
+        )
       ],
     );
   }
