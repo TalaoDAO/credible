@@ -139,6 +139,13 @@
   "maritalStatus": "Marital Status",
   "nationality": "Nationality",
   "identifier": "identifier",
-  "issuer" : "Issued by"
+  "issuer" : "Issued by",
+  "workFor" : "Work for",
+  "startDate" : "Since",
+  "endDate" : "Until",
+  "employmentType": "Employment type",
+  "jobTitle": "Job title",
+  "baseSalary" : "Salary",
+  "expires" : "Expires"
 
 }

@@ -1,4 +1,5 @@
 import 'package:talao/app/pages/credentials/models/credential.dart';
+import 'package:talao/app/pages/credentials/widget/display_issuer.dart';
 import 'package:talao/app/shared/model/author.dart';
 import 'package:talao/app/shared/model/credential_subject.dart';
 import 'package:flutter/material.dart';
@@ -42,14 +43,8 @@ class EmailPass extends CredentialSubject {
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              Text('${localizations.issuer} '),
-              Text('${issuedBy.name}',
-                  style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
-              Spacer(),
-              Container(height: 30, child: Image.network(issuedBy.logo)),
-            ],
+          child: DisplayIssuer(
+            issuer: issuedBy,
           ),
         ),
         Padding(

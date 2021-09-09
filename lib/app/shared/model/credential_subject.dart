@@ -28,16 +28,16 @@ class CredentialSubject {
         _backgroundColor = Colors.white;
         break;
       case 'IdentityPass':
-        _backgroundColor = Color(0xfff0adec);
+        _backgroundColor = Color(0xffCAFFBF);
         break;
       case 'CertificateOfEmployment':
-        _backgroundColor = Colors.greenAccent;
+        _backgroundColor = Color(0xFF9BF6FF);
         break;
       case 'EmailPass':
-        _backgroundColor = Color(0xffedb5ad);
+        _backgroundColor = Color(0xFFffD6A5);
         break;
       case 'ProfessionalExperienceAssessment':
-        _backgroundColor = Colors.redAccent;
+        _backgroundColor = Color(0xFFFFADAD);
         break;
       default:
         _backgroundColor = UiKit.palette.credentialBackground;

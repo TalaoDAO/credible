@@ -139,7 +139,13 @@
   "maritalStatus": "Situation de famille",
   "nationality": "Nationalité(s)",
   "identifier": "Identifiant",
-  "issuer" : "Emis par"
-
+  "issuer" : "Emis par",
+  "workFor" : "Travaille pour",
+  "startDate" : "Depuis",
+  "endDate" : "Jusqu'au",
+  "employmentType": "Type d'emploi",
+  "jobTitle": "Emploi",
+  "baseSalary" : "Salaire",
+  "expires" : "Expires"
 }
 

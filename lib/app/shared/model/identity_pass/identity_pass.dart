@@ -1,9 +1,11 @@
 import 'package:talao/app/pages/credentials/models/credential.dart';
+import 'package:talao/app/pages/credentials/widget/display_issuer.dart';
 import 'package:talao/app/shared/model/author.dart';
 import 'package:talao/app/shared/model/credential_subject.dart';
 import 'package:talao/app/shared/model/identity_pass/identity_pass_recipient.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 part 'identity_pass.g.dart';
 
@@ -35,56 +37,117 @@ class IdentityPass extends CredentialSubject {
 
   @override
   Widget displayDetail(BuildContext context, CredentialModel item) {
+    final localizations = AppLocalizations.of(context)!;
     return Column(
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(expires),
+          child: Row(
+            children: [
+              Text('${localizations.expires} '),
+              Text('$expires',
+                  style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
+            ],
+          ),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(recipient.jobTitle),
+          child: Row(
+            children: [
+              Text('${localizations.jobTitle} '),
+              Text('${recipient.jobTitle}',
+                  style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
+            ],
+          ),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(recipient.familyName),
+          child: Row(
+            children: [
+              Text('${localizations.firstName} '),
+              Text('${recipient.familyName}',
+                  style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
+            ],
+          ),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(recipient.givenName),
+          child: Row(
+            children: [
+              Text('${localizations.lastName} '),
+              Text('${recipient.givenName}',
+                  style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
+            ],
+          ),
+        ),
+        recipient.image != ''
+            ? Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Image.network(recipient.image,
+                    loadingBuilder: (context, child, loadingProgress) =>
+                        (loadingProgress == null)
+                            ? child
+                            : CircularProgressIndicator(),
+                    errorBuilder: (context, error, stackTrace) =>
+                        SizedBox.shrink()),
+              )
+            : SizedBox.shrink(),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Text('${localizations.address} '),
+              Text('${recipient.address}',
+                  style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
+            ],
+          ),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: recipient.image != ''
-              ? Image.network(recipient.image,
-                  loadingBuilder: (context, child, loadingProgress) =>
-                      (loadingProgress == null)
-                          ? child
-                          : CircularProgressIndicator(),
-                  errorBuilder: (context, error, stackTrace) =>
-                      SizedBox.shrink())
-              : SizedBox.shrink(),
+          child: Row(
+            children: [
+              Text('${localizations.birthdate} '),
+              Text('${recipient.birthDate}',
+                  style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
+            ],
+          ),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(recipient.address),
+          child: Row(
+            children: [
+              Text('${localizations.personalMail} '),
+              Text('${recipient.email}',
+                  style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
+            ],
+          ),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(recipient.birthDate),
+          child: Row(
+            children: [
+              Text('${localizations.gender} '),
+              Text('${recipient.gender}',
+                  style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
+            ],
+          ),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(recipient.email),
+          child: Row(
+            children: [
+              Text('${localizations.personalPhone} '),
+              Text('${recipient.telephone}',
+                  style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
+            ],
+          ),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(recipient.gender),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(recipient.telephone),
-        ),
+          child: DisplayIssuer(
+            issuer: issuedBy,
+          ),
+        )
       ],
     );
   }

@@ -1,4 +1,5 @@
 import 'package:talao/app/pages/credentials/models/credential.dart';
+import 'package:talao/app/pages/credentials/widget/display_issuer.dart';
 import 'package:talao/app/pages/credentials/widget/document/body.dart';
 import 'package:talao/app/pages/credentials/widget/document/header.dart';
 import 'package:talao/app/pages/credentials/widget/labeled_item.dart';
@@ -55,11 +56,11 @@ class DefaultCredentialSubject extends CredentialSubject {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          DocumentHeader(model: item),
-          const SizedBox(height: 48.0),
-          // const DocumentTicketSeparator(),
-          DocumentBody(
-            model: item,
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: DisplayIssuer(
+              issuer: issuedBy,
+            ),
           ),
         ],
       ),

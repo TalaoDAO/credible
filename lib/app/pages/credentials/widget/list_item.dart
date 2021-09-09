@@ -166,7 +166,7 @@ class CredentialsListItem extends StatelessWidget {
                 '/credentials/detail',
                 arguments: item,
               ),
-      color: credential.credentialSubject.backgroundColor,
+      color: credential.backgroundColor,
       child: displayListElement(context),
     );
   }

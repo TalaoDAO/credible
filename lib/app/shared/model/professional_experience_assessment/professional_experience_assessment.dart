@@ -1,9 +1,11 @@
 import 'package:talao/app/pages/credentials/models/credential.dart';
+import 'package:talao/app/pages/credentials/widget/display_issuer.dart';
 import 'package:talao/app/shared/model/author.dart';
 import 'package:talao/app/shared/model/credential_subject.dart';
 import 'package:talao/app/shared/model/professional_experience_assessment/skill.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 part 'professional_experience_assessment.g.dart';
 
@@ -46,19 +48,64 @@ class ProfessionalExperienceAssessment extends CredentialSubject {
 
   @override
   Widget displayDetail(BuildContext context, CredentialModel item) {
+    final localizations = AppLocalizations.of(context)!;
     return Column(
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(id),
+          child: Row(
+            children: [
+              Text('${localizations.personalMail} '),
+              Text('$email',
+                  style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
+            ],
+          ),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(expires),
+          child: Row(
+            children: [
+              Text('${localizations.expires} '),
+              Text('$expires',
+                  style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
+            ],
+          ),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(email),
+          child: Row(
+            children: [
+              Text('${localizations.expires} '),
+              Text('$expires',
+                  style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Text('${localizations.startDate} '),
+              Text('$startDate',
+                  style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Text('${localizations.endDate} '),
+              Text('$endDate',
+                  style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: DisplayIssuer(
+            issuer: issuedBy,
+          ),
         ),
       ],
     );
