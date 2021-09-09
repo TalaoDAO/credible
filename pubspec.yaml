@@ -3,7 +3,7 @@ description: Talao Wallet
 
 publish_to: 'none'
 
-version: 0.1.0+15
+version: 0.1.2+17
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
