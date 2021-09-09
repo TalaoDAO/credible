@@ -57,7 +57,7 @@ class DocumentWidget extends StatelessWidget {
       ),
       child: Container(
         decoration: BaseBoxDecoration(
-          color: credential.credentialSubject.backgroundColor,
+          color: credential.backgroundColor,
           shapeColor: UiKit.palette.credentialDetail.withOpacity(0.05),
           value: 0.0,
           shapeSize: 256.0,
