@@ -1,28 +1,28 @@
 PODS:
   - didkit (0.0.1):
     - Flutter
-  - Firebase/CoreOnly (8.3.0):
-    - FirebaseCore (= 8.3.0)
-  - Firebase/DynamicLinks (8.3.0):
+  - Firebase/CoreOnly (8.6.0):
+    - FirebaseCore (= 8.6.0)
+  - Firebase/DynamicLinks (8.6.0):
     - Firebase/CoreOnly
-    - FirebaseDynamicLinks (~> 8.3.0)
-  - firebase_core (1.4.0):
-    - Firebase/CoreOnly (= 8.3.0)
+    - FirebaseDynamicLinks (~> 8.6.0)
+  - firebase_core (1.6.0):
+    - Firebase/CoreOnly (= 8.6.0)
     - Flutter
-  - firebase_dynamic_links (2.0.7):
-    - Firebase/DynamicLinks (= 8.3.0)
+  - firebase_dynamic_links (2.0.9):
+    - Firebase/DynamicLinks (= 8.6.0)
     - firebase_core
     - Flutter
-  - FirebaseCore (8.3.0):
+  - FirebaseCore (8.6.0):
     - FirebaseCoreDiagnostics (~> 8.0)
     - GoogleUtilities/Environment (~> 7.4)
     - GoogleUtilities/Logger (~> 7.4)
-  - FirebaseCoreDiagnostics (8.5.0):
+  - FirebaseCoreDiagnostics (8.6.0):
     - GoogleDataTransport (~> 9.0)
     - GoogleUtilities/Environment (~> 7.4)
     - GoogleUtilities/Logger (~> 7.4)
     - nanopb (~> 2.30908.0)
-  - FirebaseDynamicLinks (8.3.0):
+  - FirebaseDynamicLinks (8.6.0):
     - FirebaseCore (~> 8.0)
   - Flutter (1.0.0)
   - flutter_secure_storage (3.3.1):
@@ -31,9 +31,9 @@ PODS:
     - GoogleUtilities/Environment (~> 7.2)
     - nanopb (~> 2.30908.0)
     - PromisesObjC (< 3.0, >= 1.2)
-  - GoogleUtilities/Environment (7.5.0):
+  - GoogleUtilities/Environment (7.5.2):
     - PromisesObjC (< 3.0, >= 1.2)
-  - GoogleUtilities/Logger (7.5.0):
+  - GoogleUtilities/Logger (7.5.2):
     - GoogleUtilities/Environment
   - integration_test (0.0.1):
     - Flutter
@@ -43,7 +43,7 @@ PODS:
     - nanopb/encode (= 2.30908.0)
   - nanopb/decode (2.30908.0)
   - nanopb/encode (2.30908.0)
-  - package_info (0.0.1):
+  - package_info_plus (0.4.5):
     - Flutter
   - path_provider (0.0.1):
     - Flutter
@@ -63,7 +63,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - integration_test (from `.symlinks/plugins/integration_test/ios`)
-  - package_info (from `.symlinks/plugins/package_info/ios`)
+  - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - qr_code_scanner (from `.symlinks/plugins/qr_code_scanner/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
@@ -94,8 +94,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
   integration_test:
     :path: ".symlinks/plugins/integration_test/ios"
-  package_info:
-    :path: ".symlinks/plugins/package_info/ios"
+  package_info_plus:
+    :path: ".symlinks/plugins/package_info_plus/ios"
   path_provider:
     :path: ".symlinks/plugins/path_provider/ios"
   qr_code_scanner:
@@ -107,20 +107,20 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   didkit: a675e006e0eba234136606d7148f3c879a446031
-  Firebase: 817b9171d0d51dccc458b94a5e8edff6b1dd323d
-  firebase_core: 72374607c8c6f5a0adc0559e5c5bf57deda975e3
-  firebase_dynamic_links: 63d25b8afb1257210012a703b2029b425f0b62c7
-  FirebaseCore: a6dba751680d7033b9d3831e1cfc95ead0605118
-  FirebaseCoreDiagnostics: 7bf55d386f9fc690d971b70a582142321a390eb8
-  FirebaseDynamicLinks: 5ab1f7988e31b5b267a2e034659e43cef4fff613
+  Firebase: 21ac9f28b09a8bdfc005f34c984fca84e7e8786d
+  firebase_core: c21ac09a8d23afd3594b56ed786bad12e5266bba
+  firebase_dynamic_links: ef0989cdc7e7d2aaed5814a81f7ca0ec7a6028ee
+  FirebaseCore: 620b677f70f5470a8e59cb77f3ddc666f6f09785
+  FirebaseCoreDiagnostics: 3721920bde3a9a6d5aa093c1d25e9d3e47f694af
+  FirebaseDynamicLinks: 406d67290fd123e133641f93a333b4957af22c09
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
   flutter_secure_storage: 7953c38a04c3fdbb00571bcd87d8e3b5ceb9daec
   GoogleDataTransport: 85fd18ff3019bb85d3f2c551d04c481dedf71fc9
-  GoogleUtilities: eea970f4a389963963bffe8d8fabe43540678b9c
+  GoogleUtilities: 8de2a97a17e15b6b98e38e8770e2d129a57c0040
   integration_test: 6eb66a19f7104200dcfdd62bc0077e1b09686e4f
   MTBBarcodeScanner: f453b33c4b7dfe545d8c6484ed744d55671788cb
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
-  package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
+  package_info_plus: 6c92f08e1f853dc01228d6f553146438dafcd14e
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
   qr_code_scanner: bb67d64904c3b9658ada8c402e8b4d406d5d796e
