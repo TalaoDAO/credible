@@ -1,9 +1,6 @@
 import 'package:talao/app/pages/credentials/models/credential.dart';
 import 'package:talao/app/pages/credentials/models/credential_status.dart';
 import 'package:talao/app/shared/model/credential.dart';
-import 'package:talao/app/shared/model/default_credential_subject/default_credential_subject.dart';
-import 'package:talao/app/shared/model/proof.dart';
-import 'package:talao/app/shared/model/translation.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/box_decoration.dart';
 import 'package:talao/app/shared/widget/hero_workaround.dart';

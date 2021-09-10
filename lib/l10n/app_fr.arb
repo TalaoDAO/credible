@@ -146,6 +146,8 @@
   "employmentType": "Type d'emploi",
   "jobTitle": "Emploi",
   "baseSalary" : "Salaire",
-  "expires" : "Expires"
+  "expires" : "Expires",
+  "globalInformationLabel" : "Informations générales"
+
 }
 

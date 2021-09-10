@@ -7,6 +7,9 @@ class PrivacyPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
     return MarkdownPage(
-        title: localizations.privacyTitle, file: 'assets/privacy.md');
+        title: localizations.privacyTitle,
+        file: localizations.localeName == 'fr'
+            ? 'assets/privacy_fr.md'
+            : 'assets/privacy_en.md');
   }
 }

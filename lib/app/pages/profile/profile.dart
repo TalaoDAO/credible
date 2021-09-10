@@ -1,12 +1,9 @@
-import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/pages/credentials/repositories/credential.dart';
 import 'package:talao/app/pages/profile/blocs/did.dart';
 import 'package:talao/app/pages/profile/blocs/profile.dart';
 import 'package:talao/app/pages/profile/models/profile.dart';
-import 'package:talao/app/pages/profile/widgets/did_display.dart';
 import 'package:talao/app/pages/profile/widgets/menu_item.dart';
-import 'package:talao/app/shared/widget/app_version.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/confirm_dialog.dart';
 import 'package:talao/app/shared/widget/navigation_bar.dart';
@@ -83,6 +80,12 @@ class _ProfilePageState extends State<ProfilePage> {
                     Modular.to.pushNamed('/profile/personal', arguments: model),
               ),
               MenuItem(
+                icon: Icons.receipt_long,
+                title: localizations.globalInformationLabel,
+                onTap: () =>
+                    Modular.to.pushNamed('/profile/global-information'),
+              ),
+              MenuItem(
                 icon: Icons.shield,
                 title: localizations.privacyTitle,
                 onTap: () => Modular.to.pushNamed('/profile/privacy'),
@@ -113,37 +116,21 @@ class _ProfilePageState extends State<ProfilePage> {
                 },
               ),
               MenuItem(
-                icon: Icons.support,
-                title: localizations.supportTitle,
-                onTap: () => Modular.to.pushNamed('/profile/support'),
-              ),
-              MenuItem(
-                icon: Icons.assignment_sharp,
-                title: localizations.noticesTitle,
-                onTap: () => Modular.to.pushNamed('/profile/notices'),
-              ),
-              const SizedBox(height: 48.0),
-              DIDDisplay(),
-              const SizedBox(height: 48.0),
-              TextButton(
-                style: TextButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 32.0,
-                    vertical: 16.0,
-                  ),
-                ),
-                onPressed: () async {
+                icon: Icons.settings_backup_restore,
+                title: localizations.resetWalletButton,
+                onTap: () async {
                   final confirm = await showDialog<bool>(
                         context: context,
                         builder: (context) => ConfirmDialog(
                           title: localizations.resetWalletButton,
                           subtitle: localizations.resetWalletConfirmationText,
+                          yes: localizations.showDialogYes,
+                          no: localizations.showDialogNo,
                         ),
                       ) ??
                       false;
 
                   if (confirm) {
-                    // TODO: Add typing confirmation
                     await SecureStorageProvider.instance.delete('key');
                     await SecureStorageProvider.instance.delete('mnemonic');
                     await SecureStorageProvider.instance.delete('data');
@@ -165,23 +152,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     await Modular.to.pushReplacementNamed('/splash');
                   }
                 },
-                child: Text(
-                  localizations.resetWalletButton,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText1!
-                      .apply(color: Colors.redAccent),
-                ),
               ),
-              const SizedBox(height: 48.0),
-              Center(
-                child: Text(
-                  'DIDKit v' + DIDKitProvider.instance.getVersion(),
-                  style: Theme.of(context).textTheme.overline!,
-                ),
-              ),
-              const SizedBox(height: 8.0),
-              AppVersion(),
             ],
           ),
         );
