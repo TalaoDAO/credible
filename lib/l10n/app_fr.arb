@@ -84,7 +84,7 @@
   "credentialReceiveConfirm": "Ajouter au portefeuille",
   "credentialReceiveCancel": "Ne pas accepter",
   "credentialDetailListTitle": "Mon portefeuille",
-  "communicationHostAllow": "Authoriser",
+  "communicationHostAllow": "Oui/non",
   "communicationHostDeny": "Refuser",
   "scanTitle": "Scan",
   "scanPromptHost": "Faites vous confiance à ce domaine ?",
