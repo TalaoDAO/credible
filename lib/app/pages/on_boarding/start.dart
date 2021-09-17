@@ -18,7 +18,9 @@ class OnBoardingStartPage extends StatelessWidget {
         children: <Widget>[
           Flexible(flex: 1, child: Container()),
           Brand(),
-          Flexible(flex: 3, child: Container()),
+          Flexible(flex: 1, child: Container()),
+          Text(localizations.appPresentation),
+          Flexible(flex: 1, child: Container()),
           BaseButton.primary(
             onPressed: () {
               Modular.to.pushReplacementNamed('/on-boarding/tos');

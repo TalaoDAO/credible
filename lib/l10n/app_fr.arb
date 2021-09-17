@@ -147,7 +147,8 @@
   "jobTitle": "Emploi",
   "baseSalary" : "Salaire",
   "expires" : "Expires",
-  "globalInformationLabel" : "Informations générales"
+  "globalInformationLabel" : "Informations générales",
+  "appPresentation": "Collectez les attestations émises par les institutions et les entreprises. Ces documents électroniques signés prouvent votre identité.\n\nAvec ces attestations vous pouvez désormais vous connecter à un service internet sans même avoir de compte et de mot de passe et accéder en télétravail dans un contexte sécurisé aux services numériques des entreprises. Bientôt vous pourrez acheter en ligne, demander un prêt auprès de votre banque en quelques minutes, utiliser votre smartphone pour accéder à des bureaux, une salle, un concert, …\n\nVos informations personnelles sont stockées uniquement sur votre appareil, elles ne peuvent être vues par personne."
 
 }
 

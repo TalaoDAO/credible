@@ -147,6 +147,7 @@
   "jobTitle": "Job title",
   "baseSalary" : "Salary",
   "expires" : "Expires",
-  "globalInformationLabel" : "Global information"
+  "globalInformationLabel" : "Global information",
+  "appPresentation": "Collect credentials issued by institutions and companies. These signed electronic documents prove your identity.\n\nWith those credentials you can now connect to an internet service without even having an account and password and access by teleworking in a secure context to the digital services of companies.  Soon you will be able to buy online, apply for a loan from your bank in a few minutes, use your smartpĥone to access offices, an auditorium, a concert, … \n\nYour credentials are stored only on your device. Your personal information cannot be seen by anyone."
 
 }
