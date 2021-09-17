@@ -12,12 +12,29 @@ class GlobalInformationPage extends StatelessWidget {
     final localizations = AppLocalizations.of(context)!;
 
     return BasePage(
-      title: localizations.personalTitle,
+      title: localizations.globalInformationLabel,
       titleLeading: BackLeadingButton(),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           DIDDisplay(),
-          const SizedBox(height: 48.0),
+          const SizedBox(height: 16.0),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [Text('Talao website :'), Text('talao.io')],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Text('${localizations.personalMail} :'),
+                Text('contact@talao.com'),
+              ],
+            ),
+          ),
+          const SizedBox(height: 32.0),
           Center(
             child: Text(
               'DIDKit v' + DIDKitProvider.instance.getVersion(),
