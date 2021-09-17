@@ -178,21 +178,30 @@ class CredentialsListItem extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16.0),
           ),
-          child: HeroFix(
-            tag: 'credential/${item.id}/icon',
-            child: selected == null
-                ? credential.credentialSubject.icon
-                : selected!
-                    ? Icon(
-                        Icons.check_box,
-                        size: 24.0,
-                        color: UiKit.palette.icon,
-                      )
-                    : Icon(
-                        Icons.check_box_outline_blank,
-                        size: 24.0,
-                        color: UiKit.palette.icon,
-                      ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              HeroFix(
+                tag: 'credential/${item.id}/icon',
+                child: selected == null
+                    ? credential.credentialSubject.icon
+                    : selected!
+                        ? Icon(
+                            Icons.check_box,
+                            size: 24.0,
+                            color: UiKit.palette.icon,
+                          )
+                        : Icon(
+                            Icons.check_box_outline_blank,
+                            size: 24.0,
+                            color: UiKit.palette.icon,
+                          ),
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              displayStatus(item),
+            ],
           ),
         ),
         const SizedBox(width: 16.0),
@@ -201,5 +210,18 @@ class CredentialsListItem extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  Widget displayStatus(CredentialModel item) {
+    switch (item.status) {
+      case CredentialStatus.active:
+        return Icon(Icons.check_circle, color: Colors.green);
+      case CredentialStatus.expired:
+        return Icon(Icons.alarm_off, color: Colors.yellow);
+      case CredentialStatus.revoked:
+        return Icon(Icons.block, color: Colors.red);
+      default:
+        return Icon(Icons.offline_bolt);
+    }
   }
 }
