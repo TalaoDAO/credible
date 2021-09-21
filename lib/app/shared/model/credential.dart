@@ -58,13 +58,7 @@ class Credential {
         'dummy',
         'dummy',
         [
-          Proof(
-            'dummy',
-            'dummy',
-            'dummy',
-            'dummy',
-            'dummy',
-          )
+          Proof.dummy(),
         ],
         DefaultCredentialSubject('dummy', 'dummy', Author('', '')),
         [Translation('en', '')],
@@ -129,6 +123,9 @@ class Credential {
   }
 
   static List<Proof> _fromJsonProofs(json) {
+    if (json == null) {
+      return [Proof.dummy()];
+    }
     if (json is List) {
       return (json)
           .map((e) => Proof.fromJson(e as Map<String, dynamic>))
