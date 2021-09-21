@@ -32,7 +32,9 @@ class Brand extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Image.asset('assets/brand/logo_talao.png'),
+                ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.asset('assets/brand/slide_talao.jpeg')),
               ],
             ),
           ),
