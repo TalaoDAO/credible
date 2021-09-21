@@ -24,6 +24,7 @@ class OnBoardingStartPage extends StatelessWidget {
             child: Text(
               localizations.appPresentation,
               style: Theme.of(context).textTheme.bodyText1,
+              textAlign: TextAlign.justify,
             ),
           ),
           Padding(
