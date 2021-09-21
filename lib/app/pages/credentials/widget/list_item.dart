@@ -173,11 +173,8 @@ class CredentialsListItem extends StatelessWidget {
 
     return Row(
       children: <Widget>[
-        Container(
-          padding: const EdgeInsets.all(16.0),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16.0),
-          ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -197,14 +194,11 @@ class CredentialsListItem extends StatelessWidget {
                             color: UiKit.palette.icon,
                           ),
               ),
-              SizedBox(
-                height: 16,
-              ),
+              SizedBox(height: 16.0),
               displayStatus(item),
             ],
           ),
         ),
-        const SizedBox(width: 16.0),
         Expanded(
           child: credential.displayList(context, item),
         ),
