@@ -15,7 +15,7 @@ class TalaoPalette extends UiPalette {
   static const lighterGreen = Color(0xffA9D564);
   static const lightGreen = Color(0xff76B562);
   static const green = Color(0xff5B9C54);
-  static const darkGreen = Color(0xff50a7d9);
+  static const darkGreen = Color(0xffA0C4FF);
   static const darkerGreen = Color(0xff324854);
 
   static const gradientDarkGreen = Color(0xffC7DF6A);
