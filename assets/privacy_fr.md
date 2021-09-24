@@ -1,7 +1,7 @@
 
 # Protection des données
 
-Dernière mise à jour le Mardi 7 Septembre 2021
+Dernière mise à jour le Mardi 7 Septembre 2021 
 
 ## Préambule
 
