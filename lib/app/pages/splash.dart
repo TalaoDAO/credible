@@ -6,7 +6,7 @@ import 'package:talao/app/pages/credentials/blocs/scan.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/brand.dart';
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+// import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -20,7 +20,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
-    initDynamicLinks();
+    // initDynamicLinks();
     Future.delayed(
       const Duration(
         milliseconds: kIsWeb ? 25 : 1000,
@@ -86,25 +86,25 @@ class _SplashPageState extends State<SplashPage> {
         ),
       );
 
-  void initDynamicLinks() async {
-    FirebaseDynamicLinks.instance.onLink(
-        onSuccess: (PendingDynamicLinkData? dynamicLink) async {
-      if (dynamicLink != null) {
-        final Uri deepLink = dynamicLink.link;
-        if (deepLink != null) {
-          await Modular.to.pushReplacementNamed(deepLink.path);
-        }
-      }
-    }, onError: (OnLinkErrorException e) async {
-      print('onLinkError');
-      print(e.message);
-    });
-
-    final PendingDynamicLinkData? data =
-        await FirebaseDynamicLinks.instance.getInitialLink();
-    if (data != null) {
-      final Uri deepLink = data.link;
-      await Modular.to.pushReplacementNamed(deepLink.path);
-    }
-  }
+  // void initDynamicLinks() async {
+  //   FirebaseDynamicLinks.instance.onLink(
+  //       onSuccess: (PendingDynamicLinkData? dynamicLink) async {
+  //     if (dynamicLink != null) {
+  //       final Uri deepLink = dynamicLink.link;
+  //       if (deepLink != null) {
+  //         await Modular.to.pushReplacementNamed(deepLink.path);
+  //       }
+  //     }
+  //   }, onError: (OnLinkErrorException e) async {
+  //     print('onLinkError');
+  //     print(e.message);
+  //   });
+  //
+  //   final PendingDynamicLinkData? data =
+  //       await FirebaseDynamicLinks.instance.getInitialLink();
+  //   if (data != null) {
+  //     final Uri deepLink = data.link;
+  //     await Modular.to.pushReplacementNamed(deepLink.path);
+  //   }
+  // }
 }
