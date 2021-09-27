@@ -1,1 +1,0 @@
-Here we should add our terms and conditions.

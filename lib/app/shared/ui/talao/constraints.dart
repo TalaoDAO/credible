@@ -6,8 +6,7 @@ class TalaoConstraints extends UiConstraints {
 
   @override
   EdgeInsets get buttonPadding => const EdgeInsets.symmetric(
-        horizontal: 32.0,
-        vertical: 12.0,
+        vertical: 8.0,
       );
 
   @override

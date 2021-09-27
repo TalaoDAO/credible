@@ -8,6 +8,8 @@ class TermsPage extends StatelessWidget {
     final localizations = AppLocalizations.of(context)!;
     return MarkdownPage(
         title: localizations.onBoardingTosTitle,
-        file: 'assets/terms_conditions.md');
+        file: localizations.localeName == 'fr'
+            ? 'assets/cgu_fr.md'
+            : 'assets/cgu_en.md');
   }
 }

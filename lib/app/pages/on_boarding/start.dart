@@ -11,19 +11,30 @@ class OnBoardingStartPage extends StatelessWidget {
     final localizations = AppLocalizations.of(context)!;
 
     return BasePage(
-      scrollView: false,
+      scrollView: true,
       body: Column(
         mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Flexible(flex: 1, child: Container()),
-          Brand(),
-          Flexible(flex: 3, child: Container()),
-          BaseButton.primary(
-            onPressed: () {
-              Modular.to.pushReplacementNamed('/on-boarding/tos');
-            },
-            child: Text(localizations.onBoardingStartButton),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Brand(),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              localizations.appPresentation,
+              style: Theme.of(context).textTheme.bodyText1,
+              textAlign: TextAlign.justify,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: BaseButton.primary(
+              onPressed: () {
+                Modular.to.pushReplacementNamed('/on-boarding/tos');
+              },
+              child: Text(localizations.onBoardingStartButton),
+            ),
           ),
         ],
       ),

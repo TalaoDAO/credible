@@ -16,4 +16,12 @@ class Proof {
   factory Proof.fromJson(Map<String, dynamic> json) => _$ProofFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProofToJson(this);
+
+  factory Proof.dummy() => Proof(
+        'dummy',
+        'dummy',
+        'dummy',
+        'dummy',
+        'dummy',
+      );
 }

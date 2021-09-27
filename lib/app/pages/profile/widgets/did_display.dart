@@ -25,27 +25,25 @@ class DIDDisplay extends StatelessWidget {
 
         return Column(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Center(
+            Padding(
+              padding: const EdgeInsets.all(8.0),
               child: Text(
                 localizations.didDisplayId,
                 style: Theme.of(context).textTheme.bodyText2!,
               ),
             ),
-            Container(
-              alignment: Alignment.center,
-              padding: const EdgeInsets.symmetric(
-                horizontal: 24.0,
-              ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Expanded(
                     child: Text(
                       did,
                       style: Theme.of(context).textTheme.overline!,
-                      textAlign: TextAlign.center,
+                      textAlign: TextAlign.start,
                     ),
                   ),
                 ],
@@ -53,12 +51,7 @@ class DIDDisplay extends StatelessWidget {
             ),
             const SizedBox(height: 16.0),
             TextButton(
-              style: TextButton.styleFrom(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 32.0,
-                  vertical: 16.0,
-                ),
-              ),
+              style: TextButton.styleFrom(),
               onPressed: () {
                 Clipboard.setData(ClipboardData(text: did));
               },

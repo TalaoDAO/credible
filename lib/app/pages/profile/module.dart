@@ -1,5 +1,6 @@
 import 'package:talao/app/pages/profile/blocs/did.dart';
 import 'package:talao/app/pages/profile/blocs/profile.dart';
+import 'package:talao/app/pages/profile/pages/global_information.dart';
 import 'package:talao/app/pages/profile/pages/notices.dart';
 import 'package:talao/app/pages/profile/pages/personal.dart';
 import 'package:talao/app/pages/profile/pages/privacy.dart';
@@ -51,6 +52,11 @@ class ProfileModule extends Module {
         ChildRoute(
           '/notices',
           child: (context, args) => NoticesPage(),
+          transition: TransitionType.rightToLeftWithFade,
+        ),
+        ChildRoute(
+          '/global-information',
+          child: (context, args) => GlobalInformationPage(),
           transition: TransitionType.rightToLeftWithFade,
         ),
       ];

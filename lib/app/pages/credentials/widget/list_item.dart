@@ -1,9 +1,6 @@
 import 'package:talao/app/pages/credentials/models/credential.dart';
 import 'package:talao/app/pages/credentials/models/credential_status.dart';
 import 'package:talao/app/shared/model/credential.dart';
-import 'package:talao/app/shared/model/default_credential_subject/default_credential_subject.dart';
-import 'package:talao/app/shared/model/proof.dart';
-import 'package:talao/app/shared/model/translation.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/box_decoration.dart';
 import 'package:talao/app/shared/widget/hero_workaround.dart';
@@ -176,33 +173,49 @@ class CredentialsListItem extends StatelessWidget {
 
     return Row(
       children: <Widget>[
-        Container(
-          padding: const EdgeInsets.all(16.0),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16.0),
-          ),
-          child: HeroFix(
-            tag: 'credential/${item.id}/icon',
-            child: selected == null
-                ? credential.credentialSubject.icon
-                : selected!
-                    ? Icon(
-                        Icons.check_box,
-                        size: 24.0,
-                        color: UiKit.palette.icon,
-                      )
-                    : Icon(
-                        Icons.check_box_outline_blank,
-                        size: 24.0,
-                        color: UiKit.palette.icon,
-                      ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              HeroFix(
+                tag: 'credential/${item.id}/icon',
+                child: selected == null
+                    ? credential.credentialSubject.icon
+                    : selected!
+                        ? Icon(
+                            Icons.check_box,
+                            size: 24.0,
+                            color: UiKit.palette.icon,
+                          )
+                        : Icon(
+                            Icons.check_box_outline_blank,
+                            size: 24.0,
+                            color: UiKit.palette.icon,
+                          ),
+              ),
+              SizedBox(height: 16.0),
+              displayStatus(item),
+            ],
           ),
         ),
-        const SizedBox(width: 16.0),
         Expanded(
           child: credential.displayList(context, item),
         ),
       ],
     );
+  }
+
+  Widget displayStatus(CredentialModel item) {
+    switch (item.status) {
+      case CredentialStatus.active:
+        return Icon(Icons.check_circle, color: Colors.green);
+      case CredentialStatus.expired:
+        return Icon(Icons.alarm_off, color: Colors.yellow);
+      case CredentialStatus.revoked:
+        return Icon(Icons.block, color: Colors.red);
+      default:
+        return Icon(Icons.offline_bolt);
+    }
   }
 }

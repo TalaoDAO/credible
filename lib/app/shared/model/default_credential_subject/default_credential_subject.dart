@@ -1,15 +1,8 @@
 import 'package:talao/app/pages/credentials/models/credential.dart';
 import 'package:talao/app/pages/credentials/widget/display_issuer.dart';
-import 'package:talao/app/pages/credentials/widget/document/body.dart';
-import 'package:talao/app/pages/credentials/widget/document/header.dart';
-import 'package:talao/app/pages/credentials/widget/labeled_item.dart';
 import 'package:talao/app/shared/model/author.dart';
 import 'package:talao/app/shared/model/credential_subject.dart';
-import 'package:talao/app/shared/ui/ui.dart';
-import 'package:talao/app/shared/widget/tooltip_text.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'default_credential_subject.g.dart';
