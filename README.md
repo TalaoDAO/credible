@@ -1,451 +1,49 @@
-![Credible header](https://spruceid.dev/assets/images/crediblehead-9f539ffe32f0082fb362572e7d308c6e.png)
+![Talao header](https://avatars.githubusercontent.com/u/36969426?s=200&v=4)
 
-[![](https://img.shields.io/badge/Flutter-1.22.6-blue)](https://flutter.dev/docs/get-started/install) [![](https://img.shields.io/badge/ssi-v0.1-green)](https://www.github.com/spruceid/ssi) [![](https://img.shields.io/badge/DIDKit-v0.1-green)](https://www.github.com/spruceid/didkit) [![](https://img.shields.io/badge/License-Apache--2.0-green)](https://github.com/spruceid/credible/blob/main/LICENSE) [![](https://img.shields.io/twitter/follow/sprucesystems?label=Follow&style=social)](https://twitter.com/sprucesystems) 
 
-Check out the Credible documentation [here](https://spruceid.dev/docs/credible/).
+[![](https://img.shields.io/badge/Flutter-1.22.6-blue)](https://flutter.dev/docs/get-started/install) [![](https://img.shields.io/badge/ssi-v0.3-green)](https://www.github.com/spruceid/ssi) [![](https://img.shields.io/badge/DIDKit-v0.3-green)](https://www.github.com/spruceid/didkit) [![](https://img.shields.io/badge/License-Apache--2.0-green)](https://github.com/TalaoDAO/talao-wallet/blob/dev-talao/LICENSE)  
 
-# Credible
+# Talao SSI wallat
 
-Credible is a native mobile wallet that supports W3C Verifiable Credentials and
-Decentralized Identifiers built on [DIDKit](https://github.com/spruceid/didkit)
-and [Flutter](https://flutter.dev/). We packaged the DIDKit library written in
-Rust into a Flutter application running on both Android and iOS, using C
-bindings and Dart’s FFI capabilities. This is the wallet counterpart to the
-rich, growing toolkit supplied by DIDKit, the two pillars of a reference
-architecture for creating trusted interactions at scale.
+## Motivation 
 
-## Maturity disclaimer
-In the v0.1 release on February 10, 2021, Credible has not yet undergone a
-formal security audit and to desired levels of confidence for suitable use in
-production systems. This implementation is currently suitable for exploratory
-work and experimentation only. We welcome feedback on the usability,
-architecture, and security of this implementation and are committed to a
-conducting a formal audit with a reputable security firm before the v1.0
-release. We are also working on large stability improvements through a
-continuous integration testing process across Android and iOS.
 
-We are setting up a process to accept contributions. Please feel free to open
-issues or PRs in the interim, but we cannot merge external changes until this
-process is in place.
+Our ambition for this wallet is that a project team can integrate it into its application in less than a week, with the minimum of dependencies and whatever its environment, whether for projects carried by companies than by institutions. This ease of implementation seems to us today essential for the adoption of SSI concepts and technologies by as many people as possible.
 
-We are also in the process of listing Credible on the iOS TestFlight and
-Android Play Beta programs, and eventually their respective app marketplaces
-plus F-Droid.
 
-## Common Dependencies
+Our ambition is also to offer an SSI wallet adapted to the European market, taking into account the specifications that have been put forward by the EU working groups both in terms of technology and regulation. 
 
-To manually build Credible for either Android or iOS, you will need to install
-the following dependencies:
 
-- Rust
-- Java 7 or higher
-- Flutter (`dev` channel)
-- [DIDKit](https://github.com/spruceid/didkit)/[SSI](https://github.com/spruceid/ssi)
-- `wasm-pack` (WEB)
-- `binaryen` (WEB and targeting ASM.js)
+Finally, our project is to offer for the first time a smartphone wallet available on the Apple and Google stores which carries the identity in the format of the Tezos channel ([did: tz]( https://did-tezos-draft.spruceid.com/ )). The Tezos blockchain has many advantages for SSI, in particu projectslar that of open governance, high security and by a proof of stake consensus which makes it one of the most popular blockchains. less energy consuming in the world. This wallet allows all Tezos applications to offer their users an SSI identity to access their services.
+ 
+## Architecture
 
-### Rust
 
-It is recommended to use [rustup](https://www.rust-lang.org/tools/install) to
-manage your Rust installation.
+To achieve these objectives we have opted for a minimalist design adapted to the use cases of today's SSI and based on W3C standards. The wallet exclusively supports Verifiable Credentials in JSON-LD format, the Decentralized Identifier (DIDs) standard and the Credential Status List 2020 specifications for the revocation of VCs.
 
-### Java
 
-On Ubuntu you could run:
+For the interaction of the wallet with Issuers and Verifiers, which is a decisive function in the implementation of this type of solution, we have retained the specifications of the [W3C Presentation Request]( https://w3c-ccg.github.io/vp-request-spec/ ) as well as the [Spruce protocol] (https://github.com/spruceid/credible#supported-protocols)  for the management of the QR Code on a HTTPS transport layer. This protocol has the advantage of being quick and easy to implement while providing most of the necessary functions. There are currently several very promising protocols that are being defined or even in production but they seem to us too complex and ultimately useless for current use cases which remain simple.
 
-```bash
-# apt update
-# apt install openjdk-8-jdk
-```
 
-For more information, please refer to the documentation of your favorite flavour
-of Java and your operating system/package manager.
+The chain of trust which is essential in all SSI models must allow the Holder with the wallet to ensure that he/she interacts with a legitimate third party by having reliable and quality sources of data. This is particularly sensitive when it comes to transferring some of the VCs from his wallet to a Verifier. Many models exist (public or private trust registers, well-known resources, etc.), it seemed important to us to be able to integrate these approaches as well as the various institutions and partners who support them in the wallet services. However, this service remains optional at the user's discretion.
 
-### Flutter
 
-Please follow the official instalation instructions available 
-[here](https://flutter.dev/docs/get-started/install) to install Flutter,
-don't forget to also install the build dependencies for the platform you
-will be building (Android SDK/NDK, Xcode, etc).
+The protection of the user's personal data has also been a primary concern. It resulted in the strict application of the rules of the GDPR and in particular by the use of DID formats that do not require writing on a blockchain as well as by the request for the user's agreement on certain features.
 
-We currently only support build this project using the `dev` channel of Flutter.
 
-To change your installation to the `dev` channel, please execute the following command:
+For the developments we used the [Didkit sdk from Spruce] (https://spruceid.dev/docs/didkit/ ) and the [Credible]( https://spruceid.dev/docs/credible/ ) platform from the company Spruce. The tools offered by Spruce are probably the only ones allowing in a cross-platform environment to support so many identity models and signature suites adapted to the JSON-LD format. The Crédible platform was our starting point and allowed us to save a lot of time. Our work focused on a specific support for the VCs of our use cases, and the enrichment of the interaction protocol between the wallet and the Issuers and Verifiers to accommodate new ones. All of these features allow an Issuer to customize the support for their own VCs in a matter of minutes.
 
-```bash
-$ flutter channel dev
-$ flutter upgrade
-```
 
-To confirm that everything is setup correctly, please run the following command
-and resolve any issues that arise before proceeding to the next steps.
+The wallet code is open source under the Apache license available on github. The wallet is free to download on the google and IOS stores in 5 languages. Talao provides support to all teams who wish to integrate a wallet in the ISS format in their project. A digital safe allowing the user to archive his VCs or possibly to publish them is also available on the talao.co website
 
-```bash
-$ flutter doctor
-```
 
-### `wasm-pack` (Required for both WEB targets)
+## Technical characteristics 
 
-To build the WASM target you will need `wasm-pack`, it can be obtained running:
 
-```bash
-$ curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
-```
-
-### `binaryen`
-
-To build Credible for WEB using ASM.js you will need
-[binaryen](https://github.com/WebAssembly/binaryen), which allows the conversion
-of DIDKit WASM to ASM.js. This is necessary when you don't have WASM support and
-need to run your page in pure Javascript. More detailed instructions on
-how to build `binaryen` can be found [here](https://github.com/WebAssembly/binaryen).
-
-If you are in a UNIX-like distribution you just have to clone the repo and build,
-we recommend cloning into your `${HOME}`, to avoid having to specify the
-`${BINARYEN_ROOT}` variable:
-
-```bash
-$ git clone https://github.com/WebAssembly/binaryen ~/binaryen
-$ cd ~/binaryen
-$ cmake . && make
-```
-### DIDKit and SSI
-
-This project also depends on two other Spruce projects,
-[`DIDKit`](https://github.com/spruceid/didkit) and
-[`SSI`](https://github.com/spruceid/ssi). 
-
-These projects are all configured to work with relative paths by default,
-so it is recommended to clone them all under the same root directory, for 
-example `$HOME/spruceid/{didkit,ssi,credible}`.
-
-## Target-Specific Dependencies
-
-### Android Dependencies
-
-To build Credible for Android, you will require both the Android SDK and NDK.
-
-These two dependencies can be easily obtained with [Android
-Studio](https://developer.android.com/studio/install), which install further
-dependencies upon first being opened after installation. Installing the
-appropriate Android NDK (often not the newest) in Android Studio can be
-accomplished by going to Settings > Appearance & Behavior > System Settings >
-Android SDK and selecting to install the "NDK (Side by Side)". An alternative
-method of installing SDK and NDK without Android Studio can be found in the
-optional [install_android_dependencies.sh](install_android_dependencies.sh)
-script included here.
-
-If your Android SDK doesn't live at `$HOME/Android/Sdk` you will need to set
-`ANDROID_SDK_ROOT` like so:
-
-```bash
-$ export ANDROID_SDK_ROOT=/path/to/Android/Sdk
-```
-
-:::note Some users have experienced difficulties with cross-compilation
-artefacts missing from the newest NDK, which is downloaded by default in the
-installation process.  If you experience errors of this kind, you may have to
-manually downgrade or install multiple NDK versions as [shown
-here])(img/ndk_downgrade.png) in the Android Studio installer (screengrabbed
-from an Ubuntu installation). Alternately, running all or parts of the
-[install_android_dependencies.sh](install_android_dependencies.sh) script may be
-helpful.
-
-If your `build-tools` and/or `NDK`  live in different locations than the default ones inside /SDK/, or if you want to specify a specific NDK or build-tools version, you can manually configure the following two environment variables:
-
-```bash
-$ export ANDROID_TOOLS=/path/to/SDK/build-tools/XX.X.X/
-$ export ANDROID_NDK_HOME=/path/to/SDK/ndk/XX.X.XXXXX/
-```
-::: 
-
-### iOS Dependencies
-
-To build Credible for iOS you will need to install CocoaPods, which can be done
-with Homebrew on MacOS.
-
-```bash
-$ brew install cocoapods
-```
-
-## Building DIDKit for different targets
-
-### Android
-
-To build `DIDKit` for the Android targets, you will go to the root of `DIDKit`
-and run:
-
-```bash
-$ make -C lib install-rustup-android
-$ make -C lib ../target/test/java.stamp
-$ make -C lib ../target/test/aar.stamp
-$ make -C lib ../target/test/flutter.stamp
-$ cargo build
-```
-*This may take some time as it compiles the entire project for multiple targets*
-
-### Android APK
-```bash
-$ flutter build apk
-```
-
-### Android App Bundle
-```bash
-$ flutter build appbundle
-```
-
-### iOS
-
-To build DIDKit for the iOS targets, you will go to the root of `DIDKit` and run
-: 
-
-```bash
-$ make -C lib install-rustup-ios 
-$ make -C lib ../target/test/ios.stamp
-$ cargo build
-```
-
-### Web *using WASM*
-
-```bash
-$ make -C lib ../target/test/wasm.stamp
-```
-
-### Web *using ASM.js*
-
-If you have installed `bynarien` somewhere other than $HOME, you will have to
-set `BYNARIEN_ROOT` as shown below, otherwise, just run the `make` command.
-
-```bash
-$ export BINARYEN_ROOT=/path/to/binaryen
-$ make -C lib ../target/test/asmjs.stamp
-```
-
-## Building Credible
-
-You are now ready to build or run Credible.
-
-### Run on emulator
-
-If you want to run the project on your connected device, you can use:
-
-```bash
-$ flutter run
-```
-
-### Run on browser
-
-If you want to run the project on your browser, you can use:
-
-```bash
-$ flutter run -d chrome --csp --release
-```
-
-Otherwise, Flutter allows us to build many artifacts for Android, iOS and WEB,
-below you can find the most common and useful commands, all of which you should
-run from the root of Credible.
-
-### iOS .app for Simulator
-```bash
-$ flutter build ios --simulator
-```
-
-### iOS .app for Devices
-```bash
-$ flutter build ios --no-codesign
-```
-
-### iOS IPA
-```bash
-$ flutter build ipa
-```
-
-### Web
-```bash
-$ flutter build web \
-  --csp \
-  --release
-```
-
-If you don't have support for WASM, you'll probably need to provide your own
-`canvaskit` dependency without WASM as well as DIDKit, to do that you need to
-specify the `FLUTTER_WEB_CANVASKIT_URL` in the build command like below.
-
-```bash
-$ flutter build web \
-  --csp \
-  --dart-define=FLUTTER_WEB_CANVASKIT_URL=vendor/ \
-  --release
-```
-
-For more details about any of these commands you can run
-```bash
-$ flutter build $SUBCOMMAND --help
-```
-
-
-### Note about `canvaskit`
-
-Since by default `canvaskit` comes in a `WASM` build, in order to the `ASM.js`
-be fully supported `canvaskit` was manually built for this target.
-
-A prebuilt `canvaskit` is already included in the Credible web folder.
-If you want to build it by yourself, however, follow these steps:
-
-- Install [`emscripten`](https://emscripten.org/docs/getting_started/downloads.html)
-- Clone [Skia](https://skia.org/user/download) repository and pull its dependencies
-
-```bash
-git clone https://skia.googlesource.com/skia.git --depth 1 --branch canvaskit/0.22.0
-cd skia
-python2 tools/git-sync-deps
-```
-
-- Modify build script `modules/canvaskit/compile.sh`
-
-```
-diff --git a/modules/canvaskit/compile.sh b/modules/canvaskit/compile.sh
-index 6ba58bfae9..51f0297eb6 100755
---- a/modules/canvaskit/compile.sh
-+++ b/modules/canvaskit/compile.sh
-@@ -397,6 +397,7 @@ EMCC_DEBUG=1 ${EMCXX} \
-     -s MODULARIZE=1 \
-     -s NO_EXIT_RUNTIME=1 \
-     -s INITIAL_MEMORY=128MB \
--    -s WASM=1 \
-+    -s WASM=0 \
-+    -s NO_DYNAMIC_EXECUTION=1 \
-     $STRICTNESS \
-     -o $BUILD_DIR/canvaskit.js
-```
-
-- Build `canvaskit`
-
-```bash
-$ cd modules/canvaskit
-$ make debug
-```
-
-- Replace this line on `$SKIA/modules/canvaskit/canvaskit/bin/canvaskit.js`
-
-```git
-618c618
-< var isNode = !(new Function('try {return this===window;}catch(e){ return false;}')());
----
-> var isNode = false;
-```
-
-- Copy `$SKIA/modules/canvaskit/canvaskit/bin/canvaskit.js` to
-`$CREDIBLE/web/vendor/`
-
-- Build Credible as described above.
-
-## Troubleshooting
-
-If you encounter any errors in the build process described here, please first try
-clean builds of the projects listed.
-
-For instance, on Flutter, you can delete build files to start over by running:
-
-```bash
-$ flutter clean
-```
-Also, reviewing the
-[install_android_dependencies.sh](install_android_dependencies.sh) script may be
-helpful.
-
-## Supported Protocols
-
-All QRCode interactions start as listed below:
-
-- User scans a QRCode containing a URL;
-- User is presented the choice to trust the domain in the URL;
-- App makes a GET request to the URL;
-
-Then, depending on the type of message, one of the following protocols will be
-executed.
-
-### CredentialOffer
-
-After receiving a `CredentialOffer` from a trusted host, the app calls the API
-with `subject_id` in the form body, that value is the didKey obtained from the
-private key stored in the `FlutterSecureStorage`, which is backed by KeyStore 
-on Android and Keychain on iOS.
-
-The flow of events and actions is listed below:
-
-- User is presented a credential preview to review and make a decision;
-- App generates `didKey` from the stored private key using `DIDKit.keyToDIDKey`;
-- App makes a POST request to the initial URL with the subject set to the `didKey`;
-- App receives and stores the new credential;
-- User is redirect back to the wallet.
-
-And below is another version of the step-by-step:
-
-| Wallet                   | <sup>1</sup> |       |                      Server |
-| ------------------------ | ------------ | :---: | --------------------------: |
-| Scan QRCode <sup>2</sup> |              |       |
-| Trust Host               | ○ / ×        |       |                             |
-| HTTP GET                 |              |   →   | https://domain.tld/endpoint |
-|                          |              |   ←   |             CredentialOffer |
-| Preview Credential       |              |       |                             |
-| Choose DID               | ○ / ×        |       |                             |
-| HTTP POST <sup>3</sup>   |              |   →   | https://domain.tld/endpoint |
-|                          |              |   ←   |        VerifiableCredential |
-| Verify Credential        |              |       |                             |
-| Store Credential         |              |       |                             |
-
-*<sup>1</sup> Whether this action requires user confirmation, exiting the flow
-early when the user denies.*  
-*<sup>2</sup> The QRCode should contain the HTTP endpoint where the requests
-will be made.*  
-*<sup>3</sup> The body of the request contains a field `subject_id` set to the
-chosen DID.*
-
-### VerifiablePresentationRequest
-
-After receiving a `VerifiablePresentationRequest` from a trusted host, the app
-calls the API with `presentation` the form body, that value is a JSON encoded
-string with the presentation obtained from the selected credential and signed
-with the credential's private key using `DIDKit.issuePresentation`.
-
-Here are some of the parameters used to generate a presentation:
-
-- `presentation`
-  - `id` is set to a random `UUID.v4` string;
-  - `holder` is set to the selected credential's `didKey`;
-  - `verifiableCredential` is set to the credential value;
-- `options`
-  - `verificationMethod` is set to the DID's `verificationMethod` `id`;
-  - `proofPurpose` is set to `'authentication'`;
-  - `challenge` is set to the request's `challenge';
-  - `domain` is set to the request's `domain';
-- `key` is the credential's stored private key;
-
-The flow of events and actions is listed below:
-
-- User is presented a presentation request to review and make a decision;
-- App generates `didKey` from the stored private key using `DIDKit.keyToDIDKey`;
-- App issues a presentation using `DIDKit.issuePresentation`;
-- App makes a POST request to the initial URL with the presentation;
-- User is redirect back to the wallet.
-
-And below is another version of the step-by-step:
-
-| Wallet                       | <sup>1</sup> |       |                        Server |
-| ---------------------------- | ------------ | :---: | ----------------------------: |
-| Scan QRCode <sup>2</sup>     |              |       |
-| Trust Host                   | ○ / ×        |       |                               |
-| HTTP GET                     |              |   →   |   https://domain.tld/endpoint |
-|                              |              |   ←   | VerifiablePresentationRequest |
-| Preview Presentation         |              |       |                               |
-| Choose Verifiable Credential | ○ / ×        |       |                               |
-| HTTP POST <sup>3</sup>       |              |   →   |   https://domain.tld/endpoint |
-|                              |              |   ←   |                        Result |
-
-*<sup>1</sup> Whether this action requires user confirmation, exiting the flow
-early when the user denies.*  
-*<sup>2</sup> The QRCode should contain the HTTP endpoint where the requests
-will be made.*  
-*<sup>3</sup> The body of the request contains a field `presentation` set to the
-verifiable presentation.*
+Android application, iOS
+Wallet DID: did: tz, did: key
+Issuer Supported DIDs: did: tz, did: web, did: key; did: ethr, did: pkh.
+Revocation of VCs: RevocationList2020
+SDK development environment: PHP, Python, NodeJS, java, C, Flutter, ...
+Wallet VC schema : employer certificate, experience certificate, skills certificate, company pass , proof of email, proof of telephone, certificate of residence, loyalty card, diplomas, student card, ...
+Wallet languages: English, French, German, Spanish, Italian
