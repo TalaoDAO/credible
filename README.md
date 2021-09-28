@@ -1,9 +1,9 @@
 ![Talao header](https://avatars.githubusercontent.com/u/36969426?s=200&v=4)
 
 
-[![](https://img.shields.io/badge/Flutter-1.22.6-blue)](https://flutter.dev/docs/get-started/install) [![](https://img.shields.io/badge/ssi-v0.3-green)](https://www.github.com/spruceid/ssi) [![](https://img.shields.io/badge/DIDKit-v0.3-green)](https://www.github.com/spruceid/didkit) [![](https://img.shields.io/badge/License-Apache--2.0-green)](https://github.com/TalaoDAO/talao-wallet/blob/dev-talao/LICENSE)  
+[![](https://img.shields.io/badge/Flutter-1.22.6-blue)](https://flutter.dev/docs/get-started/install) [![](https://img.shields.io/badge/ssi-v0.3-green)](https://www.github.com/spruceid/ssi) [![](https://img.shields.io/badge/DIDKit-v0.3-green)](https://www.github.com/spruceid/didkit) [![](https://img.shields.io/badge/License-Apache--2.0-green)](https://github.com/TalaoDAO/talao-wallet/blob/dev-talao/LICENSE) 
 
-# Talao SSI wallat
+# Talao SSI wallet
 
 ## Motivation 
 
@@ -22,7 +22,7 @@ Finally, our project is to offer for the first time a smartphone wallet availabl
 To achieve these objectives we have opted for a minimalist design adapted to the use cases of today's SSI and based on W3C standards. The wallet exclusively supports Verifiable Credentials in JSON-LD format, the Decentralized Identifier (DIDs) standard and the Credential Status List 2020 specifications for the revocation of VCs.
 
 
-For the interaction of the wallet with Issuers and Verifiers, which is a decisive function in the implementation of this type of solution, we have retained the specifications of the [W3C Presentation Request]( https://w3c-ccg.github.io/vp-request-spec/ ) as well as the [Spruce protocol] (https://github.com/spruceid/credible#supported-protocols)  for the management of the QR Code on a HTTPS transport layer. This protocol has the advantage of being quick and easy to implement while providing most of the necessary functions. There are currently several very promising protocols that are being defined or even in production but they seem to us too complex and ultimately useless for current use cases which remain simple.
+For the interaction of the wallet with Issuers and Verifiers, which is a decisive function in the implementation of this type of solution, we have retained the specifications of the [W3C Presentation Request]( https://w3c-ccg.github.io/vp-request-spec/ ) as well as the [Spruce protocol]( https://github.com/spruceid/credible#supported-protocols )  for the management of the QR Code on a HTTPS transport layer. This protocol has the advantage of being quick and easy to implement while providing most of the necessary functions. There are currently several very promising protocols that are being defined or even in production but they seem to us too complex and ultimately useless for current use cases which remain simple.
 
 
 The chain of trust which is essential in all SSI models must allow the Holder with the wallet to ensure that he/she interacts with a legitimate third party by having reliable and quality sources of data. This is particularly sensitive when it comes to transferring some of the VCs from his wallet to a Verifier. Many models exist (public or private trust registers, well-known resources, etc.), it seemed important to us to be able to integrate these approaches as well as the various institutions and partners who support them in the wallet services. However, this service remains optional at the user's discretion.
@@ -31,7 +31,7 @@ The chain of trust which is essential in all SSI models must allow the Holder wi
 The protection of the user's personal data has also been a primary concern. It resulted in the strict application of the rules of the GDPR and in particular by the use of DID formats that do not require writing on a blockchain as well as by the request for the user's agreement on certain features.
 
 
-For the developments we used the [Didkit sdk from Spruce] (https://spruceid.dev/docs/didkit/ ) and the [Credible]( https://spruceid.dev/docs/credible/ ) platform from the company Spruce. The tools offered by Spruce are probably the only ones allowing in a cross-platform environment to support so many identity models and signature suites adapted to the JSON-LD format. The Crédible platform was our starting point and allowed us to save a lot of time. Our work focused on a specific support for the VCs of our use cases, and the enrichment of the interaction protocol between the wallet and the Issuers and Verifiers to accommodate new ones. All of these features allow an Issuer to customize the support for their own VCs in a matter of minutes.
+For the developments we used the [didkit sdk](https://spruceid.dev/docs/didkit/ ) from Spruce and the [Credible]( https://spruceid.dev/docs/credible/ ) platform from the company Spruce. The tools offered by Spruce are probably the only ones allowing in a cross-platform environment to support so many identity models and signature suites adapted to the JSON-LD format. The Crédible platform was our starting point and allowed us to save a lot of time. Our work focused on a specific support for the VCs of our use cases, and the enrichment of the interaction protocol between the wallet and the Issuers and Verifiers to accommodate new ones. All of these features allow an Issuer to customize the support for their own VCs in a matter of minutes.
 
 
 The wallet code is open source under the Apache license available on github. The wallet is free to download on the google and IOS stores in 5 languages. Talao provides support to all teams who wish to integrate a wallet in the ISS format in their project. A digital safe allowing the user to archive his VCs or possibly to publish them is also available on the talao.co website
@@ -40,10 +40,10 @@ The wallet code is open source under the Apache license available on github. The
 ## Technical characteristics 
 
 
-Android application, iOS
-Wallet DID: did: tz, did: key
-Issuer Supported DIDs: did: tz, did: web, did: key; did: ethr, did: pkh.
-Revocation of VCs: RevocationList2020
-SDK development environment: PHP, Python, NodeJS, java, C, Flutter, ...
-Wallet VC schema : employer certificate, experience certificate, skills certificate, company pass , proof of email, proof of telephone, certificate of residence, loyalty card, diplomas, student card, ...
-Wallet languages: English, French, German, Spanish, Italian
+* Android application, iOS
+* Wallet DID: did: tz, did: key
+* Issuer Supported DIDs: did: tz, did: web, did: key; did: ethr, did: pkh.
+* Revocation of VCs: RevocationList2020
+* SDK development environment: PHP, Python, NodeJS, java, C, Flutter, ...
+* Wallet VC schema : employer certificate, experience certificate, skills certificate, company pass , proof of email, proof of telephone, certificate of residence, loyalty card, diplomas, student card, ...
+* Wallet languages: English, French, German, Spanish, Italian
