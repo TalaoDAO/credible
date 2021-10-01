@@ -190,7 +190,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
 
       final repository = Modular.get<CredentialsRepository>();
       await repository.insert(
-          CredentialModel.fromMap({'alias': alias, 'data': jsonCredential}));
+          CredentialModel.fromJson({'alias': alias, 'data': jsonCredential}));
 
       yield ScanStateMessage(StateMessage.success(
           'A new credential has been successfully added!'));
@@ -439,8 +439,8 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
           'id': presentationId,
           'holder': did,
           'verifiableCredential': credentials.length == 1
-              ? credentials.first.toMap()
-              : credentials.map((c) => c.toMap()).toList(),
+              ? credentials.first.toJson()
+              : credentials.map((c) => c.toJson()).toList(),
         }),
         jsonEncode({
           'verificationMethod': verificationMethod,

@@ -19,7 +19,7 @@ class CredentialsRepository extends Disposable {
     final store = intMapStoreFactory.store('credentials');
     final data = await store.find(db);
 
-    return data.map((m) => CredentialModel.fromMap(m.value)).toList();
+    return data.map((m) => CredentialModel.fromJson(m.value)).toList();
   }
 
   Future<CredentialModel?> findById(String id) async {
@@ -34,7 +34,7 @@ class CredentialsRepository extends Disposable {
 
     if (data.isEmpty) return null;
 
-    return CredentialModel.fromMap(data.first.value);
+    return CredentialModel.fromJson(data.first.value);
   }
 
   Future<int> deleteAll() async {
@@ -60,7 +60,7 @@ class CredentialsRepository extends Disposable {
   Future<int> insert(CredentialModel credential) async {
     final db = await WalletDatabase.db;
     final store = intMapStoreFactory.store('credentials');
-    return await store.add(db, credential.toMap());
+    return await store.add(db, credential.toJson());
   }
 
   Future<int> update(CredentialModel credential) async {
@@ -68,7 +68,7 @@ class CredentialsRepository extends Disposable {
     final store = intMapStoreFactory.store('credentials');
     return await store.update(
       db,
-      credential.toMap(),
+      credential.toJson(),
       finder: Finder(
         filter: Filter.equals('id', credential.id),
         limit: 1,

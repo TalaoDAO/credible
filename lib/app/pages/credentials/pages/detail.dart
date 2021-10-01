@@ -101,14 +101,12 @@ class _CredentialsDetailState
 
     if (newAlias != null && newAlias != widget.item.alias) {
       logger.info('New alias is different, going to update credential');
-
-      final newCredential = CredentialModel(
-          id: widget.item.id,
-          alias: newAlias.isEmpty ? null : newAlias,
-          image: widget.item.image,
-          data: widget.item.data);
-      await store.updateCredential(newCredential);
     }
+    final newCredential = CredentialModel.copyWithAlias(
+      oldCredentialModel: widget.item,
+      newAlias: newAlias ?? '',
+    );
+    await store.updateCredential(newCredential);
   }
 
   @override

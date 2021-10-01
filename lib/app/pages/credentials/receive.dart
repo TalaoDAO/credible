@@ -59,7 +59,7 @@ class _CredentialsReceivePageState
           }
 
           if (state is ScanStatePreview) {
-            final credential = CredentialModel.fromMap(
+            final credential = CredentialModel.fromJson(
                 {'data': state.preview['credentialPreview']});
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,

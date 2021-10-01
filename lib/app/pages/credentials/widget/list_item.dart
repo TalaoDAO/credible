@@ -154,8 +154,6 @@ class CredentialsListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final credential = Credential.fromJsonOrDummy(item.data);
-
     return _BaseItem(
       enabled: !(item.status != CredentialStatus.active),
       onTap: onTap ??
@@ -163,7 +161,7 @@ class CredentialsListItem extends StatelessWidget {
                 '/credentials/detail',
                 arguments: item,
               ),
-      color: credential.backgroundColor,
+      color: item.backgroundColor,
       child: displayListElement(context),
     );
   }
@@ -200,7 +198,7 @@ class CredentialsListItem extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: credential.displayList(context, item),
+          child: item.displayList(context, item),
         ),
       ],
     );

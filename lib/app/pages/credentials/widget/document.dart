@@ -57,7 +57,7 @@ class DocumentWidget extends StatelessWidget {
       ),
       child: Container(
         decoration: BaseBoxDecoration(
-          color: credential.backgroundColor,
+          color: model.backgroundColor,
           shapeColor: UiKit.palette.credentialDetail.withOpacity(0.05),
           value: 0.0,
           shapeSize: 256.0,
@@ -74,11 +74,9 @@ class DocumentWidget extends StatelessWidget {
   }
 
   Widget displayCredentialDetail(BuildContext context) {
-    final credential = Credential.fromJsonOrErrorPage(model.data);
-
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: credential.displayDetail(context, model),
+      child: model.displayDetail(context, model),
     );
   }
 }
