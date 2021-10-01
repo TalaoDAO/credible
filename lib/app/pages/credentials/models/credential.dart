@@ -21,29 +21,28 @@ class CredentialModel {
   final String shareLink;
   @JsonKey(fromJson: fromJsonDisplay)
   final Display display;
-  @JsonKey(ignore: true)
-  late Credential credential;
+  final Credential credentialPreview;
   // @JsonKey(fromJson: fromJsonDisplay)
   // final Scope display;
 
-  CredentialModel({
-    required this.id,
-    required this.alias,
-    required this.image,
-    required this.data,
-    required this.shareLink,
-    required this.display,
-  }) {
-    this.credential = Credential.fromJson(data);
-  }
-
+  CredentialModel(
+      {required this.id,
+      required this.alias,
+      required this.image,
+      required this.credentialPreview,
+      required this.shareLink,
+      required this.display,
+      required this.data});
   factory CredentialModel.fromJson(Map<String, dynamic> json) {
-    assert(json.containsKey('data'));
+    Map<String, dynamic> newJson = Map.from(json);
+    if (newJson['data'] != null) {
+      newJson.putIfAbsent('credentialPreview', () => newJson['data']);
+    }
+    if (newJson['credentialPreview'] != null) {
+      newJson.putIfAbsent('data', () => newJson['credentialPreview']);
+    }
 
-    final data = json['data'] as Map<String, dynamic>;
-    assert(data.containsKey('issuer'));
-
-    return _$CredentialModelFromJson(json);
+    return _$CredentialModelFromJson(newJson);
   }
 
   Map<String, dynamic> toJson() => _$CredentialModelToJson(this);
@@ -73,8 +72,10 @@ class CredentialModel {
       data: oldCredentialModel.data,
       shareLink: oldCredentialModel.shareLink,
       display: oldCredentialModel.display,
+      credentialPreview: oldCredentialModel.credentialPreview,
     );
   }
+
   static String fromJsonId(json) {
     if (json == null || json == '') {
       return Uuid().v4();
@@ -101,7 +102,7 @@ class CredentialModel {
       _backgroundColor =
           Color(int.parse(display.backgroundColor.substring(1), radix: 16));
     } else {
-      _backgroundColor = credential.credentialSubject.backgroundColor;
+      _backgroundColor = credentialPreview.credentialSubject.backgroundColor;
     }
     return _backgroundColor;
   }
@@ -117,7 +118,7 @@ class CredentialModel {
           padding: const EdgeInsets.all(8.0),
           child: displayDescription(context),
         ),
-        credential.credentialSubject.displayDetail(context, item),
+        credentialPreview.credentialSubject.displayDetail(context, item),
       ],
     );
   }
@@ -133,7 +134,7 @@ class CredentialModel {
           padding: const EdgeInsets.all(8.0),
           child: displayDescription(context),
         ),
-        DisplayIssuer(issuer: credential.credentialSubject.issuedBy)
+        DisplayIssuer(issuer: credentialPreview.credentialSubject.issuedBy)
       ],
     );
   }
@@ -146,7 +147,7 @@ class CredentialModel {
       _nameValue = display.nameFallback;
     }
     if (_nameValue == '') {
-      _nameValue = credential.type.last;
+      _nameValue = credentialPreview.type.last;
     }
 
     return _nameValue;
@@ -182,7 +183,7 @@ class CredentialModel {
   }
 
   Widget displayName(BuildContext context) {
-    final nameValue = getName(context, credential.name);
+    final nameValue = getName(context, credentialPreview.name);
     return Text(nameValue.toString(),
         style: Theme.of(context)
             .textTheme
@@ -191,7 +192,7 @@ class CredentialModel {
   }
 
   Widget displayDescription(BuildContext context) {
-    final nameValue = getDescription(context, credential.description);
+    final nameValue = getDescription(context, credentialPreview.description);
     return Text(
       nameValue.toString(),
     );
