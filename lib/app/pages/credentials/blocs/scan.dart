@@ -23,12 +23,12 @@ class ScanEventShowPreview extends ScanEvent {
 
 class ScanEventCredentialOffer extends ScanEvent {
   final String url;
-  final String? alias;
+  final CredentialModel credentialModel;
   final String key;
 
   ScanEventCredentialOffer(
     this.url,
-    this.alias,
+    this.credentialModel,
     this.key,
   );
 }
@@ -141,7 +141,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
     yield ScanStateWorking();
 
     final url = event.url;
-    final alias = event.alias;
+    final alias = event.credentialModel;
     final keyId = event.key;
 
     try {

@@ -13,7 +13,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CredentialsReceivePage extends StatefulWidget {
   final Uri url;
-  final void Function(String?) onSubmit;
+  final void Function(CredentialModel) onSubmit;
 
   const CredentialsReceivePage({
     Key? key,
@@ -101,7 +101,8 @@ class _CredentialsReceivePageState
                       ),
                     );
 
-                    widget.onSubmit(alias);
+                    widget.onSubmit(CredentialModel.copyWithAlias(
+                        oldCredentialModel: credential, newAlias: alias));
                   },
                   child: Text(localizations.credentialReceiveConfirm),
                 ),

@@ -64,10 +64,11 @@ class CredentialModel {
   }
 
   factory CredentialModel.copyWithAlias(
-      {required CredentialModel oldCredentialModel, required String newAlias}) {
+      {required CredentialModel oldCredentialModel,
+      required String? newAlias}) {
     return CredentialModel(
       id: oldCredentialModel.id,
-      alias: newAlias,
+      alias: newAlias ?? '',
       image: oldCredentialModel.image,
       data: oldCredentialModel.data,
       shareLink: oldCredentialModel.shareLink,
@@ -100,7 +101,7 @@ class CredentialModel {
     Color _backgroundColor;
     if (display.backgroundColor != '' && display.backgroundColor != null) {
       _backgroundColor =
-          Color(int.parse(display.backgroundColor.substring(1), radix: 16));
+          Color(int.parse('FF${display.backgroundColor}', radix: 16));
     } else {
       _backgroundColor = credentialPreview.credentialSubject.backgroundColor;
     }
