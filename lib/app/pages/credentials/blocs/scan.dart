@@ -141,7 +141,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
     yield ScanStateWorking();
 
     final url = event.url;
-    final alias = event.credentialModel;
+    final credentialModel = event.credentialModel;
     final keyId = event.key;
 
     try {
@@ -189,8 +189,9 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       }
 
       final repository = Modular.get<CredentialsRepository>();
-      await repository.insert(
-          CredentialModel.fromJson({'alias': alias, 'data': jsonCredential}));
+
+      await repository.insert(CredentialModel.copyWithData(
+          oldCredentialModel: credentialModel, newData: jsonCredential));
 
       yield ScanStateMessage(StateMessage.success(
           'A new credential has been successfully added!'));

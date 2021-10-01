@@ -77,6 +77,20 @@ class CredentialModel {
     );
   }
 
+  factory CredentialModel.copyWithData(
+      {required CredentialModel oldCredentialModel,
+      required Map<String, dynamic> newData}) {
+    return CredentialModel(
+      id: oldCredentialModel.id,
+      alias: oldCredentialModel.alias,
+      image: oldCredentialModel.image,
+      data: newData,
+      shareLink: oldCredentialModel.shareLink,
+      display: oldCredentialModel.display,
+      credentialPreview: oldCredentialModel.credentialPreview,
+    );
+  }
+
   static String fromJsonId(json) {
     if (json == null || json == '') {
       return Uuid().v4();
