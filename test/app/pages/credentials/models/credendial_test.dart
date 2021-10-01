@@ -12,7 +12,6 @@ void main() {
           image: 'image',
           data: {'issuer': 'did:...'},
           display: Display.emptyDisplay(),
-          credential: Credential.dummy(),
           shareLink: '');
       final m = credential.toJson();
 
