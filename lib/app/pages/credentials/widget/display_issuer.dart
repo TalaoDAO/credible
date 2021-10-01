@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:talao/app/shared/model/author.dart';
 
 class DisplayIssuer extends StatelessWidget {
@@ -12,7 +11,6 @@ class DisplayIssuer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: (issuer.name != '')

@@ -1,12 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:talao/app/pages/credentials/models/credential.dart';
-import 'package:talao/app/pages/credentials/widget/display_issuer.dart';
 import 'package:talao/app/shared/model/author.dart';
 import 'package:talao/app/shared/model/credential_subject.dart';
 import 'package:talao/app/shared/model/default_credential_subject/default_credential_subject.dart';
 import 'package:talao/app/shared/model/proof.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:talao/app/shared/model/translation.dart';
 

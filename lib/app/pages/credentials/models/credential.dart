@@ -113,7 +113,7 @@ class CredentialModel {
 
   Color get backgroundColor {
     Color _backgroundColor;
-    if (display.backgroundColor != '' && display.backgroundColor != null) {
+    if (display.backgroundColor != '') {
       _backgroundColor =
           Color(int.parse('FF${display.backgroundColor}', radix: 16));
     } else {

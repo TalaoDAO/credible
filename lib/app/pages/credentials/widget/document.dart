@@ -1,6 +1,5 @@
 import 'package:talao/app/pages/credentials/models/credential.dart';
 import 'package:talao/app/pages/credentials/models/credential_status.dart';
-import 'package:talao/app/shared/model/credential.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/box_decoration.dart';
 import 'package:flutter/cupertino.dart';
@@ -41,8 +40,6 @@ class DocumentWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final credential = Credential.fromJsonOrErrorPage(model.data);
-
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
