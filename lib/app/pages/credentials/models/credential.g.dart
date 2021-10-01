@@ -14,7 +14,6 @@ CredentialModel _$CredentialModelFromJson(Map<String, dynamic> json) {
     data: json['data'] as Map<String, dynamic>,
     shareLink: json['shareLink'] as String? ?? '',
     display: CredentialModel.fromJsonDisplay(json['display']),
-    credential: Credential.fromJson(json['credential'] as Map<String, dynamic>),
   );
 }
 
@@ -26,5 +25,4 @@ Map<String, dynamic> _$CredentialModelToJson(CredentialModel instance) =>
       'data': instance.data,
       'shareLink': instance.shareLink,
       'display': instance.display,
-      'credential': instance.credential,
     };

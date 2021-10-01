@@ -21,18 +21,21 @@ class CredentialModel {
   final String shareLink;
   @JsonKey(fromJson: fromJsonDisplay)
   final Display display;
-  final Credential credential;
+  @JsonKey(ignore: true)
+  late Credential credential;
   // @JsonKey(fromJson: fromJsonDisplay)
   // final Scope display;
 
-  const CredentialModel(
-      {required this.id,
-      required this.alias,
-      required this.image,
-      required this.data,
-      required this.shareLink,
-      required this.display,
-      required this.credential});
+  CredentialModel({
+    required this.id,
+    required this.alias,
+    required this.image,
+    required this.data,
+    required this.shareLink,
+    required this.display,
+  }) {
+    this.credential = Credential.fromJson(data);
+  }
 
   factory CredentialModel.fromJson(Map<String, dynamic> json) {
     assert(json.containsKey('data'));
@@ -64,13 +67,13 @@ class CredentialModel {
   factory CredentialModel.copyWithAlias(
       {required CredentialModel oldCredentialModel, required String newAlias}) {
     return CredentialModel(
-        id: oldCredentialModel.id,
-        alias: newAlias,
-        image: oldCredentialModel.image,
-        data: oldCredentialModel.data,
-        shareLink: oldCredentialModel.shareLink,
-        display: oldCredentialModel.display,
-        credential: oldCredentialModel.credential);
+      id: oldCredentialModel.id,
+      alias: newAlias,
+      image: oldCredentialModel.image,
+      data: oldCredentialModel.data,
+      shareLink: oldCredentialModel.shareLink,
+      display: oldCredentialModel.display,
+    );
   }
   static String fromJsonId(json) {
     if (json == null || json == '') {
