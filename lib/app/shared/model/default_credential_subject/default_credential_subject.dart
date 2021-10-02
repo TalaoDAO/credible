@@ -7,7 +7,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'default_credential_subject.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class DefaultCredentialSubject extends CredentialSubject {
   @override
   final String id;

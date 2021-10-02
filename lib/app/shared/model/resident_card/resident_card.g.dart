@@ -36,7 +36,7 @@ Map<String, dynamic> _$ResidentCardToJson(ResidentCard instance) =>
       'identifier': instance.identifier,
       'familyName': instance.familyName,
       'image': instance.image,
-      'issuedBy': instance.issuedBy,
+      'issuedBy': instance.issuedBy.toJson(),
       'birthDate': instance.birthDate,
       'givenName': instance.givenName,
     };

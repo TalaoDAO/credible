@@ -26,6 +26,6 @@ Map<String, dynamic> _$CredentialModelToJson(CredentialModel instance) =>
       'image': instance.image,
       'data': instance.data,
       'shareLink': instance.shareLink,
-      'display': instance.display,
-      'credentialPreview': instance.credentialPreview,
+      'credentialPreview': instance.credentialPreview.toJson(),
+      'display': instance.display.toJson(),
     };

@@ -30,9 +30,9 @@ Map<String, dynamic> _$CertificateOfEmploymentToJson(
       'familyName': instance.familyName,
       'givenName': instance.givenName,
       'startDate': instance.startDate,
-      'workFor': instance.workFor,
+      'workFor': instance.workFor.toJson(),
       'employmentType': instance.employmentType,
       'jobTitle': instance.jobTitle,
       'baseSalary': instance.baseSalary,
-      'issuedBy': instance.issuedBy,
+      'issuedBy': instance.issuedBy.toJson(),
     };

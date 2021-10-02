@@ -13,7 +13,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'credential_subject.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class CredentialSubject {
   final String id;
   final String type;

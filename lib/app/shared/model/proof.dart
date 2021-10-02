@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'proof.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Proof {
   final String type;
   final String proofPurpose;

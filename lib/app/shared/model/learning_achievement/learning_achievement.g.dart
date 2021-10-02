@@ -28,6 +28,6 @@ Map<String, dynamic> _$LearningAchievementToJson(
       'givenName': instance.givenName,
       'email': instance.email,
       'birthDate': instance.birthDate,
-      'hasCredential': instance.hasCredential,
-      'issuedBy': instance.issuedBy,
+      'hasCredential': instance.hasCredential.toJson(),
+      'issuedBy': instance.issuedBy.toJson(),
     };

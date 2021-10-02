@@ -27,11 +27,11 @@ Map<String, dynamic> _$ProfessionalExperienceAssessmentToJson(
         ProfessionalExperienceAssessment instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'skills': instance.skills,
+      'skills': instance.skills.map((e) => e.toJson()).toList(),
       'title': instance.title,
       'endDate': instance.endDate,
       'startDate': instance.startDate,
-      'issuedBy': instance.issuedBy,
+      'issuedBy': instance.issuedBy.toJson(),
       'expires': instance.expires,
       'email': instance.email,
       'type': instance.type,

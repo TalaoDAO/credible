@@ -8,7 +8,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 part 'email_pass.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class EmailPass extends CredentialSubject {
   @JsonKey(defaultValue: '')
   final String expires;

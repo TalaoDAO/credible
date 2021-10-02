@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'professional_experience_assessment_recipient.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class ProfessionalExperienceAssessmentRecipient {
   @JsonKey(defaultValue: '')
   final String name;

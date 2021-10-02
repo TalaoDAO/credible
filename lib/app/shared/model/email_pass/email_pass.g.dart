@@ -21,5 +21,5 @@ Map<String, dynamic> _$EmailPassToJson(EmailPass instance) => <String, dynamic>{
       'email': instance.email,
       'id': instance.id,
       'type': instance.type,
-      'issuedBy': instance.issuedBy,
+      'issuedBy': instance.issuedBy.toJson(),
     };

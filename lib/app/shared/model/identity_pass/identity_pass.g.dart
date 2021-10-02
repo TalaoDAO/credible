@@ -18,9 +18,9 @@ IdentityPass _$IdentityPassFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$IdentityPassToJson(IdentityPass instance) =>
     <String, dynamic>{
-      'recipient': instance.recipient,
+      'recipient': instance.recipient.toJson(),
       'expires': instance.expires,
-      'issuedBy': instance.issuedBy,
+      'issuedBy': instance.issuedBy.toJson(),
       'id': instance.id,
       'type': instance.type,
     };

@@ -9,7 +9,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 part 'professional_experience_assessment.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class ProfessionalExperienceAssessment extends CredentialSubject {
   @override
   final String id;

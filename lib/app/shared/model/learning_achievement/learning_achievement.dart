@@ -10,7 +10,7 @@ import 'package:talao/app/shared/widget/base/credential_field.dart';
 
 part 'learning_achievement.g.dart';
 
-@JsonSerializable(includeIfNull: false)
+@JsonSerializable(includeIfNull: false, explicitToJson: true)
 class LearningAchievement extends CredentialSubject {
   @override
   String id;

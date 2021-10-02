@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'skill.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Skill {
   @JsonKey(defaultValue: '', name: '@type')
   final String type;

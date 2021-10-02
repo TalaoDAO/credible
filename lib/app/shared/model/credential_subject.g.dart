@@ -18,5 +18,5 @@ Map<String, dynamic> _$CredentialSubjectToJson(CredentialSubject instance) =>
     <String, dynamic>{
       'id': instance.id,
       'type': instance.type,
-      'issuedBy': instance.issuedBy,
+      'issuedBy': instance.issuedBy.toJson(),
     };

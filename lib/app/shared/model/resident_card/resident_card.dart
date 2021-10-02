@@ -7,7 +7,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 part 'resident_card.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class ResidentCard extends CredentialSubject {
   @override
   final String id;

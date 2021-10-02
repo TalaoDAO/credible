@@ -10,7 +10,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 part 'credential.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class CredentialModel {
   @JsonKey(fromJson: fromJsonId)
   final String id;
@@ -19,9 +19,9 @@ class CredentialModel {
   final Map<String, dynamic> data;
   @JsonKey(defaultValue: '')
   final String shareLink;
+  final Credential credentialPreview;
   @JsonKey(fromJson: fromJsonDisplay)
   final Display display;
-  final Credential credentialPreview;
   // @JsonKey(fromJson: fromJsonDisplay)
   // final Scope display;
 

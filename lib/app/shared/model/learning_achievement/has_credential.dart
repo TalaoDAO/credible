@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'has_credential.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class HasCredential {
   @JsonKey(defaultValue: '')
   final String title;

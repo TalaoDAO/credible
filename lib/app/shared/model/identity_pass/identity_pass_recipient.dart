@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'identity_pass_recipient.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class IdentityPassRecipient {
   @JsonKey(defaultValue: '')
   final String email;

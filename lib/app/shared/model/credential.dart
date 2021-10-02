@@ -8,7 +8,7 @@ import 'package:talao/app/shared/model/translation.dart';
 
 part 'credential.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Credential {
   final String id;
   final List<String> type;

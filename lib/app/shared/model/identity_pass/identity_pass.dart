@@ -9,7 +9,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 part 'identity_pass.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class IdentityPass extends CredentialSubject {
   final IdentityPassRecipient recipient;
   @JsonKey(defaultValue: '')

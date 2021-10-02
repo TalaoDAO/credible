@@ -28,9 +28,9 @@ Map<String, dynamic> _$CredentialToJson(Credential instance) =>
       'id': instance.id,
       'type': instance.type,
       'issuer': instance.issuer,
-      'description': instance.description,
-      'name': instance.name,
+      'description': instance.description.map((e) => e.toJson()).toList(),
+      'name': instance.name.map((e) => e.toJson()).toList(),
       'issuanceDate': instance.issuanceDate,
-      'proof': instance.proof,
-      'credentialSubject': instance.credentialSubject,
+      'proof': instance.proof.map((e) => e.toJson()).toList(),
+      'credentialSubject': instance.credentialSubject.toJson(),
     };
