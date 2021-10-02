@@ -1,4 +1,4 @@
-import 'package:talao/app/pages/credentials/models/credential.dart';
+import 'package:talao/app/pages/credentials/models/credential_model.dart';
 import 'package:talao/app/pages/credentials/widget/display_issuer.dart';
 import 'package:talao/app/shared/model/author.dart';
 import 'package:talao/app/shared/model/certificate_of_employment/work_for.dart';

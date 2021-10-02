@@ -21,8 +21,6 @@ class Credential {
   @JsonKey(fromJson: _fromJsonProofs)
   final List<Proof> proof;
   final CredentialSubject credentialSubject;
-  // @JsonKey(fromJson: _fromJsonScope)
-  // final List<String> scope;
 
   Credential(
     this.id,
@@ -33,7 +31,6 @@ class Credential {
     this.credentialSubject,
     this.description,
     this.name,
-    // this.scope,
   );
 
   factory Credential.fromJson(Map<String, dynamic> json) {
@@ -55,7 +52,6 @@ class Credential {
       DefaultCredentialSubject('dummy', 'dummy', Author('', '')),
       [Translation('en', '')],
       [Translation('en', '')],
-      // ['dummy'],
     );
   }
 
@@ -72,16 +68,6 @@ class Credential {
     }
     return [Proof.fromJson(json)];
   }
-
-  // static List<String> _fromJsonScope(json) {
-  //   if (json is List) {
-  //     return (json)
-  //         .map((e) => Proof.fromJson(e as Map<String, dynamic>))
-  //         .toList();
-  //   }
-  //   return [Proof.fromJson(json)];
-  //
-  // }
 
   static List<Translation> _fromJsonTranslations(json) {
     if (json == null || json == '') {

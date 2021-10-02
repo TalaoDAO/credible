@@ -1,4 +1,4 @@
-import 'package:talao/app/pages/credentials/models/credential.dart';
+import 'package:talao/app/pages/credentials/models/credential_model.dart';
 import 'package:talao/app/pages/credentials/widget/document/item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';

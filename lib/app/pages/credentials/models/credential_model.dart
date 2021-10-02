@@ -8,7 +8,7 @@ import 'package:uuid/uuid.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-part 'credential.g.dart';
+part 'credential_model.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class CredentialModel {

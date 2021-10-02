@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/pages/credentials/blocs/wallet.dart';
-import 'package:talao/app/pages/credentials/models/credential.dart';
+import 'package:talao/app/pages/credentials/models/credential_model.dart';
 import 'package:talao/app/pages/credentials/models/verification_state.dart';
 import 'package:talao/app/pages/credentials/widget/document.dart';
 import 'package:talao/app/shared/ui/ui.dart';

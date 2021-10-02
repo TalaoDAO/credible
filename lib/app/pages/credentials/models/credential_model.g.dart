@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'credential.dart';
+part of 'credential_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

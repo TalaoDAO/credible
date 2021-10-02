@@ -1,5 +1,5 @@
 import 'package:talao/app/pages/credentials/database.dart';
-import 'package:talao/app/pages/credentials/models/credential.dart';
+import 'package:talao/app/pages/credentials/models/credential_model.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:sembast/sembast.dart';
 
