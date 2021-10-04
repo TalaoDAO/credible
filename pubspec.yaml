@@ -56,7 +56,6 @@ dependencies:
 #  firebase_core: ^1.4.0
 #  firebase_dynamic_links: ^2.0.7
   package_info_plus: ^1.0.6
-  cube_transition: ^1.0.2
 
 
 dev_dependencies:
@@ -88,7 +87,7 @@ flutter:
     - assets/brand/logo-minimal.svg
     - assets/brand/spruce-icon.svg
     - assets/brand/logo_talao.png
-    - assets/brand/slide_talao.jpeg
+    - assets/image/slide_talao.jpeg
     - assets/icon/domain.svg
     - assets/icon/profile.svg
     - assets/icon/profile-filled.svg
