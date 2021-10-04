@@ -12,9 +12,9 @@ class OnBoardingStartPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
     final slides = [
-      'assets/image/slide_talao.jpeg',
-      'assets/image/slide_talao.jpeg',
-      'assets/image/slide_talao.jpeg'
+      'assets/image/slide_1.png',
+      'assets/image/slide_2.png',
+      'assets/image/slide_3.png'
     ];
     return BasePage(
       scrollView: true,
@@ -23,28 +23,35 @@ class OnBoardingStartPage extends StatelessWidget {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: CubePageView.builder(
-              itemCount: 3,
-              itemBuilder: (context, index, notifier) {
-                final item = slides[index];
-                final transform = Matrix4.identity();
-                final t = (index - notifier).abs();
-                final scale = lerpDouble(1.5, 0, t);
-                transform.scale(scale, scale);
-                return CubeWidget(
-                  index: index,
-                  pageNotifier: notifier,
-                  key: Key('custom_cube_widget'),
-                  child: Stack(
-                    children: [
-                      Image.asset(item),
-                    ],
-                  ),
-                );
-              },
-              onPageChanged: (int value) {},
-              controller: PageController(),
-              key: Key('onPageChanged_controller'),
+            child: Container(
+              height: 200,
+              width: 250,
+              child: CubePageView.builder(
+                itemCount: 3,
+                itemBuilder: (context, index, notifier) {
+                  final item = slides[index];
+                  final transform = Matrix4.identity();
+                  final t = (index - notifier).abs();
+                  final scale = lerpDouble(1.5, 0, t);
+                  transform.scale(scale, scale);
+                  return CubeWidget(
+                    index: index,
+                    pageNotifier: notifier,
+                    key: Key('custom_cube_widget$index'),
+                    child: Stack(
+                      children: [
+                        Image.asset(
+                          item,
+                          height: 200,
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                onPageChanged: (int value) {},
+                controller: PageController(),
+                key: Key('onPageChanged_controller'),
+              ),
             ),
           ),
           Padding(
