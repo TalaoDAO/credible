@@ -87,7 +87,7 @@ class CredentialModel {
       data: newData,
       shareLink: oldCredentialModel.shareLink,
       display: oldCredentialModel.display,
-      credentialPreview: oldCredentialModel.credentialPreview,
+      credentialPreview: Credential.fromJson(newData),
     );
   }
 
