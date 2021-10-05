@@ -120,23 +120,12 @@ class _CredentialsDetailState
           : localizations.credential,
       titleTag: 'credential/${widget.item.alias ?? widget.item.id}/issuer',
       titleLeading: BackLeadingButton(),
-      titleTrailing: Row(
-        children: [
-          IconButton(
-            onPressed: _edit,
-            icon: Icon(
-              Icons.edit,
-              color: UiKit.palette.icon,
-            ),
-          ),
-          IconButton(
-            onPressed: goBack,
-            icon: Icon(
-              Icons.close,
-              color: UiKit.palette.icon,
-            ),
-          ),
-        ],
+      titleTrailing: IconButton(
+        onPressed: _edit,
+        icon: Icon(
+          Icons.edit,
+          color: UiKit.palette.icon,
+        ),
       ),
       navigation: SafeArea(
         child: Container(
@@ -233,8 +222,4 @@ class _CredentialsDetailState
       ),
     );
   }
-
-  final VoidCallback goBack = () {
-    Modular.to.pushReplacementNamed('/credentials/list');
-  };
 }
