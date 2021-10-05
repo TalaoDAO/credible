@@ -53,9 +53,16 @@ class LearningAchievement extends CredentialSubject {
         CredentialField(title: localizations.lastName, value: givenName),
         CredentialField(title: localizations.personalMail, value: email),
         CredentialField(title: localizations.birthdate, value: birthDate),
-        CredentialField(
-            title: localizations.learningAchievement,
-            value: hasCredential.title),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            hasCredential.title,
+            style: TextStyle(inherit: true, fontWeight: FontWeight.w700),
+            maxLines: 5,
+            overflow: TextOverflow.fade,
+            softWrap: true,
+          ),
+        ),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(hasCredential.description),
