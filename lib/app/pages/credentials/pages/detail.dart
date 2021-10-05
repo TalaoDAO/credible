@@ -115,15 +115,28 @@ class _CredentialsDetailState
     final localizations = AppLocalizations.of(context)!;
 
     return BasePage(
-      title: widget.item.alias ?? widget.item.id,
+      title: widget.item.alias != ''
+          ? widget.item.alias
+          : localizations.credentialReceiveTitle,
       titleTag: 'credential/${widget.item.alias ?? widget.item.id}/issuer',
       titleLeading: BackLeadingButton(),
-      titleTrailing: IconButton(
-        onPressed: _edit,
-        icon: Icon(
-          Icons.edit,
-          color: UiKit.palette.icon,
-        ),
+      titleTrailing: Row(
+        children: [
+          IconButton(
+            onPressed: _edit,
+            icon: Icon(
+              Icons.edit,
+              color: UiKit.palette.icon,
+            ),
+          ),
+          IconButton(
+            onPressed: goBack,
+            icon: Icon(
+              Icons.close,
+              color: UiKit.palette.icon,
+            ),
+          ),
+        ],
       ),
       navigation: SafeArea(
         child: Container(
@@ -220,4 +233,8 @@ class _CredentialsDetailState
       ),
     );
   }
+
+  final VoidCallback goBack = () {
+    Modular.to.pushReplacementNamed('/credentials/list');
+  };
 }
