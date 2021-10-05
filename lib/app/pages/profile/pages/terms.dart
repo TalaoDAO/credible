@@ -13,6 +13,6 @@ class TermsPage extends StatelessWidget {
     }
     return MarkdownPage(
         title: localizations.onBoardingTosTitle,
-        file: 'assets/cgu_$filePath.md');
+        file: 'assets/mobile_cgu_$filePath.md');
   }
 }
