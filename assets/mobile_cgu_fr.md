@@ -31,13 +31,13 @@ Identification : désigne la procédure selon laquelle l'utilisateur saisit ses 
 
 L’Identité Numérique Professionnelle ou Identité Numérique : désigne le service permettant à un utilisateur de se connecter depuis son application mobile à tous les services partenaires.
 
-Inscription : désigne la procédure qui permet à toute personne éligible de saisir ses données personnelles en vue d'accéder aux services et d'obtenir une Identité Numérique Professionnelle. 
+Inscription : désigne la procédure qui permet à toute personne éligible de saisir ses données personnelles en vue d'accéder aux services et d'obtenir une Identité Numérique Professionnelle.
 
 Desktop : désigne un ordinateur (PC, portable, …) qui permet de se connecter au site https://talao.co. Cet ordinateur doit être équipé d’un système d'exploitation de type Windows, Linux, Mac et d’un logiciel d’accès à internet comme Chrome, Internet Explorer, Firefox, Brave.
- 
+
 Mot de passe : désigne le code choisi par l'utilisateur, exclusif et confidentiel qui, associé au nom utilisateur est nécessaire à ce dernier pour accéder à son espace de travail dans le cas où il ne disposerait pas de son smartphone.
- 
-Nom d’utilisateur : désigne le nom proposé par le site permettant à l’utilisateur d’accéder à son portfolio sur le site avec un mot de passe. 
+
+Nom d’utilisateur : désigne le nom proposé par le site permettant à l’utilisateur d’accéder à son portfolio sur le site avec un mot de passe.
 
 Partenaire(s) : désigne les sociétés en relation avec l'utilisation d'Identité Numérique Professionnelle. Exemple : L'éditeur d'un site internet permettant à l'utilisateur de s'identifier via son Identité Numérique est un partenaire.
 
@@ -58,9 +58,9 @@ Les présentes Conditions Générales d’Utilisation (CGU) ont pour objet de d�
 
 En cas de désaccord avec les nouvelles dispositions, l’utilisateur s’engage à cesser toute utilisation du service et à supprimer son Identité Numérique.
 
-## Présentation de l’Identité Numérique Professionnelle 
+## Présentation de l’Identité Numérique Professionnelle
 
-L’Identité Numérique Professionnelle est un service de Talao qui permet de créer une identité électronique utilisable en ligne via une application mobile sécurisée. Cette Identité Numérique Professionnelle servira à l’utilisateur à simplifier et sécuriser ses démarches en ligne auprès des partenaires en particulier dans le domaine des ressources humaines  (ex : accéder à un site d’annonce de recrutement,  accéder au site RH de son entreprise, fournir une attestation employeur pour louer un bien immobilier ou ouvrir un compte bancaire…). 
+L’Identité Numérique Professionnelle est un service de Talao qui permet de créer une identité électronique utilisable en ligne via une application mobile sécurisée. Cette Identité Numérique Professionnelle servira à l’utilisateur à simplifier et sécuriser ses démarches en ligne auprès des partenaires en particulier dans le domaine des ressources humaines  (ex : accéder à un site d’annonce de recrutement,  accéder au site RH de son entreprise, fournir une attestation employeur pour louer un bien immobilier ou ouvrir un compte bancaire…).
 
 Le service est construit sur de 2 applications numériques: le portfolio et le wallet. Le wallet permet de générer son identifiant,  de collecter des attestations auprès de tiers, de les conserver et de les transférer vers d’autres  tiers. Le portfolio permet à un utilisateur de demander à des entreprises tiers de lui émettre des attestations mais également de conserver ces attestations sur un serveur extérieur pour éventuellement être en mesure de les récupérer en cas de perte de son smartphone ou de les exposer à un public choisi. Le portfolio est une sorte de coffre fort numérique dont les données sont accessible sous le controle exclusif de l'utilisateur.
 
@@ -70,7 +70,7 @@ Dans le cadre du service Identité Numérique Professionnelle Talao, l’utilisa
 
 Lors de son inscription, l'utilisateur doit compléter le formulaire d'Inscription accessible sur le site (dont notamment, la civilité, les noms et prénoms,  l'adresse de courrier électronique et éventuellement son numéro de téléphone mobile.).
 
-L'utilisateur garantit que les informations qu'il transmet sont exactes, sincères et à jour. Si ces informations devaient s'avérer fausses, incomplètes ou obsolètes, Talao se réserve le droit de refuser l'Inscription et/ou d'interrompre la fourniture du service conformément aux stipulations de l'article 14 « Résiliation ». 
+L'utilisateur garantit que les informations qu'il transmet sont exactes, sincères et à jour. Si ces informations devaient s'avérer fausses, incomplètes ou obsolètes, Talao se réserve le droit de refuser l'Inscription et/ou d'interrompre la fourniture du service conformément aux stipulations de l'article 14 « Résiliation ».
 
 En cas de modification de ses coordonnées personnelles, l'utilisateur s'engage à les mettre à jour sur sa page de gestion de profil de Identité Numérique Professionnelle.
 
@@ -88,7 +88,7 @@ La procédure de création comporte 2 étapes pour finaliser la procédure d'ins
 
 * Une fois obtenue cette attestation,  l’utilisateur peut  créer son portfolio (“créer un compte”) en scannant le QR code affiché sur son desktop ou en cliquant sur le lien de son browser sur son smartphone. Le site détecte si l’identifiant de son wallet est celui d’un portfolio déjà existant si ce n’est pas le cas le site propose de créer une nouvel portfolio pour cet identifiant en demandant à l’utilisateur d’indiquer son nom et son prénom.
 
-* Vérification de l’identifiant décentralisé (DID) du wallet : après le scan du QR code l’utilisateur est invité à accepter l’accès de talao à son wallet et de  présenter son attestation d’email  (EmailPass). Si la signature de cette attestation n’est pas reconnue, l’utilisateur est invité à recommencer le processus. 
+* Vérification de l’identifiant décentralisé (DID) du wallet : après le scan du QR code l’utilisateur est invité à accepter l’accès de talao à son wallet et de  présenter son attestation d’email  (EmailPass). Si la signature de cette attestation n’est pas reconnue, l’utilisateur est invité à recommencer le processus.
 
 
 * Création et déploiement du portfolio : le site déploie l’espace de travail. L’utilisateur reçoit par email un nom utilisateur pour une éventuelle connexion  sans smartphone. Par défaut le password sera “identity” et dans ce cas un code aléatoire sera systématiquement envoyé par email comme facteur secondaire d'authentification. Nous conseillons en revanche à l'utilisateur l’emploi de la  connexion par smartphone (QR code ou lien) qui est plus simple, plus rapide et plus sécurisée.
@@ -105,7 +105,7 @@ L’inscription au Service Identité Numérique Professionnelle est gratuite et 
 
 ### Accès au Service Identité Numérique Professionnelle
 
-L’accès au Service Identité Numérique Professionnelle est protégé par des clés cryptographiques conservées dans le wallet du smartphone. Il appartient à l’utilisateur de protéger l’accès à son smartphone et à l’application wallet en cas de vol ou de perte du smartphone. 
+L’accès au Service Identité Numérique Professionnelle est protégé par des clés cryptographiques conservées dans le wallet du smartphone. Il appartient à l’utilisateur de protéger l’accès à son smartphone et à l’application wallet en cas de vol ou de perte du smartphone.
 
 Il est fortement conseillé à l’utilisateur de réaliser une copie sur un document papier de la phrase qui permet la régénération des clés cryptographiques en cas de perte ou de vol du smartphone ou de la suppression du  wallet. Ce document papier doit être conservé par l’utilisateur dans un lieu sécurisé. Il est déconseillé à l’utilisateur de conserver une copie de la phrase de régénération sur le cloud.
 
@@ -121,7 +121,7 @@ Le service Identité Numérique Professionnelle est gratuit et le code des appli
 
 L'utilisateur reconnaît que le service de Identité Numérique Professionnelle est un service à usage uniquement personnel et que toute utilisation dudit service est effectuée sous sa pleine et entière responsabilité.
 
-Le service de l’Identité Numérique Professionnelle n’est accessible que par l’utilisation d’un wallet sur smartphone en revanche un accès limité aux services de l’espace de travail est possible également avec un mot de passe et un nom d'utilisateur. 
+Le service de l’Identité Numérique Professionnelle n’est accessible que par l’utilisation d’un wallet sur smartphone en revanche un accès limité aux services de l’espace de travail est possible également avec un mot de passe et un nom d'utilisateur.
 
 Si l'utilisateur a connaissance d'une utilisation non autorisée du service, il s'engage à en informer le service client, dont les coordonnées figurent dans les CGU, sans délai. En cas de perte de son mot de passe, l'utilisateur dispose de la possibilité de cliquer sur le lien “Forgot password”. Le service Identité Numérique Professionnelle lui enverra alors sur son adresse de courrier électronique un lien vers une page de réinitialisation du mot de passe.
 
@@ -145,25 +145,25 @@ L’espace de travail permet à l’utilisateur de disposer d'attestations profe
 
 L’utilisateur dispose également de la possibilité de présenter les informations concernant son parcours professionnel sous la forme d’un CV avec un lien lui permettant de l'afficher sur les réseaux sociaux, un site web personnel ou de le transmettre par email à un tiers.
 
-### Saisie des informations du CV 
+### Saisie des informations du CV
 
- L’utilisateur a la possibilité de saisir les informations concernant sa formation (onglet “Formation”, son expérience (onglet "Expériences”) ses compétences (onglet “Compétences”). Toutes ces informations sont déclaratives et de la responsabilité de l’utilisateur. Ces informations ne font l’objet d’aucune vérification par Talao.
+L’utilisateur a la possibilité de saisir les informations concernant sa formation (onglet “Formation”, son expérience (onglet "Expériences”) ses compétences (onglet “Compétences”). Toutes ces informations sont déclaratives et de la responsabilité de l’utilisateur. Ces informations ne font l’objet d’aucune vérification par Talao.
 
-### Demande et délivrance d’une attestation professionnelle 
+### Demande et délivrance d’une attestation professionnelle
 
 L’utilisateur a la possibilité de demander une attestation professionnelle vérifiable à une entreprise. Cette attestation peut concerner une compétence, une formation ou une expérience professionnelle. Cette demande est accessible par le bouton “demander une attestation”. L'utilisateur sera invité à préciser le type de demande et l’adresse email d’un représentant de l'entreprise.
 
-Dans le cas d’une demande d’attestation d'expérience professionnelle l’utilisateur sera invité à préciser la nature de la mission, son rôle, les dates de début et de fin ainsi que les compétences mise en œuvre dans cette mission. Ces informations seront communiquées à l’entreprise. 
+Dans le cas d’une demande d’attestation d'expérience professionnelle l’utilisateur sera invité à préciser la nature de la mission, son rôle, les dates de début et de fin ainsi que les compétences mise en œuvre dans cette mission. Ces informations seront communiquées à l’entreprise.
 
 Le site fera parvenir cette demande au représentant de l’entreprise qui sera invité à créer pour lui-même ou son entreprise sa propre Identité Numérique puis à rédiger et à émettre une attestation signée électroniquement. Dans le cas d’une attestation d’expérience professionnelle l’entreprise sera invité à évaluer l’utilisateur (de 0 à 5 étoiles) selon 4 questions :
 * How satisfied are you with the overall delivery ?
 * How likely are you to recommend this talent to others ?
-* How would you rate his/her ability to deliver to schedule ?        
+* How would you rate his/her ability to deliver to schedule ?
 * How would you rate his/her overall communication skills ?
 
 Cette attestation sera ensuite accessible dans le portfolio de l’utilisateur et éventuellement ajoutée à son cv. L'utilisateur pourra s'il le souhaite effacer cette attestation mais il ne pourra pas en modifier le contenu qui reste de la responsabilité de l’entreprise.
 
-Talao n’est pas responsable de la réponse qui est faite à une demande d’attestation et du contenu éventuel de cette attestation. 
+Talao n’est pas responsable de la réponse qui est faite à une demande d’attestation et du contenu éventuel de cette attestation.
 
 ### Modification des attributs de l’Identité Numérique Professionnelle
 
@@ -193,7 +193,7 @@ L'utilisateur garantit Talao contre tout acte dommageable qu'il commettrait à l
 ## Droits de propriété intellectuelle
 
 Le site et les services sont protégés par des droits de propriété intellectuelle et/ou autres droits que Talao détient ou dont elle est autorisée à faire usage.
-Le protocole de la blockchain utilisé comme support à l’Identité Numérique professionnelle est mis à disposition en open source https://github.com/TalaoDAO/talao-contracts. 
+Le protocole de la blockchain utilisé comme support à l’Identité Numérique professionnelle est mis à disposition en open source https://github.com/TalaoDAO/talao-contracts.
 
 Talao est et restera propriétaire de ses signes distinctifs, à savoir marques, dénominations sociales et autres, noms commerciaux, enseignes et noms de domaine. La reproduction, l’imitation ou l’apposition, partielle ou totale des marques et dessins et modèles appartenant à Talao est strictement interdite sans son accord écrit préalable.
 
