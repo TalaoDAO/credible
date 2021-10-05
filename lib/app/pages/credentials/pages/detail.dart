@@ -117,7 +117,7 @@ class _CredentialsDetailState
     return BasePage(
       title: widget.item.alias != ''
           ? widget.item.alias
-          : localizations.credentialReceiveTitle,
+          : localizations.credential,
       titleTag: 'credential/${widget.item.alias ?? widget.item.id}/issuer',
       titleLeading: BackLeadingButton(),
       titleTrailing: Row(

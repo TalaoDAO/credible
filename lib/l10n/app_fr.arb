@@ -151,7 +151,8 @@
   "learningAchievement": "Réussite",
   "signedBy": "Signé par",
   "from": "du",
-  "to": "au"
+  "to": "au",
+  "credential": "Attestation"
 
 }
 

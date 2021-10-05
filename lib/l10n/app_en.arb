@@ -151,6 +151,7 @@
   "learningAchievement": "Achievement",
   "signedBy": "Signed by",
   "from": "from",
-  "to": "to"
+  "to": "to",
+  "credential": "Credential"
 
 }
