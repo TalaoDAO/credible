@@ -64,8 +64,9 @@ class OnBoardingTosPage extends StatelessWidget {
   FutureBuilder<String> displayTerms(BuildContext context, Logger _log) {
     final localizations = AppLocalizations.of(context)!;
     final String path;
-    if (localizations.localeName == 'fr') {
-      path = 'assets/privacy_fr.md';
+    final languagesList = ['fr', 'it', 'es', 'de'];
+    if (languagesList.contains(localizations.localeName)) {
+      path = 'assets/privacy_${localizations.localeName}.md';
     } else {
       path = 'assets/privacy_en.md';
     }

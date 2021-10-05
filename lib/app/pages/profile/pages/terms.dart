@@ -6,10 +6,13 @@ class TermsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
+    final languagesList = ['fr', 'it', 'es', 'de'];
+    var filePath = 'en';
+    if (languagesList.contains(localizations.localeName)) {
+      filePath = localizations.localeName;
+    }
     return MarkdownPage(
         title: localizations.onBoardingTosTitle,
-        file: localizations.localeName == 'fr'
-            ? 'assets/cgu_fr.md'
-            : 'assets/cgu_en.md');
+        file: 'assets/cgu_$filePath.md');
   }
 }

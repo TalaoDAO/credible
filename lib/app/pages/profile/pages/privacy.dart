@@ -6,10 +6,12 @@ class PrivacyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
+    final languagesList = ['fr', 'it', 'es', 'de'];
+    var filePath = 'en';
+    if (languagesList.contains(localizations.localeName)) {
+      filePath = localizations.localeName;
+    }
     return MarkdownPage(
-        title: localizations.privacyTitle,
-        file: localizations.localeName == 'fr'
-            ? 'assets/privacy_fr.md'
-            : 'assets/privacy_en.md');
+        title: localizations.privacyTitle, file: 'assets/privacy_$filePath.md');
   }
 }
