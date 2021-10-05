@@ -17,31 +17,30 @@ class StarRating extends StatelessWidget {
   Widget buildStar(BuildContext context, int index) {
     Icon icon;
     if (index >= rating) {
-      icon = new Icon(
+      icon = Icon(
         Icons.star_border,
         color: Theme.of(context).buttonColor,
       );
     } else if (index > rating - 1 && index < rating) {
-      icon = new Icon(
+      icon = Icon(
         Icons.star_half,
-        color: color ?? Theme.of(context).primaryColor,
+        color: color,
       );
     } else {
-      icon = new Icon(
+      icon = Icon(
         Icons.star,
-        color: color ?? Theme.of(context).primaryColor,
+        color: color,
       );
     }
-    return new InkResponse(
-      onTap:
-          onRatingChanged == null ? null : () => onRatingChanged(index + 1.0),
+    return InkResponse(
+      onTap: () => onRatingChanged(index + 1.0),
       child: icon,
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return new Row(
+    return Row(
         children:
             List.generate(starCount, (index) => buildStar(context, index)));
   }

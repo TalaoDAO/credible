@@ -5,12 +5,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 
 void main() {
+  // ignore: omit_local_variable_types, unused_local_variable
   final IntegrationTestWidgetsFlutterBinding binding =
       IntegrationTestWidgetsFlutterBinding.ensureInitialized()
           as IntegrationTestWidgetsFlutterBinding;
 
   testWidgets('display CertificateOfEmployment', (WidgetTester tester) async {
-    final Finder qrCodeFinder = find.bySemanticsLabel('QR Code');
+    final qrCodeFinder = find.bySemanticsLabel('QR Code');
     await tester.pumpWidget(ModularApp(
       module: AppModule(),
       child: AppWidget(),

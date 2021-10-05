@@ -40,7 +40,6 @@ class CubePageView extends StatefulWidget {
     required this.children,
   })  : itemBuilder = null,
         itemCount = null,
-        assert(children != null),
         super(key: key);
 
   /// Creates a scrollable list that works page by page using widgets that are
@@ -60,7 +59,7 @@ class CubePageView extends StatefulWidget {
     required this.itemBuilder,
     required this.onPageChanged,
     required this.controller,
-  })  : this.children = [],
+  })  : children = [],
         assert(itemCount != null),
         assert(itemBuilder != null),
         super(key: key);
@@ -79,7 +78,7 @@ class _CubePageViewState extends State<CubePageView> {
 
   @override
   void initState() {
-    _pageController = widget.controller ?? PageController();
+    _pageController = widget.controller;
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       _pageController!.addListener(_listener);
     });
@@ -107,13 +106,14 @@ class _CubePageViewState extends State<CubePageView> {
             physics: const ClampingScrollPhysics(),
             itemCount: widget.itemCount ?? widget.children.length,
             itemBuilder: (_, index) {
-              if (widget.itemBuilder != null)
+              if (widget.itemBuilder != null) {
                 return widget.itemBuilder!(context, index, value);
+              }
               return CubeWidget(
-                child: widget.children[index],
                 index: index,
                 pageNotifier: value,
                 key: Key('cube_widget'),
+                child: widget.children[index],
               );
             },
           ),

@@ -66,7 +66,7 @@ class ResidentCard extends CredentialSubject {
   @override
   Widget displayDetail(BuildContext context, CredentialModel item) {
     final localizations = AppLocalizations.of(context)!;
-    const double labelWidth = 80;
+    const labelWidth = 80.0;
 
     return Column(
       children: [

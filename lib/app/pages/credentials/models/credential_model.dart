@@ -34,6 +34,7 @@ class CredentialModel {
       required this.display,
       required this.data});
   factory CredentialModel.fromJson(Map<String, dynamic> json) {
+    // ignore: omit_local_variable_types
     Map<String, dynamic> newJson = Map.from(json);
     if (newJson['data'] != null) {
       newJson.putIfAbsent('credentialPreview', () => newJson['data']);

@@ -74,8 +74,8 @@ class ProfessionalExperienceAssessment extends CredentialSubject {
   @override
   Widget displayDetail(BuildContext context, CredentialModel item) {
     final localizations = AppLocalizations.of(context)!;
-    final _startdate = DateFormat("yyyy-mm-ddThh:mm:ssZ").parse(startDate);
-    final _endDate = DateFormat("yyyy-mm-ddThh:mm:ssZ").parse(endDate);
+    final _startdate = DateFormat('yyyy-mm-ddThh:mm:ssZ').parse(startDate);
+    final _endDate = DateFormat('yyyy-mm-ddThh:mm:ssZ').parse(endDate);
     return Column(
       children: [
         Padding(
