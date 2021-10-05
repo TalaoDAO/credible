@@ -74,7 +74,7 @@ class ProfessionalExperienceAssessment extends CredentialSubject {
   @override
   Widget displayDetail(BuildContext context, CredentialModel item) {
     final localizations = AppLocalizations.of(context)!;
-    final _startdate = DateFormat('yyyy-mm-ddThh:mm:ssZ').parse(startDate);
+    final _startDate = DateFormat('yyyy-mm-ddThh:mm:ssZ').parse(startDate);
     final _endDate = DateFormat('yyyy-mm-ddThh:mm:ssZ').parse(endDate);
     return Column(
       children: [
@@ -113,7 +113,7 @@ class ProfessionalExperienceAssessment extends CredentialSubject {
           child: Row(
             children: [
               Text('${localizations.from} '),
-              Text('${DateFormat.yMd().format(_startdate)}',
+              Text('${DateFormat.yMd().format(_startDate)}',
                   style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
               Text(' ${localizations.to} '),
               Text('${DateFormat.yMd().format(_endDate)}',

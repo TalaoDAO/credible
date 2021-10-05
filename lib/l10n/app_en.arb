@@ -152,6 +152,7 @@
   "signedBy": "Signed by",
   "from": "from",
   "to": "to",
-  "credential": "Credential"
+  "credential": "Credential",
+  "issuanceDate": "Issuance date"
 
 }

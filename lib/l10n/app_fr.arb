@@ -152,7 +152,8 @@
   "signedBy": "Signé par",
   "from": "du",
   "to": "au",
-  "credential": "Attestation"
+  "credential": "Attestation",
+  "issuanceDate": "Date émission"
 
 }
 

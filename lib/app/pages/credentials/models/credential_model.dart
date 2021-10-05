@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:talao/app/pages/credentials/models/credential_status.dart';
 import 'package:talao/app/pages/credentials/widget/display_issuer.dart';
+import 'package:talao/app/shared/model/certificate_of_employment/certificate_of_employment.dart';
 import 'package:talao/app/shared/model/credential.dart';
 import 'package:talao/app/shared/model/display.dart';
 import 'package:talao/app/shared/model/translation.dart';
+import 'package:talao/app/shared/widget/base/credential_field.dart';
 import 'package:uuid/uuid.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -124,6 +127,10 @@ class CredentialModel {
   }
 
   Widget displayDetail(BuildContext context, CredentialModel item) {
+    final localizations = AppLocalizations.of(context)!;
+    final _issuanceDate = DateFormat('yyyy-mm-ddThh:mm:ssZ')
+        .parse(credentialPreview.issuanceDate);
+
     return Column(
       children: [
         Padding(
@@ -135,6 +142,12 @@ class CredentialModel {
           child: displayDescription(context),
         ),
         credentialPreview.credentialSubject.displayDetail(context, item),
+        credentialPreview.credentialSubject is CertificateOfEmployment
+            ? CredentialField(
+                value: DateFormat.yMd().format(_issuanceDate),
+                // value: _issuanceDate.toString(),
+                title: localizations.issuanceDate)
+            : SizedBox.shrink()
       ],
     );
   }
