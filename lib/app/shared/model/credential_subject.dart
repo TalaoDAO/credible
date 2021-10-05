@@ -5,6 +5,7 @@ import 'package:talao/app/shared/model/default_credential_subject/default_creden
 import 'package:talao/app/shared/model/email_pass/email_pass.dart';
 import 'package:talao/app/shared/model/identity_pass/identity_pass.dart';
 import 'package:talao/app/shared/model/learning_achievement/learning_achievement.dart';
+import 'package:talao/app/shared/model/phone_pass/phone_pass.dart';
 import 'package:talao/app/shared/model/professional_experience_assessment/professional_experience_assessment.dart';
 import 'package:talao/app/shared/model/resident_card/resident_card.dart';
 import 'package:talao/app/shared/ui/ui.dart';
@@ -37,6 +38,9 @@ class CredentialSubject {
       case 'EmailPass':
         _backgroundColor = Color(0xFFffD6A5);
         break;
+      case 'PhonePass':
+        _backgroundColor = Color(0xFFffD6A5);
+        break;
       case 'ProfessionalExperienceAssessment':
         _backgroundColor = Color(0xFFFFADAD);
         break;
@@ -63,6 +67,9 @@ class CredentialSubject {
         break;
       case 'EmailPass':
         _icon = Icon(Icons.mail);
+        break;
+      case 'PhonePass':
+        _icon = Icon(Icons.phone);
         break;
       case 'ProfessionalExperienceAssessment':
         _icon = Icon(Icons.add_road_outlined);
@@ -94,6 +101,8 @@ class CredentialSubject {
         return CertificateOfEmployment.fromJson(json);
       case 'EmailPass':
         return EmailPass.fromJson(json);
+      case 'PhonePass':
+        return PhonePass.fromJson(json);
       case 'ProfessionalExperienceAssessment':
         return ProfessionalExperienceAssessment.fromJson(json);
       case 'LearningAchievement':
