@@ -43,10 +43,5 @@ class OnBoardingModule extends Module {
           child: (context, args) => OnBoardingGenPage(),
           transition: TransitionType.rightToLeftWithFade,
         ),
-        ChildRoute(
-          '/success',
-          child: (context, args) => OnBoardingSuccessPage(),
-          transition: TransitionType.rightToLeftWithFade,
-        ),
       ];
 }

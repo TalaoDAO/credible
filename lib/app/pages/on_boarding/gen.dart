@@ -29,7 +29,7 @@ class _OnBoardingGenPageState extends State<OnBoardingGenPage> {
       final key = await KeyGeneration.privateKey(mnemonic);
 
       await SecureStorageProvider.instance.set('key', key);
-      await Modular.to.pushReplacementNamed('/on-boarding/success');
+      await Modular.to.pushReplacementNamed('/credentials');
     } catch (error) {
       log.severe('something went wrong when generating a key', error);
 
