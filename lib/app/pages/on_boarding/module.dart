@@ -3,7 +3,6 @@ import 'package:talao/app/pages/on_boarding/gen_phrase.dart';
 import 'package:talao/app/pages/on_boarding/key.dart';
 import 'package:talao/app/pages/on_boarding/recovery.dart';
 import 'package:talao/app/pages/on_boarding/start.dart';
-import 'package:talao/app/pages/on_boarding/success.dart';
 import 'package:talao/app/pages/on_boarding/tos.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
