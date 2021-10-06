@@ -128,8 +128,8 @@ class CredentialModel {
 
   Widget displayDetail(BuildContext context, CredentialModel item) {
     final localizations = AppLocalizations.of(context)!;
-    final _issuanceDate = DateFormat('yyyy-mm-ddThh:mm:ssZ')
-        .parse(credentialPreview.issuanceDate);
+    final _issuanceDate =
+        DateFormat('y-M-dThh:mm:ssZ').parse(credentialPreview.issuanceDate);
 
     return Column(
       children: [
@@ -144,7 +144,8 @@ class CredentialModel {
         credentialPreview.credentialSubject.displayDetail(context, item),
         credentialPreview.credentialSubject is CertificateOfEmployment
             ? CredentialField(
-                value: DateFormat.yMd().format(_issuanceDate),
+                value: DateFormat.yMd(localizations.localeName)
+                    .format(_issuanceDate),
                 // value: _issuanceDate.toString(),
                 title: localizations.issuanceDate)
             : SizedBox.shrink()
