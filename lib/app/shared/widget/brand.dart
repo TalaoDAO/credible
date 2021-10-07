@@ -7,16 +7,21 @@ class BrandMinimal extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         HeroFix(
           tag: 'splash/icon-minimal',
           child: Container(
-            width: MediaQuery.of(context).size.width * 0.2,
-            height: MediaQuery.of(context).size.width * 0.2,
+            width: MediaQuery.of(context).size.width * 0.5,
+            height: MediaQuery.of(context).size.width * 0.5,
             child: Image.asset('assets/brand/logo_talao.png'),
           ),
         ),
+        Text('Talao SSI wallet',
+            style: Theme.of(context)
+                .textTheme
+                .headline4!
+                .copyWith(color: Colors.white))
       ],
     );
   }
