@@ -78,7 +78,7 @@ class CredentialSubject {
         _icon = Icon(Icons.star_rate_outlined);
         break;
       default:
-        _icon = Icon(Icons.device_unknown_sharp);
+        _icon = Icon(Icons.fact_check_outlined);
     }
     return _icon;
   }
