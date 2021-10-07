@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/pages/profile/widgets/did_display.dart';
-import 'package:talao/app/shared/ui/base/palette.dart';
-import 'package:talao/app/shared/ui/talao/palette.dart';
 import 'package:talao/app/shared/widget/app_version.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
