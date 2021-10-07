@@ -74,149 +74,42 @@ class ResidentCard extends CredentialSubject {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                Container(
-                  width: labelWidth,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(localizations.lastName),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(familyName,
-                      style: TextStyle(
-                          inherit: true, fontWeight: FontWeight.w700)),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Container(
-                  width: labelWidth,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      localizations.firstName,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(givenName,
-                      style: TextStyle(
-                          inherit: true, fontWeight: FontWeight.w700)),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Container(
-                  width: labelWidth,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(localizations.gender),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: genderDisplay(),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(localizations.birthdate),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(birthDate,
-                      style: TextStyle(
-                          inherit: true, fontWeight: FontWeight.w700)),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(localizations.birthplace),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(birthPlace,
-                      style: TextStyle(
-                          inherit: true, fontWeight: FontWeight.w700)),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Container(
-                  width: labelWidth,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(localizations.address),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(address,
-                        style: TextStyle(
-                            inherit: true, fontWeight: FontWeight.w700)),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(localizations.maritalStatus),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(maritalStatus,
-                      style: TextStyle(
-                          inherit: true, fontWeight: FontWeight.w700)),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Container(
-                  width: labelWidth,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(localizations.identifier),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(identifier,
-                      style: TextStyle(
-                          inherit: true, fontWeight: FontWeight.w700)),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(localizations.nationality),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(nationality,
-                      style: TextStyle(
-                          inherit: true, fontWeight: FontWeight.w700)),
-                ),
-              ],
-            ),
+            ResidentCardFieldDisplay(
+                labelWidth: labelWidth,
+                label: Text(localizations.lastName),
+                value: TextWithResidentCardStyle(value: familyName)),
+            ResidentCardFieldDisplay(
+                labelWidth: labelWidth,
+                label: Text(localizations.firstName),
+                value: TextWithResidentCardStyle(value: givenName)),
+            ResidentCardFieldDisplay(
+                labelWidth: labelWidth,
+                label: Text(localizations.gender),
+                value: genderDisplay()),
+            ResidentCardFieldDisplay(
+                labelWidth: labelWidth,
+                label: Text(localizations.birthdate),
+                value: TextWithResidentCardStyle(value: birthDate)),
+            ResidentCardFieldDisplay(
+                labelWidth: labelWidth,
+                label: Text(localizations.birthplace),
+                value: TextWithResidentCardStyle(value: birthPlace)),
+            ResidentCardFieldDisplay(
+                labelWidth: labelWidth,
+                label: Text(localizations.address),
+                value: TextWithResidentCardStyle(value: address)),
+            ResidentCardFieldDisplay(
+                labelWidth: labelWidth,
+                label: Text(localizations.maritalStatus),
+                value: TextWithResidentCardStyle(value: maritalStatus)),
+            ResidentCardFieldDisplay(
+                labelWidth: labelWidth,
+                label: Text(localizations.identifier),
+                value: TextWithResidentCardStyle(value: identifier)),
+            ResidentCardFieldDisplay(
+                labelWidth: labelWidth,
+                label: Text(localizations.nationality),
+                value: TextWithResidentCardStyle(value: nationality)),
           ],
         ),
       ],
@@ -236,5 +129,54 @@ class ResidentCard extends CredentialSubject {
         _genderIcon = Icon(Icons.transgender);
     }
     return _genderIcon;
+  }
+}
+
+class ResidentCardFieldDisplay extends StatelessWidget {
+  const ResidentCardFieldDisplay({
+    Key? key,
+    required this.labelWidth,
+    required this.label,
+    required this.value,
+  }) : super(key: key);
+
+  final double labelWidth;
+  final Widget label;
+  final Widget value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Container(
+          constraints: BoxConstraints(minWidth: labelWidth),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: label,
+          ),
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: value,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class TextWithResidentCardStyle extends StatelessWidget {
+  const TextWithResidentCardStyle({
+    Key? key,
+    required this.value,
+  }) : super(key: key);
+
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(value,
+        style: TextStyle(inherit: true, fontWeight: FontWeight.w700));
   }
 }
