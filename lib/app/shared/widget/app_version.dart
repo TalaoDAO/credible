@@ -21,7 +21,6 @@ class AppVersion extends StatelessWidget {
 
             return Text(
               '$appName v$version ($buildNumber)',
-              style: Theme.of(context).textTheme.caption!,
             );
           default:
             return const SizedBox();

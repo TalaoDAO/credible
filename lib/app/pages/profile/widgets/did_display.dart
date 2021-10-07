@@ -31,7 +31,6 @@ class DIDDisplay extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 localizations.didDisplayId,
-                style: Theme.of(context).textTheme.bodyText2!,
               ),
             ),
             Padding(
@@ -42,7 +41,6 @@ class DIDDisplay extends StatelessWidget {
                   Expanded(
                     child: Text(
                       did,
-                      style: Theme.of(context).textTheme.overline!,
                       textAlign: TextAlign.start,
                     ),
                   ),
@@ -57,7 +55,6 @@ class DIDDisplay extends StatelessWidget {
               },
               child: Text(
                 localizations.didDisplayCopy,
-                style: Theme.of(context).textTheme.bodyText1!,
               ),
             ),
           ],
