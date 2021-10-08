@@ -6,6 +6,7 @@ import 'package:talao/app/shared/model/credential_subject.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:talao/app/shared/widget/base/credential_field.dart';
 
 part 'certificate_of_employment.g.dart';
 
@@ -119,16 +120,8 @@ class CertificateOfEmployment extends CredentialSubject {
             ],
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              Text('${localizations.employmentType} '),
-              Text('$employmentType',
-                  style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
-            ],
-          ),
-        ),
+        CredentialField(
+            value: employmentType, title: localizations.employmentType),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
