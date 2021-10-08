@@ -28,6 +28,7 @@ ProfessionalExperienceAssessment _$ProfessionalExperienceAssessmentFromJson(
         json['signatureLines']),
     json['familyName'] as String? ?? '',
     json['givenName'] as String? ?? '',
+    json['description'] as String? ?? '',
   );
 }
 
@@ -37,6 +38,7 @@ Map<String, dynamic> _$ProfessionalExperienceAssessmentToJson(
       'id': instance.id,
       'skills': instance.skills.map((e) => e.toJson()).toList(),
       'title': instance.title,
+      'description': instance.description,
       'familyName': instance.familyName,
       'givenName': instance.givenName,
       'endDate': instance.endDate,

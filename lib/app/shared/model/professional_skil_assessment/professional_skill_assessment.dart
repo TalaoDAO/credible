@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:talao/app/shared/model/translation.dart';
+import 'package:talao/app/shared/widget/skills_list_display.dart';
 
 part 'professional_skill_assessment.g.dart';
 
@@ -67,6 +68,9 @@ class ProfessionalSkillAssessment extends CredentialSubject {
                   style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
             ],
           ),
+        ),
+        SkillsListDisplay(
+          skillWidgetList: skills,
         ),
         Container(
           height: 100,

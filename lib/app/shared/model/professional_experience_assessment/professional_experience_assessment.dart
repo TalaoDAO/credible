@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:talao/app/shared/model/translation.dart';
+import 'package:talao/app/shared/widget/base/credential_field.dart';
+import 'package:talao/app/shared/widget/skills_list_display.dart';
 import 'package:talao/app/shared/widget/star_rating.dart';
 
 part 'professional_experience_assessment.g.dart';
@@ -21,6 +23,8 @@ class ProfessionalExperienceAssessment extends CredentialSubject {
   final List<Skill> skills;
   @JsonKey(defaultValue: '')
   final String title;
+  @JsonKey(defaultValue: '')
+  final String description;
   @JsonKey(defaultValue: '')
   final String familyName;
   @JsonKey(defaultValue: '')
@@ -59,7 +63,8 @@ class ProfessionalExperienceAssessment extends CredentialSubject {
       this.review,
       this.signatureLines,
       this.familyName,
-      this.givenName)
+      this.givenName,
+      this.description)
       : super(id, type, issuedBy);
 
   @override
@@ -77,6 +82,7 @@ class ProfessionalExperienceAssessment extends CredentialSubject {
     final _startDate = DateFormat('y-M-dThh:mm:ssZ').parse(startDate);
     final _endDate = DateFormat('y-M-dThh:mm:ssZ').parse(endDate);
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
@@ -123,6 +129,37 @@ class ProfessionalExperienceAssessment extends CredentialSubject {
             ],
           ),
         ),
+        CredentialField(
+          value: description,
+          title: '',
+        ),
+        SkillsListDisplay(
+          skillWidgetList: skills,
+        ),
+        Container(
+          height: 150,
+          child: ListView.builder(
+              itemCount: review.length,
+              itemBuilder: (context, index) {
+                final item = review[index];
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(getTranslation(item.reviewBody, localizations),
+                          style: TextStyle(
+                              inherit: true, fontWeight: FontWeight.w700)),
+                      StarRating(
+                          starCount: 5,
+                          rating: double.parse(item.reviewRating.ratingValue),
+                          onRatingChanged: (_) => null,
+                          color: Colors.yellowAccent),
+                    ],
+                  ),
+                );
+              }),
+        ),
         Container(
           height: 100,
           child: ListView.builder(
@@ -159,30 +196,6 @@ class ProfessionalExperienceAssessment extends CredentialSubject {
                           )
                         : SizedBox.shrink(),
                   ],
-                );
-              }),
-        ),
-        Container(
-          height: 150,
-          child: ListView.builder(
-              itemCount: review.length,
-              itemBuilder: (context, index) {
-                final item = review[index];
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(getTranslation(item.reviewBody, localizations),
-                          style: TextStyle(
-                              inherit: true, fontWeight: FontWeight.w700)),
-                      StarRating(
-                          starCount: 5,
-                          rating: double.parse(item.reviewRating.ratingValue),
-                          onRatingChanged: (_) => null,
-                          color: Colors.yellowAccent),
-                    ],
-                  ),
                 );
               }),
         ),
