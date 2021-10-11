@@ -81,6 +81,7 @@ class _CredentialsDetailState
     if (confirm) {
       await store.deleteById(widget.item.id);
       Modular.to.pop();
+      await Modular.to.pushReplacementNamed('/credentials');
     }
   }
 
@@ -107,6 +108,8 @@ class _CredentialsDetailState
       newAlias: newAlias ?? '',
     );
     await store.updateCredential(newCredential);
+    Modular.to.pop();
+    await Modular.to.pushNamed('/credentials/detail', arguments: newCredential);
   }
 
   @override

@@ -12,9 +12,9 @@ class WalletBloc extends Disposable {
       BehaviorSubject<List<CredentialModel>>();
 
   Future findAll(/* dynamic filters */) async {
-    await repository
-        .findAll(/* filters */)
-        .then((values) => credentials$.add(values));
+    await repository.findAll(/* filters */).then((values) {
+      credentials$.add(values);
+    });
   }
 
   Future deleteById(String id) async {
@@ -24,10 +24,13 @@ class WalletBloc extends Disposable {
 
   Future updateCredential(CredentialModel credential) async {
     await repository.update(credential);
+    await findAll();
   }
 
   @override
   void dispose() {
-    credentials$.close();
+    print('dispose wallet bloc ?');
+    //Temporary removed: cause loosing repository when we replace a route.
+    // credentials$.close();
   }
 }
