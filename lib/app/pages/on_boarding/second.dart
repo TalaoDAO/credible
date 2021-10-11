@@ -55,7 +55,7 @@ class _OnBoardingSecondPageState extends State<OnBoardingSecondPage> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                localizations.appPresentation,
+                localizations.appPresentation2,
                 style: Theme.of(context).textTheme.bodyText1,
                 textAlign: TextAlign.justify,
               ),

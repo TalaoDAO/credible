@@ -37,7 +37,7 @@ class OnBoardingThirdPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                localizations.appPresentation,
+                localizations.appPresentation3,
                 style: Theme.of(context).textTheme.bodyText1,
                 textAlign: TextAlign.justify,
               ),
