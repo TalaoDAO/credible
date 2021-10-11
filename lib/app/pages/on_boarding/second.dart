@@ -6,19 +6,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class OnBoardingStartPage extends StatefulWidget {
+class OnBoardingSecondPage extends StatefulWidget {
   @override
-  State<OnBoardingStartPage> createState() => _OnBoardingStartPageState();
+  State<OnBoardingSecondPage> createState() => _OnBoardingSecondPageState();
 }
 
-class _OnBoardingStartPageState extends State<OnBoardingStartPage> {
+class _OnBoardingSecondPageState extends State<OnBoardingSecondPage> {
   var animate = true;
-
   @override
   void initState() {
     Future.delayed(Duration(seconds: 2), () async {
       if (animate) {
-        await Modular.to.pushNamed('/on-boarding/second');
+        await Modular.to.pushNamed('/on-boarding/third');
       }
     });
     super.initState();
@@ -28,13 +27,17 @@ class _OnBoardingStartPageState extends State<OnBoardingStartPage> {
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
     return GestureDetector(
-      onTap: () async {
-        await Modular.to.pushNamed('/on-boarding/second');
-      },
       onHorizontalDragUpdate: (drag) async {
-        if (animate && drag.delta.dx < -2) {
-          disableAnimation();
-          await Modular.to.pushNamed('/on-boarding/second');
+        if (animate) {
+          if (drag.delta.dx > 2) {
+            Modular.to.pop();
+            disableAnimation();
+          }
+
+          if (drag.delta.dx < -2) {
+            disableAnimation();
+            await Modular.to.pushNamed('/on-boarding/third');
+          }
         }
       },
       child: BasePage(
@@ -45,7 +48,7 @@ class _OnBoardingStartPageState extends State<OnBoardingStartPage> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Image.asset(
-                'assets/image/slide_1.png',
+                'assets/image/slide_2.png',
                 height: 200,
               ),
             ),

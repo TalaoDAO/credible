@@ -6,35 +6,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class OnBoardingStartPage extends StatefulWidget {
-  @override
-  State<OnBoardingStartPage> createState() => _OnBoardingStartPageState();
-}
-
-class _OnBoardingStartPageState extends State<OnBoardingStartPage> {
+class OnBoardingThirdPage extends StatelessWidget {
   var animate = true;
-
-  @override
-  void initState() {
-    Future.delayed(Duration(seconds: 2), () async {
-      if (animate) {
-        await Modular.to.pushNamed('/on-boarding/second');
-      }
-    });
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
     return GestureDetector(
-      onTap: () async {
-        await Modular.to.pushNamed('/on-boarding/second');
+      onTap: () {
+        Modular.to.pop();
       },
       onHorizontalDragUpdate: (drag) async {
-        if (animate && drag.delta.dx < -2) {
+        if (animate && drag.delta.dx > 2) {
+          Modular.to.pop();
           disableAnimation();
-          await Modular.to.pushNamed('/on-boarding/second');
         }
       },
       child: BasePage(
@@ -45,7 +30,7 @@ class _OnBoardingStartPageState extends State<OnBoardingStartPage> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Image.asset(
-                'assets/image/slide_1.png',
+                'assets/image/slide_3.png',
                 height: 200,
               ),
             ),
