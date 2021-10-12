@@ -17,20 +17,20 @@ class OnBoardingModule extends Module {
         ChildRoute(
           '/start',
           child: (context, args) => OnBoardingStartPage(),
-          transition: TransitionType.rightToLeftWithFade,
-          duration: Duration(milliseconds: 800),
+          // transition: TransitionType.rightToLeftWithFade,
+          // duration: Duration(milliseconds: 600),
         ),
         ChildRoute(
           '/second',
           child: (context, args) => OnBoardingSecondPage(),
-          transition: TransitionType.rightToLeftWithFade,
-          duration: Duration(milliseconds: 800),
+          // transition: TransitionType.rightToLeftWithFade,
+          // duration: Duration(milliseconds: 600),
         ),
         ChildRoute(
           '/third',
           child: (context, args) => OnBoardingThirdPage(),
-          transition: TransitionType.rightToLeftWithFade,
-          duration: Duration(milliseconds: 800),
+          // transition: TransitionType.rightToLeftWithFade,
+          // duration: Duration(milliseconds: 600),
         ),
         ChildRoute(
           '/tos',
