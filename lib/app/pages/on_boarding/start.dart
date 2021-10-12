@@ -16,7 +16,7 @@ class _OnBoardingStartPageState extends State<OnBoardingStartPage> {
 
   @override
   void initState() {
-    Future.delayed(Duration(seconds: 2), () async {
+    Future.delayed(Duration(seconds: 4), () async {
       if (animate) {
         await Modular.to.pushNamed('/on-boarding/second');
       }
@@ -57,7 +57,12 @@ class _OnBoardingStartPageState extends State<OnBoardingStartPage> {
                 textAlign: TextAlign.justify,
               ),
             ),
-            Padding(
+          ],
+        ),
+        navigation: BottomAppBar(
+          child: Container(
+            height: 50,
+            child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: BaseButton.primary(
                 onPressed: () {
@@ -66,7 +71,7 @@ class _OnBoardingStartPageState extends State<OnBoardingStartPage> {
                 child: Text(localizations.onBoardingStartButton),
               ),
             ),
-          ],
+          ),
         ),
       ),
     );

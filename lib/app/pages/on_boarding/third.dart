@@ -23,37 +23,41 @@ class OnBoardingThirdPage extends StatelessWidget {
         }
       },
       child: BasePage(
-        scrollView: true,
-        body: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Image.asset(
-                'assets/image/slide_3.png',
-                height: 200,
+          scrollView: true,
+          body: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Image.asset(
+                  'assets/image/slide_3.png',
+                  height: 200,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  localizations.appPresentation3,
+                  style: Theme.of(context).textTheme.bodyText1,
+                  textAlign: TextAlign.justify,
+                ),
+              ),
+            ],
+          ),
+          navigation: BottomAppBar(
+            child: Container(
+              height: 50,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: BaseButton.primary(
+                  onPressed: () {
+                    Modular.to.pushReplacementNamed('/on-boarding/tos');
+                  },
+                  child: Text(localizations.onBoardingStartButton),
+                ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                localizations.appPresentation3,
-                style: Theme.of(context).textTheme.bodyText1,
-                textAlign: TextAlign.justify,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: BaseButton.primary(
-                onPressed: () {
-                  Modular.to.pushReplacementNamed('/on-boarding/tos');
-                },
-                child: Text(localizations.onBoardingStartButton),
-              ),
-            ),
-          ],
-        ),
-      ),
+          )),
     );
   }
 

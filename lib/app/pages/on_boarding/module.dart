@@ -18,19 +18,19 @@ class OnBoardingModule extends Module {
           '/start',
           child: (context, args) => OnBoardingStartPage(),
           transition: TransitionType.rightToLeftWithFade,
-          duration: Duration(seconds: 2),
+          duration: Duration(milliseconds: 800),
         ),
         ChildRoute(
           '/second',
           child: (context, args) => OnBoardingSecondPage(),
           transition: TransitionType.rightToLeftWithFade,
-          duration: Duration(seconds: 2),
+          duration: Duration(milliseconds: 800),
         ),
         ChildRoute(
           '/third',
           child: (context, args) => OnBoardingThirdPage(),
           transition: TransitionType.rightToLeftWithFade,
-          duration: Duration(seconds: 2),
+          duration: Duration(milliseconds: 800),
         ),
         ChildRoute(
           '/tos',
