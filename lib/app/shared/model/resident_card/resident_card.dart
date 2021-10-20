@@ -1,4 +1,5 @@
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
+import 'package:talao/app/pages/credentials/widget/display_issuer.dart';
 import 'package:talao/app/shared/model/author.dart';
 import 'package:talao/app/shared/model/credential_subject.dart';
 import 'package:flutter/material.dart';
@@ -70,7 +71,7 @@ class ResidentCard extends CredentialSubject {
 
     return Column(
       children: [
-        Container(child: Image.asset('assets/image/gov-light.png')),
+        DisplayIssuer(issuer: issuedBy),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
