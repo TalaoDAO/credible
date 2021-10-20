@@ -1,3 +1,4 @@
+import 'package:talao/app/pages/credentials/models/credential_model.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
@@ -7,7 +8,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class QrCodeDisplayPage extends StatelessWidget {
   final String name;
-  final String data;
+  final CredentialModel data;
 
   const QrCodeDisplayPage({
     Key? key,
@@ -26,31 +27,14 @@ class QrCodeDisplayPage extends StatelessWidget {
         children: [
           Expanded(
             child: Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    localizations.qrCodeSharing,
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodyText1,
-                  ),
-                  const SizedBox(height: 4.0),
-                  Text(
-                    name,
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.caption,
-                  ),
-                  Container(
-                    alignment: Alignment.center,
-                    padding: const EdgeInsets.all(32.0),
-                    child: QrImage(
-                      data: data,
-                      version: QrVersions.auto,
-                      foregroundColor: UiKit.palette.icon,
-                    ),
-                  ),
-                ],
+              child: Container(
+                alignment: Alignment.center,
+                padding: const EdgeInsets.all(32.0),
+                child: QrImage(
+                  data: data.shareLink,
+                  version: QrVersions.auto,
+                  foregroundColor: UiKit.palette.icon,
+                ),
               ),
             ),
           ),
