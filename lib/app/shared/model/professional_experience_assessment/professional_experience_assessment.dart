@@ -161,7 +161,7 @@ class ProfessionalExperienceAssessment extends CredentialSubject {
               }),
         ),
         Container(
-          height: 100,
+          height: 130,
           child: ListView.builder(
               itemCount: signatureLines.length,
               itemBuilder: (context, index) {
@@ -183,7 +183,7 @@ class ProfessionalExperienceAssessment extends CredentialSubject {
                         ? Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
-                              height: 60,
+                              height: 100,
                               child: Image.network(item.image,
                                   loadingBuilder:
                                       (context, child, loadingProgress) =>
