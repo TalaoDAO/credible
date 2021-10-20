@@ -160,44 +160,11 @@ class ProfessionalExperienceAssessment extends CredentialSubject {
                 );
               }),
         ),
-        Container(
-          height: 130,
-          child: ListView.builder(
-              itemCount: signatureLines.length,
-              itemBuilder: (context, index) {
-                final item = signatureLines[index];
-                return Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          Text('${localizations.signedBy} '),
-                          Text(item.name,
-                              style: TextStyle(
-                                  inherit: true, fontWeight: FontWeight.w700)),
-                        ],
-                      ),
-                    ),
-                    item.image != ''
-                        ? Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              height: 100,
-                              child: Image.network(item.image,
-                                  loadingBuilder:
-                                      (context, child, loadingProgress) =>
-                                          (loadingProgress == null)
-                                              ? child
-                                              : CircularProgressIndicator(),
-                                  errorBuilder: (context, error, stackTrace) =>
-                                      SizedBox.shrink()),
-                            ),
-                          )
-                        : SizedBox.shrink(),
-                  ],
-                );
-              }),
+        Column(
+          children: signatureLines
+              .map((e) =>
+                  DisplaySignatures(localizations: localizations, item: e))
+              .toList(),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
@@ -237,5 +204,49 @@ class ProfessionalExperienceAssessment extends CredentialSubject {
       _translation = translated.single.value;
     }
     return _translation;
+  }
+}
+
+class DisplaySignatures extends StatelessWidget {
+  const DisplaySignatures({
+    Key? key,
+    required this.localizations,
+    required this.item,
+  }) : super(key: key);
+
+  final AppLocalizations localizations;
+  final Signature item;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Text('${localizations.signedBy} '),
+              Text(item.name,
+                  style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
+            ],
+          ),
+        ),
+        item.image != ''
+            ? Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  height: 100,
+                  child: Image.network(item.image,
+                      loadingBuilder: (context, child, loadingProgress) =>
+                          (loadingProgress == null)
+                              ? child
+                              : CircularProgressIndicator(),
+                      errorBuilder: (context, error, stackTrace) =>
+                          SizedBox.shrink()),
+                ),
+              )
+            : SizedBox.shrink(),
+      ],
+    );
   }
 }
