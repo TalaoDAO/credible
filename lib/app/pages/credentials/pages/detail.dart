@@ -33,6 +33,7 @@ class _CredentialsDetailState
     extends ModularState<CredentialsDetail, WalletBloc> {
   bool showShareMenu = false;
   VerificationState verification = VerificationState.Unverified;
+  String verifyCredentialReturn = 'testing...';
 
   final logger = Logger('credible/credentials/detail');
 
@@ -40,6 +41,7 @@ class _CredentialsDetailState
   void initState() {
     super.initState();
     verify();
+    testCredentialRevocation();
   }
 
   void verify() async {
@@ -204,6 +206,20 @@ class _CredentialsDetailState
                 ),
               ],
             ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(width: 8.0),
+                Text(
+                  verifyCredentialReturn.toString(),
+                  maxLines: 10,
+                  style: Theme.of(context)
+                      .textTheme
+                      .caption!
+                      .apply(color: verification.color),
+                ),
+              ],
+            ),
           ],
           const SizedBox(height: 64.0),
           TextButton(
@@ -226,5 +242,19 @@ class _CredentialsDetailState
         ],
       ),
     );
+  }
+
+  void testCredentialRevocation() async {
+    final vcStr = jsonEncode(widget.item.data);
+    final optStr = jsonEncode({
+      'checks': ['credentialStatus']
+    });
+    final result =
+        await DIDKitProvider.instance.verifyCredential(vcStr, optStr);
+    final jsonResult = jsonDecode(result);
+    setState(() {
+      verifyCredentialReturn =
+          "checks: ${jsonResult['checks']} \nwarnings ${jsonResult['warnings']}\nerrors: ${jsonResult['errors']}";
+    });
   }
 }
