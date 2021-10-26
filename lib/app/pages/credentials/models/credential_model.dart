@@ -162,7 +162,7 @@ class CredentialModel {
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: displayDescription(context),
+          child: Container(height: 48, child: displayDescription(context)),
         ),
         DisplayIssuer(issuer: credentialPreview.credentialSubject.issuedBy)
       ],
@@ -225,10 +225,9 @@ class CredentialModel {
 
   Widget displayDescription(BuildContext context) {
     final nameValue = getDescription(context, credentialPreview.description);
-    return SelectableText(
+    return Text(
       nameValue.toString(),
-      minLines: 3,
-      maxLines: 3,
+      overflow: TextOverflow.fade,
     );
   }
 }
