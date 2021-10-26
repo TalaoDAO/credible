@@ -49,11 +49,8 @@ class DefaultCredentialSubject extends CredentialSubject {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: DisplayIssuer(
-              issuer: issuedBy,
-            ),
+          DisplayIssuer(
+            issuer: issuedBy,
           ),
         ],
       ),

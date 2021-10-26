@@ -215,6 +215,8 @@ class CredentialModel {
   Widget displayName(BuildContext context) {
     final nameValue = getName(context, credentialPreview.name);
     return Text(nameValue.toString(),
+        maxLines: 1,
+        overflow: TextOverflow.clip,
         style: Theme.of(context)
             .textTheme
             .bodyText1
@@ -223,8 +225,10 @@ class CredentialModel {
 
   Widget displayDescription(BuildContext context) {
     final nameValue = getDescription(context, credentialPreview.description);
-    return Text(
+    return SelectableText(
       nameValue.toString(),
+      minLines: 3,
+      maxLines: 3,
     );
   }
 }

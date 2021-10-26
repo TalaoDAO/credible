@@ -13,25 +13,24 @@ class DisplayIssuer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: (issuer.name != '')
-          ? Row(
-              children: [
-                // Text('${localizations.issuer} '),
-                Text(issuer.name,
-                    style:
-                        TextStyle(inherit: true, fontWeight: FontWeight.w700)),
-                Spacer(),
-                (issuer.logo != '')
-                    ? Container(
-                        height: 30,
-                        child: Image.network(
-                          issuer.logo,
-                          fit: BoxFit.cover,
-                        ))
-                    : SizedBox.shrink()
-              ],
-            )
-          : SizedBox.shrink(),
+      child: Row(
+        children: [
+          // Text('${localizations.issuer} '),
+          Text(issuer.name,
+              style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
+          Spacer(),
+          (issuer.logo != '')
+              ? Container(
+                  height: 30,
+                  child: Image.network(
+                    issuer.logo,
+                    fit: BoxFit.cover,
+                  ))
+              : SizedBox(
+                  height: 30,
+                )
+        ],
+      ),
     );
   }
 }
