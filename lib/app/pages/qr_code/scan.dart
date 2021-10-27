@@ -4,6 +4,8 @@ import 'package:talao/app/pages/qr_code/bloc/qrcode.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/confirm_dialog.dart';
 import 'package:talao/app/shared/widget/navigation_bar.dart';
+import 'package:talao/app/pages/profile/usecase/is_issuer_approved.dart'
+    as issuer_approved_usecase;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -61,18 +63,14 @@ class _QrCodeScanPageState extends ModularState<QrCodeScanPage, QRCodeBloc> {
       });
 
       final localizations = AppLocalizations.of(context)!;
-      final acceptHost = await showDialog<bool>(
-            context: context,
-            builder: (BuildContext context) {
-              return ConfirmDialog(
-                title: localizations.scanPromptHost,
-                subtitle: uri.host,
-                yes: localizations.communicationHostAllow,
-                no: localizations.communicationHostDeny,
-              );
-            },
-          ) ??
-          false;
+      var isIssuerApproved =
+          await issuer_approved_usecase.isIssuerApproved(uri);
+      var acceptHost;
+      if (!isIssuerApproved) {
+        acceptHost = await checkHost(localizations, uri) ?? false;
+      } else {
+        acceptHost = true;
+      }
 
       if (acceptHost) {
         store.add(QRCodeEventAccept(uri));
@@ -86,6 +84,20 @@ class _QrCodeScanPageState extends ModularState<QrCodeScanPage, QRCodeBloc> {
         promptActive = false;
       });
     }
+  }
+
+  Future<bool?> checkHost(AppLocalizations localizations, Uri uri) {
+    return showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return ConfirmDialog(
+          title: localizations.scanPromptHost,
+          subtitle: uri.host,
+          yes: localizations.communicationHostAllow,
+          no: localizations.communicationHostDeny,
+        );
+      },
+    );
   }
 
   @override

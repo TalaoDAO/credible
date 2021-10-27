@@ -155,6 +155,8 @@
   "from": "from",
   "to": "to",
   "credential": "Credential",
-  "issuanceDate": "Issuance date"
+  "issuanceDate": "Issuance date",
+  "appContactWebsite": "Website",
+  "issuerVerificationSetting": "Verify identity of Issuer/Verifier"
 
 }

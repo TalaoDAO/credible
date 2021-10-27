@@ -49,12 +49,13 @@ class _PersonalPageState extends State<PersonalPage> {
         borderRadius: BorderRadius.circular(8.0),
         onTap: () {
           Modular.get<ProfileBloc>().add(ProfileEventUpdate(ProfileModel(
-            firstName: firstNameController.text,
-            lastName: lastNameController.text,
-            phone: phoneController.text,
-            location: locationController.text,
-            email: emailController.text,
-          )));
+              firstName: firstNameController.text,
+              lastName: lastNameController.text,
+              phone: phoneController.text,
+              location: locationController.text,
+              email: emailController.text,
+              issuerVerificationSetting:
+                  widget.profile.issuerVerificationSetting)));
           Modular.to.pop();
         },
         child: Padding(

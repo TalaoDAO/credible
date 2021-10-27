@@ -155,6 +155,7 @@
   "from": "de",
   "to": "a",
   "credential": "Credenciales",
-  "issuanceDate": "Issuance date"
+  "issuanceDate": "Issuance date",
+  "appContactWebsite": "Website"
 
 }

@@ -14,11 +14,16 @@ class ProfileModel {
   static const String emailKey = 'profile/email';
   final String email;
 
+  static const String issuerVerificationSettingKey =
+      'profile/issuerVerificationSetting';
+  final bool issuerVerificationSetting;
+
   const ProfileModel({
     this.firstName = '',
     this.lastName = '',
     this.phone = '',
     this.location = '',
     this.email = '',
+    this.issuerVerificationSetting = true,
   });
 }

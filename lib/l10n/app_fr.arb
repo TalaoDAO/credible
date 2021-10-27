@@ -155,7 +155,8 @@
   "from": "du",
   "to": "au",
   "credential": "Attestation",
-  "issuanceDate": "Date émission"
+  "issuanceDate": "Date émission",
+  "appContactWebsite": "Site web"
 
 }
 

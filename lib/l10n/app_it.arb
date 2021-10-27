@@ -155,6 +155,7 @@
   "from": "da",
   "to": "a",
   "credential": "Credenziali",
-  "issuanceDate": "Issuance date"
+  "issuanceDate": "Issuance date",
+  "appContactWebsite": "Website"
 
 }

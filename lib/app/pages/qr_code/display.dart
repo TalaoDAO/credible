@@ -4,7 +4,6 @@ import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class QrCodeDisplayPage extends StatelessWidget {
   final String name;
@@ -18,7 +17,6 @@ class QrCodeDisplayPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
     return BasePage(
       title: ' ',
       titleLeading: BackLeadingButton(),

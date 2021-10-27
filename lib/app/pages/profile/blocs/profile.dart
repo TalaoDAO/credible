@@ -62,14 +62,17 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
               '';
       final email =
           await SecureStorageProvider.instance.get(ProfileModel.emailKey) ?? '';
+      final issuerVerificationSetting = !(await SecureStorageProvider.instance
+              .get(ProfileModel.issuerVerificationSettingKey) ==
+          'false');
 
       final model = ProfileModel(
-        firstName: firstName,
-        lastName: lastName,
-        phone: phone,
-        location: location,
-        email: email,
-      );
+          firstName: firstName,
+          lastName: lastName,
+          phone: phone,
+          location: location,
+          email: email,
+          issuerVerificationSetting: issuerVerificationSetting);
 
       yield ProfileStateDefault(model);
     } catch (e) {
@@ -107,6 +110,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       await SecureStorageProvider.instance.set(
         ProfileModel.emailKey,
         event.model.email,
+      );
+      await SecureStorageProvider.instance.set(
+        ProfileModel.issuerVerificationSettingKey,
+        event.model.issuerVerificationSetting.toString(),
       );
 
       yield ProfileStateDefault(event.model);
