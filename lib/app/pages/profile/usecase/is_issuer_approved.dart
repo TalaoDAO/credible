@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:talao/app/interop/check_issuer/check_issuer.dart';
 import 'package:talao/app/pages/profile/blocs/profile.dart';
 import 'package:talao/app/shared/constants.dart';
