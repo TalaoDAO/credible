@@ -8,6 +8,7 @@ class ConfirmDialog extends StatelessWidget {
   final String? subtitle;
   final String yes;
   final String no;
+  final bool lock;
 
   const ConfirmDialog({
     Key? key,
@@ -15,6 +16,7 @@ class ConfirmDialog extends StatelessWidget {
     this.subtitle,
     this.yes = 'Yes',
     this.no = 'No',
+    this.lock = false,
   }) : super(key: key);
 
   @override
@@ -34,6 +36,15 @@ class ConfirmDialog extends StatelessWidget {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          (lock)
+              ? Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Icon(
+                    Icons.lock_open,
+                    color: Colors.red,
+                  ),
+                )
+              : SizedBox.shrink(),
           if (subtitle != null)
             Text(
               subtitle!,

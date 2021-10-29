@@ -18,8 +18,15 @@ class OrganizationInfo {
   factory OrganizationInfo.fromJson(Map<String, dynamic> json) =>
       _$OrganizationInfoFromJson(json);
 
-  OrganizationInfo(this.id, this.legalName, this.currentAddress, this.website,
-      this.issuerDomain);
+  OrganizationInfo(
+      {required this.id,
+      required this.legalName,
+      required this.currentAddress,
+      required this.website,
+      required this.issuerDomain});
+
+  factory OrganizationInfo.emptyOrganizationInfo() => OrganizationInfo(
+      id: '', legalName: '', website: '', issuerDomain: [], currentAddress: '');
 
   Map<String, dynamic> toJson() => _$OrganizationInfoToJson(this);
 }

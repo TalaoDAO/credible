@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:talao/app/interop/check_issuer/models/issuer.dart';
 import 'package:talao/app/pages/qr_code/bloc/qrcode.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/confirm_dialog.dart';
@@ -63,14 +64,9 @@ class _QrCodeScanPageState extends ModularState<QrCodeScanPage, QRCodeBloc> {
       });
 
       final localizations = AppLocalizations.of(context)!;
-      var isIssuerApproved =
-          await issuer_approved_usecase.isIssuerApproved(uri);
+      var approvedIssuer = await issuer_approved_usecase.ApprovedIssuer(uri);
       var acceptHost;
-      if (!isIssuerApproved) {
-        acceptHost = await checkHost(localizations, uri) ?? false;
-      } else {
-        acceptHost = true;
-      }
+      acceptHost = await checkHost(localizations, uri, approvedIssuer) ?? false;
 
       if (acceptHost) {
         store.add(QRCodeEventAccept(uri));
@@ -86,15 +82,19 @@ class _QrCodeScanPageState extends ModularState<QrCodeScanPage, QRCodeBloc> {
     }
   }
 
-  Future<bool?> checkHost(AppLocalizations localizations, Uri uri) {
+  Future<bool?> checkHost(
+      AppLocalizations localizations, Uri uri, Issuer approvedIssuer) {
     return showDialog<bool>(
       context: context,
       builder: (BuildContext context) {
         return ConfirmDialog(
           title: localizations.scanPromptHost,
-          subtitle: uri.host,
+          subtitle: (approvedIssuer.did.isEmpty)
+              ? uri.host
+              : '${approvedIssuer.organizationInfo.legalName}\n${approvedIssuer.organizationInfo.currentAddress}',
           yes: localizations.communicationHostAllow,
           no: localizations.communicationHostDeny,
+          lock: (uri.scheme == 'http') ? true : false,
         );
       },
     );

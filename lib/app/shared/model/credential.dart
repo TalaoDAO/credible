@@ -1,5 +1,7 @@
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:talao/app/pages/credentials/models/revokation_status.dart';
 import 'package:talao/app/shared/model/author.dart';
+import 'package:talao/app/shared/model/credential_status_field.dart';
 import 'package:talao/app/shared/model/credential_subject.dart';
 import 'package:talao/app/shared/model/default_credential_subject/default_credential_subject.dart';
 import 'package:talao/app/shared/model/proof.dart';
@@ -21,7 +23,9 @@ class Credential {
   @JsonKey(fromJson: _fromJsonProofs)
   final List<Proof> proof;
   final CredentialSubject credentialSubject;
-
+  @JsonKey(fromJson: _fromJsonCredentialStatus)
+  final CredentialStatusField credentialStatus;
+  @JsonKey(defaultValue: RevocationStatus.unknown)
   Credential(
     this.id,
     this.type,
@@ -31,6 +35,7 @@ class Credential {
     this.credentialSubject,
     this.description,
     this.name,
+    this.credentialStatus,
   );
 
   factory Credential.fromJson(Map<String, dynamic> json) {
@@ -42,17 +47,17 @@ class Credential {
 
   factory Credential.dummy() {
     return Credential(
-      'dummy',
-      ['dummy'],
-      'dummy',
-      'dummy',
-      [
-        Proof.dummy(),
-      ],
-      DefaultCredentialSubject('dummy', 'dummy', Author('', '')),
-      [Translation('en', '')],
-      [Translation('en', '')],
-    );
+        'dummy',
+        ['dummy'],
+        'dummy',
+        'dummy',
+        [
+          Proof.dummy(),
+        ],
+        DefaultCredentialSubject('dummy', 'dummy', Author('', '')),
+        [Translation('en', '')],
+        [Translation('en', '')],
+        CredentialStatusField.emptyCredentialStatusField());
   }
 
   Map<String, dynamic> toJson() => _$CredentialToJson(this);
@@ -79,6 +84,13 @@ class Credential {
           .toList();
     }
     return [Translation.fromJson(json)];
+  }
+
+  static CredentialStatusField _fromJsonCredentialStatus(json) {
+    if (json == null || json == '') {
+      return CredentialStatusField.emptyCredentialStatusField();
+    }
+    return CredentialStatusField.fromJson(json);
   }
 
   static Credential fromJsonOrErrorPage(Map<String, dynamic> data) {

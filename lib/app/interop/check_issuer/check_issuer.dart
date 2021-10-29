@@ -12,7 +12,7 @@ class CheckIssuer {
     this.uriToCheck,
   );
 
-  Future<bool> isIssuerInApprovedList() async {
+  Future<Issuer> isIssuerInApprovedList() async {
     var didToTest = '';
     uriToCheck.queryParameters.forEach((key, value) {
       if (key == 'issuer') {
@@ -22,7 +22,10 @@ class CheckIssuer {
     try {
       final response = await client.get('$checkIssuerServerUrl/$didToTest');
       final issuer = Issuer.fromJson(response.data);
-      return issuer.organizationInfo.issuerDomain.contains(uriToCheck.host);
+      if (issuer.organizationInfo.issuerDomain.contains(uriToCheck.host)) {
+        return issuer;
+      }
+      return Issuer.emptyIssuer();
     } catch (e) {
       throw Exception(e);
     }

@@ -8,9 +8,11 @@ part of 'issuer.dart';
 
 Issuer _$IssuerFromJson(Map<String, dynamic> json) {
   return Issuer(
-    json['preferredName'] as String? ?? '',
-    (json['did'] as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
-    OrganizationInfo.fromJson(json['organizationInfo'] as Map<String, dynamic>),
+    preferredName: json['preferredName'] as String? ?? '',
+    did:
+        (json['did'] as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
+    organizationInfo: OrganizationInfo.fromJson(
+        json['organizationInfo'] as Map<String, dynamic>),
   );
 }
 

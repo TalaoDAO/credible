@@ -1,9 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:talao/app/interop/check_issuer/check_issuer.dart';
+import 'package:talao/app/interop/check_issuer/models/issuer.dart';
 import 'package:talao/app/pages/profile/blocs/profile.dart';
 import 'package:talao/app/shared/constants.dart';
 
-Future<bool> isIssuerApproved(Uri uri) async {
+Future<Issuer> ApprovedIssuer(Uri uri) async {
   final client = Dio();
   final profilBloc = ProfileBloc();
   profilBloc.add(ProfileEventLoad());
@@ -17,10 +18,10 @@ Future<bool> isIssuerApproved(Uri uri) async {
         return await CheckIssuer(client, Constants.checkIssuerServerUrl, uri)
             .isIssuerInApprovedList();
       } catch (e) {
-        return false;
+        return Issuer.emptyIssuer();
       }
     }
   }
   await profilBloc.close();
-  return false;
+  return Issuer.emptyIssuer();
 }

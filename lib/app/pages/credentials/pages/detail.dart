@@ -4,6 +4,7 @@ import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/pages/credentials/blocs/wallet.dart';
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
 import 'package:talao/app/pages/credentials/models/verification_state.dart';
+import 'package:talao/app/pages/credentials/widget/display_status.dart';
 import 'package:talao/app/pages/credentials/widget/document.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
@@ -33,15 +34,14 @@ class _CredentialsDetailState
     extends ModularState<CredentialsDetail, WalletBloc> {
   bool showShareMenu = false;
   VerificationState verification = VerificationState.Unverified;
-  String verifyCredentialReturn = 'testing...';
 
   final logger = Logger('credible/credentials/detail');
 
   @override
   void initState() {
     super.initState();
+    widget.item.setRevocationStatusToUnknown();
     verify();
-    testCredentialRevocation();
   }
 
   void verify() async {
@@ -180,47 +180,46 @@ class _CredentialsDetailState
           ),
           const SizedBox(height: 64.0),
           if (verification == VerificationState.Unverified)
-            Center(child: CircularProgressIndicator())
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Center(child: CircularProgressIndicator()),
+            )
           else ...<Widget>[
             Center(
-              child: Text(
-                localizations.credentialDetailStatus,
-                style: Theme.of(context).textTheme.overline!,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  localizations.credentialDetailStatus,
+                  style: Theme.of(context).textTheme.overline!,
+                ),
               ),
             ),
-            const SizedBox(height: 8.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
-                  verification.icon,
-                  color: verification.color,
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Icon(
+                    verification.icon,
+                    color: verification.color,
+                  ),
                 ),
-                const SizedBox(width: 8.0),
-                Text(
-                  verification.message,
-                  style: Theme.of(context)
-                      .textTheme
-                      .caption!
-                      .apply(color: verification.color),
-                ),
-              ],
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(width: 8.0),
-                Text(
-                  verifyCredentialReturn.toString(),
-                  maxLines: 10,
-                  style: Theme.of(context)
-                      .textTheme
-                      .caption!
-                      .apply(color: verification.color),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    verification.message,
+                    style: Theme.of(context)
+                        .textTheme
+                        .caption!
+                        .apply(color: verification.color),
+                  ),
                 ),
               ],
             ),
           ],
+          Center(
+            child: DisplayStatus(widget.item, true),
+          ),
           const SizedBox(height: 64.0),
           TextButton(
             style: TextButton.styleFrom(
@@ -242,19 +241,5 @@ class _CredentialsDetailState
         ],
       ),
     );
-  }
-
-  void testCredentialRevocation() async {
-    final vcStr = jsonEncode(widget.item.data);
-    final optStr = jsonEncode({
-      'checks': ['credentialStatus']
-    });
-    final result =
-        await DIDKitProvider.instance.verifyCredential(vcStr, optStr);
-    final jsonResult = jsonDecode(result);
-    setState(() {
-      verifyCredentialReturn =
-          "checks: ${jsonResult['checks']} \nwarnings ${jsonResult['warnings']}\nerrors: ${jsonResult['errors']}";
-    });
   }
 }

@@ -1,5 +1,6 @@
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
-import 'package:talao/app/pages/credentials/models/credential_status.dart';
+import 'package:talao/app/pages/credentials/models/revokation_status.dart';
+import 'package:talao/app/pages/credentials/widget/display_status.dart';
 import 'package:talao/app/shared/model/credential.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/box_decoration.dart';
@@ -111,7 +112,7 @@ class CredentialsListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _BaseItem(
-      enabled: !(item.status != CredentialStatus.active),
+      enabled: (item.revocationStatus == RevocationStatus.active),
       onTap: onTap ??
           () => Modular.to.pushNamed(
                 '/credentials/detail',
@@ -149,7 +150,7 @@ class CredentialsListItem extends StatelessWidget {
                           ),
               ),
               SizedBox(height: 16.0),
-              displayStatus(item),
+              DisplayStatus(item, false),
             ],
           ),
         ),
@@ -158,18 +159,5 @@ class CredentialsListItem extends StatelessWidget {
         ),
       ],
     );
-  }
-
-  Widget displayStatus(CredentialModel item) {
-    switch (item.status) {
-      case CredentialStatus.active:
-        return Icon(Icons.check_circle, color: Colors.green);
-      case CredentialStatus.expired:
-        return Icon(Icons.alarm_off, color: Colors.yellow);
-      case CredentialStatus.revoked:
-        return Icon(Icons.block, color: Colors.red);
-      default:
-        return Icon(Icons.offline_bolt);
-    }
   }
 }

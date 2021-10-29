@@ -1,5 +1,5 @@
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
-import 'package:talao/app/pages/credentials/models/credential_status.dart';
+import 'package:talao/app/pages/credentials/widget/display_status.dart';
 import 'package:talao/app/shared/widget/tooltip_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -10,19 +10,6 @@ class CredentialsGridItem extends StatelessWidget {
   CredentialsGridItem({
     required this.item,
   });
-
-  Widget get _statusIcon {
-    switch (item.status) {
-      case CredentialStatus.active:
-        return Icon(Icons.check_circle, color: Colors.green);
-      case CredentialStatus.expired:
-        return Icon(Icons.alarm_off, color: Colors.yellow);
-      case CredentialStatus.revoked:
-        return Icon(Icons.block, color: Colors.red);
-      default:
-        throw UnimplementedError('Unreachable!');
-    }
-  }
 
   @override
   Widget build(BuildContext context) => Card(
@@ -59,7 +46,7 @@ class CredentialsGridItem extends StatelessWidget {
                   alignment: Alignment.bottomRight,
                   child: Hero(
                     tag: 'credential/${item.id}/status',
-                    child: _statusIcon,
+                    child: DisplayStatus(item, false),
                   ),
                 ),
               ],

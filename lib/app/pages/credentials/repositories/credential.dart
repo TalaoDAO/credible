@@ -2,9 +2,20 @@ import 'package:talao/app/pages/credentials/database.dart';
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:sembast/sembast.dart';
+import 'package:talao/app/pages/credentials/models/revokation_status.dart';
 
 class CredentialsRepository extends Disposable {
   CredentialsRepository();
+
+  Future<void> initializeRevocationStatus() async {
+    final _credentialList = await findAll();
+    for (final _credential in _credentialList) {
+      if (_credential.revocationStatus == RevocationStatus.active) {
+        _credential.setRevocationStatusToUnknown();
+        await update(_credential);
+      }
+    }
+  }
 
   Future<List<Map<String, dynamic>>> rawFindAll(/* dynamic filters */) async {
     final db = await WalletDatabase.db;

@@ -58,6 +58,9 @@ class _CredentialsStreamState
                 ),
               ),
             );
+          }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
           } else {
             return widget.child(context, snapshot.data!);
           }

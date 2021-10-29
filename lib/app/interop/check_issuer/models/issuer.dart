@@ -14,7 +14,14 @@ class Issuer {
   factory Issuer.fromJson(Map<String, dynamic> json) =>
       _$IssuerFromJson(json['issuer']);
 
-  Issuer(this.preferredName, this.did, this.organizationInfo);
+  Issuer(
+      {required this.preferredName,
+      required this.did,
+      required this.organizationInfo});
 
+  factory Issuer.emptyIssuer() => Issuer(
+      preferredName: '',
+      did: [],
+      organizationInfo: OrganizationInfo.emptyOrganizationInfo());
   Map<String, dynamic> toJson() => _$IssuerToJson(this);
 }

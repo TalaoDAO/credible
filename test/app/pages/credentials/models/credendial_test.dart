@@ -1,5 +1,6 @@
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:talao/app/pages/credentials/models/revokation_status.dart';
 import 'package:talao/app/shared/model/credential.dart';
 import 'package:talao/app/shared/model/display.dart';
 
@@ -7,13 +8,15 @@ void main() {
   group('CredentialModel', () {
     test('.toMap() encodes to map', () {
       final credential = CredentialModel(
-          id: 'uuid',
-          alias: null,
-          image: 'image',
-          data: {'issuer': 'did:...'},
-          display: Display.emptyDisplay(),
-          shareLink: '',
-          credentialPreview: Credential.dummy());
+        id: 'uuid',
+        alias: null,
+        image: 'image',
+        data: {'issuer': 'did:...'},
+        display: Display.emptyDisplay(),
+        shareLink: '',
+        credentialPreview: Credential.dummy(),
+        revocationStatus: RevocationStatus.unknown,
+      );
       final m = credential.toJson();
 
       expect(

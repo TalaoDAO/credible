@@ -8,11 +8,11 @@ part of 'organization_info.dart';
 
 OrganizationInfo _$OrganizationInfoFromJson(Map<String, dynamic> json) {
   return OrganizationInfo(
-    json['id'] as String? ?? '',
-    json['legalName'] as String? ?? '',
-    json['currentAddress'] as String? ?? '',
-    json['website'] as String? ?? '',
-    (json['issuerDomain'] as List<dynamic>?)
+    id: json['id'] as String? ?? '',
+    legalName: json['legalName'] as String? ?? '',
+    currentAddress: json['currentAddress'] as String? ?? '',
+    website: json['website'] as String? ?? '',
+    issuerDomain: (json['issuerDomain'] as List<dynamic>?)
             ?.map((e) => e as String)
             .toList() ??
         [],

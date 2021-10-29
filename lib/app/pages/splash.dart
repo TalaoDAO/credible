@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:talao/app/interop/chapi/chapi.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/pages/credentials/blocs/scan.dart';
+import 'package:talao/app/pages/credentials/repositories/credential.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/brand.dart';
@@ -70,6 +71,10 @@ class _SplashPageState extends State<SplashPage> {
 
         CHAPIProvider.instance.emitReady();
 
+        final credentialRepository = Modular.get<CredentialsRepository>();
+
+        /// set to RevocationStatus.unknown for every credential with revocationStatus.valid
+        await credentialRepository.initializeRevocationStatus();
         await Modular.to.pushReplacementNamed('/credentials');
       },
     );

@@ -1,6 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/pages/credentials/models/credential_status.dart';
+import 'package:talao/app/shared/model/credential_status_field.dart';
+import 'package:talao/app/pages/credentials/models/revokation_status.dart';
 import 'package:talao/app/pages/credentials/widget/display_issuer.dart';
 import 'package:talao/app/shared/model/certificate_of_employment/certificate_of_employment.dart';
 import 'package:talao/app/shared/model/credential.dart';
@@ -25,17 +30,21 @@ class CredentialModel {
   final Credential credentialPreview;
   @JsonKey(fromJson: fromJsonDisplay)
   final Display display;
+  @JsonKey(defaultValue: RevocationStatus.unknown)
+  RevocationStatus revocationStatus;
   // @JsonKey(fromJson: fromJsonDisplay)
   // final Scope display;
 
-  CredentialModel(
-      {required this.id,
-      required this.alias,
-      required this.image,
-      required this.credentialPreview,
-      required this.shareLink,
-      required this.display,
-      required this.data});
+  CredentialModel({
+    required this.id,
+    required this.alias,
+    required this.image,
+    required this.credentialPreview,
+    required this.shareLink,
+    required this.display,
+    required this.data,
+    required this.revocationStatus,
+  });
   factory CredentialModel.fromJson(Map<String, dynamic> json) {
     // ignore: omit_local_variable_types
     Map<String, dynamic> newJson = Map.from(json);
@@ -57,14 +66,19 @@ class CredentialModel {
       ? DateTime.parse(data['expirationDate'])
       : null;
 
-  CredentialStatus get status {
-    if (expirationDate == null) {
+  Future<CredentialStatus> get status async {
+    if (expirationDate != null) {
+      if (!(expirationDate!.isAfter(DateTime.now()))) {
+        revocationStatus = RevocationStatus.expired;
+        return CredentialStatus.expired;
+      }
+    }
+    if (credentialPreview.credentialStatus !=
+        CredentialStatusField.emptyCredentialStatusField()) {
+      return await checkRevocationStatus();
+    } else {
       return CredentialStatus.active;
     }
-
-    return expirationDate!.isAfter(DateTime.now())
-        ? CredentialStatus.active
-        : CredentialStatus.expired;
   }
 
   factory CredentialModel.copyWithAlias(
@@ -78,6 +92,7 @@ class CredentialModel {
       shareLink: oldCredentialModel.shareLink,
       display: oldCredentialModel.display,
       credentialPreview: oldCredentialModel.credentialPreview,
+      revocationStatus: oldCredentialModel.revocationStatus,
     );
   }
 
@@ -92,6 +107,7 @@ class CredentialModel {
       shareLink: oldCredentialModel.shareLink,
       display: oldCredentialModel.display,
       credentialPreview: Credential.fromJson(newData),
+      revocationStatus: oldCredentialModel.revocationStatus,
     );
   }
 
@@ -229,5 +245,52 @@ class CredentialModel {
       nameValue.toString(),
       overflow: TextOverflow.fade,
     );
+  }
+
+  Future<CredentialStatus> checkRevocationStatus() async {
+    switch (revocationStatus) {
+      case RevocationStatus.active:
+        return CredentialStatus.active;
+      case RevocationStatus.expired:
+        revocationStatus = RevocationStatus.expired;
+        return CredentialStatus.expired;
+      case RevocationStatus.revoked:
+        return CredentialStatus.revoked;
+      case RevocationStatus.unknown:
+        var _status = await getRevocationStatus();
+        switch (_status) {
+          case RevocationStatus.active:
+            return CredentialStatus.active;
+          case RevocationStatus.expired:
+            return CredentialStatus.expired;
+          case RevocationStatus.revoked:
+            return CredentialStatus.revoked;
+          case RevocationStatus.unknown:
+            throw Exception('Invalid status of credential');
+        }
+      default:
+        throw Exception();
+    }
+  }
+
+  Future<RevocationStatus> getRevocationStatus() async {
+    final vcStr = jsonEncode(data);
+    final optStr = jsonEncode({
+      'checks': ['credentialStatus']
+    });
+    final result =
+        await DIDKitProvider.instance.verifyCredential(vcStr, optStr);
+    final jsonResult = jsonDecode(result);
+    if (jsonResult['errors'] == '[Credential is revoked.]') {
+      revocationStatus = RevocationStatus.revoked;
+      return RevocationStatus.revoked;
+    } else {
+      revocationStatus = RevocationStatus.active;
+      return RevocationStatus.active;
+    }
+  }
+
+  void setRevocationStatusToUnknown() {
+    revocationStatus = RevocationStatus.unknown;
   }
 }
