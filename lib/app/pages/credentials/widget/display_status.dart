@@ -47,7 +47,7 @@ class DisplayStatus extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Icon(Icons.alarm_off, color: Colors.yellow),
+                      child: Icon(Icons.alarm_off, color: Colors.orange),
                     ),
                     displayLabel
                         ? Padding(
@@ -56,7 +56,7 @@ class DisplayStatus extends StatelessWidget {
                                 style: Theme.of(context)
                                     .textTheme
                                     .caption!
-                                    .apply(color: Colors.yellow)))
+                                    .apply(color: Colors.orange)))
                         : SizedBox.shrink()
                   ],
                 );
@@ -80,7 +80,7 @@ class DisplayStatus extends StatelessWidget {
                   ],
                 );
               default:
-                return Icon(Icons.offline_bolt);
+                return CircularProgressIndicator();
             }
           } else {
             return CircularProgressIndicator();

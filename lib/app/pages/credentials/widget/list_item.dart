@@ -112,7 +112,7 @@ class CredentialsListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _BaseItem(
-      enabled: (item.revocationStatus == RevocationStatus.active),
+      enabled: true,
       onTap: onTap ??
           () => Modular.to.pushNamed(
                 '/credentials/detail',
