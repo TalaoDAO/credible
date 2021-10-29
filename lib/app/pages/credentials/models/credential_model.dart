@@ -281,7 +281,7 @@ class CredentialModel {
     final result =
         await DIDKitProvider.instance.verifyCredential(vcStr, optStr);
     final jsonResult = jsonDecode(result);
-    if (jsonResult['errors'] == '[Credential is revoked.]') {
+    if (jsonResult['errors'][0] == 'Credential is revoked.') {
       revocationStatus = RevocationStatus.revoked;
       return RevocationStatus.revoked;
     } else {
@@ -292,5 +292,6 @@ class CredentialModel {
 
   void setRevocationStatusToUnknown() {
     revocationStatus = RevocationStatus.unknown;
+    print("revocation status: $revocationStatus");
   }
 }

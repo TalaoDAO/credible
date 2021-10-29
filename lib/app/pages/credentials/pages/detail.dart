@@ -36,12 +36,14 @@ class _CredentialsDetailState
   VerificationState verification = VerificationState.Unverified;
 
   final logger = Logger('credible/credentials/detail');
+  Widget revocationWidget = CircularProgressIndicator();
 
   @override
   void initState() {
     super.initState();
     widget.item.setRevocationStatusToUnknown();
     verify();
+    secondCheckRevocation();
   }
 
   void verify() async {
@@ -220,6 +222,10 @@ class _CredentialsDetailState
           Center(
             child: DisplayStatus(widget.item, true),
           ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: revocationWidget,
+          ),
           const SizedBox(height: 64.0),
           TextButton(
             style: TextButton.styleFrom(
@@ -241,5 +247,23 @@ class _CredentialsDetailState
         ],
       ),
     );
+  }
+
+  Future<void> secondCheckRevocation() async {
+    final vcStr = jsonEncode(widget.item.data);
+    final optStr = jsonEncode({
+      'checks': ['credentialStatus']
+    });
+    final result =
+        await DIDKitProvider.instance.verifyCredential(vcStr, optStr);
+    final jsonResult = jsonDecode(result);
+    setState(() {
+      revocationWidget = Column(
+        children: [
+          Text(jsonResult['warnings'].toString()),
+          Text(jsonResult['errors'].toString())
+        ],
+      );
+    });
   }
 }
