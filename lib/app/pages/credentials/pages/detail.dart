@@ -40,7 +40,6 @@ class _CredentialsDetailState
   @override
   void initState() {
     super.initState();
-    widget.item.setRevocationStatusToUnknown();
     verify();
   }
 

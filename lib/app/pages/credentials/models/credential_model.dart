@@ -278,8 +278,10 @@ class CredentialModel {
     final optStr = jsonEncode({
       'checks': ['credentialStatus']
     });
-    final result =
-        await DIDKitProvider.instance.verifyCredential(vcStr, optStr);
+    final result = await Future.any([
+      DIDKitProvider.instance.verifyCredential(vcStr, optStr),
+      Future.delayed(const Duration(seconds: 4))
+    ]);
     final jsonResult = jsonDecode(result);
     if (jsonResult['errors']?[0] == 'Credential is revoked.') {
       revocationStatus = RevocationStatus.revoked;
