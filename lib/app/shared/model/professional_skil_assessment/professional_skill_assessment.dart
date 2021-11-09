@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:talao/app/shared/model/translation.dart';
+import 'package:talao/app/shared/widget/display_signature.dart';
 import 'package:talao/app/shared/widget/skills_list_display.dart';
 
 part 'professional_skill_assessment.g.dart';
@@ -72,44 +73,11 @@ class ProfessionalSkillAssessment extends CredentialSubject {
         SkillsListDisplay(
           skillWidgetList: skills,
         ),
-        Container(
-          height: 100,
-          child: ListView.builder(
-              itemCount: signatureLines.length,
-              itemBuilder: (context, index) {
-                final item = signatureLines[index];
-                return Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          Text('${localizations.signedBy} '),
-                          Text(item.name,
-                              style: TextStyle(
-                                  inherit: true, fontWeight: FontWeight.w700)),
-                        ],
-                      ),
-                    ),
-                    item.image != ''
-                        ? Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              height: 60,
-                              child: Image.network(item.image,
-                                  loadingBuilder:
-                                      (context, child, loadingProgress) =>
-                                          (loadingProgress == null)
-                                              ? child
-                                              : CircularProgressIndicator(),
-                                  errorBuilder: (context, error, stackTrace) =>
-                                      SizedBox.shrink()),
-                            ),
-                          )
-                        : SizedBox.shrink(),
-                  ],
-                );
-              }),
+        Column(
+          children: signatureLines
+              .map((e) =>
+                  DisplaySignatures(localizations: localizations, item: e))
+              .toList(),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),

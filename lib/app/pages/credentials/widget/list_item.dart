@@ -1,5 +1,4 @@
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
-import 'package:talao/app/pages/credentials/models/revokation_status.dart';
 import 'package:talao/app/pages/credentials/widget/display_status.dart';
 import 'package:talao/app/shared/model/credential.dart';
 import 'package:talao/app/shared/ui/ui.dart';
