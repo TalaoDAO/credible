@@ -8,6 +8,7 @@ on:
       - main
       - e2etests
   pull_request:
+  workflow_dispatch:
 
 env:
   flutter_version: "1.27.0-1.0.pre"
