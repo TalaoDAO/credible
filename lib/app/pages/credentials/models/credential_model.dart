@@ -294,6 +294,6 @@ class CredentialModel {
 
   void setRevocationStatusToUnknown() {
     revocationStatus = RevocationStatus.unknown;
-    print("revocation status: $revocationStatus");
+    print('revocation status: $revocationStatus');
   }
 }
