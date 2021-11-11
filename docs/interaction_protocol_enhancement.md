@@ -422,3 +422,15 @@ Verifier attaches messages for user but no credential criters :
 ```
 
 See https://talao.co/wallet/test/presentationRequest for simulation and testing.
+
+## Return codes
+   
+   200 OK
+   201 Created 
+   400 Bad Request
+   401  unauthenticated
+   403 Forbidden
+   408 Request Timeout
+   500 Internal Server Error
+   501 Not Implemented
+   504 Gateway Timeout
