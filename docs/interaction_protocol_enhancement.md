@@ -9,7 +9,7 @@ This protocol is described by Spruce: https://github.com/spruceid/credible#suppo
 
 This protocol occurs when a user wishes to use his wallet to collect credentials or to present them to access resources. 
 
-## Collecting a Verifiable Credential (Credible O.3)
+## Collecting a Verifiable Credential (Credible 0.3)
 
 When the user wants to collect VCs, it is very likely that he will access this service after a first authentication. This wallet protocol does not automatically integrate this first authentication. The user must either authenticate with a pre-existing means of authentication (login/password, openID Connect flow, ...) or possibly use a VC already collected to introduce himself. This process will be used for most of the VCs to be collected such as the identity card, a professional certificate, an electronic bank card, a membership card,…. However, there are special cases where the sender collects information in an anonymous session just before issuing a VC. This is the case of a proof of email, a proof of phone, .... 
  
