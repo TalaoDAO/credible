@@ -9,7 +9,7 @@ This protocol is described by Spruce: https://github.com/spruceid/credible#suppo
 
 This protocol occurs when a user wishes to use his wallet to collect credentials or to present them to access resources. 
 
-## Collecting a Verifiable Credential (VC)
+## Collecting a Verifiable Credential (Credible O.3)
 
 When the user wants to collect VCs, it is very likely that he will access this service after a first authentication. This wallet protocol does not automatically integrate this first authentication. The user must either authenticate with a pre-existing means of authentication (login/password, openID Connect flow, ...) or possibly use a VC already collected to introduce himself. This process will be used for most of the VCs to be collected such as the identity card, a professional certificate, an electronic bank card, a membership card,…. However, there are special cases where the sender collects information in an anonymous session just before issuing a VC. This is the case of a proof of email, a proof of phone, .... 
  
@@ -45,7 +45,7 @@ chosen DID.*
 
 
 
-## Requesting a Verifiable Presentation (VP)
+## Requesting a Verifiable Presentation (Credible 0.3)
 
 The presentation of a VC or without any VC can be used for authentication or to request very specific and different services as submit a file, open a bank account, buy online ...
 
@@ -78,7 +78,7 @@ will be made.*
 verifiable presentation.*
 
 
-## Verification of the identity of Issuer / Verifier (New)
+## Verification of the identity of Issuer / Verifier (Talao build 1.0)
 
 ### Motivation
 The protocol of interaction between the wallet and an Issuer or a Verifier currently used by Credible is light, simple and quick to implement, However it does not allow the user of the wallet to ensure the identity of the other party but only the domain name specified in the URL encoded in the QR Code. On the other hand, a simple solution based on access to a public register of Issuers / Verifier makes it possible to obtain more information for the user and therefore better control without considerably increasing the complexity of the protocol. However hhis service must be considered as optional due to correlation issues.
@@ -204,7 +204,7 @@ For display descriptors : "name" and "description" fallback will ne used if any 
 
 See https://talao.co/wallet/test/credentialOffer for testing.
 
-# presentationRequest Query types (New)
+# presentationRequest Query types (To be done)
 
 ## Motivation
 
@@ -245,7 +245,7 @@ or:
 
 ## Wallet implementation
 
-### DIDAuth (New)
+### DIDAuth (To be done)
 
 If Query.type = “DIDAuth” , then it is a basic authentication request that does not include a verifiable credential : there is no selection of credential to propose to the user, call the function didkit.DIDAuth(did, “{“ challenge ”:“ .... ”,“ domain ”:“ ..... ”}”, key) which will create an empty presentation used only for authentication. The presentation passed with the POST request will look like this:
 
@@ -268,7 +268,7 @@ If Query.type = “DIDAuth” , then it is a basic authentication request that d
 
 If Query.type ="QueryByExample "then it will take the user selects credentials in a list constituted according to the criteria specified in "credentialQuery.example". Then it will be necessary to call the didkit.issuePresentation (...) function as what is currently done (there is no change in the function call). Refer to https://w3c-ccg.github.io/vp-request-spec/#query-by-example for more information.
     
-# presentationRequest QueryByExample (TODO)
+# presentationRequest QueryByExample (To be done)
     
 ## Wallet implementation
 
@@ -423,7 +423,7 @@ Verifier attaches messages for user but no credential criters :
 
 See https://talao.co/wallet/test/presentationRequest for simulation and testing.
 
-## Return codes
+## Issuer/Verfiier return codes (To be done)
    
    200 OK
  
