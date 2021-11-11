@@ -88,7 +88,7 @@ The Issuer (or Verifier) DID is passed as an argument in the QRcode callback URL
 
 example : https://talao.co/....?issuer=did:ethr:0xee09654eedaa79429f8d216fa51a129db0f72250).
 
-### Issuer Rergistry implementation
+### Issuer Registry implementation
 It may be necessary to create a registry or another means to store information about the Issuer and to define an API allowing access with a DID on behalf of the Issuer and its callback URL. There are several solutions to implement this service (see EBSI frameworkk, ToIP gov stack, well-known LinkedDomains,...), to keep it simple we will use a public gateway : https://talao.co/trusted-issuers-registry/v1/issuers/<DID> 
 
 Example :
@@ -117,7 +117,7 @@ This is an advanced service option with privacy issues (correlation). It is requ
 
 If option is "on" wallet makes a call to the gateway API with the DID associated with the QRCode “issuer” argument to read the Issuer details from the registry. The wallet checks that the QRCode domain is in the "issuerDomain" list, if this is the case it adds Issuer data to the access confirmation request message. If this is not the case or if there is no register available, it indicates that the name of the Issuer cannot not be obtained and verified and the user alert message remains as it is ("Do you trust the domain...").
 
-# credentialOffer protocol (New)
+# credentialOffer protocol (Talao build 1.0)
 
 ## Motivation
 
@@ -423,7 +423,7 @@ Verifier attaches messages for user but no credential criters :
 
 See https://talao.co/wallet/test/presentationRequest for simulation and testing.
 
-## Issuer/Verfiier return codes (To be done)
+## Issuer/Verfier return codes (To be done)
    
    200 OK
  
