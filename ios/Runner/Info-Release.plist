@@ -66,10 +66,5 @@
 	<string>Light</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>FirebaseDynamicLinksCustomDomains</key>
-	<array>
-		<string>https://wallet.talao.co</string>
-		<string>https://wallet.talao.co/links</string>
-	</array>
 </dict>
 </plist>

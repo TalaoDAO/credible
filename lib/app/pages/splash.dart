@@ -91,25 +91,4 @@ class _SplashPageState extends State<SplashPage> {
         ),
       );
 
-  // void initDynamicLinks() async {
-  //   FirebaseDynamicLinks.instance.onLink(
-  //       onSuccess: (PendingDynamicLinkData? dynamicLink) async {
-  //     if (dynamicLink != null) {
-  //       final Uri deepLink = dynamicLink.link;
-  //       if (deepLink != null) {
-  //         await Modular.to.pushReplacementNamed(deepLink.path);
-  //       }
-  //     }
-  //   }, onError: (OnLinkErrorException e) async {
-  //     print('onLinkError');
-  //     print(e.message);
-  //   });
-  //
-  //   final PendingDynamicLinkData? data =
-  //       await FirebaseDynamicLinks.instance.getInitialLink();
-  //   if (data != null) {
-  //     final Uri deepLink = data.link;
-  //     await Modular.to.pushReplacementNamed(deepLink.path);
-  //   }
-  // }
 }
