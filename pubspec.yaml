@@ -57,6 +57,7 @@ dependencies:
   bip32: ^2.0.0
   hex: ^0.2.0
   secp256k1: ^0.3.0
+  uni_links: ^0.5.1
 
 
 dev_dependencies:
