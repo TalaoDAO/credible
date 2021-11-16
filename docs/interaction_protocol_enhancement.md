@@ -1,5 +1,6 @@
 # Interaction between the wallet and an Issuer / Verifier
 
+16th november 2021
 
 ## Context
 
@@ -121,10 +122,9 @@ If option is "on" wallet makes a call to the gateway API with the DID associated
 
 ## Motivation
 
-For holders wishes to engage with Issuers to acquire credentials, there must exist a mechanism for assessing what inputs are required from an issuer to process a request for credential issuance. A manifest is a common data format for describing the inputs a user must provide to an Issuer and the way the VCs shopuild be presented. This draft has been inpired by the Credential Manfifest specification with a very limited implementations of 2 items :
+For holders wishes to engage with Issuers to acquire credentials, there must exist a mechanism for assessing what inputs are required from an issuer to process a request for credential issuance. A manifest is a common data format for describing the inputs a user must provide to an Issuer and the way the VCs shopuild be presented. This draft has been inpired by the Credential Manfifest specification with a very limited implementations :
 
-- user inputs : For some VCs it is necessary to transfer the personal data of the user's profile to the Issuer. This information is accessible in the menu Profile of the wallet. These are: the user's last name, first name, telephone, address and email.
-- display output descriptors as labels (name, description) et templates objetcs (icon, color,...).
+- display output descriptors as labels (name, description) et templates objetcs (label name, description, color,...).
 - share link : a way to use the wallet to link to a cloud service (vault, etc).
 
 ## Issuer implementation
@@ -147,8 +147,6 @@ after agreement from the user, the wallet makes a POST request with a JSON:
 ```
 
 The modification consists in adding a “scope” attribute, a "display" attribute and a shareLInk attribute to the JSON returned by the Issuer (Issuer GET response).
-
-The “scope” attribute is a list with at least the “subject_id” item and possibly other items from the following list: “givenName”, “familyName”, “telephone”, “email”, “address”.
  
 The "shareLink" attribute is an UR to be presented for share link as user convenience.
 
@@ -160,7 +158,6 @@ example:
            "type": "CredentialOffer",
            "credentialPreview": {...},
            "expires" : 12/08/2021Z ",
-           "scope ": [“ subject_id ”,“ familyName ”,“ givenName ”],
            "shareLink" : "https://talao.co/shareLink"
 }
 ```
@@ -174,9 +171,7 @@ example:
            "type": "CredentialOffer",
            "credentialPreview": {...},
            "expires" : 12/08/2021Z ",
-           "scope ": [“ subject_id ”,“ familyName ”,“ givenName ”],
            "display" : { "backgroundColor : "#efefef",
-                        "icon" : "Flutter icon reference",
                         "nameFallback" : "By default this is the name of the VC",
                         "descriptionFallback" : "By default this is the description of the VC."
                         },
@@ -185,7 +180,7 @@ example:
 }
 ```
 
-## Wallet implementation
+## Wallet implementation (to be done for scope or self signed VC)
 If there are items other than“ subject_id ”, the actions of the wallet will be:
 1. ask the user for consent to transfer their personal data (a “consent screen”)
 2. add the attributes and their value saved in the wallet to the JSON (wallet POST request), in our example:
