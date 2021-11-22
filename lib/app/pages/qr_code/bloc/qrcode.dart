@@ -14,6 +14,12 @@ class QRCodeEventHost extends QRCodeEvent {
   QRCodeEventHost(this.data);
 }
 
+class QRCodeEventDeepLink extends QRCodeEvent {
+  final String data;
+
+  QRCodeEventDeepLink(this.data);
+}
+
 class QRCodeEventAccept extends QRCodeEvent {
   final Uri uri;
 
@@ -55,11 +61,19 @@ class QRCodeBloc extends Bloc<QRCodeEvent, QRCodeState> {
   ) : super(QRCodeStateWorking());
 
   @override
+  Future<void> close() async {
+    //cancel streams
+    return super.close();
+  }
+
+  @override
   Stream<QRCodeState> mapEventToState(QRCodeEvent event) async* {
     if (event is QRCodeEventHost) {
       yield* _host(event);
     } else if (event is QRCodeEventAccept) {
       yield* _accept(event);
+    } else if (event is QRCodeEventDeepLink) {
+      yield* _deepLink(event);
     }
   }
 
@@ -75,6 +89,23 @@ class QRCodeBloc extends Bloc<QRCodeEvent, QRCodeState> {
 
       yield QRCodeStateMessage(
           StateMessage.error('This QRCode does not contain a valid message.'));
+    }
+
+    yield QRCodeStateHost(uri);
+  }
+
+  Stream<QRCodeState> _deepLink(
+    QRCodeEventDeepLink event,
+  ) async* {
+    late final uri;
+
+    try {
+      uri = Uri.parse(event.data);
+    } on FormatException catch (e) {
+      print(e.message);
+
+      yield QRCodeStateMessage(
+          StateMessage.error('This url does not contain a valid message.'));
     }
 
     yield QRCodeStateHost(uri);
@@ -116,6 +147,6 @@ class QRCodeBloc extends Bloc<QRCodeEvent, QRCodeState> {
         break;
     }
 
-    yield QRCodeStateWorking();
+    // yield QRCodeStateWorking();
   }
 }

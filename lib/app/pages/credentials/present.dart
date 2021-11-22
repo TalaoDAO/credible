@@ -32,8 +32,7 @@ class CredentialsPresentPage extends StatefulWidget {
   _CredentialsPresentPageState createState() => _CredentialsPresentPageState();
 }
 
-class _CredentialsPresentPageState
-    extends ModularState<CredentialsPresentPage, ScanBloc> {
+class _CredentialsPresentPageState extends State<CredentialsPresentPage> {
   final VoidCallback goBack = () {
     Modular.to.pushReplacementNamed('/credentials/list');
   };
@@ -53,8 +52,7 @@ class _CredentialsPresentPageState
           color: UiKit.palette.icon,
         ),
       ),
-      body: BlocConsumer(
-        bloc: store,
+      body: BlocConsumer<ScanBloc, ScanState>(
         listener: (context, state) {
           if (state is ScanStateSuccess) {
             goBack();

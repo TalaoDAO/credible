@@ -14,10 +14,14 @@ class SecureStorageIO extends SecureStorageProvider {
 
   @override
   Future<String?> get(String key) async {
-    return _storage.read(
-      key: key,
-      iOptions: _defaultIOSOptions,
-    );
+    try
+    {
+      return await _storage.read(key: key);
+    }
+    catch (e)
+    {
+      return null;
+    }
   }
 
   @override

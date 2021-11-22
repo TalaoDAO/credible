@@ -5,7 +5,6 @@ import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CredentialsGrid extends StatelessWidget {
@@ -20,8 +19,7 @@ class CredentialsGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
 
-    return BlocListener(
-      bloc: Modular.get<ScanBloc>(),
+    return BlocListener<ScanBloc, ScanState>(
       listener: (context, state) {
         if (state is ScanStateMessage) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(

@@ -1,3 +1,4 @@
+import 'package:provider/src/provider.dart';
 import 'package:talao/app/pages/credentials/blocs/scan.dart';
 import 'package:talao/app/pages/credentials/pages/detail.dart';
 import 'package:talao/app/pages/credentials/pages/grid.dart';
@@ -39,7 +40,7 @@ class CredentialsModule extends Module {
           child: (context, args) => CredentialsReceivePage(
             url: args.data,
             onSubmit: (alias) {
-              Modular.get<ScanBloc>().add(ScanEventCredentialOffer(
+              context.read<ScanBloc>().add(ScanEventCredentialOffer(
                 args.data.toString(),
                 alias,
                 'key',
@@ -53,7 +54,7 @@ class CredentialsModule extends Module {
           child: (context, args) => CredentialsReceivePage(
             url: args.data['url'],
             onSubmit: (alias) {
-              Modular.get<ScanBloc>().add(ScanEventCHAPIStore(
+              context.read<ScanBloc>().add(ScanEventCHAPIStore(
                 args.data['data'],
                 args.data['done'],
               ));
@@ -74,7 +75,7 @@ class CredentialsModule extends Module {
                 Modular.to.pushReplacementNamed(
                   '/credentials/pick',
                   arguments: (selection) {
-                    Modular.get<ScanBloc>().add(
+                    context.read<ScanBloc>().add(
                       ScanEventVerifiablePresentationRequest(
                         url: args.data.toString(),
                         key: 'key',
@@ -107,7 +108,7 @@ class CredentialsModule extends Module {
                 yes: 'Accept',
                 url: data['url'],
                 onSubmit: (preview) async {
-                  Modular.get<ScanBloc>().add(ScanEventCHAPIGetDIDAuth(
+                  context.read<ScanBloc>().add(ScanEventCHAPIGetDIDAuth(
                     'key',
                     data['done'],
                     challenge: root['challenge'],
@@ -126,7 +127,7 @@ class CredentialsModule extends Module {
                   await Modular.to.pushReplacementNamed(
                     '/credentials/pick',
                     arguments: (selection) {
-                      Modular.get<ScanBloc>().add(
+                      context.read<ScanBloc>().add(
                         ScanEventCHAPIGetQueryByExample(
                           'key',
                           selection,

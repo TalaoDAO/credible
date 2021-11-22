@@ -8,7 +8,7 @@ Future<Issuer> ApprovedIssuer(Uri uri) async {
   final client = Dio();
   final profilBloc = ProfileBloc();
   profilBloc.add(ProfileEventLoad());
-  await Future.delayed(Duration(milliseconds: 100));
+  await Future.delayed(Duration(milliseconds: 500));
   final profil = profilBloc.state;
   if (profil is ProfileStateDefault) {
     final isIssuerVerificationSettingTrue =

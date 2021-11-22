@@ -1,9 +1,8 @@
 import 'dart:io';
 
-import 'package:talao/app/interop/check_issuer/models/issuer.dart';
 import 'package:talao/app/pages/qr_code/bloc/qrcode.dart';
+import 'package:talao/app/pages/qr_code/check_host.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
-import 'package:talao/app/shared/widget/confirm_dialog.dart';
 import 'package:talao/app/shared/widget/navigation_bar.dart';
 import 'package:talao/app/pages/profile/usecase/is_issuer_approved.dart'
     as issuer_approved_usecase;
@@ -18,7 +17,7 @@ class QrCodeScanPage extends StatefulWidget {
   _QrCodeScanPageState createState() => _QrCodeScanPageState();
 }
 
-class _QrCodeScanPageState extends ModularState<QrCodeScanPage, QRCodeBloc> {
+class _QrCodeScanPageState extends State<QrCodeScanPage> {
   final qrKey = GlobalKey(debugLabel: 'QR');
   late QRViewController qrController;
 
@@ -52,7 +51,7 @@ class _QrCodeScanPageState extends ModularState<QrCodeScanPage, QRCodeBloc> {
 
     controller.scannedDataStream.listen((scanData) {
       controller.pauseCamera();
-      store.add(QRCodeEventHost(scanData.code));
+      context.read<QRCodeBloc>().add(QRCodeEventHost(scanData.code));
     });
   }
 
@@ -66,10 +65,11 @@ class _QrCodeScanPageState extends ModularState<QrCodeScanPage, QRCodeBloc> {
       final localizations = AppLocalizations.of(context)!;
       var approvedIssuer = await issuer_approved_usecase.ApprovedIssuer(uri);
       var acceptHost;
-      acceptHost = await checkHost(localizations, uri, approvedIssuer) ?? false;
+      acceptHost =
+          await checkHost(localizations, uri, approvedIssuer, context) ?? false;
 
       if (acceptHost) {
-        store.add(QRCodeEventAccept(uri));
+        context.read<QRCodeBloc>().add(QRCodeEventAccept(uri));
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(localizations.scanRefuseHost),
@@ -82,29 +82,10 @@ class _QrCodeScanPageState extends ModularState<QrCodeScanPage, QRCodeBloc> {
     }
   }
 
-  Future<bool?> checkHost(
-      AppLocalizations localizations, Uri uri, Issuer approvedIssuer) {
-    return showDialog<bool>(
-      context: context,
-      builder: (BuildContext context) {
-        return ConfirmDialog(
-          title: localizations.scanPromptHost,
-          subtitle: (approvedIssuer.did.isEmpty)
-              ? uri.host
-              : '${approvedIssuer.organizationInfo.legalName}\n${approvedIssuer.organizationInfo.currentAddress}',
-          yes: localizations.communicationHostAllow,
-          no: localizations.communicationHostDeny,
-          lock: (uri.scheme == 'http') ? true : false,
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
-    return BlocListener(
-      bloc: store,
+    return BlocListener<QRCodeBloc, QRCodeState>(
       listener: (context, state) {
         if (state is QRCodeStateMessage) {
           qrController.resumeCamera();

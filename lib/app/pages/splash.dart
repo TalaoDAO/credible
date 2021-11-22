@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:provider/src/provider.dart';
 import 'package:talao/app/interop/chapi/chapi.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/pages/credentials/blocs/scan.dart';
@@ -7,7 +8,6 @@ import 'package:talao/app/pages/credentials/repositories/credential.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/brand.dart';
-// import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -39,7 +39,7 @@ class _SplashPageState extends State<SplashPage> {
             final data = jsonDecode(json);
             final url = Uri.parse(data['origin']);
 
-            Modular.get<ScanBloc>().add(ScanEventShowPreview({}));
+            context.read<ScanBloc>().add(ScanEventShowPreview({}));
 
             await Modular.to.pushReplacementNamed(
               '/credentials/chapi-present',
@@ -54,7 +54,7 @@ class _SplashPageState extends State<SplashPage> {
             final data = jsonDecode(json);
             final url = Uri.parse(data['origin']);
 
-            Modular.get<ScanBloc>().add(ScanEventShowPreview({
+            context.read<ScanBloc>().add(ScanEventShowPreview({
               'credentialPreview': data['event'],
             }));
 
