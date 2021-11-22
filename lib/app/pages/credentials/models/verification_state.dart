@@ -12,7 +12,7 @@ extension VerifyExtension on VerificationState {
   String get message {
     switch (this) {
       case VerificationState.Unverified:
-        return 'Verifying...';
+        return 'Pending';
       case VerificationState.Verified:
         return 'Verified';
       case VerificationState.VerifiedWithWarning:
@@ -25,7 +25,7 @@ extension VerifyExtension on VerificationState {
   IconData get icon {
     switch (this) {
       case VerificationState.Unverified:
-        return Icons.refresh;
+        return Icons.update;
       case VerificationState.Verified:
         return Icons.check_circle_outline;
       case VerificationState.VerifiedWithWarning:
@@ -38,7 +38,7 @@ extension VerifyExtension on VerificationState {
   Color get color {
     switch (this) {
       case VerificationState.Unverified:
-        return UiKit.text.colorTextBody1;
+        return Colors.orange;
       case VerificationState.Verified:
         return Colors.green;
       case VerificationState.VerifiedWithWarning:

@@ -55,9 +55,15 @@ class _CredentialsDetailState
         verification = VerificationState.VerifiedWithWarning;
       });
     } else if (jsonResult['errors'].isNotEmpty) {
-      setState(() {
-        verification = VerificationState.VerifiedWithError;
-      });
+      if (jsonResult['errors'][0] == 'No applicable proof') {
+        setState(() {
+          verification = VerificationState.Unverified;
+        });
+      } else {
+        setState(() {
+          verification = VerificationState.VerifiedWithError;
+        });
+      }
     } else {
       setState(() {
         verification = VerificationState.Verified;
@@ -178,12 +184,7 @@ class _CredentialsDetailState
             model: widget.item,
           ),
           const SizedBox(height: 64.0),
-          if (verification == VerificationState.Unverified)
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Center(child: CircularProgressIndicator()),
-            )
-          else ...<Widget>[
+          ...<Widget>[
             Center(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
