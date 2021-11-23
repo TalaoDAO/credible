@@ -41,7 +41,7 @@ class displayTalaoContacts extends StatelessWidget {
               children: [
                 Text('${localizations.personalMail} : '),
                 Text(
-                  'contact@talao.io',
+                  Constants.appContactMail,
                   style: TextStyle(color: Colors.blue),
                 ),
               ],

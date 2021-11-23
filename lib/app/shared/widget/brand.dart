@@ -17,11 +17,6 @@ class BrandMinimal extends StatelessWidget {
             child: Image.asset('assets/brand/logo_talao.png'),
           ),
         ),
-        Text('Talao SSI wallet',
-            style: Theme.of(context)
-                .textTheme
-                .headline4!
-                .copyWith(color: Colors.white))
       ],
     );
   }
