@@ -1,13 +1,14 @@
 {
     "applinks": {
-        "apps": [],
         "details": [
             {
-                "appID": ["1582183266.co.talao.wallet", "co.talao.wallet", "S8QB4VV633.co.talao.wallet", "FH3A3ZJ2YU.co.talao.wallet"],
-                "components": [      {
-                    "/": "/app/links/*",
-                    "comment": "Link to credential offer"
-                  }]
+                "appIDs": ["FH3A3ZJ2YU.co.talao.wallet"],
+                "components": [      
+                    {
+                        "/": "/app/links/*",
+                        "comment": "Link to credential offer"
+                    }
+                ]
             }
         ]
     }
