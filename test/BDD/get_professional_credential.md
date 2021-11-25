@@ -1,7 +1,6 @@
+# Get a Professional Experience Assessment
 
-
-
-# As an employee of “NewIndus”, the user wants to get a Professional Experience Assessment credential. So that he can store it in his wallet or display it publicly through a link on a personal website.
+As an employee of “NewIndus”, the user wants to get a Professional Experience Assessment credential. So that he can store it in his wallet or display it publicly through a link on a personal website.
 
 
 ## Scenario 1 : User requests a Professional Experience Assessment credential to his company
