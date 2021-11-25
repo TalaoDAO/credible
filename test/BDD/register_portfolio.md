@@ -1,4 +1,4 @@
-# Create a cloud credential portfolio and request a Professional Experience Assessment to a company.
+# Register a credential portfolio
 
 User wants to register a portfolio with his Talao wallet. So he can use it to display publicly credentials and to request new ones.  
 
