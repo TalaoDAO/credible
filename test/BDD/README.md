@@ -5,4 +5,4 @@ Those use cases are described with the behavior-driven development [BDD](https:/
 
 [Register a portfolio](https://github.com/TalaoDAO/talao-wallet/blob/ThierryThevenet-patch-1/test/BDD/register_portfolio.md)
 
-[Get a professonal Experience Assessment](https://github.com/TalaoDAO/talao-wallet/blob/ThierryThevenet-patch-1/test/BDD/get_professional_credential.md)
+[Get a professional Experience Assessment](https://github.com/TalaoDAO/talao-wallet/blob/ThierryThevenet-patch-1/test/BDD/get_professional_credential.md)
