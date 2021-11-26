@@ -11,6 +11,6 @@ Display a QR Code in the form https: // my_endpoint? Issuer = my_did
 
 Universal link behind a button (html)
 
-the link is of the type https://app.talao.co/app/download?uri=https://my_endpoint?issuer=my_did
+The button link must be in the form of  https://app.talao.co/app/download?uri=https://my_endpoint?issuer=my_did
 
 If the Talao wallet is not available on the smartphone, the user is referred to the page https://app.talao.co/app/download which offers him access to the Apple Store or the Google store. 
