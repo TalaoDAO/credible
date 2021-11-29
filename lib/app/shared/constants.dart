@@ -5,5 +5,5 @@ class Constants {
   static const String appContactWebsiteName = 'talao.io';
   static const String appContactMail = 'contact@talao.io';
   static const String checkIssuerServerUrl =
-      'https://talao.co/trusted-issuers-registry/v1/issuers/';
+      'https://talao.co/trusted-issuers-registry/v1/issuers';
 }
