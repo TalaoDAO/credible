@@ -39,7 +39,6 @@ class _CredentialsPresentPageState extends State<CredentialsPresentPage> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Add proper localization
     final localizations = AppLocalizations.of(context)!;
 
     return BasePage(

@@ -139,7 +139,12 @@ class QRCodeBloc extends Bloc<QRCodeEvent, QRCodeState> {
         break;
 
       case 'VerifiablePresentationRequest':
-        yield QRCodeStateSuccess('/credentials/present', event.uri);
+        if (data['query'] != null) {
+          if (data['query'][0]['type'] == 'QueryByExample') {}
+          if (data['query'][0]['type'] == 'DIDAuth') {}
+        } else {
+          yield QRCodeStateSuccess('/credentials/present', event.uri);
+        }
         break;
 
       default:
