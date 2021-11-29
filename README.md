@@ -47,3 +47,7 @@ The wallet code is open source under the Apache license available on github. The
 * SDK development environment: PHP, Python, NodeJS, java, C, Flutter, ...
 * Wallet VC schema : employer certificate, experience certificate, skills certificate, company pass , proof of email, proof of telephone, certificate of residence, loyalty card, diplomas, student card, ...
 * Wallet languages: English, French, German, Spanish, Italian
+
+## Commercial Support
+
+Commercial support for this wallet is available upon request from Talao: contact@talao.io
