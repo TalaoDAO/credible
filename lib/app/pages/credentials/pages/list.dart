@@ -67,6 +67,15 @@ class CredentialsList extends StatelessWidget {
               arguments: state.uri,
             );
           }
+          if (state is QRCodeStateCHAPIResponse) {
+            await Modular.to.pushReplacementNamed(
+              state.route,
+              arguments: <String, dynamic>{
+                'uri': state.uri,
+                'data': state.data,
+              },
+            );
+          }
         },
         child: BasePage(
           title: localizations.credentialListTitle,

@@ -63,11 +63,14 @@ class ScanEventCHAPIGetDIDAuth extends ScanEvent {
   final String keyId;
   final String? challenge;
   final String? domain;
+  final Uri uri;
   final void Function(String) done;
 
   ScanEventCHAPIGetDIDAuth(
     this.keyId,
-    this.done, {
+    this.done, 
+    this.uri,
+    {
     this.challenge,
     this.domain,
   });
@@ -393,17 +396,27 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
         }),
         key,
       );
-
+      final credential = await client.post(
+        event.uri.toString(),
+        data: FormData.fromMap(<String, dynamic>{
+          'presentation': presentation,
+        }),
+      );
+if(credential.data == 'ok'){
       done(presentation);
 
       yield ScanStateMessage(
           StateMessage.success('Successfully presented your DID!'));
+
+} else {
+      yield ScanStateMessage(
+          StateMessage.error('Something went wrong, please try again later.'));
+}
     } catch (e) {
       log.severe('something went wrong', e);
 
       yield ScanStateMessage(
-          StateMessage.error('Something went wrong, please try again later. '
-              'Check the logs for more information.'));
+          StateMessage.error('Something went wrong, please try again later. '));
     }
 
     await Future.delayed(Duration(milliseconds: 100));

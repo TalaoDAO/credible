@@ -41,10 +41,10 @@ class CredentialsModule extends Module {
             url: args.data,
             onSubmit: (alias) {
               context.read<ScanBloc>().add(ScanEventCredentialOffer(
-                args.data.toString(),
-                alias,
-                'key',
-              ));
+                    args.data.toString(),
+                    alias,
+                    'key',
+                  ));
             },
           ),
           transition: TransitionType.rightToLeftWithFade,
@@ -55,9 +55,9 @@ class CredentialsModule extends Module {
             url: args.data['url'],
             onSubmit: (alias) {
               context.read<ScanBloc>().add(ScanEventCHAPIStore(
-                args.data['data'],
-                args.data['done'],
-              ));
+                    args.data['data'],
+                    args.data['done'],
+                  ));
             },
           ),
           transition: TransitionType.rightToLeftWithFade,
@@ -76,14 +76,14 @@ class CredentialsModule extends Module {
                   '/credentials/pick',
                   arguments: (selection) {
                     context.read<ScanBloc>().add(
-                      ScanEventVerifiablePresentationRequest(
-                        url: args.data.toString(),
-                        key: 'key',
-                        credentials: selection,
-                        challenge: preview['challenge'],
-                        domain: preview['domain'],
-                      ),
-                    );
+                          ScanEventVerifiablePresentationRequest(
+                            url: args.data.toString(),
+                            key: 'key',
+                            credentials: selection,
+                            challenge: preview['challenge'],
+                            domain: preview['domain'],
+                          ),
+                        );
                   },
                 );
               },
@@ -95,26 +95,25 @@ class CredentialsModule extends Module {
           '/chapi-present',
           child: (context, args) {
             final localizations = AppLocalizations.of(context)!;
-            final data = args.data;
-            // TODO: when CHAPI comes back so does this
-            // final root = data['data']['web']['VerifiablePresentation'];
-            final root = data['data'];
-            final queries = root['query'] as List<dynamic>;
+            final data = args.data['data'];
+            final uri = args.data['uri'];
+            final queries = data['query'] as List<dynamic>;
 
             if (queries.first['type'] == 'DIDAuth') {
+              context.read<ScanBloc>().add(ScanEventCHAPIGetDIDAuth(
+                        'key',
+                        (done) {print('done');},
+                        uri,
+                        challenge: data['challenge'],
+                        domain: data['domain'],
+                      ));
               return CredentialsPresentPage(
                 title: localizations.credentialPresentTitleDIDAuth,
                 resource: 'DID',
                 yes: 'Accept',
-                url: data['url'],
+                url: uri,
                 onSubmit: (preview) async {
-                  context.read<ScanBloc>().add(ScanEventCHAPIGetDIDAuth(
-                    'key',
-                    data['done'],
-                    challenge: root['challenge'],
-                    domain: root['domain'],
-                  ));
-
+                  
                   await Modular.to.pushReplacementNamed('/credentials');
                 },
               );
@@ -128,14 +127,14 @@ class CredentialsModule extends Module {
                     '/credentials/pick',
                     arguments: (selection) {
                       context.read<ScanBloc>().add(
-                        ScanEventCHAPIGetQueryByExample(
-                          'key',
-                          selection,
-                          data['done'],
-                          challenge: root['challenge'],
-                          domain: root['domain'],
-                        ),
-                      );
+                            ScanEventCHAPIGetQueryByExample(
+                              'key',
+                              selection,
+                              data['done'],
+                              challenge: data['challenge'],
+                              domain: data['domain'],
+                            ),
+                          );
                     },
                   );
                 },

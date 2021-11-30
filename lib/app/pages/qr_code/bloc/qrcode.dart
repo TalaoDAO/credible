@@ -30,6 +30,13 @@ abstract class QRCodeState {}
 
 class QRCodeStateWorking extends QRCodeState {}
 
+class QRCodeStateCHAPIResponse extends QRCodeState {
+  final String route;
+  final Map<String, dynamic> data;
+  final Uri uri;
+  QRCodeStateCHAPIResponse(this.route, this.data, this.uri);
+}
+
 class QRCodeStateHost extends QRCodeState {
   final Uri uri;
 
@@ -140,8 +147,8 @@ class QRCodeBloc extends Bloc<QRCodeEvent, QRCodeState> {
 
       case 'VerifiablePresentationRequest':
         if (data['query'] != null) {
-          if (data['query'][0]['type'] == 'QueryByExample') {}
-          if (data['query'][0]['type'] == 'DIDAuth') {}
+
+        yield QRCodeStateCHAPIResponse('/credentials/chapi-present',data, event.uri);
         } else {
           yield QRCodeStateSuccess('/credentials/present', event.uri);
         }

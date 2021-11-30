@@ -113,6 +113,17 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
             arguments: state.uri,
           );
         }
+        if (state is QRCodeStateCHAPIResponse) {
+          qrController.stopCamera();
+
+          Modular.to.pushReplacementNamed(
+            state.route,
+            arguments: <String, dynamic>{
+              'uri': state.uri,
+              'data': state.data,
+            },
+          );
+        }
       },
       child: BasePage(
         padding: EdgeInsets.zero,
