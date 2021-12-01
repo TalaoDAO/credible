@@ -1,8 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
-import 'package:talao/app/pages/credentials/automatic_credential_selection.dart';
 import 'package:talao/app/pages/credentials/blocs/scan.dart';
-import 'package:talao/app/pages/credentials/models/credential_model.dart';
 import 'package:talao/app/pages/credentials/pages/detail.dart';
 import 'package:talao/app/pages/credentials/pages/grid.dart';
 import 'package:talao/app/pages/credentials/pages/list.dart';
@@ -12,7 +9,6 @@ import 'package:talao/app/pages/credentials/receive.dart';
 import 'package:talao/app/pages/credentials/stream.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:talao/app/pages/qr_code/bloc/qrcode.dart';
 
 class CredentialsModule extends Module {
   @override
@@ -123,20 +119,17 @@ class CredentialsModule extends Module {
                 },
               );
             } else if (queries.first['type'] == 'QueryByExample') {
-              /// If "credentialQuery": is an empty list, one keeps the usual presentation behavior of Credible.
-              /// The user is asked to select credentials to send. Never mind the VCs.
-              if (queries.first['credentialQuery'].length == 0) {
                 return CredentialsPresentPage(
                   title: localizations.credentialPresentTitle,
                   resource: 'credential',
-                  url: args.data,
+                  url: uri,
                   onSubmit: (preview) {
                     Modular.to.pushReplacementNamed(
                       '/credentials/pick',
                       arguments: (selection) {
                         context.read<ScanBloc>().add(
                               ScanEventVerifiablePresentationRequest(
-                                url: args.data.toString(),
+                                url: uri,
                                 key: 'key',
                                 credentials: selection,
                                 challenge: preview['challenge'],
@@ -147,16 +140,6 @@ class CredentialsModule extends Module {
                     );
                   },
                 );
-              }
-
-              /// TODO: move scan event to the automatic picking page
-              context.read<ScanBloc>().add(ScanEventCHAPIStoreQueryByExample(
-                    data,
-                    uri,
-                  ));
-              return CredentialsStream(
-                child: (context, items) => AutomaticCredentialSelection(items),
-              );
             } else {
               throw UnimplementedError('Unimplemented Query Type');
             }

@@ -8,6 +8,7 @@ import 'package:logging/logging.dart';
 import 'package:talao/app/pages/credentials/blocs/scan.dart';
 import 'package:talao/app/pages/qr_code/bloc/qrcode.dart';
 import 'package:talao/deep_link/cubit/deep_link.dart';
+import 'package:talao/query_by_example/query_by_example.dart';
 
 Future<void> main() async {
   Logger.root.level = Level.ALL;
@@ -21,11 +22,14 @@ Future<void> main() async {
     module: AppModule(),
     child: BlocProvider<DeepLinkCubit>(
       create: (context) => DeepLinkCubit(),
-      child: BlocProvider<ScanBloc>(
-        create: (context) => ScanBloc(Dio()),
-        child: BlocProvider<QRCodeBloc>(
-          create: (context) => QRCodeBloc(Dio(), context.read<ScanBloc>()),
-          child: AppWidget(),
+      child: BlocProvider<QueryByExampleCubit>(
+        create: (context) => QueryByExampleCubit(),
+        child: BlocProvider<ScanBloc>(
+          create: (context) => ScanBloc(Dio()),
+          child: BlocProvider<QRCodeBloc>(
+            create: (context) => QRCodeBloc(Dio(), context.read<ScanBloc>(), context.read<QueryByExampleCubit>()),
+            child: AppWidget(),
+          ),
         ),
       ),
     ),

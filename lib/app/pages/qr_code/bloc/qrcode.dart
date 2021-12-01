@@ -5,6 +5,7 @@ import 'package:talao/app/pages/credentials/blocs/scan.dart';
 import 'package:talao/app/shared/model/message.dart';
 import 'package:dio/dio.dart';
 import 'package:logging/logging.dart';
+import 'package:talao/query_by_example/query_by_example.dart';
 
 abstract class QRCodeEvent {}
 
@@ -55,10 +56,12 @@ class QRCodeStateMessage extends QRCodeState {
 class QRCodeBloc extends Bloc<QRCodeEvent, QRCodeState> {
   final Dio client;
   final ScanBloc scanBloc;
+  final QueryByExampleCubit queryByExampleCubit;
 
   QRCodeBloc(
     this.client,
     this.scanBloc,
+    this.queryByExampleCubit,
   ) : super(QRCodeStateWorking());
 
   @override
@@ -141,8 +144,9 @@ class QRCodeBloc extends Bloc<QRCodeEvent, QRCodeState> {
 
       case 'VerifiablePresentationRequest':
         if (data['query'] != null) {
-
-        yield QRCodeStateSuccess('/credentials/chapi-present', event.uri, data);
+          queryByExampleCubit.setQueryByExampleCubit(data['query'].first);
+          yield QRCodeStateSuccess(
+              '/credentials/chapi-present', event.uri, data);
         } else {
           yield QRCodeStateSuccess('/credentials/present', event.uri);
         }

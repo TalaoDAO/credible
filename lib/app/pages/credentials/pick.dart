@@ -1,11 +1,15 @@
+import 'package:provider/src/provider.dart';
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
 import 'package:talao/app/pages/credentials/widget/list_item.dart';
+import 'package:talao/app/shared/model/translation.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:talao/app/shared/widget/info_dialog.dart';
+import 'package:talao/query_by_example/query_by_example.dart';
 
 class CredentialsPickPage extends StatefulWidget {
   final List<CredentialModel> items;
@@ -36,7 +40,14 @@ class _CredentialsPickPageState extends State<CredentialsPickPage> {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
-
+    final queryByExampleCubit = context.read<QueryByExampleCubit>().state;
+    var reasonList = '';
+    if (queryByExampleCubit.type != '') {
+      /// get all the reasons
+      queryByExampleCubit.credentialQuery.forEach((e) {
+        reasonList += getTranslation(e.reason, localizations) + '\n';
+      });
+    }
     return BasePage(
       title: 'Present credentials',
       titleTrailing: IconButton(
@@ -82,7 +93,12 @@ class _CredentialsPickPageState extends State<CredentialsPickPage> {
             localizations.credentialPickSelect,
             style: Theme.of(context).textTheme.bodyText1,
           ),
-          const SizedBox(height: 32.0),
+          Text(reasonList,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1
+                  ?.copyWith(fontWeight: FontWeight.w600)),
+          const SizedBox(height: 12.0),
           ...List.generate(
             widget.items.length,
             (index) => CredentialsListItem(
@@ -95,4 +111,22 @@ class _CredentialsPickPageState extends State<CredentialsPickPage> {
       ),
     );
   }
+}
+
+String getTranslation(
+    List<Translation> translations, AppLocalizations localizations) {
+  var _translation;
+  var translated = translations
+      .where((element) => element.language == localizations.localeName);
+  if (translated.isEmpty) {
+    var titi = translations.where((element) => element.language == 'en');
+    if (titi.isEmpty) {
+      _translation = '';
+    } else {
+      _translation = titi.single.value;
+    }
+  } else {
+    _translation = translated.single.value;
+  }
+  return _translation;
 }
