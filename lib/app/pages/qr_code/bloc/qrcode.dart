@@ -30,13 +30,6 @@ abstract class QRCodeState {}
 
 class QRCodeStateWorking extends QRCodeState {}
 
-class QRCodeStateCHAPIResponse extends QRCodeState {
-  final String route;
-  final Map<String, dynamic> data;
-  final Uri uri;
-  QRCodeStateCHAPIResponse(this.route, this.data, this.uri);
-}
-
 class QRCodeStateHost extends QRCodeState {
   final Uri uri;
 
@@ -46,8 +39,9 @@ class QRCodeStateHost extends QRCodeState {
 class QRCodeStateSuccess extends QRCodeState {
   final String route;
   final Uri uri;
+  final Map<String, dynamic>? data;
 
-  QRCodeStateSuccess(this.route, this.uri);
+  QRCodeStateSuccess(this.route, this.uri, [this.data]);
 }
 
 class QRCodeStateUnknown extends QRCodeState {}
@@ -148,7 +142,7 @@ class QRCodeBloc extends Bloc<QRCodeEvent, QRCodeState> {
       case 'VerifiablePresentationRequest':
         if (data['query'] != null) {
 
-        yield QRCodeStateCHAPIResponse('/credentials/chapi-present',data, event.uri);
+        yield QRCodeStateSuccess('/credentials/chapi-present', event.uri, data);
         } else {
           yield QRCodeStateSuccess('/credentials/present', event.uri);
         }

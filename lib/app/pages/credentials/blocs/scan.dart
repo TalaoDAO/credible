@@ -82,17 +82,31 @@ class ScanEventCHAPIGetQueryByExample extends ScanEvent {
   final String? challenge;
   final String? domain;
   final void Function(String) done;
+  final Uri uri;
 
   ScanEventCHAPIGetQueryByExample(
     this.keyId,
     this.credentials,
+    this.uri,
     this.done, {
     this.challenge,
     this.domain,
   });
 }
 
-abstract class ScanState {}
+class ScanEventCHAPIStoreQueryByExample extends ScanEvent {
+  final Map<String, dynamic> data;
+  final Uri uri;
+
+  ScanEventCHAPIStoreQueryByExample(
+    this.data,
+    this.uri,
+  );
+}
+
+abstract class ScanState {
+  get uri => null;
+}
 
 class ScanStateIdle extends ScanState {}
 
@@ -114,6 +128,16 @@ class ScanStatePreview extends ScanState {
 
 class ScanStateSuccess extends ScanState {}
 
+class ScanStateCHAPIStoreQueryByExample extends ScanState {
+
+  final Map<String, dynamic> data;
+  final Uri uri;
+  ScanStateCHAPIStoreQueryByExample(
+    this.data,
+    this.uri,
+  );  
+}
+
 class ScanBloc extends Bloc<ScanEvent, ScanState> {
   final Dio client;
 
@@ -133,7 +157,10 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       yield* _CHAPIGetDIDAuth(event);
     } else if (event is ScanEventCHAPIGetQueryByExample) {
       yield* _CHAPIGetQueryByExample(event);
+    } else if (event is ScanEventCHAPIStoreQueryByExample) {
+      yield* _CHAPIStoreQueryByExample(event);
     }
+
   }
 
   Stream<ScanState> _credentialOffer(
@@ -482,5 +509,9 @@ if(credential.data == 'ok'){
 
     await Future.delayed(Duration(milliseconds: 100));
     yield ScanStateIdle();
+  }
+
+ Stream<ScanState>  _CHAPIStoreQueryByExample(ScanEventCHAPIStoreQueryByExample event) async* {
+    yield ScanStateCHAPIStoreQueryByExample(event.data, event.uri);
   }
 }
