@@ -21,6 +21,7 @@ Credential _$CredentialFromJson(Map<String, dynamic> json) {
             .toList() ??
         [],
     Credential._fromJsonCredentialStatus(json['credentialStatus']),
+    Credential._fromJsonEvidence(json['evidence']),
   );
 }
 
@@ -34,5 +35,6 @@ Map<String, dynamic> _$CredentialToJson(Credential instance) =>
       'issuanceDate': instance.issuanceDate,
       'proof': instance.proof.map((e) => e.toJson()).toList(),
       'credentialSubject': instance.credentialSubject.toJson(),
+      'evidence': instance.evidence.map((e) => e.toJson()).toList(),
       'credentialStatus': instance.credentialStatus.toJson(),
     };

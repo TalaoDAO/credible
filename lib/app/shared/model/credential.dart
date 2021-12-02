@@ -4,6 +4,7 @@ import 'package:talao/app/shared/model/author.dart';
 import 'package:talao/app/shared/model/credential_status_field.dart';
 import 'package:talao/app/shared/model/credential_subject.dart';
 import 'package:talao/app/shared/model/default_credential_subject/default_credential_subject.dart';
+import 'package:talao/app/shared/model/evidence.dart';
 import 'package:talao/app/shared/model/proof.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:talao/app/shared/model/translation.dart';
@@ -23,6 +24,8 @@ class Credential {
   @JsonKey(fromJson: _fromJsonProofs)
   final List<Proof> proof;
   final CredentialSubject credentialSubject;
+  @JsonKey(fromJson: _fromJsonEvidence)
+  final List<Evidence> evidence;
   @JsonKey(fromJson: _fromJsonCredentialStatus)
   final CredentialStatusField credentialStatus;
   @JsonKey(defaultValue: RevocationStatus.unknown)
@@ -36,6 +39,7 @@ class Credential {
     this.description,
     this.name,
     this.credentialStatus,
+    this.evidence,
   );
 
   factory Credential.fromJson(Map<String, dynamic> json) {
@@ -57,7 +61,8 @@ class Credential {
         DefaultCredentialSubject('dummy', 'dummy', Author('', '')),
         [Translation('en', '')],
         [Translation('en', '')],
-        CredentialStatusField.emptyCredentialStatusField());
+        CredentialStatusField.emptyCredentialStatusField(),
+        [Evidence.emptyEvidence()]);
   }
 
   Map<String, dynamic> toJson() => _$CredentialToJson(this);
@@ -91,6 +96,18 @@ class Credential {
       return CredentialStatusField.emptyCredentialStatusField();
     }
     return CredentialStatusField.fromJson(json);
+  }
+
+  static List<Evidence> _fromJsonEvidence(json) {
+    if (json == null) {
+      return [Evidence.emptyEvidence()];
+    }
+    if (json is List) {
+      return (json)
+          .map((e) => Evidence.fromJson(e as Map<String, dynamic>))
+          .toList();
+    }
+    return [Evidence.fromJson(json)];
   }
 
   static Credential fromJsonOrErrorPage(Map<String, dynamic> data) {

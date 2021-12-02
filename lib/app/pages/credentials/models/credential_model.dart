@@ -12,6 +12,7 @@ import 'package:talao/app/shared/model/credential.dart';
 import 'package:talao/app/shared/model/display.dart';
 import 'package:talao/app/shared/model/translation.dart';
 import 'package:talao/app/shared/widget/base/credential_field.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -164,6 +165,39 @@ class CredentialModel {
                     .format(_issuanceDate),
                 // value: _issuanceDate.toString(),
                 title: localizations.issuanceDate)
+            : SizedBox.shrink(),
+        credentialPreview.evidence.first.id != ''
+            ? Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Text('${localizations.evidenceLabel} '),
+                    Flexible(
+                      child: InkWell(
+                        onTap: () =>
+                            _launchURL(credentialPreview.evidence.first.id),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              Text(
+                                credentialPreview.evidence.first.id,
+                                style: TextStyle(
+                                    inherit: true,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.blue),
+                                maxLines: 5,
+                                overflow: TextOverflow.fade,
+                                softWrap: true,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
             : SizedBox.shrink()
       ],
     );
@@ -296,4 +330,8 @@ class CredentialModel {
     revocationStatus = RevocationStatus.unknown;
     print('revocation status: $revocationStatus');
   }
+
+  void _launchURL(String _url) async => await canLaunch(_url)
+      ? await launch(_url)
+      : throw 'Could not launch $_url';
 }
