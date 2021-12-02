@@ -1,16 +1,19 @@
 {
   "de": [
     "issuerVerificationSetting",
-    "confimrDIDAuth"
+    "confimrDIDAuth",
+    "evidenceLabel"
   ],
 
   "es": [
     "issuerVerificationSetting",
-    "confimrDIDAuth"
+    "confimrDIDAuth",
+    "evidenceLabel"
   ],
 
   "it": [
     "issuerVerificationSetting",
-    "confimrDIDAuth"
+    "confimrDIDAuth",
+    "evidenceLabel"
   ]
 }

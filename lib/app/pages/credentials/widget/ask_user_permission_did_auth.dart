@@ -3,7 +3,6 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:provider/src/provider.dart';
 import 'package:talao/app/pages/credentials/blocs/scan.dart';
 import 'package:talao/app/shared/widget/confirm_dialog.dart';
-import 'package:talao/app/shared/widget/spinner.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AskUserPermissionDIDAuth extends StatefulWidget {
@@ -37,9 +36,8 @@ class _AskUserPermissionDIDAuthState extends State<AskUserPermissionDIDAuth> {
         scanBloc.add(ScanEventCHAPIGetDIDAuth(
             state.keyId, state.done, state.uri,
             challenge: state.challenge, domain: state.domain));
-      } else {
-        await Modular.to.pushReplacementNamed('/credentials/list');
       }
+      await Modular.to.pushReplacementNamed('/credentials/list');
     });
     super.initState();
   }

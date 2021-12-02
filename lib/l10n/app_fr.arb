@@ -158,7 +158,9 @@
   "issuanceDate": "Date émission",
   "appContactWebsite": "Site web",
   "issuerVerificationSetting": "Vérifier l'identité du fournisseur",
-  "confimrDIDAuth": "Voulez-vous vous connecter au site ?"
+  "confimrDIDAuth": "Voulez-vous vous connecter au site ?",
+  "evidenceLabel": "Preuve"
+
 
 }
 

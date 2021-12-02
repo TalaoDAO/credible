@@ -467,6 +467,9 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
 
         yield ScanStateMessage(
             StateMessage.success('Successfully presented your DID!'));
+
+      await Future.delayed(Duration(milliseconds: 700));
+      yield ScanStateSuccess();
       } else {
         yield ScanStateMessage(StateMessage.error(
             'Something went wrong, please try again later.'));
