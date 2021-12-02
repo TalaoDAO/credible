@@ -127,9 +127,15 @@ class CredentialsModule extends Module {
                   Modular.to.pushReplacementNamed(
                     '/credentials/pick',
                     arguments: (selection) {
+                      String url;
+                      if (uri is Uri) {
+                        url = uri.toString();
+                      } else {
+                        url = uri;
+                      }
                       context.read<ScanBloc>().add(
                             ScanEventVerifiablePresentationRequest(
-                              url: uri,
+                              url: url,
                               key: 'key',
                               credentials: selection,
                               challenge: preview['challenge'],
