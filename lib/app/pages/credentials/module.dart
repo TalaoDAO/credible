@@ -38,10 +38,10 @@ class CredentialsModule extends Module {
         ChildRoute(
           '/receive',
           child: (context, args) => CredentialsReceivePage(
-            url: args.data,
+            url: args.data['uri'],
             onSubmit: (alias) {
               context.read<ScanBloc>().add(ScanEventCredentialOffer(
-                    args.data.toString(),
+                    (args.data['uri']).toString(),
                     alias,
                     'key',
                   ));
@@ -100,7 +100,7 @@ class CredentialsModule extends Module {
             final queries = data['query'] as List<dynamic>;
 
             if (queries.first['type'] == 'DIDAuth') {
-              context.read<ScanBloc>().add(ScanEventCHAPIGetDIDAuth(
+              context.read<ScanBloc>().add(ScanEventCHAPIAskPermissionDIDAuth(
                     'key',
                     (done) {
                       print('done');
@@ -119,27 +119,27 @@ class CredentialsModule extends Module {
                 },
               );
             } else if (queries.first['type'] == 'QueryByExample') {
-                return CredentialsPresentPage(
-                  title: localizations.credentialPresentTitle,
-                  resource: 'credential',
-                  url: uri,
-                  onSubmit: (preview) {
-                    Modular.to.pushReplacementNamed(
-                      '/credentials/pick',
-                      arguments: (selection) {
-                        context.read<ScanBloc>().add(
-                              ScanEventVerifiablePresentationRequest(
-                                url: uri,
-                                key: 'key',
-                                credentials: selection,
-                                challenge: preview['challenge'],
-                                domain: preview['domain'],
-                              ),
-                            );
-                      },
-                    );
-                  },
-                );
+              return CredentialsPresentPage(
+                title: localizations.credentialPresentTitle,
+                resource: 'credential',
+                url: uri,
+                onSubmit: (preview) {
+                  Modular.to.pushReplacementNamed(
+                    '/credentials/pick',
+                    arguments: (selection) {
+                      context.read<ScanBloc>().add(
+                            ScanEventVerifiablePresentationRequest(
+                              url: uri,
+                              key: 'key',
+                              credentials: selection,
+                              challenge: preview['challenge'],
+                              domain: preview['domain'],
+                            ),
+                          );
+                    },
+                  );
+                },
+              );
             } else {
               throw UnimplementedError('Unimplemented Query Type');
             }
@@ -158,4 +158,3 @@ class CredentialsModule extends Module {
         ),
       ];
 }
-

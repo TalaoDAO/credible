@@ -157,6 +157,7 @@
   "credential": "Credential",
   "issuanceDate": "Issuance date",
   "appContactWebsite": "Website",
-  "issuerVerificationSetting": "Verify identity of Issuer/Verifier"
+  "issuerVerificationSetting": "Verify identity of Issuer/Verifier",
+  "confimrDIDAuth": "Do you want to log in to the site ?"
 
 }

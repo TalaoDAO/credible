@@ -156,7 +156,9 @@
   "to": "au",
   "credential": "Attestation",
   "issuanceDate": "Date émission",
-  "appContactWebsite": "Site web"
+  "appContactWebsite": "Site web",
+  "issuerVerificationSetting": "Vérifier l'identité du fournisseur",
+  "confimrDIDAuth": "Voulez-vous vous connecter au site ?"
 
 }
 

@@ -1,17 +1,16 @@
 {
   "de": [
-    "issuerVerificationSetting"
+    "issuerVerificationSetting",
+    "confimrDIDAuth"
   ],
 
   "es": [
-    "issuerVerificationSetting"
-  ],
-
-  "fr": [
-    "issuerVerificationSetting"
+    "issuerVerificationSetting",
+    "confimrDIDAuth"
   ],
 
   "it": [
-    "issuerVerificationSetting"
+    "issuerVerificationSetting",
+    "confimrDIDAuth"
   ]
 }

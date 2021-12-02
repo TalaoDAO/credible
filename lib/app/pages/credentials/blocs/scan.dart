@@ -68,9 +68,24 @@ class ScanEventCHAPIGetDIDAuth extends ScanEvent {
 
   ScanEventCHAPIGetDIDAuth(
     this.keyId,
-    this.done, 
-    this.uri,
-    {
+    this.done,
+    this.uri, {
+    this.challenge,
+    this.domain,
+  });
+}
+
+class ScanEventCHAPIAskPermissionDIDAuth extends ScanEvent {
+  final String keyId;
+  final String? challenge;
+  final String? domain;
+  final Uri uri;
+  final void Function(String) done;
+
+  ScanEventCHAPIAskPermissionDIDAuth(
+    this.keyId,
+    this.done,
+    this.uri, {
     this.challenge,
     this.domain,
   });
@@ -105,7 +120,7 @@ class ScanEventCHAPIStoreQueryByExample extends ScanEvent {
 }
 
 abstract class ScanState {
-  get uri => null;
+  Uri? get uri => null;
 }
 
 class ScanStateIdle extends ScanState {}
@@ -129,13 +144,30 @@ class ScanStatePreview extends ScanState {
 class ScanStateSuccess extends ScanState {}
 
 class ScanStateCHAPIStoreQueryByExample extends ScanState {
-
   final Map<String, dynamic> data;
+  @override
   final Uri uri;
   ScanStateCHAPIStoreQueryByExample(
     this.data,
     this.uri,
-  );  
+  );
+}
+
+class ScanStateCHAPIAskPermissionDIDAuth extends ScanState {
+  final String keyId;
+  final String? challenge;
+  final String? domain;
+  @override
+  final Uri uri;
+  final void Function(String) done;
+
+  ScanStateCHAPIAskPermissionDIDAuth(
+    this.keyId,
+    this.done,
+    this.uri, {
+    this.challenge,
+    this.domain,
+  });
 }
 
 class ScanBloc extends Bloc<ScanEvent, ScanState> {
@@ -159,8 +191,9 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       yield* _CHAPIGetQueryByExample(event);
     } else if (event is ScanEventCHAPIStoreQueryByExample) {
       yield* _CHAPIStoreQueryByExample(event);
+    } else if (event is ScanEventCHAPIAskPermissionDIDAuth) {
+      yield* _CHAPIAskPermissionDIDAuth(event);
     }
-
   }
 
   Stream<ScanState> _credentialOffer(
@@ -429,16 +462,15 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
           'presentation': presentation,
         }),
       );
-if(credential.data == 'ok'){
-      done(presentation);
+      if (credential.data == 'ok') {
+        done(presentation);
 
-      yield ScanStateMessage(
-          StateMessage.success('Successfully presented your DID!'));
-
-} else {
-      yield ScanStateMessage(
-          StateMessage.error('Something went wrong, please try again later.'));
-}
+        yield ScanStateMessage(
+            StateMessage.success('Successfully presented your DID!'));
+      } else {
+        yield ScanStateMessage(StateMessage.error(
+            'Something went wrong, please try again later.'));
+      }
     } catch (e) {
       log.severe('something went wrong', e);
 
@@ -511,7 +543,14 @@ if(credential.data == 'ok'){
     yield ScanStateIdle();
   }
 
- Stream<ScanState>  _CHAPIStoreQueryByExample(ScanEventCHAPIStoreQueryByExample event) async* {
+  Stream<ScanState> _CHAPIStoreQueryByExample(
+      ScanEventCHAPIStoreQueryByExample event) async* {
     yield ScanStateCHAPIStoreQueryByExample(event.data, event.uri);
+  }
+
+  Stream<ScanState> _CHAPIAskPermissionDIDAuth(
+      ScanEventCHAPIAskPermissionDIDAuth event) async* {
+    yield ScanStateCHAPIAskPermissionDIDAuth(event.keyId, event.done, event.uri,
+        challenge: event.challenge, domain: event.domain);
   }
 }

@@ -8,7 +8,6 @@ import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:talao/app/shared/widget/info_dialog.dart';
 import 'package:talao/query_by_example/query_by_example.dart';
 
 class CredentialsPickPage extends StatefulWidget {
@@ -90,7 +89,9 @@ class _CredentialsPickPageState extends State<CredentialsPickPage> {
       body: Column(
         children: <Widget>[
           Text(
-            localizations.credentialPickSelect,
+            reasonList == ''
+                ? localizations.credentialPickSelect
+                : localizations.credentialPresentConfirm,
             style: Theme.of(context).textTheme.bodyText1,
           ),
           Text(reasonList,

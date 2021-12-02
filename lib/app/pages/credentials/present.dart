@@ -1,4 +1,5 @@
 import 'package:talao/app/pages/credentials/blocs/scan.dart';
+import 'package:talao/app/pages/credentials/widget/ask_user_permission_did_auth.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
@@ -64,6 +65,10 @@ class _CredentialsPresentPageState extends State<CredentialsPresentPage> {
 
           if (state is ScanStatePreview) {
             return _credentialPreview(state, context, localizations);
+          }
+
+          if (state is ScanStateCHAPIAskPermissionDIDAuth) {
+            return AskUserPermissionDIDAuth();
           }
 
           return Container();
