@@ -112,9 +112,9 @@
   "keyRecoveryText": "Si vous avez déjà utilisé votre portefeuille et disposez d'une phrase de récupération",
   "keyGenerateTitle": "Générer un nouveau portefeuille",
   "keyGenerateText": "Générer un nouvel identifiant et une nouvelle phrase de récupération",
-  "genPhraseInstruction" : "Écrivez ces mots dans le bon ordre et sauvegardez les dans un endroit sûr",
-  "genPhraseExplanation" : "C'est la seule façon de récupérer votre identifiant plus tard si vous perdez l'accès à votre portefeuille",
-  "genPhraseViewLatterText" : "Vous pouvez revoir votre phrase de récupération plus tard dans le menu des paramètres",
+  "genPhraseInstruction": "Écrivez ces mots dans le bon ordre et sauvegardez les dans un endroit sûr",
+  "genPhraseExplanation": "C'est la seule façon de récupérer votre identifiant plus tard si vous perdez l'accès à votre portefeuille",
+  "genPhraseViewLatterText": "Vous pouvez revoir votre phrase de récupération plus tard dans le menu des paramètres",
   "errorGeneratingKey": "Échec de génération de la clef, veuillez réessayer.",
   "documentHeaderTooltipName": "John Doe",
   "documentHeaderTooltipJob": "Trader crypto",
@@ -138,15 +138,15 @@
   "maritalStatus": "Situation de famille",
   "nationality": "Nationalité(s)",
   "identifier": "Identifiant",
-  "issuer" : "Emis par",
-  "workFor" : "Travaille pour",
-  "startDate" : "Depuis",
-  "endDate" : "Jusqu'au",
+  "issuer": "Emis par",
+  "workFor": "Travaille pour",
+  "startDate": "Depuis",
+  "endDate": "Jusqu'au",
   "employmentType": "Type d'emploi",
   "jobTitle": "Emploi",
-  "baseSalary" : "Salaire",
-  "expires" : "Expires",
-  "globalInformationLabel" : "Informations générales",
+  "baseSalary": "Salaire",
+  "expires": "Expires",
+  "globalInformationLabel": "Informations générales",
   "appPresentation1": "Cette application est la version numérique de votre portefeuille. Collectez les attestations, certificats, permis, passes, cartes de fidélité, cartes de paiement, tickets et diplômes émis par les institutions, les entreprises, les universités et les associations. Ces documents électroniques signés prouvent votre identité et vos droits auprès des tiers.",
   "appPresentation2": "Avec ces attestations vous pourrez par exemple vous connecter à un service internet sans même avoir de compte et de mot de passe, acheter en ligne en gardant le contrôle de vos  données personnelles, utiliser votre smartphone pour accéder à des bureaux, une salle de spectacle... Vous pourrez également bientôt réaliser en ligne toutes les démarches qui nécessitaient auparavant un déplacement.",
   "appPresentation3": "Vos informations personnelles sont stockées uniquement sur votre smartphone, elles ne peuvent être vues par personne et comme avec vos pièces d’identité traditionnelles vous seul les présentez à qui vous le souhaitez. Bienvenue dans le futur de l’Identité Numérique !",
@@ -160,7 +160,4 @@
   "issuerVerificationSetting": "Vérifier l'identité du fournisseur",
   "confimrDIDAuth": "Voulez-vous vous connecter au site ?",
   "evidenceLabel": "Preuve"
-
-
 }
-

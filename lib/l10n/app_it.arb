@@ -154,8 +154,6 @@
   "signedBy": "Firmato da",
   "from": "da",
   "to": "a",
-  "credential": "Credenziali",
-  "issuanceDate": "Issuance date",
-  "appContactWebsite": "Website"
+  "credential": "Credenziali"
 
 }

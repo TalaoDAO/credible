@@ -12,6 +12,8 @@
   ],
 
   "it": [
+    "issuanceDate",
+    "appContactWebsite",
     "issuerVerificationSetting",
     "confimrDIDAuth",
     "evidenceLabel"
