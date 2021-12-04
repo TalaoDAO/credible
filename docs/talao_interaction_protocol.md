@@ -142,7 +142,8 @@ after agreement from the user, the wallet makes a POST request with a JSON:
 
 ```javascript
 {
-           “Subject_id”, ”did:tz:tz1e5YakmACgZZprF7YWHMqnSvcWVXZ2TsPW”,
+           “Subject_id” : ”did:tz:tz1e5YakmACgZZprF7YWHMqnSvcWVXZ2TsPW”,
+           "verifiablePresentation : {...}
 }
 ```
 
@@ -158,6 +159,7 @@ example:
            "type": "CredentialOffer",
            "credentialPreview": {...},
            "expires" : 12/08/2021Z ",
+           "scope" : [subjectId familyName givenName],
            "shareLink" : "https://talao.co/shareLink"
 }
 ```
@@ -181,15 +183,16 @@ example:
 ```
 
 ## Wallet implementation (to be done for scope or self signed VC)
+ 
 If there are items other than“ subject_id ”, the actions of the wallet will be:
+
 1. ask the user for consent to transfer their personal data (a “consent screen”)
-2. add the attributes and their value saved in the wallet to the JSON (wallet POST request), in our example:
+2. add the attributes and their value saved in the wallet to the JSON verifiablePresentation (wallet POST request), in our example:
 
 ```javascript
 {
            “Subject_id”, ”did: tz: tz1e5YakmACgZZprF7YWHMqnSvcWVXZ2TsPW”,
-            “familyName”: “Doe”,
-            “givenName”: “John”
+            “verifiablePresentation”: {...}
 }
 ```
 
