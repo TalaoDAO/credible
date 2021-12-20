@@ -1,10 +1,9 @@
 import 'package:talao/app/pages/credentials/database.dart';
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:sembast/sembast.dart';
 import 'package:talao/app/pages/credentials/models/revokation_status.dart';
 
-class CredentialsRepository extends Disposable {
+class CredentialsRepository {
   CredentialsRepository();
 
   Future<void> initializeRevocationStatus() async {
@@ -87,6 +86,7 @@ class CredentialsRepository extends Disposable {
     );
   }
 
-  @override
-  void dispose() {}
+  void dispose() {
+    print('it should never be called!');
+  }
 }

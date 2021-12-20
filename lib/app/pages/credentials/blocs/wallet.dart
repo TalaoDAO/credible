@@ -1,19 +1,21 @@
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
 import 'package:talao/app/pages/credentials/repositories/credential.dart';
-import 'package:flutter_modular/flutter_modular.dart';
-import 'package:rxdart/rxdart.dart';
+import 'package:bloc/bloc.dart';
 
-class WalletBloc extends Disposable {
+class WalletBloc extends Cubit<List<CredentialModel>> {
   final CredentialsRepository repository;
 
-  WalletBloc(this.repository);
+  WalletBloc(this.repository) : super([]) {
+    /// When app is initialized, set all credentials with active status to unknown status
+    repository.initializeRevocationStatus();
 
-  BehaviorSubject<List<CredentialModel>> credentials$ =
-      BehaviorSubject<List<CredentialModel>>();
+    /// load all credentials from repository
+    findAll();
+  }
 
   Future findAll(/* dynamic filters */) async {
     await repository.findAll(/* filters */).then((values) {
-      credentials$.add(values);
+      emit(values);
     });
   }
 
@@ -27,10 +29,17 @@ class WalletBloc extends Disposable {
     await findAll();
   }
 
-  @override
+  Future insertCredential(CredentialModel credential) async {
+    await repository.insert(credential);
+    await findAll();
+  }
+
   void dispose() {
     print('dispose wallet bloc ?');
-    //Temporary removed: cause loosing repository when we replace a route.
-    // credentials$.close();
+  }
+
+  Future deleteAll() async {
+    await repository.deleteAll();
+    await findAll();
   }
 }

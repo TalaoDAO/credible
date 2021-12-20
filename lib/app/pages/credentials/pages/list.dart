@@ -1,4 +1,5 @@
 import 'package:talao/app/pages/credentials/blocs/scan.dart';
+import 'package:talao/app/pages/credentials/blocs/wallet.dart';
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
 import 'package:talao/app/pages/credentials/widget/list_item.dart';
 import 'package:talao/app/pages/qr_code/bloc/qrcode.dart';
@@ -7,19 +8,19 @@ import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:talao/app/pages/profile/usecase/is_issuer_approved.dart'
     as issuer_approved_usecase;
 import 'package:talao/deep_link/cubit/deep_link.dart';
 
 class CredentialsList extends StatelessWidget {
-  final List<CredentialModel> items;
-
   const CredentialsList({
     Key? key,
-    required this.items,
   }) : super(key: key);
+
+  static Route route() => MaterialPageRoute(
+        builder: (context) => CredentialsList(),
+      );
 
   @override
   Widget build(BuildContext credentialListContext) {
@@ -62,13 +63,7 @@ class CredentialsList extends StatelessWidget {
             }
           }
           if (state is QRCodeStateSuccess) {
-            await Modular.to.pushReplacementNamed(
-              state.route,
-              arguments: <String, dynamic>{
-                'uri': state.uri,
-                'data': state.data ?? '',
-              },
-            );
+            await Navigator.of(context).pushReplacement(state.route);
           }
         },
         child: BasePage(
@@ -78,11 +73,15 @@ class CredentialsList extends StatelessWidget {
             horizontal: 16.0,
           ),
           navigation: CustomNavBar(index: 0),
-          body: Column(
-            children: List.generate(
-              items.length,
-              (index) => CredentialsListItem(item: items[index]),
-            ),
+          body: BlocBuilder<WalletBloc, List<CredentialModel>>(
+            builder: (context, state) {
+              return Column(
+                children: List.generate(
+                  state.length,
+                  (index) => CredentialsListItem(item: state[index]),
+                ),
+              );
+            },
           ),
         ),
       ),

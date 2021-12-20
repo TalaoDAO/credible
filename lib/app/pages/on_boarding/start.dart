@@ -1,13 +1,18 @@
-import 'dart:ui';
-
+import 'package:talao/app/pages/on_boarding/second.dart';
+import 'package:talao/app/pages/on_boarding/tos.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OnBoardingStartPage extends StatefulWidget {
+  static Route route() {
+    return MaterialPageRoute<void>(
+      builder: (context) => OnBoardingStartPage(),
+    );
+  }
+
   @override
   State<OnBoardingStartPage> createState() => _OnBoardingStartPageState();
 }
@@ -20,12 +25,12 @@ class _OnBoardingStartPageState extends State<OnBoardingStartPage> {
     final localizations = AppLocalizations.of(context)!;
     return GestureDetector(
       onTap: () async {
-        await Modular.to.pushNamed('/on-boarding/second');
+        await Navigator.of(context).push(OnBoardingSecondPage.route());
       },
       onHorizontalDragUpdate: (drag) async {
         if (animate && drag.delta.dx < -2) {
           disableAnimation();
-          await Modular.to.pushNamed('/on-boarding/second');
+          await Navigator.of(context).push(OnBoardingSecondPage.route());
         }
       },
       child: BasePage(
@@ -94,7 +99,8 @@ class _OnBoardingStartPageState extends State<OnBoardingStartPage> {
                   ),
                   BaseButton.primary(
                     onPressed: () {
-                      Modular.to.pushReplacementNamed('/on-boarding/tos');
+                      Navigator.of(context)
+                          .pushReplacement(OnBoardingTosPage.route());
                     },
                     child: Text(localizations.onBoardingStartButton),
                   )

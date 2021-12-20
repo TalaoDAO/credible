@@ -1,7 +1,6 @@
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 
 class InfoDialog extends StatelessWidget {
   final String title;
@@ -41,7 +40,7 @@ class InfoDialog extends StatelessWidget {
           const SizedBox(height: 24.0),
           BaseButton.primary(
             onPressed: () {
-              Modular.to.pop();
+              Navigator.of(context).pop();
             },
             child: Text(button),
           ),

@@ -2,7 +2,6 @@ import 'package:talao/app/pages/profile/blocs/did.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DIDDisplay extends StatelessWidget {
@@ -11,7 +10,7 @@ class DIDDisplay extends StatelessWidget {
     final localizations = AppLocalizations.of(context)!;
 
     return BlocConsumer(
-      bloc: Modular.get<DIDBloc>(),
+      bloc: context.read<DIDBloc>(),
       listener: (context, state) {
         if (state is DIDStateMessage) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(

@@ -1,8 +1,8 @@
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
+import 'package:talao/app/pages/credentials/pages/detail.dart';
 import 'package:talao/app/pages/credentials/widget/display_status.dart';
 import 'package:talao/app/shared/widget/tooltip_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 
 class CredentialsGridItem extends StatelessWidget {
   final CredentialModel item;
@@ -15,8 +15,7 @@ class CredentialsGridItem extends StatelessWidget {
   Widget build(BuildContext context) => Card(
         margin: const EdgeInsets.all(8.0),
         child: InkWell(
-          onTap: () =>
-              Modular.to.pushNamed('/credentials/detail', arguments: item),
+          onTap: () => Navigator.of(context).push(CredentialsDetail.route(item)),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Stack(

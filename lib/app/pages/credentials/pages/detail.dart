@@ -1,11 +1,14 @@
 import 'dart:convert';
 
+import 'package:provider/src/provider.dart';
 import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/pages/credentials/blocs/wallet.dart';
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
 import 'package:talao/app/pages/credentials/models/verification_state.dart';
+import 'package:talao/app/pages/credentials/pages/list.dart';
 import 'package:talao/app/pages/credentials/widget/display_status.dart';
 import 'package:talao/app/pages/credentials/widget/document.dart';
+import 'package:talao/app/pages/qr_code/display.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
@@ -13,7 +16,6 @@ import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/confirm_dialog.dart';
 import 'package:talao/app/shared/widget/text_field_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:logging/logging.dart';
@@ -26,12 +28,19 @@ class CredentialsDetail extends StatefulWidget {
     required this.item,
   }) : super(key: key);
 
+  static Route route(CredentialModel routeItem) {
+    return MaterialPageRoute(
+      builder: (context) => CredentialsDetail(
+        item: routeItem,
+      ),
+    );
+  }
+
   @override
   _CredentialsDetailState createState() => _CredentialsDetailState();
 }
 
-class _CredentialsDetailState
-    extends ModularState<CredentialsDetail, WalletBloc> {
+class _CredentialsDetailState extends State<CredentialsDetail> {
   bool showShareMenu = false;
   VerificationState verification = VerificationState.Unverified;
 
@@ -86,9 +95,9 @@ class _CredentialsDetailState
         false;
 
     if (confirm) {
-      await store.deleteById(widget.item.id);
-      Modular.to.pop();
-      await Modular.to.pushReplacementNamed('/credentials');
+      await context.read<WalletBloc>().deleteById(widget.item.id);
+      Navigator.of(context).pop();
+      await Navigator.of(context).push(CredentialsList.route());
     }
   }
 
@@ -114,9 +123,9 @@ class _CredentialsDetailState
       oldCredentialModel: widget.item,
       newAlias: newAlias ?? '',
     );
-    await store.updateCredential(newCredential);
-    Modular.to.pop();
-    await Modular.to.pushNamed('/credentials/detail', arguments: newCredential);
+    await context.read<WalletBloc>().updateCredential(newCredential);
+    Navigator.of(context).pop();
+    await Navigator.of(context).push(CredentialsDetail.route(newCredential));
   }
 
   @override
@@ -149,13 +158,8 @@ class _CredentialsDetailState
                   message: localizations.credentialDetailShare,
                   child: BaseButton.primary(
                     onPressed: () {
-                      Modular.to.pushNamed(
-                        '/qr-code/display',
-                        arguments: [
-                          widget.item.id,
-                          widget.item,
-                        ],
-                      );
+                      Navigator.of(context).push(
+                          QrCodeDisplayPage.route(widget.item.id, widget.item));
                     },
                     child: Row(
                       mainAxisSize: MainAxisSize.min,

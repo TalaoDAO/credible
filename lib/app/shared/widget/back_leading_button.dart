@@ -1,13 +1,12 @@
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 
 class BackLeadingButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
       onPressed: () {
-        Modular.to.pop();
+        Navigator.of(context).pop();
       },
       icon: Icon(
         Icons.arrow_back,

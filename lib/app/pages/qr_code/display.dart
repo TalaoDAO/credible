@@ -15,6 +15,13 @@ class QrCodeDisplayPage extends StatelessWidget {
     required this.data,
   }) : super(key: key);
 
+  static Route route(String name, CredentialModel data) => MaterialPageRoute(
+        builder: (context) => QrCodeDisplayPage(
+          name: name,
+          data: data,
+        ),
+      );
+
   @override
   Widget build(BuildContext context) {
     return BasePage(

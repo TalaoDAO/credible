@@ -15,7 +15,6 @@ dependencies:
     sdk: flutter
   intl: ^0.17.0
 
-  flutter_modular: ^3.2.0
   flutter_bloc: ^7.0.0
   bloc: ^7.0.0
   rxdart: ^0.26.0

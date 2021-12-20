@@ -8,11 +8,14 @@ import 'package:talao/app/pages/profile/usecase/is_issuer_approved.dart'
     as issuer_approved_usecase;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class QrCodeScanPage extends StatefulWidget {
+  static Route route() => MaterialPageRoute(
+        builder: (context) => QrCodeScanPage(),
+      );
+
   @override
   _QrCodeScanPageState createState() => _QrCodeScanPageState();
 }
@@ -105,15 +108,9 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
             content: Text(localizations.scanUnsupportedMessage),
           ));
         }
-          if (state is QRCodeStateSuccess) {
-            Modular.to.pushReplacementNamed(
-              state.route,
-              arguments: <String, dynamic>{
-                'uri': state.uri,
-                'data': state.data ?? '',
-              },
-            );
-          }
+        if (state is QRCodeStateSuccess) {
+          Navigator.of(context).pushReplacement(state.route);
+        }
       },
       child: BasePage(
         padding: EdgeInsets.zero,

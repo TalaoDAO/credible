@@ -1,11 +1,11 @@
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
+import 'package:talao/app/pages/credentials/pages/detail.dart';
 import 'package:talao/app/pages/credentials/widget/display_status.dart';
 import 'package:talao/app/shared/model/credential.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/box_decoration.dart';
 import 'package:talao/app/shared/widget/hero_workaround.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 
 class _BaseItem extends StatefulWidget {
   final Widget child;
@@ -113,9 +113,8 @@ class CredentialsListItem extends StatelessWidget {
     return _BaseItem(
       enabled: true,
       onTap: onTap ??
-          () => Modular.to.pushNamed(
-                '/credentials/detail',
-                arguments: item,
+          () => Navigator.of(context).push(
+                CredentialsDetail.route(item),
               ),
       color: item.backgroundColor,
       child: displayListElement(context),

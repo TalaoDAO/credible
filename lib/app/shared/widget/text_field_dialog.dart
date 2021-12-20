@@ -1,6 +1,5 @@
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 
 import 'base/button.dart';
 import 'base/text_field.dart';
@@ -69,7 +68,7 @@ class _TextFieldDialogState extends State<TextFieldDialog> {
                 child: BaseButton.transparent(
                   borderColor: UiKit.palette.primary,
                   onPressed: () {
-                    Modular.to.pop(controller.text);
+                    Navigator.of(context).pop(controller.text);
                   },
                   child: Text(widget.yes),
                 ),
@@ -79,7 +78,7 @@ class _TextFieldDialogState extends State<TextFieldDialog> {
                 child: BaseButton.primary(
                   borderColor: UiKit.palette.primary,
                   onPressed: () {
-                    Modular.to.pop();
+                    Navigator.of(context).pop();
                   },
                   child: Text(
                     widget.no,

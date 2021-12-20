@@ -5,11 +5,9 @@ import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/pages/credentials/blocs/wallet.dart';
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
-import 'package:talao/app/pages/credentials/repositories/credential.dart';
 import 'package:talao/app/shared/constants.dart';
 import 'package:talao/app/shared/model/message.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:logging/logging.dart';
 import 'package:uuid/uuid.dart';
 
@@ -172,8 +170,9 @@ class ScanStateCHAPIAskPermissionDIDAuth extends ScanState {
 
 class ScanBloc extends Bloc<ScanEvent, ScanState> {
   final Dio client;
+  final WalletBloc walletBloc;
 
-  ScanBloc(this.client) : super(ScanStateIdle());
+  ScanBloc(this.client, this.walletBloc) : super(ScanStateIdle());
 
   @override
   Stream<ScanState> mapEventToState(ScanEvent event) async* {
@@ -251,15 +250,11 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
                 'Check the logs for more information.'));
       }
 
-      final repository = Modular.get<CredentialsRepository>();
-
-      await repository.insert(CredentialModel.copyWithData(
+      await walletBloc.insertCredential(CredentialModel.copyWithData(
           oldCredentialModel: credentialModel, newData: jsonCredential));
 
       yield ScanStateMessage(StateMessage.success(
           'A new credential has been successfully added!'));
-
-      await Modular.get<WalletBloc>().findAll();
 
       await Future.delayed(Duration(milliseconds: 100));
       yield ScanStateSuccess();
@@ -403,9 +398,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
             StateMessage.error('Failed to verify credential. '
                 'Check the logs for more information.'));
       }
-
-      final repository = Modular.get<CredentialsRepository>();
-      await repository.insert(vc);
+await walletBloc.insertCredential(vc);
 
       done(vcStr);
 
@@ -418,8 +411,6 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
           StateMessage.error('Something went wrong, please try again later. '
               'Check the logs for more information.'));
     }
-
-    await Modular.get<WalletBloc>().findAll();
 
     await Future.delayed(Duration(milliseconds: 100));
     yield ScanStateSuccess();
@@ -468,8 +459,8 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
         yield ScanStateMessage(
             StateMessage.success('Successfully presented your DID!'));
 
-      await Future.delayed(Duration(milliseconds: 700));
-      yield ScanStateSuccess();
+        await Future.delayed(Duration(milliseconds: 700));
+        yield ScanStateSuccess();
       } else {
         yield ScanStateMessage(StateMessage.error(
             'Something went wrong, please try again later.'));

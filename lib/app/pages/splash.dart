@@ -1,94 +1,139 @@
-import 'dart:convert';
+import 'dart:async';
 
+import 'package:flutter/services.dart';
 import 'package:provider/src/provider.dart';
-import 'package:talao/app/interop/chapi/chapi.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
-import 'package:talao/app/pages/credentials/blocs/scan.dart';
-import 'package:talao/app/pages/credentials/repositories/credential.dart';
+import 'package:talao/app/pages/credentials/pages/list.dart';
+import 'package:talao/app/pages/on_boarding/start.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/brand.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
+import 'package:talao/deep_link/deep_link.dart';
+import 'package:uni_links/uni_links.dart';
+
+bool _initialUriIsHandled = false;
 
 class SplashPage extends StatefulWidget {
+  static Route route() {
+    return MaterialPageRoute<void>(
+      builder: (context) => SplashPage(),
+    );
+  }
+
   @override
   _SplashPageState createState() => _SplashPageState();
 }
 
 class _SplashPageState extends State<SplashPage> {
+  StreamSubscription? _sub;
+
   @override
   void initState() {
     super.initState();
     // initDynamicLinks();
+    const _duration = kIsWeb ? 25 : 1000;
     Future.delayed(
-      const Duration(
-        milliseconds: kIsWeb ? 25 : 1000,
+      Duration(
+        milliseconds: _duration,
       ),
       () async {
         final key = await SecureStorageProvider.instance.get('key') ?? '';
 
         if (key.isEmpty) {
-          await Modular.to.pushReplacementNamed('/on-boarding');
+          await Navigator.of(context).push<void>(OnBoardingStartPage.route());
           return;
         }
-
-        CHAPIProvider.instance.init(
-          get: (json, done) async {
-            final data = jsonDecode(json);
-            final url = Uri.parse(data['origin']);
-
-            context.read<ScanBloc>().add(ScanEventShowPreview({}));
-
-            await Modular.to.pushReplacementNamed(
-              '/credentials/chapi-present',
-              arguments: <String, dynamic>{
-                'url': url,
-                'data': data['event'],
-                'done': done,
-              },
-            );
-          },
-          store: (json, done) async {
-            final data = jsonDecode(json);
-            final url = Uri.parse(data['origin']);
-
-            context.read<ScanBloc>().add(ScanEventShowPreview({
-              'credentialPreview': data['event'],
-            }));
-
-            await Modular.to.pushReplacementNamed(
-              '/credentials/chapi-receive',
-              arguments: <String, dynamic>{
-                'url': url,
-                'data': data['event'],
-                'done': done,
-              },
-            );
-          },
+        await Navigator.of(context).push<void>(
+          CredentialsList.route(),
         );
-
-        CHAPIProvider.instance.emitReady();
-
-        final credentialRepository = Modular.get<CredentialsRepository>();
-
-        /// set to RevocationStatus.unknown for every credential with revocationStatus.valid
-        await credentialRepository.initializeRevocationStatus();
-        await Modular.to.pushReplacementNamed('/credentials');
       },
     );
   }
 
-  @override
-  Widget build(BuildContext context) => BasePage(
-        backgroundGradient: UiKit.palette.splashBackground,
-        scrollView: false,
-        body: Container(
-          alignment: Alignment.center,
-          padding: const EdgeInsets.all(24.0),
-          child: BrandMinimal(),
-        ),
-      );
+    @override
+  void dispose() {
+    _sub?.cancel();
+    super.dispose();
+  }
 
+  /// Handle incoming links - the ones that the app will recieve from the OS
+  /// while already started.
+  void _handleIncomingLinks(BuildContext context) {
+    if (!kIsWeb) {
+      // It will handle app links while the app is already started - be it in
+      // the foreground or in the background.
+      _sub = uriLinkStream.listen((Uri? uri) {
+        if (!mounted) return;
+        print('got uri: $uri');
+        uri?.queryParameters.forEach((key, value) {
+          if (key == 'uri') {
+            final url = value.replaceAll(RegExp(r'^\"|\"$'), '');
+            context.read<DeepLinkCubit>().addDeepLink(url);
+            Navigator.of(context).push(CredentialsList.route());
+          }
+        });
+      }, onError: (Object err) {
+        if (!mounted) return;
+        print('got err: $err');
+      });
+    }
+  }
+
+  /// Handle the initial Uri - the one the app was started with
+  ///
+  /// **ATTENTION**: `getInitialLink`/`getInitialUri` should be handled
+  /// ONLY ONCE in your app's lifetime, since it is not meant to change
+  /// throughout your app's life.
+  ///
+  /// We handle all exceptions, since it is called from initState.
+  Future<void> _handleInitialUri(BuildContext context) async {
+    // In this example app this is an almost useless guard, but it is here to
+    // show we are not going to call getInitialUri multiple times, even if this
+    // was a weidget that will be disposed of (ex. a navigation route change).
+    if (!_initialUriIsHandled) {
+      _initialUriIsHandled = true;
+      try {
+        final uri = await getInitialUri();
+        if (uri == null) {
+          print('no initial uri');
+        } else {
+          print('got initial uri: $uri');
+          if (!mounted) return;
+          print('got uri: $uri');
+          uri.queryParameters.forEach((key, value) {
+            if (key == 'uri') {
+              /// add uri to deepLink cubit
+              final url = value.replaceAll(RegExp(r'^\"|\"$'), '');
+              context.read<DeepLinkCubit>().addDeepLink(url);
+            }
+          });
+        }
+        if (!mounted) return;
+      } on PlatformException {
+        // Platform messages may fail but we ignore the exception
+        print('falied to get initial uri');
+      } on FormatException catch (err) {
+        if (!mounted) return;
+        print('malformed initial uri: $err');
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    _handleIncomingLinks(context);
+    _handleInitialUri(context);
+
+    return BasePage(
+      backgroundGradient: UiKit.palette.splashBackground,
+      scrollView: false,
+      body: Container(
+        alignment: Alignment.center,
+        padding: const EdgeInsets.all(24.0),
+        child: BrandMinimal(),
+      ),
+    );
+  }
 }

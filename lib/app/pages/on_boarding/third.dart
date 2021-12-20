@@ -1,26 +1,27 @@
-import 'dart:ui';
-
+import 'package:talao/app/pages/on_boarding/tos.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // ignore: must_be_immutable
 class OnBoardingThirdPage extends StatelessWidget {
   var animate = true;
 
+  static Route route() =>
+      MaterialPageRoute(builder: (context) => OnBoardingThirdPage());
+
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
     return GestureDetector(
       onTap: () {
-        Modular.to.pop();
+        Navigator.of(context).pop();
       },
       onHorizontalDragUpdate: (drag) async {
         if (animate && drag.delta.dx > 2) {
-          Modular.to.pop();
+          Navigator.of(context).pop();
           disableAnimation();
         }
       },
@@ -90,7 +91,8 @@ class OnBoardingThirdPage extends StatelessWidget {
                     ),
                     BaseButton.primary(
                       onPressed: () {
-                        Modular.to.pushReplacementNamed('/on-boarding/tos');
+                        Navigator.of(context)
+                            .pushReplacement(OnBoardingTosPage.route());
                       },
                       child: Text(localizations.onBoardingStartButton),
                     )

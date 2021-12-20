@@ -7,6 +7,11 @@ class ErrorPage extends StatelessWidget {
   final String errorMessage;
 
   const ErrorPage({Key? key, required this.errorMessage}) : super(key: key);
+
+  static Route route(String errorMessage) => MaterialPageRoute(
+        builder: (context) => ErrorPage(errorMessage: errorMessage),
+      );
+      
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;

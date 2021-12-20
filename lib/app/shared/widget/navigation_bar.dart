@@ -1,8 +1,10 @@
+import 'package:talao/app/pages/credentials/pages/list.dart';
+import 'package:talao/app/pages/profile/profile.dart';
+import 'package:talao/app/pages/qr_code/scan.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/info_dialog.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -73,7 +75,8 @@ class CustomNavBar extends StatelessWidget {
           if (newIndex == index) return;
           switch (newIndex) {
             case 0:
-              Modular.to.pushReplacementNamed('/credentials');
+              Navigator.of(context)
+                  .pushReplacement(CredentialsList.route());
               break;
             case 1:
               if (kIsWeb) {
@@ -86,11 +89,11 @@ class CustomNavBar extends StatelessWidget {
                   ),
                 );
               } else {
-                Modular.to.pushReplacementNamed('/qr-code/scan');
+                Navigator.of(context).pushReplacement(QrCodeScanPage.route());
               }
               break;
             case 2:
-              Modular.to.pushReplacementNamed('/profile');
+              Navigator.of(context).pushReplacement(ProfilePage.route());
               break;
           }
         },

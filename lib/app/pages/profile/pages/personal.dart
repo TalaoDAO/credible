@@ -1,12 +1,11 @@
+import 'package:provider/src/provider.dart';
 import 'package:talao/app/pages/profile/blocs/profile.dart';
 import 'package:talao/app/pages/profile/models/profile.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/base/text_field.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PersonalPage extends StatefulWidget {
@@ -16,6 +15,12 @@ class PersonalPage extends StatefulWidget {
     Key? key,
     required this.profile,
   }) : super(key: key);
+
+static Route route(profile) => MaterialPageRoute(
+      builder: (context) => PersonalPage(
+        profile: profile,
+      ),
+    );
 
   @override
   _PersonalPageState createState() => _PersonalPageState();
@@ -48,7 +53,7 @@ class _PersonalPageState extends State<PersonalPage> {
       titleTrailing: InkWell(
         borderRadius: BorderRadius.circular(8.0),
         onTap: () {
-          Modular.get<ProfileBloc>().add(ProfileEventUpdate(ProfileModel(
+          context.read<ProfileBloc>().add(ProfileEventUpdate(ProfileModel(
               firstName: firstNameController.text,
               lastName: lastNameController.text,
               phone: phoneController.text,
@@ -56,7 +61,7 @@ class _PersonalPageState extends State<PersonalPage> {
               email: emailController.text,
               issuerVerificationSetting:
                   widget.profile.issuerVerificationSetting)));
-          Modular.to.pop();
+          Navigator.of(context).pop();
         },
         child: Padding(
           padding: const EdgeInsets.symmetric(

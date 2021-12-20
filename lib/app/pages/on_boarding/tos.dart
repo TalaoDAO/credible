@@ -1,15 +1,19 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:logging/logging.dart';
+import 'package:talao/app/pages/on_boarding/key.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:talao/app/shared/widget/spinner.dart';
 
 class OnBoardingTosPage extends StatelessWidget {
+  static Route route() => MaterialPageRoute(
+        builder: (context) => OnBoardingTosPage(),
+      );
+
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
@@ -48,7 +52,8 @@ class OnBoardingTosPage extends StatelessWidget {
                 const SizedBox(height: 20.0),
                 BaseButton.primary(
                   onPressed: () {
-                    Modular.to.pushReplacementNamed('/on-boarding/key');
+                    Navigator.of(context)
+                        .pushReplacement(OnBoardingKeyPage.route());
                   },
                   child: Text(localizations.onBoardingTosButton),
                 )

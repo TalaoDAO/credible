@@ -1,7 +1,6 @@
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 
 class ConfirmDialog extends StatelessWidget {
   final String title;
@@ -57,7 +56,7 @@ class ConfirmDialog extends StatelessWidget {
                 child: BaseButton.transparent(
                   borderColor: UiKit.palette.primary,
                   onPressed: () {
-                    Modular.to.pop(true);
+                    Navigator.of(context).pop(true);
                   },
                   child: Text(yes),
                 ),
@@ -67,7 +66,7 @@ class ConfirmDialog extends StatelessWidget {
                 child: BaseButton.primary(
                   borderColor: UiKit.palette.primary,
                   onPressed: () {
-                    Modular.to.pop(false);
+                    Navigator.of(context).pop(false);
                   },
                   child: Text(no),
                 ),

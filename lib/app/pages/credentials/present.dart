@@ -1,52 +1,70 @@
 import 'package:talao/app/pages/credentials/blocs/scan.dart';
+import 'package:talao/app/pages/credentials/pages/list.dart';
 import 'package:talao/app/pages/credentials/widget/ask_user_permission_did_auth.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/spinner.dart';
 import 'package:talao/app/shared/widget/tooltip_text.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/src/provider.dart';
 
 class CredentialsPresentPage extends StatefulWidget {
   final Uri url;
-  final String title;
   final String resource;
   final String? yes;
   final String? no;
-  final void Function(Map<String, dynamic>) onSubmit;
+  final void Function(Map<String, dynamic>, dynamic) onSubmit;
 
   const CredentialsPresentPage({
     Key? key,
     required this.url,
-    required this.title,
     this.yes,
     this.no,
     required this.resource,
     required this.onSubmit,
   }) : super(key: key);
 
+  static Route route(
+      {required Uri url,
+      String? yes,
+      String? no,
+      required String resource,
+      required void Function(Map<String, dynamic>, dynamic) onSubmit}) {
+    return MaterialPageRoute(
+      builder: (context) => CredentialsPresentPage(
+        url: url,
+        yes: yes,
+        no: no,
+        resource: resource,
+        onSubmit: onSubmit,
+      ),
+    );
+  }
+
   @override
   _CredentialsPresentPageState createState() => _CredentialsPresentPageState();
 }
 
 class _CredentialsPresentPageState extends State<CredentialsPresentPage> {
-  final VoidCallback goBack = () {
-    Modular.to.pushReplacementNamed('/credentials/list');
-  };
+  final VoidCallback goBack = () {};
 
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
+    var title = localizations.credentialPresentTitle;
+    if (widget.resource == 'DID') {
+      title = localizations.credentialPresentTitleDIDAuth;
+    }
 
     return BasePage(
       padding: const EdgeInsets.all(16.0),
-      title: widget.title,
+      title: title,
       titleTrailing: IconButton(
-        onPressed: goBack,
+        onPressed: () =>
+            Navigator.of(context).pushReplacement(CredentialsList.route()),
         icon: Icon(
           Icons.close,
           color: UiKit.palette.icon,
@@ -111,7 +129,7 @@ class _CredentialsPresentPageState extends State<CredentialsPresentPage> {
         const SizedBox(height: 24.0),
         BaseButton.transparent(
           borderColor: UiKit.palette.primary,
-          onPressed: () => widget.onSubmit(preview),
+          onPressed: () => widget.onSubmit(preview, context),
           child: Text(
             widget.yes ?? localizations.credentialPresentConfirm,
           ),

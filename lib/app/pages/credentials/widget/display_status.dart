@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
+import 'package:provider/src/provider.dart';
 import 'package:talao/app/pages/credentials/blocs/wallet.dart';
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
 import 'package:talao/app/pages/credentials/models/credential_status.dart';
@@ -12,7 +12,7 @@ class DisplayStatus extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final wallet = Modular.get<WalletBloc>();
+    final wallet = context.read<WalletBloc>();
     final currentRevocationStatus = item.revocationStatus;
     return FutureBuilder(
         future: item.status,

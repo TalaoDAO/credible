@@ -1,13 +1,19 @@
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
+import 'package:talao/app/pages/credentials/pages/list.dart';
+import 'package:talao/app/pages/on_boarding/key.dart';
 import 'package:talao/app/shared/key_generation.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/spinner.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:logging/logging.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OnBoardingGenPage extends StatefulWidget {
+
+  static Route route() => MaterialPageRoute(
+    builder: (context) => OnBoardingGenPage(),
+  );
+  
   @override
   _OnBoardingGenPageState createState() => _OnBoardingGenPageState();
 }
@@ -29,7 +35,7 @@ class _OnBoardingGenPageState extends State<OnBoardingGenPage> {
       final key = await KeyGeneration.privateKey(mnemonic);
 
       await SecureStorageProvider.instance.set('key', key);
-      await Modular.to.pushReplacementNamed('/credentials');
+      await Navigator.of(context).pushReplacement(CredentialsList.route());
     } catch (error) {
       log.severe('something went wrong when generating a key', error);
 
@@ -37,8 +43,7 @@ class _OnBoardingGenPageState extends State<OnBoardingGenPage> {
         backgroundColor: Colors.red,
         content: Text(localizations.errorGeneratingKey),
       ));
-
-      await Modular.to.pushReplacementNamed('/on-boarding/key');
+      await Navigator.of(context).pushReplacement(OnBoardingKeyPage.route());
     }
   }
 

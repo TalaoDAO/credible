@@ -5,13 +5,15 @@ import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/mnemonic.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:logging/logging.dart';
 
 class OnBoardingGenPhrasePage extends StatefulWidget {
+  static Route route() => MaterialPageRoute(
+        builder: (context) => OnBoardingGenPhrasePage(),
+      );
+
   @override
   _OnBoardingGenPhrasePageState createState() =>
       _OnBoardingGenPhrasePageState();
@@ -88,7 +90,8 @@ class _OnBoardingGenPhrasePageState extends State<OnBoardingGenPhrasePage> {
                 );
                 log.info('mnemonic saved');
 
-                await Modular.to.pushReplacementNamed('/on-boarding/gen');
+                await Navigator.of(context)
+                    .pushReplacement(OnBoardingGenPhrasePage.route());
               } catch (error) {
                 log.severe(
                     'error ocurred setting mnemonic to secure storate', error);

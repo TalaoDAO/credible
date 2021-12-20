@@ -9,6 +9,10 @@ import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 
 class GlobalInformationPage extends StatelessWidget {
+  static Route route() => MaterialPageRoute(
+        builder: (_) => GlobalInformationPage(),
+      );
+
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;

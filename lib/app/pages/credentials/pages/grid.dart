@@ -1,5 +1,6 @@
 import 'package:talao/app/pages/credentials/blocs/scan.dart';
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
+import 'package:talao/app/pages/credentials/stream.dart';
 import 'package:talao/app/pages/credentials/widget/grid_item.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/navigation_bar.dart';
@@ -14,6 +15,13 @@ class CredentialsGrid extends StatelessWidget {
     Key? key,
     required this.items,
   }) : super(key: key);
+
+  Route route() => MaterialPageRoute(
+      builder: (context) => CredentialsStream(
+            child: (context, items) => CredentialsGrid(
+              items: items,
+            ),
+          ));
 
   @override
   Widget build(BuildContext context) {

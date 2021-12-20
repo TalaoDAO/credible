@@ -1,7 +1,6 @@
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/box_decoration.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DocumentWidget extends StatelessWidget {

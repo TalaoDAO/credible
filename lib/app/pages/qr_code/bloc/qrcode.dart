@@ -1,7 +1,13 @@
 import 'dart:convert';
+import 'package:provider/src/provider.dart';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:talao/app/pages/credentials/blocs/scan.dart';
+import 'package:talao/app/pages/credentials/pages/list.dart';
+import 'package:talao/app/pages/credentials/pick.dart';
+import 'package:talao/app/pages/credentials/present.dart';
+import 'package:talao/app/pages/credentials/receive.dart';
 import 'package:talao/app/shared/model/message.dart';
 import 'package:dio/dio.dart';
 import 'package:logging/logging.dart';
@@ -38,11 +44,9 @@ class QRCodeStateHost extends QRCodeState {
 }
 
 class QRCodeStateSuccess extends QRCodeState {
-  final String route;
-  final Uri uri;
-  final Map<String, dynamic>? data;
+  final Route route;
 
-  QRCodeStateSuccess(this.route, this.uri, [this.data]);
+  QRCodeStateSuccess(this.route);
 }
 
 class QRCodeStateUnknown extends QRCodeState {}
@@ -139,16 +143,51 @@ class QRCodeBloc extends Bloc<QRCodeEvent, QRCodeState> {
 
     switch (data['type']) {
       case 'CredentialOffer':
-        yield QRCodeStateSuccess('/credentials/receive', event.uri);
+        yield QRCodeStateSuccess(CredentialsReceivePage.route(event.uri));
         break;
 
       case 'VerifiablePresentationRequest':
         if (data['query'] != null) {
           queryByExampleCubit.setQueryByExampleCubit(data['query'].first);
-          yield QRCodeStateSuccess(
-              '/credentials/chapi-present', event.uri, data);
+          if (data['query'].first['type'] == 'DIDAuth') {
+            scanBloc.add(ScanEventCHAPIAskPermissionDIDAuth(
+              'key',
+              (done) {
+                print('done');
+              },
+              event.uri,
+              challenge: data['challenge'],
+              domain: data['domain'],
+            ));
+            yield QRCodeStateSuccess(CredentialsPresentPage.route(
+              resource: 'DID',
+              yes: 'Accept',
+              url: event.uri,
+              onSubmit: (preview, context) {
+                Navigator.of(context).pushReplacement(CredentialsList.route());
+              },
+            ));
+          } else if (data['query'].first['type'] == 'QueryByExample') {
+            yield QRCodeStateSuccess(CredentialsPresentPage.route(
+              resource: 'credential',
+              url: event.uri,
+              onSubmit: (preview, context) {
+                Navigator.of(context).pushReplacement(
+                    CredentialsPickPage.route(event.uri, preview));
+              },
+            ));
+          } else {
+            throw UnimplementedError('Unimplemented Query Type');
+          }
         } else {
-          yield QRCodeStateSuccess('/credentials/present', event.uri);
+          yield QRCodeStateSuccess(CredentialsPresentPage.route(
+            resource: 'credential',
+            url: event.uri,
+            onSubmit: (preview, context) {
+              Navigator.of(context).pushReplacement(
+                  CredentialsPickPage.route(event.uri, preview));
+            },
+          ));
         }
         break;
 

@@ -1,4 +1,3 @@
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:talao/app/pages/credentials/models/revokation_status.dart';
 import 'package:talao/app/shared/model/author.dart';
 import 'package:talao/app/shared/model/credential_status_field.dart';
@@ -110,18 +109,6 @@ class Credential {
     return [Evidence.fromJson(json)];
   }
 
-  static Credential fromJsonOrErrorPage(Map<String, dynamic> data) {
-    try {
-      return Credential.fromJson(data);
-    } catch (e) {
-      print(e.toString());
-      Modular.to.pushNamed(
-        '/error',
-        arguments: e.toString(),
-      );
-      return Credential.dummy();
-    }
-  }
 
   static Credential fromJsonOrDummy(Map<String, dynamic> data) {
     try {

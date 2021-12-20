@@ -2,11 +2,14 @@ import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/mnemonic.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RecoveryPage extends StatefulWidget {
+  static Route route() => MaterialPageRoute(
+        builder: (context) => RecoveryPage(),
+      );
+
   @override
   _RecoveryPageState createState() => _RecoveryPageState();
 }

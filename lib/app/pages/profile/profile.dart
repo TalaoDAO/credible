@@ -1,19 +1,27 @@
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
-import 'package:talao/app/pages/credentials/repositories/credential.dart';
+import 'package:talao/app/pages/credentials/blocs/wallet.dart';
 import 'package:talao/app/pages/profile/blocs/did.dart';
 import 'package:talao/app/pages/profile/blocs/profile.dart';
 import 'package:talao/app/pages/profile/models/profile.dart';
+import 'package:talao/app/pages/profile/pages/global_information.dart';
+import 'package:talao/app/pages/profile/pages/personal.dart';
+import 'package:talao/app/pages/profile/pages/privacy.dart';
+import 'package:talao/app/pages/profile/pages/recovery.dart';
+import 'package:talao/app/pages/profile/pages/terms.dart';
 import 'package:talao/app/pages/profile/widgets/menu_item.dart';
+import 'package:talao/app/pages/splash.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/confirm_dialog.dart';
 import 'package:talao/app/shared/widget/navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProfilePage extends StatefulWidget {
+  static Route route() => MaterialPageRoute(
+        builder: (_) => ProfilePage(),
+      );
+
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
@@ -22,15 +30,15 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
-    Modular.get<ProfileBloc>().add(ProfileEventLoad());
-    Modular.get<DIDBloc>().add(DIDEventLoad());
+    context.read<ProfileBloc>().add(ProfileEventLoad());
+    context.read<DIDBloc>().add(DIDEventLoad());
   }
 
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
     return BlocConsumer(
-      bloc: Modular.get<ProfileBloc>(),
+      bloc: context.read<ProfileBloc>(),
       listener: (context, state) {
         if (state is ProfileStateMessage) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -77,23 +85,23 @@ class _ProfilePageState extends State<ProfilePage> {
                 icon: Icons.person,
                 title: localizations.personalTitle,
                 onTap: () =>
-                    Modular.to.pushNamed('/profile/personal', arguments: model),
+                    Navigator.of(context).push(PersonalPage.route(model)),
               ),
               MenuItem(
                 icon: Icons.receipt_long,
                 title: localizations.globalInformationLabel,
                 onTap: () =>
-                    Modular.to.pushNamed('/profile/global-information'),
+                    Navigator.of(context).push(GlobalInformationPage.route()),
               ),
               MenuItem(
                 icon: Icons.shield,
                 title: localizations.privacyTitle,
-                onTap: () => Modular.to.pushNamed('/profile/privacy'),
+                onTap: () => Navigator.of(context).push(PrivacyPage.route()),
               ),
               MenuItem(
                 icon: Icons.article,
                 title: localizations.onBoardingTosTitle,
-                onTap: () => Modular.to.pushNamed('/profile/terms'),
+                onTap: () => Navigator.of(context).push(TermsPage.route()), 
               ),
               MenuItem(
                 icon: Icons.vpn_key,
@@ -111,7 +119,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       false;
 
                   if (confirm) {
-                    await Modular.to.pushNamed('/profile/recovery');
+                    await Navigator.of(context).push(RecoveryPage.route());
                   }
                 },
               ),
@@ -146,10 +154,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     await SecureStorageProvider.instance
                         .delete(ProfileModel.emailKey);
 
-                    final repository = Modular.get<CredentialsRepository>();
-                    await repository.deleteAll();
+                    await context.read<WalletBloc>().deleteAll();
 
-                    await Modular.to.pushReplacementNamed('/splash');
+                    await Navigator.of(context).push(SplashPage.route());
                   }
                 },
               ),

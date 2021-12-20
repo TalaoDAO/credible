@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:talao/app/pages/profile/blocs/profile.dart';
 import 'package:talao/app/pages/profile/models/profile.dart';
 
@@ -13,7 +12,7 @@ class IssuerVerificationSetting extends StatelessWidget {
     final localizations = AppLocalizations.of(context)!;
 
     return BlocConsumer(
-        bloc: Modular.get<ProfileBloc>(),
+        bloc: context.read<ProfileBloc>(),
         listener: (context, state) {
           if (state is ProfileStateMessage) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -34,8 +33,7 @@ class IssuerVerificationSetting extends StatelessWidget {
                 Spacer(),
                 Switch(
                   onChanged: (value) {
-                    Modular.get<ProfileBloc>()
-                        .add(ProfileEventUpdate(ProfileModel(
+                    context.read<ProfileBloc>().add(ProfileEventUpdate(ProfileModel(
                       firstName: model.firstName,
                       lastName: model.lastName,
                       phone: model.phone,

@@ -1,14 +1,17 @@
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
+import 'package:talao/app/pages/on_boarding/gen.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/base/text_field.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OnBoardingRecoveryPage extends StatefulWidget {
+
+static Route route() => MaterialPageRoute(builder: (context) => OnBoardingRecoveryPage());
+
   static const _padding = EdgeInsets.symmetric(
     horizontal: 16.0,
   );
@@ -78,7 +81,7 @@ class _OnBoardingRecoveryPageState extends State<OnBoardingRecoveryPage> {
                       mnemonicController.text,
                     );
 
-                    await Modular.to.pushReplacementNamed('/on-boarding/gen');
+                    await Navigator.of(context).pushReplacement(OnBoardingGenPage.route());
                   }
                 : null,
             child: Text(localizations.onBoardingRecoveryButton),

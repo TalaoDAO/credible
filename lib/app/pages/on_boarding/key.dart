@@ -1,11 +1,16 @@
+import 'package:talao/app/pages/on_boarding/gen_phrase.dart';
+import 'package:talao/app/pages/on_boarding/recovery.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OnBoardingKeyPage extends StatelessWidget {
+
+  static Route route() => MaterialPageRoute(
+    builder: (context) => OnBoardingKeyPage(),
+  );
+
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
@@ -35,7 +40,7 @@ class OnBoardingKeyPage extends StatelessWidget {
                 const SizedBox(height: 20.0),
                 BaseButton.primary(
                   onPressed: () {
-                    Modular.to.pushNamed('/on-boarding/recovery');
+                    Navigator.of(context).push(OnBoardingRecoveryPage.route());
                   },
                   child: Text(localizations.onBoardingKeyRecover),
                 ),
@@ -61,7 +66,7 @@ class OnBoardingKeyPage extends StatelessWidget {
                 const SizedBox(height: 20.0),
                 BaseButton.primary(
                   onPressed: () {
-                    Modular.to.pushNamed('/on-boarding/gen-phrase');
+                    Navigator.of(context).push(OnBoardingGenPhrasePage.route());
                   },
                   child: Text(localizations.onBoardingKeyGenerate),
                 ),
