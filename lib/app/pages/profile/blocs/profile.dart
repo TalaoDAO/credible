@@ -31,7 +31,9 @@ class ProfileStateDefault extends ProfileState {
 }
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
-  ProfileBloc() : super(ProfileStateDefault(ProfileModel()));
+  ProfileBloc() : super(ProfileStateDefault(ProfileModel())) {
+        add(ProfileEventLoad());
+  }
 
   @override
   Stream<ProfileState> mapEventToState(ProfileEvent event) async* {

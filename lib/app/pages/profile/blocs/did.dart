@@ -26,7 +26,9 @@ class DIDStateDefault extends DIDState {
 }
 
 class DIDBloc extends Bloc<DIDEvent, DIDState> {
-  DIDBloc() : super(DIDStateDefault(''));
+  DIDBloc() : super(DIDStateDefault('')) {
+    add(DIDEventLoad());
+  }
 
   @override
   Stream<DIDState> mapEventToState(DIDEvent event) async* {

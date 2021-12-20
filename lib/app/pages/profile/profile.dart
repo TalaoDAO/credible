@@ -30,8 +30,6 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
-    context.read<ProfileBloc>().add(ProfileEventLoad());
-    context.read<DIDBloc>().add(DIDEventLoad());
   }
 
   @override
