@@ -222,8 +222,6 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
 
       final vcStr = jsonEncode(jsonCredential);
       final optStr = jsonEncode({'proofPurpose': 'assertionMethod'});
-      await Future.delayed(Duration(seconds: 1));
-      // TODO [bug] verification fails here for unknown reason
       final verification =
           await DIDKitProvider.instance.verifyCredential(vcStr, optStr);
 
@@ -256,7 +254,6 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       yield ScanStateMessage(StateMessage.success(
           'A new credential has been successfully added!'));
 
-      await Future.delayed(Duration(milliseconds: 100));
       yield ScanStateSuccess();
     } catch (e) {
       log.severe('something went wrong', e);
@@ -266,7 +263,6 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
               'Check the logs for more information.'));
     }
 
-    await Future.delayed(Duration(milliseconds: 100));
     yield ScanStateIdle();
   }
 
@@ -319,7 +315,6 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       yield ScanStateMessage(
           StateMessage.success('Successfully presented your credential!'));
 
-      await Future.delayed(Duration(milliseconds: 100));
       yield ScanStateSuccess();
     } catch (e) {
       log.severe('something went wrong', e);
@@ -329,7 +324,6 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
               'Check the logs for more information.'));
     }
 
-    await Future.delayed(Duration(milliseconds: 100));
     yield ScanStateIdle();
   }
 
@@ -369,8 +363,6 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
 
       final vcStr = jsonEncode(vc);
       final optStr = jsonEncode({'proofPurpose': 'assertionMethod'});
-      await Future.delayed(Duration(seconds: 1));
-      // TODO [bug] verification fails here for unknown reason
       final verification =
           await DIDKitProvider.instance.verifyCredential(vcStr, optStr);
 
@@ -412,10 +404,8 @@ await walletBloc.insertCredential(vc);
               'Check the logs for more information.'));
     }
 
-    await Future.delayed(Duration(milliseconds: 100));
     yield ScanStateSuccess();
 
-    await Future.delayed(Duration(milliseconds: 100));
     yield ScanStateIdle();
   }
 
@@ -459,7 +449,6 @@ await walletBloc.insertCredential(vc);
         yield ScanStateMessage(
             StateMessage.success('Successfully presented your DID!'));
 
-        await Future.delayed(Duration(milliseconds: 700));
         yield ScanStateSuccess();
       } else {
         yield ScanStateMessage(StateMessage.error(
@@ -472,10 +461,8 @@ await walletBloc.insertCredential(vc);
           StateMessage.error('Something went wrong, please try again later. '));
     }
 
-    await Future.delayed(Duration(milliseconds: 100));
     yield ScanStateSuccess();
 
-    await Future.delayed(Duration(milliseconds: 100));
     yield ScanStateIdle();
   }
 
@@ -530,10 +517,8 @@ await walletBloc.insertCredential(vc);
               'Check the logs for more information.'));
     }
 
-    await Future.delayed(Duration(milliseconds: 100));
     yield ScanStateSuccess();
 
-    await Future.delayed(Duration(milliseconds: 100));
     yield ScanStateIdle();
   }
 
