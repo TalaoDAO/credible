@@ -59,6 +59,7 @@ class _AppWidgetState extends State<AppWidget> {
                 child: BlocProvider<DIDBloc>(
                   create: (context) => DIDBloc(),
                   child: MaterialApp(
+                    useInheritedMediaQuery: true,
                     title: 'Credible',
                     home: SplashPage(),
                     theme: _themeData,

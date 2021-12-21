@@ -1,3 +1,5 @@
+import 'package:device_preview/device_preview.dart';
+import 'package:flutter/foundation.dart';
 import 'package:talao/app/app_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
@@ -11,6 +13,8 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   runApp(
-    AppWidget(),
+    DevicePreview(
+      enabled: !kReleaseMode,
+      builder: (context) => AppWidget()),
   );
 }
