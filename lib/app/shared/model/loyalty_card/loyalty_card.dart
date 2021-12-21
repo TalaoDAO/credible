@@ -32,8 +32,17 @@ class LoyaltyCard extends CredentialSubject {
   factory LoyaltyCard.fromJson(Map<String, dynamic> json) =>
       _$LoyaltyCardFromJson(json);
 
-  LoyaltyCard(this.id, this.type, this.address, this.familyName, this.issuedBy, this.birthDate, this.givenName, this.programName, this.telephone,) 
-      : super(id, type, issuedBy);
+  LoyaltyCard(
+    this.id,
+    this.type,
+    this.address,
+    this.familyName,
+    this.issuedBy,
+    this.birthDate,
+    this.givenName,
+    this.programName,
+    this.telephone,
+  ) : super(id, type, issuedBy);
 
   @override
   Map<String, dynamic> toJson() => _$LoyaltyCardToJson(this);
@@ -51,31 +60,30 @@ class LoyaltyCard extends CredentialSubject {
     return Column(
       children: [
         DisplayIssuer(issuer: issuedBy),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            LoyaltyCardFieldDisplay(
-                labelWidth: labelWidth,
-                label: Text(localizations.lastName),
-                value: TextWithLoyaltyCardStyle(value: familyName)),
-            LoyaltyCardFieldDisplay(
-                labelWidth: labelWidth,
-                label: Text(localizations.firstName),
-                value: TextWithLoyaltyCardStyle(value: givenName)),
-            LoyaltyCardFieldDisplay(
-                labelWidth: labelWidth,
-                label: Text(localizations.birthdate),
-                value: TextWithLoyaltyCardStyle(value: birthDate)),
-            LoyaltyCardFieldDisplay(
-                labelWidth: labelWidth,
-                label: Text(localizations.address),
-                value: TextWithLoyaltyCardStyle(value: address)),
-          ],
+        Container(
+          height: 190,
+          width: double.infinity,
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  fit: BoxFit.fitHeight,
+                  image: AssetImage('assets/image/student_background.png'))),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(22, 85, 8, 0),
+                child: Text('Mon nom étudiant'),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(22, 0, 8, 4),
+                child: Text('Mon prénom étudiant'),
+              )
+            ],
+          ),
         ),
       ],
     );
   }
-
 }
 
 class LoyaltyCardFieldDisplay extends StatelessWidget {
