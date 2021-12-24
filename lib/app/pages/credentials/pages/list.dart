@@ -48,7 +48,7 @@ class CredentialsList extends StatelessWidget {
             credentialListContext.read<DeepLinkCubit>().resetDeepLink();
 
             var approvedIssuer =
-                await issuer_approved_usecase.ApprovedIssuer(state.uri);
+                await issuer_approved_usecase.ApprovedIssuer(state.uri, context);
             var acceptHost;
             acceptHost = await checkHost(
                     localizations, state.uri, approvedIssuer, context) ??

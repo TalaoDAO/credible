@@ -66,7 +66,7 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
       });
 
       final localizations = AppLocalizations.of(context)!;
-      var approvedIssuer = await issuer_approved_usecase.ApprovedIssuer(uri);
+      var approvedIssuer = await issuer_approved_usecase.ApprovedIssuer(uri, context);
       var acceptHost;
       acceptHost =
           await checkHost(localizations, uri, approvedIssuer, context) ?? false;

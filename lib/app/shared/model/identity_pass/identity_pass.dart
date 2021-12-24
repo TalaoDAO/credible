@@ -40,139 +40,36 @@ class IdentityPass extends CredentialSubject {
     final localizations = AppLocalizations.of(context)!;
     return Column(
       children: [
-        expires != ''
-            ? Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Text('${localizations.expires} '),
-                    Text('$expires',
-                        style: TextStyle(
-                            inherit: true, fontWeight: FontWeight.w700)),
-                  ],
-                ),
-              )
-            : SizedBox.shrink(),
-        recipient.jobTitle != ''
-            ? Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Text('${localizations.jobTitle} '),
-                    Text('${recipient.jobTitle}',
-                        style: TextStyle(
-                            inherit: true, fontWeight: FontWeight.w700)),
-                  ],
-                ),
-              )
-            : SizedBox.shrink(),
-        recipient.familyName != ''
-            ? Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Text('${localizations.firstName} '),
-                    Text('${recipient.familyName}',
-                        style: TextStyle(
-                            inherit: true, fontWeight: FontWeight.w700)),
-                  ],
-                ),
-              )
-            : SizedBox.shrink(),
-        recipient.givenName != ''
-            ? Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Text('${localizations.lastName} '),
-                    Text('${recipient.givenName}',
-                        style: TextStyle(
-                            inherit: true, fontWeight: FontWeight.w700)),
-                  ],
-                ),
-              )
-            : SizedBox.shrink(),
-        recipient.image != ''
-            ? Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Image.network(recipient.image,
-                    loadingBuilder: (context, child, loadingProgress) =>
-                        (loadingProgress == null)
-                            ? child
-                            : CircularProgressIndicator(),
-                    errorBuilder: (context, error, stackTrace) =>
-                        SizedBox.shrink()),
-              )
-            : SizedBox.shrink(),
-        recipient.address != ''
-            ? Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Text('${localizations.address} '),
-                    Text('${recipient.address}',
-                        style: TextStyle(
-                            inherit: true, fontWeight: FontWeight.w700)),
-                  ],
-                ),
-              )
-            : SizedBox.shrink(),
-        recipient.birthDate != ''
-            ? Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Text('${localizations.birthdate} '),
-                    Text('${recipient.birthDate}',
-                        style: TextStyle(
-                            inherit: true, fontWeight: FontWeight.w700)),
-                  ],
-                ),
-              )
-            : SizedBox.shrink(),
-        recipient.email != ''
-            ? Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Text('${localizations.personalMail} '),
-                    Text('${recipient.email}',
-                        style: TextStyle(
-                            inherit: true, fontWeight: FontWeight.w700)),
-                  ],
-                ),
-              )
-            : SizedBox.shrink(),
-        recipient.gender != ''
-            ? Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Text('${localizations.gender} '),
-                    Text('${recipient.gender}',
-                        style: TextStyle(
-                            inherit: true, fontWeight: FontWeight.w700)),
-                  ],
-                ),
-              )
-            : SizedBox.shrink(),
-        recipient.telephone != ''
-            ? Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Text('${localizations.personalPhone} '),
-                    Text('${recipient.telephone}',
-                        style: TextStyle(
-                            inherit: true, fontWeight: FontWeight.w700)),
-                  ],
-                ),
-              )
-            : SizedBox.shrink(),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: DisplayIssuer(
-            issuer: issuedBy,
+        AspectRatio(
+          aspectRatio: 508.67 / 319.67,
+          child: Container(
+            height: 319.67,
+            width: 508.67,
+            child: Stack(
+              children: [
+                Container(
+                    decoration: BoxDecoration(
+                        color: Colors.pink,
+                        image: DecorationImage(
+                            fit: BoxFit.fitWidth,
+                            image: AssetImage(
+                              'assets/image/adecco_student_card_verso.png',
+                            ))),
+                    child: Row(
+                      children: [
+                        Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(43, 52, 0, 0),
+                              child: Text(recipient.familyName),
+                            )
+                          ],
+                        )
+                      ],
+                    )),
+                Positioned(left: 10, top: 20, child: Text(recipient.familyName))
+              ],
+            ),
           ),
         )
       ],
