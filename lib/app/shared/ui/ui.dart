@@ -1,6 +1,8 @@
+import 'package:intl/intl.dart';
 import 'package:talao/app/shared/ui/talao/constraints.dart';
 import 'package:talao/app/shared/ui/talao/palette.dart';
 import 'package:talao/app/shared/ui/talao/text.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'base/constraints.dart';
 import 'base/palette.dart';
@@ -39,4 +41,10 @@ class Ui {
     this.constraints = const TalaoConstraints(),
     this.text = const TalaoText(),
   });
+
+    String displayDate(AppLocalizations localizations, DateTime _issuanceDate) {
+    return DateFormat.yMd(localizations.localeName)
+                  .format(_issuanceDate);
+  }
+
 }

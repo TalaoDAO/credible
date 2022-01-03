@@ -11,6 +11,7 @@ import 'package:talao/app/shared/model/certificate_of_employment/certificate_of_
 import 'package:talao/app/shared/model/credential.dart';
 import 'package:talao/app/shared/model/display.dart';
 import 'package:talao/app/shared/model/translation.dart';
+import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/credential_field.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
@@ -161,8 +162,7 @@ class CredentialModel {
         credentialPreview.credentialSubject.displayDetail(context, item),
         credentialPreview.credentialSubject is CertificateOfEmployment
             ? CredentialField(
-                value: DateFormat.yMd(localizations.localeName)
-                    .format(_issuanceDate),
+                value: UiKit.displayDate(localizations, _issuanceDate),
                 // value: _issuanceDate.toString(),
                 title: localizations.issuanceDate)
             : SizedBox.shrink(),
@@ -202,6 +202,7 @@ class CredentialModel {
       ],
     );
   }
+
 
   Widget displayList(BuildContext context, CredentialModel item) {
     return Column(
