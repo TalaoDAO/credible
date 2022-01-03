@@ -6,6 +6,8 @@ import 'package:talao/app/shared/model/credential_subject.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:talao/app/shared/model/professional_student_card/professional_student_card_recipient.dart';
+import 'package:talao/app/shared/ui/ui.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 part 'professional_student_card.g.dart';
 
@@ -157,6 +159,7 @@ class JobStudentCardVerso extends StatelessWidget {
 }
 
 class JobStudentCardRecto extends StatelessWidget {
+  
   const JobStudentCardRecto({
     Key? key,
     required this.recipient,
@@ -168,6 +171,8 @@ class JobStudentCardRecto extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
     return Container(
       decoration: BoxDecoration(
           image: DecorationImage(
@@ -197,11 +202,11 @@ class JobStudentCardRecto extends StatelessWidget {
                   LayoutId(
                     id: 'birthDate',
                     child:
-                        ProfessionalStudentCardText(text: recipient.birthDate),
+                        ProfessionalStudentCardText(text: UiKit.displayDate(localizations, recipient.birthDate)),
                   ),
                   LayoutId(
                     id: 'expires',
-                    child: ProfessionalStudentCardText(text: expires),
+                    child: ProfessionalStudentCardText(text: UiKit.displayDate(localizations, recipient.birthDate)),
                   ),
                   LayoutId(
                     id: 'signature',
