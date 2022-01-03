@@ -1,5 +1,6 @@
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
+import 'package:talao/app/pages/on_boarding/gen.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
@@ -91,7 +92,7 @@ class _OnBoardingGenPhrasePageState extends State<OnBoardingGenPhrasePage> {
                 log.info('mnemonic saved');
 
                 await Navigator.of(context)
-                    .pushReplacement(OnBoardingGenPhrasePage.route());
+                    .pushReplacement(OnBoardingGenPage.route());
               } catch (error) {
                 log.severe(
                     'error ocurred setting mnemonic to secure storate', error);
