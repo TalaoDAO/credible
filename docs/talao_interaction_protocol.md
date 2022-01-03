@@ -421,22 +421,43 @@ Verifier attaches messages for user but no credential criters :
 
 See https://talao.co/wallet/test/presentationRequest for simulation and testing.
 
-## Issuer/Verfier return codes (To be done)
+## Issuer/Verfier return codes (To be completed)
    
-   200 OK
+ ### 200 OK
+ Color : Green
+ Message : 
  
-   201 Created
+ ### 201 Created
+ Color : Green
+ Message :
  
-   400 Bad Request
+ ### 400 Bad Request
+ Color : Red
+ Message : The server could not understand the request due to invalid syntax.
  
-   401  unauthenticated
+ ### 401  unauthenticated
+ Color : Red
+ Message :  The user must authenticate itself to get the requested response. 
  
-   403 Forbidden
+ ### 403 Forbidden
+ Color : Red
+ Message : The user does not have access rights to the content.
  
-   408 Request Timeout
+ ### 408 Request Timeout
+ Color : Red
+ Message : Request timeout
  
-   500 Internal Server Error
+ ### 429 : Too many requests
+ Message : The user has sent too many requests in a given amount of time.
  
-   501 Not Implemented
+ ### 500 Internal Server Error
+ Color : Red
+ Message : This is a server internal error. Contact the server administrator.
  
-   504 Gateway Timeout
+ ### 501 Not Implemented
+ Color : Red
+ Message : THis 
+ 
+ ### 504 Gateway Timeout
+Color : Red
+Message :
