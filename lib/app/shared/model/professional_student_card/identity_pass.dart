@@ -3,9 +3,9 @@ import 'dart:math';
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
 import 'package:talao/app/shared/model/author.dart';
 import 'package:talao/app/shared/model/credential_subject.dart';
-import 'package:talao/app/shared/model/identity_pass/identity_pass_recipient.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:talao/app/shared/model/professional_student_card/identity_pass_recipient.dart';
 
 part 'identity_pass.g.dart';
 
