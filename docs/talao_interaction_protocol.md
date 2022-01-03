@@ -448,10 +448,14 @@ See https://talao.co/wallet/test/presentationRequest for simulation and testing.
  Message : Request timeout
  
  ### 429 : Too many requests
+ Color : Red
+ 
  Message : The user has sent too many requests in a given amount of time.
  
  ### 500 Internal Server Error
+ 
  Color : Red
+ 
  Message : This is a server internal error. Contact the server administrator.
  
  ### 501 Not Implemented
