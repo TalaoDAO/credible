@@ -184,22 +184,27 @@ class JobStudentCardRecto extends StatelessWidget {
               child: CustomMultiChildLayout(
                 delegate: StudentJobIdentityPassDelegate(position: Offset.zero),
                 children: [
-                  LayoutId(id: 'familyName', child: Text(recipient.familyName)),
+                  LayoutId(
+                      id: 'familyName',
+                      child: ProfessionalStudentCardText(
+                          text: recipient.familyName)),
                   LayoutId(
                     id: 'givenName',
-                    child: Text(recipient.givenName),
+                    child:
+                        ProfessionalStudentCardText(text: recipient.givenName),
                   ),
                   LayoutId(
                     id: 'birthDate',
-                    child: Text(recipient.birthDate),
+                    child:
+                        ProfessionalStudentCardText(text: recipient.birthDate),
                   ),
                   LayoutId(
                     id: 'expires',
-                    child: Text(expires),
+                    child: ProfessionalStudentCardText(text: expires),
                   ),
                   LayoutId(
                     id: 'signature',
-                    child: Text('missing field'),
+                    child: ProfessionalStudentCardText(text: 'missing field'),
                   ),
                   LayoutId(
                     id: 'image',
@@ -208,6 +213,25 @@ class JobStudentCardRecto extends StatelessWidget {
                 ],
               ))),
     );
+  }
+}
+
+class ProfessionalStudentCardText extends StatelessWidget {
+  const ProfessionalStudentCardText({
+    Key? key,
+    required this.text,
+  }) : super(key: key);
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(text,
+        style: MediaQuery.of(context).orientation == Orientation.landscape
+            ? Theme.of(context).textTheme.bodyText2!.copyWith(
+                fontSize: Theme.of(context).textTheme.bodyText2!.fontSize! *
+                    MediaQuery.of(context).size.aspectRatio)
+            : Theme.of(context).textTheme.bodyText2);
   }
 }
 
