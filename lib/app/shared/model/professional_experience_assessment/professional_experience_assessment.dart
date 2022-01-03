@@ -1,4 +1,3 @@
-import 'package:intl/intl.dart';
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
 import 'package:talao/app/pages/credentials/widget/display_issuer.dart';
 import 'package:talao/app/shared/model/author.dart';
@@ -10,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:talao/app/shared/model/translation.dart';
+import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/credential_field.dart';
 import 'package:talao/app/shared/widget/display_signature.dart';
 import 'package:talao/app/shared/widget/skills_list_display.dart';
@@ -80,8 +80,8 @@ class ProfessionalExperienceAssessment extends CredentialSubject {
   @override
   Widget displayDetail(BuildContext context, CredentialModel item) {
     final localizations = AppLocalizations.of(context)!;
-    final _startDate = DateFormat('y-M-dThh:mm:ssZ').parse(startDate);
-    final _endDate = DateFormat('y-M-dThh:mm:ssZ').parse(endDate);
+    final _startDate = startDate;
+    final _endDate = endDate;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -121,11 +121,11 @@ class ProfessionalExperienceAssessment extends CredentialSubject {
             children: [
               Text('${localizations.from} '),
               Text(
-                  '${DateFormat.yMd(localizations.localeName).format(_startDate)}',
+                  '${UiKit.displayDate(localizations, _startDate)}',
                   style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
               Text(' ${localizations.to} '),
               Text(
-                  '${DateFormat.yMd(localizations.localeName).format(_endDate)}',
+                  '${UiKit.displayDate(localizations, _endDate)}',
                   style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
             ],
           ),

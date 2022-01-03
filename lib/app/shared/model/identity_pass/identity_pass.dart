@@ -125,7 +125,6 @@ class _JobStudentCardAnimationState extends State<JobStudentCardAnimation>
                     )
                   ],
                 ),
-                margin: EdgeInsets.symmetric(horizontal: 20),
                 alignment: Alignment.center,
                 child: _card,
               ),

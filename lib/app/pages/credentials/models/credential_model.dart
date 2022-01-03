@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/pages/credentials/models/credential_status.dart';
 import 'package:talao/app/shared/model/credential_status_field.dart';
@@ -10,6 +9,7 @@ import 'package:talao/app/pages/credentials/widget/display_issuer.dart';
 import 'package:talao/app/shared/model/certificate_of_employment/certificate_of_employment.dart';
 import 'package:talao/app/shared/model/credential.dart';
 import 'package:talao/app/shared/model/display.dart';
+import 'package:talao/app/shared/model/identity_pass/identity_pass.dart';
 import 'package:talao/app/shared/model/translation.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/credential_field.dart';
@@ -147,8 +147,10 @@ class CredentialModel {
   Widget displayDetail(BuildContext context, CredentialModel item) {
     final localizations = AppLocalizations.of(context)!;
     final _issuanceDate =
-        DateFormat('y-M-dThh:mm:ssZ').parse(credentialPreview.issuanceDate);
-
+        credentialPreview.issuanceDate;
+    if (credentialPreview.credentialSubject is IdentityPass) {
+      return credentialPreview.credentialSubject.displayDetail(context, item);
+    }
     return Column(
       children: [
         Padding(
@@ -202,7 +204,6 @@ class CredentialModel {
       ],
     );
   }
-
 
   Widget displayList(BuildContext context, CredentialModel item) {
     return Column(

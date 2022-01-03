@@ -42,9 +42,11 @@ class Ui {
     this.text = const TalaoText(),
   });
 
-    String displayDate(AppLocalizations localizations, DateTime _issuanceDate) {
+    String displayDate(AppLocalizations localizations, String dateString) {
+        final date = DateFormat('y-M-dThh:mm:ssZ').parse(dateString);
+
     return DateFormat.yMd(localizations.localeName)
-                  .format(_issuanceDate);
+                  .format(date);
   }
 
 }
