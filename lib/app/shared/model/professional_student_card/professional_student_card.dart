@@ -183,7 +183,7 @@ class JobStudentCardRecto extends StatelessWidget {
               height: 319.67,
               width: 508.67,
               child: CustomMultiChildLayout(
-                delegate: StudentJobIdentityPassDelegate(position: Offset.zero),
+                delegate: ProfessionalStudentCardDelegate(position: Offset.zero),
                 children: [
                   LayoutId(
                       id: 'familyName',
@@ -236,10 +236,10 @@ class ProfessionalStudentCardText extends StatelessWidget {
   }
 }
 
-class StudentJobIdentityPassDelegate extends MultiChildLayoutDelegate {
+class ProfessionalStudentCardDelegate extends MultiChildLayoutDelegate {
   final Offset position;
 
-  StudentJobIdentityPassDelegate({this.position = Offset.zero});
+  ProfessionalStudentCardDelegate({this.position = Offset.zero});
 
   @override
   void performLayout(Size size) {
@@ -278,7 +278,7 @@ class StudentJobIdentityPassDelegate extends MultiChildLayoutDelegate {
   }
 
   @override
-  bool shouldRelayout(StudentJobIdentityPassDelegate oldDelegate) {
+  bool shouldRelayout(ProfessionalStudentCardDelegate oldDelegate) {
     return oldDelegate.position != position;
   }
 }

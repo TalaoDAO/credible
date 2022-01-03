@@ -3,6 +3,7 @@ import 'package:talao/app/shared/model/author.dart';
 import 'package:talao/app/shared/model/certificate_of_employment/certificate_of_employment.dart';
 import 'package:talao/app/shared/model/default_credential_subject/default_credential_subject.dart';
 import 'package:talao/app/shared/model/email_pass/email_pass.dart';
+import 'package:talao/app/shared/model/identity_pass/identity_pass.dart';
 import 'package:talao/app/shared/model/learning_achievement/learning_achievement.dart';
 import 'package:talao/app/shared/model/phone_pass/phone_pass.dart';
 import 'package:talao/app/shared/model/professional_experience_assessment/professional_experience_assessment.dart';
@@ -31,6 +32,9 @@ class CredentialSubject {
         _backgroundColor = Colors.white;
         break;
       case 'IdentityPass':
+        _backgroundColor = Color(0xffCAFFBF);
+        break;
+      case 'ProfessionalStudentCard':
         _backgroundColor = Color(0xffCAFFBF);
         break;
       case 'CertificateOfEmployment':
@@ -64,6 +68,9 @@ class CredentialSubject {
         _icon = Icon(Icons.home);
         break;
       case 'IdentityPass':
+        _icon = Icon(Icons.perm_identity);
+        break;
+      case 'ProfessionalStudentCard':
         _icon = Icon(Icons.perm_identity);
         break;
       case 'CertificateOfEmployment':
@@ -103,6 +110,8 @@ class CredentialSubject {
       case 'ResidentCard':
         return ResidentCard.fromJson(json);
       case 'IdentityPass':
+        return IdentityPass.fromJson(json);
+      case 'ProfessionalStudentCard':
         return ProfessionalStudentCard.fromJson(json);
       case 'CertificateOfEmployment':
         return CertificateOfEmployment.fromJson(json);
