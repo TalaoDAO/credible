@@ -18,8 +18,8 @@ bool _initialUriIsHandled = false;
 class SplashPage extends StatefulWidget {
   static Route route() {
     return MaterialPageRoute<void>(
-      builder: (context) => SplashPage(),
-    );
+        builder: (context) => SplashPage(),
+        settings: RouteSettings(name: '/splash'));
   }
 
   @override
@@ -52,7 +52,7 @@ class _SplashPageState extends State<SplashPage> {
     );
   }
 
-    @override
+  @override
   void dispose() {
     _sub?.cancel();
     super.dispose();

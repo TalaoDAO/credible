@@ -9,11 +9,10 @@ import 'package:logging/logging.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OnBoardingGenPage extends StatefulWidget {
-
   static Route route() => MaterialPageRoute(
-    builder: (context) => OnBoardingGenPage(),
-  );
-  
+        builder: (context) => OnBoardingGenPage(),
+      );
+
   @override
   _OnBoardingGenPageState createState() => _OnBoardingGenPageState();
 }
@@ -35,7 +34,8 @@ class _OnBoardingGenPageState extends State<OnBoardingGenPage> {
       final key = await KeyGeneration.privateKey(mnemonic);
 
       await SecureStorageProvider.instance.set('key', key);
-      await Navigator.of(context).pushReplacement(CredentialsList.route());
+      await Navigator.of(context).pushAndRemoveUntil(
+          CredentialsList.route(), ModalRoute.withName('/splash'));
     } catch (error) {
       log.severe('something went wrong when generating a key', error);
 

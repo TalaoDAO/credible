@@ -61,6 +61,7 @@ class _AppWidgetState extends State<AppWidget> {
                   child: MaterialApp(
                     title: 'Credible',
                     home: SplashPage(),
+                    initialRoute: '/splash',
                     theme: _themeData,
                     localizationsDelegates: [
                       AppLocalizations.delegate,
