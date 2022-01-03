@@ -1,5 +1,5 @@
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
-import 'package:talao/app/shared/model/professional_student_card/identity_pass.dart';
+import 'package:talao/app/shared/model/professional_student_card/professional_student_card.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/box_decoration.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +14,7 @@ class DocumentWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (model.credentialPreview.credentialSubject is IdentityPass) {
+    if (model.credentialPreview.credentialSubject is ProfessionalStudentCard) {
       return model.displayDetail(context, model);
     }
     return Container(

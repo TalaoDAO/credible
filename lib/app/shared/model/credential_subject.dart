@@ -7,7 +7,7 @@ import 'package:talao/app/shared/model/learning_achievement/learning_achievement
 import 'package:talao/app/shared/model/phone_pass/phone_pass.dart';
 import 'package:talao/app/shared/model/professional_experience_assessment/professional_experience_assessment.dart';
 import 'package:talao/app/shared/model/professional_skil_assessment/professional_skill_assessment.dart';
-import 'package:talao/app/shared/model/professional_student_card/identity_pass.dart';
+import 'package:talao/app/shared/model/professional_student_card/professional_student_card.dart';
 import 'package:talao/app/shared/model/resident_card/resident_card.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:flutter/material.dart';
@@ -103,7 +103,7 @@ class CredentialSubject {
       case 'ResidentCard':
         return ResidentCard.fromJson(json);
       case 'IdentityPass':
-        return IdentityPass.fromJson(json);
+        return ProfessionalStudentCard.fromJson(json);
       case 'CertificateOfEmployment':
         return CertificateOfEmployment.fromJson(json);
       case 'EmailPass':

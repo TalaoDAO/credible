@@ -7,14 +7,13 @@ part of 'credential_status_field.dart';
 // **************************************************************************
 
 CredentialStatusField _$CredentialStatusFieldFromJson(
-    Map<String, dynamic> json) {
-  return CredentialStatusField(
-    json['id'] as String? ?? '',
-    json['type'] as String? ?? '',
-    json['revocationListIndex'] as String? ?? '',
-    json['revocationListCredential'] as String? ?? '',
-  );
-}
+        Map<String, dynamic> json) =>
+    CredentialStatusField(
+      json['id'] as String? ?? '',
+      json['type'] as String? ?? '',
+      json['revocationListIndex'] as String? ?? '',
+      json['revocationListCredential'] as String? ?? '',
+    );
 
 Map<String, dynamic> _$CredentialStatusFieldToJson(
         CredentialStatusField instance) =>

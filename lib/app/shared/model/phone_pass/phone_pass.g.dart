@@ -6,15 +6,13 @@ part of 'phone_pass.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-PhonePass _$PhonePassFromJson(Map<String, dynamic> json) {
-  return PhonePass(
-    json['expires'] as String? ?? '',
-    json['phone'] as String? ?? '',
-    json['id'] as String,
-    json['type'] as String,
-    CredentialSubject.fromJsonAuthor(json['issuedBy']),
-  );
-}
+PhonePass _$PhonePassFromJson(Map<String, dynamic> json) => PhonePass(
+      json['expires'] as String? ?? '',
+      json['phone'] as String? ?? '',
+      json['id'] as String,
+      json['type'] as String,
+      CredentialSubject.fromJsonAuthor(json['issuedBy']),
+    );
 
 Map<String, dynamic> _$PhonePassToJson(PhonePass instance) => <String, dynamic>{
       'expires': instance.expires,

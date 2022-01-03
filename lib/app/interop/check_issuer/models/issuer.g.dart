@@ -6,15 +6,13 @@ part of 'issuer.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Issuer _$IssuerFromJson(Map<String, dynamic> json) {
-  return Issuer(
-    preferredName: json['preferredName'] as String? ?? '',
-    did:
-        (json['did'] as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
-    organizationInfo: OrganizationInfo.fromJson(
-        json['organizationInfo'] as Map<String, dynamic>),
-  );
-}
+Issuer _$IssuerFromJson(Map<String, dynamic> json) => Issuer(
+      preferredName: json['preferredName'] as String? ?? '',
+      did: (json['did'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+          [],
+      organizationInfo: OrganizationInfo.fromJson(
+          json['organizationInfo'] as Map<String, dynamic>),
+    );
 
 Map<String, dynamic> _$IssuerToJson(Issuer instance) => <String, dynamic>{
       'preferredName': instance.preferredName,

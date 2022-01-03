@@ -1,9 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'identity_pass_recipient.g.dart';
+part 'professional_student_card_recipient.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class IdentityPassRecipient {
+class ProfessionalStudentCardRecipient {
   @JsonKey(defaultValue: '')
   final String email;
   @JsonKey(defaultValue: '')
@@ -23,11 +23,21 @@ class IdentityPassRecipient {
   @JsonKey(defaultValue: '')
   final String jobTitle;
 
-  factory IdentityPassRecipient.fromJson(Map<String, dynamic> json) =>
-      _$IdentityPassRecipientFromJson(json);
+  factory ProfessionalStudentCardRecipient.fromJson(
+          Map<String, dynamic> json) =>
+      _$ProfessionalStudentCardRecipientFromJson(json);
 
-  IdentityPassRecipient(this.email, this.image, this.telephone, this.familyName,
-      this.address, this.birthDate, this.givenName, this.gender, this.jobTitle);
+  ProfessionalStudentCardRecipient(
+      this.email,
+      this.image,
+      this.telephone,
+      this.familyName,
+      this.address,
+      this.birthDate,
+      this.givenName,
+      this.gender,
+      this.jobTitle);
 
-  Map<String, dynamic> toJson() => _$IdentityPassRecipientToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$ProfessionalStudentCardRecipientToJson(this);
 }

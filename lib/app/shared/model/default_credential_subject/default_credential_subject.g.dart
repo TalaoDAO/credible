@@ -7,13 +7,12 @@ part of 'default_credential_subject.dart';
 // **************************************************************************
 
 DefaultCredentialSubject _$DefaultCredentialSubjectFromJson(
-    Map<String, dynamic> json) {
-  return DefaultCredentialSubject(
-    json['id'] as String,
-    json['type'] as String,
-    CredentialSubject.fromJsonAuthor(json['issuedBy']),
-  );
-}
+        Map<String, dynamic> json) =>
+    DefaultCredentialSubject(
+      json['id'] as String,
+      json['type'] as String,
+      CredentialSubject.fromJsonAuthor(json['issuedBy']),
+    );
 
 Map<String, dynamic> _$DefaultCredentialSubjectToJson(
         DefaultCredentialSubject instance) =>

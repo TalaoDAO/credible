@@ -5,13 +5,13 @@ import 'package:talao/app/shared/model/author.dart';
 import 'package:talao/app/shared/model/credential_subject.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:talao/app/shared/model/professional_student_card/identity_pass_recipient.dart';
+import 'package:talao/app/shared/model/professional_student_card/professional_student_card_recipient.dart';
 
-part 'identity_pass.g.dart';
+part 'professional_student_card.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class IdentityPass extends CredentialSubject {
-  final IdentityPassRecipient recipient;
+class ProfessionalStudentCard extends CredentialSubject {
+  final ProfessionalStudentCardRecipient recipient;
   @JsonKey(defaultValue: '')
   final String expires;
   @override
@@ -21,14 +21,15 @@ class IdentityPass extends CredentialSubject {
   @override
   final String type;
 
-  factory IdentityPass.fromJson(Map<String, dynamic> json) =>
-      _$IdentityPassFromJson(json);
+  factory ProfessionalStudentCard.fromJson(Map<String, dynamic> json) =>
+      _$ProfessionalStudentCardFromJson(json);
 
-  IdentityPass(this.recipient, this.expires, this.issuedBy, this.id, this.type)
+  ProfessionalStudentCard(
+      this.recipient, this.expires, this.issuedBy, this.id, this.type)
       : super(id, type, issuedBy);
 
   @override
-  Map<String, dynamic> toJson() => _$IdentityPassToJson(this);
+  Map<String, dynamic> toJson() => _$ProfessionalStudentCardToJson(this);
 
   @override
   Widget displayInList(BuildContext context, CredentialModel item) {
@@ -61,7 +62,7 @@ class JobStudentCardAnimation extends StatefulWidget {
     required this.expires,
   }) : super(key: key);
 
-  final IdentityPassRecipient recipient;
+  final ProfessionalStudentCardRecipient recipient;
   final String expires;
 
   @override
@@ -162,7 +163,7 @@ class JobStudentCardRecto extends StatelessWidget {
     required this.expires,
   }) : super(key: key);
 
-  final IdentityPassRecipient recipient;
+  final ProfessionalStudentCardRecipient recipient;
   final String expires;
 
   @override

@@ -6,12 +6,11 @@ part of 'has_credential.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-HasCredential _$HasCredentialFromJson(Map<String, dynamic> json) {
-  return HasCredential(
-    json['title'] as String? ?? '',
-    json['description'] as String? ?? '',
-  );
-}
+HasCredential _$HasCredentialFromJson(Map<String, dynamic> json) =>
+    HasCredential(
+      json['title'] as String? ?? '',
+      json['description'] as String? ?? '',
+    );
 
 Map<String, dynamic> _$HasCredentialToJson(HasCredential instance) =>
     <String, dynamic>{

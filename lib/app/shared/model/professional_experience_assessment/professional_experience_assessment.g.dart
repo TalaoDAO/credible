@@ -7,30 +7,29 @@ part of 'professional_experience_assessment.dart';
 // **************************************************************************
 
 ProfessionalExperienceAssessment _$ProfessionalExperienceAssessmentFromJson(
-    Map<String, dynamic> json) {
-  return ProfessionalExperienceAssessment(
-    json['expires'] as String? ?? '',
-    json['email'] as String? ?? '',
-    json['id'] as String,
-    json['type'] as String,
-    (json['skills'] as List<dynamic>)
-        .map((e) => Skill.fromJson(e as Map<String, dynamic>))
-        .toList(),
-    json['title'] as String? ?? '',
-    json['endDate'] as String? ?? '',
-    json['startDate'] as String? ?? '',
-    CredentialSubject.fromJsonAuthor(json['issuedBy']),
-    (json['review'] as List<dynamic>?)
-            ?.map((e) => Review.fromJson(e as Map<String, dynamic>))
-            .toList() ??
-        [],
-    ProfessionalExperienceAssessment._signatureLinesFromJson(
-        json['signatureLines']),
-    json['familyName'] as String? ?? '',
-    json['givenName'] as String? ?? '',
-    json['description'] as String? ?? '',
-  );
-}
+        Map<String, dynamic> json) =>
+    ProfessionalExperienceAssessment(
+      json['expires'] as String? ?? '',
+      json['email'] as String? ?? '',
+      json['id'] as String,
+      json['type'] as String,
+      (json['skills'] as List<dynamic>)
+          .map((e) => Skill.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      json['title'] as String? ?? '',
+      json['endDate'] as String? ?? '',
+      json['startDate'] as String? ?? '',
+      CredentialSubject.fromJsonAuthor(json['issuedBy']),
+      (json['review'] as List<dynamic>?)
+              ?.map((e) => Review.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+      ProfessionalExperienceAssessment._signatureLinesFromJson(
+          json['signatureLines']),
+      json['familyName'] as String? ?? '',
+      json['givenName'] as String? ?? '',
+      json['description'] as String? ?? '',
+    );
 
 Map<String, dynamic> _$ProfessionalExperienceAssessmentToJson(
         ProfessionalExperienceAssessment instance) =>

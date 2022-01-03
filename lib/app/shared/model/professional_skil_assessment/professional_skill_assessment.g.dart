@@ -7,19 +7,19 @@ part of 'professional_skill_assessment.dart';
 // **************************************************************************
 
 ProfessionalSkillAssessment _$ProfessionalSkillAssessmentFromJson(
-    Map<String, dynamic> json) {
-  return ProfessionalSkillAssessment(
-    json['id'] as String,
-    json['type'] as String,
-    (json['skills'] as List<dynamic>)
-        .map((e) => Skill.fromJson(e as Map<String, dynamic>))
-        .toList(),
-    CredentialSubject.fromJsonAuthor(json['issuedBy']),
-    ProfessionalSkillAssessment._signatureLinesFromJson(json['signatureLines']),
-    json['familyName'] as String? ?? '',
-    json['givenName'] as String? ?? '',
-  );
-}
+        Map<String, dynamic> json) =>
+    ProfessionalSkillAssessment(
+      json['id'] as String,
+      json['type'] as String,
+      (json['skills'] as List<dynamic>)
+          .map((e) => Skill.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      CredentialSubject.fromJsonAuthor(json['issuedBy']),
+      ProfessionalSkillAssessment._signatureLinesFromJson(
+          json['signatureLines']),
+      json['familyName'] as String? ?? '',
+      json['givenName'] as String? ?? '',
+    );
 
 Map<String, dynamic> _$ProfessionalSkillAssessmentToJson(
         ProfessionalSkillAssessment instance) =>

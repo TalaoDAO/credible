@@ -6,15 +6,13 @@ part of 'query.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Query _$QueryFromJson(Map<String, dynamic> json) {
-  return Query(
-    type: json['type'] as String? ?? '',
-    credentialQuery: (json['credentialQuery'] as List<dynamic>?)
-            ?.map((e) => CredentialQuery.fromJson(e as Map<String, dynamic>))
-            .toList() ??
-        [],
-  );
-}
+Query _$QueryFromJson(Map<String, dynamic> json) => Query(
+      type: json['type'] as String? ?? '',
+      credentialQuery: (json['credentialQuery'] as List<dynamic>?)
+              ?.map((e) => CredentialQuery.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+    );
 
 Map<String, dynamic> _$QueryToJson(Query instance) => <String, dynamic>{
       'type': instance.type,
