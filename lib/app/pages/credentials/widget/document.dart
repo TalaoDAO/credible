@@ -1,5 +1,5 @@
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
-import 'package:talao/app/shared/model/identity_pass/identity_pass.dart';
+import 'package:talao/app/shared/model/professional_student_card/identity_pass.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/box_decoration.dart';
 import 'package:flutter/material.dart';
