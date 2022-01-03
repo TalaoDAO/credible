@@ -1,4 +1,3 @@
-import 'package:talao/app/pages/credentials/models/revokation_status.dart';
 import 'package:talao/app/shared/model/author.dart';
 import 'package:talao/app/shared/model/credential_status_field.dart';
 import 'package:talao/app/shared/model/credential_subject.dart';
@@ -27,7 +26,6 @@ class Credential {
   final List<Evidence> evidence;
   @JsonKey(fromJson: _fromJsonCredentialStatus)
   final CredentialStatusField credentialStatus;
-  @JsonKey(defaultValue: RevocationStatus.unknown)
   Credential(
     this.id,
     this.type,
