@@ -30,9 +30,9 @@ class ProfileStateDefault extends ProfileState {
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileBloc() : super(ProfileStateDefault(ProfileModel())) {
-        add(ProfileEventLoad());
         on<ProfileEventLoad>(_load);
         on<ProfileEventUpdate>(_update);
+        add(ProfileEventLoad());
   }
 
   void _load(

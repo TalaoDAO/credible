@@ -27,8 +27,8 @@ class DIDStateDefault extends DIDState {
 
 class DIDBloc extends Bloc<DIDEvent, DIDState> {
   DIDBloc() : super(DIDStateDefault('')) {
-    add(DIDEventLoad());
     on<DIDEventLoad>(_load);
+    add(DIDEventLoad());
   }
 
   void _load(
