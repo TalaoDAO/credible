@@ -1,15 +1,15 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:talao/app/pages/profile/usecase/is_issuer_approved.dart'
+    as issuer_approved_usecase;
 import 'package:talao/app/pages/qr_code/bloc/qrcode.dart';
 import 'package:talao/app/pages/qr_code/check_host.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/navigation_bar.dart';
-import 'package:talao/app/pages/profile/usecase/is_issuer_approved.dart'
-    as issuer_approved_usecase;
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class QrCodeScanPage extends StatefulWidget {
   static Route route() => MaterialPageRoute(
@@ -55,7 +55,7 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
     controller.scannedDataStream.listen((scanData) {
       controller.pauseCamera();
       if (scanData.code is String) {
-      context.read<QRCodeBloc>().add(QRCodeEventHost(scanData.code));
+        context.read<QRCodeBloc>().add(QRCodeEventHost(scanData.code));
       }
     });
   }
@@ -68,10 +68,10 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
       });
 
       final localizations = AppLocalizations.of(context)!;
-      var approvedIssuer = await issuer_approved_usecase.ApprovedIssuer(uri, context);
+      var approvedIssuer =
+          await issuer_approved_usecase.ApprovedIssuer(uri, context);
       var acceptHost;
-      acceptHost =
-          await checkHost(localizations, uri, approvedIssuer, context) ?? false;
+      acceptHost = await checkHost(uri, approvedIssuer, context) ?? false;
 
       if (acceptHost) {
         context.read<QRCodeBloc>().add(QRCodeEventAccept(uri));

@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/src/provider.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
@@ -8,8 +10,6 @@ import 'package:talao/app/pages/on_boarding/start.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/brand.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:talao/deep_link/deep_link.dart';
 import 'package:uni_links/uni_links.dart';
 
@@ -68,7 +68,8 @@ class _SplashPageState extends State<SplashPage> {
           if (key == 'uri') {
             final url = value.replaceAll(RegExp(r'^\"|\"$'), '');
             context.read<DeepLinkCubit>().addDeepLink(url);
-            Navigator.of(context).push(CredentialsList.route());
+            Navigator.of(context).pushAndRemoveUntil(
+                CredentialsList.route(), ModalRoute.withName('/splash'));
           }
         });
       }, onError: (Object err) {
