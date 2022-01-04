@@ -33,11 +33,8 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
     // initDynamicLinks();
-    const _duration = kIsWeb ? 25 : 1000;
     Future.delayed(
-      Duration(
-        milliseconds: _duration,
-      ),
+      Duration(seconds: 1),
       () async {
         final key = await SecureStorageProvider.instance.get('key') ?? '';
 
@@ -127,7 +124,7 @@ class _SplashPageState extends State<SplashPage> {
     _handleInitialUri(context);
 
     return BasePage(
-      backgroundGradient: UiKit.palette.splashBackground,
+      backgroundColor: UiKit.palette.background,
       scrollView: false,
       body: Container(
         alignment: Alignment.center,

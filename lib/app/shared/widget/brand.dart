@@ -1,3 +1,4 @@
+import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/hero_workaround.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +21,7 @@ class BrandMinimal extends StatelessWidget {
             style: Theme.of(context)
                 .textTheme
                 .headline4!
-                .copyWith(color: Colors.white))
+                .copyWith(color: UiKit.palette.primary))
       ],
     );
   }

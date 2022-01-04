@@ -60,7 +60,9 @@ class _AppWidgetState extends State<AppWidget> {
                   create: (context) => DIDBloc(),
                   child: MaterialApp(
                     title: 'Credible',
-                    home: SplashPage(),
+                    routes: {
+                      '/splash': (context) => SplashPage(),
+                    },
                     initialRoute: '/splash',
                     theme: _themeData,
                     localizationsDelegates: [

@@ -1,4 +1,3 @@
-import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/app_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +9,6 @@ class BasePage extends StatelessWidget {
 
   final EdgeInsets padding;
   final Color? backgroundColor;
-  final Gradient? backgroundGradient;
 
   final String? titleTag;
   final Widget? titleLeading;
@@ -25,7 +23,6 @@ class BasePage extends StatelessWidget {
   const BasePage({
     Key? key,
     this.backgroundColor,
-    this.backgroundGradient,
     this.title,
     this.titleTag,
     this.titleLeading,
@@ -43,19 +40,11 @@ class BasePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final backgroundGradient = this.backgroundGradient != null
-        ? this.backgroundGradient!
-        : backgroundColor != null
-            ? LinearGradient(colors: [backgroundColor!])
-            : UiKit.palette.pageBackground;
 
     return Container(
-      decoration: BoxDecoration(
-        gradient: backgroundGradient,
-      ),
       child: Scaffold(
         extendBody: extendBelow ?? false,
-        backgroundColor: Colors.transparent,
+        backgroundColor: backgroundColor,
         appBar: title != null && title!.isNotEmpty
             ? CustomAppBar(
                 title: title!,
