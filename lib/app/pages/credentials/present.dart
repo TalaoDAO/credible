@@ -76,9 +76,6 @@ class _CredentialsPresentPageState extends State<CredentialsPresentPage> {
           }
         },
         builder: (context, state) {
-          if (state is ScanStateWorking) {
-            return Spinner();
-          }
 
           if (state is ScanStatePreview) {
             return _credentialPreview(state, context, localizations);
@@ -88,7 +85,7 @@ class _CredentialsPresentPageState extends State<CredentialsPresentPage> {
             return AskUserPermissionDIDAuth();
           }
 
-          return Container();
+          return Spinner();
         },
       ),
     );

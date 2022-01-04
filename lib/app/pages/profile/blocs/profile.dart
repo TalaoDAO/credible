@@ -16,8 +16,6 @@ class ProfileEventUpdate extends ProfileEvent {
 
 abstract class ProfileState {}
 
-class ProfileStateWorking extends ProfileState {}
-
 class ProfileStateMessage extends ProfileState {
   final StateMessage message;
 
@@ -33,23 +31,15 @@ class ProfileStateDefault extends ProfileState {
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileBloc() : super(ProfileStateDefault(ProfileModel())) {
         add(ProfileEventLoad());
+        on<ProfileEventLoad>(_load);
+        on<ProfileEventUpdate>(_update);
   }
 
-  @override
-  Stream<ProfileState> mapEventToState(ProfileEvent event) async* {
-    if (event is ProfileEventLoad) {
-      yield* _load(event);
-    } else if (event is ProfileEventUpdate) {
-      yield* _update(event);
-    }
-  }
-
-  Stream<ProfileState> _load(
-    ProfileEventLoad event,
-  ) async* {
+  void _load(
+    ProfileEventLoad event, Emitter<ProfileState> emit,
+  ) async {
     final log = Logger('credible/profile/load');
     try {
-      yield ProfileStateWorking();
 
       final firstName =
           await SecureStorageProvider.instance.get(ProfileModel.firstNameKey) ??
@@ -76,22 +66,21 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           email: email,
           issuerVerificationSetting: issuerVerificationSetting);
 
-      yield ProfileStateDefault(model);
+      emit(ProfileStateDefault(model));
     } catch (e) {
       log.severe('something went wrong', e);
 
-      yield ProfileStateMessage(StateMessage.error('Failed to load profile. '
-          'Check the logs for more information.'));
+      emit(ProfileStateMessage(StateMessage.error('Failed to load profile. '
+          'Check the logs for more information.')));
     }
   }
 
-  Stream<ProfileState> _update(
-    ProfileEventUpdate event,
-  ) async* {
+  void _update(
+    ProfileEventUpdate event, Emitter<ProfileState> emit,
+  ) async {
     final log = Logger('credible/profile/update');
 
     try {
-      yield ProfileStateWorking();
 
       await SecureStorageProvider.instance.set(
         ProfileModel.firstNameKey,
@@ -118,12 +107,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         event.model.issuerVerificationSetting.toString(),
       );
 
-      yield ProfileStateDefault(event.model);
+      emit(ProfileStateDefault(event.model));
     } catch (e) {
       log.severe('something went wrong', e);
 
-      yield ProfileStateMessage(StateMessage.error('Failed to save profile. '
-          'Check the logs for more information.'));
+      emit(ProfileStateMessage(StateMessage.error('Failed to save profile. '
+          'Check the logs for more information.')));
     }
   }
 }

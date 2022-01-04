@@ -123,8 +123,6 @@ abstract class ScanState {
 
 class ScanStateIdle extends ScanState {}
 
-class ScanStateWorking extends ScanState {}
-
 class ScanStateMessage extends ScanState {
   final StateMessage message;
 
@@ -172,35 +170,24 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
   final Dio client;
   final WalletBloc walletBloc;
 
-  ScanBloc(this.client, this.walletBloc) : super(ScanStateIdle());
-
-  @override
-  Stream<ScanState> mapEventToState(ScanEvent event) async* {
-    if (event is ScanEventShowPreview) {
-      yield ScanStatePreview(preview: event.preview);
-    } else if (event is ScanEventCredentialOffer) {
-      yield* _credentialOffer(event);
-    } else if (event is ScanEventVerifiablePresentationRequest) {
-      yield* _verifiablePresentationRequest(event);
-    } else if (event is ScanEventCHAPIStore) {
-      yield* _CHAPIStore(event);
-    } else if (event is ScanEventCHAPIGetDIDAuth) {
-      yield* _CHAPIGetDIDAuth(event);
-    } else if (event is ScanEventCHAPIGetQueryByExample) {
-      yield* _CHAPIGetQueryByExample(event);
-    } else if (event is ScanEventCHAPIStoreQueryByExample) {
-      yield* _CHAPIStoreQueryByExample(event);
-    } else if (event is ScanEventCHAPIAskPermissionDIDAuth) {
-      yield* _CHAPIAskPermissionDIDAuth(event);
-    }
+  ScanBloc(this.client, this.walletBloc) : super(ScanStateIdle()) {
+    on<ScanEventShowPreview>((event, emit) {
+      emit(ScanStatePreview(preview: event.preview));
+    });
+    on<ScanEventCredentialOffer>(_credentialOffer);
+    on<ScanEventVerifiablePresentationRequest>(_verifiablePresentationRequest);
+    on<ScanEventCHAPIStore>(_CHAPIStore);
+    on<ScanEventCHAPIGetDIDAuth>(_CHAPIGetDIDAuth);
+    on<ScanEventCHAPIAskPermissionDIDAuth>(_CHAPIAskPermissionDIDAuth);
+    on<ScanEventCHAPIGetQueryByExample>(_CHAPIGetQueryByExample);
+    on<ScanEventCHAPIStoreQueryByExample>(_CHAPIStoreQueryByExample);
   }
 
-  Stream<ScanState> _credentialOffer(
-    ScanEventCredentialOffer event,
-  ) async* {
+  void _credentialOffer(
+    ScanEventCredentialOffer event, Emitter<ScanState> emit,
+  ) async {
     final log = Logger('credible/scan/credential-offer');
 
-    yield ScanStateWorking();
 
     final url = event.url;
     final credentialModel = event.credentialModel;
@@ -235,42 +222,41 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
         log.warning('credential verification return warnings',
             jsonVerification['warnings']);
 
-        yield ScanStateMessage(StateMessage.warning(
+        emit(ScanStateMessage(StateMessage.warning(
             'Credential verification returned some warnings. '
-            'Check the logs for more information.'));
+            'Check the logs for more information.')));
       }
 
       if (jsonVerification['errors'].isNotEmpty) {
         log.severe('failed to verify credential', jsonVerification['errors']);
 
-        yield ScanStateMessage(
+        emit(ScanStateMessage(
             StateMessage.error('Failed to verify credential. '
-                'Check the logs for more information.'));
+                'Check the logs for more information.')));
       }
 
       await walletBloc.insertCredential(CredentialModel.copyWithData(
           oldCredentialModel: credentialModel, newData: jsonCredential));
 
-      yield ScanStateMessage(StateMessage.success(
-          'A new credential has been successfully added!'));
+      emit(ScanStateMessage(StateMessage.success(
+          'A new credential has been successfully added!')));
 
-      yield ScanStateSuccess();
+      emit(ScanStateSuccess());
     } catch (e) {
       log.severe('something went wrong', e);
 
-      yield ScanStateMessage(
+      emit(ScanStateMessage(
           StateMessage.error('Something went wrong, please try again later. '
-              'Check the logs for more information.'));
+              'Check the logs for more information.')));
     }
 
-    yield ScanStateIdle();
+    emit(ScanStateIdle());
   }
 
-  Stream<ScanState> _verifiablePresentationRequest(
-    ScanEventVerifiablePresentationRequest event,
-  ) async* {
+  void _verifiablePresentationRequest(
+    ScanEventVerifiablePresentationRequest event, Emitter<ScanState> emit,
+  ) async {
     final log = Logger('credible/scan/verifiable-presentation-request');
-    yield ScanStateWorking();
 
     final url = event.url;
     final keyId = event.key;
@@ -312,27 +298,27 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
         }),
       );
 
-      yield ScanStateMessage(
-          StateMessage.success('Successfully presented your credential!'));
+      emit(ScanStateMessage(
+          StateMessage.success('Successfully presented your credential!')));
 
-      yield ScanStateSuccess();
+      emit(ScanStateSuccess());
     } catch (e) {
       log.severe('something went wrong', e);
 
-      yield ScanStateMessage(
+      emit(ScanStateMessage(
           StateMessage.error('Something went wrong, please try again later. '
-              'Check the logs for more information.'));
+              'Check the logs for more information.')));
     }
 
-    yield ScanStateIdle();
+        emit(ScanStateIdle());
+
   }
 
-  Stream<ScanState> _CHAPIStore(
-    ScanEventCHAPIStore event,
-  ) async* {
+  void _CHAPIStore(
+    ScanEventCHAPIStore event, Emitter<ScanState> emit,
+  ) async {
     final log = Logger('credible/scan/chapi-store');
 
-    yield ScanStateWorking();
 
     final data = event.data;
     final done = event.done;
@@ -376,9 +362,9 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
         log.warning('credential verification return warnings',
             jsonVerification['warnings']);
 
-        yield ScanStateMessage(StateMessage.warning(
+        emit(ScanStateMessage(StateMessage.warning(
             'Credential verification returned some warnings. '
-            'Check the logs for more information.'));
+            'Check the logs for more information.')));
       }
 
       if (jsonVerification['errors'].isNotEmpty) {
@@ -386,34 +372,35 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
 
         // done(jsonEncode(jsonVerification['errors']));
 
-        yield ScanStateMessage(
+        emit(ScanStateMessage(
             StateMessage.error('Failed to verify credential. '
-                'Check the logs for more information.'));
+                'Check the logs for more information.')));
       }
 await walletBloc.insertCredential(vc);
 
       done(vcStr);
 
-      yield ScanStateMessage(StateMessage.success(
-          'A new credential has been successfully added!'));
+      emit(ScanStateMessage(StateMessage.success(
+          'A new credential has been successfully added!')));
     } catch (e) {
       log.severe('something went wrong', e);
 
-      yield ScanStateMessage(
+      emit(ScanStateMessage(
           StateMessage.error('Something went wrong, please try again later. '
-              'Check the logs for more information.'));
+              'Check the logs for more information.')));
     }
 
-    yield ScanStateSuccess();
+      emit(ScanStateSuccess());
 
-    yield ScanStateIdle();
+
+        emit(ScanStateIdle());
+
   }
 
-  Stream<ScanState> _CHAPIGetDIDAuth(
-    ScanEventCHAPIGetDIDAuth event,
-  ) async* {
+  void _CHAPIGetDIDAuth(
+    ScanEventCHAPIGetDIDAuth event, Emitter<ScanState> emit,
+  ) async {
     final log = Logger('credible/scan/chapi-get-didauth');
-    yield ScanStateWorking();
 
     final keyId = event.keyId;
     final challenge = event.challenge;
@@ -446,31 +433,32 @@ await walletBloc.insertCredential(vc);
       if (credential.data == 'ok') {
         done(presentation);
 
-        yield ScanStateMessage(
-            StateMessage.success('Successfully presented your DID!'));
+        emit(ScanStateMessage(
+            StateMessage.success('Successfully presented your DID!')));
 
-        yield ScanStateSuccess();
+              emit(ScanStateSuccess());
+
       } else {
-        yield ScanStateMessage(StateMessage.error(
-            'Something went wrong, please try again later.'));
+        emit(ScanStateMessage(StateMessage.error(
+            'Something went wrong, please try again later.')));
       }
     } catch (e) {
       log.severe('something went wrong', e);
 
-      yield ScanStateMessage(
-          StateMessage.error('Something went wrong, please try again later. '));
+      emit(ScanStateMessage(
+          StateMessage.error('Something went wrong, please try again later. ')));
     }
 
-    yield ScanStateSuccess();
+        emit(ScanStateSuccess());
 
-    yield ScanStateIdle();
+    emit(ScanStateIdle());
+
   }
 
-  Stream<ScanState> _CHAPIGetQueryByExample(
-    ScanEventCHAPIGetQueryByExample event,
-  ) async* {
+  void _CHAPIGetQueryByExample(
+    ScanEventCHAPIGetQueryByExample event, Emitter<ScanState> emit,
+  ) async {
     final log = Logger('credible/scan/chapi-get-querybyexample');
-    yield ScanStateWorking();
 
     final keyId = event.keyId;
     final challenge = event.challenge;
@@ -507,29 +495,31 @@ await walletBloc.insertCredential(vc);
 
       done(presentation);
 
-      yield ScanStateMessage(
-          StateMessage.success('Successfully presented your credential(s)!'));
+      emit(ScanStateMessage(
+          StateMessage.success('Successfully presented your credential(s)!')));
     } catch (e) {
       log.severe('something went wrong', e);
 
-      yield ScanStateMessage(
+      emit(ScanStateMessage(
           StateMessage.error('Something went wrong, please try again later. '
-              'Check the logs for more information.'));
+              'Check the logs for more information.')));
     }
 
-    yield ScanStateSuccess();
+          emit(ScanStateSuccess());
 
-    yield ScanStateIdle();
+
+     emit(ScanStateIdle());
+
   }
 
-  Stream<ScanState> _CHAPIStoreQueryByExample(
-      ScanEventCHAPIStoreQueryByExample event) async* {
-    yield ScanStateCHAPIStoreQueryByExample(event.data, event.uri);
+  void _CHAPIStoreQueryByExample(
+      ScanEventCHAPIStoreQueryByExample event,  Emitter<ScanState> emit,) async {
+    emit(ScanStateCHAPIStoreQueryByExample(event.data, event.uri));
   }
 
-  Stream<ScanState> _CHAPIAskPermissionDIDAuth(
-      ScanEventCHAPIAskPermissionDIDAuth event) async* {
-    yield ScanStateCHAPIAskPermissionDIDAuth(event.keyId, event.done, event.uri,
-        challenge: event.challenge, domain: event.domain);
+  void _CHAPIAskPermissionDIDAuth(
+      ScanEventCHAPIAskPermissionDIDAuth event, Emitter<ScanState> emit,) async {
+    emit(ScanStateCHAPIAskPermissionDIDAuth(event.keyId, event.done, event.uri,
+        challenge: event.challenge, domain: event.domain));
   }
 }

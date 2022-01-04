@@ -28,33 +28,27 @@ class DIDStateDefault extends DIDState {
 class DIDBloc extends Bloc<DIDEvent, DIDState> {
   DIDBloc() : super(DIDStateDefault('')) {
     add(DIDEventLoad());
+    on<DIDEventLoad>(_load);
   }
 
-  @override
-  Stream<DIDState> mapEventToState(DIDEvent event) async* {
-    if (event is DIDEventLoad) {
-      yield* _load(event);
-    }
-  }
-
-  Stream<DIDState> _load(
-    DIDEventLoad event,
-  ) async* {
+  void _load(
+    DIDEventLoad event, Emitter<DIDState> emit,
+  ) async {
     final log = Logger('credible/did/load');
 
     try {
-      yield DIDStateWorking();
+      emit(DIDStateWorking());
 
       final key = (await SecureStorageProvider.instance.get('key'))!;
       final did =
           DIDKitProvider.instance.keyToDID(Constants.defaultDIDMethod, key);
 
-      yield DIDStateDefault(did);
+      emit(DIDStateDefault(did));
     } catch (e) {
       log.severe('something went wrong', e);
 
-      yield DIDStateMessage(StateMessage.error('Failed to load DID. '
-          'Check the logs for more information.'));
+      emit( DIDStateMessage(StateMessage.error('Failed to load DID. '
+          'Check the logs for more information.')));
     }
   }
 }

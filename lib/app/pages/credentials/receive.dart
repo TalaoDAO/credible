@@ -48,9 +48,6 @@ class CredentialsReceivePage extends StatelessWidget {
           }
         },
         builder: (builderContext, state) {
-          if (state is ScanStateWorking) {
-            return LinearProgressIndicator();
-          }
 
           if (state is ScanStatePreview) {
             final credential = CredentialModel.fromJson(state.preview);
@@ -104,7 +101,7 @@ class CredentialsReceivePage extends StatelessWidget {
             );
           }
 
-          return Container();
+          return LinearProgressIndicator();
         },
       ),
     );

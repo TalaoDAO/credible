@@ -54,7 +54,9 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
 
     controller.scannedDataStream.listen((scanData) {
       controller.pauseCamera();
+      if (scanData.code is String) {
       context.read<QRCodeBloc>().add(QRCodeEventHost(scanData.code));
+      }
     });
   }
 
