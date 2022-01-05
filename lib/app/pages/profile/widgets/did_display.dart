@@ -45,18 +45,15 @@ class DIDDisplay extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(
-                localizations.blockChainAdress,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
+                children: [
+                  Text(
+                    '${localizations.blockChainAdress} : ',
+                  ),
                   Expanded(
                     child: Text(
                       blockChainAdress,
+                      maxLines: 2,
                       style: TextStyle(fontWeight: FontWeight.bold),
                       textAlign: TextAlign.start,
                     ),
@@ -67,7 +64,7 @@ class DIDDisplay extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                localizations.didDisplayId,
+                '${localizations.didDisplayId} : ',
               ),
             ),
             Padding(
