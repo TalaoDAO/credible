@@ -82,7 +82,7 @@ class _JobStudentCardAnimationState extends State<JobStudentCardAnimation>
     super.initState();
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 700),
       value: 1,
     );
     _card = JobStudentCardRecto(
