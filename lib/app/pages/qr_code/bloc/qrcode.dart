@@ -65,7 +65,7 @@ class QRCodeBloc extends Bloc<QRCodeEvent, QRCodeState> {
     this.client,
     this.scanBloc,
     this.queryByExampleCubit,
-  ) : super(QRCodeStateWorking()){
+  ) : super(QRCodeStateWorking()) {
     on<QRCodeEventHost>(_host);
     on<QRCodeEventAccept>(_accept);
     on<QRCodeEventDeepLink>(_deepLink);
@@ -78,15 +78,16 @@ class QRCodeBloc extends Bloc<QRCodeEvent, QRCodeState> {
   }
 
   void _host(
-    QRCodeEventHost event, Emitter<QRCodeState> emit,
+    QRCodeEventHost event,
+    Emitter<QRCodeState> emit,
   ) async {
     late final uri;
 
     try {
       final url = event.data;
       if (url == null) {
-      emit(QRCodeStateMessage(
-          StateMessage.error('This QRCode does not contain a valid message.')));
+        emit(QRCodeStateMessage(StateMessage.error(
+            'This QRCode does not contain a valid message.')));
       } else {
         uri = Uri.parse(url);
       }
@@ -101,7 +102,8 @@ class QRCodeBloc extends Bloc<QRCodeEvent, QRCodeState> {
   }
 
   void _deepLink(
-    QRCodeEventDeepLink event, Emitter<QRCodeState> emit,
+    QRCodeEventDeepLink event,
+    Emitter<QRCodeState> emit,
   ) async {
     late final uri;
 
@@ -118,7 +120,8 @@ class QRCodeBloc extends Bloc<QRCodeEvent, QRCodeState> {
   }
 
   void _accept(
-    QRCodeEventAccept event, Emitter<QRCodeState> emit,
+    QRCodeEventAccept event,
+    Emitter<QRCodeState> emit,
   ) async {
     final log = Logger('credible/qrcode/accept');
 
@@ -129,43 +132,49 @@ class QRCodeBloc extends Bloc<QRCodeEvent, QRCodeState> {
       final response = await client.get(url);
       data =
           response.data is String ? jsonDecode(response.data) : response.data;
-    } on DioError catch (e) {
-      log.severe('An error occurred while connecting to the server.', e);
 
-      emit(QRCodeStateMessage(StateMessage.error(
-          'An error occurred while connecting to the server. '
-          'Check the logs for more information.')));
-    }
+      scanBloc.add(ScanEventShowPreview(data));
 
-    scanBloc.add(ScanEventShowPreview(data));
+      switch (data['type']) {
+        case 'CredentialOffer':
+          emit(QRCodeStateSuccess(CredentialsReceivePage.route(event.uri)));
+          break;
 
-    switch (data['type']) {
-      case 'CredentialOffer':
-        emit(QRCodeStateSuccess(CredentialsReceivePage.route(event.uri)));
-        break;
-
-      case 'VerifiablePresentationRequest':
-        if (data['query'] != null) {
-          queryByExampleCubit.setQueryByExampleCubit(data['query'].first);
-          if (data['query'].first['type'] == 'DIDAuth') {
-            scanBloc.add(ScanEventCHAPIAskPermissionDIDAuth(
-              'key',
-              (done) {
-                print('done');
-              },
-              event.uri,
-              challenge: data['challenge'],
-              domain: data['domain'],
-            ));
-            emit(QRCodeStateSuccess(CredentialsPresentPage.route(
-              resource: 'DID',
-              yes: 'Accept',
-              url: event.uri,
-              onSubmit: (preview, context) {
-                Navigator.of(context).pushReplacement(CredentialsList.route());
-              },
-            )));
-          } else if (data['query'].first['type'] == 'QueryByExample') {
+        case 'VerifiablePresentationRequest':
+          if (data['query'] != null) {
+            queryByExampleCubit.setQueryByExampleCubit(data['query'].first);
+            if (data['query'].first['type'] == 'DIDAuth') {
+              scanBloc.add(ScanEventCHAPIAskPermissionDIDAuth(
+                'key',
+                (done) {
+                  print('done');
+                },
+                event.uri,
+                challenge: data['challenge'],
+                domain: data['domain'],
+              ));
+              emit(QRCodeStateSuccess(CredentialsPresentPage.route(
+                resource: 'DID',
+                yes: 'Accept',
+                url: event.uri,
+                onSubmit: (preview, context) {
+                  Navigator.of(context)
+                      .pushReplacement(CredentialsList.route());
+                },
+              )));
+            } else if (data['query'].first['type'] == 'QueryByExample') {
+              emit(QRCodeStateSuccess(CredentialsPresentPage.route(
+                resource: 'credential',
+                url: event.uri,
+                onSubmit: (preview, context) {
+                  Navigator.of(context).pushReplacement(
+                      CredentialsPickPage.route(event.uri, preview));
+                },
+              )));
+            } else {
+              throw UnimplementedError('Unimplemented Query Type');
+            }
+          } else {
             emit(QRCodeStateSuccess(CredentialsPresentPage.route(
               resource: 'credential',
               url: event.uri,
@@ -174,24 +183,19 @@ class QRCodeBloc extends Bloc<QRCodeEvent, QRCodeState> {
                     CredentialsPickPage.route(event.uri, preview));
               },
             )));
-          } else {
-            throw UnimplementedError('Unimplemented Query Type');
           }
-        } else {
-          emit(QRCodeStateSuccess(CredentialsPresentPage.route(
-            resource: 'credential',
-            url: event.uri,
-            onSubmit: (preview, context) {
-              Navigator.of(context).pushReplacement(
-                  CredentialsPickPage.route(event.uri, preview));
-            },
-          )));
-        }
-        break;
+          break;
 
-      default:
-        emit(QRCodeStateUnknown());
-        break;
+        default:
+          emit(QRCodeStateUnknown());
+          break;
+      }
+    } on DioError catch (e) {
+      log.severe('An error occurred while connecting to the server.', e);
+
+      emit(QRCodeStateMessage(StateMessage.error(
+          'An error occurred while connecting to the server. '
+          'Check the logs for more information.')));
     }
   }
 }
