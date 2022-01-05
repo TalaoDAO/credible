@@ -159,7 +159,6 @@ class JobStudentCardVerso extends StatelessWidget {
 }
 
 class JobStudentCardRecto extends StatelessWidget {
-  
   const JobStudentCardRecto({
     Key? key,
     required this.recipient,
@@ -188,7 +187,8 @@ class JobStudentCardRecto extends StatelessWidget {
               height: 319.67,
               width: 508.67,
               child: CustomMultiChildLayout(
-                delegate: ProfessionalStudentCardDelegate(position: Offset.zero),
+                delegate:
+                    ProfessionalStudentCardDelegate(position: Offset.zero),
                 children: [
                   LayoutId(
                       id: 'familyName',
@@ -201,12 +201,15 @@ class JobStudentCardRecto extends StatelessWidget {
                   ),
                   LayoutId(
                     id: 'birthDate',
-                    child:
-                        ProfessionalStudentCardText(text: UiKit.displayDate(localizations, recipient.birthDate)),
+                    child: ProfessionalStudentCardText(
+                        text: UiKit.displayDate(
+                            localizations, recipient.birthDate)),
                   ),
                   LayoutId(
                     id: 'expires',
-                    child: ProfessionalStudentCardText(text: UiKit.displayDate(localizations, recipient.birthDate)),
+                    child: ProfessionalStudentCardText(
+                        text: UiKit.displayDate(
+                            localizations, recipient.birthDate)),
                   ),
                   LayoutId(
                     id: 'signature',

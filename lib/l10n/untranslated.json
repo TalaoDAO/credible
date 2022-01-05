@@ -1,17 +1,23 @@
 {
   "de": [
+    "blockChainDisplayMethod",
+    "blockChainAdress",
     "issuerVerificationSetting",
     "confimrDIDAuth",
     "evidenceLabel"
   ],
 
   "es": [
+    "blockChainDisplayMethod",
+    "blockChainAdress",
     "issuerVerificationSetting",
     "confimrDIDAuth",
     "evidenceLabel"
   ],
 
   "it": [
+    "blockChainDisplayMethod",
+    "blockChainAdress",
     "issuanceDate",
     "appContactWebsite",
     "issuerVerificationSetting",

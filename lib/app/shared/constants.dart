@@ -1,5 +1,6 @@
 class Constants {
   static final String defaultDIDMethod = 'tz';
+  static final String defaultDIDMethodName = 'Tezos';
   static final String databaseFilename = 'wallet.db';
   static const String appContactWebsiteUrl = 'https://talao.io';
   static const String appContactWebsiteName = 'talao.io';
