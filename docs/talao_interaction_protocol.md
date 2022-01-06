@@ -1,6 +1,6 @@
 # Interaction between the wallet and an Issuer / Verifier
 
-16th november 2021
+6th janauary 2022
 
 ## Context
 
