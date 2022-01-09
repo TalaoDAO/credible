@@ -22,7 +22,7 @@ class DIDDisplay extends StatelessWidget {
       },
       builder: (context, state) {
         final did = state is DIDStateDefault ? state.did : '';
-        String blockChainAdress = '';
+        var blockChainAdress = '';
         if (did.length > 7) {
           blockChainAdress = did.substring(7);
         }
