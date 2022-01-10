@@ -1,9 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:talao/app/interop/network/network_client.dart';
 import 'package:talao/app/pages/credentials/blocs/scan.dart';
 import 'package:talao/app/pages/credentials/repositories/credential.dart';
 import 'package:talao/app/pages/profile/blocs/did.dart';
 import 'package:talao/app/pages/splash.dart';
+import 'package:talao/app/shared/constants.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -47,10 +49,10 @@ class _AppWidgetState extends State<AppWidget> {
         child: BlocProvider<WalletBloc>(
           create: (context) => WalletBloc(CredentialsRepository()),
           child: BlocProvider<ScanBloc>(
-            create: (context) => ScanBloc(Dio(), context.read<WalletBloc>()),
+            create: (context) => ScanBloc(DioClient(Constants.checkIssuerServerUrl, Dio()), context.read<WalletBloc>()),
             child: BlocProvider<QRCodeBloc>(
               create: (context) => QRCodeBloc(
-                Dio(),
+                DioClient(Constants.checkIssuerServerUrl, Dio()),
                 context.read<ScanBloc>(),
                 context.read<QueryByExampleCubit>(),
               ),

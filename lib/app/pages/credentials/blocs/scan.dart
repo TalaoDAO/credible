@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:talao/app/interop/didkit/didkit.dart';
+import 'package:talao/app/interop/network/network_client.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/pages/credentials/blocs/wallet.dart';
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
@@ -167,7 +168,7 @@ class ScanStateCHAPIAskPermissionDIDAuth extends ScanState {
 }
 
 class ScanBloc extends Bloc<ScanEvent, ScanState> {
-  final Dio client;
+  final DioClient client;
   final WalletBloc walletBloc;
 
   ScanBloc(this.client, this.walletBloc) : super(ScanStateIdle()) {
