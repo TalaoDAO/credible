@@ -11,12 +11,12 @@ class DioClient {
 
   final Dio _dio;
 
-  final List<Interceptor> interceptors;
+  final List<Interceptor>? interceptors;
 
   DioClient(
     this.baseUrl,
     Dio? dio, {
-    required this.interceptors,
+    this.interceptors,
   }):_dio=dio??Dio() {
     _dio
       ..options.baseUrl = baseUrl
@@ -24,8 +24,8 @@ class DioClient {
       ..options.receiveTimeout = _defaultReceiveTimeout
       ..httpClientAdapter
       ..options.headers = {'Content-Type': 'application/json; charset=UTF-8'};
-    if (interceptors.isNotEmpty) {
-      _dio.interceptors.addAll(interceptors);
+    if (interceptors?.isNotEmpty ?? false) {
+      _dio.interceptors.addAll(interceptors!);
     }
     if (kDebugMode) {
       _dio.interceptors.add(LogInterceptor(

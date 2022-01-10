@@ -1,12 +1,16 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:talao/app/shared/error_handler/error_hadler.dart';
 
 part 'network_exceptions.freezed.dart';
 
 @freezed
-abstract class NetworkExceptions with _$NetworkExceptions {
+abstract class NetworkExceptions
+    with ErrorHandler
+    implements _$NetworkExceptions {
   const factory NetworkExceptions.requestCancelled() = RequestCancelled;
 
   const factory NetworkExceptions.unauthorizedRequest() = UnauthorizedRequest;
@@ -111,7 +115,8 @@ abstract class NetworkExceptions with _$NetworkExceptions {
     }
   }
 
-  static String getErrorMessage(NetworkExceptions networkExceptions) {
+  static String getErrorMessage(
+      BuildContext context, NetworkExceptions networkExceptions) {
     var errorMessage = '';
     networkExceptions.when(notImplemented: () {
       errorMessage = 'Not Implemented';
@@ -149,5 +154,16 @@ abstract class NetworkExceptions with _$NetworkExceptions {
       errorMessage = 'Not acceptable';
     });
     return errorMessage;
+  }
+
+  static void displayError(
+      BuildContext context, ErrorHandler error, Color errorColor) {
+    if (error is NetworkExceptions) {
+      var errorMessage = getErrorMessage(context, error);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: errorColor,
+        content: Text(errorMessage),
+      ));
+    }
   }
 }
