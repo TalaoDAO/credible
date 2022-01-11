@@ -9,6 +9,7 @@ import 'package:talao/app/pages/credentials/widget/display_issuer.dart';
 import 'package:talao/app/shared/model/certificate_of_employment/certificate_of_employment.dart';
 import 'package:talao/app/shared/model/credential.dart';
 import 'package:talao/app/shared/model/display.dart';
+import 'package:talao/app/shared/model/loyalty_card/loyalty_card.dart';
 import 'package:talao/app/shared/model/professional_student_card/professional_student_card.dart';
 import 'package:talao/app/shared/model/translation.dart';
 import 'package:talao/app/shared/ui/ui.dart';
@@ -147,7 +148,11 @@ class CredentialModel {
   Widget displayDetail(BuildContext context, CredentialModel item) {
     final localizations = AppLocalizations.of(context)!;
     final _issuanceDate = credentialPreview.issuanceDate;
+    /// Professional Student Card and Loyalty Card have both aspecific display
     if (credentialPreview.credentialSubject is ProfessionalStudentCard) {
+      return credentialPreview.credentialSubject.displayDetail(context, item);
+    }
+    if (credentialPreview.credentialSubject is LoyaltyCard) {
       return credentialPreview.credentialSubject.displayDetail(context, item);
     }
     return Column(
