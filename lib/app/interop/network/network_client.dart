@@ -17,7 +17,7 @@ class DioClient {
     this.baseUrl,
     Dio? dio, {
     this.interceptors,
-  }):_dio=dio??Dio() {
+  }) : _dio = dio ?? Dio() {
     _dio
       ..options.baseUrl = baseUrl
       ..options.connectTimeout = _defaultConnectTimeout

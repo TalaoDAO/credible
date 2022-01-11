@@ -8,6 +8,7 @@ import 'package:talao/app/pages/profile/usecase/is_issuer_approved.dart'
     as issuer_approved_usecase;
 import 'package:talao/app/pages/qr_code/bloc/qrcode.dart';
 import 'package:talao/app/pages/qr_code/check_host.dart';
+import 'package:talao/app/shared/error_handler/error_hadler.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/navigation_bar.dart';
 
@@ -94,11 +95,17 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
       listener: (context, state) {
         if (state is QRCodeStateMessage) {
           qrController.resumeCamera();
-
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            backgroundColor: state.message.color,
-            content: Text(state.message.message),
-          ));
+          if (state.message.errorHandler != null) {
+            var error = state.message.errorHandler;
+            if (error is ErrorHandler) {
+              ErrorHandler.displayError(context, error, Colors.red);
+            }
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              backgroundColor: state.message.color,
+              content: Text(state.message.message),
+            ));
+          }
         }
         if (state is QRCodeStateHost) {
           promptHost(state.uri);

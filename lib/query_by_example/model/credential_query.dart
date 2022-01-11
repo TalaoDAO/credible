@@ -7,7 +7,6 @@ part 'credential_query.g.dart';
 class CredentialQuery {
   @JsonKey(defaultValue: [])
   final List<Translation> reason;
-//TODO: Add example and issuer fields when creating automatic credential selection
   factory CredentialQuery.fromJson(Map<String, dynamic> json) => _$CredentialQueryFromJson(json);
 
   CredentialQuery(this.reason);

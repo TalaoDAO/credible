@@ -1,8 +1,10 @@
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:talao/app/interop/network/network_client.dart';
+import 'package:talao/app/interop/network/network_exceptions.dart';
 import 'package:talao/app/pages/credentials/blocs/scan.dart';
 import 'package:talao/app/pages/credentials/pages/list.dart';
 import 'package:talao/app/pages/credentials/pick.dart';
@@ -130,8 +132,7 @@ class QRCodeBloc extends Bloc<QRCodeEvent, QRCodeState> {
     try {
       final url = event.uri.toString();
       final response = await client.get(url);
-      data =
-          response.data is String ? jsonDecode(response.data) : response.data;
+      data = response is String ? jsonDecode(response) : response;
 
       scanBloc.add(ScanEventShowPreview(data));
 
@@ -190,12 +191,17 @@ class QRCodeBloc extends Bloc<QRCodeEvent, QRCodeState> {
           emit(QRCodeStateUnknown());
           break;
       }
-    } on Error catch (e) {
+    } catch (e) {
       log.severe('An error occurred while connecting to the server.', e);
 
-      emit(QRCodeStateMessage(StateMessage.error(
-          'An error occurred while connecting to the server. '
-          'Check the logs for more information.')));
+      if (e is DioError) {
+        emit(QRCodeStateMessage(StateMessage.error('An error occurred',
+            errorHandler: NetworkExceptions.getDioException(e))));
+      } else {
+        emit(QRCodeStateMessage(StateMessage.error(
+            'An error occurred while connecting to the server. '
+            'Check the logs for more information.')));
+      }
     }
   }
 }
