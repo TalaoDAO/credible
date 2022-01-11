@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
 import 'package:talao/app/shared/model/author.dart';
 import 'package:talao/app/shared/model/credential_subject.dart';
@@ -8,6 +6,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:talao/app/shared/model/professional_student_card/professional_student_card_recipient.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:talao/app/shared/widget/card_animation.dart';
 import 'package:talao/app/shared/widget/image_card_text.dart';
 
 part 'professional_student_card.g.dart';
@@ -44,101 +43,24 @@ class ProfessionalStudentCard extends CredentialSubject {
     return Column(
       children: [
         AspectRatio(
-          /// this size comes from law publication about job student card specs
-          aspectRatio: 508.67 / 319.67,
-          child: Container(
-            height: 319.67,
-            width: 508.67,
-            child:
-                JobStudentCardAnimation(recipient: recipient, expires: expires),
-          ),
-        )
+
+            /// this size comes from law publication about job student card specs
+            aspectRatio: 508.67 / 319.67,
+            child: Container(
+              height: 319.67,
+              width: 508.67,
+              child: CardAnimation(
+                recto:
+                    JobStudentCardRecto(recipient: recipient, expires: expires),
+                verso: JobStudentCardVerso(),
+              ),
+            )),
       ],
     );
   }
 }
 
-class JobStudentCardAnimation extends StatefulWidget {
-  const JobStudentCardAnimation({
-    Key? key,
-    required this.recipient,
-    required this.expires,
-  }) : super(key: key);
-
-  final ProfessionalStudentCardRecipient recipient;
-  final String expires;
-
-  @override
-  State<JobStudentCardAnimation> createState() =>
-      _JobStudentCardAnimationState();
-}
-
-class _JobStudentCardAnimationState extends State<JobStudentCardAnimation>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _animationController;
-  late Widget _card;
-
-  @override
-  void initState() {
-    super.initState();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 700),
-      value: 1,
-    );
-    _card = JobStudentCardRecto(
-        recipient: widget.recipient, expires: widget.expires);
-  }
-
-  @override
-  void dispose() {
-    _animationController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-        onTap: () async {
-          await _animationController.reverse();
-          setState(() {
-            if (_card is JobStudentCardRecto) {
-              _card = JobStudentCardVerso();
-            } else {
-              _card = JobStudentCardRecto(
-                  recipient: widget.recipient, expires: widget.expires);
-            }
-          });
-          await _animationController.forward();
-        },
-        child: AnimatedBuilder(
-          animation: _animationController,
-          builder: (context, child) {
-            return Transform(
-              transform:
-                  Matrix4.rotationX((1 - _animationController.value) * pi / 2),
-              alignment: Alignment.center,
-              child: Container(
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black54,
-                      offset: Offset(9, 9),
-                      blurRadius: 10,
-                      spreadRadius: 5.0,
-                    )
-                  ],
-                ),
-                alignment: Alignment.center,
-                child: _card,
-              ),
-            );
-          },
-        ));
-  }
-}
-
-class JobStudentCardVerso extends StatelessWidget {
+class JobStudentCardVerso extends Verso {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -159,7 +81,7 @@ class JobStudentCardVerso extends StatelessWidget {
   }
 }
 
-class JobStudentCardRecto extends StatelessWidget {
+class JobStudentCardRecto extends Recto {
   const JobStudentCardRecto({
     Key? key,
     required this.recipient,
@@ -193,12 +115,10 @@ class JobStudentCardRecto extends StatelessWidget {
                 children: [
                   LayoutId(
                       id: 'familyName',
-                      child: ImageCardText(
-                          text: recipient.familyName)),
+                      child: ImageCardText(text: recipient.familyName)),
                   LayoutId(
                     id: 'givenName',
-                    child:
-                        ImageCardText(text: recipient.givenName),
+                    child: ImageCardText(text: recipient.givenName),
                   ),
                   LayoutId(
                     id: 'birthDate',
@@ -225,7 +145,6 @@ class JobStudentCardRecto extends StatelessWidget {
     );
   }
 }
-
 
 class ProfessionalStudentCardDelegate extends MultiChildLayoutDelegate {
   final Offset position;
