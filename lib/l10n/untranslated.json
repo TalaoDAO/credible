@@ -53,28 +53,6 @@
     "networkErrorUnexpectedError"
   ],
 
-  "fr": [
-    "networkErrorBadRequest",
-    "networkErrorConflict",
-    "networkErrorCreated",
-    "networkErrorGatewayTimeout",
-    "networkErrorInternalServerError",
-    "networkErrorMethodNotAllowed",
-    "networkErrorNoInternetConnection",
-    "networkErrorNotAcceptable",
-    "networkErrorNotImplemented",
-    "networkErrorOk",
-    "networkErrorRequestCancelled",
-    "networkErrorRequestTimeout",
-    "networkErrorSendTimeout",
-    "networkErrorServiceUnavailable",
-    "networkErrorTooManyRequests",
-    "networkErrorUnableToProcess",
-    "networkErrorUnauthenticated",
-    "networkErrorUnauthorizedRequest",
-    "networkErrorUnexpectedError"
-  ],
-
   "it": [
     "blockChainDisplayMethod",
     "blockChainAdress",

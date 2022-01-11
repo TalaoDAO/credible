@@ -161,5 +161,25 @@
   "appContactWebsite": "Site web",
   "issuerVerificationSetting": "Vérifier l'identité du fournisseur",
   "confimrDIDAuth": "Voulez-vous vous connecter au site ?",
-  "evidenceLabel": "Preuve"
+  "evidenceLabel": "Preuve",
+  "networkErrorBadRequest": "Mauvaise requête",
+  "networkErrorConflict": "Erreur due à un conflit",
+  "networkErrorCreated": "",
+  "networkErrorGatewayTimeout": "Le délai de la passerelle a expiré",
+  "networkErrorInternalServerError": "C'est une erreur interne du serveur. Veuillez contacter l'administrateur.",
+  "networkErrorMethodNotAllowed": "Vous n'êtes pas autorisé à accèder à ce contenu",
+  "networkErrorNoInternetConnection": "Pas de connexion internet",
+  "networkErrorNotAcceptable": "Requête non conforme",
+  "networkErrorNotImplemented": "Non implémenté",
+  "networkErrorOk": "",
+  "networkErrorRequestCancelled": "Requête annulée",
+  "networkErrorRequestTimeout": "Délai de requête dépassé",
+  "networkErrorSendTimeout": "Délai d'envoi dépassé",
+  "networkErrorServiceUnavailable": "Service indisponible",
+  "networkErrorTooManyRequests": "Vous avez dépassé la limite du nombre de requêtes",
+  "networkErrorUnableToProcess": "Incapacité à traiter la requête",
+  "networkErrorUnauthenticated": "Vous devez être authentifié pour accéder à cette ressource",
+  "networkErrorUnauthorizedRequest": "Requête non autorisée",
+  "networkErrorUnexpectedError": "Une erreur inattendue s'est produite"
+
 }
