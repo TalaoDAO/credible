@@ -5,123 +5,123 @@ import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:talao/app/shared/error_handler/error_handler.dart';
 
-part 'network_exceptions.freezed.dart';
+part 'network_exception.freezed.dart';
 
 @freezed
-abstract class NetworkExceptions
+abstract class NetworkException
     with ErrorHandler
-    implements _$NetworkExceptions {
-  const factory NetworkExceptions.badRequest() = BadRequest;
-  const factory NetworkExceptions.conflict() = Conflict;
-  const factory NetworkExceptions.created() = Created;
-  const factory NetworkExceptions.defaultError(String error) = DefaultError;
-  const factory NetworkExceptions.formatException() = NetworkFormatException;
-  const factory NetworkExceptions.gatewayTimeout() = GatewayTimeout;
-  const factory NetworkExceptions.internalServerError() = InternalServerError;
-  const factory NetworkExceptions.methodNotAllowed() = MethodNotAllowed;
-  const factory NetworkExceptions.noInternetConnection() = NoInternetConnection;
-  const factory NetworkExceptions.notAcceptable() = NotAcceptable;
-  const factory NetworkExceptions.notFound(String reason) = NotFound;
-  const factory NetworkExceptions.notImplemented() = NotImplemented;
-  const factory NetworkExceptions.ok() = Ok;
-  const factory NetworkExceptions.requestCancelled() = RequestCancelled;
-  const factory NetworkExceptions.requestTimeout() = RequestTimeout;
-  const factory NetworkExceptions.sendTimeout() = SendTimeout;
-  const factory NetworkExceptions.serviceUnavailable() = ServiceUnavailable;
-  const factory NetworkExceptions.tooManyRequests() = TooManyRequests;
-  const factory NetworkExceptions.unableToProcess() = UnableToProcess;
-  const factory NetworkExceptions.unauthenticated() = Unauthenticated;
-  const factory NetworkExceptions.unauthorizedRequest() = UnauthorizedRequest;
-  const factory NetworkExceptions.unexpectedError() = UnexpectedError;
-  static NetworkExceptions handleResponse(int? statusCode) {
+    implements _$NetworkException {
+  const factory NetworkException.badRequest() = BadRequest;
+  const factory NetworkException.conflict() = Conflict;
+  const factory NetworkException.created() = Created;
+  const factory NetworkException.defaultError(String error) = DefaultError;
+  const factory NetworkException.formatException() = NetworkFormatException;
+  const factory NetworkException.gatewayTimeout() = GatewayTimeout;
+  const factory NetworkException.internalServerError() = InternalServerError;
+  const factory NetworkException.methodNotAllowed() = MethodNotAllowed;
+  const factory NetworkException.noInternetConnection() = NoInternetConnection;
+  const factory NetworkException.notAcceptable() = NotAcceptable;
+  const factory NetworkException.notFound(String reason) = NotFound;
+  const factory NetworkException.notImplemented() = NotImplemented;
+  const factory NetworkException.ok() = Ok;
+  const factory NetworkException.requestCancelled() = RequestCancelled;
+  const factory NetworkException.requestTimeout() = RequestTimeout;
+  const factory NetworkException.sendTimeout() = SendTimeout;
+  const factory NetworkException.serviceUnavailable() = ServiceUnavailable;
+  const factory NetworkException.tooManyRequests() = TooManyRequests;
+  const factory NetworkException.unableToProcess() = UnableToProcess;
+  const factory NetworkException.unauthenticated() = Unauthenticated;
+  const factory NetworkException.unauthorizedRequest() = UnauthorizedRequest;
+  const factory NetworkException.unexpectedError() = UnexpectedError;
+  static NetworkException handleResponse(int? statusCode) {
     switch (statusCode) {
       case 200:
-        return NetworkExceptions.ok();
+        return NetworkException.ok();
       case 201:
-        return NetworkExceptions.created();
+        return NetworkException.created();
       case 400:
-        return NetworkExceptions.badRequest();
+        return NetworkException.badRequest();
 
       case 401:
-        return NetworkExceptions.unauthenticated();
+        return NetworkException.unauthenticated();
       case 403:
-        return NetworkExceptions.unauthorizedRequest();
+        return NetworkException.unauthorizedRequest();
       case 404:
-        return NetworkExceptions.notFound('Not found');
+        return NetworkException.notFound('Not found');
       case 408:
-        return NetworkExceptions.requestTimeout();
+        return NetworkException.requestTimeout();
       case 409:
-        return NetworkExceptions.conflict();
+        return NetworkException.conflict();
       case 429:
-        return NetworkExceptions.tooManyRequests();
+        return NetworkException.tooManyRequests();
       case 500:
-        return NetworkExceptions.internalServerError();
+        return NetworkException.internalServerError();
       case 501:
-        return NetworkExceptions.notImplemented();
+        return NetworkException.notImplemented();
       case 503:
-        return NetworkExceptions.serviceUnavailable();
+        return NetworkException.serviceUnavailable();
       case 504:
-        return NetworkExceptions.gatewayTimeout();
+        return NetworkException.gatewayTimeout();
       default:
         var responseCode = statusCode;
-        return NetworkExceptions.defaultError(
+        return NetworkException.defaultError(
           'Received invalid status code: $responseCode',
         );
     }
   }
 
-  static NetworkExceptions getDioException(error) {
+  static NetworkException getDioException(error) {
     if (error is Exception) {
       try {
-        NetworkExceptions networkExceptions;
+        NetworkException networkException;
         if (error is DioError) {
           switch (error.type) {
             case DioErrorType.cancel:
-              networkExceptions = NetworkExceptions.requestCancelled();
+              networkException = NetworkException.requestCancelled();
               break;
             case DioErrorType.connectTimeout:
-              networkExceptions = NetworkExceptions.requestTimeout();
+              networkException = NetworkException.requestTimeout();
               break;
             case DioErrorType.other:
-              networkExceptions = NetworkExceptions.noInternetConnection();
+              networkException = NetworkException.noInternetConnection();
               break;
             case DioErrorType.receiveTimeout:
-              networkExceptions = NetworkExceptions.sendTimeout();
+              networkException = NetworkException.sendTimeout();
               break;
             case DioErrorType.response:
-              networkExceptions =
-                  NetworkExceptions.handleResponse(error.response?.statusCode);
+              networkException =
+                  NetworkException.handleResponse(error.response?.statusCode);
               break;
             case DioErrorType.sendTimeout:
-              networkExceptions = NetworkExceptions.sendTimeout();
+              networkException = NetworkException.sendTimeout();
               break;
           }
         } else if (error is SocketException) {
-          networkExceptions = NetworkExceptions.noInternetConnection();
+          networkException = NetworkException.noInternetConnection();
         } else {
-          networkExceptions = NetworkExceptions.unexpectedError();
+          networkException = NetworkException.unexpectedError();
         }
-        return networkExceptions;
+        return networkException;
       } on FormatException catch (_) {
-        return NetworkExceptions.formatException();
+        return NetworkException.formatException();
       } catch (_) {
-        return NetworkExceptions.unexpectedError();
+        return NetworkException.unexpectedError();
       }
     } else {
       if (error.toString().contains('is not a subtype of')) {
-        return NetworkExceptions.unableToProcess();
+        return NetworkException.unableToProcess();
       } else {
-        return NetworkExceptions.unexpectedError();
+        return NetworkException.unexpectedError();
       }
     }
   }
 
   static String getErrorMessage(
-      BuildContext context, NetworkExceptions networkExceptions) {
+      BuildContext context, NetworkException networkException) {
     final localizations = AppLocalizations.of(context)!;
 
     var errorMessage = '';
-    networkExceptions.when(notImplemented: () {
+    networkException.when(notImplemented: () {
       errorMessage = localizations.networkErrorNotImplemented;
     }, requestCancelled: () {
       errorMessage = localizations.networkErrorRequestCancelled;
@@ -171,7 +171,7 @@ abstract class NetworkExceptions
 
   static void displayError(
       BuildContext context, ErrorHandler error, Color errorColor) {
-    if (error is NetworkExceptions) {
+    if (error is NetworkException) {
       var errorMessage = getErrorMessage(context, error);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor: errorColor,

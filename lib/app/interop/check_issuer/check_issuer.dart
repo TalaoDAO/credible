@@ -1,6 +1,6 @@
 import 'package:talao/app/interop/check_issuer/models/issuer.dart';
 import 'package:talao/app/interop/network/network_client.dart';
-import 'package:talao/app/interop/network/network_exceptions.dart';
+import 'package:talao/app/interop/network/network_exception.dart';
 
 class CheckIssuer {
   final DioClient client;
@@ -21,15 +21,14 @@ class CheckIssuer {
       }
     });
     try {
-      final response =
-          await client.get('$checkIssuerServerUrl/$didToTest');
+      final response = await client.get('$checkIssuerServerUrl/$didToTest');
       final issuer = Issuer.fromJson(response);
       if (issuer.organizationInfo.issuerDomain.contains(uriToCheck.host)) {
         return issuer;
       }
       return Issuer.emptyIssuer();
     } catch (e) {
-      throw(NetworkExceptions.getDioException(e));
+      throw (NetworkException.getDioException(e));
     }
   }
 }
