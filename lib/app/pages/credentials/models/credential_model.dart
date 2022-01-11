@@ -12,6 +12,7 @@ import 'package:talao/app/shared/model/display.dart';
 import 'package:talao/app/shared/model/loyalty_card/loyalty_card.dart';
 import 'package:talao/app/shared/model/professional_student_card/professional_student_card.dart';
 import 'package:talao/app/shared/model/translation.dart';
+import 'package:talao/app/shared/model/voucher/voucher.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/credential_field.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -148,11 +149,15 @@ class CredentialModel {
   Widget displayDetail(BuildContext context, CredentialModel item) {
     final localizations = AppLocalizations.of(context)!;
     final _issuanceDate = credentialPreview.issuanceDate;
-    /// Professional Student Card and Loyalty Card have both aspecific display
+
+    /// Professional Student Card, Voucher and Loyalty Card have both aspecific display
     if (credentialPreview.credentialSubject is ProfessionalStudentCard) {
       return credentialPreview.credentialSubject.displayDetail(context, item);
     }
     if (credentialPreview.credentialSubject is LoyaltyCard) {
+      return credentialPreview.credentialSubject.displayDetail(context, item);
+    }
+    if (credentialPreview.credentialSubject is Voucher) {
       return credentialPreview.credentialSubject.displayDetail(context, item);
     }
     return Column(

@@ -3,20 +3,23 @@
 import 'package:flutter/material.dart';
 
 class ImageCardText extends StatelessWidget {
-  const ImageCardText({
+  ImageCardText({
     Key? key,
     required this.text,
+    this.textStyle, 
   }) : super(key: key);
 
   final String text;
+  final TextStyle? textStyle;
 
   @override
   Widget build(BuildContext context) {
+    final _textStyle = textStyle ?? Theme.of(context).textTheme.bodyText2;
     return Text(text,
         style: MediaQuery.of(context).orientation == Orientation.landscape
-            ? Theme.of(context).textTheme.bodyText2!.copyWith(
-                fontSize: Theme.of(context).textTheme.bodyText2!.fontSize! *
+            ? _textStyle!.copyWith(
+                fontSize: _textStyle.fontSize! *
                     MediaQuery.of(context).size.aspectRatio)
-            : Theme.of(context).textTheme.bodyText2);
+            : _textStyle);
   }
 }

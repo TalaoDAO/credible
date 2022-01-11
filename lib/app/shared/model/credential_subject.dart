@@ -11,6 +11,7 @@ import 'package:talao/app/shared/model/professional_experience_assessment/profes
 import 'package:talao/app/shared/model/professional_skil_assessment/professional_skill_assessment.dart';
 import 'package:talao/app/shared/model/professional_student_card/professional_student_card.dart';
 import 'package:talao/app/shared/model/resident_card/resident_card.dart';
+import 'package:talao/app/shared/model/voucher/voucher.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -33,6 +34,9 @@ class CredentialSubject {
         _backgroundColor = Colors.white;
         break;
       case 'IdentityPass':
+        _backgroundColor = Color(0xffCAFFBF);
+        break;
+      case 'Voucher':
         _backgroundColor = Color(0xffCAFFBF);
         break;
       case 'LoyaltyCard':
@@ -73,6 +77,9 @@ class CredentialSubject {
         break;
       case 'IdentityPass':
         _icon = Icon(Icons.perm_identity);
+        break;
+      case 'Voucher':
+        _icon = Icon(Icons.gamepad);
         break;
       case 'LoyaltyCard':
         _icon = Icon(Icons.loyalty);
@@ -118,6 +125,8 @@ class CredentialSubject {
         return ResidentCard.fromJson(json);
       case 'IdentityPass':
         return IdentityPass.fromJson(json);
+      case 'Voucher':
+        return Voucher.fromJson(json);
       case 'LoyaltyCard':
         return LoyaltyCard.fromJson(json);
       case 'ProfessionalStudentCard':
