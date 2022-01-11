@@ -134,40 +134,6 @@ class LoyaltyCardVerso extends Verso {
   }
 }
 
-class LoyaltyCardFieldDisplay extends StatelessWidget {
-  const LoyaltyCardFieldDisplay({
-    Key? key,
-    required this.labelWidth,
-    required this.label,
-    required this.value,
-  }) : super(key: key);
-
-  final double labelWidth;
-  final Widget label;
-  final Widget value;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-          constraints: BoxConstraints(minWidth: labelWidth),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: label,
-          ),
-        ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: value,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
 class TextWithLoyaltyCardStyle extends StatelessWidget {
   const TextWithLoyaltyCardStyle({
     Key? key,
