@@ -1,6 +1,4 @@
-
 import 'dart:io';
-import 'dart:js';
 import 'package:dio/dio.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +34,6 @@ abstract class NetworkExceptions
   const factory NetworkExceptions.unauthorizedRequest() = UnauthorizedRequest;
   const factory NetworkExceptions.unexpectedError() = UnexpectedError;
   static NetworkExceptions handleResponse(int? statusCode) {
-    
     switch (statusCode) {
       case 200:
         return NetworkExceptions.ok();
@@ -124,63 +121,51 @@ abstract class NetworkExceptions
     final localizations = AppLocalizations.of(context)!;
 
     var errorMessage = '';
-    networkExceptions.when(
-        notImplemented: () {
-          errorMessage = 'Not Implemented';
-        },
-        requestCancelled: () {
-          errorMessage = 'Request Cancelled';
-        },
-        internalServerError: () {
-          errorMessage = 'Internal Server Error';
-        },
-        notFound: (String reason) {
-          errorMessage = reason;
-        },
-        serviceUnavailable: () {
-          errorMessage = 'Service unavailable';
-        },
-        methodNotAllowed: () {
-          errorMessage = 'Method Allowed';
-        },
-        badRequest: () {
-          errorMessage = 'Bad request';
-        },
-        unauthorizedRequest: () {
-          errorMessage = 'Unauthorized request';
-        },
-        unexpectedError: () {
-          errorMessage = 'Unexpected error occurred';
-        },
-        requestTimeout: () {
-          errorMessage = 'Connection request timeout';
-        },
-        noInternetConnection: () {
-          errorMessage = 'No internet connection';
-        },
-        conflict: () {
-          errorMessage = 'Error due to a conflict';
-        },
-        sendTimeout: () {
-          errorMessage = 'Send timeout in connection with API server';
-        },
-        unableToProcess: () {
-          errorMessage = 'Unable to process the data';
-        },
-        defaultError: (String error) {
-          errorMessage = error;
-        },
-        formatException: () {
-          errorMessage = 'Unexpected error occurred';
-        },
-        notAcceptable: () {
-          errorMessage = 'Not acceptable';
-        },
-        created: () {},
-        gatewayTimeout: () {},
-        ok: () {},
-        tooManyRequests: () {},
-        unauthenticated: () {});
+    networkExceptions.when(notImplemented: () {
+      errorMessage = localizations.networkErrorNotImplemented;
+    }, requestCancelled: () {
+      errorMessage = localizations.networkErrorRequestCancelled;
+    }, internalServerError: () {
+      errorMessage = localizations.networkErrorInternalServerError;
+    }, notFound: (String reason) {
+      errorMessage = reason;
+    }, serviceUnavailable: () {
+      errorMessage = localizations.networkErrorServiceUnavailable;
+    }, methodNotAllowed: () {
+      errorMessage = localizations.networkErrorMethodNotAllowed;
+    }, badRequest: () {
+      errorMessage = localizations.networkErrorBadRequest;
+    }, unauthorizedRequest: () {
+      errorMessage = localizations.networkErrorUnauthorizedRequest;
+    }, unexpectedError: () {
+      errorMessage = localizations.networkErrorUnexpectedError;
+    }, requestTimeout: () {
+      errorMessage = localizations.networkErrorRequestTimeout;
+    }, noInternetConnection: () {
+      errorMessage = localizations.networkErrorNoInternetConnection;
+    }, conflict: () {
+      errorMessage = localizations.networkErrorConflict;
+    }, sendTimeout: () {
+      errorMessage = localizations.networkErrorSendTimeout;
+    }, unableToProcess: () {
+      errorMessage = localizations.networkErrorUnableToProcess;
+    }, defaultError: (String error) {
+      errorMessage = error;
+    }, formatException: () {
+      errorMessage = localizations.networkErrorUnexpectedError;
+    }, notAcceptable: () {
+      errorMessage = localizations.networkErrorNotAcceptable;
+    }, created: () {
+      errorMessage = localizations.networkErrorCreated;
+    }, gatewayTimeout: () {
+      errorMessage = localizations.networkErrorGatewayTimeout;
+    }, ok: () {
+      errorMessage = localizations.networkErrorOk;
+    }, tooManyRequests: () {
+      errorMessage = localizations.networkErrorTooManyRequests;
+    }, unauthenticated: () {
+      errorMessage = localizations.networkErrorUnauthenticated;
+    });
     return errorMessage;
   }
 
