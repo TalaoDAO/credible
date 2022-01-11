@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:talao/app/shared/error_handler/error_hadler.dart';
+import 'package:talao/app/shared/error_handler/error_handler.dart';
 
 enum MessageType {
   error,
@@ -13,13 +13,17 @@ class StateMessage {
   final MessageType type;
   final ErrorHandler? errorHandler;
 
-  StateMessage.error(this.message, {this.errorHandler}) : type = MessageType.error;
+  StateMessage.error(this.message, {this.errorHandler})
+      : type = MessageType.error;
 
-  StateMessage.warning(this.message, {this.errorHandler}) : type = MessageType.warning;
+  StateMessage.warning(this.message, {this.errorHandler})
+      : type = MessageType.warning;
 
-  StateMessage.info(this.message, {this.errorHandler}) : type = MessageType.info;
+  StateMessage.info(this.message, {this.errorHandler})
+      : type = MessageType.info;
 
-  StateMessage.success(this.message, {this.errorHandler}) : type = MessageType.success;
+  StateMessage.success(this.message, {this.errorHandler})
+      : type = MessageType.success;
 
   Color get color {
     switch (type) {

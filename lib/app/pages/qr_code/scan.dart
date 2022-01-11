@@ -8,7 +8,7 @@ import 'package:talao/app/pages/profile/usecase/is_issuer_approved.dart'
     as issuer_approved_usecase;
 import 'package:talao/app/pages/qr_code/bloc/qrcode.dart';
 import 'package:talao/app/pages/qr_code/check_host.dart';
-import 'package:talao/app/shared/error_handler/error_hadler.dart';
+import 'package:talao/app/shared/error_handler/error_handler.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/navigation_bar.dart';
 
