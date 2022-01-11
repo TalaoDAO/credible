@@ -8,6 +8,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:talao/app/shared/model/professional_student_card/professional_student_card_recipient.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:talao/app/shared/widget/image_card_text.dart';
 
 part 'professional_student_card.g.dart';
 
@@ -192,28 +193,28 @@ class JobStudentCardRecto extends StatelessWidget {
                 children: [
                   LayoutId(
                       id: 'familyName',
-                      child: ProfessionalStudentCardText(
+                      child: ImageCardText(
                           text: recipient.familyName)),
                   LayoutId(
                     id: 'givenName',
                     child:
-                        ProfessionalStudentCardText(text: recipient.givenName),
+                        ImageCardText(text: recipient.givenName),
                   ),
                   LayoutId(
                     id: 'birthDate',
-                    child: ProfessionalStudentCardText(
+                    child: ImageCardText(
                         text: UiKit.displayDate(
                             localizations, recipient.birthDate)),
                   ),
                   LayoutId(
                     id: 'expires',
-                    child: ProfessionalStudentCardText(
+                    child: ImageCardText(
                         text: UiKit.displayDate(
                             localizations, recipient.birthDate)),
                   ),
                   LayoutId(
                     id: 'signature',
-                    child: ProfessionalStudentCardText(text: 'missing field'),
+                    child: ImageCardText(text: 'missing field'),
                   ),
                   LayoutId(
                     id: 'image',
@@ -225,24 +226,6 @@ class JobStudentCardRecto extends StatelessWidget {
   }
 }
 
-class ProfessionalStudentCardText extends StatelessWidget {
-  const ProfessionalStudentCardText({
-    Key? key,
-    required this.text,
-  }) : super(key: key);
-
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(text,
-        style: MediaQuery.of(context).orientation == Orientation.landscape
-            ? Theme.of(context).textTheme.bodyText2!.copyWith(
-                fontSize: Theme.of(context).textTheme.bodyText2!.fontSize! *
-                    MediaQuery.of(context).size.aspectRatio)
-            : Theme.of(context).textTheme.bodyText2);
-  }
-}
 
 class ProfessionalStudentCardDelegate extends MultiChildLayoutDelegate {
   final Offset position;
