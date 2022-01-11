@@ -1,4 +1,5 @@
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
+import 'package:talao/app/shared/model/loyalty_card/loyalty_card.dart';
 import 'package:talao/app/shared/model/professional_student_card/professional_student_card.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/box_decoration.dart';
@@ -14,9 +15,15 @@ class DocumentWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    /// Professional Student Card and Loyalty Card have both aspecific display
     if (model.credentialPreview.credentialSubject is ProfessionalStudentCard) {
       return model.displayDetail(context, model);
     }
+    if (model.credentialPreview.credentialSubject is LoyaltyCard) {
+      return model.displayDetail(context, model);
+    }
+
+
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
