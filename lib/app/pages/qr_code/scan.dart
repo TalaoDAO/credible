@@ -98,7 +98,7 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
           if (state.message.errorHandler != null) {
             var error = state.message.errorHandler;
             if (error is ErrorHandler) {
-              ErrorHandler.displayError(context, error, Colors.red);
+              error.displayError(context, error, Colors.red);
             }
           } else {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:talao/app/interop/network/network_exception.dart';
 
 const _defaultConnectTimeout = Duration.millisecondsPerMinute;
 const _defaultReceiveTimeout = Duration.millisecondsPerMinute;
@@ -59,7 +60,11 @@ class DioClient {
     } on FormatException catch (_) {
       throw FormatException('Unable to process the data');
     } catch (e) {
-      rethrow;
+      if (e is DioError) {
+        throw (NetworkException.getDioException(e));
+      } else {
+        rethrow;
+      }
     }
   }
 
@@ -86,7 +91,11 @@ class DioClient {
     } on FormatException catch (_) {
       throw FormatException('Unable to process the data');
     } catch (e) {
-      rethrow;
+      if (e is DioError) {
+        throw (NetworkException.getDioException(e));
+      } else {
+        rethrow;
+      }
     }
   }
 }

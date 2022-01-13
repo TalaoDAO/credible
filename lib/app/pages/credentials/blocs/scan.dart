@@ -3,11 +3,11 @@ import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/interop/network/network_client.dart';
-import 'package:talao/app/interop/network/network_exception.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/pages/credentials/blocs/wallet.dart';
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
 import 'package:talao/app/shared/constants.dart';
+import 'package:talao/app/shared/error_handler/error_handler.dart';
 import 'package:talao/app/shared/model/message.dart';
 import 'package:dio/dio.dart';
 import 'package:logging/logging.dart';
@@ -244,9 +244,9 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       emit(ScanStateSuccess());
     } catch (e) {
       log.severe('something went wrong', e);
-      if (e is DioError) {
-        emit(ScanStateMessage(StateMessage.error('An error occurred',
-            errorHandler: NetworkException.getDioException(e))));
+      if (e is ErrorHandler) {
+        emit(ScanStateMessage(
+            StateMessage.error('An error occurred', errorHandler: e)));
       } else {
         emit(ScanStateMessage(
             StateMessage.error('Something went wrong, please try again later. '
@@ -307,9 +307,9 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       emit(ScanStateSuccess());
     } catch (e) {
       log.severe('something went wrong', e);
-      if (e is DioError) {
-        emit(ScanStateMessage(StateMessage.error('An error occurred',
-            errorHandler: NetworkException.getDioException(e))));
+      if (e is ErrorHandler) {
+        emit(ScanStateMessage(
+            StateMessage.error('An error occurred', errorHandler: e)));
       } else {
         emit(ScanStateMessage(
             StateMessage.error('Something went wrong, please try again later. '
@@ -443,9 +443,9 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       }
     } catch (e) {
       log.severe('something went wrong', e);
-      if (e is DioError) {
-        emit(ScanStateMessage(StateMessage.error('An error occurred',
-            errorHandler: NetworkException.getDioException(e))));
+      if (e is ErrorHandler) {
+        emit(ScanStateMessage(
+            StateMessage.error('An error occurred', errorHandler: e)));
       } else {
         emit(ScanStateMessage(StateMessage.error(
             'Something went wrong, please try again later. ')));

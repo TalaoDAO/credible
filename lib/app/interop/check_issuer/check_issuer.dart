@@ -1,6 +1,5 @@
 import 'package:talao/app/interop/check_issuer/models/issuer.dart';
 import 'package:talao/app/interop/network/network_client.dart';
-import 'package:talao/app/interop/network/network_exception.dart';
 
 class CheckIssuer {
   final DioClient client;
@@ -28,7 +27,7 @@ class CheckIssuer {
       }
       return Issuer.emptyIssuer();
     } catch (e) {
-      throw (NetworkException.getDioException(e));
+      rethrow;
     }
   }
 }

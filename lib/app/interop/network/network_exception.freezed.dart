@@ -313,8 +313,8 @@ class _$BadRequestCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$BadRequest implements BadRequest {
-  const _$BadRequest();
+class _$BadRequest extends BadRequest {
+  const _$BadRequest() : super._();
 
   @override
   String toString() {
@@ -513,8 +513,9 @@ class _$BadRequest implements BadRequest {
   }
 }
 
-abstract class BadRequest implements NetworkException {
+abstract class BadRequest extends NetworkException {
   const factory BadRequest() = _$BadRequest;
+  const BadRequest._() : super._();
 }
 
 /// @nodoc
@@ -535,8 +536,8 @@ class _$ConflictCopyWithImpl<$Res> extends _$NetworkExceptionCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$Conflict implements Conflict {
-  const _$Conflict();
+class _$Conflict extends Conflict {
+  const _$Conflict() : super._();
 
   @override
   String toString() {
@@ -735,8 +736,9 @@ class _$Conflict implements Conflict {
   }
 }
 
-abstract class Conflict implements NetworkException {
+abstract class Conflict extends NetworkException {
   const factory Conflict() = _$Conflict;
+  const Conflict._() : super._();
 }
 
 /// @nodoc
@@ -757,8 +759,8 @@ class _$CreatedCopyWithImpl<$Res> extends _$NetworkExceptionCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$Created implements Created {
-  const _$Created();
+class _$Created extends Created {
+  const _$Created() : super._();
 
   @override
   String toString() {
@@ -957,8 +959,9 @@ class _$Created implements Created {
   }
 }
 
-abstract class Created implements NetworkException {
+abstract class Created extends NetworkException {
   const factory Created() = _$Created;
+  const Created._() : super._();
 }
 
 /// @nodoc
@@ -995,8 +998,8 @@ class _$DefaultErrorCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$DefaultError implements DefaultError {
-  const _$DefaultError(this.error);
+class _$DefaultError extends DefaultError {
+  const _$DefaultError(this.error) : super._();
 
   @override
   final String error;
@@ -1206,8 +1209,9 @@ class _$DefaultError implements DefaultError {
   }
 }
 
-abstract class DefaultError implements NetworkException {
+abstract class DefaultError extends NetworkException {
   const factory DefaultError(String error) = _$DefaultError;
+  const DefaultError._() : super._();
 
   String get error;
   @JsonKey(ignore: true)
@@ -1236,8 +1240,8 @@ class _$NetworkFormatExceptionCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$NetworkFormatException implements NetworkFormatException {
-  const _$NetworkFormatException();
+class _$NetworkFormatException extends NetworkFormatException {
+  const _$NetworkFormatException() : super._();
 
   @override
   String toString() {
@@ -1436,8 +1440,9 @@ class _$NetworkFormatException implements NetworkFormatException {
   }
 }
 
-abstract class NetworkFormatException implements NetworkException {
+abstract class NetworkFormatException extends NetworkException {
   const factory NetworkFormatException() = _$NetworkFormatException;
+  const NetworkFormatException._() : super._();
 }
 
 /// @nodoc
@@ -1461,8 +1466,8 @@ class _$GatewayTimeoutCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$GatewayTimeout implements GatewayTimeout {
-  const _$GatewayTimeout();
+class _$GatewayTimeout extends GatewayTimeout {
+  const _$GatewayTimeout() : super._();
 
   @override
   String toString() {
@@ -1661,8 +1666,9 @@ class _$GatewayTimeout implements GatewayTimeout {
   }
 }
 
-abstract class GatewayTimeout implements NetworkException {
+abstract class GatewayTimeout extends NetworkException {
   const factory GatewayTimeout() = _$GatewayTimeout;
+  const GatewayTimeout._() : super._();
 }
 
 /// @nodoc
@@ -1686,8 +1692,8 @@ class _$InternalServerErrorCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$InternalServerError implements InternalServerError {
-  const _$InternalServerError();
+class _$InternalServerError extends InternalServerError {
+  const _$InternalServerError() : super._();
 
   @override
   String toString() {
@@ -1886,8 +1892,9 @@ class _$InternalServerError implements InternalServerError {
   }
 }
 
-abstract class InternalServerError implements NetworkException {
+abstract class InternalServerError extends NetworkException {
   const factory InternalServerError() = _$InternalServerError;
+  const InternalServerError._() : super._();
 }
 
 /// @nodoc
@@ -1911,8 +1918,8 @@ class _$MethodNotAllowedCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$MethodNotAllowed implements MethodNotAllowed {
-  const _$MethodNotAllowed();
+class _$MethodNotAllowed extends MethodNotAllowed {
+  const _$MethodNotAllowed() : super._();
 
   @override
   String toString() {
@@ -2111,8 +2118,9 @@ class _$MethodNotAllowed implements MethodNotAllowed {
   }
 }
 
-abstract class MethodNotAllowed implements NetworkException {
+abstract class MethodNotAllowed extends NetworkException {
   const factory MethodNotAllowed() = _$MethodNotAllowed;
+  const MethodNotAllowed._() : super._();
 }
 
 /// @nodoc
@@ -2136,8 +2144,8 @@ class _$NoInternetConnectionCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$NoInternetConnection implements NoInternetConnection {
-  const _$NoInternetConnection();
+class _$NoInternetConnection extends NoInternetConnection {
+  const _$NoInternetConnection() : super._();
 
   @override
   String toString() {
@@ -2336,8 +2344,9 @@ class _$NoInternetConnection implements NoInternetConnection {
   }
 }
 
-abstract class NoInternetConnection implements NetworkException {
+abstract class NoInternetConnection extends NetworkException {
   const factory NoInternetConnection() = _$NoInternetConnection;
+  const NoInternetConnection._() : super._();
 }
 
 /// @nodoc
@@ -2361,8 +2370,8 @@ class _$NotAcceptableCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$NotAcceptable implements NotAcceptable {
-  const _$NotAcceptable();
+class _$NotAcceptable extends NotAcceptable {
+  const _$NotAcceptable() : super._();
 
   @override
   String toString() {
@@ -2561,8 +2570,9 @@ class _$NotAcceptable implements NotAcceptable {
   }
 }
 
-abstract class NotAcceptable implements NetworkException {
+abstract class NotAcceptable extends NetworkException {
   const factory NotAcceptable() = _$NotAcceptable;
+  const NotAcceptable._() : super._();
 }
 
 /// @nodoc
@@ -2596,8 +2606,8 @@ class _$NotFoundCopyWithImpl<$Res> extends _$NetworkExceptionCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$NotFound implements NotFound {
-  const _$NotFound(this.reason);
+class _$NotFound extends NotFound {
+  const _$NotFound(this.reason) : super._();
 
   @override
   final String reason;
@@ -2807,8 +2817,9 @@ class _$NotFound implements NotFound {
   }
 }
 
-abstract class NotFound implements NetworkException {
+abstract class NotFound extends NetworkException {
   const factory NotFound(String reason) = _$NotFound;
+  const NotFound._() : super._();
 
   String get reason;
   @JsonKey(ignore: true)
@@ -2837,8 +2848,8 @@ class _$NotImplementedCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$NotImplemented implements NotImplemented {
-  const _$NotImplemented();
+class _$NotImplemented extends NotImplemented {
+  const _$NotImplemented() : super._();
 
   @override
   String toString() {
@@ -3037,8 +3048,9 @@ class _$NotImplemented implements NotImplemented {
   }
 }
 
-abstract class NotImplemented implements NetworkException {
+abstract class NotImplemented extends NetworkException {
   const factory NotImplemented() = _$NotImplemented;
+  const NotImplemented._() : super._();
 }
 
 /// @nodoc
@@ -3059,8 +3071,8 @@ class _$OkCopyWithImpl<$Res> extends _$NetworkExceptionCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$Ok implements Ok {
-  const _$Ok();
+class _$Ok extends Ok {
+  const _$Ok() : super._();
 
   @override
   String toString() {
@@ -3259,8 +3271,9 @@ class _$Ok implements Ok {
   }
 }
 
-abstract class Ok implements NetworkException {
+abstract class Ok extends NetworkException {
   const factory Ok() = _$Ok;
+  const Ok._() : super._();
 }
 
 /// @nodoc
@@ -3284,8 +3297,8 @@ class _$RequestCancelledCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$RequestCancelled implements RequestCancelled {
-  const _$RequestCancelled();
+class _$RequestCancelled extends RequestCancelled {
+  const _$RequestCancelled() : super._();
 
   @override
   String toString() {
@@ -3484,8 +3497,9 @@ class _$RequestCancelled implements RequestCancelled {
   }
 }
 
-abstract class RequestCancelled implements NetworkException {
+abstract class RequestCancelled extends NetworkException {
   const factory RequestCancelled() = _$RequestCancelled;
+  const RequestCancelled._() : super._();
 }
 
 /// @nodoc
@@ -3509,8 +3523,8 @@ class _$RequestTimeoutCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$RequestTimeout implements RequestTimeout {
-  const _$RequestTimeout();
+class _$RequestTimeout extends RequestTimeout {
+  const _$RequestTimeout() : super._();
 
   @override
   String toString() {
@@ -3709,8 +3723,9 @@ class _$RequestTimeout implements RequestTimeout {
   }
 }
 
-abstract class RequestTimeout implements NetworkException {
+abstract class RequestTimeout extends NetworkException {
   const factory RequestTimeout() = _$RequestTimeout;
+  const RequestTimeout._() : super._();
 }
 
 /// @nodoc
@@ -3734,8 +3749,8 @@ class _$SendTimeoutCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$SendTimeout implements SendTimeout {
-  const _$SendTimeout();
+class _$SendTimeout extends SendTimeout {
+  const _$SendTimeout() : super._();
 
   @override
   String toString() {
@@ -3934,8 +3949,9 @@ class _$SendTimeout implements SendTimeout {
   }
 }
 
-abstract class SendTimeout implements NetworkException {
+abstract class SendTimeout extends NetworkException {
   const factory SendTimeout() = _$SendTimeout;
+  const SendTimeout._() : super._();
 }
 
 /// @nodoc
@@ -3959,8 +3975,8 @@ class _$ServiceUnavailableCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ServiceUnavailable implements ServiceUnavailable {
-  const _$ServiceUnavailable();
+class _$ServiceUnavailable extends ServiceUnavailable {
+  const _$ServiceUnavailable() : super._();
 
   @override
   String toString() {
@@ -4159,8 +4175,9 @@ class _$ServiceUnavailable implements ServiceUnavailable {
   }
 }
 
-abstract class ServiceUnavailable implements NetworkException {
+abstract class ServiceUnavailable extends NetworkException {
   const factory ServiceUnavailable() = _$ServiceUnavailable;
+  const ServiceUnavailable._() : super._();
 }
 
 /// @nodoc
@@ -4184,8 +4201,8 @@ class _$TooManyRequestsCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$TooManyRequests implements TooManyRequests {
-  const _$TooManyRequests();
+class _$TooManyRequests extends TooManyRequests {
+  const _$TooManyRequests() : super._();
 
   @override
   String toString() {
@@ -4384,8 +4401,9 @@ class _$TooManyRequests implements TooManyRequests {
   }
 }
 
-abstract class TooManyRequests implements NetworkException {
+abstract class TooManyRequests extends NetworkException {
   const factory TooManyRequests() = _$TooManyRequests;
+  const TooManyRequests._() : super._();
 }
 
 /// @nodoc
@@ -4409,8 +4427,8 @@ class _$UnableToProcessCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$UnableToProcess implements UnableToProcess {
-  const _$UnableToProcess();
+class _$UnableToProcess extends UnableToProcess {
+  const _$UnableToProcess() : super._();
 
   @override
   String toString() {
@@ -4609,8 +4627,9 @@ class _$UnableToProcess implements UnableToProcess {
   }
 }
 
-abstract class UnableToProcess implements NetworkException {
+abstract class UnableToProcess extends NetworkException {
   const factory UnableToProcess() = _$UnableToProcess;
+  const UnableToProcess._() : super._();
 }
 
 /// @nodoc
@@ -4634,8 +4653,8 @@ class _$UnauthenticatedCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$Unauthenticated implements Unauthenticated {
-  const _$Unauthenticated();
+class _$Unauthenticated extends Unauthenticated {
+  const _$Unauthenticated() : super._();
 
   @override
   String toString() {
@@ -4834,8 +4853,9 @@ class _$Unauthenticated implements Unauthenticated {
   }
 }
 
-abstract class Unauthenticated implements NetworkException {
+abstract class Unauthenticated extends NetworkException {
   const factory Unauthenticated() = _$Unauthenticated;
+  const Unauthenticated._() : super._();
 }
 
 /// @nodoc
@@ -4859,8 +4879,8 @@ class _$UnauthorizedRequestCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$UnauthorizedRequest implements UnauthorizedRequest {
-  const _$UnauthorizedRequest();
+class _$UnauthorizedRequest extends UnauthorizedRequest {
+  const _$UnauthorizedRequest() : super._();
 
   @override
   String toString() {
@@ -5059,8 +5079,9 @@ class _$UnauthorizedRequest implements UnauthorizedRequest {
   }
 }
 
-abstract class UnauthorizedRequest implements NetworkException {
+abstract class UnauthorizedRequest extends NetworkException {
   const factory UnauthorizedRequest() = _$UnauthorizedRequest;
+  const UnauthorizedRequest._() : super._();
 }
 
 /// @nodoc
@@ -5084,8 +5105,8 @@ class _$UnexpectedErrorCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$UnexpectedError implements UnexpectedError {
-  const _$UnexpectedError();
+class _$UnexpectedError extends UnexpectedError {
+  const _$UnexpectedError() : super._();
 
   @override
   String toString() {
@@ -5284,6 +5305,7 @@ class _$UnexpectedError implements UnexpectedError {
   }
 }
 
-abstract class UnexpectedError implements NetworkException {
+abstract class UnexpectedError extends NetworkException {
   const factory UnexpectedError() = _$UnexpectedError;
+  const UnexpectedError._() : super._();
 }
