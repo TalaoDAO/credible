@@ -123,7 +123,8 @@
   "didDisplayId": "DID",
   "blockChainDisplayMethod": "Blockchain",
   "blockChainAdress": "Adresse",
-  "didDisplayCopy": "Copier votre DID dans le presse papier",
+  "didDisplayCopy": "Copier votre DID",
+  "adressDisplayCopy": "Copier votre adresse",
   "personalSave": "Sauvegarder",
   "personalSubtitle": "Les informations de votre profil peuvent être utilisées pour remplir une attestation quand nécessaire",
   "personalFirstName": "Prénom",
@@ -181,5 +182,4 @@
   "networkErrorUnauthenticated": "Vous devez être authentifié pour accéder à cette ressource",
   "networkErrorUnauthorizedRequest": "Requête non autorisée",
   "networkErrorUnexpectedError": "Une erreur inattendue s'est produite"
-
 }

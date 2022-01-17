@@ -124,6 +124,7 @@
   "blockChainDisplayMethod": "Blockchain",
   "blockChainAdress": "Address",
   "didDisplayCopy": "Copy DID to clipboard",
+  "adressDisplayCopy": "Copy address to clipboard",
   "personalSave": "Save",
   "personalSubtitle": "Your profile data can be used to fill credentials when applicable",
   "personalFirstName": "First Name",

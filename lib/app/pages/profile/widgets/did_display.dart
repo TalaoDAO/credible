@@ -52,7 +52,9 @@ class DIDDisplay extends StatelessWidget {
                   ),
                   Expanded(
                     child: Text(
-                      blockChainAdress,
+                      blockChainAdress != ''
+                          ? '${blockChainAdress.substring(0, 10)} ... ${blockChainAdress.substring(blockChainAdress.length - 10)}'
+                          : '',
                       maxLines: 2,
                       style: TextStyle(fontWeight: FontWeight.bold),
                       textAlign: TextAlign.start,
@@ -61,20 +63,27 @@ class DIDDisplay extends StatelessWidget {
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
+            TextButton(
+              style: TextButton.styleFrom(),
+              onPressed: () {
+                Clipboard.setData(ClipboardData(text: blockChainAdress));
+              },
               child: Text(
-                '${localizations.didDisplayId} : ',
+                localizations.adressDisplayCopy,
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
+                children: [
+                  Text(
+                    '${localizations.didDisplayId} : ',
+                  ),
                   Expanded(
                     child: Text(
-                      did,
+                      did != ''
+                          ? '${did.substring(0, 10)} ... ${did.substring(did.length - 10)}'
+                          : '',
                       style: TextStyle(fontWeight: FontWeight.bold),
                       textAlign: TextAlign.start,
                     ),
@@ -82,7 +91,6 @@ class DIDDisplay extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 16.0),
             TextButton(
               style: TextButton.styleFrom(),
               onPressed: () {
