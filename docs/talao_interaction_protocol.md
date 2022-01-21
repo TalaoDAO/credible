@@ -89,34 +89,6 @@ The Issuer (or Verifier) DID is passed as an argument in the QRcode callback URL
 
 example : https://talao.co/....?issuer=did:ethr:0xee09654eedaa79429f8d216fa51a129db0f72250).
 
-### Issuer Registry implementation
-It may be necessary to create a registry or another means to store information about the Issuer and to define an API allowing access with a DID on behalf of the Issuer and its callback URL. There are several solutions to implement this service (see EBSI frameworkk, ToIP gov stack, well-known LinkedDomains,...), to keep it simple we will use a public gateway : https://talao.co/trusted-issuers-registry/v1/issuers/<DID> 
-
-Example :
-    
-GET https://talao.co/trusted-issuers-registry/v1/issuers/did:ethr:0xee09654eedaa79429f8d216fa51a129db0f72250 
-
-JSON response:
-```javascript
-{
-    "issuer": {
-        "preferredName": "Talao",
-        "did": [did:ethr:0xee09654eedaa79429f8d216fa51a129db0f72250, "did:ebsi:00005555"],
-        "organizationInfo": {
-            "id": "BE55555j",
-            "legalName": "Talao SAS",
-            "currentAddress": "Talao, 16 rue de Wattignies, 75012 Paris, France",
-            "website": "https://talao.co",
-            "issuerDomain : "["talao.co", "talao.io"]
-        }
-    }
-}
-```
-
-### Wallet implementation
-This is an advanced service option with privacy issues (correlation). It is requested to be added in the wallet setting menu as an option (default is on).
-
-If option is "on" wallet makes a call to the gateway API with the DID associated with the QRCode “issuer” argument to read the Issuer details from the registry. The wallet checks that the QRCode domain is in the "issuerDomain" list, if this is the case it adds Issuer data to the access confirmation request message. If this is not the case or if there is no register available, it indicates that the name of the Issuer cannot not be obtained and verified and the user alert message remains as it is ("Do you trust the domain...").
 
 # credentialOffer protocol (Talao build 1.0)
 
@@ -136,16 +108,7 @@ Currently (Credible 0.1) when the wallet makes a GET to the Issuer endpoint, a J
            "credentialPreview": {...},
            "expires" : 12/08/2021Z "
  })
-```
 
-after agreement from the user, the wallet makes a POST request with a JSON:
-
-```javascript
-{
-           “Subject_id” : ”did:tz:tz1e5YakmACgZZprF7YWHMqnSvcWVXZ2TsPW”,
-           "verifiablePresentation : {...}
-}
-```
 
 The modification consists in adding a “scope” attribute, a "display" attribute and a shareLInk attribute to the JSON returned by the Issuer (Issuer GET response).
  
