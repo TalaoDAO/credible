@@ -5,4 +5,6 @@ Those use cases are described with the behavior-driven development [BDD](https:/
 
 [Register a portfolio (cross device)](https://github.com/TalaoDAO/talao-wallet/blob/ThierryThevenet-patch-1/test/BDD/register_portfolio_cross_device.md)
 
+[Register a portfolio (mobile only)](https://github.com/TalaoDAO/talao-wallet/blob/ThierryThevenet-patch-1/test/BDD/register_portfolio.md)
+
 [Get a professional Experience Assessment (cross device)](https://github.com/TalaoDAO/talao-wallet/blob/ThierryThevenet-patch-1/test/BDD/get_professional_credential_cross_device.md)
