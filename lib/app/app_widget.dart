@@ -12,22 +12,48 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:talao/deep_link/cubit/deep_link.dart';
 import 'package:talao/query_by_example/query_by_example.dart';
+import 'package:talao/theme/theme.dart';
 import 'pages/credentials/blocs/wallet.dart';
 import 'pages/profile/blocs/profile.dart';
 import 'pages/qr_code/bloc/qrcode.dart';
 
-class AppWidget extends StatefulWidget {
+class AppWidget extends StatelessWidget {
+  const AppWidget({Key? key}) : super(key: key);
+
   @override
-  State<AppWidget> createState() => _AppWidgetState();
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<ThemeCubit>(create: (context) => ThemeCubit()),
+        BlocProvider<DeepLinkCubit>(create: (context) => DeepLinkCubit()),
+        BlocProvider<QueryByExampleCubit>(
+            create: (context) => QueryByExampleCubit()),
+        BlocProvider<WalletBloc>(
+            create: (context) => WalletBloc(CredentialsRepository())),
+        BlocProvider<ScanBloc>(
+            create: (context) => ScanBloc(
+                DioClient(Constants.checkIssuerServerUrl, Dio()),
+                context.read<WalletBloc>())),
+        BlocProvider<QRCodeBloc>(
+          create: (context) => QRCodeBloc(
+            DioClient(Constants.checkIssuerServerUrl, Dio()),
+            context.read<ScanBloc>(),
+            context.read<QueryByExampleCubit>(),
+          ),
+        ),
+        BlocProvider<ProfileBloc>(create: (context) => ProfileBloc()),
+        BlocProvider<DIDBloc>(create: (context) => DIDBloc()),
+      ],
+      child: MaterialAppDefinition(),
+    );;
+  }
 }
 
-class _AppWidgetState extends State<AppWidget> {
-  @override
-  void initState() {
-    super.initState();
-  }
 
-  ThemeData get _themeData {
+class MaterialAppDefinition extends StatelessWidget {
+  const MaterialAppDefinition({Key? key}) : super(key: key);
+
+  ThemeData get _lightThemeData {
     final themeData = ThemeData(
       brightness: Brightness.light,
       backgroundColor: UiKit.palette.background,
@@ -40,54 +66,44 @@ class _AppWidgetState extends State<AppWidget> {
     return themeData;
   }
 
+  ThemeData get _darkThemeData {
+    final themeData = ThemeData(
+      brightness: Brightness.dark,
+      backgroundColor: Colors.red,
+      primaryColor: Colors.green,
+      // ignore: deprecated_member_use
+      accentColor: Colors.yellow,
+      textTheme: UiKit.text.textTheme,
+    );
+
+    return themeData;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<DeepLinkCubit>(
-      create: (context) => DeepLinkCubit(),
-      child: BlocProvider<QueryByExampleCubit>(
-        create: (context) => QueryByExampleCubit(),
-        child: BlocProvider<WalletBloc>(
-          create: (context) => WalletBloc(CredentialsRepository()),
-          child: BlocProvider<ScanBloc>(
-            create: (context) => ScanBloc(DioClient(Constants.checkIssuerServerUrl, Dio()), context.read<WalletBloc>()),
-            child: BlocProvider<QRCodeBloc>(
-              create: (context) => QRCodeBloc(
-                DioClient(Constants.checkIssuerServerUrl, Dio()),
-                context.read<ScanBloc>(),
-                context.read<QueryByExampleCubit>(),
-              ),
-              child: BlocProvider<ProfileBloc>(
-                create: (context) => ProfileBloc(),
-                child: BlocProvider<DIDBloc>(
-                  create: (context) => DIDBloc(),
-                  child: MaterialApp(
-                    title: 'Credible',
-                    routes: {
-                      '/splash': (context) => SplashPage(),
-                    },
-                    initialRoute: '/splash',
-                    theme: _themeData,
-                    localizationsDelegates: [
-                      AppLocalizations.delegate,
-                      GlobalMaterialLocalizations.delegate,
-                      GlobalWidgetsLocalizations.delegate,
-                      GlobalCupertinoLocalizations.delegate,
-                    ],
-                    supportedLocales: const <Locale>[
-                      Locale('en', ''),
-                      Locale('pt', 'BR'),
-                      Locale('fr', ''),
-                      Locale('es', ''),
-                      Locale('it', ''),
-                      Locale('de', ''),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
+    return MaterialApp(
+      title: 'Talao-Wallet',
+      routes: {
+        '/splash': (context) => SplashPage(),
+      },
+      initialRoute: '/splash',
+      theme: _lightThemeData,
+      darkTheme: _darkThemeData,
+      themeMode: context.select((ThemeCubit cubit) => cubit.state),
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const <Locale>[
+        Locale('en', ''),
+        Locale('pt', 'BR'),
+        Locale('fr', ''),
+        Locale('es', ''),
+        Locale('it', ''),
+        Locale('de', ''),
+      ],
     );
   }
 }
