@@ -1,4 +1,4 @@
-# Register a credential portfolio
+# Register a credential portfolio (cross device)
 
 User wants to register a portfolio with his Talao wallet. So he can use it to display publicly credentials and to request new ones.  
 
