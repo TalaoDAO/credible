@@ -23,10 +23,10 @@ Then the user should be requested to enter his first name and last name to compl
 ## Scenario 3 : user authenticates to his portfolio for the first time with his wallet app
 Given the user has an email proof in his wallet app  
 And the user has registered an account with the same wallet app configuration   
-When the user connects to https://talao.co/  with the desktop browser  
-And the user scans the QR code with the wallet app  
+When the user connects to https://talao.co/  through the smartphone browser  
+And the user clics on the button displayed to open the wallet app  
 And the user selects the email proof in the credential list  
-Then the user should log-in to his portfolio on the desktop  
+Then the user should log-in to his portfolio  
 And the user should see a credential named “Identity Pass” issued by Talao in his portfolio   
 And the user should be able to download it to the wallet app
 
