@@ -16,6 +16,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import 'widgets/icon_theme_switch.dart';
+
 class ProfilePage extends StatefulWidget {
   static Route route() => MaterialPageRoute(
         builder: (_) => ProfilePage(),
@@ -56,6 +58,7 @@ class _ProfilePageState extends State<ProfilePage> {
             vertical: 24.0,
           ),
           navigation: CustomNavBar(index: 2),
+          titleTrailing: IconThemeSwitch(),
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
