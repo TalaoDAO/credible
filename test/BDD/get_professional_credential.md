@@ -1,4 +1,4 @@
-# Get a Professional Experience Assessment
+# Get a Professional Experience Assessment (cross device)
 
 As an employee of “NewIndus”, the user wants to get a Professional Experience Assessment credential. So that he can store it in his wallet or display it publicly through a link on a personal website.
 
