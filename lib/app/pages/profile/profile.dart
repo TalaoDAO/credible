@@ -7,6 +7,7 @@ import 'package:talao/app/pages/profile/pages/personal.dart';
 import 'package:talao/app/pages/profile/pages/privacy.dart';
 import 'package:talao/app/pages/profile/pages/recovery.dart';
 import 'package:talao/app/pages/profile/pages/terms.dart';
+import 'package:talao/app/pages/profile/pages/theme.dart';
 import 'package:talao/app/pages/profile/widgets/menu_item.dart';
 import 'package:talao/app/pages/splash.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
@@ -15,8 +16,7 @@ import 'package:talao/app/shared/widget/navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-import 'widgets/icon_theme_switch.dart';
+import 'package:talao/theme/cubit/theme_cubit.dart';
 
 class ProfilePage extends StatefulWidget {
   static Route route() => MaterialPageRoute(
@@ -58,7 +58,6 @@ class _ProfilePageState extends State<ProfilePage> {
             vertical: 24.0,
           ),
           navigation: CustomNavBar(index: 2),
-          titleTrailing: IconThemeSwitch(),
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
@@ -101,7 +100,7 @@ class _ProfilePageState extends State<ProfilePage> {
               MenuItem(
                 icon: Icons.article,
                 title: localizations.onBoardingTosTitle,
-                onTap: () => Navigator.of(context).push(TermsPage.route()), 
+                onTap: () => Navigator.of(context).push(TermsPage.route()),
               ),
               MenuItem(
                 icon: Icons.vpn_key,
@@ -159,6 +158,12 @@ class _ProfilePageState extends State<ProfilePage> {
                     await Navigator.of(context).push(SplashPage.route());
                   }
                 },
+              ),
+              MenuItem(
+                icon: Icons.light_mode,
+                title: "Select Theme",
+                onTap: () => Navigator.of(context)
+                    .push(ThemePage.route(context.read<ThemeCubit>())),
               ),
             ],
           ),

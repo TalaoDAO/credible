@@ -41,8 +41,10 @@ class _SplashPageState extends State<SplashPage> {
         if (theme.isNotEmpty) {
           if (theme == 'light') {
             await context.read<ThemeCubit>().setLightTheme();
-          } else {
-            await context.read<ThemeCubit>().setDartTheme();
+          } else if(theme == 'dark') {
+            await context.read<ThemeCubit>().setDarkTheme();
+          } else{
+            await context.read<ThemeCubit>().setSystemTheme();
           }
         }
 
