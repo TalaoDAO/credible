@@ -4,8 +4,8 @@ As an employee of “NewIndus”, the user wants to get a Professional Experienc
 
 
 ## Scenario 1 : User requests a Professional Experience Assessment credential to his company
-Given the company has opened an account with Talao to issue credentials.
-And the user has the link to request a credential to his company :  https://talao.co/login?issuer_username=newindus&vc=professionalexperienceassessment 
+Given the company has opened an account with Talao to issue credentials.  
+And the user has the link to request a credential to his company :  https://talao.co/login?issuer_username=newindus&vc=professionalexperienceassessment  
 When the user connects to his portfolio with the desktop browser and authenticates with the wallet app
 Then the user should be requested to fill a credential draft for review by his company
 And the company reviews the request and approves or rejects it. 
