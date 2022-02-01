@@ -10,12 +10,12 @@ class IconThemeSwitch extends StatelessWidget {
     if (context.select((ThemeCubit cubit) => cubit.state) == ThemeMode.light) {
       return IconButton(
         icon: const Icon(Icons.dark_mode),
-        onPressed: () => context.read<ThemeCubit>().setDartTheme(),
+        onPressed: () async => await context.read<ThemeCubit>().setDartTheme(),
       );
     } else {
       return IconButton(
         icon: const Icon(Icons.light_mode),
-        onPressed: () => context.read<ThemeCubit>().setLightTheme(),
+        onPressed: () async => await context.read<ThemeCubit>().setLightTheme(),
       );
     }
   }

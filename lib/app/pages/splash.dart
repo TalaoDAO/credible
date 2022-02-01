@@ -11,6 +11,7 @@ import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/brand.dart';
 import 'package:talao/deep_link/deep_link.dart';
+import 'package:talao/theme/theme.dart';
 import 'package:uni_links/uni_links.dart';
 
 bool _initialUriIsHandled = false;
@@ -36,6 +37,15 @@ class _SplashPageState extends State<SplashPage> {
     Future.delayed(
       Duration(seconds: 1),
       () async {
+        final theme = await SecureStorageProvider.instance.get('theme') ?? '';
+        if (theme.isNotEmpty) {
+          if (theme == 'light') {
+            await context.read<ThemeCubit>().setLightTheme();
+          } else {
+            await context.read<ThemeCubit>().setDartTheme();
+          }
+        }
+
         final key = await SecureStorageProvider.instance.get('key') ?? '';
 
         if (key.isEmpty) {
