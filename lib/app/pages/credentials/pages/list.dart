@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:talao/app/pages/credentials/blocs/scan.dart';
 import 'package:talao/app/pages/credentials/blocs/wallet.dart';
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
+import 'package:talao/app/pages/credentials/widget/icon_theme_switch.dart';
 import 'package:talao/app/pages/credentials/widget/list_item.dart';
 import 'package:talao/app/pages/profile/usecase/is_issuer_approved.dart'
     as issuer_approved_usecase;
@@ -81,6 +82,7 @@ class _CredentialsListState extends State<CredentialsList> {
             horizontal: 16.0,
           ),
           navigation: CustomNavBar(index: 0),
+          titleTrailing: IconThemeSwitch(),
           body: BlocBuilder<WalletBloc, List<CredentialModel>>(
             builder: (context, state) {
               return Column(
