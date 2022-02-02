@@ -15,4 +15,5 @@ abstract class SecureStorageProvider {
   Future<void> set(String key, String val);
 
   Future<void> delete(String key);
+
 }

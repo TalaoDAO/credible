@@ -7,17 +7,21 @@ class ThemeCubit extends Cubit<ThemeMode> {
 
   Future<void> setLightTheme() async {
     await SecureStorageProvider.instance.set('theme', 'light');
-    emit(ThemeMode.light);
+    setTheme(ThemeMode.light);
   }
 
   Future<void> setDarkTheme() async {
     await SecureStorageProvider.instance.set('theme', 'dark');
-    emit(ThemeMode.dark);
+    setTheme(ThemeMode.dark);
   }
 
   Future<void> setSystemTheme() async {
     await SecureStorageProvider.instance.set('theme', 'system');
-    emit(ThemeMode.system);
+    setTheme(ThemeMode.system);
+  }
+
+  void setTheme(ThemeMode? themeMode) {
+    if (themeMode != null) emit(themeMode);
   }
 }
 
