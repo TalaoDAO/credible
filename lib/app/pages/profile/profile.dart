@@ -161,7 +161,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               MenuItem(
                 icon: Icons.light_mode,
-                title: "Select Theme",
+                title: localizations.selectThemeText,
                 onTap: () => Navigator.of(context)
                     .push(ThemePage.route(context.read<ThemeCubit>())),
               ),
