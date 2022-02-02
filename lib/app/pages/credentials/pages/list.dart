@@ -81,12 +81,18 @@ class _CredentialsListState extends State<CredentialsList> {
             horizontal: 16.0,
           ),
           navigation: CustomNavBar(index: 0),
-          body: BlocBuilder<WalletBloc, List<CredentialModel>>(
+          body: BlocBuilder<WalletBloc, WalletBlocState>(
             builder: (context, state) {
+              var _credentialList = <CredentialModel>[];
+              if (state is WalletBlocList) {
+                _credentialList = state.credentials;
+              } else {
+                _credentialList = [];
+              }
               return Column(
                 children: List.generate(
-                  state.length,
-                  (index) => CredentialsListItem(item: state[index]),
+                  _credentialList.length,
+                  (index) => CredentialsListItem(item: _credentialList[index]),
                 ),
               );
             },

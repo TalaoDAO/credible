@@ -9,13 +9,12 @@ typedef CredentialsStreamBuilder = Widget Function(
 );
 
 class CredentialsStream extends StatelessWidget {
-final CredentialsStreamBuilder child;
+  final CredentialsStreamBuilder child;
 
   const CredentialsStream({Key? key, required this.child}) : super(key: key);
   @override
-  Widget build(BuildContext context) => BlocBuilder<WalletBloc, List<CredentialModel>>(
-    builder: (context, credentialList) {
-            return child(context, credentialList);
-          }
-  );
+  Widget build(BuildContext context) =>
+      BlocBuilder<WalletBloc, WalletBlocState>(builder: (context, walletState) {
+        return child(context, walletState.credentials);
+      });
 }

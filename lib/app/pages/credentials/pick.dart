@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talao/app/pages/credentials/blocs/scan.dart';
 import 'package:talao/app/pages/credentials/blocs/wallet.dart';
-import 'package:talao/app/pages/credentials/models/credential_model.dart';
 import 'package:talao/app/pages/credentials/pages/list.dart';
 import 'package:talao/app/pages/credentials/widget/list_item.dart';
 import 'package:talao/app/shared/model/translation.dart';
@@ -56,8 +55,8 @@ class _CredentialsPickPageState extends State<CredentialsPickPage> {
         reasonList += getTranslation(e.reason, localizations) + '\n';
       });
     }
-    return BlocBuilder<WalletBloc, List<CredentialModel>>(
-        builder: (builderContext, credentialList) {
+    return BlocBuilder<WalletBloc, WalletBlocState>(
+        builder: (builderContext, walletState) {
       return BasePage(
         title: 'Present credentials',
         titleTrailing: IconButton(
@@ -94,8 +93,9 @@ class _CredentialsPickPageState extends State<CredentialsPickPage> {
                         ScanEventVerifiablePresentationRequest(
                           url: widget.uri.toString(),
                           key: 'key',
-                          credentials:
-                              selection.map((i) => credentialList[i]).toList(),
+                          credentials: selection
+                              .map((i) => walletState.credentials[i])
+                              .toList(),
                           challenge: widget.preview['challenge'],
                           domain: widget.preview['domain'],
                         ),
@@ -125,9 +125,9 @@ class _CredentialsPickPageState extends State<CredentialsPickPage> {
                     ?.copyWith(fontWeight: FontWeight.w600)),
             const SizedBox(height: 12.0),
             ...List.generate(
-              credentialList.length,
+              walletState.credentials.length,
               (index) => CredentialsListItem(
-                item: credentialList[index],
+                item: walletState.credentials[index],
                 selected: selection.contains(index),
                 onTap: () => toggle(index),
               ),
