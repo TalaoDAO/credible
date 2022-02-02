@@ -18,34 +18,24 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:talao/theme/cubit/theme_cubit.dart';
 
-class ProfilePage extends StatefulWidget {
+class ProfilePage extends StatelessWidget {
   static Route route() => MaterialPageRoute(
         builder: (_) => ProfilePage(),
       );
 
   @override
-  _ProfilePageState createState() => _ProfilePageState();
+  Widget build(BuildContext context) {
+    return ProfileView();
+  }
 }
 
-class _ProfilePageState extends State<ProfilePage> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
+class ProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
     return BlocConsumer(
       bloc: context.read<ProfileBloc>(),
-      listener: (context, state) {
-        if (state is ProfileStateMessage) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            backgroundColor: state.message.color,
-            content: Text(state.message.message),
-          ));
-        }
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         final model =
             state is ProfileStateDefault ? state.model : ProfileModel();
@@ -160,6 +150,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 },
               ),
               MenuItem(
+                key: Key('theme_update'),
                 icon: Icons.light_mode,
                 title: localizations.selectThemeText,
                 onTap: () => Navigator.of(context)

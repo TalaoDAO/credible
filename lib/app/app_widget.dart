@@ -96,14 +96,7 @@ class MaterialAppDefinition extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: const <Locale>[
-        Locale('en', ''),
-        Locale('pt', 'BR'),
-        Locale('fr', ''),
-        Locale('es', ''),
-        Locale('it', ''),
-        Locale('de', ''),
-      ],
+      supportedLocales: AppLocalizations.supportedLocales,
     );
   }
 }
