@@ -30,16 +30,19 @@ class ThemePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               ThemeItem(
+                key: Key('set_light_theme'),
                 isTrue: state.isLightTheme,
                 title: localizations.lightThemeText,
                 onTap: () => context.read<ThemeCubit>().setLightTheme(),
               ),
               ThemeItem(
+                key: Key('set_dark_theme'),
                 isTrue: state.isDarkTheme,
                 title: localizations.darkThemeText,
                 onTap: () => context.read<ThemeCubit>().setDarkTheme(),
               ),
               ThemeItem(
+                key: Key('set_system_theme'),
                 isTrue: state.isSystemTheme,
                 title: localizations.systemThemeText,
                 onTap: () => context.read<ThemeCubit>().setSystemTheme(),
