@@ -38,15 +38,70 @@ void main() {
       expect(find.byType(ThemePage), findsOneWidget);
     });
 
-    ///TODO
     testWidgets('calls setLightTheme when setLightTheme is Tapped',
         (tester) async {
+      when(() => themeCubit.setLightTheme()).thenAnswer((_) async {});
       await tester.pumpApp(
-        BlocProvider.value(value: themeCubit, child: ThemePage()),
+        Builder(
+          builder: (context) => Scaffold(
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                Navigator.of(context).push<void>(
+                  ThemePage.route(themeCubit),
+                );
+              },
+            ),
+          ),
+        ),
       );
-      await tester.tap(find.byKey(const Key('set_light_theme')));
+      await tester.tap(find.byType(FloatingActionButton));
       await tester.pumpAndSettle();
-      //verify(() => ThemeCubit().setLightTheme()).called(1);
+      await tester.tap(find.byKey(Key('set_light_theme')));
+      verify(() => themeCubit.setLightTheme()).called(1);
+    });
+
+    testWidgets('calls setDarkTheme when setDarkTheme is Tapped',
+        (tester) async {
+      when(() => themeCubit.setDarkTheme()).thenAnswer((_) async {});
+      await tester.pumpApp(
+        Builder(
+          builder: (context) => Scaffold(
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                Navigator.of(context).push<void>(
+                  ThemePage.route(themeCubit),
+                );
+              },
+            ),
+          ),
+        ),
+      );
+      await tester.tap(find.byType(FloatingActionButton));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(Key('set_dark_theme')));
+      verify(() => themeCubit.setDarkTheme()).called(1);
+    });
+
+    testWidgets('calls setSystemTheme when setSystemTheme is Tapped',
+        (tester) async {
+      when(() => themeCubit.setSystemTheme()).thenAnswer((_) async {});
+      await tester.pumpApp(
+        Builder(
+          builder: (context) => Scaffold(
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                Navigator.of(context).push<void>(
+                  ThemePage.route(themeCubit),
+                );
+              },
+            ),
+          ),
+        ),
+      );
+      await tester.tap(find.byType(FloatingActionButton));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(Key('set_system_theme')));
+      verify(() => themeCubit.setSystemTheme()).called(1);
     });
   });
 }

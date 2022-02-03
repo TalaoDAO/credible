@@ -11,7 +11,8 @@ class ThemePage extends StatelessWidget {
         builder: (_) => BlocProvider.value(
           value: themeCubit,
           child: ThemePage(),
-        ),settings: RouteSettings(name: '/theme'),
+        ),
+        settings: RouteSettings(name: '/theme'),
       );
 
   @override
@@ -19,7 +20,6 @@ class ThemePage extends StatelessWidget {
     final localizations = AppLocalizations.of(context)!;
     return BlocBuilder<ThemeCubit, ThemeMode>(
       builder: (context, state) {
-
         return BasePage(
           title: localizations.selectThemeText,
           titleLeading: BackLeadingButton(),
@@ -33,19 +33,22 @@ class ThemePage extends StatelessWidget {
                 key: Key('set_light_theme'),
                 isTrue: state.isLightTheme,
                 title: localizations.lightThemeText,
-                onTap: () => context.read<ThemeCubit>().setLightTheme(),
+                onTap: () async =>
+                    await context.read<ThemeCubit>().setLightTheme(),
               ),
               ThemeItem(
                 key: Key('set_dark_theme'),
                 isTrue: state.isDarkTheme,
                 title: localizations.darkThemeText,
-                onTap: () => context.read<ThemeCubit>().setDarkTheme(),
+                onTap: () async =>
+                    await context.read<ThemeCubit>().setDarkTheme(),
               ),
               ThemeItem(
                 key: Key('set_system_theme'),
                 isTrue: state.isSystemTheme,
                 title: localizations.systemThemeText,
-                onTap: () => context.read<ThemeCubit>().setSystemTheme(),
+                onTap: () async =>
+                    await context.read<ThemeCubit>().setSystemTheme(),
               ),
             ],
           ),
