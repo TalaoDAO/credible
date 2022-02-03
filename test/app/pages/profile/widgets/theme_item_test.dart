@@ -3,9 +3,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:talao/app/pages/profile/widgets/theme_item.dart';
 
-class MockCallback extends Mock {
-  int call() => 5;
+abstract class CallFunction {
+  void call();
 }
+
+class MockCallback extends Mock implements CallFunction {}
 
 void main() {
   group('ThemeItem', () {
@@ -69,7 +71,6 @@ void main() {
       },
     );
 
-    ///TODO: Test failed
     testWidgets(
       'triggers correct function',
       (tester) async {
@@ -83,8 +84,8 @@ void main() {
             ),
           )),
         );
+        await tester.pumpAndSettle();
         await tester.tap(find.byType(InkWell));
-        //await tester.pumpAndSettle();
         verify(() => mockFunction()).called(1);
       },
     );
