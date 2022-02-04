@@ -3,20 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 
 class ThemeCubit extends Cubit<ThemeMode> {
-  ThemeCubit() : super(ThemeMode.system);
+  final SecureStorageProvider secureStorageProvider;
+
+  ThemeCubit(this.secureStorageProvider) : super(ThemeMode.system);
 
   Future<void> setLightTheme() async {
-    await SecureStorageProvider.instance.set('theme', 'light');
+    await secureStorageProvider.set('theme', 'light');
     setTheme(ThemeMode.light);
   }
 
   Future<void> setDarkTheme() async {
-    await SecureStorageProvider.instance.set('theme', 'dark');
+    await secureStorageProvider.set('theme', 'dark');
     setTheme(ThemeMode.dark);
   }
 
   Future<void> setSystemTheme() async {
-    await SecureStorageProvider.instance.set('theme', 'system');
+    await secureStorageProvider.set('theme', 'system');
     setTheme(ThemeMode.system);
   }
 

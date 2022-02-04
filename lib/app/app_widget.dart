@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talao/app/interop/network/network_client.dart';
+import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/pages/credentials/blocs/scan.dart';
 import 'package:talao/app/pages/credentials/repositories/credential.dart';
 import 'package:talao/app/pages/profile/blocs/did.dart';
@@ -24,7 +25,8 @@ class AppWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<ThemeCubit>(create: (context) => ThemeCubit()),
+        BlocProvider<ThemeCubit>(
+            create: (context) => ThemeCubit(SecureStorageProvider.instance)),
         BlocProvider<DeepLinkCubit>(create: (context) => DeepLinkCubit()),
         BlocProvider<QueryByExampleCubit>(
             create: (context) => QueryByExampleCubit()),
@@ -45,10 +47,10 @@ class AppWidget extends StatelessWidget {
         BlocProvider<DIDBloc>(create: (context) => DIDBloc()),
       ],
       child: MaterialAppDefinition(),
-    );;
+    );
+    ;
   }
 }
-
 
 class MaterialAppDefinition extends StatelessWidget {
   const MaterialAppDefinition({Key? key}) : super(key: key);
