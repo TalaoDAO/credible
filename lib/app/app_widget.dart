@@ -58,7 +58,7 @@ class MaterialAppDefinition extends StatelessWidget {
   ThemeData get _lightThemeData {
     final themeData = ThemeData(
       brightness: Brightness.light,
-      backgroundColor: UiKit.palette.background,
+      backgroundColor: Colors.white,
       primaryColor: UiKit.palette.primary,
       // ignore: deprecated_member_use
       accentColor: UiKit.palette.accent,
@@ -86,7 +86,8 @@ class MaterialAppDefinition extends StatelessWidget {
     return MaterialApp(
       title: 'Talao-Wallet',
       routes: {
-        '/splash': (context) => SplashPage(),
+        '/splash': (context) =>
+            SplashPage(secureStorageProvider: SecureStorageProvider.instance),
       },
       initialRoute: '/splash',
       theme: _lightThemeData,

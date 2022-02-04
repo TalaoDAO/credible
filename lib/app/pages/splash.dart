@@ -17,6 +17,10 @@ import 'package:uni_links/uni_links.dart';
 bool _initialUriIsHandled = false;
 
 class SplashPage extends StatefulWidget {
+  final SecureStorageProvider? secureStorageProvider;
+
+  SplashPage({Key? key, this.secureStorageProvider}) : super(key: key);
+
   static Route route() {
     return MaterialPageRoute<void>(
         builder: (context) => SplashPage(),
@@ -30,24 +34,22 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> {
   StreamSubscription? _sub;
 
+  SecureStorageProvider get secureStorageProvider =>
+      widget.secureStorageProvider!;
+
   @override
   void initState() {
     super.initState();
     // initDynamicLinks();
     Future.delayed(
+      Duration(seconds: 0),
+      () async {
+        await context.read<ThemeCubit>().getCurrentTheme();
+      },
+    );
+    Future.delayed(
       Duration(seconds: 1),
       () async {
-        final theme = await SecureStorageProvider.instance.get('theme') ?? '';
-        if (theme.isNotEmpty) {
-          if (theme == 'light') {
-            await context.read<ThemeCubit>().setLightTheme();
-          } else if(theme == 'dark') {
-            await context.read<ThemeCubit>().setDarkTheme();
-          } else{
-            await context.read<ThemeCubit>().setSystemTheme();
-          }
-        }
-
         final key = await SecureStorageProvider.instance.get('key') ?? '';
 
         if (key.isEmpty) {
@@ -137,7 +139,7 @@ class _SplashPageState extends State<SplashPage> {
     _handleInitialUri(context);
 
     return BasePage(
-      backgroundColor: UiKit.palette.background,
+      backgroundColor: Theme.of(context).backgroundColor,
       scrollView: false,
       body: Container(
         alignment: Alignment.center,
