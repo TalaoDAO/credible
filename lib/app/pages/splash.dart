@@ -41,12 +41,9 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
     // initDynamicLinks();
-    Future.delayed(
-      Duration(seconds: 0),
-      () async {
-        await context.read<ThemeCubit>().getCurrentTheme();
-      },
-    );
+
+    () async => await context.read<ThemeCubit>().getCurrentTheme();
+
     Future.delayed(
       Duration(seconds: 1),
       () async {
