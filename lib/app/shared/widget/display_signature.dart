@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:talao/app/shared/model/professional_experience_assessment/signature.dart';
+import 'package:talao/app/shared/model/signature.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DisplaySignatures extends StatelessWidget {

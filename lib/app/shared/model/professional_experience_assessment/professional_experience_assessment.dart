@@ -3,7 +3,7 @@ import 'package:talao/app/pages/credentials/widget/display_issuer.dart';
 import 'package:talao/app/shared/model/author.dart';
 import 'package:talao/app/shared/model/credential_subject.dart';
 import 'package:talao/app/shared/model/professional_experience_assessment/review.dart';
-import 'package:talao/app/shared/model/professional_experience_assessment/signature.dart';
+import 'package:talao/app/shared/model/signature.dart';
 import 'package:talao/app/shared/model/professional_experience_assessment/skill.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -120,12 +120,10 @@ class ProfessionalExperienceAssessment extends CredentialSubject {
           child: Row(
             children: [
               Text('${localizations.from} '),
-              Text(
-                  '${UiKit.displayDate(localizations, _startDate)}',
+              Text('${UiKit.displayDate(localizations, _startDate)}',
                   style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
               Text(' ${localizations.to} '),
-              Text(
-                  '${UiKit.displayDate(localizations, _endDate)}',
+              Text('${UiKit.displayDate(localizations, _endDate)}',
                   style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
             ],
           ),

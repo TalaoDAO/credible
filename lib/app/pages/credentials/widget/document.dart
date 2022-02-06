@@ -1,4 +1,5 @@
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
+import 'package:talao/app/shared/model/ecole_42_learning_achievement/ecole_42_learning_achievement.dart';
 import 'package:talao/app/shared/model/loyalty_card/loyalty_card.dart';
 import 'package:talao/app/shared/model/professional_student_card/professional_student_card.dart';
 import 'package:talao/app/shared/model/voucher/voucher.dart';
@@ -26,7 +27,10 @@ class DocumentWidget extends StatelessWidget {
     if (model.credentialPreview.credentialSubject is Voucher) {
       return model.displayDetail(context, model);
     }
-
+    if (model.credentialPreview.credentialSubject
+        is Ecole42LearningAchievement) {
+      return model.displayDetail(context, model);
+    }
 
     return Container(
       decoration: BoxDecoration(

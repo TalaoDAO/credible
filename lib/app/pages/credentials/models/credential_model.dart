@@ -9,6 +9,7 @@ import 'package:talao/app/pages/credentials/widget/display_issuer.dart';
 import 'package:talao/app/shared/model/certificate_of_employment/certificate_of_employment.dart';
 import 'package:talao/app/shared/model/credential.dart';
 import 'package:talao/app/shared/model/display.dart';
+import 'package:talao/app/shared/model/ecole_42_learning_achievement/ecole_42_learning_achievement.dart';
 import 'package:talao/app/shared/model/loyalty_card/loyalty_card.dart';
 import 'package:talao/app/shared/model/professional_student_card/professional_student_card.dart';
 import 'package:talao/app/shared/model/translation.dart';
@@ -158,6 +159,9 @@ class CredentialModel {
       return credentialPreview.credentialSubject.displayDetail(context, item);
     }
     if (credentialPreview.credentialSubject is Voucher) {
+      return credentialPreview.credentialSubject.displayDetail(context, item);
+    }
+    if (credentialPreview.credentialSubject is Ecole42LearningAchievement) {
       return credentialPreview.credentialSubject.displayDetail(context, item);
     }
     return Column(
