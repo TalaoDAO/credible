@@ -1,13 +1,10 @@
-import 'package:intl/intl.dart';
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
 import 'package:talao/app/shared/model/author.dart';
 import 'package:talao/app/shared/model/credential_subject.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:talao/app/shared/model/learning_achievement/has_credential.dart';
+import 'package:talao/app/shared/model/ecole_42_learning_achievement/has_credential_ecole_42.dart';
 import 'package:talao/app/shared/model/signature.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:talao/app/shared/widget/display_signature.dart';
 import 'package:talao/app/shared/widget/image_card_text.dart';
 
 part 'ecole_42_learning_achievement.g.dart';
@@ -24,7 +21,9 @@ class Ecole42LearningAchievement extends CredentialSubject {
   final Signature signatureLines;
   @JsonKey(defaultValue: '')
   final String birthDate;
-  HasCredential hasCredential;
+
+  @JsonKey(fromJson: _hasCreddentialEcole42FromJson)
+  HasCredentialEcole42 hasCredential;
   @JsonKey(defaultValue: '')
   final String familyName;
   @override
@@ -47,7 +46,6 @@ class Ecole42LearningAchievement extends CredentialSubject {
 
   @override
   Widget displayDetail(BuildContext context, CredentialModel item) {
-    final localizations = AppLocalizations.of(context)!;
     final _height = 1753.0;
     final _width = 1240.0;
     final _aspectRatio = _width / _height;
@@ -93,6 +91,17 @@ class Ecole42LearningAchievement extends CredentialSubject {
                                   ],
                                 )),
                             LayoutId(
+                                id: 'level',
+                                child: Row(
+                                  children: [
+                                    ImageCardText(
+                                        text: 'Level ${hasCredential.level}',
+                                        textStyle: TextStyle(
+                                            fontSize: 5,
+                                            fontWeight: FontWeight.bold)),
+                                  ],
+                                )),
+                            LayoutId(
                               id: 'signature',
                               child: item.image != ''
                                   ? Padding(
@@ -125,7 +134,17 @@ class Ecole42LearningAchievement extends CredentialSubject {
   }
 
   static Signature _signatureLinesFromJson(json) {
+    if (json == null || json == '') {
+      return Signature.emptySignature();
+    }
     return Signature.fromJson(json);
+  }
+
+  static HasCredentialEcole42 _hasCreddentialEcole42FromJson(json) {
+    if (json == null || json == '') {
+      return HasCredentialEcole42.emptyCredential();
+    }
+    return HasCredentialEcole42.fromJson(json);
   }
 }
 
@@ -144,6 +163,10 @@ class Ecole42LearningAchievementDelegate extends MultiChildLayoutDelegate {
     if (hasChild('signature')) {
       layoutChild('signature', BoxConstraints.loose(size));
       positionChild('signature', Offset(size.width * 0.5, size.height * 0.55));
+    }
+    if (hasChild('level')) {
+      layoutChild('level', BoxConstraints.loose(size));
+      positionChild('level', Offset(size.width * 0.605, size.height * 0.3685));
     }
   }
 

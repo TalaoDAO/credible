@@ -17,7 +17,8 @@ Ecole42LearningAchievement _$Ecole42LearningAchievementFromJson(
           json['signatureLines']),
       json['birthDate'] as String? ?? '',
       json['familyName'] as String? ?? '',
-      HasCredential.fromJson(json['hasCredential'] as Map<String, dynamic>),
+      Ecole42LearningAchievement._hasCreddentialEcole42FromJson(
+          json['hasCredential']),
     );
 
 Map<String, dynamic> _$Ecole42LearningAchievementToJson(

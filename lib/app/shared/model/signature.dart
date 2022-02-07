@@ -16,5 +16,7 @@ class Signature {
 
   Signature(this.image, this.jobTitle, this.name);
 
+  factory Signature.emptySignature() => Signature('', '', '');
+
   Map<String, dynamic> toJson() => _$SignatureToJson(this);
 }
