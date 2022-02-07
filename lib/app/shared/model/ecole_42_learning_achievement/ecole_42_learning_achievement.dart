@@ -7,6 +7,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:talao/app/shared/model/learning_achievement/has_credential.dart';
 import 'package:talao/app/shared/model/signature.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:talao/app/shared/widget/display_signature.dart';
 import 'package:talao/app/shared/widget/image_card_text.dart';
 
 part 'ecole_42_learning_achievement.g.dart';
@@ -47,16 +48,19 @@ class Ecole42LearningAchievement extends CredentialSubject {
   @override
   Widget displayDetail(BuildContext context, CredentialModel item) {
     final localizations = AppLocalizations.of(context)!;
+    final _height = 1753.0;
+    final _width = 1240.0;
+    final _aspectRatio = _width / _height;
 
     return Column(
       children: [
         AspectRatio(
 
             /// this size comes from law publication about job student card specs
-            aspectRatio: 508.67 / 319.67,
+            aspectRatio: _aspectRatio,
             child: Container(
-              height: 319.67,
-              width: 508.67,
+              height: _height,
+              width: _width,
               child: Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
@@ -68,28 +72,50 @@ class Ecole42LearningAchievement extends CredentialSubject {
                   child: AspectRatio(
 
                       /// random size, copy from professional student card
-                      aspectRatio: 508.67 / 319.67,
+                      aspectRatio: _aspectRatio,
                       child: Container(
-                        height: 319.67,
-                        width: 508.67,
+                        height: _height,
+                        width: _width,
                         child: CustomMultiChildLayout(
-                          delegate: VoucherDelegate(position: Offset.zero),
+                          delegate: Ecole42LearningAchievementDelegate(
+                              position: Offset.zero),
                           children: [
                             LayoutId(
-                                id: 'voucherValue',
-                                child: Transform.rotate(
-                                  angle: 0.53,
-                                  child: Row(
-                                    children: [
-                                      TextWithVoucherStyle(
-                                          value: NumberFormat.currency(
-                                                  name: 'EUR',
-                                                  locale:
-                                                      localizations.localeName)
-                                              .format(double.parse('23.34'))),
-                                    ],
-                                  ),
-                                ))
+                                id: 'studentIdentity',
+                                child: Row(
+                                  children: [
+                                    ImageCardText(
+                                        text:
+                                            '$givenName $familyName, born $birthDate',
+                                        textStyle: TextStyle(
+                                            fontSize: 5,
+                                            fontWeight: FontWeight.bold)),
+                                  ],
+                                )),
+                            LayoutId(
+                              id: 'signature',
+                              child: item.image != ''
+                                  ? Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        height: 80 *
+                                            MediaQuery.of(context)
+                                                .size
+                                                .aspectRatio,
+                                        child: Image.network(
+                                            signatureLines.image,
+                                            loadingBuilder: (context, child,
+                                                    loadingProgress) =>
+                                                (loadingProgress == null)
+                                                    ? child
+                                                    : CircularProgressIndicator(),
+                                            errorBuilder:
+                                                (context, error, stackTrace) =>
+                                                    SizedBox.shrink()),
+                                      ),
+                                    )
+                                  : SizedBox.shrink(),
+                            ),
                           ],
                         ),
                       ))),
@@ -103,22 +129,27 @@ class Ecole42LearningAchievement extends CredentialSubject {
   }
 }
 
-class VoucherDelegate extends MultiChildLayoutDelegate {
+class Ecole42LearningAchievementDelegate extends MultiChildLayoutDelegate {
   final Offset position;
 
-  VoucherDelegate({this.position = Offset.zero});
+  Ecole42LearningAchievementDelegate({this.position = Offset.zero});
 
   @override
   void performLayout(Size size) {
-    if (hasChild('voucherValue')) {
-      layoutChild('voucherValue', BoxConstraints.loose(size));
+    if (hasChild('studentIdentity')) {
+      layoutChild('studentIdentity', BoxConstraints.loose(size));
       positionChild(
-          'voucherValue', Offset(size.width * 0.27, size.height * 0.95));
+          'studentIdentity', Offset(size.width * 0.17, size.height * 0.33));
+    }
+    if (hasChild('signature')) {
+      layoutChild('signature', BoxConstraints.loose(size));
+      positionChild('signature', Offset(size.width * 0.5, size.height * 0.55));
     }
   }
 
   @override
-  bool shouldRelayout(covariant VoucherDelegate oldDelegate) {
+  bool shouldRelayout(
+      covariant Ecole42LearningAchievementDelegate oldDelegate) {
     return oldDelegate.position != position;
   }
 }
