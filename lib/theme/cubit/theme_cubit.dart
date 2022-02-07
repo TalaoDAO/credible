@@ -26,7 +26,6 @@ class ThemeCubit extends Cubit<ThemeMode> {
     if (themeMode != null) emit(themeMode);
   }
 
-  ///todo test it
   Future<void> getCurrentTheme() async {
     final theme = await secureStorageProvider.get('theme') ?? '';
     if (theme.isNotEmpty) {
