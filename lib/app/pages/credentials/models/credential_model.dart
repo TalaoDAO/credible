@@ -173,7 +173,7 @@ class CredentialModel {
         credentialPreview.credentialSubject.displayDetail(context, item),
         credentialPreview.credentialSubject is CertificateOfEmployment
             ? CredentialField(
-                value: UiKit.displayDate(localizations, _issuanceDate),
+                value: UiDate.displayDate(localizations, _issuanceDate),
                 // value: _issuanceDate.toString(),
                 title: localizations.issuanceDate)
             : SizedBox.shrink(),

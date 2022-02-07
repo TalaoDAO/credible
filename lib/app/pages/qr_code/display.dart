@@ -38,7 +38,7 @@ class QrCodeDisplayPage extends StatelessWidget {
                 child: QrImage(
                   data: data.shareLink,
                   version: QrVersions.auto,
-                  foregroundColor: UiKit.palette.icon,
+                  foregroundColor: Theme.of(context).primaryColor,
                 ),
               ),
             ),

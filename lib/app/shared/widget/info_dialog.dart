@@ -17,7 +17,7 @@ class InfoDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: UiKit.palette.appBarBackground,
+      backgroundColor: Theme.of(context).colorScheme.background,
       contentPadding: const EdgeInsets.only(
         top: 24.0,
         bottom: 16.0,
@@ -39,6 +39,7 @@ class InfoDialog extends StatelessWidget {
             ),
           const SizedBox(height: 24.0),
           BaseButton.primary(
+            context: context,
             onPressed: () {
               Navigator.of(context).pop();
             },

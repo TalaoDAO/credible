@@ -27,6 +27,7 @@ class CredentialSubject {
 
   CredentialSubject(this.id, this.type, this.issuedBy);
 
+  ///todo
   Color get backgroundColor {
     Color _backgroundColor;
     switch (type) {
@@ -64,7 +65,7 @@ class CredentialSubject {
         _backgroundColor = Color(0xFFFFADAD);
         break;
       default:
-        _backgroundColor = UiKit.palette.credentialBackground;
+        _backgroundColor = Colors.black;
     }
     return _backgroundColor;
   }

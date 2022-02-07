@@ -26,10 +26,10 @@ class OnBoardingTosPage extends StatelessWidget {
       useSafeArea: false,
       navigation: Container(
         decoration: BoxDecoration(
-          color: UiKit.palette.navBarBackground,
+          color: Theme.of(context).backgroundColor,
           boxShadow: <BoxShadow>[
             BoxShadow(
-              color: UiKit.palette.shadow,
+              color: Theme.of(context).shadowColor,
               offset: Offset(-1.0, -1.0),
               blurRadius: 4.0,
             ),
@@ -51,6 +51,7 @@ class OnBoardingTosPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 20.0),
                 BaseButton.primary(
+                  context: context,
                   onPressed: () {
                     Navigator.of(context)
                         .pushReplacement(OnBoardingKeyPage.route());
@@ -82,8 +83,9 @@ class OnBoardingTosPage extends StatelessWidget {
             return Markdown(
               data: snapshot.data!,
               styleSheet: MarkdownStyleSheet(
-                  h1: TextStyle(color: UiKit.text.colorTextSubtitle1),
-                  h2: TextStyle(color: UiKit.text.colorTextSubtitle2)),
+                  h1: TextStyle(color: Theme.of(context).primaryColor),
+                  h2: TextStyle(
+                      color: Theme.of(context).colorScheme.primaryVariant)),
               // onTapLink: (text, href, title) => _onTapLink(href),
             );
           }

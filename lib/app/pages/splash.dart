@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/src/provider.dart';
+import 'package:talao/app/app_widget.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/pages/credentials/pages/list.dart';
 import 'package:talao/app/pages/on_boarding/start.dart';
@@ -136,7 +137,7 @@ class _SplashPageState extends State<SplashPage> {
     _handleInitialUri(context);
 
     return BasePage(
-      backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: Theme.of(context).colorScheme.success,
       scrollView: false,
       body: Container(
         alignment: Alignment.center,

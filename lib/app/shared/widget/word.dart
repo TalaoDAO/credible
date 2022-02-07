@@ -21,7 +21,7 @@ class PhraseWord extends StatelessWidget {
           color: Colors.transparent,
           border: Border.all(
             width: 1.5,
-            color: UiKit.palette.wordBorder,
+            color: Theme.of(context).colorScheme.secondary,
           ),
           borderRadius: BorderRadius.circular(128.0),
         ),

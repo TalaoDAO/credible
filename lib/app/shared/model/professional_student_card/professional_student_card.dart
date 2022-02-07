@@ -123,13 +123,13 @@ class JobStudentCardRecto extends Recto {
                   LayoutId(
                     id: 'birthDate',
                     child: ImageCardText(
-                        text: UiKit.displayDate(
+                        text: UiDate.displayDate(
                             localizations, recipient.birthDate)),
                   ),
                   LayoutId(
                     id: 'expires',
                     child: ImageCardText(
-                        text: UiKit.displayDate(
+                        text: UiDate.displayDate(
                             localizations, recipient.birthDate)),
                   ),
                   LayoutId(

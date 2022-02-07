@@ -37,7 +37,7 @@ class CredentialsReceivePage extends StatelessWidget {
             Navigator.of(context).pushReplacement(CredentialsList.route()),
         icon: Icon(
           Icons.close,
-          color: UiKit.palette.icon,
+          color: Theme.of(context).primaryColor,
         ),
       ),
       body: BlocConsumer<ScanBloc, ScanState>(
@@ -74,6 +74,7 @@ class CredentialsReceivePage extends StatelessWidget {
                 DocumentWidget(model: credential),
                 const SizedBox(height: 24.0),
                 BaseButton.primary(
+                  context: context,
                   onPressed: () async {
                     final alias = await showDialog<String>(
                       context: builderContext,
@@ -93,6 +94,7 @@ class CredentialsReceivePage extends StatelessWidget {
                 ),
                 const SizedBox(height: 8.0),
                 BaseButton.transparent(
+                  context: context,
                   onPressed: () => Navigator.of(builderContext)
                       .pushReplacement(CredentialsList.route()),
                   child: Text(localizations.credentialReceiveCancel),

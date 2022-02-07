@@ -66,7 +66,7 @@ class _CredentialsPickPageState extends State<CredentialsPickPage> {
           },
           icon: Icon(
             Icons.close,
-            color: UiKit.palette.icon,
+            color: Theme.of(context).primaryColor,
           ),
         ),
         padding: const EdgeInsets.symmetric(
@@ -81,6 +81,7 @@ class _CredentialsPickPageState extends State<CredentialsPickPage> {
               message: localizations.credentialPickPresent,
               child: Builder(builder: (builderContext) {
                 return BaseButton.primary(
+                  context: context,
                   onPressed: () {
                     if (selection.isEmpty) {
                       ScaffoldMessenger.of(builderContext)

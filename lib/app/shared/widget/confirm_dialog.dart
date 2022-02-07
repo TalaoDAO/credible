@@ -21,7 +21,7 @@ class ConfirmDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: UiKit.palette.appBarBackground,
+      backgroundColor: Theme.of(context).colorScheme.background,
       contentPadding: const EdgeInsets.only(
         top: 24.0,
         bottom: 16.0,
@@ -54,7 +54,8 @@ class ConfirmDialog extends StatelessWidget {
             children: <Widget>[
               Expanded(
                 child: BaseButton.transparent(
-                  borderColor: UiKit.palette.primary,
+                  borderColor: Theme.of(context).primaryColor,
+                  context: context,
                   onPressed: () {
                     Navigator.of(context).pop(true);
                   },
@@ -64,7 +65,8 @@ class ConfirmDialog extends StatelessWidget {
               const SizedBox(width: 16.0),
               Expanded(
                 child: BaseButton.primary(
-                  borderColor: UiKit.palette.primary,
+                  borderColor: Theme.of(context).primaryColor,
+                  context: context,
                   onPressed: () {
                     Navigator.of(context).pop(false);
                   },

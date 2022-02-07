@@ -39,6 +39,7 @@ class OnBoardingKeyPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 20.0),
                 BaseButton.primary(
+                  context: context,
                   onPressed: () {
                     Navigator.of(context).push(OnBoardingRecoveryPage.route());
                   },
@@ -65,6 +66,7 @@ class OnBoardingKeyPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 20.0),
                 BaseButton.primary(
+                  context: context,
                   onPressed: () {
                     Navigator.of(context).push(OnBoardingGenPhrasePage.route());
                   },

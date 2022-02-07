@@ -143,7 +143,7 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
         onPressed: _edit,
         icon: Icon(
           Icons.edit,
-          color: UiKit.palette.icon,
+          color: Theme.of(context).primaryColor,
         ),
       ),
       navigation: widget.item.shareLink != ''
@@ -157,6 +157,7 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
                 child: Tooltip(
                   message: localizations.credentialDetailShare,
                   child: BaseButton.primary(
+                    context: context,
                     onPressed: () {
                       Navigator.of(context).push(
                           QrCodeDisplayPage.route(widget.item.id, widget.item));
@@ -170,7 +171,7 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
                           'assets/icon/qr-code.svg',
                           width: 24.0,
                           height: 24.0,
-                          color: UiKit.palette.icon,
+                          color: Theme.of(context).primaryColor,
                         ),
                         const SizedBox(width: 16.0),
                         Text(localizations.credentialDetailShare),

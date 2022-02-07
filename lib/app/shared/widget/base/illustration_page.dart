@@ -51,6 +51,7 @@ class BaseIllustrationPage extends StatelessWidget {
               Expanded(child: Container()),
               BaseButton.white(
                 onPressed: onPressed,
+                context: context,
                 child: Text(action),
               ),
             ],

@@ -10,7 +10,7 @@ class BackLeadingButton extends StatelessWidget {
       },
       icon: Icon(
         Icons.arrow_back,
-        color: UiKit.palette.icon,
+        color: Theme.of(context).colorScheme.secondary,
       ),
     );
   }

@@ -37,7 +37,7 @@ class _CustomActiveNavIcon extends StatelessWidget {
         height: 24.0,
         child: SvgPicture.asset(
           asset,
-          color: UiKit.palette.navBarIcon,
+          color: Theme.of(context).primaryColor,
         ),
       );
 }
@@ -60,10 +60,10 @@ class CustomNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
     return Container(
-      padding: UiKit.constraints.navBarPadding,
+      padding: UiConstraints.navBarPadding,
       decoration: BoxDecoration(
-        color: UiKit.palette.navBarBackground,
-        borderRadius: UiKit.constraints.navBarRadius,
+        color: Theme.of(context).backgroundColor,
+        borderRadius: UiConstraints.navBarRadius,
       ),
       child: BottomNavigationBar(
         currentIndex: index,

@@ -22,18 +22,18 @@ class BaseTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: UiKit.constraints.textFieldPadding,
+      margin: UiConstraints.textFieldPadding,
       padding: const EdgeInsets.symmetric(
         horizontal: 24.0,
       ),
       decoration: BoxDecoration(
-        color: UiKit.palette.textFieldBackground,
-        border: Border.all(color: UiKit.palette.textFieldBorder),
-        borderRadius: UiKit.constraints.textFieldRadius,
+        color: Theme.of(context).backgroundColor,
+        border: Border.all(color: Theme.of(context).primaryColor),
+        borderRadius: UiConstraints.textFieldRadius,
       ),
       child: TextFormField(
         controller: controller,
-        cursorColor: UiKit.text.colorTextBody1,
+        cursorColor: Theme.of(context).primaryColor,
         keyboardType: type,
         maxLines: 1,
         textCapitalization: textCapitalization,
@@ -44,9 +44,9 @@ class BaseTextField extends StatelessWidget {
           errorBorder: InputBorder.none,
           focusedBorder: InputBorder.none,
           focusedErrorBorder: InputBorder.none,
-          fillColor: UiKit.text.colorTextBody1,
-          hoverColor: UiKit.text.colorTextBody1,
-          focusColor: UiKit.text.colorTextBody1,
+          fillColor: Theme.of(context).primaryColor,
+          hoverColor: Theme.of(context).primaryColor,
+          focusColor: Theme.of(context).primaryColor,
           errorText: error,
           hintText: label,
           hintStyle: Theme.of(context).textTheme.bodyText1!,
@@ -54,7 +54,7 @@ class BaseTextField extends StatelessWidget {
           labelStyle: Theme.of(context).textTheme.bodyText1!,
           suffixIcon: Icon(
             icon,
-            color: UiKit.palette.icon.withOpacity(0.4),
+            color: Theme.of(context).colorScheme.secondary,
           ),
         ),
       ),

@@ -28,7 +28,7 @@ class ThemeItem extends StatelessWidget {
             ),
             decoration: BoxDecoration(
               border: Border(
-                bottom: BorderSide(color: UiKit.palette.lightBorder),
+                bottom: BorderSide(color: Theme.of(context).colorScheme.onSecondary),
               ),
             ),
             child: Row(
@@ -44,13 +44,13 @@ class ThemeItem extends StatelessWidget {
                   Icon(
                     Icons.radio_button_checked,
                     size: 24.0,
-                    color: UiKit.palette.icon,
+                    color: Theme.of(context).primaryColor,
                   )
                 else
                   Icon(
                     Icons.radio_button_unchecked,
                     size: 24.0,
-                    color: UiKit.palette.icon,
+                    color:Theme.of(context).primaryColor,
                   ),
               ],
             ),

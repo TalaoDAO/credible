@@ -73,7 +73,7 @@ class _PersonalPageState extends State<PersonalPage> {
             style: Theme.of(context)
                 .textTheme
                 .bodyText1!
-                .apply(color: UiKit.palette.primary),
+                .apply(color: Theme.of(context).primaryColor),
           ),
         ),
       ),

@@ -120,12 +120,10 @@ class ProfessionalExperienceAssessment extends CredentialSubject {
           child: Row(
             children: [
               Text('${localizations.from} '),
-              Text(
-                  '${UiKit.displayDate(localizations, _startDate)}',
+              Text('${UiDate.displayDate(localizations, _startDate)}',
                   style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
               Text(' ${localizations.to} '),
-              Text(
-                  '${UiKit.displayDate(localizations, _endDate)}',
+              Text('${UiDate.displayDate(localizations, _endDate)}',
                   style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
             ],
           ),

@@ -33,13 +33,13 @@ class DocumentHeader extends StatelessWidget {
                   style: Theme.of(context)
                       .textTheme
                       .subtitle1!
-                      .apply(color: UiKit.palette.credentialText),
+                      .apply(color: Theme.of(context).primaryColor),
                 ),
                 const SizedBox(height: 4.0),
                 TooltipText(
                   text: localizations.documentHeaderTooltipJob,
                   style: Theme.of(context).textTheme.bodyText1!.apply(
-                      color: UiKit.palette.credentialText.withOpacity(0.6)),
+                      color: Theme.of(context).primaryColor.withOpacity(0.6)),
                 ),
               ],
             ),

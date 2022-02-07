@@ -18,7 +18,7 @@ class DocumentTicketSeparator extends StatelessWidget {
                 width: 16.0,
                 height: 16.0,
                 decoration: BoxDecoration(
-                  color: UiKit.palette.background,
+                  color: Theme.of(context).backgroundColor,
                   borderRadius: BorderRadius.only(
                     topRight: Radius.circular(16.0),
                     bottomRight: Radius.circular(16.0),
@@ -32,7 +32,7 @@ class DocumentTicketSeparator extends StatelessWidget {
                 width: 16.0,
                 height: 16.0,
                 decoration: BoxDecoration(
-                  color: UiKit.palette.background,
+                  color: Theme.of(context).backgroundColor,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(16.0),
                     bottomLeft: Radius.circular(16.0),

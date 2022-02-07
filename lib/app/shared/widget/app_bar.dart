@@ -24,10 +24,10 @@ class CustomAppBar extends PreferredSize {
           Container(
             alignment: Alignment.bottomCenter,
             decoration: BoxDecoration(
-              color: UiKit.palette.appBarBackground,
+              color: Theme.of(context).backgroundColor,
               boxShadow: <BoxShadow>[
                 BoxShadow(
-                  color: UiKit.palette.shadow,
+                  color: Theme.of(context).shadowColor,
                   offset: Offset(0.0, 2.0),
                   blurRadius: 2.0,
                 ),

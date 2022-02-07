@@ -64,14 +64,14 @@ class __BaseItemState extends State<_BaseItem>
               // margin: const EdgeInsets.symmetric(vertical: 4.0),
               decoration: BaseBoxDecoration(
                 color: widget.color,
-                shapeColor: UiKit.palette.credentialDetail.withOpacity(0.1),
+                shapeColor: Theme.of(context).primaryColor.withOpacity(0.1),
                 value: 1.0,
                 anchors: <Alignment>[
                   Alignment.bottomRight,
                 ],
                 boxShadow: <BoxShadow>[
                   BoxShadow(
-                    color: UiKit.palette.shadow,
+                    color: Theme.of(context).shadowColor,
                     offset: Offset(0.0, 2.0),
                     blurRadius: 2.0,
                   ),
@@ -139,12 +139,12 @@ class CredentialsListItem extends StatelessWidget {
                         ? Icon(
                             Icons.check_box,
                             size: 24.0,
-                            color: UiKit.palette.icon,
+                            color: Theme.of(context).primaryColor,
                           )
                         : Icon(
                             Icons.check_box_outline_blank,
                             size: 24.0,
-                            color: UiKit.palette.icon,
+                            color: Theme.of(context).primaryColor,
                           ),
               ),
               SizedBox(height: 16.0),

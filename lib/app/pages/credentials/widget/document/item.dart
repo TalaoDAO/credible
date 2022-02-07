@@ -21,7 +21,7 @@ class DocumentItemWidget extends StatelessWidget {
             style: Theme.of(context)
                 .textTheme
                 .overline!
-                .apply(color: UiKit.palette.credentialText.withOpacity(0.6)),
+                .apply(color: Theme.of(context).primaryColor.withOpacity(0.6)),
           ),
           const SizedBox(height: 2.0),
           TooltipText(
@@ -29,7 +29,7 @@ class DocumentItemWidget extends StatelessWidget {
             style: Theme.of(context)
                 .textTheme
                 .caption!
-                .apply(color: UiKit.palette.credentialText),
+                .apply(color: Theme.of(context).primaryColor),
             maxLines: null,
             softWrap: true,
           ),

@@ -41,7 +41,7 @@ class _TextFieldDialogState extends State<TextFieldDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: UiKit.palette.appBarBackground,
+      backgroundColor: Theme.of(context).primaryColor,
       contentPadding: const EdgeInsets.only(
         top: 24.0,
         bottom: 16.0,
@@ -66,7 +66,8 @@ class _TextFieldDialogState extends State<TextFieldDialog> {
             children: <Widget>[
               Expanded(
                 child: BaseButton.transparent(
-                  borderColor: UiKit.palette.primary,
+                  borderColor: Theme.of(context).primaryColor,
+                  context: context,
                   onPressed: () {
                     Navigator.of(context).pop(controller.text);
                   },
@@ -76,7 +77,8 @@ class _TextFieldDialogState extends State<TextFieldDialog> {
               const SizedBox(width: 16.0),
               Expanded(
                 child: BaseButton.primary(
-                  borderColor: UiKit.palette.primary,
+                  borderColor: Theme.of(context).primaryColor,
+                  context: context,
                   onPressed: () {
                     Navigator.of(context).pop();
                   },

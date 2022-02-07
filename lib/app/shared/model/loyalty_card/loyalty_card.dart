@@ -103,6 +103,7 @@ class LoyaltyCardVerso extends Verso {
   final LoyaltyCard loyaltyCard;
 
   LoyaltyCardVerso(this.loyaltyCard);
+
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
@@ -124,7 +125,7 @@ class LoyaltyCardVerso extends Verso {
             ),
           ),
           TextWithLoyaltyCardStyle(
-              value: UiKit.displayDate(localizations, loyaltyCard.birthDate)),
+              value: UiDate.displayDate(localizations, loyaltyCard.birthDate)),
           TextWithLoyaltyCardStyle(value: loyaltyCard.email),
           TextWithLoyaltyCardStyle(value: loyaltyCard.telephone),
           TextWithLoyaltyCardStyle(value: loyaltyCard.address),

@@ -66,7 +66,7 @@ class _CredentialsPresentPageState extends State<CredentialsPresentPage> {
             Navigator.of(context).pushReplacement(CredentialsList.route()),
         icon: Icon(
           Icons.close,
-          color: UiKit.palette.icon,
+          color: Theme.of(context).primaryColor,
         ),
       ),
       body: BlocConsumer<ScanBloc, ScanState>(
@@ -76,7 +76,6 @@ class _CredentialsPresentPageState extends State<CredentialsPresentPage> {
           }
         },
         builder: (context, state) {
-
           if (state is ScanStatePreview) {
             return _credentialPreview(state, context, localizations);
           }
@@ -124,7 +123,8 @@ class _CredentialsPresentPageState extends State<CredentialsPresentPage> {
         //         CredentialModel(id: '', image: '', data: {'issuer': ''}))),
         const SizedBox(height: 24.0),
         BaseButton.transparent(
-          borderColor: UiKit.palette.primary,
+          borderColor: Theme.of(context).primaryColor,
+          context: context,
           onPressed: () => widget.onSubmit(preview, context),
           child: Text(
             widget.yes ?? localizations.credentialPresentConfirm,
@@ -132,6 +132,8 @@ class _CredentialsPresentPageState extends State<CredentialsPresentPage> {
         ),
         const SizedBox(height: 8.0),
         BaseButton.primary(
+          borderColor: Theme.of(context).primaryColor,
+          context: context,
           onPressed: goBack,
           child: Text(
             widget.no ?? localizations.credentialPresentCancel,

@@ -49,10 +49,10 @@ class OnBoardingThirdPage extends StatelessWidget {
           ),
           navigation: Container(
             decoration: BoxDecoration(
-              color: UiKit.palette.navBarBackground,
+              color: Theme.of(context).backgroundColor,
               boxShadow: <BoxShadow>[
                 BoxShadow(
-                  color: UiKit.palette.shadow,
+                  color: Theme.of(context).shadowColor,
                   offset: Offset(-1.0, -1.0),
                   blurRadius: 4.0,
                 ),
@@ -76,20 +76,21 @@ class OnBoardingThirdPage extends StatelessWidget {
                         children: [
                           Icon(
                             Icons.circle,
-                            color: UiKit.palette.primary.withOpacity(0.2),
+                            color: Theme.of(context).primaryColor.withOpacity(0.2),
                           ),
                           Icon(
                             Icons.circle,
-                            color: UiKit.palette.primary.withOpacity(0.2),
+                            color: Theme.of(context).primaryColor.withOpacity(0.2),
                           ),
                           Icon(
                             Icons.circle,
-                            color: UiKit.palette.primary,
+                            color: Theme.of(context).primaryColor,
                           )
                         ],
                       ),
                     ),
                     BaseButton.primary(
+                      context: context,
                       onPressed: () {
                         Navigator.of(context)
                             .pushReplacement(OnBoardingTosPage.route());

@@ -68,20 +68,21 @@ class _OnBoardingGenPhrasePageState extends State<OnBoardingGenPhrasePage> {
               children: <Widget>[
                 Icon(
                   Icons.privacy_tip_outlined,
-                  color: UiKit.palette.icon.withOpacity(0.6),
+                  color:  Theme.of(context).primaryColor.withOpacity(0.6),
                 ),
                 const SizedBox(width: 16.0),
                 Expanded(
                   child: Text(
                     localizations.genPhraseViewLatterText,
                     style: Theme.of(context).textTheme.caption!.apply(
-                        color: UiKit.text.colorTextCaption.withOpacity(0.6)),
+                        color: Theme.of(context).primaryColor.withOpacity(0.6)),
                   ),
                 ),
               ],
             ),
           ),
           BaseButton.primary(
+            context: context,
             onPressed: () async {
               try {
                 log.info('will save mnemonic to secure storage');
