@@ -4,11 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:talao/app/pages/credentials/pages/list.dart';
+// ignore: unused_import
 import 'package:talao/app/pages/profile/usecase/is_issuer_approved.dart'
     as issuer_approved_usecase;
 import 'package:talao/app/pages/qr_code/bloc/qrcode.dart';
-import 'package:talao/app/pages/qr_code/check_host.dart';
 import 'package:talao/app/shared/error_handler/error_handler.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/navigation_bar.dart';
@@ -62,29 +61,6 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
     });
   }
 
-  void promptHost(Uri uri) async {
-    // TODO [bug] find out why the camera sometimes sends a code twice
-    if (!promptActive) {
-      setState(() {
-        promptActive = true;
-      });
-      final localizations = AppLocalizations.of(context)!;
-      var approvedIssuer =
-          await issuer_approved_usecase.ApprovedIssuer(uri, context);
-      var acceptHost;
-      acceptHost = await checkHost(uri, approvedIssuer, context) ?? false;
-
-      if (acceptHost) {
-        context.read<QRCodeBloc>().add(QRCodeEventAccept(uri));
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(localizations.scanRefuseHost),
-        ));
-        await Navigator.of(context).pushReplacement(CredentialsList.route());
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
@@ -105,7 +81,6 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
           }
         }
         if (state is QRCodeStateHost) {
-          promptHost(state.uri);
           setState(() {
             promptActive = true;
           });
