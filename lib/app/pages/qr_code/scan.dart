@@ -4,9 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-// ignore: unused_import
-import 'package:talao/app/pages/profile/usecase/is_issuer_approved.dart'
-    as issuer_approved_usecase;
 import 'package:talao/app/pages/qr_code/bloc/qrcode.dart';
 import 'package:talao/app/shared/error_handler/error_handler.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
@@ -91,9 +88,6 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(localizations.scanUnsupportedMessage),
           ));
-        }
-        if (state is QRCodeStateSuccess) {
-          Navigator.of(context).pushReplacement(state.route);
         }
       },
       child: BasePage(

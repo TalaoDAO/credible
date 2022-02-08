@@ -144,22 +144,20 @@ class _SplashPageState extends State<SplashPage> {
       child: BlocListener<QRCodeBloc, QRCodeState>(
         listener: (context, state) async {
           if (state is QRCodeStateHost) {
-            if (mounted) {
-              var approvedIssuer = await issuer_approved_usecase.ApprovedIssuer(
-                  state.uri, context);
-              var acceptHost;
-              acceptHost =
-                  await checkHost(state.uri, approvedIssuer, context) ?? false;
+            var approvedIssuer = await issuer_approved_usecase.ApprovedIssuer(
+                state.uri, context);
+            var acceptHost;
+            acceptHost =
+                await checkHost(state.uri, approvedIssuer, context) ?? false;
 
-              if (acceptHost) {
-                context.read<QRCodeBloc>().add(QRCodeEventAccept(state.uri));
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(localizations.scanRefuseHost),
-                ));
-                await Navigator.of(context)
-                    .pushReplacement(CredentialsList.route());
-              }
+            if (acceptHost) {
+              context.read<QRCodeBloc>().add(QRCodeEventAccept(state.uri));
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(localizations.scanRefuseHost),
+              ));
+              await Navigator.of(context)
+                  .pushReplacement(CredentialsList.route());
             }
           }
           if (state is QRCodeStateSuccess) {
