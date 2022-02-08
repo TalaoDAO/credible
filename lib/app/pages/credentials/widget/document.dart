@@ -6,6 +6,8 @@ import 'package:talao/app/shared/model/voucher/voucher.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/box_decoration.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DocumentWidget extends StatelessWidget {
   final CredentialModel model;
@@ -29,7 +31,46 @@ class DocumentWidget extends StatelessWidget {
     }
     if (model.credentialPreview.credentialSubject
         is Ecole42LearningAchievement) {
-      return model.displayDetail(context, model);
+      final localizations = AppLocalizations.of(context)!;
+
+      return Column(
+        children: [
+          model.displayDetail(context, model),
+          model.credentialPreview.evidence.first.id != ''
+              ? Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Text('${localizations.evidenceLabel} '),
+                      Flexible(
+                        child: InkWell(
+                          onTap: () => _launchURL(
+                              model.credentialPreview.evidence.first.id),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Text(
+                                  '${model.credentialPreview.evidence.first.id.substring(0, 30)}...',
+                                  style: TextStyle(
+                                      inherit: true,
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.blue),
+                                  maxLines: 5,
+                                  overflow: TextOverflow.fade,
+                                  softWrap: true,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              : SizedBox.shrink()
+        ],
+      );
     }
 
     return Container(
@@ -68,4 +109,8 @@ class DocumentWidget extends StatelessWidget {
       child: model.displayDetail(context, model),
     );
   }
+
+  void _launchURL(String _url) async => await canLaunch(_url)
+      ? await launch(_url)
+      : throw 'Could not launch $_url';
 }
