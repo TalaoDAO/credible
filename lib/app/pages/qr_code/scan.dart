@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:talao/app/pages/credentials/pages/list.dart';
 import 'package:talao/app/pages/profile/usecase/is_issuer_approved.dart'
     as issuer_approved_usecase;
 import 'package:talao/app/pages/qr_code/bloc/qrcode.dart';
@@ -53,8 +54,8 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
   void onQRViewCreated(QRViewController controller) {
     qrController = controller;
 
-    controller.scannedDataStream.listen((scanData) {
-      controller.pauseCamera();
+    qrController.scannedDataStream.listen((scanData) {
+      qrController.pauseCamera();
       if (scanData.code is String) {
         context.read<QRCodeBloc>().add(QRCodeEventHost(scanData.code));
       }
@@ -64,10 +65,6 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
   void promptHost(Uri uri) async {
     // TODO [bug] find out why the camera sometimes sends a code twice
     if (!promptActive) {
-      setState(() {
-        promptActive = true;
-      });
-
       final localizations = AppLocalizations.of(context)!;
       var approvedIssuer =
           await issuer_approved_usecase.ApprovedIssuer(uri, context);
@@ -80,11 +77,8 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(localizations.scanRefuseHost),
         ));
+        await Navigator.of(context).pushReplacement(CredentialsList.route());
       }
-
-      setState(() {
-        promptActive = false;
-      });
     }
   }
 
@@ -109,6 +103,9 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
         }
         if (state is QRCodeStateHost) {
           promptHost(state.uri);
+          setState(() {
+            promptActive = true;
+          });
         }
         if (state is QRCodeStateUnknown) {
           qrController.resumeCamera();
