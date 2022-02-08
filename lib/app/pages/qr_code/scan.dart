@@ -56,7 +56,7 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
 
     qrController.scannedDataStream.listen((scanData) {
       qrController.pauseCamera();
-      if (scanData.code is String) {
+      if (scanData.code is String && !promptActive) {
         context.read<QRCodeBloc>().add(QRCodeEventHost(scanData.code));
       }
     });
@@ -65,6 +65,9 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
   void promptHost(Uri uri) async {
     // TODO [bug] find out why the camera sometimes sends a code twice
     if (!promptActive) {
+      setState(() {
+        promptActive = true;
+      });
       final localizations = AppLocalizations.of(context)!;
       var approvedIssuer =
           await issuer_approved_usecase.ApprovedIssuer(uri, context);

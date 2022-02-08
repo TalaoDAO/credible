@@ -28,6 +28,11 @@ class CredentialsList extends StatefulWidget {
 
 class _CredentialsListState extends State<CredentialsList> {
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   void initState() {
     Future.delayed(Duration.zero, () {
       /// If there is a deepLink we give do as if it comming from QRCode
@@ -56,18 +61,20 @@ class _CredentialsListState extends State<CredentialsList> {
       child: BlocListener<QRCodeBloc, QRCodeState>(
         listener: (context, state) async {
           if (state is QRCodeStateHost) {
-            var approvedIssuer = await issuer_approved_usecase.ApprovedIssuer(
-                state.uri, context);
-            var acceptHost;
-            acceptHost =
-                await checkHost(state.uri, approvedIssuer, context) ?? false;
+            if (mounted) {
+              var approvedIssuer = await issuer_approved_usecase.ApprovedIssuer(
+                  state.uri, context);
+              var acceptHost;
+              acceptHost =
+                  await checkHost(state.uri, approvedIssuer, context) ?? false;
 
-            if (acceptHost) {
-              context.read<QRCodeBloc>().add(QRCodeEventAccept(state.uri));
-            } else {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(localizations.scanRefuseHost),
-              ));
+              if (acceptHost) {
+                context.read<QRCodeBloc>().add(QRCodeEventAccept(state.uri));
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(localizations.scanRefuseHost),
+                ));
+              }
             }
           }
           if (state is QRCodeStateSuccess) {
