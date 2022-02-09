@@ -48,7 +48,7 @@ class _AppWidgetState extends State<AppWidget> {
         create: (context) => QueryByExampleCubit(),
         child: BlocProvider<WalletBloc>(
           lazy: false,
-          create: (context) => WalletBloc(CredentialsRepository()),
+          create: (context) => WalletBloc(CredentialsRepository())..checkKey(),
           child: BlocProvider<ScanBloc>(
             create: (context) => ScanBloc(
                 DioClient(Constants.checkIssuerServerUrl, Dio()),
