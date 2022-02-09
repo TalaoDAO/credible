@@ -3,15 +3,21 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/src/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
+import 'package:talao/app/pages/credentials/blocs/wallet.dart';
 import 'package:talao/app/pages/credentials/pages/list.dart';
 import 'package:talao/app/pages/on_boarding/start.dart';
+import 'package:talao/app/pages/qr_code/bloc/qrcode.dart';
+import 'package:talao/app/pages/qr_code/check_host.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/brand.dart';
 import 'package:talao/deep_link/deep_link.dart';
 import 'package:uni_links/uni_links.dart';
+import 'package:talao/app/pages/profile/usecase/is_issuer_approved.dart'
+    as issuer_approved_usecase;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 bool _initialUriIsHandled = false;
 
@@ -28,23 +34,25 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPageState extends State<SplashPage> {
   StreamSubscription? _sub;
+  bool _isKeyLoaded = false;
 
   @override
   void initState() {
     super.initState();
     // initDynamicLinks();
     Future.delayed(
-      Duration(seconds: 1),
+      Duration(milliseconds: 100),
       () async {
         final key = await SecureStorageProvider.instance.get('key') ?? '';
 
         if (key.isEmpty) {
           await Navigator.of(context).push<void>(OnBoardingStartPage.route());
           return;
+        } else {
+          setState(() {
+            _isKeyLoaded = true;
+          });
         }
-        await Navigator.of(context).push<void>(
-          CredentialsList.route(),
-        );
       },
     );
   }
@@ -123,14 +131,48 @@ class _SplashPageState extends State<SplashPage> {
   Widget build(BuildContext context) {
     _handleIncomingLinks(context);
     _handleInitialUri(context);
+    final localizations = AppLocalizations.of(context)!;
 
-    return BasePage(
-      backgroundColor: UiKit.palette.background,
-      scrollView: false,
-      body: Container(
-        alignment: Alignment.center,
-        padding: const EdgeInsets.all(24.0),
-        child: BrandMinimal(),
+    return BlocListener<WalletBloc, WalletBlocState>(
+      listener: (context, state) {
+        if (_isKeyLoaded && state is WalletBlocList) {
+          Navigator.of(context).push<void>(
+            CredentialsList.route(),
+          );
+        }
+      },
+      child: BlocListener<QRCodeBloc, QRCodeState>(
+        listener: (context, state) async {
+          if (state is QRCodeStateHost) {
+            var approvedIssuer = await issuer_approved_usecase.ApprovedIssuer(
+                state.uri, context);
+            var acceptHost;
+            acceptHost =
+                await checkHost(state.uri, approvedIssuer, context) ?? false;
+
+            if (acceptHost) {
+              context.read<QRCodeBloc>().add(QRCodeEventAccept(state.uri));
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(localizations.scanRefuseHost),
+              ));
+              await Navigator.of(context)
+                  .pushReplacement(CredentialsList.route());
+            }
+          }
+          if (state is QRCodeStateSuccess) {
+            await Navigator.of(context).pushReplacement(state.route);
+          }
+        },
+        child: BasePage(
+          backgroundColor: UiKit.palette.background,
+          scrollView: false,
+          body: Container(
+            alignment: Alignment.center,
+            padding: const EdgeInsets.all(24.0),
+            child: BrandMinimal(),
+          ),
+        ),
       ),
     );
   }

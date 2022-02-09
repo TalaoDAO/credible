@@ -2,10 +2,25 @@ import 'package:talao/app/pages/credentials/models/credential_model.dart';
 import 'package:talao/app/pages/credentials/repositories/credential.dart';
 import 'package:bloc/bloc.dart';
 
-class WalletBloc extends Cubit<List<CredentialModel>> {
+abstract class WalletBlocState {
+  final List<CredentialModel> credentials = [];
+}
+
+class WalletBlocInit extends WalletBlocState {
+  @override
+  final List<CredentialModel> credentials = [];
+}
+
+class WalletBlocList extends WalletBlocState {
+  @override
+  final List<CredentialModel> credentials;
+  WalletBlocList({required this.credentials});
+}
+
+class WalletBloc extends Cubit<WalletBlocState> {
   final CredentialsRepository repository;
 
-  WalletBloc(this.repository) : super([]) {
+  WalletBloc(this.repository) : super(WalletBlocInit()) {
     /// When app is initialized, set all credentials with active status to unknown status
     repository.initializeRevocationStatus();
 
@@ -15,7 +30,7 @@ class WalletBloc extends Cubit<List<CredentialModel>> {
 
   Future findAll(/* dynamic filters */) async {
     await repository.findAll(/* filters */).then((values) {
-      emit(values);
+      emit(WalletBlocList(credentials: values));
     });
   }
 

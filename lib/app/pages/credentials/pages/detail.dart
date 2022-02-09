@@ -97,7 +97,7 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
     if (confirm) {
       await context.read<WalletBloc>().deleteById(widget.item.id);
       Navigator.of(context).pop();
-      await Navigator.of(context).push(CredentialsList.route());
+      await Navigator.of(context).pushReplacement(CredentialsList.route());
     }
   }
 

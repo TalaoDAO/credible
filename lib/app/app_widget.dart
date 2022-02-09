@@ -47,9 +47,12 @@ class _AppWidgetState extends State<AppWidget> {
       child: BlocProvider<QueryByExampleCubit>(
         create: (context) => QueryByExampleCubit(),
         child: BlocProvider<WalletBloc>(
+          lazy: false,
           create: (context) => WalletBloc(CredentialsRepository()),
           child: BlocProvider<ScanBloc>(
-            create: (context) => ScanBloc(DioClient(Constants.checkIssuerServerUrl, Dio()), context.read<WalletBloc>()),
+            create: (context) => ScanBloc(
+                DioClient(Constants.checkIssuerServerUrl, Dio()),
+                context.read<WalletBloc>()),
             child: BlocProvider<QRCodeBloc>(
               create: (context) => QRCodeBloc(
                 DioClient(Constants.checkIssuerServerUrl, Dio()),
