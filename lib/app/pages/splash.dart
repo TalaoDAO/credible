@@ -4,9 +4,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:talao/app/pages/credentials/blocs/scan.dart';
 import 'package:talao/app/pages/credentials/blocs/wallet.dart';
 import 'package:talao/app/pages/credentials/pages/list.dart';
 import 'package:talao/app/pages/on_boarding/start.dart';
+import 'package:talao/app/pages/profile/usecase/is_issuer_approved.dart'
+    as issuer_approved_usecase;
 import 'package:talao/app/pages/qr_code/bloc/qrcode.dart';
 import 'package:talao/app/pages/qr_code/check_host.dart';
 import 'package:talao/app/shared/ui/ui.dart';
@@ -14,9 +18,6 @@ import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/brand.dart';
 import 'package:talao/deep_link/deep_link.dart';
 import 'package:uni_links/uni_links.dart';
-import 'package:talao/app/pages/profile/usecase/is_issuer_approved.dart'
-    as issuer_approved_usecase;
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 bool _initialUriIsHandled = false;
 
@@ -150,13 +151,23 @@ class _SplashPageState extends State<SplashPage> {
             await Navigator.of(context).pushReplacement(state.route);
           }
         },
-        child: BasePage(
-          backgroundColor: UiKit.palette.background,
-          scrollView: false,
-          body: Container(
-            alignment: Alignment.center,
-            padding: const EdgeInsets.all(24.0),
-            child: BrandMinimal(),
+        child: BlocListener<ScanBloc, ScanState>(
+          listener: (context, state) {
+            if (state is ScanStateMessage) {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                backgroundColor: state.message.color,
+                content: Text(state.message.message),
+              ));
+            }
+          },
+          child: BasePage(
+            backgroundColor: UiKit.palette.background,
+            scrollView: false,
+            body: Container(
+              alignment: Alignment.center,
+              padding: const EdgeInsets.all(24.0),
+              child: BrandMinimal(),
+            ),
           ),
         ),
       ),
