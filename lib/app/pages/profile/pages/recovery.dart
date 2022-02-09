@@ -1,4 +1,5 @@
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
+import 'package:talao/app/shared/ui/theme.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/mnemonic.dart';
@@ -43,13 +44,19 @@ class _RecoveryPageState extends State<RecoveryPage> {
           Text(
             localizations.genPhraseInstruction,
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.subtitle2,
+            style: Theme.of(context)
+                .textTheme
+                .subtitle2!
+                .copyWith(color: Theme.of(context).colorScheme.subtitle1),
           ),
           const SizedBox(height: 8.0),
           Text(
             localizations.genPhraseExplanation,
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodyText1,
+            style: Theme.of(context)
+                .textTheme
+                .bodyText1!
+                .copyWith(color: Theme.of(context).colorScheme.subtitle2),
           ),
           const SizedBox(height: 48.0),
           if (_mnemonic != null && _mnemonic!.isNotEmpty)

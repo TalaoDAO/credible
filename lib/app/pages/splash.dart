@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/src/provider.dart';
-import 'package:talao/app/app_widget.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/pages/credentials/pages/list.dart';
 import 'package:talao/app/pages/on_boarding/start.dart';
@@ -42,9 +41,12 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
     // initDynamicLinks();
-
-    () async => await context.read<ThemeCubit>().getCurrentTheme();
-
+    Future.delayed(
+      Duration(seconds: 0),
+      () async {
+        await context.read<ThemeCubit>().getCurrentTheme();
+      },
+    );
     Future.delayed(
       Duration(seconds: 1),
       () async {
@@ -54,9 +56,8 @@ class _SplashPageState extends State<SplashPage> {
           await Navigator.of(context).push<void>(OnBoardingStartPage.route());
           return;
         }
-        await Navigator.of(context).push<void>(
-          CredentialsList.route(),
-        );
+
+        await Navigator.of(context).push<void>(CredentialsList.route());
       },
     );
   }
@@ -137,7 +138,7 @@ class _SplashPageState extends State<SplashPage> {
     _handleInitialUri(context);
 
     return BasePage(
-      backgroundColor: Theme.of(context).colorScheme.success,
+      backgroundColor: const Color(0xff121212),
       scrollView: false,
       body: Container(
         alignment: Alignment.center,

@@ -37,7 +37,7 @@ class _CustomActiveNavIcon extends StatelessWidget {
         height: 24.0,
         child: SvgPicture.asset(
           asset,
-          color: Theme.of(context).primaryColor,
+          color: Theme.of(context).colorScheme.selectedBottomBar,
         ),
       );
 }
@@ -62,21 +62,19 @@ class CustomNavBar extends StatelessWidget {
     return Container(
       padding: UiConstraints.navBarPadding,
       decoration: BoxDecoration(
-        color: Theme.of(context).backgroundColor,
         borderRadius: UiConstraints.navBarRadius,
       ),
       child: BottomNavigationBar(
         currentIndex: index,
         showSelectedLabels: false,
         showUnselectedLabels: false,
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        elevation: 5.0,
         onTap: (newIndex) {
           if (newIndex == index) return;
           switch (newIndex) {
             case 0:
-              Navigator.of(context)
-                  .pushReplacement(CredentialsList.route());
+              Navigator.of(context).pushReplacement(CredentialsList.route());
               break;
             case 1:
               if (kIsWeb) {

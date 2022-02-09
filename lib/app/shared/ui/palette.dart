@@ -10,18 +10,4 @@ class UiPalette {
   static const lightGrey = Color(0xffF6F7FA);
 
   static const gradientBlue = Color(0xff50a7d9);
-
-  static Gradient pageBackground = LinearGradient(
-    colors: [lightGrey, lightGrey],
-  );
-
-  static Gradient splashBackground = LinearGradient(
-    colors: [blue, gradientBlue],
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-  );
-
-  static Gradient buttonBackground = LinearGradient(
-    colors: [blue, blue],
-  );
 }

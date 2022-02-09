@@ -16,11 +16,11 @@ class PersonalPage extends StatefulWidget {
     required this.profile,
   }) : super(key: key);
 
-static Route route(profile) => MaterialPageRoute(
-      builder: (context) => PersonalPage(
-        profile: profile,
-      ),
-    );
+  static Route route(profile) => MaterialPageRoute(
+        builder: (context) => PersonalPage(
+          profile: profile,
+        ),
+      );
 
   @override
   _PersonalPageState createState() => _PersonalPageState();
@@ -36,7 +36,6 @@ class _PersonalPageState extends State<PersonalPage> {
   @override
   void initState() {
     super.initState();
-
     firstNameController = TextEditingController(text: widget.profile.firstName);
     lastNameController = TextEditingController(text: widget.profile.lastName);
     phoneController = TextEditingController(text: widget.profile.phone);
@@ -70,10 +69,7 @@ class _PersonalPageState extends State<PersonalPage> {
           ),
           child: Text(
             localizations.personalSave,
-            style: Theme.of(context)
-                .textTheme
-                .bodyText1!
-                .apply(color: Theme.of(context).primaryColor),
+            style: Theme.of(context).textTheme.bodyText1!,
           ),
         ),
       ),
@@ -88,7 +84,10 @@ class _PersonalPageState extends State<PersonalPage> {
             child: Text(
               localizations.personalSubtitle,
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.subtitle2,
+              style: Theme.of(context)
+                  .textTheme
+                  .subtitle2!
+                  .copyWith(color: Theme.of(context).colorScheme.subtitle1),
             ),
           ),
           // Center(

@@ -24,12 +24,12 @@ class CustomAppBar extends PreferredSize {
           Container(
             alignment: Alignment.bottomCenter,
             decoration: BoxDecoration(
-              color: Theme.of(context).backgroundColor,
+              color: Theme.of(context).colorScheme.appBar,
               boxShadow: <BoxShadow>[
                 BoxShadow(
-                  color: Theme.of(context).shadowColor,
-                  offset: Offset(0.0, 2.0),
-                  blurRadius: 2.0,
+                  color: Theme.of(context).colorScheme.shadow,
+                  offset: Offset(1, 0),
+                  blurRadius: 1.0,
                 ),
               ],
             ),
@@ -47,7 +47,7 @@ class CustomAppBar extends PreferredSize {
             ),
           ),
           Material(
-            color: Colors.transparent,
+            color: Theme.of(context).colorScheme.transparent,
             type: MaterialType.transparency,
             child: Container(
               alignment: Alignment.bottomCenter,

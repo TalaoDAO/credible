@@ -30,7 +30,6 @@ class BaseButton extends StatelessWidget {
           gradient: LinearGradient(
             colors: [Colors.white, Colors.white],
           ),
-          textColor: Theme.of(context).primaryColor,
           borderColor: borderColor,
         );
 
@@ -38,13 +37,21 @@ class BaseButton extends StatelessWidget {
     required Widget child,
     required BuildContext context,
     VoidCallback? onPressed,
+    Gradient? gradient,
     Color? borderColor,
+    Color? textColor,
   }) : this(
           child: child,
           context: context,
           onPressed: onPressed,
-          gradient: UiPalette.buttonBackground,
-          textColor: Colors.white,
+          gradient: gradient ??
+              LinearGradient(
+                colors: [
+                  Theme.of(context).colorScheme.secondaryVariant,
+                  Theme.of(context).colorScheme.secondaryVariant
+                ],
+              ),
+          textColor: textColor ?? Theme.of(context).colorScheme.onPrimary,
           borderColor: borderColor,
         );
 
@@ -53,21 +60,31 @@ class BaseButton extends StatelessWidget {
     required BuildContext context,
     VoidCallback? onPressed,
     Color? borderColor,
+    Color? textColor,
   }) : this(
           child: child,
           context: context,
           onPressed: onPressed,
           gradient: LinearGradient(
-            colors: [Colors.transparent, Colors.transparent],
+            colors: [
+              Theme.of(context).colorScheme.transparent,
+              Theme.of(context).colorScheme.transparent
+            ],
           ),
-          textColor: Theme.of(context).primaryColor,
+          textColor: textColor,
           borderColor: borderColor,
         );
 
   @override
   Widget build(BuildContext context) {
-    final gradient = this.gradient ?? UiPalette.buttonBackground;
-    final textColor = this.textColor ?? Theme.of(context).primaryColor;
+    final gradient = this.gradient ??
+        LinearGradient(
+          colors: [
+            Theme.of(context).colorScheme.secondaryVariant,
+            Theme.of(context).colorScheme.secondaryVariant
+          ],
+        );
+    final textColor = this.textColor ?? Theme.of(context).colorScheme.button;
 
     return Container(
       decoration: BoxDecoration(

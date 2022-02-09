@@ -31,8 +31,15 @@ class MarkdownPage extends StatelessWidget {
               return Markdown(
                 data: snapshot.data!,
                 styleSheet: MarkdownStyleSheet(
-                    h1: TextStyle(color: Theme.of(context).primaryColor),
-                    h2: TextStyle(color: Theme.of(context).primaryColor)),
+                  h1: TextStyle(
+                      color: Theme.of(context).colorScheme.markDownH1),
+                  h2: TextStyle(
+                      color: Theme.of(context).colorScheme.markDownH2),
+                  a: TextStyle(
+                      color: Theme.of(context).colorScheme.markDownA),
+                  p: TextStyle(
+                      color: Theme.of(context).colorScheme.markDownP),
+                ),
                 onTapLink: (text, href, title) => _onTapLink(href),
               );
             }

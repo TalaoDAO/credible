@@ -6,10 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OnBoardingKeyPage extends StatelessWidget {
-
   static Route route() => MaterialPageRoute(
-    builder: (context) => OnBoardingKeyPage(),
-  );
+        builder: (context) => OnBoardingKeyPage(),
+      );
 
   @override
   Widget build(BuildContext context) {

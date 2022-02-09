@@ -54,7 +54,8 @@ class ConfirmDialog extends StatelessWidget {
             children: <Widget>[
               Expanded(
                 child: BaseButton.transparent(
-                  borderColor: Theme.of(context).primaryColor,
+                  borderColor: Theme.of(context).colorScheme.secondaryVariant,
+                  textColor: Theme.of(context).colorScheme.secondaryVariant,
                   context: context,
                   onPressed: () {
                     Navigator.of(context).pop(true);
@@ -65,7 +66,8 @@ class ConfirmDialog extends StatelessWidget {
               const SizedBox(width: 16.0),
               Expanded(
                 child: BaseButton.primary(
-                  borderColor: Theme.of(context).primaryColor,
+                  borderColor: Theme.of(context).colorScheme.secondaryVariant,
+                  textColor: Theme.of(context).colorScheme.onPrimary,
                   context: context,
                   onPressed: () {
                     Navigator.of(context).pop(false);

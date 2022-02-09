@@ -10,7 +10,7 @@ class BackLeadingButton extends StatelessWidget {
       },
       icon: Icon(
         Icons.arrow_back,
-        color: Theme.of(context).colorScheme.secondary,
+        color: Theme.of(context).colorScheme.onSurface,
       ),
     );
   }

@@ -20,16 +20,17 @@ class OnBoardingTosPage extends StatelessWidget {
     final _log = Logger('credible/markdown_page');
 
     return BasePage(
+      backgroundColor: Theme.of(context).colorScheme.background,
       title: localizations.onBoardingTosTitle,
       scrollView: false,
       padding: EdgeInsets.zero,
       useSafeArea: false,
       navigation: Container(
         decoration: BoxDecoration(
-          color: Theme.of(context).backgroundColor,
+          color: Theme.of(context).colorScheme.surface,
           boxShadow: <BoxShadow>[
             BoxShadow(
-              color: Theme.of(context).shadowColor,
+              color: Theme.of(context).colorScheme.shadow,
               offset: Offset(-1.0, -1.0),
               blurRadius: 4.0,
             ),
@@ -83,10 +84,12 @@ class OnBoardingTosPage extends StatelessWidget {
             return Markdown(
               data: snapshot.data!,
               styleSheet: MarkdownStyleSheet(
-                  h1: TextStyle(color: Theme.of(context).primaryColor),
-                  h2: TextStyle(
-                      color: Theme.of(context).colorScheme.primaryVariant)),
-              // onTapLink: (text, href, title) => _onTapLink(href),
+                h1: TextStyle(color: Theme.of(context).colorScheme.markDownH1),
+                h2: TextStyle(color: Theme.of(context).colorScheme.markDownH2),
+                a: TextStyle(color: Theme.of(context).colorScheme.markDownA),
+                p: TextStyle(color: Theme.of(context).colorScheme.markDownP),
+                // onTapLink: (text, href, title) => _onTapLink(href),
+              ),
             );
           }
 
