@@ -7,6 +7,7 @@ import 'package:talao/app/pages/profile/pages/personal.dart';
 import 'package:talao/app/pages/profile/pages/privacy.dart';
 import 'package:talao/app/pages/profile/pages/recovery.dart';
 import 'package:talao/app/pages/profile/pages/terms.dart';
+import 'package:talao/app/pages/profile/pages/theme.dart';
 import 'package:talao/app/pages/profile/widgets/menu_item.dart';
 import 'package:talao/app/pages/splash.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
@@ -15,35 +16,26 @@ import 'package:talao/app/shared/widget/navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:talao/theme/cubit/theme_cubit.dart';
 
-class ProfilePage extends StatefulWidget {
+class ProfilePage extends StatelessWidget {
   static Route route() => MaterialPageRoute(
         builder: (_) => ProfilePage(),
       );
 
   @override
-  _ProfilePageState createState() => _ProfilePageState();
+  Widget build(BuildContext context) {
+    return ProfileView();
+  }
 }
 
-class _ProfilePageState extends State<ProfilePage> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
+class ProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
     return BlocConsumer(
       bloc: context.read<ProfileBloc>(),
-      listener: (context, state) {
-        if (state is ProfileStateMessage) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            backgroundColor: state.message.color,
-            content: Text(state.message.message),
-          ));
-        }
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         final model =
             state is ProfileStateDefault ? state.model : ProfileModel();
@@ -98,7 +90,7 @@ class _ProfilePageState extends State<ProfilePage> {
               MenuItem(
                 icon: Icons.article,
                 title: localizations.onBoardingTosTitle,
-                onTap: () => Navigator.of(context).push(TermsPage.route()), 
+                onTap: () => Navigator.of(context).push(TermsPage.route()),
               ),
               MenuItem(
                 icon: Icons.vpn_key,
@@ -156,6 +148,13 @@ class _ProfilePageState extends State<ProfilePage> {
                     await Navigator.of(context).push(SplashPage.route());
                   }
                 },
+              ),
+              MenuItem(
+                key: Key('theme_update'),
+                icon: Icons.light_mode,
+                title: localizations.selectThemeText,
+                onTap: () => Navigator.of(context)
+                    .push(ThemePage.route(context.read<ThemeCubit>())),
               ),
             ],
           ),

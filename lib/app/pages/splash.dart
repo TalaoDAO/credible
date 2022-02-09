@@ -13,15 +13,17 @@ import 'package:talao/app/pages/profile/usecase/is_issuer_approved.dart'
     as issuer_approved_usecase;
 import 'package:talao/app/pages/qr_code/bloc/qrcode.dart';
 import 'package:talao/app/pages/qr_code/check_host.dart';
-import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/brand.dart';
 import 'package:talao/deep_link/deep_link.dart';
+import 'package:talao/theme/theme.dart';
 import 'package:uni_links/uni_links.dart';
 
 bool _initialUriIsHandled = false;
 
 class SplashPage extends StatefulWidget {
+  SplashPage({Key? key}) : super(key: key);
+
   static Route route() {
     return MaterialPageRoute<void>(
         builder: (context) => SplashPage(),
@@ -34,6 +36,14 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPageState extends State<SplashPage> {
   StreamSubscription? _sub;
+
+  @override
+  void initState() {
+    super.initState();
+    // initDynamicLinks();
+
+    () async => await context.read<ThemeCubit>().getCurrentTheme();
+  }
 
   @override
   void dispose() {
@@ -164,7 +174,7 @@ class _SplashPageState extends State<SplashPage> {
             }
           },
           child: BasePage(
-            backgroundColor: UiKit.palette.background,
+            backgroundColor: Theme.of(context).backgroundColor,
             scrollView: false,
             body: Container(
               alignment: Alignment.center,
