@@ -41,12 +41,18 @@ class _SplashPageState extends State<SplashPage> {
     super.initState();
     // initDynamicLinks();
     Future.delayed(
-      Duration(milliseconds: 100),
+      Duration(milliseconds: 50),
       () async {
         final key = await SecureStorageProvider.instance.get('key') ?? '';
 
         if (key.isEmpty) {
-          await Navigator.of(context).push<void>(OnBoardingStartPage.route());
+          Future.delayed(
+              Duration(
+                milliseconds: 800,
+              ), () {
+            Navigator.of(context).push<void>(OnBoardingStartPage.route());
+          });
+
           return;
         } else {
           setState(() {
@@ -136,9 +142,14 @@ class _SplashPageState extends State<SplashPage> {
     return BlocListener<WalletBloc, WalletBlocState>(
       listener: (context, state) {
         if (_isKeyLoaded && state is WalletBlocList) {
-          Navigator.of(context).push<void>(
-            CredentialsList.route(),
-          );
+          Future.delayed(
+              Duration(
+                milliseconds: 800,
+              ), () {
+            Navigator.of(context).push<void>(
+              CredentialsList.route(),
+            );
+          });
         }
       },
       child: BlocListener<QRCodeBloc, QRCodeState>(
