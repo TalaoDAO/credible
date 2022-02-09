@@ -38,6 +38,10 @@ class WalletBloc extends Cubit<WalletBlocState> {
     });
   }
 
+  void convertInWalletBlocList(List<CredentialModel> credentials) {
+    emit(WalletBlocList(credentials: credentials));
+  }
+
   Future checkKey() async {
     final key = await SecureStorageProvider.instance.get('key');
     if (key == null) {

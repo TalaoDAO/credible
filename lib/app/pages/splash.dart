@@ -118,6 +118,9 @@ class _SplashPageState extends State<SplashPage> {
               Duration(
                 milliseconds: 900,
               ), () {
+            context
+                .read<WalletBloc>()
+                .convertInWalletBlocList(state.credentials);
             Navigator.of(context).push<void>(
               CredentialsList.route(),
             );
