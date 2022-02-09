@@ -196,6 +196,55 @@ extension CustomColorScheme on ColorScheme {
       ? const Color(0xff212121)
       : const Color(0xFFEEEAEA);
 
-  Color? get profileDummy =>
-      brightness == Brightness.light ? Colors.grey[300] : Colors.grey[900];
+  Color get profileDummy =>
+      brightness == Brightness.light ? Color(0xFFE0E0E0) : Color(0xFF212121);
+
+  Color get documentShadow =>
+      brightness == Brightness.light ? Color(0xFF757575) : Color(0xFF424242);
+
+  Color get documentShape => AppTheme.lightPrimaryVariant.withOpacity(0.05);
+}
+
+extension CustomTextTheme on TextTheme {
+  TextStyle get credentialTitle => GoogleFonts.montserrat(
+        color: const Color(0xFF424242),
+        fontSize: 14.0,
+        fontWeight: FontWeight.bold,
+      );
+
+  TextStyle get credentialDescription => GoogleFonts.montserrat(
+        color: const Color(0xFF757575),
+        fontSize: 14.0,
+        fontWeight: FontWeight.bold,
+      );
+
+  TextStyle get credentialFieldTitle => GoogleFonts.montserrat(
+        color: const Color(0xff212121),
+        fontSize: 12.0,
+        fontWeight: FontWeight.w400,
+      );
+
+  TextStyle get credentialFieldDescription => GoogleFonts.montserrat(
+        color: const Color(0xff212121),
+        fontSize: 13.0,
+        fontWeight: FontWeight.w600,
+      );
+
+  TextStyle get learningAchievementTitle => GoogleFonts.montserrat(
+        color: const Color(0xff212121),
+        fontSize: 12.0,
+        fontWeight: FontWeight.w600,
+      );
+
+  TextStyle get learningAchievementDescription => GoogleFonts.montserrat(
+        color: const Color(0xff212121),
+        fontSize: 12.0,
+        fontWeight: FontWeight.w400,
+      );
+
+  TextStyle get credentialIssuer => GoogleFonts.montserrat(
+        color: const Color(0xff212121),
+        fontSize: 13.0,
+        fontWeight: FontWeight.w500,
+      );
 }

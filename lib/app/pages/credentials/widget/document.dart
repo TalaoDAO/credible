@@ -27,23 +27,23 @@ class DocumentWidget extends StatelessWidget {
       return model.displayDetail(context, model);
     }
 
-
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: Colors.white,
         boxShadow: [
           BoxShadow(
-              color: Colors.black87,
-              blurRadius: 2,
-              spreadRadius: 1.0,
-              offset: Offset(3, 3))
+            color: Theme.of(context).colorScheme.documentShadow,
+            blurRadius: 2,
+            spreadRadius: 1.0,
+            offset: Offset(3, 3),
+          )
         ],
       ),
       child: Container(
         decoration: BaseBoxDecoration(
           color: model.backgroundColor,
-          shapeColor: Theme.of(context).primaryColor.withOpacity(0.05),
+          shapeColor:
+              Theme.of(context).colorScheme.documentShape,
           value: 0.0,
           shapeSize: 256.0,
           anchors: <Alignment>[

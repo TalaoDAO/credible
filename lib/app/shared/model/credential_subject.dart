@@ -12,7 +12,6 @@ import 'package:talao/app/shared/model/professional_skil_assessment/professional
 import 'package:talao/app/shared/model/professional_student_card/professional_student_card.dart';
 import 'package:talao/app/shared/model/resident_card/resident_card.dart';
 import 'package:talao/app/shared/model/voucher/voucher.dart';
-import 'package:talao/app/shared/ui/ui.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -27,7 +26,6 @@ class CredentialSubject {
 
   CredentialSubject(this.id, this.type, this.issuedBy);
 
-  ///todo
   Color get backgroundColor {
     Color _backgroundColor;
     switch (type) {

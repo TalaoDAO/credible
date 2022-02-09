@@ -13,6 +13,7 @@ import 'package:talao/app/shared/model/loyalty_card/loyalty_card.dart';
 import 'package:talao/app/shared/model/professional_student_card/professional_student_card.dart';
 import 'package:talao/app/shared/model/translation.dart';
 import 'package:talao/app/shared/model/voucher/voucher.dart';
+import 'package:talao/app/shared/ui/theme.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/credential_field.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -36,6 +37,7 @@ class CredentialModel {
   final Display display;
   @JsonKey(defaultValue: RevocationStatus.unknown)
   RevocationStatus revocationStatus;
+
   // @JsonKey(fromJson: fromJsonDisplay)
   // final Scope display;
 
@@ -49,6 +51,7 @@ class CredentialModel {
     required this.data,
     required this.revocationStatus,
   });
+
   factory CredentialModel.fromJson(Map<String, dynamic> json) {
     // ignore: omit_local_variable_types
     Map<String, dynamic> newJson = Map.from(json);
@@ -182,7 +185,10 @@ class CredentialModel {
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
                   children: [
-                    Text('${localizations.evidenceLabel} '),
+                    Text(
+                      '${localizations.evidenceLabel}: ',
+                      style: Theme.of(context).textTheme.credentialFieldTitle,
+                    ),
                     Flexible(
                       child: InkWell(
                         onTap: () =>
@@ -193,10 +199,9 @@ class CredentialModel {
                             children: [
                               Text(
                                 credentialPreview.evidence.first.id,
-                                style: TextStyle(
-                                    inherit: true,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.blue),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .credentialFieldDescription,
                                 maxLines: 5,
                                 overflow: TextOverflow.fade,
                                 softWrap: true,
@@ -275,20 +280,20 @@ class CredentialModel {
 
   Widget displayName(BuildContext context) {
     final nameValue = getName(context, credentialPreview.name);
-    return Text(nameValue.toString(),
-        maxLines: 1,
-        overflow: TextOverflow.clip,
-        style: Theme.of(context)
-            .textTheme
-            .bodyText1
-            ?.copyWith(fontWeight: FontWeight.bold));
+    return Text(
+      nameValue.toString(),
+      maxLines: 1,
+      overflow: TextOverflow.clip,
+      style: Theme.of(context).textTheme.credentialTitle,
+    );
   }
 
   Widget displayDescription(BuildContext context) {
     final nameValue = getDescription(context, credentialPreview.description);
     return Text(
-      nameValue.toString(),
+      nameValue,
       overflow: TextOverflow.fade,
+      style: Theme.of(context).textTheme.credentialDescription,
     );
   }
 

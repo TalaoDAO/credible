@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:talao/app/shared/ui/theme.dart';
 
 class CredentialField extends StatelessWidget {
   const CredentialField({
@@ -34,11 +35,14 @@ class DisplayCredentialField extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Row(
         children: [
-          Text('$title '),
+          Text(
+            '$title: ',
+            style: Theme.of(context).textTheme.credentialFieldTitle,
+          ),
           Flexible(
             child: Text(
               '$value',
-              style: TextStyle(inherit: true, fontWeight: FontWeight.w700),
+              style: Theme.of(context).textTheme.credentialFieldDescription,
               maxLines: 5,
               overflow: TextOverflow.fade,
               softWrap: true,

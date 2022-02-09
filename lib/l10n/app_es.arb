@@ -78,6 +78,7 @@
   "credentialPresentConfirm": "Seleccionar credencial(es)",
   "credentialPresentCancel": "Rechazar",
   "credentialPickPresent": "Presentar",
+  "credentialPickTitle": "Present Credentials",
   "credentialPickSelect": "Elija una o varias credenciales que presentar de su cartera",
   "credentialReceiveTitle": "Oferta de credenciales",
   "credentialReceiveHost": "desea enviarle una credencial",

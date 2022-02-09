@@ -35,10 +35,7 @@ class CredentialsReceivePage extends StatelessWidget {
       titleTrailing: IconButton(
         onPressed: () =>
             Navigator.of(context).pushReplacement(CredentialsList.route()),
-        icon: Icon(
-          Icons.close,
-          color: Theme.of(context).primaryColor,
-        ),
+        icon: Icon(Icons.close),
       ),
       body: BlocConsumer<ScanBloc, ScanState>(
         listener: (listenerContext, state) {
@@ -48,7 +45,6 @@ class CredentialsReceivePage extends StatelessWidget {
           }
         },
         builder: (builderContext, state) {
-
           if (state is ScanStatePreview) {
             final credential = CredentialModel.fromJson(state.preview);
             return Column(
@@ -59,9 +55,8 @@ class CredentialsReceivePage extends StatelessWidget {
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.all(24.0),
-                        child: TooltipText(
-                          text:
-                              '${url.host} ${localizations.credentialReceiveHost}',
+                        child: Text(
+                          '${url.host} ${localizations.credentialReceiveHost}',
                           maxLines: 3,
                           textAlign: TextAlign.center,
                           style: Theme.of(builderContext).textTheme.bodyText1,

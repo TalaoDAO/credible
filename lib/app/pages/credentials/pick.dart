@@ -21,6 +21,7 @@ class CredentialsPickPage extends StatefulWidget {
     required this.uri,
     required this.preview,
   }) : super(key: key);
+
   static Route route(Uri routeUri, Map<String, dynamic> preview) =>
       MaterialPageRoute(
         builder: (context) => CredentialsPickPage(
@@ -59,15 +60,12 @@ class _CredentialsPickPageState extends State<CredentialsPickPage> {
     return BlocBuilder<WalletBloc, List<CredentialModel>>(
         builder: (builderContext, credentialList) {
       return BasePage(
-        title: 'Present credentials',
+        title: localizations.credentialPickTitle,
         titleTrailing: IconButton(
           onPressed: () {
             Navigator.of(context).pushReplacement(CredentialsList.route());
           },
-          icon: Icon(
-            Icons.close,
-            color: Theme.of(context).primaryColor,
-          ),
+          icon: Icon(Icons.close),
         ),
         padding: const EdgeInsets.symmetric(
           vertical: 24.0,
@@ -76,7 +74,7 @@ class _CredentialsPickPageState extends State<CredentialsPickPage> {
         navigation: SafeArea(
           child: Container(
             padding: const EdgeInsets.all(16.0),
-            height: kBottomNavigationBarHeight * 1.75,
+            height: kBottomNavigationBarHeight + 16,
             child: Tooltip(
               message: localizations.credentialPickPresent,
               child: Builder(builder: (builderContext) {
@@ -87,7 +85,7 @@ class _CredentialsPickPageState extends State<CredentialsPickPage> {
                       ScaffoldMessenger.of(builderContext)
                           .showSnackBar(SnackBar(
                         backgroundColor: Colors.red,
-                        content: Text('localizations.credentialPickSelect'),
+                        content: Text(localizations.credentialPickSelect),
                       ));
                     } else {
                       final scanBloc = builderContext.read<ScanBloc>();

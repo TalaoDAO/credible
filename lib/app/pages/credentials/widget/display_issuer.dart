@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:talao/app/shared/model/author.dart';
+import 'package:talao/app/shared/ui/theme.dart';
 
 class DisplayIssuer extends StatelessWidget {
   const DisplayIssuer({
@@ -17,7 +18,7 @@ class DisplayIssuer extends StatelessWidget {
         children: [
           // Text('${localizations.issuer} '),
           Text(issuer.name,
-              style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
+              style: Theme.of(context).textTheme.credentialIssuer),
           Spacer(),
           (issuer.logo != '')
               ? Container(
