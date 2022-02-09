@@ -34,34 +34,6 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPageState extends State<SplashPage> {
   StreamSubscription? _sub;
-  bool _isKeyLoaded = false;
-
-  @override
-  void initState() {
-    super.initState();
-    // initDynamicLinks();
-    Future.delayed(
-      Duration(milliseconds: 50),
-      () async {
-        final key = await SecureStorageProvider.instance.get('key') ?? '';
-
-        if (key.isEmpty) {
-          Future.delayed(
-              Duration(
-                milliseconds: 800,
-              ), () {
-            Navigator.of(context).push<void>(OnBoardingStartPage.route());
-          });
-
-          return;
-        } else {
-          setState(() {
-            _isKeyLoaded = true;
-          });
-        }
-      },
-    );
-  }
 
   @override
   void dispose() {
@@ -141,15 +113,19 @@ class _SplashPageState extends State<SplashPage> {
 
     return BlocListener<WalletBloc, WalletBlocState>(
       listener: (context, state) {
-        if (_isKeyLoaded && state is WalletBlocList) {
+        if (state is WalletBlocList) {
           Future.delayed(
               Duration(
-                milliseconds: 800,
+                milliseconds: 900,
               ), () {
             Navigator.of(context).push<void>(
               CredentialsList.route(),
             );
           });
+        }
+
+        if (state is WalletBlocCreateKey) {
+          Navigator.of(context).push<void>(OnBoardingStartPage.route());
         }
       },
       child: BlocListener<QRCodeBloc, QRCodeState>(
