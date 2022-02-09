@@ -113,7 +113,7 @@ class _SplashPageState extends State<SplashPage> {
 
     return BlocListener<WalletBloc, WalletBlocState>(
       listener: (context, state) {
-        if (state is WalletBlocList) {
+        if (state is WalletBlocListReady) {
           Future.delayed(
               Duration(
                 milliseconds: 900,

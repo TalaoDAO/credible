@@ -17,6 +17,12 @@ class WalletBlocList extends WalletBlocState {
   WalletBlocList({required this.credentials});
 }
 
+class WalletBlocListReady extends WalletBlocState {
+  @override
+  final List<CredentialModel> credentials;
+  WalletBlocListReady({required this.credentials});
+}
+
 class WalletBloc extends Cubit<WalletBlocState> {
   final CredentialsRepository repository;
 
@@ -44,7 +50,9 @@ class WalletBloc extends Cubit<WalletBlocState> {
         await repository.initializeRevocationStatus();
 
         /// load all credentials from repository
-        await findAll();
+        await repository.findAll(/* filters */).then((values) {
+          emit(WalletBlocListReady(credentials: values));
+        });
       }
     }
   }
