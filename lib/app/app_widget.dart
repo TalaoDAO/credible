@@ -48,7 +48,6 @@ class AppWidget extends StatelessWidget {
       ],
       child: MaterialAppDefinition(),
     );
-    ;
   }
 }
 
