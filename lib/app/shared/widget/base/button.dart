@@ -71,19 +71,14 @@ class BaseButton extends StatelessWidget {
               Theme.of(context).colorScheme.transparent
             ],
           ),
-          textColor: textColor,
-          borderColor: borderColor,
+          textColor:
+              textColor ?? Theme.of(context).colorScheme.secondaryVariant,
+          borderColor:
+              borderColor ?? Theme.of(context).colorScheme.secondaryVariant,
         );
 
   @override
   Widget build(BuildContext context) {
-    final gradient = this.gradient ??
-        LinearGradient(
-          colors: [
-            Theme.of(context).colorScheme.secondaryVariant,
-            Theme.of(context).colorScheme.secondaryVariant
-          ],
-        );
     final textColor = this.textColor ?? Theme.of(context).colorScheme.button;
 
     return Container(

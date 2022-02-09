@@ -1,7 +1,6 @@
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/pages/on_boarding/gen.dart';
-import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
@@ -47,7 +46,7 @@ class _OnBoardingGenPhrasePageState extends State<OnBoardingGenPhrasePage> {
               Text(
                 localizations.genPhraseInstruction,
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.subtitle2,
+                style: Theme.of(context).textTheme.subtitle1,
               ),
               const SizedBox(height: 8.0),
               Text(
@@ -68,14 +67,15 @@ class _OnBoardingGenPhrasePageState extends State<OnBoardingGenPhrasePage> {
               children: <Widget>[
                 Icon(
                   Icons.privacy_tip_outlined,
-                  color:  Theme.of(context).primaryColor.withOpacity(0.6),
+                  color: Theme.of(context).colorScheme.primary,
                 ),
                 const SizedBox(width: 16.0),
                 Expanded(
                   child: Text(
                     localizations.genPhraseViewLatterText,
-                    style: Theme.of(context).textTheme.caption!.apply(
-                        color: Theme.of(context).primaryColor.withOpacity(0.6)),
+                    style: Theme.of(context).textTheme.caption!.copyWith(
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
                   ),
                 ),
               ],

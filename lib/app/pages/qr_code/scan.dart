@@ -128,18 +128,12 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
         navigation: CustomNavBar(index: 1),
         extendBelow: true,
         body: SafeArea(
-          child: Container(
-            padding: const EdgeInsets.all(8.0),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(16.0),
-              child: QRView(
-                key: qrKey,
-                overlay: QrScannerOverlayShape(
-                  borderColor: Colors.white70,
-                ),
-                onQRViewCreated: onQRViewCreated,
-              ),
+          child: QRView(
+            key: qrKey,
+            overlay: QrScannerOverlayShape(
+              borderColor: Colors.white70,
             ),
+            onQRViewCreated: onQRViewCreated,
           ),
         ),
       ),

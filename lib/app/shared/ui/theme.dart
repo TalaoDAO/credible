@@ -195,4 +195,7 @@ extension CustomColorScheme on ColorScheme {
   Color get button => brightness == Brightness.light
       ? const Color(0xff212121)
       : const Color(0xFFEEEAEA);
+
+  Color? get profileDummy =>
+      brightness == Brightness.light ? Colors.grey[300] : Colors.grey[900];
 }
