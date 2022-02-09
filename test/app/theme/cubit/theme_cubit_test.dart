@@ -16,14 +16,14 @@ void main() {
 
   group('ThemeCubit', () {
     test('initial state is correct', () {
-      expect(ThemeCubit(mockSecureStorage).state, ThemeMode.system);
+      expect(ThemeCubit(mockSecureStorage).state, ThemeMode.dark);
     });
 
     group('setTheme', () {
       test('emits correct theme for null', () async {
         final themeCubit = ThemeCubit(mockSecureStorage);
         themeCubit.setTheme(null);
-        expect(themeCubit.state, ThemeMode.system);
+        expect(themeCubit.state, ThemeMode.dark);
       });
 
       test('emits correct theme for ThemeMode.Light', () async {
@@ -150,7 +150,6 @@ void main() {
         expect: () => <ThemeMode>[ThemeMode.system],
       );
 
-      //todo: test failed
       blocTest<ThemeCubit, ThemeMode>(
         'emit [Theme.dark] if random data is returned',
         build: () => ThemeCubit(mockSecureStorage),
@@ -158,7 +157,7 @@ void main() {
         setUp: () {
           when(
             () => mockSecureStorage.get('theme'),
-          ).thenAnswer((_) async => any());
+          ).thenAnswer((_) async => 'sdf');
         },
         expect: () => <ThemeMode>[ThemeMode.dark],
       );
