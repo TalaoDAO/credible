@@ -40,7 +40,6 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
-    // initDynamicLinks();
     Future.delayed(
       Duration(seconds: 0),
       () async {
@@ -124,51 +123,53 @@ class _SplashPageState extends State<SplashPage> {
     _handleIncomingLinks(context);
     _handleInitialUri(context);
     final localizations = AppLocalizations.of(context)!;
-
-    return BlocListener<WalletBloc, WalletBlocState>(
-      listener: (context, state) {
-        if (state is WalletBlocListReady) {
-          Future.delayed(
-              Duration(
-                milliseconds: 900,
-              ), () {
-            context
-                .read<WalletBloc>()
-                .convertInWalletBlocList(state.credentials);
-            Navigator.of(context).push<void>(
-              CredentialsList.route(),
-            );
-          });
-        }
-
-        if (state is WalletBlocCreateKey) {
-          Navigator.of(context).push<void>(OnBoardingStartPage.route());
-        }
-      },
-      child: BlocListener<QRCodeBloc, QRCodeState>(
-        listener: (context, state) async {
-          if (state is QRCodeStateHost) {
-            var approvedIssuer = await issuer_approved_usecase.ApprovedIssuer(
-                state.uri, context);
-            var acceptHost;
-            acceptHost =
-                await checkHost(state.uri, approvedIssuer, context) ?? false;
-
-            if (acceptHost) {
-              context.read<QRCodeBloc>().add(QRCodeEventAccept(state.uri));
-            } else {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(localizations.scanRefuseHost),
-              ));
-              await Navigator.of(context)
-                  .pushReplacement(CredentialsList.route());
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<WalletBloc, WalletBlocState>(
+          listener: (context, state) {
+            if (state is WalletBlocListReady) {
+              Future.delayed(
+                  Duration(
+                    milliseconds: 900,
+                  ), () {
+                context
+                    .read<WalletBloc>()
+                    .convertInWalletBlocList(state.credentials);
+                Navigator.of(context).push<void>(
+                  CredentialsList.route(),
+                );
+              });
             }
-          }
-          if (state is QRCodeStateSuccess) {
-            await Navigator.of(context).pushReplacement(state.route);
-          }
-        },
-        child: BlocListener<ScanBloc, ScanState>(
+            if (state is WalletBlocCreateKey) {
+              Navigator.of(context).push<void>(OnBoardingStartPage.route());
+            }
+          },
+        ),
+        BlocListener<QRCodeBloc, QRCodeState>(
+          listener: (context, state) async {
+            if (state is QRCodeStateHost) {
+              var approvedIssuer = await issuer_approved_usecase.ApprovedIssuer(
+                  state.uri, context);
+              var acceptHost;
+              acceptHost =
+                  await checkHost(state.uri, approvedIssuer, context) ?? false;
+
+              if (acceptHost) {
+                context.read<QRCodeBloc>().add(QRCodeEventAccept(state.uri));
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(localizations.scanRefuseHost),
+                ));
+                await Navigator.of(context)
+                    .pushReplacement(CredentialsList.route());
+              }
+            }
+            if (state is QRCodeStateSuccess) {
+              await Navigator.of(context).pushReplacement(state.route);
+            }
+          },
+        ),
+        BlocListener<ScanBloc, ScanState>(
           listener: (context, state) {
             if (state is ScanStateMessage) {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -177,15 +178,15 @@ class _SplashPageState extends State<SplashPage> {
               ));
             }
           },
-          child: BasePage(
-            backgroundColor: const Color(0xff121212),
-            scrollView: false,
-            body: Container(
-              alignment: Alignment.center,
-              padding: const EdgeInsets.all(24.0),
-              child: BrandMinimal(),
-            ),
-          ),
+        ),
+      ],
+      child: BasePage(
+        backgroundColor: const Color(0xff121212),
+        scrollView: false,
+        body: Container(
+          alignment: Alignment.center,
+          padding: const EdgeInsets.all(24.0),
+          child: BrandMinimal(),
         ),
       ),
     );
