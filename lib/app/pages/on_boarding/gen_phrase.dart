@@ -99,7 +99,7 @@ class _OnBoardingGenPhrasePageState extends State<OnBoardingGenPhrasePage> {
                     'error ocurred setting mnemonic to secure storate', error);
 
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  backgroundColor: Colors.red,
+                  backgroundColor: Theme.of(context).colorScheme.error,
                   content: Text('Failed to save mnemonic, please try again'),
                 ));
               }

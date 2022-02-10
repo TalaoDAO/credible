@@ -43,7 +43,7 @@ class _OnBoardingGenPageState extends State<OnBoardingGenPage> {
       log.severe('something went wrong when generating a key', error);
 
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        backgroundColor: Colors.red,
+        backgroundColor: Theme.of(context).colorScheme.error,
         content: Text(localizations.errorGeneratingKey),
       ));
       await Navigator.of(context).pushReplacement(OnBoardingKeyPage.route());

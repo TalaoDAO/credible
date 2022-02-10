@@ -7,6 +7,7 @@ import 'package:talao/app/pages/credentials/models/revokation_status.dart';
 
 class DisplayStatus extends StatelessWidget {
   DisplayStatus(this.item, this.displayLabel, {Key? key});
+
   final CredentialModel item;
   final bool displayLabel;
 
@@ -66,7 +67,8 @@ class DisplayStatus extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Icon(Icons.block, color: Colors.red),
+                      child: Icon(Icons.block,
+                          color: Theme.of(context).colorScheme.error),
                     ),
                     displayLabel
                         ? Padding(
@@ -75,7 +77,10 @@ class DisplayStatus extends StatelessWidget {
                                 style: Theme.of(context)
                                     .textTheme
                                     .caption!
-                                    .apply(color: Colors.red)))
+                                    .apply(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .error)))
                         : SizedBox.shrink()
                   ],
                 );

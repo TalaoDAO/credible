@@ -238,7 +238,7 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
               style: Theme.of(context)
                   .textTheme
                   .bodyText1!
-                  .apply(color: Colors.redAccent),
+                  .apply(color: Theme.of(context).colorScheme.error),
             ),
           ),
           const SizedBox(height: 16.0),

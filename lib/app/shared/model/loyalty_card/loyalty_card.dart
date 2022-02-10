@@ -110,7 +110,7 @@ class LoyaltyCardVerso extends Verso {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: Colors.red,
+        color: Theme.of(context).colorScheme.error,
       ),
       child: Column(
         children: [
@@ -148,8 +148,7 @@ class TextWithLoyaltyCardStyle extends StatelessWidget {
     if (value != '') {
       return Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Text(value,
-            style: Theme.of(context).textTheme.loyaltyCard),
+        child: Text(value, style: Theme.of(context).textTheme.loyaltyCard),
       );
     } else {
       return const SizedBox.shrink();
