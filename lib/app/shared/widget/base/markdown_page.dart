@@ -12,7 +12,7 @@ class MarkdownPage extends StatelessWidget {
   final String title;
   final String file;
 
-  final _log = Logger('credible/markdown_page');
+  final _log = Logger('talao-wallet/markdown_page');
 
   MarkdownPage({Key? key, required this.title, required this.file})
       : super(key: key);

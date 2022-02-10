@@ -1,4 +1,3 @@
-import 'package:talao/app/shared/ui/ui.dart';
 import 'package:flutter/material.dart';
 import 'package:talao/app/shared/widget/my_text.dart';
 

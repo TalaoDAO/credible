@@ -48,7 +48,6 @@ class AppWidget extends StatelessWidget {
       ],
       child: MaterialAppDefinition(),
     );
-    ;
   }
 }
 
@@ -65,7 +64,7 @@ class MaterialAppDefinition extends StatelessWidget {
       },
       initialRoute: '/splash',
       theme: AppTheme.lightThemeData,
-      darkTheme: AppTheme.darkThemeData,
+      //darkTheme: AppTheme.darkThemeData,
       themeMode: context.select((ThemeCubit cubit) => cubit.state),
       localizationsDelegates: [
         AppLocalizations.delegate,

@@ -149,7 +149,7 @@ class TextWithLoyaltyCardStyle extends StatelessWidget {
       return Padding(
         padding: const EdgeInsets.all(8.0),
         child: Text(value,
-            style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
+            style: Theme.of(context).textTheme.loyaltyCard),
       );
     } else {
       return const SizedBox.shrink();

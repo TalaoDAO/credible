@@ -124,7 +124,7 @@ class QRCodeBloc extends Bloc<QRCodeEvent, QRCodeState> {
     QRCodeEventAccept event,
     Emitter<QRCodeState> emit,
   ) async {
-    final log = Logger('credible/qrcode/accept');
+    final log = Logger('talao-wallet/qrcode/accept');
 
     late final data;
 

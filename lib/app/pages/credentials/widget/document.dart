@@ -42,8 +42,7 @@ class DocumentWidget extends StatelessWidget {
       child: Container(
         decoration: BaseBoxDecoration(
           color: model.backgroundColor,
-          shapeColor:
-              Theme.of(context).colorScheme.documentShape,
+          shapeColor: Theme.of(context).colorScheme.documentShape,
           value: 0.0,
           shapeSize: 256.0,
           anchors: <Alignment>[

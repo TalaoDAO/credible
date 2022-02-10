@@ -5,11 +5,11 @@ class CredentialField extends StatelessWidget {
   const CredentialField({
     Key? key,
     required this.value,
-    required this.title,
+    this.title,
   }) : super(key: key);
 
   final String value;
-  final String title;
+  final String? title;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class DisplayCredentialField extends StatelessWidget {
     required this.value,
   }) : super(key: key);
 
-  final String title;
+  final String? title;
   final String value;
 
   @override
@@ -35,10 +35,11 @@ class DisplayCredentialField extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Row(
         children: [
-          Text(
-            '$title: ',
-            style: Theme.of(context).textTheme.credentialFieldTitle,
-          ),
+          if (title != null)
+            Text(
+              '$title: ',
+              style: Theme.of(context).textTheme.credentialFieldTitle,
+            ),
           Flexible(
             child: Text(
               '$value',

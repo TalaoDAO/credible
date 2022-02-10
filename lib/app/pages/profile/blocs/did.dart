@@ -34,7 +34,7 @@ class DIDBloc extends Bloc<DIDEvent, DIDState> {
   void _load(
     DIDEventLoad event, Emitter<DIDState> emit,
   ) async {
-    final log = Logger('credible/did/load');
+    final log = Logger('talao-wallet/did/load');
 
     try {
       emit(DIDStateWorking());

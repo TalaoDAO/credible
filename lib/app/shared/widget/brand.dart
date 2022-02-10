@@ -1,4 +1,3 @@
-import 'package:google_fonts/google_fonts.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/hero_workaround.dart';
 import 'package:flutter/material.dart';
@@ -20,11 +19,7 @@ class BrandMinimal extends StatelessWidget {
         ),
         Text(
           'Talao SSI wallet',
-          style: GoogleFonts.montserrat(
-            color: const Color(0xFFFFFFFF),
-            fontSize: 28.0,
-            fontWeight: FontWeight.w400,
-          ),
+          style: Theme.of(context).textTheme.brand,
         )
       ],
     );

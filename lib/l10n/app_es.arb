@@ -80,6 +80,7 @@
   "credentialPickPresent": "Presentar",
   "credentialPickTitle": "Present Credentials",
   "credentialPickSelect": "Elija una o varias credenciales que presentar de su cartera",
+  "credentialPickAlertMessage": "Do you want to give an alias to this credential?",
   "credentialReceiveTitle": "Oferta de credenciales",
   "credentialReceiveHost": "desea enviarle una credencial",
   "credentialReceiveConfirm": "Añadir a la cartera",

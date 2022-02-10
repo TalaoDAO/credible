@@ -4,6 +4,7 @@ import 'package:talao/app/shared/model/author.dart';
 import 'package:talao/app/shared/model/credential_subject.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:talao/app/shared/widget/base/credential_field.dart';
 
 part 'default_credential_subject.g.dart';
 
@@ -29,14 +30,8 @@ class DefaultCredentialSubject extends CredentialSubject {
   Widget displayInList(BuildContext context, CredentialModel item) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(type),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(issuedBy.name),
-        )
+        CredentialField(value: type),
+        CredentialField(value: issuedBy.name),
       ],
     );
   }

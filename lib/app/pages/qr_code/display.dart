@@ -1,5 +1,5 @@
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
-import 'package:talao/app/shared/ui/ui.dart';
+
 import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:flutter/material.dart';

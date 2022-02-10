@@ -80,6 +80,7 @@
   "credentialPickPresent": "Presenta",
   "credentialPickTitle": "Present Credentials",
   "credentialPickSelect": "Scegli nel wallet una o più credenziali da mostrare",
+  "credentialPickAlertMessage": "Do you want to give an alias to this credential?",
   "credentialReceiveTitle": "Offerta di credenziali",
   "credentialReceiveHost": "ti vuole inviare le sue credenziali",
   "credentialReceiveConfirm": "Aggiungi al wallet",

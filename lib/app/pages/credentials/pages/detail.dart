@@ -9,7 +9,6 @@ import 'package:talao/app/pages/credentials/pages/list.dart';
 import 'package:talao/app/pages/credentials/widget/display_status.dart';
 import 'package:talao/app/pages/credentials/widget/document.dart';
 import 'package:talao/app/pages/qr_code/display.dart';
-import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
@@ -44,7 +43,7 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
   bool showShareMenu = false;
   VerificationState verification = VerificationState.Unverified;
 
-  final logger = Logger('credible/credentials/detail');
+  final logger = Logger('talao-wallet/credentials/detail');
 
   @override
   void initState() {

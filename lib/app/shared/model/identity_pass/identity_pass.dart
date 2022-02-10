@@ -6,6 +6,7 @@ import 'package:talao/app/shared/model/identity_pass/identity_pass_recipient.dar
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:talao/app/shared/widget/base/credential_field.dart';
 
 part 'identity_pass.g.dart';
 
@@ -41,56 +42,19 @@ class IdentityPass extends CredentialSubject {
     return Column(
       children: [
         expires != ''
-            ? Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Text('${localizations.expires} '),
-                    Text('$expires',
-                        style: TextStyle(
-                            inherit: true, fontWeight: FontWeight.w700)),
-                  ],
-                ),
-              )
+            ? CredentialField(title: localizations.expires, value: expires)
             : SizedBox.shrink(),
         recipient.jobTitle != ''
-            ? Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Text('${localizations.jobTitle} '),
-                    Text('${recipient.jobTitle}',
-                        style: TextStyle(
-                            inherit: true, fontWeight: FontWeight.w700)),
-                  ],
-                ),
-              )
+            ? CredentialField(
+                title: localizations.jobTitle, value: recipient.jobTitle)
             : SizedBox.shrink(),
         recipient.familyName != ''
-            ? Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Text('${localizations.firstName} '),
-                    Text('${recipient.familyName}',
-                        style: TextStyle(
-                            inherit: true, fontWeight: FontWeight.w700)),
-                  ],
-                ),
-              )
+            ? CredentialField(
+                title: localizations.firstName, value: recipient.familyName)
             : SizedBox.shrink(),
         recipient.givenName != ''
-            ? Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Text('${localizations.lastName} '),
-                    Text('${recipient.givenName}',
-                        style: TextStyle(
-                            inherit: true, fontWeight: FontWeight.w700)),
-                  ],
-                ),
-              )
+            ? CredentialField(
+                title: localizations.lastName, value: recipient.givenName)
             : SizedBox.shrink(),
         recipient.image != ''
             ? Padding(
@@ -105,69 +69,24 @@ class IdentityPass extends CredentialSubject {
               )
             : SizedBox.shrink(),
         recipient.address != ''
-            ? Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Text('${localizations.address} '),
-                    Text('${recipient.address}',
-                        style: TextStyle(
-                            inherit: true, fontWeight: FontWeight.w700)),
-                  ],
-                ),
-              )
+            ? CredentialField(
+                title: localizations.address, value: recipient.address)
             : SizedBox.shrink(),
         recipient.birthDate != ''
-            ? Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Text('${localizations.birthdate} '),
-                    Text('${recipient.birthDate}',
-                        style: TextStyle(
-                            inherit: true, fontWeight: FontWeight.w700)),
-                  ],
-                ),
-              )
+            ? CredentialField(
+                title: localizations.birthdate, value: recipient.birthDate)
             : SizedBox.shrink(),
         recipient.email != ''
-            ? Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Text('${localizations.personalMail} '),
-                    Text('${recipient.email}',
-                        style: TextStyle(
-                            inherit: true, fontWeight: FontWeight.w700)),
-                  ],
-                ),
-              )
+            ? CredentialField(
+                title: localizations.personalMail, value: recipient.email)
             : SizedBox.shrink(),
         recipient.gender != ''
-            ? Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Text('${localizations.gender} '),
-                    Text('${recipient.gender}',
-                        style: TextStyle(
-                            inherit: true, fontWeight: FontWeight.w700)),
-                  ],
-                ),
-              )
+            ? CredentialField(
+                title: localizations.gender, value: recipient.gender)
             : SizedBox.shrink(),
         recipient.telephone != ''
-            ? Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Text('${localizations.personalPhone} '),
-                    Text('${recipient.telephone}',
-                        style: TextStyle(
-                            inherit: true, fontWeight: FontWeight.w700)),
-                  ],
-                ),
-              )
+            ? CredentialField(
+                title: localizations.personalPhone, value: recipient.telephone)
             : SizedBox.shrink(),
         Padding(
           padding: const EdgeInsets.all(8.0),

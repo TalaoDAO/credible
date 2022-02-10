@@ -27,7 +27,7 @@ class _OnBoardingGenPageState extends State<OnBoardingGenPage> {
   }
 
   Future<void> generateKey(BuildContext context) async {
-    final log = Logger('credible/on-boarding/key-generation');
+    final log = Logger('talao-wallet/on-boarding/key-generation');
     final localizations = AppLocalizations.of(context)!;
     try {
       final mnemonic = (await SecureStorageProvider.instance.get('mnemonic'))!;

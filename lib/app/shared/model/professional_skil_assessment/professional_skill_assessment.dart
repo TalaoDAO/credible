@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:talao/app/shared/model/translation.dart';
+import 'package:talao/app/shared/widget/base/credential_field.dart';
 import 'package:talao/app/shared/widget/display_signature.dart';
 import 'package:talao/app/shared/widget/skills_list_display.dart';
 
@@ -50,26 +51,8 @@ class ProfessionalSkillAssessment extends CredentialSubject {
     final localizations = AppLocalizations.of(context)!;
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              Text('${localizations.lastName} '),
-              Text('$givenName',
-                  style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              Text('${localizations.firstName} '),
-              Text('$familyName',
-                  style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
-            ],
-          ),
-        ),
+        CredentialField(title: localizations.lastName, value: givenName),
+        CredentialField(title: localizations.firstName, value: familyName),
         SkillsListDisplay(
           skillWidgetList: skills,
         ),
@@ -107,11 +90,11 @@ class ProfessionalSkillAssessment extends CredentialSubject {
     var translated = translations
         .where((element) => element.language == localizations.localeName);
     if (translated.isEmpty) {
-      var titi = translations.where((element) => element.language == 'en');
-      if (titi.isEmpty) {
+      var trans = translations.where((element) => element.language == 'en');
+      if (trans.isEmpty) {
         _translation = '';
       } else {
-        _translation = titi.single.value;
+        _translation = trans.single.value;
       }
     } else {
       _translation = translated.single.value;

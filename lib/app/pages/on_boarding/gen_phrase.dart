@@ -32,7 +32,7 @@ class _OnBoardingGenPhrasePageState extends State<OnBoardingGenPhrasePage> {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
-    final log = Logger('credible/on-boarding/gen-phrase');
+    final log = Logger('talao-wallet/on-boarding/gen-phrase');
 
     return BasePage(
       title: localizations.onBoardingGenPhraseTitle,

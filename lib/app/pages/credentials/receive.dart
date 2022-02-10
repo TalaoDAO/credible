@@ -2,11 +2,9 @@ import 'package:talao/app/pages/credentials/blocs/scan.dart';
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
 import 'package:talao/app/pages/credentials/pages/list.dart';
 import 'package:talao/app/pages/credentials/widget/document.dart';
-import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/text_field_dialog.dart';
-import 'package:talao/app/shared/widget/tooltip_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -74,8 +72,7 @@ class CredentialsReceivePage extends StatelessWidget {
                     final alias = await showDialog<String>(
                       context: builderContext,
                       builder: (context) => TextFieldDialog(
-                        title:
-                            'Do you want to give an alias to this credential?',
+                        title: localizations.credentialPickAlertMessage,
                       ),
                     );
                     context.read<ScanBloc>().add(ScanEventCredentialOffer(

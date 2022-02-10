@@ -166,7 +166,7 @@ extension CustomColorScheme on ColorScheme {
 
   Color get borderColor => brightness == Brightness.light
       ? const Color(0xFFEEEAEA)
-      : const Color(0xFF262525);
+      : const Color(0xFF3B3A3A);
 
   Color get markDownH1 => brightness == Brightness.light
       ? AppTheme.lightOnSurface
@@ -203,9 +203,19 @@ extension CustomColorScheme on ColorScheme {
       brightness == Brightness.light ? Color(0xFF757575) : Color(0xFF424242);
 
   Color get documentShape => AppTheme.lightPrimaryVariant.withOpacity(0.05);
+
+  Color get star => const Color(0xFFFFB83D);
+
+  Color get genderIcon => const Color(0xFF212121);
 }
 
 extension CustomTextTheme on TextTheme {
+  TextStyle get brand => GoogleFonts.montserrat(
+        color: const Color(0xFFFFFFFF),
+        fontSize: 28.0,
+        fontWeight: FontWeight.w400,
+      );
+
   TextStyle get credentialTitle => GoogleFonts.montserrat(
         color: const Color(0xFF424242),
         fontSize: 14.0,
@@ -247,4 +257,22 @@ extension CustomTextTheme on TextTheme {
         fontSize: 13.0,
         fontWeight: FontWeight.w500,
       );
+
+  TextStyle get imageCard => GoogleFonts.montserrat(
+        color: const Color(0xff212121),
+        fontSize: 12.0,
+        fontWeight: FontWeight.w500,
+      );
+
+  TextStyle get loyaltyCard => GoogleFonts.montserrat(
+        color: const Color(0xffffffff),
+        fontSize: 13.0,
+        fontWeight: FontWeight.w600,
+      );
+
+  TextStyle get professionalExperienceAssessmentRating => GoogleFonts.montserrat(
+    color: const Color(0xff212121),
+    fontSize: 13.0,
+    fontWeight: FontWeight.w500,
+  );
 }

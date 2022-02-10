@@ -17,7 +17,7 @@ class OnBoardingTosPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
-    final _log = Logger('credible/markdown_page');
+    final _log = Logger('talao-wallet/markdown_page');
 
     return BasePage(
       backgroundColor: Theme.of(context).colorScheme.background,

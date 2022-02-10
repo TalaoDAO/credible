@@ -189,7 +189,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
     ScanEventCredentialOffer event,
     Emitter<ScanState> emit,
   ) async {
-    final log = Logger('credible/scan/credential-offer');
+    final log = Logger('talao-wallet/scan/credential-offer');
 
     final url = event.url;
     final credentialModel = event.credentialModel;
@@ -259,7 +259,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
     ScanEventVerifiablePresentationRequest event,
     Emitter<ScanState> emit,
   ) async {
-    final log = Logger('credible/scan/verifiable-presentation-request');
+    final log = Logger('talao-wallet/scan/verifiable-presentation-request');
 
     final url = event.url;
     final keyId = event.key;
@@ -322,7 +322,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
     ScanEventCHAPIStore event,
     Emitter<ScanState> emit,
   ) async {
-    final log = Logger('credible/scan/chapi-store');
+    final log = Logger('talao-wallet/scan/chapi-store');
 
     final data = event.data;
     final done = event.done;
@@ -400,7 +400,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
     ScanEventCHAPIGetDIDAuth event,
     Emitter<ScanState> emit,
   ) async {
-    final log = Logger('credible/scan/chapi-get-didauth');
+    final log = Logger('talao-wallet/scan/chapi-get-didauth');
 
     final keyId = event.keyId;
     final challenge = event.challenge;
@@ -459,7 +459,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
     ScanEventCHAPIGetQueryByExample event,
     Emitter<ScanState> emit,
   ) async {
-    final log = Logger('credible/scan/chapi-get-querybyexample');
+    final log = Logger('talao-wallet/scan/chapi-get-querybyexample');
 
     final keyId = event.keyId;
     final challenge = event.challenge;
