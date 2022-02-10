@@ -45,11 +45,3 @@ class ThemeCubit extends Cubit<ThemeMode> {
 
 
 }
-
-extension ThemeModeX on ThemeMode {
-  bool get isLightTheme => this == ThemeMode.light;
-
-  bool get isDarkTheme => this == ThemeMode.dark;
-
-  bool get isSystemTheme => this == ThemeMode.system;
-}

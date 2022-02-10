@@ -31,7 +31,9 @@ class AppWidget extends StatelessWidget {
         BlocProvider<QueryByExampleCubit>(
             create: (context) => QueryByExampleCubit()),
         BlocProvider<WalletBloc>(
-            create: (context) => WalletBloc(CredentialsRepository())),
+            lazy: false,
+            create: (context) =>
+                WalletBloc(CredentialsRepository())..checkKey()),
         BlocProvider<ScanBloc>(
             create: (context) => ScanBloc(
                 DioClient(Constants.checkIssuerServerUrl, Dio()),
@@ -59,8 +61,7 @@ class MaterialAppDefinition extends StatelessWidget {
     return MaterialApp(
       title: 'Talao-Wallet',
       routes: {
-        '/splash': (context) =>
-            SplashPage(secureStorageProvider: SecureStorageProvider.instance),
+        '/splash': (context) => SplashPage(),
       },
       initialRoute: '/splash',
       theme: AppTheme.lightThemeData,

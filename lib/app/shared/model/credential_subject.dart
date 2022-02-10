@@ -2,6 +2,7 @@ import 'package:talao/app/pages/credentials/models/credential_model.dart';
 import 'package:talao/app/shared/model/author.dart';
 import 'package:talao/app/shared/model/certificate_of_employment/certificate_of_employment.dart';
 import 'package:talao/app/shared/model/default_credential_subject/default_credential_subject.dart';
+import 'package:talao/app/shared/model/ecole_42_learning_achievement/ecole_42_learning_achievement.dart';
 import 'package:talao/app/shared/model/email_pass/email_pass.dart';
 import 'package:talao/app/shared/model/identity_pass/identity_pass.dart';
 import 'package:talao/app/shared/model/learning_achievement/learning_achievement.dart';
@@ -126,6 +127,8 @@ class CredentialSubject {
         return IdentityPass.fromJson(json);
       case 'Voucher':
         return Voucher.fromJson(json);
+      case 'Ecole42LearningAchievement':
+        return Ecole42LearningAchievement.fromJson(json);
       case 'LoyaltyCard':
         return LoyaltyCard.fromJson(json);
       case 'ProfessionalStudentCard':

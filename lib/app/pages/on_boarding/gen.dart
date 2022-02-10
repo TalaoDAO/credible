@@ -1,4 +1,6 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
+import 'package:talao/app/pages/credentials/blocs/wallet.dart';
 import 'package:talao/app/pages/credentials/pages/list.dart';
 import 'package:talao/app/pages/on_boarding/key.dart';
 import 'package:talao/app/shared/key_generation.dart';
@@ -34,6 +36,7 @@ class _OnBoardingGenPageState extends State<OnBoardingGenPage> {
       final key = await KeyGeneration.privateKey(mnemonic);
 
       await SecureStorageProvider.instance.set('key', key);
+      context.read<WalletBloc>().readyWalletBlocList();
       await Navigator.of(context).pushAndRemoveUntil(
           CredentialsList.route(), ModalRoute.withName('/splash'));
     } catch (error) {

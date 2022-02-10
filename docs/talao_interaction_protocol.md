@@ -206,7 +206,7 @@ or:
 
 ## Wallet implementation
 
-### DIDAuth (To be done)
+### DIDAuth
 
 If Query.type = “DIDAuth” , then it is a basic authentication request that does not include a verifiable credential : there is no selection of credential to propose to the user, call the function didkit.DIDAuth(did, “{“ challenge ”:“ .... ”,“ domain ”:“ ..... ”}”, key) which will create an empty presentation used only for authentication. The presentation passed with the POST request will look like this:
 
@@ -229,7 +229,7 @@ If Query.type = “DIDAuth” , then it is a basic authentication request that d
 
 If Query.type ="QueryByExample "then it will take the user selects credentials in a list constituted according to the criteria specified in "credentialQuery.example". Then it will be necessary to call the didkit.issuePresentation (...) function as what is currently done (there is no change in the function call). Refer to https://w3c-ccg.github.io/vp-request-spec/#query-by-example for more information.
     
-# presentationRequest QueryByExample (To be done)
+# presentationRequest QueryByExample
     
 ## Wallet implementation
 

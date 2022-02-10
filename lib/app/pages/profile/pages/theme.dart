@@ -31,21 +31,21 @@ class ThemePage extends StatelessWidget {
             children: <Widget>[
               ThemeItem(
                 key: Key('set_light_theme'),
-                isTrue: state.isLightTheme,
+                isTrue: state == ThemeMode.light,
                 title: localizations.lightThemeText,
                 onTap: () async =>
                     await context.read<ThemeCubit>().setLightTheme(),
               ),
               ThemeItem(
                 key: Key('set_dark_theme'),
-                isTrue: state.isDarkTheme,
+                isTrue: state == ThemeMode.dark,
                 title: localizations.darkThemeText,
                 onTap: () async =>
                     await context.read<ThemeCubit>().setDarkTheme(),
               ),
               ThemeItem(
                 key: Key('set_system_theme'),
-                isTrue: state.isSystemTheme,
+                isTrue: state == ThemeMode.system,
                 title: localizations.systemThemeText,
                 onTap: () async =>
                     await context.read<ThemeCubit>().setSystemTheme(),

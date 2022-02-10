@@ -3,7 +3,7 @@ import 'package:talao/app/pages/credentials/widget/display_issuer.dart';
 import 'package:talao/app/shared/model/author.dart';
 import 'package:talao/app/shared/model/credential_subject.dart';
 import 'package:talao/app/shared/model/professional_experience_assessment/review.dart';
-import 'package:talao/app/shared/model/professional_experience_assessment/signature.dart';
+import 'package:talao/app/shared/model/signature.dart';
 import 'package:talao/app/shared/model/professional_experience_assessment/skill.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -108,6 +108,9 @@ class ProfessionalExperienceAssessment extends CredentialSubject {
                 '${UiDate.displayDate(localizations, _endDate)}',
                 style: Theme.of(context).textTheme.credentialFieldDescription,
               ),
+              Text('${localizations.lastName} '),
+              Text('$givenName',
+                  style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
             ],
           ),
         ),
