@@ -79,12 +79,14 @@ class Voucher extends CredentialSubject {
                                   child: Row(
                                     children: [
                                       TextWithVoucherStyle(
-                                          value: NumberFormat.currency(
-                                                  name: offer.currency,
-                                                  locale:
-                                                      localizations.localeName)
-                                              .format(
-                                                  double.parse(offer.value))),
+                                        value: NumberFormat.currency(
+                                                name: offer.currency,
+                                                locale:
+                                                    localizations.localeName)
+                                            .format(
+                                          double.parse(offer.value),
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ))
@@ -130,14 +132,7 @@ class TextWithVoucherStyle extends StatelessWidget {
     if (value != '') {
       return Padding(
         padding: const EdgeInsets.all(8.0),
-        child: ImageCardText(
-          text: value,
-          textStyle: TextStyle(
-              inherit: true,
-              fontSize: 17,
-              fontWeight: FontWeight.w700,
-              color: Colors.white),
-        ),
+        child: ImageCardText(text: value),
       );
     } else {
       return const SizedBox.shrink();
