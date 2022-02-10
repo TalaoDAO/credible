@@ -21,7 +21,7 @@ Future<Issuer> ApprovedIssuer(Uri uri, BuildContext context) async {
             .isIssuerInApprovedList();
       } catch (e) {
         if (e is ErrorHandler) {
-          e.displayError(context, e, Colors.red);
+          e.displayError(context, e, Theme.of(context).colorScheme.error);
         }
         return Issuer.emptyIssuer();
       }
