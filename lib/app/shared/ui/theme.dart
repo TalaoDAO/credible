@@ -85,6 +85,13 @@ class AppTheme {
           ),
         ),
         iconTheme: IconThemeData(color: const Color(0xFFFFFFFF)),
+        snackBarTheme: SnackBarThemeData(
+          contentTextStyle: GoogleFonts.montserrat(
+            color: const Color(0xFFFFFFFF),
+            fontSize: 12.0,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
       );
 
   static ThemeData get lightThemeData => ThemeData(
@@ -142,6 +149,13 @@ class AppTheme {
           ),
         ),
         iconTheme: IconThemeData(color: const Color(0xff212121)),
+        snackBarTheme: SnackBarThemeData(
+          contentTextStyle: GoogleFonts.montserrat(
+            color: const Color(0xFFFFFFFF),
+            fontSize: 12.0,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
       );
 }
 
@@ -270,9 +284,10 @@ extension CustomTextTheme on TextTheme {
         fontWeight: FontWeight.w600,
       );
 
-  TextStyle get professionalExperienceAssessmentRating => GoogleFonts.montserrat(
-    color: const Color(0xff212121),
-    fontSize: 13.0,
-    fontWeight: FontWeight.w500,
-  );
+  TextStyle get professionalExperienceAssessmentRating =>
+      GoogleFonts.montserrat(
+        color: const Color(0xff212121),
+        fontSize: 13.0,
+        fontWeight: FontWeight.w500,
+      );
 }
