@@ -30,6 +30,15 @@ class AppTheme {
   static const Color lightOnBackground = Colors.black;
   static const Color lightOnError = Colors.white;
 
+  static SnackBarThemeData get snackBarThemeData => SnackBarThemeData(
+        backgroundColor: Color(0xff3700B3),
+        contentTextStyle: GoogleFonts.montserrat(
+          color: const Color(0xFFFFFFFF),
+          fontSize: 12.0,
+          fontWeight: FontWeight.w400,
+        ),
+      );
+
   static ThemeData get darkThemeData => ThemeData(
         brightness: Brightness.dark,
         colorScheme: ColorScheme(
@@ -85,13 +94,7 @@ class AppTheme {
           ),
         ),
         iconTheme: IconThemeData(color: const Color(0xFFFFFFFF)),
-        snackBarTheme: SnackBarThemeData(
-          contentTextStyle: GoogleFonts.montserrat(
-            color: const Color(0xFFFFFFFF),
-            fontSize: 12.0,
-            fontWeight: FontWeight.w400,
-          ),
-        ),
+        snackBarTheme: snackBarThemeData,
       );
 
   static ThemeData get lightThemeData => ThemeData(
@@ -149,13 +152,7 @@ class AppTheme {
           ),
         ),
         iconTheme: IconThemeData(color: const Color(0xff212121)),
-        snackBarTheme: SnackBarThemeData(
-          contentTextStyle: GoogleFonts.montserrat(
-            color: const Color(0xFFFFFFFF),
-            fontSize: 12.0,
-            fontWeight: FontWeight.w400,
-          ),
-        ),
+        snackBarTheme: snackBarThemeData,
       );
 }
 
@@ -221,6 +218,8 @@ extension CustomColorScheme on ColorScheme {
   Color get star => const Color(0xFFFFB83D);
 
   Color get genderIcon => const Color(0xFF212121);
+
+  Color get snackBarError => Colors.red;
 }
 
 extension CustomTextTheme on TextTheme {

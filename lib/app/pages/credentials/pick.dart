@@ -4,6 +4,7 @@ import 'package:talao/app/pages/credentials/blocs/wallet.dart';
 import 'package:talao/app/pages/credentials/pages/list.dart';
 import 'package:talao/app/pages/credentials/widget/list_item.dart';
 import 'package:talao/app/shared/model/translation.dart';
+import 'package:talao/app/shared/ui/theme.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:flutter/material.dart';
@@ -82,7 +83,7 @@ class _CredentialsPickPageState extends State<CredentialsPickPage> {
                     if (selection.isEmpty) {
                       ScaffoldMessenger.of(builderContext)
                           .showSnackBar(SnackBar(
-                        backgroundColor: Theme.of(context).colorScheme.error,
+                        backgroundColor: Theme.of(context).colorScheme.snackBarError,
                         content: Text(localizations.credentialPickSelect),
                       ));
                     } else {

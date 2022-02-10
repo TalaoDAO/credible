@@ -4,6 +4,7 @@ import 'package:talao/app/pages/credentials/blocs/wallet.dart';
 import 'package:talao/app/pages/credentials/pages/list.dart';
 import 'package:talao/app/pages/on_boarding/key.dart';
 import 'package:talao/app/shared/key_generation.dart';
+import 'package:talao/app/shared/ui/theme.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/spinner.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +44,7 @@ class _OnBoardingGenPageState extends State<OnBoardingGenPage> {
       log.severe('something went wrong when generating a key', error);
 
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        backgroundColor: Theme.of(context).colorScheme.error,
+        backgroundColor: Theme.of(context).colorScheme.snackBarError,
         content: Text(localizations.errorGeneratingKey),
       ));
       await Navigator.of(context).pushReplacement(OnBoardingKeyPage.route());
