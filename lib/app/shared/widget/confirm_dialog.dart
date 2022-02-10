@@ -39,7 +39,7 @@ class ConfirmDialog extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Icon(
                     Icons.lock_open,
-                    color: Colors.red,
+                    color: Theme.of(context).colorScheme.error,
                   ),
                 )
               : SizedBox.shrink(),

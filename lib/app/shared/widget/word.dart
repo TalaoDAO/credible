@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:talao/app/shared/ui/theme.dart';
 import 'package:talao/app/shared/widget/my_text.dart';
 
 class PhraseWord extends StatelessWidget {
@@ -18,7 +19,7 @@ class PhraseWord extends StatelessWidget {
           vertical: 12.0,
         ),
         decoration: BoxDecoration(
-          color: Colors.transparent,
+          color: Theme.of(context).colorScheme.transparent,
           border: Border.all(
             width: 1.5,
             color: Theme.of(context).colorScheme.secondary,
