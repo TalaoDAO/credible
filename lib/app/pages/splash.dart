@@ -178,7 +178,7 @@ class _SplashPageState extends State<SplashPage> {
             }
           },
           child: BasePage(
-            backgroundColor: Theme.of(context).backgroundColor,
+            backgroundColor: const Color(0xff121212),
             scrollView: false,
             body: Container(
               alignment: Alignment.center,
