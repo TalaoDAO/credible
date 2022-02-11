@@ -26,11 +26,12 @@ class GlobalInformationPage extends StatelessWidget {
           IssuerVerificationSetting(),
           DIDDisplay(),
           const SizedBox(height: 16.0),
-          displayTalaoContacts(),
+          DisplayTalaoContacts(),
           const SizedBox(height: 32.0),
           Center(
             child: Text(
               'DIDKit v' + DIDKitProvider.instance.getVersion(),
+              style: Theme.of(context).textTheme.bodyText2,
             ),
           ),
           const SizedBox(height: 8.0),

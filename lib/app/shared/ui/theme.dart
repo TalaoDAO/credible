@@ -192,8 +192,8 @@ extension CustomColorScheme on ColorScheme {
       : const Color(0xFFADACAC);
 
   Color get markDownA => brightness == Brightness.light
-      ? AppTheme.lightPrimaryVariant
-      : AppTheme.darkSecondary;
+      ? Color(0xff3700b3)
+      : Color(0xff517bff);
 
   Color get subtitle1 => brightness == Brightness.light
       ? const Color(0xff212121)

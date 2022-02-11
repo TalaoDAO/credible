@@ -29,20 +29,26 @@ class IssuerVerificationSetting extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Row(
               children: [
-                Text(localizations.issuerVerificationSetting),
+                Text(
+                  localizations.issuerVerificationSetting,
+                  style: Theme.of(context).textTheme.bodyText2,
+                ),
                 Spacer(),
                 Switch(
                   onChanged: (value) {
-                    context.read<ProfileBloc>().add(ProfileEventUpdate(ProfileModel(
-                      firstName: model.firstName,
-                      lastName: model.lastName,
-                      phone: model.phone,
-                      location: model.location,
-                      email: model.email,
-                      issuerVerificationSetting: value,
-                    )));
+                    context
+                        .read<ProfileBloc>()
+                        .add(ProfileEventUpdate(ProfileModel(
+                          firstName: model.firstName,
+                          lastName: model.lastName,
+                          phone: model.phone,
+                          location: model.location,
+                          email: model.email,
+                          issuerVerificationSetting: value,
+                        )));
                   },
                   value: issuerVerificationSetting,
+                  activeColor: Theme.of(context).colorScheme.primary,
                 ),
               ],
             ),
