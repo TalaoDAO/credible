@@ -16,6 +16,7 @@ class AppTheme {
   static const Color darkOnSurface = Colors.white;
   static const Color darkOnBackground = Colors.white;
   static const Color darkOnError = Colors.black;
+  static Color darkShadow = Color(0xFF1D1D1D).withOpacity(0.1);
 
   static const Color lightPrimary = Color(0xff6200ee);
   static const Color lightPrimaryVariant = Color(0xff3700b3);
@@ -29,6 +30,7 @@ class AppTheme {
   static const Color lightOnSurface = Colors.black;
   static const Color lightOnBackground = Colors.black;
   static const Color lightOnError = Colors.white;
+  static const Color lightShadow = Color(0xFFADACAC);
 
   static SnackBarThemeData get snackBarThemeData => SnackBarThemeData(
         backgroundColor: Color(0xff3700B3),
@@ -54,6 +56,7 @@ class AppTheme {
           onSurface: darkOnSurface,
           onBackground: darkOnBackground,
           onError: darkOnError,
+          shadow: darkShadow,
           brightness: Brightness.dark,
         ),
         textTheme: TextTheme(
@@ -112,6 +115,7 @@ class AppTheme {
           onSurface: lightOnSurface,
           onBackground: lightOnBackground,
           onError: lightOnError,
+          shadow: lightShadow,
           brightness: Brightness.light,
         ),
         textTheme: TextTheme(
@@ -162,10 +166,6 @@ extension CustomColorScheme on ColorScheme {
   Color get appBar => brightness == Brightness.light
       ? const Color(0xFFFFFFFF)
       : const Color(0xFF1D1D1D);
-
-  Color get shadow => brightness == Brightness.light
-      ? const Color(0xFFADACAC)
-      : const Color(0xFF1D1D1D).withOpacity(0.1);
 
   Color get backButton => brightness == Brightness.light
       ? const Color(0xFF1D1D1D)
