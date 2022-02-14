@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:talao/app/shared/model/voucher/offer/offer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/image_card_text.dart';
 
 part 'voucher.g.dart';
@@ -58,7 +59,7 @@ class Voucher extends CredentialSubject {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       image: DecorationImage(
-                          fit: BoxFit.fitWidth,
+                          fit: BoxFit.fill,
                           image: AssetImage(
                             'assets/image/voucher.png',
                           ))),
@@ -132,7 +133,10 @@ class TextWithVoucherStyle extends StatelessWidget {
     if (value != '') {
       return Padding(
         padding: const EdgeInsets.all(8.0),
-        child: ImageCardText(text: value),
+        child: ImageCardText(
+          text: value,
+          textStyle: Theme.of(context).textTheme.voucherOverlay,
+        ),
       );
     } else {
       return const SizedBox.shrink();

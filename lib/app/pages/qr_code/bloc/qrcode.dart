@@ -134,7 +134,7 @@ class QRCodeBloc extends Bloc<QRCodeEvent, QRCodeState> {
       data = response is String ? jsonDecode(response) : response;
 
       scanBloc.add(ScanEventShowPreview(data));
-
+      print(data['type']);
       switch (data['type']) {
         case 'CredentialOffer':
           emit(QRCodeStateSuccess(CredentialsReceivePage.route(event.uri)));

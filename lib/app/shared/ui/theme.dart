@@ -294,4 +294,11 @@ extension CustomTextTheme on TextTheme {
         fontSize: 13.0,
         fontWeight: FontWeight.w500,
       );
+
+  TextStyle get voucherOverlay =>
+      GoogleFonts.montserrat(
+        color: const Color(0xffFFFFFF),
+        fontSize: 13.0,
+        fontWeight: FontWeight.w500,
+      );
 }
