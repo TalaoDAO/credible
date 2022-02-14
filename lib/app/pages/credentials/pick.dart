@@ -83,7 +83,8 @@ class _CredentialsPickPageState extends State<CredentialsPickPage> {
                     if (selection.isEmpty) {
                       ScaffoldMessenger.of(builderContext)
                           .showSnackBar(SnackBar(
-                        backgroundColor: Theme.of(context).colorScheme.snackBarError,
+                        backgroundColor:
+                            Theme.of(context).colorScheme.snackBarError,
                         content: Text(localizations.credentialPickSelect),
                       ));
                     } else {
