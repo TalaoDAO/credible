@@ -295,10 +295,23 @@ extension CustomTextTheme on TextTheme {
         fontWeight: FontWeight.w500,
       );
 
-  TextStyle get voucherOverlay =>
-      GoogleFonts.montserrat(
+  TextStyle get voucherOverlay => GoogleFonts.montserrat(
         color: const Color(0xffFFFFFF),
         fontSize: 13.0,
         fontWeight: FontWeight.w500,
+      );
+
+  TextStyle get ecole42LearningAchievementStudentIdentity =>
+      GoogleFonts.montserrat(
+        color: const Color(0xff212121),
+        fontSize: 6.0,
+        fontWeight: FontWeight.w700,
+      );
+
+  TextStyle get ecole42LearningAchievementLevel =>
+      GoogleFonts.montserrat(
+        color: const Color(0xff212121),
+        fontSize: 5.0,
+        fontWeight: FontWeight.w700,
       );
 }
