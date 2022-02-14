@@ -45,28 +45,31 @@ class _CredentialsListState extends State<CredentialsList> {
   Widget build(BuildContext credentialListContext) {
     final localizations = AppLocalizations.of(credentialListContext)!;
 
-    return BasePage(
-      title: localizations.credentialListTitle,
-      padding: const EdgeInsets.symmetric(
-        vertical: 24.0,
-        horizontal: 16.0,
-      ),
-      navigation: CustomNavBar(index: 0),
-      body: BlocBuilder<WalletBloc, WalletBlocState>(
-        builder: (context, state) {
-          var _credentialList = <CredentialModel>[];
-          if (state is WalletBlocList) {
-            _credentialList = state.credentials;
-          } else {
-            _credentialList = [];
-          }
-          return Column(
-            children: List.generate(
-              _credentialList.length,
-              (index) => CredentialsListItem(item: _credentialList[index]),
-            ),
-          );
-        },
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: BasePage(
+        title: localizations.credentialListTitle,
+        padding: const EdgeInsets.symmetric(
+          vertical: 24.0,
+          horizontal: 16.0,
+        ),
+        navigation: CustomNavBar(index: 0),
+        body: BlocBuilder<WalletBloc, WalletBlocState>(
+          builder: (context, state) {
+            var _credentialList = <CredentialModel>[];
+            if (state is WalletBlocList) {
+              _credentialList = state.credentials;
+            } else {
+              _credentialList = [];
+            }
+            return Column(
+              children: List.generate(
+                _credentialList.length,
+                (index) => CredentialsListItem(item: _credentialList[index]),
+              ),
+            );
+          },
+        ),
       ),
     );
   }
