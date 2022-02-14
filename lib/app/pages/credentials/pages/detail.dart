@@ -140,19 +140,16 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
       titleLeading: BackLeadingButton(),
       titleTrailing: IconButton(
         onPressed: _edit,
-        icon: Icon(
-          Icons.edit,
-          color: Theme.of(context).primaryColor,
-        ),
+        icon: Icon(Icons.edit),
       ),
       navigation: widget.item.shareLink != ''
           ? SafeArea(
               child: Container(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 24.0,
-                  vertical: 16.0,
+                  vertical: 5.0,
                 ),
-                height: kBottomNavigationBarHeight * 1.75,
+                height: kBottomNavigationBarHeight,
                 child: Tooltip(
                   message: localizations.credentialDetailShare,
                   child: BaseButton.primary(
@@ -170,7 +167,7 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
                           'assets/icon/qr-code.svg',
                           width: 24.0,
                           height: 24.0,
-                          color: Theme.of(context).primaryColor,
+                          color: Theme.of(context).colorScheme.onPrimary,
                         ),
                         const SizedBox(width: 16.0),
                         Text(localizations.credentialDetailShare),
@@ -194,7 +191,7 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   localizations.credentialDetailStatus,
-                  style: Theme.of(context).textTheme.overline!,
+                  style: Theme.of(context).textTheme.bodyText1!,
                 ),
               ),
             ),
@@ -231,6 +228,8 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
                 horizontal: 32.0,
                 vertical: 16.0,
               ),
+              backgroundColor:
+                  Theme.of(context).colorScheme.error.withOpacity(0.1),
             ),
             onPressed: delete,
             child: Text(
