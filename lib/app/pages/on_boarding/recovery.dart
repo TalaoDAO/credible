@@ -74,6 +74,7 @@ class _OnBoardingRecoveryPageState extends State<OnBoardingRecoveryPage> {
           ),
           const SizedBox(height: 24.0),
           OnBoardingRecoveryPage._padHorizontal(BaseButton.primary(
+            context: context,
             onPressed: buttonEnabled
                 ? () async {
                     await SecureStorageProvider.instance.set(

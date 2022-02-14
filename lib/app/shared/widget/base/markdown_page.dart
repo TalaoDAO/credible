@@ -12,7 +12,7 @@ class MarkdownPage extends StatelessWidget {
   final String title;
   final String file;
 
-  final _log = Logger('credible/markdown_page');
+  final _log = Logger('talao-wallet/markdown_page');
 
   MarkdownPage({Key? key, required this.title, required this.file})
       : super(key: key);
@@ -31,8 +31,15 @@ class MarkdownPage extends StatelessWidget {
               return Markdown(
                 data: snapshot.data!,
                 styleSheet: MarkdownStyleSheet(
-                    h1: TextStyle(color: UiKit.text.colorTextSubtitle1),
-                    h2: TextStyle(color: UiKit.text.colorTextSubtitle2)),
+                  h1: TextStyle(
+                      color: Theme.of(context).colorScheme.markDownH1),
+                  h2: TextStyle(
+                      color: Theme.of(context).colorScheme.markDownH2),
+                  a: TextStyle(
+                      color: Theme.of(context).colorScheme.markDownA),
+                  p: TextStyle(
+                      color: Theme.of(context).colorScheme.markDownP),
+                ),
                 onTapLink: (text, href, title) => _onTapLink(href),
               );
             }

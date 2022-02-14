@@ -5,7 +5,6 @@ import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/spinner.dart';
-import 'package:talao/app/shared/widget/tooltip_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -64,10 +63,7 @@ class _CredentialsPresentPageState extends State<CredentialsPresentPage> {
       titleTrailing: IconButton(
         onPressed: () =>
             Navigator.of(context).pushReplacement(CredentialsList.route()),
-        icon: Icon(
-          Icons.close,
-          color: UiKit.palette.icon,
-        ),
+        icon: Icon(Icons.close),
       ),
       body: BlocConsumer<ScanBloc, ScanState>(
         listener: (context, state) {
@@ -76,7 +72,6 @@ class _CredentialsPresentPageState extends State<CredentialsPresentPage> {
           }
         },
         builder: (context, state) {
-
           if (state is ScanStatePreview) {
             return _credentialPreview(state, context, localizations);
           }
@@ -103,16 +98,14 @@ class _CredentialsPresentPageState extends State<CredentialsPresentPage> {
               width: MediaQuery.of(context).size.width * 0.175,
               height: MediaQuery.of(context).size.width * 0.175,
               decoration: BoxDecoration(
-                color: Colors.black45,
+                color: Theme.of(context).colorScheme.profileDummy,
                 borderRadius: BorderRadius.circular(16.0),
               ),
             ),
             const SizedBox(width: 16.0),
             Expanded(
-              child: TooltipText(
-                text:
-                    '${localizations.credentialPresentRequiredCredential} ${widget.resource}.',
-                maxLines: 3,
+              child: Text(
+                '${localizations.credentialPresentRequiredCredential} ${widget.resource}.',
                 style: Theme.of(context).textTheme.bodyText1,
               ),
             ),
@@ -124,7 +117,7 @@ class _CredentialsPresentPageState extends State<CredentialsPresentPage> {
         //         CredentialModel(id: '', image: '', data: {'issuer': ''}))),
         const SizedBox(height: 24.0),
         BaseButton.transparent(
-          borderColor: UiKit.palette.primary,
+          context: context,
           onPressed: () => widget.onSubmit(preview, context),
           child: Text(
             widget.yes ?? localizations.credentialPresentConfirm,
@@ -132,6 +125,7 @@ class _CredentialsPresentPageState extends State<CredentialsPresentPage> {
         ),
         const SizedBox(height: 8.0),
         BaseButton.primary(
+          context: context,
           onPressed: goBack,
           child: Text(
             widget.no ?? localizations.credentialPresentCancel,

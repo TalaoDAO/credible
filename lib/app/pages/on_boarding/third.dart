@@ -1,5 +1,4 @@
 import 'package:talao/app/pages/on_boarding/tos.dart';
-import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +25,7 @@ class OnBoardingThirdPage extends StatelessWidget {
         }
       },
       child: BasePage(
+          backgroundColor: Theme.of(context).colorScheme.surface,
           scrollView: true,
           body: Column(
             mainAxisSize: MainAxisSize.min,
@@ -48,16 +48,7 @@ class OnBoardingThirdPage extends StatelessWidget {
             ],
           ),
           navigation: Container(
-            decoration: BoxDecoration(
-              color: UiKit.palette.navBarBackground,
-              boxShadow: <BoxShadow>[
-                BoxShadow(
-                  color: UiKit.palette.shadow,
-                  offset: Offset(-1.0, -1.0),
-                  blurRadius: 4.0,
-                ),
-              ],
-            ),
+            color: Theme.of(context).colorScheme.surface,
             padding: const EdgeInsets.symmetric(
               vertical: 12.0,
             ),
@@ -76,20 +67,34 @@ class OnBoardingThirdPage extends StatelessWidget {
                         children: [
                           Icon(
                             Icons.circle,
-                            color: UiKit.palette.primary.withOpacity(0.2),
+                            color: Theme.of(context)
+                                .colorScheme
+                                .secondary
+                                .withOpacity(0.2),
+                            size: 15,
                           ),
+                          SizedBox(width: 10),
                           Icon(
                             Icons.circle,
-                            color: UiKit.palette.primary.withOpacity(0.2),
+                            color: Theme.of(context)
+                                .colorScheme
+                                .secondary
+                                .withOpacity(0.2),
+                            size: 15,
                           ),
+                          SizedBox(width: 10),
                           Icon(
                             Icons.circle,
-                            color: UiKit.palette.primary,
-                          )
+                            color: Theme.of(context).colorScheme.secondary,
+                            size: 15,
+                          ),
                         ],
                       ),
                     ),
+                    SizedBox(height: 10),
                     BaseButton.primary(
+                      context: context,
+                      textColor: Theme.of(context).colorScheme.onPrimary,
                       onPressed: () {
                         Navigator.of(context)
                             .pushReplacement(OnBoardingTosPage.route());

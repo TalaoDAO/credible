@@ -10,23 +10,23 @@ import 'package:talao/app/shared/error_handler/error_handler.dart';
 
 Future<Issuer> ApprovedIssuer(Uri uri, BuildContext context) async {
   final client = DioClient(Constants.checkIssuerServerUrl, Dio());
-  final profilBloc = context.read<ProfileBloc>();
-  final profil = profilBloc.state;
-  if (profil is ProfileStateDefault) {
+  final profileBloc = context.read<ProfileBloc>();
+  final profile = profileBloc.state;
+  if (profile is ProfileStateDefault) {
     final isIssuerVerificationSettingTrue =
-        profil.model.issuerVerificationSetting;
+        profile.model.issuerVerificationSetting;
     if (isIssuerVerificationSettingTrue) {
       try {
         return await CheckIssuer(client, Constants.checkIssuerServerUrl, uri)
             .isIssuerInApprovedList();
       } catch (e) {
         if (e is ErrorHandler) {
-          e.displayError(context, e, Colors.red);
+          e.displayError(context, e, Theme.of(context).colorScheme.error);
         }
         return Issuer.emptyIssuer();
       }
     }
   }
-  await profilBloc.close();
+  await profileBloc.close();
   return Issuer.emptyIssuer();
 }

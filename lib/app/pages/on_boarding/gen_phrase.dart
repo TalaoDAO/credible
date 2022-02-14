@@ -1,7 +1,7 @@
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/pages/on_boarding/gen.dart';
-import 'package:talao/app/shared/ui/ui.dart';
+import 'package:talao/app/shared/ui/theme.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
@@ -33,7 +33,7 @@ class _OnBoardingGenPhrasePageState extends State<OnBoardingGenPhrasePage> {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
-    final log = Logger('credible/on-boarding/gen-phrase');
+    final log = Logger('talao-wallet/on-boarding/gen-phrase');
 
     return BasePage(
       title: localizations.onBoardingGenPhraseTitle,
@@ -47,7 +47,7 @@ class _OnBoardingGenPhrasePageState extends State<OnBoardingGenPhrasePage> {
               Text(
                 localizations.genPhraseInstruction,
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.subtitle2,
+                style: Theme.of(context).textTheme.subtitle1,
               ),
               const SizedBox(height: 8.0),
               Text(
@@ -68,20 +68,22 @@ class _OnBoardingGenPhrasePageState extends State<OnBoardingGenPhrasePage> {
               children: <Widget>[
                 Icon(
                   Icons.privacy_tip_outlined,
-                  color: UiKit.palette.icon.withOpacity(0.6),
+                  color: Theme.of(context).colorScheme.primary,
                 ),
                 const SizedBox(width: 16.0),
                 Expanded(
                   child: Text(
                     localizations.genPhraseViewLatterText,
-                    style: Theme.of(context).textTheme.caption!.apply(
-                        color: UiKit.text.colorTextCaption.withOpacity(0.6)),
+                    style: Theme.of(context).textTheme.caption!.copyWith(
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
                   ),
                 ),
               ],
             ),
           ),
           BaseButton.primary(
+            context: context,
             onPressed: () async {
               try {
                 log.info('will save mnemonic to secure storage');
@@ -98,7 +100,7 @@ class _OnBoardingGenPhrasePageState extends State<OnBoardingGenPhrasePage> {
                     'error ocurred setting mnemonic to secure storate', error);
 
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  backgroundColor: Colors.red,
+                  backgroundColor: Theme.of(context).colorScheme.snackBarError,
                   content: Text('Failed to save mnemonic, please try again'),
                 ));
               }

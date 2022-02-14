@@ -66,7 +66,7 @@ class ProfileView extends StatelessWidget {
                 Center(
                   child: Text(
                     '$firstName $lastName',
-                    style: Theme.of(context).textTheme.subtitle2!,
+                    style: Theme.of(context).textTheme.subtitle1!,
                   ),
                 ),
               const SizedBox(height: 32.0),

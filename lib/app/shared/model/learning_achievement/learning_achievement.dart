@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:talao/app/shared/model/learning_achievement/has_credential.dart';
+import 'package:talao/app/shared/ui/theme.dart';
 import 'package:talao/app/shared/widget/base/credential_field.dart';
 
 part 'learning_achievement.g.dart';
@@ -57,7 +58,7 @@ class LearningAchievement extends CredentialSubject {
           padding: const EdgeInsets.all(8.0),
           child: Text(
             hasCredential.title,
-            style: TextStyle(inherit: true, fontWeight: FontWeight.w700),
+            style: Theme.of(context).textTheme.learningAchievementTitle,
             maxLines: 5,
             overflow: TextOverflow.fade,
             softWrap: true,
@@ -65,7 +66,10 @@ class LearningAchievement extends CredentialSubject {
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(hasCredential.description),
+          child: Text(
+            hasCredential.description,
+            style: Theme.of(context).textTheme.learningAchievementDescription,
+          ),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),

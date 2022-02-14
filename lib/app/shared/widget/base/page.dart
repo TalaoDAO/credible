@@ -44,7 +44,7 @@ class BasePage extends StatelessWidget {
     return Container(
       child: Scaffold(
         extendBody: extendBelow ?? false,
-        backgroundColor: backgroundColor,
+        backgroundColor: backgroundColor ?? Theme.of(context).colorScheme.background,
         appBar: title != null && title!.isNotEmpty
             ? CustomAppBar(
                 title: title!,

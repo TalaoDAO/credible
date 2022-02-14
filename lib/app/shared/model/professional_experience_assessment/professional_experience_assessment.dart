@@ -85,53 +85,33 @@ class ProfessionalExperienceAssessment extends CredentialSubject {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        CredentialField(title: localizations.lastName, value: givenName),
+        CredentialField(title: localizations.firstName, value: familyName),
+        CredentialField(title: localizations.jobTitle, value: title),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
             children: [
-              Text('${localizations.lastName} '),
-              Text('$givenName',
-                  style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
+              Text(
+                '${localizations.from} ',
+                style: Theme.of(context).textTheme.credentialFieldTitle,
+              ),
+              Text(
+                '${UiDate.displayDate(localizations, _startDate)}',
+                style: Theme.of(context).textTheme.credentialFieldDescription,
+              ),
+              Text(
+                ' ${localizations.to} ',
+                style: Theme.of(context).textTheme.credentialFieldTitle,
+              ),
+              Text(
+                '${UiDate.displayDate(localizations, _endDate)}',
+                style: Theme.of(context).textTheme.credentialFieldDescription,
+              ),
             ],
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              Text('${localizations.firstName} '),
-              Text('$familyName',
-                  style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              Text('${localizations.jobTitle} '),
-              Text('$title',
-                  style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              Text('${localizations.from} '),
-              Text('${UiKit.displayDate(localizations, _startDate)}',
-                  style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
-              Text(' ${localizations.to} '),
-              Text('${UiKit.displayDate(localizations, _endDate)}',
-                  style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
-            ],
-          ),
-        ),
-        CredentialField(
-          value: description,
-          title: '',
-        ),
+        CredentialField(value: description),
         SkillsListDisplay(
           skillWidgetList: skills,
         ),
@@ -146,14 +126,18 @@ class ProfessionalExperienceAssessment extends CredentialSubject {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(getTranslation(item.reviewBody, localizations),
-                          style: TextStyle(
-                              inherit: true, fontWeight: FontWeight.w700)),
+                      Text(
+                        getTranslation(item.reviewBody, localizations),
+                        style: Theme.of(context)
+                            .textTheme
+                            .professionalExperienceAssessmentRating,
+                      ),
                       StarRating(
-                          starCount: 5,
-                          rating: double.parse(item.reviewRating.ratingValue),
-                          onRatingChanged: (_) => null,
-                          color: Colors.yellowAccent),
+                        starCount: 5,
+                        rating: double.parse(item.reviewRating.ratingValue),
+                        onRatingChanged: (_) => null,
+                        color: Theme.of(context).colorScheme.star,
+                      ),
                     ],
                   ),
                 );

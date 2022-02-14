@@ -103,13 +103,14 @@ class LoyaltyCardVerso extends Verso {
   final LoyaltyCard loyaltyCard;
 
   LoyaltyCardVerso(this.loyaltyCard);
+
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: Colors.red,
+        color: Theme.of(context).colorScheme.error,
       ),
       child: Column(
         children: [
@@ -124,7 +125,7 @@ class LoyaltyCardVerso extends Verso {
             ),
           ),
           TextWithLoyaltyCardStyle(
-              value: UiKit.displayDate(localizations, loyaltyCard.birthDate)),
+              value: UiDate.displayDate(localizations, loyaltyCard.birthDate)),
           TextWithLoyaltyCardStyle(value: loyaltyCard.email),
           TextWithLoyaltyCardStyle(value: loyaltyCard.telephone),
           TextWithLoyaltyCardStyle(value: loyaltyCard.address),
@@ -147,8 +148,7 @@ class TextWithLoyaltyCardStyle extends StatelessWidget {
     if (value != '') {
       return Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Text(value,
-            style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
+        child: Text(value, style: Theme.of(context).textTheme.loyaltyCard),
       );
     } else {
       return const SizedBox.shrink();

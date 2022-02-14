@@ -45,7 +45,7 @@ app.*.map.json
 
 /didkit/
 /ssi/
-
+.fvm
 
 # iOS/XCode related
 **/ios/**/*.mode1v3
@@ -96,3 +96,5 @@ app.*.map.json
 **/fastlane/test_output
 /android/app/google-services.json
 /ios/GoogleService-Info.plist
+
+

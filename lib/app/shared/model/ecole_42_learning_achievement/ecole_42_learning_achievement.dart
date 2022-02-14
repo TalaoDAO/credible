@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:talao/app/shared/model/ecole_42_learning_achievement/has_credential_ecole_42.dart';
 import 'package:talao/app/shared/model/signature.dart';
+import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/image_card_text.dart';
 
 part 'ecole_42_learning_achievement.g.dart';
@@ -50,87 +51,81 @@ class Ecole42LearningAchievement extends CredentialSubject {
     final _width = 1240.0;
     final _aspectRatio = _width / _height;
 
-    return Column(
-      children: [
-        AspectRatio(
+    return AspectRatio(
 
-            /// this size comes from law publication about job student card specs
-            aspectRatio: _aspectRatio,
-            child: Container(
-              height: _height,
-              width: _width,
-              child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      image: DecorationImage(
-                          fit: BoxFit.fitWidth,
-                          image: AssetImage(
-                            'assets/image/certificate-42.png',
-                          ))),
-                  child: AspectRatio(
-
-                      /// random size, copy from professional student card
-                      aspectRatio: _aspectRatio,
-                      child: Container(
-                        height: _height,
-                        width: _width,
-                        child: CustomMultiChildLayout(
-                          delegate: Ecole42LearningAchievementDelegate(
-                              position: Offset.zero),
-                          children: [
-                            LayoutId(
-                                id: 'studentIdentity',
-                                child: Row(
-                                  children: [
-                                    ImageCardText(
-                                        text:
-                                            '$givenName $familyName, born $birthDate',
-                                        textStyle: TextStyle(
-                                            fontSize: 5,
-                                            fontWeight: FontWeight.bold)),
-                                  ],
-                                )),
-                            LayoutId(
-                                id: 'level',
-                                child: Row(
-                                  children: [
-                                    ImageCardText(
-                                        text: 'Level ${hasCredential.level}',
-                                        textStyle: TextStyle(
-                                            fontSize: 5,
-                                            fontWeight: FontWeight.bold)),
-                                  ],
-                                )),
-                            LayoutId(
-                              id: 'signature',
-                              child: item.image != ''
-                                  ? Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Container(
-                                        height: 80 *
-                                            MediaQuery.of(context)
-                                                .size
-                                                .aspectRatio,
-                                        child: Image.network(
-                                            signatureLines.image,
-                                            loadingBuilder: (context, child,
-                                                    loadingProgress) =>
-                                                (loadingProgress == null)
-                                                    ? child
-                                                    : CircularProgressIndicator(),
-                                            errorBuilder:
-                                                (context, error, stackTrace) =>
-                                                    SizedBox.shrink()),
-                                      ),
-                                    )
-                                  : SizedBox.shrink(),
-                            ),
-                          ],
-                        ),
+        /// this size comes from law publication about job student card specs
+        aspectRatio: _aspectRatio,
+        child: Container(
+          height: _height,
+          width: _width,
+          child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  image: DecorationImage(
+                      fit: BoxFit.fitWidth,
+                      image: AssetImage(
+                        'assets/image/certificate-42.png',
                       ))),
-            )),
-      ],
-    );
+              child: AspectRatio(
+
+                  /// random size, copy from professional student card
+                  aspectRatio: _aspectRatio,
+                  child: Container(
+                    height: _height,
+                    width: _width,
+                    child: CustomMultiChildLayout(
+                      delegate: Ecole42LearningAchievementDelegate(
+                          position: Offset.zero),
+                      children: [
+                        LayoutId(
+                            id: 'studentIdentity',
+                            child: Row(
+                              children: [
+                                ImageCardText(
+                                    text:
+                                        '$givenName $familyName, born $birthDate',
+                                    textStyle: Theme.of(context)
+                                        .textTheme
+                                        .ecole42LearningAchievementStudentIdentity),
+                              ],
+                            )),
+                        LayoutId(
+                            id: 'level',
+                            child: Row(
+                              children: [
+                                ImageCardText(
+                                  text: 'Level ${hasCredential.level}',
+                                  textStyle: Theme.of(context)
+                                      .textTheme
+                                      .ecole42LearningAchievementLevel,
+                                ),
+                              ],
+                            )),
+                        LayoutId(
+                          id: 'signature',
+                          child: item.image != ''
+                              ? Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    height: 80 *
+                                        MediaQuery.of(context).size.aspectRatio,
+                                    child: Image.network(signatureLines.image,
+                                        loadingBuilder: (context, child,
+                                                loadingProgress) =>
+                                            (loadingProgress == null)
+                                                ? child
+                                                : CircularProgressIndicator(),
+                                        errorBuilder:
+                                            (context, error, stackTrace) =>
+                                                SizedBox.shrink()),
+                                  ),
+                                )
+                              : SizedBox.shrink(),
+                        ),
+                      ],
+                    ),
+                  ))),
+        ));
   }
 
   static Signature _signatureLinesFromJson(json) {

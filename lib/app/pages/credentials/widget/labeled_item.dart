@@ -1,4 +1,3 @@
-import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/tooltip_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -26,7 +25,7 @@ class LabeledItem extends StatelessWidget {
             icon,
             width: 16.0,
             height: 16.0,
-            color: UiKit.text.colorTextBody1,
+            color: Theme.of(context).primaryColor,
           ),
           const SizedBox(width: 8.0),
           Expanded(
@@ -35,7 +34,7 @@ class LabeledItem extends StatelessWidget {
               text: value,
               tooltip: '$label $value',
               style: GoogleFonts.poppins(
-                color: UiKit.text.colorTextBody1,
+                color: Theme.of(context).primaryColor,
                 fontSize: 12.0,
                 fontWeight: FontWeight.w500,
               ),

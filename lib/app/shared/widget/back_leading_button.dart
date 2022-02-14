@@ -1,4 +1,3 @@
-import 'package:talao/app/shared/ui/ui.dart';
 import 'package:flutter/material.dart';
 
 class BackLeadingButton extends StatelessWidget {
@@ -10,7 +9,7 @@ class BackLeadingButton extends StatelessWidget {
       },
       icon: Icon(
         Icons.arrow_back,
-        color: UiKit.palette.icon,
+        color: Theme.of(context).colorScheme.onSurface,
       ),
     );
   }

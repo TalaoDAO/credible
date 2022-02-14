@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:talao/app/shared/model/signature.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:talao/app/shared/widget/base/credential_field.dart';
 
 class DisplaySignatures extends StatelessWidget {
   const DisplaySignatures({
@@ -16,16 +17,7 @@ class DisplaySignatures extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              Text('${localizations.signedBy} '),
-              Text(item.name,
-                  style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
-            ],
-          ),
-        ),
+        CredentialField(title: localizations.signedBy, value: item.name),
         item.image != ''
             ? Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -35,7 +27,10 @@ class DisplaySignatures extends StatelessWidget {
                       loadingBuilder: (context, child, loadingProgress) =>
                           (loadingProgress == null)
                               ? child
-                              : CircularProgressIndicator(),
+                              : Container(
+                                  height: 50,
+                                  child: CircularProgressIndicator(),
+                                ),
                       errorBuilder: (context, error, stackTrace) =>
                           SizedBox.shrink()),
                 ),

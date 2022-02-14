@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class AppVersion extends StatelessWidget {
@@ -21,6 +20,7 @@ class AppVersion extends StatelessWidget {
 
             return Text(
               '$appName v$version ($buildNumber)',
+              style: Theme.of(context).textTheme.bodyText2,
             );
           default:
             return const SizedBox();

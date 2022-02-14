@@ -6,6 +6,7 @@ import 'package:talao/app/shared/model/credential_subject.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:talao/app/shared/ui/theme.dart';
 import 'package:talao/app/shared/widget/base/credential_field.dart';
 
 part 'certificate_of_employment.g.dart';
@@ -62,45 +63,23 @@ class CertificateOfEmployment extends CredentialSubject {
 
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              Text('${localizations.firstName} '),
-              Text('$familyName',
-                  style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              Text('${localizations.lastName} '),
-              Text('$givenName',
-                  style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              Text('${localizations.jobTitle} '),
-              Text('$jobTitle',
-                  style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
-            ],
-          ),
-        ),
+        CredentialField(title: localizations.firstName, value: familyName),
+        CredentialField(title: localizations.lastName, value: givenName),
+        CredentialField(title: localizations.jobTitle, value: jobTitle),
         (workFor.name != '')
             ? Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
                   children: [
-                    Text('${localizations.workFor} '),
-                    Text(workFor.name,
-                        style: TextStyle(
-                            inherit: true, fontWeight: FontWeight.w700)),
+                    Text('${localizations.workFor}: ',
+                        style:
+                            Theme.of(context).textTheme.credentialFieldTitle),
+                    Text(
+                      workFor.name,
+                      style: Theme.of(context)
+                          .textTheme
+                          .credentialFieldDescription,
+                    ),
                     Spacer(),
                     (workFor.logo != '')
                         ? Container(
@@ -110,28 +89,10 @@ class CertificateOfEmployment extends CredentialSubject {
                 ),
               )
             : SizedBox.shrink(),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              Text('${localizations.startDate} '),
-              Text('$startDate',
-                  style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
-            ],
-          ),
-        ),
+        CredentialField(title: localizations.startDate, value: startDate),
         CredentialField(
             value: employmentType, title: localizations.employmentType),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              Text('${localizations.baseSalary} '),
-              Text('$baseSalary',
-                  style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
-            ],
-          ),
-        ),
+        CredentialField(title: localizations.baseSalary, value: baseSalary),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: DisplayIssuer(

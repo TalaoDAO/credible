@@ -18,7 +18,7 @@ class MenuItem extends StatelessWidget {
     return Tooltip(
       message: title,
       child: Material(
-        color: Colors.transparent,
+        color: Theme.of(context).colorScheme.transparent,
         child: InkWell(
           onTap: onTap,
           child: Container(
@@ -28,7 +28,10 @@ class MenuItem extends StatelessWidget {
             ),
             decoration: BoxDecoration(
               border: Border(
-                bottom: BorderSide(color: UiKit.palette.lightBorder),
+                bottom: BorderSide(
+                  color: Theme.of(context).colorScheme.borderColor,
+                  width: 0.4,
+                ),
               ),
             ),
             child: Row(
@@ -36,7 +39,7 @@ class MenuItem extends StatelessWidget {
                 Icon(
                   icon,
                   size: 24.0,
-                  color: UiKit.palette.icon,
+                  color: Theme.of(context).colorScheme.onBackground,
                 ),
                 const SizedBox(width: 16.0),
                 Expanded(
@@ -49,7 +52,7 @@ class MenuItem extends StatelessWidget {
                 Icon(
                   Icons.chevron_right,
                   size: 24.0,
-                  color: UiKit.palette.icon,
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
               ],
             ),
