@@ -33,7 +33,7 @@ class BaseTextField extends StatelessWidget {
       ),
       child: TextFormField(
         controller: controller,
-        cursorColor: Theme.of(context).colorScheme.secondaryVariant,
+        cursorColor: Theme.of(context).colorScheme.secondaryContainer,
         keyboardType: type,
         maxLines: 1,
         textCapitalization: textCapitalization,
@@ -55,7 +55,7 @@ class BaseTextField extends StatelessWidget {
           labelStyle: Theme.of(context).textTheme.bodyText1!,
           suffixIcon: Icon(
             icon,
-            color: Theme.of(context).colorScheme.secondaryVariant,
+            color: Theme.of(context).colorScheme.secondaryContainer,
           ),
         ),
       ),

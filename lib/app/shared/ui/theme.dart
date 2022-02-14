@@ -45,9 +45,7 @@ class AppTheme {
         brightness: Brightness.dark,
         colorScheme: ColorScheme(
           primary: darkPrimary,
-          primaryVariant: darkPrimaryVariant,
           secondary: darkSecondary,
-          secondaryVariant: darkSecondaryVariant,
           surface: darkSurface,
           background: darkBackground,
           error: darkError,
@@ -104,9 +102,7 @@ class AppTheme {
         brightness: Brightness.light,
         colorScheme: ColorScheme(
           primary: lightPrimary,
-          primaryVariant: lightPrimaryVariant,
           secondary: lightSecondary,
-          secondaryVariant: lightSecondaryVariant,
           surface: lightSurface,
           background: lightBackground,
           error: lightError,
@@ -308,8 +304,7 @@ extension CustomTextTheme on TextTheme {
         fontWeight: FontWeight.w700,
       );
 
-  TextStyle get ecole42LearningAchievementLevel =>
-      GoogleFonts.montserrat(
+  TextStyle get ecole42LearningAchievementLevel => GoogleFonts.montserrat(
         color: const Color(0xff212121),
         fontSize: 5.0,
         fontWeight: FontWeight.w700,
