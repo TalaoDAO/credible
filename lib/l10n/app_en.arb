@@ -187,5 +187,8 @@
   "networkErrorUnableToProcess": "Unable to process the data",
   "networkErrorUnauthenticated": "The user must authenticate itself to get the requested response",
   "networkErrorUnauthorizedRequest": "Unauthorized request",
-  "networkErrorUnexpectedError": "Unexpected error occurred"
+  "networkErrorUnexpectedError": "Unexpected error occurred",
+  "active": "Active",
+  "expired": "Expired",
+  "revoked": "Revoked"
 }

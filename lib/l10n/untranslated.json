@@ -24,7 +24,10 @@
     "networkErrorUnableToProcess",
     "networkErrorUnauthenticated",
     "networkErrorUnauthorizedRequest",
-    "networkErrorUnexpectedError"
+    "networkErrorUnexpectedError",
+    "active",
+    "expired",
+    "revoked"
   ],
 
   "es": [
@@ -52,7 +55,16 @@
     "networkErrorUnableToProcess",
     "networkErrorUnauthenticated",
     "networkErrorUnauthorizedRequest",
-    "networkErrorUnexpectedError"
+    "networkErrorUnexpectedError",
+    "active",
+    "expired",
+    "revoked"
+  ],
+
+  "fr": [
+    "active",
+    "expired",
+    "revoked"
   ],
 
   "it": [
@@ -82,6 +94,9 @@
     "networkErrorUnableToProcess",
     "networkErrorUnauthenticated",
     "networkErrorUnauthorizedRequest",
-    "networkErrorUnexpectedError"
+    "networkErrorUnexpectedError",
+    "active",
+    "expired",
+    "revoked"
   ]
 }

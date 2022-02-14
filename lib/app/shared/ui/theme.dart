@@ -191,9 +191,8 @@ extension CustomColorScheme on ColorScheme {
       ? AppTheme.lightOnSurface
       : const Color(0xFFADACAC);
 
-  Color get markDownA => brightness == Brightness.light
-      ? Color(0xff3700b3)
-      : Color(0xff517bff);
+  Color get markDownA =>
+      brightness == Brightness.light ? Color(0xff3700b3) : Color(0xff517bff);
 
   Color get subtitle1 => brightness == Brightness.light
       ? const Color(0xff212121)
@@ -218,6 +217,12 @@ extension CustomColorScheme on ColorScheme {
   Color get star => const Color(0xFFFFB83D);
 
   Color get genderIcon => const Color(0xFF212121);
+
+  Color get activeCredential => Colors.green;
+
+  Color get expiredCredential => Colors.orange;
+
+  Color get revokedCredential => Colors.red;
 
   Color get snackBarError => Colors.red;
 }
