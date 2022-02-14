@@ -190,5 +190,8 @@
   "networkErrorUnexpectedError": "Unexpected error occurred",
   "active": "Active",
   "expired": "Expired",
-  "revoked": "Revoked"
+  "revoked": "Revoked",
+  "ok": "Okay",
+  "unavailable_feature_title": "Unavailable Feature",
+  "unavailable_feature_message": "This feature is not available on the browser"
 }

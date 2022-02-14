@@ -81,9 +81,9 @@ class CustomNavBar extends StatelessWidget {
                 showDialog(
                   context: context,
                   builder: (BuildContext context) => InfoDialog(
-                    title: 'Unavailable Feature',
-                    subtitle: 'This feature is not available on the browser',
-                    button: 'Ok',
+                    title: localizations.unavailable_feature_title,
+                    subtitle: localizations.unavailable_feature_message,
+                    button: localizations.ok,
                   ),
                 );
               } else {
