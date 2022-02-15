@@ -78,9 +78,7 @@
   "credentialPresentConfirm": "Nachweis(e) auswählen",
   "credentialPresentCancel": "Ablehnen",
   "credentialPickPresent": "Vorzeigen",
-  "credentialPickTitle": "Present Credentials",
   "credentialPickSelect": "Wählen Sie einen oder mehrere Nachweise in Ihrem Wallet aus, um ihn/sie vorzuzeigen",
-  "credentialPickAlertMessage": "Do you want to give an alias to this credential?",
   "credentialReceiveTitle": "Nachweisangebot",
   "credentialReceiveHost": "möchte Ihnen einen Nachweis senden",
   "credentialReceiveConfirm": "Zum Wallet hinzufügen",
@@ -163,4 +161,5 @@
   "credential": "Nachweise",
   "issuanceDate": "Issuance date",
   "appContactWebsite": "Website"
+
 }

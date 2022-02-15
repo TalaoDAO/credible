@@ -1,5 +1,7 @@
 {
   "de": [
+    "credentialPickTitle",
+    "credentialPickAlertMessage",
     "blockChainDisplayMethod",
     "blockChainAdress",
     "adressDisplayCopy",
@@ -34,6 +36,8 @@
   ],
 
   "es": [
+    "credentialPickTitle",
+    "credentialPickAlertMessage",
     "blockChainDisplayMethod",
     "blockChainAdress",
     "adressDisplayCopy",
@@ -68,6 +72,8 @@
   ],
 
   "fr": [
+    "credentialPickTitle",
+    "credentialPickAlertMessage",
     "active",
     "expired",
     "revoked",
@@ -77,6 +83,8 @@
   ],
 
   "it": [
+    "credentialPickTitle",
+    "credentialPickAlertMessage",
     "blockChainDisplayMethod",
     "blockChainAdress",
     "adressDisplayCopy",

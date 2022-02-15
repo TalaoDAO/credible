@@ -136,18 +136,20 @@ class CredentialsListItem extends StatelessWidget {
                     ? Icon(
                         credential.credentialSubject.icon.icon,
                         size: 24.0,
-                        color: Theme.of(context).colorScheme.primaryVariant,
+                        color: Theme.of(context).colorScheme.primaryContainer,
                       )
                     : selected!
                         ? Icon(
                             Icons.check_box,
                             size: 24.0,
-                            color: Theme.of(context).colorScheme.primaryVariant,
+                            color:
+                                Theme.of(context).colorScheme.primaryContainer,
                           )
                         : Icon(
                             Icons.check_box_outline_blank,
                             size: 24.0,
-                            color: Theme.of(context).colorScheme.primaryVariant,
+                            color:
+                                Theme.of(context).colorScheme.primaryContainer,
                           ),
               ),
               SizedBox(height: 16.0),
