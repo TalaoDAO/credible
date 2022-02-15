@@ -5,9 +5,9 @@ class AppTheme {
   AppTheme();
 
   static const Color darkPrimary = Color(0xffbb86fc);
-  static const Color darkPrimaryVariant = Color(0xff3700B3);
+  static const Color darkPrimaryContainer = Color(0xff3700B3);
   static const Color darkSecondary = Color(0xff03dac6);
-  static const Color darkSecondaryVariant = Color(0xff03dac6);
+  static const Color darkSecondaryContainer = Color(0xff03dac6);
   static const Color darkSurface = Color(0xff212121);
   static const Color darkBackground = Color(0xff121212);
   static const Color darkError = Color(0xffcf6679);
@@ -19,9 +19,9 @@ class AppTheme {
   static Color darkShadow = Color(0xFF1D1D1D).withOpacity(0.1);
 
   static const Color lightPrimary = Color(0xff6200ee);
-  static const Color lightPrimaryVariant = Color(0xff3700b3);
+  static const Color lightPrimaryContainer = Color(0xff3700b3);
   static const Color lightSecondary = Color(0xff03dac6);
-  static const Color lightSecondaryVariant = Color(0xff018786);
+  static const Color lightSecondaryContainer = Color(0xff018786);
   static const Color lightSurface = Colors.white;
   static const Color lightBackground = Colors.white;
   static const Color lightError = Color(0xffb00020);
@@ -45,7 +45,9 @@ class AppTheme {
         brightness: Brightness.dark,
         colorScheme: ColorScheme(
           primary: darkPrimary,
+          primaryContainer: darkPrimaryContainer,
           secondary: darkSecondary,
+          secondaryContainer: darkSecondaryContainer,
           surface: darkSurface,
           background: darkBackground,
           error: darkError,
@@ -102,7 +104,9 @@ class AppTheme {
         brightness: Brightness.light,
         colorScheme: ColorScheme(
           primary: lightPrimary,
+          primaryContainer: lightPrimaryContainer,
           secondary: lightSecondary,
+          secondaryContainer: lightSecondaryContainer,
           surface: lightSurface,
           background: lightBackground,
           error: lightError,
@@ -208,7 +212,7 @@ extension CustomColorScheme on ColorScheme {
   Color get documentShadow =>
       brightness == Brightness.light ? Color(0xFF757575) : Color(0xFF424242);
 
-  Color get documentShape => AppTheme.lightPrimaryVariant.withOpacity(0.05);
+  Color get documentShape => AppTheme.lightPrimaryContainer.withOpacity(0.05);
 
   Color get star => const Color(0xFFFFB83D);
 
