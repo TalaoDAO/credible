@@ -4,9 +4,12 @@ import 'package:talao/app/pages/credentials/blocs/wallet.dart';
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
 import 'package:talao/app/pages/credentials/models/credential_status.dart';
 import 'package:talao/app/pages/credentials/models/revokation_status.dart';
+import 'package:talao/app/shared/ui/ui.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DisplayStatus extends StatelessWidget {
   DisplayStatus(this.item, this.displayLabel, {Key? key});
+
   final CredentialModel item;
   final bool displayLabel;
 
@@ -14,6 +17,8 @@ class DisplayStatus extends StatelessWidget {
   Widget build(BuildContext context) {
     final wallet = context.read<WalletBloc>();
     final currentRevocationStatus = item.revocationStatus;
+
+    final localizations = AppLocalizations.of(context)!;
     return FutureBuilder(
         future: item.status,
         builder: (context, snapshot) {
@@ -28,16 +33,22 @@ class DisplayStatus extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Icon(Icons.check_circle, color: Colors.green),
+                      child: Icon(
+                        Icons.check_circle,
+                        color: Theme.of(context).colorScheme.activeCredential,
+                      ),
                     ),
                     displayLabel
                         ? Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text('Active',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .caption!
-                                    .apply(color: Colors.green)))
+                            child: Text(
+                              localizations.active,
+                              style: Theme.of(context).textTheme.caption!.apply(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .activeCredential),
+                            ),
+                          )
                         : SizedBox.shrink()
                   ],
                 );
@@ -47,16 +58,23 @@ class DisplayStatus extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Icon(Icons.alarm_off, color: Colors.orange),
+                      child: Icon(
+                        Icons.alarm_off,
+                        color: Theme.of(context).colorScheme.expiredCredential,
+                      ),
                     ),
                     displayLabel
                         ? Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text('Expired',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .caption!
-                                    .apply(color: Colors.orange)))
+                            child: Text(
+                              localizations.expired,
+                              style: Theme.of(context).textTheme.caption!.apply(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .expiredCredential,
+                                  ),
+                            ),
+                          )
                         : SizedBox.shrink()
                   ],
                 );
@@ -66,16 +84,23 @@ class DisplayStatus extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Icon(Icons.block, color: Colors.red),
+                      child: Icon(
+                        Icons.block,
+                        color: Theme.of(context).colorScheme.revokedCredential,
+                      ),
                     ),
                     displayLabel
                         ? Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text('Revoked',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .caption!
-                                    .apply(color: Colors.red)))
+                            child: Text(
+                              localizations.revoked,
+                              style: Theme.of(context).textTheme.caption!.apply(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .revokedCredential,
+                                  ),
+                            ),
+                          )
                         : SizedBox.shrink()
                   ],
                 );

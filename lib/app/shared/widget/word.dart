@@ -1,5 +1,6 @@
-import 'package:talao/app/shared/ui/ui.dart';
 import 'package:flutter/material.dart';
+import 'package:talao/app/shared/ui/theme.dart';
+import 'package:talao/app/shared/widget/my_text.dart';
 
 class PhraseWord extends StatelessWidget {
   final int order;
@@ -18,28 +19,17 @@ class PhraseWord extends StatelessWidget {
           vertical: 12.0,
         ),
         decoration: BoxDecoration(
-          color: Colors.transparent,
+          color: Theme.of(context).colorScheme.transparent,
           border: Border.all(
             width: 1.5,
-            color: UiKit.palette.wordBorder,
+            color: Theme.of(context).colorScheme.secondary,
           ),
           borderRadius: BorderRadius.circular(128.0),
         ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Text(
-              '$order',
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.caption,
-            ),
-            Text(
-              '$word',
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.caption,
-            ),
-          ],
+        child: MyText(
+          '$order $word',
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.caption,
         ),
       );
 }

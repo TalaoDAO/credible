@@ -9,7 +9,6 @@ import 'package:talao/app/pages/credentials/pages/list.dart';
 import 'package:talao/app/pages/credentials/widget/display_status.dart';
 import 'package:talao/app/pages/credentials/widget/document.dart';
 import 'package:talao/app/pages/qr_code/display.dart';
-import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
@@ -44,7 +43,7 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
   bool showShareMenu = false;
   VerificationState verification = VerificationState.Unverified;
 
-  final logger = Logger('credible/credentials/detail');
+  final logger = Logger('talao-wallet/credentials/detail');
 
   @override
   void initState() {
@@ -141,22 +140,20 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
       titleLeading: BackLeadingButton(),
       titleTrailing: IconButton(
         onPressed: _edit,
-        icon: Icon(
-          Icons.edit,
-          color: UiKit.palette.icon,
-        ),
+        icon: Icon(Icons.edit),
       ),
       navigation: widget.item.shareLink != ''
           ? SafeArea(
               child: Container(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 24.0,
-                  vertical: 16.0,
+                  vertical: 5.0,
                 ),
-                height: kBottomNavigationBarHeight * 1.75,
+                height: kBottomNavigationBarHeight,
                 child: Tooltip(
                   message: localizations.credentialDetailShare,
                   child: BaseButton.primary(
+                    context: context,
                     onPressed: () {
                       Navigator.of(context).push(
                           QrCodeDisplayPage.route(widget.item.id, widget.item));
@@ -170,7 +167,7 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
                           'assets/icon/qr-code.svg',
                           width: 24.0,
                           height: 24.0,
-                          color: UiKit.palette.icon,
+                          color: Theme.of(context).colorScheme.onPrimary,
                         ),
                         const SizedBox(width: 16.0),
                         Text(localizations.credentialDetailShare),
@@ -194,7 +191,7 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   localizations.credentialDetailStatus,
-                  style: Theme.of(context).textTheme.overline!,
+                  style: Theme.of(context).textTheme.bodyText1!,
                 ),
               ),
             ),
@@ -231,6 +228,8 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
                 horizontal: 32.0,
                 vertical: 16.0,
               ),
+              backgroundColor:
+                  Theme.of(context).colorScheme.error.withOpacity(0.1),
             ),
             onPressed: delete,
             child: Text(
@@ -238,7 +237,7 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
               style: Theme.of(context)
                   .textTheme
                   .bodyText1!
-                  .apply(color: Colors.redAccent),
+                  .apply(color: Theme.of(context).colorScheme.error),
             ),
           ),
           const SizedBox(height: 16.0),

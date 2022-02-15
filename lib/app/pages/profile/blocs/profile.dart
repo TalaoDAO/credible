@@ -38,7 +38,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   void _load(
     ProfileEventLoad event, Emitter<ProfileState> emit,
   ) async {
-    final log = Logger('credible/profile/load');
+    final log = Logger('talao-wallet/profile/load');
     try {
 
       final firstName =
@@ -78,7 +78,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   void _update(
     ProfileEventUpdate event, Emitter<ProfileState> emit,
   ) async {
-    final log = Logger('credible/profile/update');
+    final log = Logger('talao-wallet/profile/update');
 
     try {
 

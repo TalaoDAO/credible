@@ -22,21 +22,22 @@ class BaseTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: UiKit.constraints.textFieldPadding,
+      margin: UiConstraints.textFieldPadding,
       padding: const EdgeInsets.symmetric(
         horizontal: 24.0,
       ),
       decoration: BoxDecoration(
-        color: UiKit.palette.textFieldBackground,
-        border: Border.all(color: UiKit.palette.textFieldBorder),
-        borderRadius: UiKit.constraints.textFieldRadius,
+        color: Theme.of(context).colorScheme.surface,
+        border: Border.all(color: Theme.of(context).colorScheme.borderColor),
+        borderRadius: UiConstraints.textFieldRadius,
       ),
       child: TextFormField(
         controller: controller,
-        cursorColor: UiKit.text.colorTextBody1,
+        cursorColor: Theme.of(context).colorScheme.secondaryContainer,
         keyboardType: type,
         maxLines: 1,
         textCapitalization: textCapitalization,
+        style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 17),
         decoration: InputDecoration(
           border: InputBorder.none,
           enabledBorder: InputBorder.none,
@@ -44,17 +45,17 @@ class BaseTextField extends StatelessWidget {
           errorBorder: InputBorder.none,
           focusedBorder: InputBorder.none,
           focusedErrorBorder: InputBorder.none,
-          fillColor: UiKit.text.colorTextBody1,
-          hoverColor: UiKit.text.colorTextBody1,
-          focusColor: UiKit.text.colorTextBody1,
+          fillColor: Theme.of(context).colorScheme.primary,
+          hoverColor: Theme.of(context).colorScheme.primary,
+          focusColor: Theme.of(context).colorScheme.primary,
           errorText: error,
-          hintText: label,
-          hintStyle: Theme.of(context).textTheme.bodyText1!,
+          // hintText: label,
+          // hintStyle: Theme.of(context).textTheme.bodyText1!,
           labelText: label,
           labelStyle: Theme.of(context).textTheme.bodyText1!,
           suffixIcon: Icon(
             icon,
-            color: UiKit.palette.icon.withOpacity(0.4),
+            color: Theme.of(context).colorScheme.secondaryContainer,
           ),
         ),
       ),

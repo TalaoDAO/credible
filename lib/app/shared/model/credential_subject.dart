@@ -13,7 +13,6 @@ import 'package:talao/app/shared/model/professional_skil_assessment/professional
 import 'package:talao/app/shared/model/professional_student_card/professional_student_card.dart';
 import 'package:talao/app/shared/model/resident_card/resident_card.dart';
 import 'package:talao/app/shared/model/voucher/voucher.dart';
-import 'package:talao/app/shared/ui/ui.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -65,7 +64,7 @@ class CredentialSubject {
         _backgroundColor = Color(0xFFFFADAD);
         break;
       default:
-        _backgroundColor = UiKit.palette.credentialBackground;
+        _backgroundColor = Colors.black;
     }
     return _backgroundColor;
   }

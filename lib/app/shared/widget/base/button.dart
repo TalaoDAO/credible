@@ -7,9 +7,11 @@ class BaseButton extends StatelessWidget {
   final Gradient? gradient;
   final Color? textColor;
   final Color? borderColor;
+  final BuildContext context;
 
   const BaseButton({
     required this.child,
+    required this.context,
     this.onPressed,
     this.gradient,
     this.textColor,
@@ -18,53 +20,71 @@ class BaseButton extends StatelessWidget {
 
   BaseButton.white({
     required Widget child,
+    required BuildContext context,
     VoidCallback? onPressed,
     Color? borderColor,
   }) : this(
           child: child,
+          context: context,
           onPressed: onPressed,
           gradient: LinearGradient(
             colors: [Colors.white, Colors.white],
           ),
-          textColor: UiKit.palette.primary,
           borderColor: borderColor,
         );
 
   BaseButton.primary({
     required Widget child,
+    required BuildContext context,
     VoidCallback? onPressed,
+    Gradient? gradient,
     Color? borderColor,
+    Color? textColor,
   }) : this(
           child: child,
+          context: context,
           onPressed: onPressed,
-          gradient: UiKit.palette.buttonBackground,
-          textColor: Colors.white,
+          gradient: gradient ??
+              LinearGradient(
+                colors: [
+                  Theme.of(context).colorScheme.secondaryContainer,
+                  Theme.of(context).colorScheme.secondaryContainer
+                ],
+              ),
+          textColor: textColor ?? Theme.of(context).colorScheme.onPrimary,
           borderColor: borderColor,
         );
 
   BaseButton.transparent({
     required Widget child,
+    required BuildContext context,
     VoidCallback? onPressed,
     Color? borderColor,
+    Color? textColor,
   }) : this(
           child: child,
+          context: context,
           onPressed: onPressed,
           gradient: LinearGradient(
-            colors: [Colors.transparent, Colors.transparent],
+            colors: [
+              Theme.of(context).colorScheme.transparent,
+              Theme.of(context).colorScheme.transparent
+            ],
           ),
-          textColor: UiKit.palette.primary,
-          borderColor: borderColor,
+          textColor:
+              textColor ?? Theme.of(context).colorScheme.secondaryContainer,
+          borderColor:
+              borderColor ?? Theme.of(context).colorScheme.secondaryContainer,
         );
 
   @override
   Widget build(BuildContext context) {
-    final gradient = this.gradient ?? UiKit.palette.buttonBackground;
-    final textColor = this.textColor ?? UiKit.text.colorTextButton;
+    final textColor = this.textColor ?? Theme.of(context).colorScheme.button;
 
     return Container(
       decoration: BoxDecoration(
         gradient: gradient,
-        borderRadius: UiKit.constraints.buttonRadius,
+        borderRadius: UiConstraints.buttonRadius,
         border: borderColor != null
             ? Border.all(
                 width: 2.0,
@@ -74,13 +94,13 @@ class BaseButton extends StatelessWidget {
       ),
       child: Material(
         color: Colors.transparent,
-        borderRadius: UiKit.constraints.buttonRadius,
+        borderRadius: UiConstraints.buttonRadius,
         child: InkWell(
           onTap: onPressed,
-          borderRadius: UiKit.constraints.buttonRadius,
+          borderRadius: UiConstraints.buttonRadius,
           child: Container(
             alignment: Alignment.center,
-            padding: UiKit.constraints.buttonPadding,
+            padding: UiConstraints.buttonPadding,
             child: DefaultTextStyle(
               style:
                   Theme.of(context).textTheme.button!.apply(color: textColor),

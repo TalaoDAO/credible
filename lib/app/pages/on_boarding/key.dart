@@ -6,10 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OnBoardingKeyPage extends StatelessWidget {
-
   static Route route() => MaterialPageRoute(
-    builder: (context) => OnBoardingKeyPage(),
-  );
+        builder: (context) => OnBoardingKeyPage(),
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +38,7 @@ class OnBoardingKeyPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 20.0),
                 BaseButton.primary(
+                  context: context,
                   onPressed: () {
                     Navigator.of(context).push(OnBoardingRecoveryPage.route());
                   },
@@ -65,6 +65,7 @@ class OnBoardingKeyPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 20.0),
                 BaseButton.primary(
+                  context: context,
                   onPressed: () {
                     Navigator.of(context).push(OnBoardingGenPhrasePage.route());
                   },

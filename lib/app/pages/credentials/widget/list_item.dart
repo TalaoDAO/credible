@@ -51,10 +51,9 @@ class __BaseItemState extends State<_BaseItem>
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              color: Colors.white,
               boxShadow: [
                 BoxShadow(
-                    color: Colors.black87,
+                    color: Theme.of(context).colorScheme.documentShadow,
                     blurRadius: 2,
                     spreadRadius: 1.0,
                     offset: Offset(3, 3))
@@ -64,14 +63,14 @@ class __BaseItemState extends State<_BaseItem>
               // margin: const EdgeInsets.symmetric(vertical: 4.0),
               decoration: BaseBoxDecoration(
                 color: widget.color,
-                shapeColor: UiKit.palette.credentialDetail.withOpacity(0.1),
+                shapeColor: Theme.of(context).colorScheme.documentShape,
                 value: 1.0,
                 anchors: <Alignment>[
                   Alignment.bottomRight,
                 ],
                 boxShadow: <BoxShadow>[
                   BoxShadow(
-                    color: UiKit.palette.shadow,
+                    color: Theme.of(context).colorScheme.documentShadow,
                     offset: Offset(0.0, 2.0),
                     blurRadius: 2.0,
                   ),
@@ -79,7 +78,7 @@ class __BaseItemState extends State<_BaseItem>
                 borderRadius: BorderRadius.circular(20.0),
               ),
               child: Material(
-                color: Colors.transparent,
+                color: Theme.of(context).colorScheme.transparent,
                 borderRadius: BorderRadius.circular(20.0),
                 child: InkWell(
                   borderRadius: BorderRadius.circular(20.0),
@@ -134,17 +133,23 @@ class CredentialsListItem extends StatelessWidget {
               HeroFix(
                 tag: 'credential/${item.id}/icon',
                 child: selected == null
-                    ? credential.credentialSubject.icon
+                    ? Icon(
+                        credential.credentialSubject.icon.icon,
+                        size: 24.0,
+                        color: Theme.of(context).colorScheme.primaryContainer,
+                      )
                     : selected!
                         ? Icon(
                             Icons.check_box,
                             size: 24.0,
-                            color: UiKit.palette.icon,
+                            color:
+                                Theme.of(context).colorScheme.primaryContainer,
                           )
                         : Icon(
                             Icons.check_box_outline_blank,
                             size: 24.0,
-                            color: UiKit.palette.icon,
+                            color:
+                                Theme.of(context).colorScheme.primaryContainer,
                           ),
               ),
               SizedBox(height: 16.0),

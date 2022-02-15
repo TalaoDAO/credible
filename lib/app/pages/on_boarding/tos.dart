@@ -17,19 +17,20 @@ class OnBoardingTosPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
-    final _log = Logger('credible/markdown_page');
+    final _log = Logger('talao-wallet/markdown_page');
 
     return BasePage(
+      backgroundColor: Theme.of(context).colorScheme.background,
       title: localizations.onBoardingTosTitle,
       scrollView: false,
       padding: EdgeInsets.zero,
       useSafeArea: false,
       navigation: Container(
         decoration: BoxDecoration(
-          color: UiKit.palette.navBarBackground,
+          color: Theme.of(context).colorScheme.surface,
           boxShadow: <BoxShadow>[
             BoxShadow(
-              color: UiKit.palette.shadow,
+              color: Theme.of(context).colorScheme.shadow,
               offset: Offset(-1.0, -1.0),
               blurRadius: 4.0,
             ),
@@ -51,6 +52,7 @@ class OnBoardingTosPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 20.0),
                 BaseButton.primary(
+                  context: context,
                   onPressed: () {
                     Navigator.of(context)
                         .pushReplacement(OnBoardingKeyPage.route());
@@ -82,9 +84,12 @@ class OnBoardingTosPage extends StatelessWidget {
             return Markdown(
               data: snapshot.data!,
               styleSheet: MarkdownStyleSheet(
-                  h1: TextStyle(color: UiKit.text.colorTextSubtitle1),
-                  h2: TextStyle(color: UiKit.text.colorTextSubtitle2)),
-              // onTapLink: (text, href, title) => _onTapLink(href),
+                h1: TextStyle(color: Theme.of(context).colorScheme.markDownH1),
+                h2: TextStyle(color: Theme.of(context).colorScheme.markDownH2),
+                a: TextStyle(color: Theme.of(context).colorScheme.markDownA),
+                p: TextStyle(color: Theme.of(context).colorScheme.markDownP),
+                // onTapLink: (text, href, title) => _onTapLink(href),
+              ),
             );
           }
 

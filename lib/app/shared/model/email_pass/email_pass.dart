@@ -5,6 +5,7 @@ import 'package:talao/app/shared/model/credential_subject.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:talao/app/shared/widget/base/credential_field.dart';
 
 part 'email_pass.g.dart';
 
@@ -47,16 +48,7 @@ class EmailPass extends CredentialSubject {
             issuer: issuedBy,
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              Text('${localizations.personalMail} '),
-              Text('$email',
-                  style: TextStyle(inherit: true, fontWeight: FontWeight.w700)),
-            ],
-          ),
-        ),
+        CredentialField(title: localizations.personalMail, value: email),
       ],
     );
   }

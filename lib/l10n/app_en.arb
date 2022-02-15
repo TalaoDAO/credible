@@ -78,7 +78,9 @@
   "credentialPresentConfirm": "Select credential(s)",
   "credentialPresentCancel": "Reject",
   "credentialPickPresent": "Present",
+  "credentialPickTitle": "Present Credentials",
   "credentialPickSelect": "Choose one or more credentials from your wallet to present",
+  "credentialPickAlertMessage": "Do you want to give an alias to this credential?",
   "credentialReceiveTitle": "Credential Offer",
   "credentialReceiveHost": "wants to send you a credential",
   "credentialReceiveConfirm": "Add to wallet",
@@ -185,5 +187,11 @@
   "networkErrorUnableToProcess": "Unable to process the data",
   "networkErrorUnauthenticated": "The user must authenticate itself to get the requested response",
   "networkErrorUnauthorizedRequest": "Unauthorized request",
-  "networkErrorUnexpectedError": "Unexpected error occurred"
+  "networkErrorUnexpectedError": "Unexpected error occurred",
+  "active": "Active",
+  "expired": "Expired",
+  "revoked": "Revoked",
+  "ok": "Okay",
+  "unavailable_feature_title": "Unavailable Feature",
+  "unavailable_feature_message": "This feature is not available on the browser"
 }

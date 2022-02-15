@@ -124,7 +124,7 @@ class QRCodeBloc extends Bloc<QRCodeEvent, QRCodeState> {
     QRCodeEventAccept event,
     Emitter<QRCodeState> emit,
   ) async {
-    final log = Logger('credible/qrcode/accept');
+    final log = Logger('talao-wallet/qrcode/accept');
 
     late final data;
 
@@ -134,7 +134,6 @@ class QRCodeBloc extends Bloc<QRCodeEvent, QRCodeState> {
       data = response is String ? jsonDecode(response) : response;
 
       scanBloc.add(ScanEventShowPreview(data));
-
       switch (data['type']) {
         case 'CredentialOffer':
           emit(QRCodeStateSuccess(CredentialsReceivePage.route(event.uri)));

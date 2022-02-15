@@ -18,7 +18,7 @@ class ThemeItem extends StatelessWidget {
     return Tooltip(
       message: title,
       child: Material(
-        color: Colors.transparent,
+        color: Theme.of(context).colorScheme.transparent,
         child: InkWell(
           onTap: onTap,
           child: Container(
@@ -28,7 +28,10 @@ class ThemeItem extends StatelessWidget {
             ),
             decoration: BoxDecoration(
               border: Border(
-                bottom: BorderSide(color: UiKit.palette.lightBorder),
+                bottom: BorderSide(
+                  color: Theme.of(context).colorScheme.borderColor,
+                  width: 0.4,
+                ),
               ),
             ),
             child: Row(
@@ -36,7 +39,12 @@ class ThemeItem extends StatelessWidget {
                 Expanded(
                   child: Text(
                     title,
-                    style: Theme.of(context).textTheme.bodyText1!,
+                    style: isTrue
+                        ? Theme.of(context).textTheme.bodyText1!.copyWith(
+                              color: Theme.of(context).colorScheme.secondary,
+                              fontWeight: FontWeight.bold,
+                            )
+                        : Theme.of(context).textTheme.bodyText1!,
                   ),
                 ),
                 const SizedBox(width: 16.0),
@@ -44,13 +52,13 @@ class ThemeItem extends StatelessWidget {
                   Icon(
                     Icons.radio_button_checked,
                     size: 24.0,
-                    color: UiKit.palette.icon,
+                    color: Theme.of(context).colorScheme.secondary,
                   )
                 else
                   Icon(
                     Icons.radio_button_unchecked,
                     size: 24.0,
-                    color: UiKit.palette.icon,
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
               ],
             ),

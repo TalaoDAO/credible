@@ -5,6 +5,8 @@ import 'package:talao/app/shared/model/credential_subject.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:talao/app/shared/ui/theme.dart';
+import 'package:talao/app/shared/widget/base/credential_field.dart';
 
 part 'resident_card.g.dart';
 
@@ -67,7 +69,6 @@ class ResidentCard extends CredentialSubject {
   @override
   Widget displayDetail(BuildContext context, CredentialModel item) {
     final localizations = AppLocalizations.of(context)!;
-    const labelWidth = 80.0;
 
     return Column(
       children: [
@@ -75,109 +76,51 @@ class ResidentCard extends CredentialSubject {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ResidentCardFieldDisplay(
-                labelWidth: labelWidth,
-                label: Text(localizations.lastName),
-                value: TextWithResidentCardStyle(value: familyName)),
-            ResidentCardFieldDisplay(
-                labelWidth: labelWidth,
-                label: Text(localizations.firstName),
-                value: TextWithResidentCardStyle(value: givenName)),
-            ResidentCardFieldDisplay(
-                labelWidth: labelWidth,
-                label: Text(localizations.gender),
-                value: genderDisplay()),
-            ResidentCardFieldDisplay(
-                labelWidth: labelWidth,
-                label: Text(localizations.birthdate),
-                value: TextWithResidentCardStyle(value: birthDate)),
-            ResidentCardFieldDisplay(
-                labelWidth: labelWidth,
-                label: Text(localizations.birthplace),
-                value: TextWithResidentCardStyle(value: birthPlace)),
-            ResidentCardFieldDisplay(
-                labelWidth: labelWidth,
-                label: Text(localizations.address),
-                value: TextWithResidentCardStyle(value: address)),
-            ResidentCardFieldDisplay(
-                labelWidth: labelWidth,
-                label: Text(localizations.maritalStatus),
-                value: TextWithResidentCardStyle(value: maritalStatus)),
-            ResidentCardFieldDisplay(
-                labelWidth: labelWidth,
-                label: Text(localizations.identifier),
-                value: TextWithResidentCardStyle(value: identifier)),
-            ResidentCardFieldDisplay(
-                labelWidth: labelWidth,
-                label: Text(localizations.nationality),
-                value: TextWithResidentCardStyle(value: nationality)),
+            CredentialField(title: localizations.lastName, value: familyName),
+            CredentialField(title: localizations.firstName, value: givenName),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Text(
+                    '${localizations.gender}: ',
+                    style: Theme.of(context).textTheme.credentialFieldTitle,
+                  ),
+                  Flexible(
+                    child: genderDisplay(context),
+                  ),
+                ],
+              ),
+            ),
+            CredentialField(title: localizations.birthdate, value: birthDate),
+            CredentialField(title: localizations.birthplace, value: birthPlace),
+            CredentialField(title: localizations.address, value: address),
+            CredentialField(
+                title: localizations.maritalStatus, value: maritalStatus),
+            CredentialField(title: localizations.identifier, value: identifier),
+            CredentialField(
+                title: localizations.nationality, value: nationality),
           ],
         ),
       ],
     );
   }
 
-  Widget genderDisplay() {
+  Widget genderDisplay(BuildContext context) {
     Widget _genderIcon;
     switch (gender) {
       case 'male':
-        _genderIcon = Icon(Icons.male);
+        _genderIcon =
+            Icon(Icons.male, color: Theme.of(context).colorScheme.genderIcon);
         break;
       case 'female':
-        _genderIcon = Icon(Icons.female);
+        _genderIcon =
+            Icon(Icons.female, color: Theme.of(context).colorScheme.genderIcon);
         break;
       default:
-        _genderIcon = Icon(Icons.transgender);
+        _genderIcon = Icon(Icons.transgender,
+            color: Theme.of(context).colorScheme.genderIcon);
     }
     return _genderIcon;
-  }
-}
-
-class ResidentCardFieldDisplay extends StatelessWidget {
-  const ResidentCardFieldDisplay({
-    Key? key,
-    required this.labelWidth,
-    required this.label,
-    required this.value,
-  }) : super(key: key);
-
-  final double labelWidth;
-  final Widget label;
-  final Widget value;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-          constraints: BoxConstraints(minWidth: labelWidth),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: label,
-          ),
-        ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: value,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class TextWithResidentCardStyle extends StatelessWidget {
-  const TextWithResidentCardStyle({
-    Key? key,
-    required this.value,
-  }) : super(key: key);
-
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(value,
-        style: TextStyle(inherit: true, fontWeight: FontWeight.w700));
   }
 }

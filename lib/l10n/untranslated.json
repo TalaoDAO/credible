@@ -1,5 +1,7 @@
 {
   "de": [
+    "credentialPickTitle",
+    "credentialPickAlertMessage",
     "blockChainDisplayMethod",
     "blockChainAdress",
     "adressDisplayCopy",
@@ -24,10 +26,18 @@
     "networkErrorUnableToProcess",
     "networkErrorUnauthenticated",
     "networkErrorUnauthorizedRequest",
-    "networkErrorUnexpectedError"
+    "networkErrorUnexpectedError",
+    "active",
+    "expired",
+    "revoked",
+    "ok",
+    "unavailable_feature_title",
+    "unavailable_feature_message"
   ],
 
   "es": [
+    "credentialPickTitle",
+    "credentialPickAlertMessage",
     "blockChainDisplayMethod",
     "blockChainAdress",
     "adressDisplayCopy",
@@ -52,10 +62,29 @@
     "networkErrorUnableToProcess",
     "networkErrorUnauthenticated",
     "networkErrorUnauthorizedRequest",
-    "networkErrorUnexpectedError"
+    "networkErrorUnexpectedError",
+    "active",
+    "expired",
+    "revoked",
+    "ok",
+    "unavailable_feature_title",
+    "unavailable_feature_message"
+  ],
+
+  "fr": [
+    "credentialPickTitle",
+    "credentialPickAlertMessage",
+    "active",
+    "expired",
+    "revoked",
+    "ok",
+    "unavailable_feature_title",
+    "unavailable_feature_message"
   ],
 
   "it": [
+    "credentialPickTitle",
+    "credentialPickAlertMessage",
     "blockChainDisplayMethod",
     "blockChainAdress",
     "adressDisplayCopy",
@@ -82,6 +111,12 @@
     "networkErrorUnableToProcess",
     "networkErrorUnauthenticated",
     "networkErrorUnauthorizedRequest",
-    "networkErrorUnexpectedError"
+    "networkErrorUnexpectedError",
+    "active",
+    "expired",
+    "revoked",
+    "ok",
+    "unavailable_feature_title",
+    "unavailable_feature_message"
   ]
 }

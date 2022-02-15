@@ -37,7 +37,7 @@ class _CustomActiveNavIcon extends StatelessWidget {
         height: 24.0,
         child: SvgPicture.asset(
           asset,
-          color: UiKit.palette.navBarIcon,
+          color: Theme.of(context).colorScheme.selectedBottomBar,
         ),
       );
 }
@@ -60,32 +60,30 @@ class CustomNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
     return Container(
-      padding: UiKit.constraints.navBarPadding,
+      padding: UiConstraints.navBarPadding,
       decoration: BoxDecoration(
-        color: UiKit.palette.navBarBackground,
-        borderRadius: UiKit.constraints.navBarRadius,
+        borderRadius: UiConstraints.navBarRadius,
       ),
       child: BottomNavigationBar(
         currentIndex: index,
         showSelectedLabels: false,
         showUnselectedLabels: false,
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        elevation: 5.0,
         onTap: (newIndex) {
           if (newIndex == index) return;
           switch (newIndex) {
             case 0:
-              Navigator.of(context)
-                  .pushReplacement(CredentialsList.route());
+              Navigator.of(context).pushReplacement(CredentialsList.route());
               break;
             case 1:
               if (kIsWeb) {
                 showDialog(
                   context: context,
                   builder: (BuildContext context) => InfoDialog(
-                    title: 'Unavailable Feature',
-                    subtitle: 'This feature is not available on the browser',
-                    button: 'Ok',
+                    title: localizations.unavailable_feature_title,
+                    subtitle: localizations.unavailable_feature_message,
+                    button: localizations.ok,
                   ),
                 );
               } else {

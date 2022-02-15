@@ -22,9 +22,9 @@ class DIDDisplay extends StatelessWidget {
       },
       builder: (context, state) {
         final did = state is DIDStateDefault ? state.did : '';
-        var blockChainAdress = '';
+        var blockChainAddress = '';
         if (did.length > 7) {
-          blockChainAdress = did.substring(7);
+          blockChainAddress = did.substring(7);
         }
 
         return Column(
@@ -37,9 +37,15 @@ class DIDDisplay extends StatelessWidget {
                 children: [
                   Text(
                     '${localizations.blockChainDisplayMethod} : ',
+                    style: Theme.of(context).textTheme.bodyText2,
                   ),
-                  Text(Constants.defaultDIDMethodName,
-                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  Text(
+                    Constants.defaultDIDMethodName,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText2!
+                        .copyWith(fontWeight: FontWeight.bold),
+                  ),
                 ],
               ),
             ),
@@ -49,14 +55,18 @@ class DIDDisplay extends StatelessWidget {
                 children: [
                   Text(
                     '${localizations.blockChainAdress} : ',
+                    style: Theme.of(context).textTheme.bodyText2,
                   ),
                   Expanded(
                     child: Text(
-                      blockChainAdress != ''
-                          ? '${blockChainAdress.substring(0, 10)} ... ${blockChainAdress.substring(blockChainAdress.length - 10)}'
+                      blockChainAddress != ''
+                          ? '${blockChainAddress.substring(0, 10)} ... ${blockChainAddress.substring(blockChainAddress.length - 10)}'
                           : '',
                       maxLines: 2,
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText2!
+                          .copyWith(fontWeight: FontWeight.bold),
                       textAlign: TextAlign.start,
                     ),
                   ),
@@ -64,13 +74,14 @@ class DIDDisplay extends StatelessWidget {
               ),
             ),
             TextButton(
-              style: TextButton.styleFrom(),
-              onPressed: () {
-                Clipboard.setData(ClipboardData(text: blockChainAdress));
-              },
-              child: Text(
-                localizations.adressDisplayCopy,
+              style: TextButton.styleFrom(
+                backgroundColor:
+                    Theme.of(context).colorScheme.primary.withOpacity(0.1),
               ),
+              onPressed: () {
+                Clipboard.setData(ClipboardData(text: blockChainAddress));
+              },
+              child: Text(localizations.adressDisplayCopy),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -78,13 +89,17 @@ class DIDDisplay extends StatelessWidget {
                 children: [
                   Text(
                     '${localizations.didDisplayId} : ',
+                    style: Theme.of(context).textTheme.bodyText2,
                   ),
                   Expanded(
                     child: Text(
                       did != ''
                           ? '${did.substring(0, 10)} ... ${did.substring(did.length - 10)}'
                           : '',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText2!
+                          .copyWith(fontWeight: FontWeight.bold),
                       textAlign: TextAlign.start,
                     ),
                   ),
@@ -92,13 +107,14 @@ class DIDDisplay extends StatelessWidget {
               ),
             ),
             TextButton(
-              style: TextButton.styleFrom(),
+              style: TextButton.styleFrom(
+                backgroundColor:
+                    Theme.of(context).colorScheme.primary.withOpacity(0.1),
+              ),
               onPressed: () {
                 Clipboard.setData(ClipboardData(text: did));
               },
-              child: Text(
-                localizations.didDisplayCopy,
-              ),
+              child: Text(localizations.didDisplayCopy),
             ),
           ],
         );

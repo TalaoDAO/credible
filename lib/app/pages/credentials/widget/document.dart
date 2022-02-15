@@ -32,43 +32,38 @@ class DocumentWidget extends StatelessWidget {
     if (model.credentialPreview.credentialSubject
         is Ecole42LearningAchievement) {
       final localizations = AppLocalizations.of(context)!;
-
       return Column(
         children: [
           model.displayDetail(context, model),
-          model.credentialPreview.evidence.first.id != ''
-              ? Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      Text('${localizations.evidenceLabel} '),
-                      Flexible(
-                        child: InkWell(
-                          onTap: () => _launchURL(
-                              model.credentialPreview.evidence.first.id),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: [
-                                Text(
-                                  '${model.credentialPreview.evidence.first.id.substring(0, 30)}...',
-                                  style: TextStyle(
-                                      inherit: true,
-                                      fontWeight: FontWeight.w700,
-                                      color: Colors.blue),
-                                  maxLines: 5,
-                                  overflow: TextOverflow.fade,
-                                  softWrap: true,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+          if (model.credentialPreview.evidence.first.id != '')
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Text(
+                    '${localizations.evidenceLabel}: ',
+                    style: Theme.of(context).textTheme.bodyText2,
                   ),
-                )
-              : SizedBox.shrink()
+                  SizedBox(width: 5),
+                  Flexible(
+                    child: InkWell(
+                      onTap: () =>
+                          _launchURL(model.credentialPreview.evidence.first.id),
+                      child: Text(
+                        '${model.credentialPreview.evidence.first.id.substring(0, 30)}...',
+                        style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                              color: Theme.of(context).colorScheme.markDownA,
+                              decoration: TextDecoration.underline,
+                            ),
+                        maxLines: 5,
+                        overflow: TextOverflow.fade,
+                        softWrap: true,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )
         ],
       );
     }
@@ -76,19 +71,19 @@ class DocumentWidget extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: Colors.white,
         boxShadow: [
           BoxShadow(
-              color: Colors.black87,
-              blurRadius: 2,
-              spreadRadius: 1.0,
-              offset: Offset(3, 3))
+            color: Theme.of(context).colorScheme.documentShadow,
+            blurRadius: 2,
+            spreadRadius: 1.0,
+            offset: Offset(3, 3),
+          )
         ],
       ),
       child: Container(
         decoration: BaseBoxDecoration(
           color: model.backgroundColor,
-          shapeColor: UiKit.palette.credentialDetail.withOpacity(0.05),
+          shapeColor: Theme.of(context).colorScheme.documentShape,
           value: 0.0,
           shapeSize: 256.0,
           anchors: <Alignment>[

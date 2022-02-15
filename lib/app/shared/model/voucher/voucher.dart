@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:talao/app/shared/model/voucher/offer/offer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/image_card_text.dart';
 
 part 'voucher.g.dart';
@@ -58,7 +59,7 @@ class Voucher extends CredentialSubject {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       image: DecorationImage(
-                          fit: BoxFit.fitWidth,
+                          fit: BoxFit.fill,
                           image: AssetImage(
                             'assets/image/voucher.png',
                           ))),
@@ -79,12 +80,14 @@ class Voucher extends CredentialSubject {
                                   child: Row(
                                     children: [
                                       TextWithVoucherStyle(
-                                          value: NumberFormat.currency(
-                                                  name: offer.currency,
-                                                  locale:
-                                                      localizations.localeName)
-                                              .format(
-                                                  double.parse(offer.value))),
+                                        value: NumberFormat.currency(
+                                                name: offer.currency,
+                                                locale:
+                                                    localizations.localeName)
+                                            .format(
+                                          double.parse(offer.value),
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ))
@@ -132,11 +135,7 @@ class TextWithVoucherStyle extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: ImageCardText(
           text: value,
-          textStyle: TextStyle(
-              inherit: true,
-              fontSize: 17,
-              fontWeight: FontWeight.w700,
-              color: Colors.white),
+          textStyle: Theme.of(context).textTheme.voucherOverlay,
         ),
       );
     } else {

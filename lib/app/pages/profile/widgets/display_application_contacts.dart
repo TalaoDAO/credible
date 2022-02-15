@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:talao/app/shared/constants.dart';
+import 'package:talao/app/shared/ui/ui.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class displayTalaoContacts extends StatelessWidget {
-  const displayTalaoContacts({
+class DisplayTalaoContacts extends StatelessWidget {
+  const DisplayTalaoContacts({
     Key? key,
   }) : super(key: key);
 
@@ -24,10 +25,16 @@ class displayTalaoContacts extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Row(
               children: [
-                Text('${localizations.appContactWebsite} : '),
+                Text(
+                  '${localizations.appContactWebsite} : ',
+                  style: Theme.of(context).textTheme.bodyText2,
+                ),
                 Text(
                   Constants.appContactWebsiteName,
-                  style: TextStyle(color: Colors.blue),
+                  style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                        color: Theme.of(context).colorScheme.markDownA,
+                        decoration: TextDecoration.underline,
+                      ),
                 )
               ],
             ),
@@ -39,10 +46,16 @@ class displayTalaoContacts extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Row(
               children: [
-                Text('${localizations.personalMail} : '),
+                Text(
+                  '${localizations.personalMail} : ',
+                  style: Theme.of(context).textTheme.bodyText2,
+                ),
                 Text(
                   'contact@talao.io',
-                  style: TextStyle(color: Colors.blue),
+                  style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                        color: Theme.of(context).colorScheme.markDownA,
+                        decoration: TextDecoration.underline,
+                      ),
                 ),
               ],
             ),

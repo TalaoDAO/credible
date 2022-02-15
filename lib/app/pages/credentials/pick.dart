@@ -4,7 +4,7 @@ import 'package:talao/app/pages/credentials/blocs/wallet.dart';
 import 'package:talao/app/pages/credentials/pages/list.dart';
 import 'package:talao/app/pages/credentials/widget/list_item.dart';
 import 'package:talao/app/shared/model/translation.dart';
-import 'package:talao/app/shared/ui/ui.dart';
+import 'package:talao/app/shared/ui/theme.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +20,7 @@ class CredentialsPickPage extends StatefulWidget {
     required this.uri,
     required this.preview,
   }) : super(key: key);
+
   static Route route(Uri routeUri, Map<String, dynamic> preview) =>
       MaterialPageRoute(
         builder: (context) => CredentialsPickPage(
@@ -58,15 +59,12 @@ class _CredentialsPickPageState extends State<CredentialsPickPage> {
     return BlocBuilder<WalletBloc, WalletBlocState>(
         builder: (builderContext, walletState) {
       return BasePage(
-        title: 'Present credentials',
+        title: localizations.credentialPickTitle,
         titleTrailing: IconButton(
           onPressed: () {
             Navigator.of(context).pushReplacement(CredentialsList.route());
           },
-          icon: Icon(
-            Icons.close,
-            color: UiKit.palette.icon,
-          ),
+          icon: Icon(Icons.close),
         ),
         padding: const EdgeInsets.symmetric(
           vertical: 24.0,
@@ -75,17 +73,19 @@ class _CredentialsPickPageState extends State<CredentialsPickPage> {
         navigation: SafeArea(
           child: Container(
             padding: const EdgeInsets.all(16.0),
-            height: kBottomNavigationBarHeight * 1.75,
+            height: kBottomNavigationBarHeight + 16,
             child: Tooltip(
               message: localizations.credentialPickPresent,
               child: Builder(builder: (builderContext) {
                 return BaseButton.primary(
+                  context: context,
                   onPressed: () {
                     if (selection.isEmpty) {
                       ScaffoldMessenger.of(builderContext)
                           .showSnackBar(SnackBar(
-                        backgroundColor: Colors.red,
-                        content: Text('localizations.credentialPickSelect'),
+                        backgroundColor:
+                            Theme.of(context).colorScheme.snackBarError,
+                        content: Text(localizations.credentialPickSelect),
                       ));
                     } else {
                       final scanBloc = builderContext.read<ScanBloc>();

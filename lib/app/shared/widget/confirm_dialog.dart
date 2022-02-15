@@ -1,4 +1,3 @@
-import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +20,7 @@ class ConfirmDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: UiKit.palette.appBarBackground,
+      backgroundColor: Theme.of(context).colorScheme.background,
       contentPadding: const EdgeInsets.only(
         top: 24.0,
         bottom: 16.0,
@@ -40,7 +39,7 @@ class ConfirmDialog extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Icon(
                     Icons.lock_open,
-                    color: Colors.red,
+                    color: Theme.of(context).colorScheme.error,
                   ),
                 )
               : SizedBox.shrink(),
@@ -54,7 +53,9 @@ class ConfirmDialog extends StatelessWidget {
             children: <Widget>[
               Expanded(
                 child: BaseButton.transparent(
-                  borderColor: UiKit.palette.primary,
+                  borderColor: Theme.of(context).colorScheme.secondaryContainer,
+                  textColor: Theme.of(context).colorScheme.secondaryContainer,
+                  context: context,
                   onPressed: () {
                     Navigator.of(context).pop(true);
                   },
@@ -64,7 +65,9 @@ class ConfirmDialog extends StatelessWidget {
               const SizedBox(width: 16.0),
               Expanded(
                 child: BaseButton.primary(
-                  borderColor: UiKit.palette.primary,
+                  borderColor: Theme.of(context).colorScheme.secondaryContainer,
+                  textColor: Theme.of(context).colorScheme.onPrimary,
+                  context: context,
                   onPressed: () {
                     Navigator.of(context).pop(false);
                   },

@@ -7,10 +7,10 @@ import 'package:talao/app/pages/credentials/repositories/credential.dart';
 import 'package:talao/app/pages/profile/blocs/did.dart';
 import 'package:talao/app/pages/splash.dart';
 import 'package:talao/app/shared/constants.dart';
-import 'package:talao/app/shared/ui/ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/deep_link/cubit/deep_link.dart';
 import 'package:talao/query_by_example/query_by_example.dart';
 import 'package:talao/theme/theme.dart';
@@ -56,32 +56,6 @@ class AppWidget extends StatelessWidget {
 class MaterialAppDefinition extends StatelessWidget {
   const MaterialAppDefinition({Key? key}) : super(key: key);
 
-  ThemeData get _lightThemeData {
-    final themeData = ThemeData(
-      brightness: Brightness.light,
-      backgroundColor: Colors.white,
-      primaryColor: UiKit.palette.primary,
-      // ignore: deprecated_member_use
-      accentColor: UiKit.palette.accent,
-      textTheme: UiKit.text.textTheme,
-    );
-
-    return themeData;
-  }
-
-  ThemeData get _darkThemeData {
-    final themeData = ThemeData(
-      brightness: Brightness.dark,
-      backgroundColor: Colors.red,
-      primaryColor: Colors.green,
-      // ignore: deprecated_member_use
-      accentColor: Colors.yellow,
-      textTheme: UiKit.text.textTheme,
-    );
-
-    return themeData;
-  }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -90,8 +64,8 @@ class MaterialAppDefinition extends StatelessWidget {
         '/splash': (context) => SplashPage(),
       },
       initialRoute: '/splash',
-      theme: _lightThemeData,
-      darkTheme: _darkThemeData,
+      theme: AppTheme.lightThemeData,
+      darkTheme: AppTheme.darkThemeData,
       themeMode: context.select((ThemeCubit cubit) => cubit.state),
       localizationsDelegates: [
         AppLocalizations.delegate,

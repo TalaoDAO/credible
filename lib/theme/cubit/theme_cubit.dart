@@ -29,6 +29,7 @@ class ThemeCubit extends Cubit<ThemeMode> {
   Future<void> getCurrentTheme() async {
     final theme = await secureStorageProvider.get('theme') ?? '';
     if (theme.isNotEmpty) {
+      print(theme);
       if (theme == 'light') {
         setTheme(ThemeMode.light);
       } else if (theme == 'dark') {
@@ -40,4 +41,7 @@ class ThemeCubit extends Cubit<ThemeMode> {
       }
     }
   }
+
+
+
 }
