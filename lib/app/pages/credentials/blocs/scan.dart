@@ -230,9 +230,11 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
 
       if (jsonVerification['errors'].isNotEmpty) {
         log.severe('failed to verify credential', jsonVerification['errors']);
-
-        emit(ScanStateMessage(StateMessage.error('Failed to verify credential. '
-            'Check the logs for more information.')));
+        if (jsonVerification['errors'][0] != 'No applicable proof') {
+          emit(ScanStateMessage(
+              StateMessage.error('Failed to verify credential. '
+                  'Check the logs for more information.')));
+        }
       }
 
       await walletBloc.insertCredential(CredentialModel.copyWithData(
