@@ -8,6 +8,7 @@ import 'package:talao/app/pages/qr_code/bloc/qrcode.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/navigation_bar.dart';
 import 'package:talao/deep_link/cubit/deep_link.dart';
+import 'package:talao/profile/profile.dart';
 
 class CredentialsList extends StatefulWidget {
   const CredentialsList({
@@ -52,6 +53,7 @@ class _CredentialsListState extends State<CredentialsList> {
         vertical: 24.0,
         horizontal: 16.0,
       ),
+      drawer: ProfilePage(),
       navigation: CustomNavBar(index: 0),
       body: BlocBuilder<WalletBloc, WalletBlocState>(
         builder: (context, state) {

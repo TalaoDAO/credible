@@ -59,13 +59,14 @@ void main() {
       (tester) async {
         await tester.pumpWidget(
           MaterialApp(
-              home: Scaffold(
-            body: ThemeItem(
-              isTrue: false,
-              title: title,
-              onTap: () => mockFunction(),
+            home: Scaffold(
+              body: ThemeItem(
+                isTrue: false,
+                title: title,
+                onTap: () => mockFunction(),
+              ),
             ),
-          )),
+          ),
         );
         expect(find.byIcon(Icons.radio_button_unchecked), findsOneWidget);
       },

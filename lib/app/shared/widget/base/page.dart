@@ -15,6 +15,7 @@ class BasePage extends StatelessWidget {
   final Widget? titleTrailing;
 
   final Widget? navigation;
+  final Widget? drawer;
 
   final bool? extendBelow;
 
@@ -33,6 +34,7 @@ class BasePage extends StatelessWidget {
     ),
     this.scrollView = true,
     this.navigation,
+    this.drawer,
     this.extendBelow,
     required this.body,
     this.useSafeArea = true,
@@ -40,30 +42,36 @@ class BasePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    return Container(
-      child: Scaffold(
-        extendBody: extendBelow ?? false,
-        backgroundColor: backgroundColor ?? Theme.of(context).colorScheme.background,
-        appBar: title != null && title!.isNotEmpty
-            ? CustomAppBar(
-                title: title!,
-                tag: titleTag,
-                leading: titleLeading,
-                trailing: titleTrailing,
-              )
-            : null,
-        bottomNavigationBar: navigation,
-        body: scrollView
-            ? SingleChildScrollView(
-                padding: padding,
-                child: useSafeArea ? SafeArea(child: body) : body,
-              )
-            : Padding(
-                padding: padding,
-                child: useSafeArea ? SafeArea(child: body) : body,
-              ),
-      ),
+    return Scaffold(
+      extendBody: extendBelow ?? false,
+      backgroundColor:
+          backgroundColor ?? Theme.of(context).colorScheme.background,
+      appBar: title != null && title!.isNotEmpty
+          ? CustomAppBar(
+              title: title!,
+              tag: titleTag,
+              leading: drawer == null
+                  ? titleLeading
+                  : Builder(builder: (context) {
+                      return IconButton(
+                        icon: const Icon(Icons.menu),
+                        onPressed: () => Scaffold.of(context).openDrawer(),
+                      );
+                    }),
+              trailing: titleTrailing,
+            )
+          : null,
+      bottomNavigationBar: navigation,
+      drawer: drawer,
+      body: scrollView
+          ? SingleChildScrollView(
+              padding: padding,
+              child: useSafeArea ? SafeArea(child: body) : body,
+            )
+          : Padding(
+              padding: padding,
+              child: useSafeArea ? SafeArea(child: body) : body,
+            ),
     );
   }
 }

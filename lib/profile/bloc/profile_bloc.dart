@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
-import 'package:talao/app/pages/profile/models/profile.dart';
+import 'package:talao/profile/models/profile.dart';
 import 'package:talao/app/shared/model/message.dart';
 import 'package:logging/logging.dart';
 

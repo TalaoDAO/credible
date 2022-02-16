@@ -1,6 +1,6 @@
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/pages/credentials/blocs/wallet.dart';
-import 'package:talao/app/pages/profile/models/profile.dart';
+import 'package:talao/profile/models/profile.dart';
 import 'package:talao/app/pages/profile/pages/global_information.dart';
 import 'package:talao/app/pages/profile/pages/personal.dart';
 import 'package:talao/app/pages/profile/pages/privacy.dart';

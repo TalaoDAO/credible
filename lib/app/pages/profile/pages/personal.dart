@@ -1,5 +1,5 @@
 import 'package:provider/src/provider.dart';
-import 'package:talao/app/pages/profile/models/profile.dart';
+import 'package:talao/profile/models/profile.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
