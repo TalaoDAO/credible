@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/src/provider.dart';
 import 'package:talao/app/pages/profile/blocs/profile.dart';
 import 'package:talao/app/pages/profile/models/profile.dart';
@@ -5,8 +7,6 @@ import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/base/text_field.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PersonalPage extends StatefulWidget {
   final ProfileModel profile;
@@ -49,6 +49,17 @@ class _PersonalPageState extends State<PersonalPage> {
     return BasePage(
       title: localizations.personalTitle,
       titleLeading: BackLeadingButton(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+
+        },
+        child: Icon(
+          Icons.qr_code_scanner_rounded,
+          size: 24.0,
+          semanticLabel: 'Scan QR for create credential from profile',
+        ),
+      ),
       titleTrailing: InkWell(
         borderRadius: BorderRadius.circular(8.0),
         onTap: () {
