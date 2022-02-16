@@ -12,6 +12,7 @@ import 'package:talao/app/shared/model/professional_experience_assessment/profes
 import 'package:talao/app/shared/model/professional_skil_assessment/professional_skill_assessment.dart';
 import 'package:talao/app/shared/model/professional_student_card/professional_student_card.dart';
 import 'package:talao/app/shared/model/resident_card/resident_card.dart';
+import 'package:talao/app/shared/model/self_issued/self_issued.dart';
 import 'package:talao/app/shared/model/voucher/voucher.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -121,7 +122,9 @@ class CredentialSubject {
 
   factory CredentialSubject.fromJson(Map<String, dynamic> json) {
     switch (json['type']) {
-      case 'ResidentCard':
+      case 'SelfIssued':
+        return SelfIssued.fromJson(json);
+        case 'ResidentCard':
         return ResidentCard.fromJson(json);
       case 'IdentityPass':
         return IdentityPass.fromJson(json);
