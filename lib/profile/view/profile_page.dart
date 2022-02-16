@@ -15,6 +15,8 @@ import 'package:talao/terms/terms.dart';
 import 'package:talao/theme/theme.dart';
 
 class ProfilePage extends StatelessWidget {
+  ProfilePage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return ProfileView();

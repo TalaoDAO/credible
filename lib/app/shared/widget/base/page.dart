@@ -2,6 +2,8 @@ import 'package:talao/app/shared/widget/app_bar.dart';
 import 'package:flutter/material.dart';
 
 class BasePage extends StatelessWidget {
+  final GlobalKey<ScaffoldState>? scaffoldKey;
+
   final String? title;
 
   final Widget body;
@@ -23,6 +25,7 @@ class BasePage extends StatelessWidget {
 
   const BasePage({
     Key? key,
+    this.scaffoldKey,
     this.backgroundColor,
     this.title,
     this.titleTag,
@@ -43,6 +46,7 @@ class BasePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       extendBody: extendBelow ?? false,
       backgroundColor:
           backgroundColor ?? Theme.of(context).colorScheme.background,
