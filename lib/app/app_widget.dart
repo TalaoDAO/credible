@@ -13,10 +13,10 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/deep_link/cubit/deep_link.dart';
+import 'package:talao/profile/profile.dart';
 import 'package:talao/query_by_example/query_by_example.dart';
 import 'package:talao/theme/theme.dart';
 import 'pages/credentials/blocs/wallet.dart';
-import 'pages/profile/blocs/profile.dart';
 import 'pages/qr_code/bloc/qrcode.dart';
 
 class AppWidget extends StatelessWidget {
@@ -46,7 +46,8 @@ class AppWidget extends StatelessWidget {
             context.read<QueryByExampleCubit>(),
           ),
         ),
-        BlocProvider<ProfileBloc>(create: (context) => ProfileBloc()),
+        BlocProvider<ProfileBloc>(
+            create: (context) => ProfileBloc(SecureStorageProvider.instance)),
         BlocProvider<DIDBloc>(create: (context) => DIDBloc()),
       ],
       child: MaterialAppDefinition(),

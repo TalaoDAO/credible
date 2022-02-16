@@ -1,5 +1,4 @@
 import 'package:provider/src/provider.dart';
-import 'package:talao/app/pages/profile/blocs/profile.dart';
 import 'package:talao/app/pages/profile/models/profile.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
@@ -7,6 +6,7 @@ import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/base/text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:talao/profile/profile.dart';
 
 class PersonalPage extends StatefulWidget {
   final ProfileModel profile;

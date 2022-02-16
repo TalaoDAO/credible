@@ -1,5 +1,4 @@
 import 'package:talao/app/pages/credentials/pages/list.dart';
-import 'package:talao/app/pages/profile/profile.dart';
 import 'package:talao/app/pages/qr_code/scan.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/info_dialog.dart';
@@ -91,7 +90,7 @@ class CustomNavBar extends StatelessWidget {
               }
               break;
             case 2:
-              Navigator.of(context).pushReplacement(ProfilePage.route());
+              Navigator.of(context).pushReplacement(QrCodeScanPage.route());
               break;
           }
         },

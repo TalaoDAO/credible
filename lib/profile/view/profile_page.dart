@@ -1,6 +1,5 @@
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/pages/credentials/blocs/wallet.dart';
-import 'package:talao/app/pages/profile/blocs/profile.dart';
 import 'package:talao/app/pages/profile/models/profile.dart';
 import 'package:talao/app/pages/profile/pages/global_information.dart';
 import 'package:talao/app/pages/profile/pages/personal.dart';
@@ -8,21 +7,18 @@ import 'package:talao/app/pages/profile/pages/privacy.dart';
 import 'package:talao/app/pages/profile/pages/recovery.dart';
 import 'package:talao/app/pages/profile/pages/terms.dart';
 import 'package:talao/app/pages/profile/pages/theme.dart';
-import 'package:talao/app/pages/profile/widgets/menu_item.dart';
+import 'package:talao/profile/view/menu_item.dart';
 import 'package:talao/app/pages/splash.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/confirm_dialog.dart';
 import 'package:talao/app/shared/widget/navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:talao/l10n/l10n.dart';
+import 'package:talao/profile/profile.dart';
 import 'package:talao/theme/cubit/theme_cubit.dart';
 
 class ProfilePage extends StatelessWidget {
-  static Route route() => MaterialPageRoute(
-        builder: (_) => ProfilePage(),
-      );
-
   @override
   Widget build(BuildContext context) {
     return ProfileView();
@@ -32,7 +28,8 @@ class ProfilePage extends StatelessWidget {
 class ProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
+
     return BlocConsumer(
       bloc: context.read<ProfileBloc>(),
       listener: (context, state) {},
@@ -43,7 +40,7 @@ class ProfileView extends StatelessWidget {
         final lastName = model.lastName;
 
         return BasePage(
-          title: localizations.profileTitle,
+          title: l10n.profileTitle,
           padding: const EdgeInsets.symmetric(
             vertical: 24.0,
           ),
@@ -51,17 +48,6 @@ class ProfileView extends StatelessWidget {
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              // Center(
-              //   child: Container(
-              //     width: MediaQuery.of(context).size.width * 0.2,
-              //     height: MediaQuery.of(context).size.width * 0.2,
-              //     decoration: BoxDecoration(
-              //       color: Colors.pink,
-              //       borderRadius: BorderRadius.circular(16.0),
-              //     ),
-              //   ),
-              // ),
-              // const SizedBox(height: 16.0),
               if (firstName.isNotEmpty || lastName.isNotEmpty)
                 Center(
                   child: Text(
@@ -72,37 +58,37 @@ class ProfileView extends StatelessWidget {
               const SizedBox(height: 32.0),
               MenuItem(
                 icon: Icons.person,
-                title: localizations.personalTitle,
+                title: l10n.personalTitle,
                 onTap: () =>
                     Navigator.of(context).push(PersonalPage.route(model)),
               ),
               MenuItem(
                 icon: Icons.receipt_long,
-                title: localizations.globalInformationLabel,
+                title: l10n.globalInformationLabel,
                 onTap: () =>
                     Navigator.of(context).push(GlobalInformationPage.route()),
               ),
               MenuItem(
                 icon: Icons.shield,
-                title: localizations.privacyTitle,
+                title: l10n.privacyTitle,
                 onTap: () => Navigator.of(context).push(PrivacyPage.route()),
               ),
               MenuItem(
                 icon: Icons.article,
-                title: localizations.onBoardingTosTitle,
+                title: l10n.onBoardingTosTitle,
                 onTap: () => Navigator.of(context).push(TermsPage.route()),
               ),
               MenuItem(
                 icon: Icons.vpn_key,
-                title: localizations.recoveryTitle,
+                title: l10n.recoveryTitle,
                 onTap: () async {
                   final confirm = await showDialog<bool>(
                         context: context,
                         builder: (context) => ConfirmDialog(
-                          title: localizations.recoveryWarningDialogTitle,
-                          subtitle: localizations.recoveryWarningDialogSubtitle,
-                          yes: localizations.showDialogYes,
-                          no: localizations.showDialogNo,
+                          title: l10n.recoveryWarningDialogTitle,
+                          subtitle: l10n.recoveryWarningDialogSubtitle,
+                          yes: l10n.showDialogYes,
+                          no: l10n.showDialogNo,
                         ),
                       ) ??
                       false;
@@ -114,15 +100,15 @@ class ProfileView extends StatelessWidget {
               ),
               MenuItem(
                 icon: Icons.settings_backup_restore,
-                title: localizations.resetWalletButton,
+                title: l10n.resetWalletButton,
                 onTap: () async {
                   final confirm = await showDialog<bool>(
                         context: context,
                         builder: (context) => ConfirmDialog(
-                          title: localizations.resetWalletButton,
-                          subtitle: localizations.resetWalletConfirmationText,
-                          yes: localizations.showDialogYes,
-                          no: localizations.showDialogNo,
+                          title: l10n.resetWalletButton,
+                          subtitle: l10n.resetWalletConfirmationText,
+                          yes: l10n.showDialogYes,
+                          no: l10n.showDialogNo,
                         ),
                       ) ??
                       false;
@@ -152,7 +138,7 @@ class ProfileView extends StatelessWidget {
               MenuItem(
                 key: Key('theme_update'),
                 icon: Icons.light_mode,
-                title: localizations.selectThemeText,
+                title: l10n.selectThemeText,
                 onTap: () => Navigator.of(context)
                     .push(ThemePage.route(context.read<ThemeCubit>())),
               ),
