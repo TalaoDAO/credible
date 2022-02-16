@@ -17,9 +17,7 @@ class PersonalPage extends StatefulWidget {
 
   static Route route(profile) => MaterialPageRoute(
         builder: (context) => PersonalPage(profile: profile),
-        settings: RouteSettings(
-          name: '/personalPage',
-        ),
+        settings: RouteSettings(name: '/personalPage'),
       );
 
   @override

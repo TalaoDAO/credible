@@ -2,13 +2,13 @@ import 'package:talao/app/pages/profile/blocs/did.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:talao/app/shared/constants.dart';
+import 'package:talao/l10n/l10n.dart';
 
 class DIDDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
 
     return BlocConsumer(
       bloc: context.read<DIDBloc>(),
@@ -36,7 +36,7 @@ class DIDDisplay extends StatelessWidget {
               child: Row(
                 children: [
                   Text(
-                    '${localizations.blockChainDisplayMethod} : ',
+                    '${l10n.blockChainDisplayMethod} : ',
                     style: Theme.of(context).textTheme.bodyText2,
                   ),
                   Text(
@@ -54,7 +54,7 @@ class DIDDisplay extends StatelessWidget {
               child: Row(
                 children: [
                   Text(
-                    '${localizations.blockChainAdress} : ',
+                    '${l10n.blockChainAdress} : ',
                     style: Theme.of(context).textTheme.bodyText2,
                   ),
                   Expanded(
@@ -81,14 +81,14 @@ class DIDDisplay extends StatelessWidget {
               onPressed: () {
                 Clipboard.setData(ClipboardData(text: blockChainAddress));
               },
-              child: Text(localizations.adressDisplayCopy),
+              child: Text(l10n.adressDisplayCopy),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: [
                   Text(
-                    '${localizations.didDisplayId} : ',
+                    '${l10n.didDisplayId} : ',
                     style: Theme.of(context).textTheme.bodyText2,
                   ),
                   Expanded(
@@ -114,7 +114,7 @@ class DIDDisplay extends StatelessWidget {
               onPressed: () {
                 Clipboard.setData(ClipboardData(text: did));
               },
-              child: Text(localizations.didDisplayCopy),
+              child: Text(l10n.didDisplayCopy),
             ),
           ],
         );

@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PrivacyPage extends StatelessWidget {
-
   static Route route() {
     return MaterialPageRoute(
       builder: (context) => PrivacyPage(),
+      settings: RouteSettings(name: '/privacyPage'),
     );
   }
-  
+
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
@@ -19,6 +19,7 @@ class PrivacyPage extends StatelessWidget {
       filePath = localizations.localeName;
     }
     return MarkdownPage(
-        title: localizations.privacyTitle, file: 'assets/privacy_$filePath.md');
+        title: localizations.privacyTitle,
+        file: 'assets/privacy/privacy_$filePath.md');
   }
 }

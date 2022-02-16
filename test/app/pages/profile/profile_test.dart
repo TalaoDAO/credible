@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:talao/profile/models/profile.dart';
-import 'package:talao/app/pages/profile/pages/theme.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:talao/profile/profile.dart';
 import 'package:talao/theme/cubit/theme_cubit.dart';
+import 'package:talao/theme/theme.dart';
 
 import '../../../helper/pump_app.dart';
 

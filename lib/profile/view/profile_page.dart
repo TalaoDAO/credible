@@ -1,11 +1,10 @@
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/pages/credentials/blocs/wallet.dart';
+import 'package:talao/global_information/global_information.dart';
 import 'package:talao/personal/personal.dart';
-import 'package:talao/app/pages/profile/pages/global_information.dart';
-import 'package:talao/app/pages/profile/pages/privacy.dart';
 import 'package:talao/app/pages/profile/pages/recovery.dart';
 import 'package:talao/app/pages/profile/pages/terms.dart';
-import 'package:talao/app/pages/profile/pages/theme.dart';
+import 'package:talao/privacy/privacy.dart';
 import 'package:talao/profile/view/menu_item.dart';
 import 'package:talao/app/pages/splash.dart';
 import 'package:talao/app/shared/widget/confirm_dialog.dart';
@@ -13,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talao/l10n/l10n.dart';
 import 'package:talao/profile/profile.dart';
-import 'package:talao/theme/cubit/theme_cubit.dart';
+import 'package:talao/theme/theme.dart';
 
 class ProfilePage extends StatelessWidget {
   @override

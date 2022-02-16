@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:talao/app/pages/profile/widgets/theme_item.dart';
+import 'package:talao/theme/view/theme_item.dart';
 
 abstract class CallFunction {
   void call();

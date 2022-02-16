@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:talao/app/shared/constants.dart';
 import 'package:talao/app/shared/ui/ui.dart';
+import 'package:talao/l10n/l10n.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DisplayTalaoContacts extends StatelessWidget {
   const DisplayTalaoContacts({
@@ -15,7 +15,7 @@ class DisplayTalaoContacts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
 
     return Column(
       children: [
@@ -26,7 +26,7 @@ class DisplayTalaoContacts extends StatelessWidget {
             child: Row(
               children: [
                 Text(
-                  '${localizations.appContactWebsite} : ',
+                  '${l10n.appContactWebsite} : ',
                   style: Theme.of(context).textTheme.bodyText2,
                 ),
                 Text(
@@ -47,7 +47,7 @@ class DisplayTalaoContacts extends StatelessWidget {
             child: Row(
               children: [
                 Text(
-                  '${localizations.personalMail} : ',
+                  '${l10n.personalMail} : ',
                   style: Theme.of(context).textTheme.bodyText2,
                 ),
                 Text(
