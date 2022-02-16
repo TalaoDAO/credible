@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
 import 'package:talao/app/shared/model/author.dart';
 import 'package:talao/app/shared/model/certificate_of_employment/certificate_of_employment.dart';
@@ -14,8 +16,6 @@ import 'package:talao/app/shared/model/professional_student_card/professional_st
 import 'package:talao/app/shared/model/resident_card/resident_card.dart';
 import 'package:talao/app/shared/model/self_issued/self_issued.dart';
 import 'package:talao/app/shared/model/voucher/voucher.dart';
-import 'package:flutter/material.dart';
-import 'package:json_annotation/json_annotation.dart';
 
 part 'credential_subject.g.dart';
 
@@ -76,6 +76,9 @@ class CredentialSubject {
       case 'ResidentCard':
         _icon = Icon(Icons.home);
         break;
+      case 'SelfIssued':
+        _icon = Icon(Icons.qr_code);
+        break;
       case 'IdentityPass':
         _icon = Icon(Icons.perm_identity);
         break;
@@ -124,7 +127,7 @@ class CredentialSubject {
     switch (json['type']) {
       case 'SelfIssued':
         return SelfIssued.fromJson(json);
-        case 'ResidentCard':
+      case 'ResidentCard':
         return ResidentCard.fromJson(json);
       case 'IdentityPass':
         return IdentityPass.fromJson(json);

@@ -1,5 +1,5 @@
-import 'package:talao/app/shared/widget/app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:talao/app/shared/widget/app_bar.dart';
 
 class BasePage extends StatelessWidget {
   final String? title;
@@ -20,6 +20,9 @@ class BasePage extends StatelessWidget {
 
   final bool useSafeArea;
 
+  final FloatingActionButton? floatingActionButton;
+  final FloatingActionButtonLocation? floatingActionButtonLocation;
+
   const BasePage({
     Key? key,
     this.backgroundColor,
@@ -36,15 +39,17 @@ class BasePage extends StatelessWidget {
     this.extendBelow,
     required this.body,
     this.useSafeArea = true,
+    this.floatingActionButton,
+    this.floatingActionButtonLocation,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       child: Scaffold(
         extendBody: extendBelow ?? false,
-        backgroundColor: backgroundColor ?? Theme.of(context).colorScheme.background,
+        backgroundColor:
+            backgroundColor ?? Theme.of(context).colorScheme.background,
         appBar: title != null && title!.isNotEmpty
             ? CustomAppBar(
                 title: title!,
@@ -63,6 +68,8 @@ class BasePage extends StatelessWidget {
                 padding: padding,
                 child: useSafeArea ? SafeArea(child: body) : body,
               ),
+        floatingActionButton: floatingActionButton,
+        floatingActionButtonLocation: floatingActionButtonLocation,
       ),
     );
   }
