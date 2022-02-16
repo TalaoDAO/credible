@@ -6,6 +6,7 @@ import 'package:talao/app/pages/credentials/blocs/scan.dart';
 import 'package:talao/app/pages/credentials/repositories/credential.dart';
 import 'package:talao/app/pages/profile/blocs/did.dart';
 import 'package:talao/app/pages/splash.dart';
+import 'package:talao/app/router_observer.dart';
 import 'package:talao/app/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -63,6 +64,7 @@ class MaterialAppDefinition extends StatelessWidget {
       home: SplashPage(),
       theme: AppTheme.lightThemeData,
       darkTheme: AppTheme.darkThemeData,
+      navigatorObservers: [MyRouteObserver()],
       themeMode: context.select((ThemeCubit cubit) => cubit.state),
       localizationsDelegates: [
         AppLocalizations.delegate,
