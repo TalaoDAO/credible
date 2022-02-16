@@ -8,7 +8,7 @@ import 'package:talao/app/shared/constants.dart';
 import 'package:talao/app/shared/error_handler/error_handler.dart';
 import 'package:talao/profile/profile.dart';
 
-Future<Issuer> ApprovedIssuer(Uri uri, BuildContext context) async {
+Future<Issuer> isApprovedIssuer(Uri uri, BuildContext context) async {
   final client = DioClient(Constants.checkIssuerServerUrl, Dio());
   final profileBloc = context.read<ProfileBloc>();
   final profile = profileBloc.state;

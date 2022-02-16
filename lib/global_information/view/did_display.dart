@@ -1,8 +1,8 @@
-import 'package:talao/app/pages/profile/blocs/did.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talao/app/shared/constants.dart';
+import 'package:talao/global_information/bloc/did_bloc.dart';
 import 'package:talao/l10n/l10n.dart';
 
 class DIDDisplay extends StatelessWidget {
@@ -21,7 +21,7 @@ class DIDDisplay extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        final did = state is DIDStateDefault ? state.did : '';
+        final did = state is DIDStateDefault ? state.DID : '';
         var blockChainAddress = '';
         if (did.length > 7) {
           blockChainAddress = did.substring(7);

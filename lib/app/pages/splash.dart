@@ -9,10 +9,9 @@ import 'package:talao/app/pages/credentials/blocs/scan.dart';
 import 'package:talao/app/pages/credentials/blocs/wallet.dart';
 import 'package:talao/app/pages/credentials/pages/list.dart';
 import 'package:talao/app/pages/on_boarding/start.dart';
-import 'package:talao/app/pages/profile/usecase/is_issuer_approved.dart'
-    as issuer_approved_usecase;
 import 'package:talao/app/pages/qr_code/bloc/qrcode.dart';
 import 'package:talao/app/pages/qr_code/check_host.dart';
+import 'package:talao/app/pages/qr_code/is_issuer_approved.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/brand.dart';
 import 'package:talao/deep_link/deep_link.dart';
@@ -148,8 +147,7 @@ class _SplashPageState extends State<SplashPage> {
         BlocListener<QRCodeBloc, QRCodeState>(
           listener: (context, state) async {
             if (state is QRCodeStateHost) {
-              var approvedIssuer = await issuer_approved_usecase.ApprovedIssuer(
-                  state.uri, context);
+              var approvedIssuer = await isApprovedIssuer(state.uri, context);
               var acceptHost;
               acceptHost =
                   await checkHost(state.uri, approvedIssuer, context) ?? false;

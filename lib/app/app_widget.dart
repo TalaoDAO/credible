@@ -4,7 +4,6 @@ import 'package:talao/app/interop/network/network_client.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/pages/credentials/blocs/scan.dart';
 import 'package:talao/app/pages/credentials/repositories/credential.dart';
-import 'package:talao/app/pages/profile/blocs/did.dart';
 import 'package:talao/app/pages/splash.dart';
 import 'package:talao/app/router_observer.dart';
 import 'package:talao/app/shared/constants.dart';
@@ -13,6 +12,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/deep_link/cubit/deep_link.dart';
+import 'package:talao/global_information/global_information.dart';
 import 'package:talao/profile/profile.dart';
 import 'package:talao/query_by_example/query_by_example.dart';
 import 'package:talao/theme/theme.dart';
@@ -48,7 +48,8 @@ class AppWidget extends StatelessWidget {
         ),
         BlocProvider<ProfileBloc>(
             create: (context) => ProfileBloc(SecureStorageProvider.instance)),
-        BlocProvider<DIDBloc>(create: (context) => DIDBloc()),
+        BlocProvider<DIDBloc>(
+            create: (context) => DIDBloc(SecureStorageProvider.instance)),
       ],
       child: MaterialAppDefinition(),
     );

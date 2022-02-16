@@ -1,21 +1,21 @@
-part of 'didkit_bloc.dart';
+part of 'did_bloc.dart';
 
-abstract class DIDKitEvent {}
+abstract class DIDEvent {}
 
-class DIDKitEventLoad extends DIDKitEvent {}
+class DIDEventLoad extends DIDEvent {}
 
-abstract class DIDKitState {}
+abstract class DIDState {}
 
-class DIDKitStateWorking extends DIDKitState {}
+class DIDStateWorking extends DIDState {}
 
-class DIDKitStateMessage extends DIDKitState {
+class DIDStateMessage extends DIDState {
   final StateMessage message;
 
-  DIDKitStateMessage(this.message);
+  DIDStateMessage(this.message);
 }
 
-class DIDKitStateDefault extends DIDKitState {
-  final String DIDKit;
+class DIDStateDefault extends DIDState {
+  final String DID;
 
-  DIDKitStateDefault(this.DIDKit);
+  DIDStateDefault(this.DID);
 }

@@ -5,32 +5,34 @@ import 'package:talao/app/shared/constants.dart';
 import 'package:talao/app/shared/model/message.dart';
 import 'package:logging/logging.dart';
 
-part 'didkit_event.dart';
+part 'did_event.dart';
 
-class DIDKitBloc extends Bloc<DIDKitEvent, DIDKitState> {
-  DIDKitBloc() : super(DIDKitStateDefault('')) {
-    on<DIDKitEventLoad>(_load);
-    add(DIDKitEventLoad());
+class DIDBloc extends Bloc<DIDEvent, DIDState> {
+  final SecureStorageProvider secureStorageProvider;
+
+  DIDBloc(this.secureStorageProvider) : super(DIDStateDefault('')) {
+    on<DIDEventLoad>(_load);
+    add(DIDEventLoad());
   }
 
   void _load(
-    DIDKitEventLoad event,
-    Emitter<DIDKitState> emit,
+    DIDEventLoad event,
+    Emitter<DIDState> emit,
   ) async {
-    final log = Logger('talao-wallet/DIDKit/load');
+    final log = Logger('talao-wallet/DID/load');
 
     try {
-      emit(DIDKitStateWorking());
+      emit(DIDStateWorking());
 
-      final key = (await SecureStorageProvider.instance.get('key'))!;
-      final DIDKit =
+      final key = (await secureStorageProvider.get('key'))!;
+      final DID =
           DIDKitProvider.instance.keyToDID(Constants.defaultDIDMethod, key);
 
-      emit(DIDKitStateDefault(DIDKit));
+      emit(DIDStateDefault(DID));
     } catch (e) {
       log.severe('something went wrong', e);
 
-      emit(DIDKitStateMessage(StateMessage.error('Failed to load DIDKit. '
+      emit(DIDStateMessage(StateMessage.error('Failed to load DID. '
           'Check the logs for more information.')));
     }
   }
