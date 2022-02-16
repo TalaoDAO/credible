@@ -1,11 +1,10 @@
 import 'package:provider/src/provider.dart';
-import 'package:talao/profile/models/profile.dart';
+import 'package:talao/l10n/l10n.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/base/text_field.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:talao/profile/profile.dart';
 
 class PersonalPage extends StatefulWidget {
@@ -17,8 +16,9 @@ class PersonalPage extends StatefulWidget {
   }) : super(key: key);
 
   static Route route(profile) => MaterialPageRoute(
-        builder: (context) => PersonalPage(
-          profile: profile,
+        builder: (context) => PersonalPage(profile: profile),
+        settings: RouteSettings(
+          name: '/personalPage',
         ),
       );
 
@@ -45,9 +45,9 @@ class _PersonalPageState extends State<PersonalPage> {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
     return BasePage(
-      title: localizations.personalTitle,
+      title: l10n.personalTitle,
       titleLeading: BackLeadingButton(),
       titleTrailing: InkWell(
         borderRadius: BorderRadius.circular(8.0),
@@ -68,7 +68,7 @@ class _PersonalPageState extends State<PersonalPage> {
             vertical: 8.0,
           ),
           child: Text(
-            localizations.personalSave,
+            l10n.personalSave,
             style: Theme.of(context).textTheme.bodyText1!,
           ),
         ),
@@ -82,7 +82,7 @@ class _PersonalPageState extends State<PersonalPage> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: Text(
-              localizations.personalSubtitle,
+              l10n.personalSubtitle,
               textAlign: TextAlign.center,
               style: Theme.of(context)
                   .textTheme
@@ -102,35 +102,35 @@ class _PersonalPageState extends State<PersonalPage> {
           // ),
           const SizedBox(height: 32.0),
           BaseTextField(
-            label: localizations.personalFirstName,
+            label: l10n.personalFirstName,
             controller: firstNameController,
             icon: Icons.person,
             textCapitalization: TextCapitalization.words,
           ),
           const SizedBox(height: 16.0),
           BaseTextField(
-            label: localizations.personalLastName,
+            label: l10n.personalLastName,
             controller: lastNameController,
             icon: Icons.person,
             textCapitalization: TextCapitalization.words,
           ),
           const SizedBox(height: 16.0),
           BaseTextField(
-            label: localizations.personalPhone,
+            label: l10n.personalPhone,
             controller: phoneController,
             icon: Icons.phone,
             type: TextInputType.phone,
           ),
           const SizedBox(height: 16.0),
           BaseTextField(
-            label: localizations.personalLocation,
+            label: l10n.personalLocation,
             controller: locationController,
             icon: Icons.location_pin,
             textCapitalization: TextCapitalization.words,
           ),
           const SizedBox(height: 16.0),
           BaseTextField(
-            label: localizations.personalMail,
+            label: l10n.personalMail,
             controller: emailController,
             icon: Icons.email,
             type: TextInputType.emailAddress,
