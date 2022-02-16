@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/interop/network/network_client.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/pages/credentials/blocs/scan.dart';
@@ -49,7 +50,11 @@ class AppWidget extends StatelessWidget {
         BlocProvider<ProfileBloc>(
             create: (context) => ProfileBloc(SecureStorageProvider.instance)),
         BlocProvider<DIDBloc>(
-            create: (context) => DIDBloc(SecureStorageProvider.instance)),
+          create: (context) => DIDBloc(
+            secureStorageProvider: SecureStorageProvider.instance,
+            didKitProvider: DIDKitProvider.instance,
+          ),
+        ),
       ],
       child: MaterialAppDefinition(),
     );

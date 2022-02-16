@@ -8,9 +8,11 @@ import 'package:logging/logging.dart';
 part 'did_event.dart';
 
 class DIDBloc extends Bloc<DIDEvent, DIDState> {
-  final SecureStorageProvider secureStorageProvider;
+  final SecureStorageProvider? secureStorageProvider;
+  final DIDKitProvider? didKitProvider;
 
-  DIDBloc(this.secureStorageProvider) : super(DIDStateDefault('')) {
+  DIDBloc({this.didKitProvider, this.secureStorageProvider})
+      : super(DIDStateDefault('')) {
     on<DIDEventLoad>(_load);
     add(DIDEventLoad());
   }
@@ -24,9 +26,8 @@ class DIDBloc extends Bloc<DIDEvent, DIDState> {
     try {
       emit(DIDStateWorking());
 
-      final key = (await secureStorageProvider.get('key'))!;
-      final DID =
-          DIDKitProvider.instance.keyToDID(Constants.defaultDIDMethod, key);
+      final key = (await secureStorageProvider!.get('key'))!;
+      final DID = didKitProvider!.keyToDID(Constants.defaultDIDMethod, key);
 
       emit(DIDStateDefault(DID));
     } catch (e) {
