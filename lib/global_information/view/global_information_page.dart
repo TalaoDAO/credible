@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:talao/app/interop/didkit/didkit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:talao/global_information/bloc/did_bloc.dart';
 import 'package:talao/global_information/view/did_display.dart';
 import 'package:talao/global_information/view/display_application_contacts.dart';
 import 'package:talao/global_information/view/issuer_verification_setting.dart';
@@ -31,7 +32,7 @@ class GlobalInformationPage extends StatelessWidget {
           const SizedBox(height: 32.0),
           Center(
             child: Text(
-              'DIDKit v' + DIDKitProvider.instance.getVersion(),
+              'DIDKit v' + context.read<DIDBloc>().didKitProvider!.getVersion(),
               style: Theme.of(context).textTheme.bodyText2,
             ),
           ),

@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/profile/models/profile.dart';
 import 'package:talao/app/shared/model/message.dart';
@@ -7,9 +8,9 @@ import 'package:logging/logging.dart';
 part 'profile_event.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
-  final SecureStorageProvider secureStorageProvider;
+  final SecureStorageProvider? secureStorageProvider;
 
-  ProfileBloc(this.secureStorageProvider)
+  ProfileBloc({this.secureStorageProvider})
       : super(ProfileStateDefault(ProfileModel())) {
     on<ProfileEventLoad>(_load);
     on<ProfileEventUpdate>(_update);
@@ -23,16 +24,16 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     final log = Logger('talao-wallet/profile/load');
     try {
       final firstName =
-          await secureStorageProvider.get(ProfileModel.firstNameKey) ?? '';
+          await secureStorageProvider!.get(ProfileModel.firstNameKey) ?? '';
       final lastName =
-          await secureStorageProvider.get(ProfileModel.lastNameKey) ?? '';
+          await secureStorageProvider!.get(ProfileModel.lastNameKey) ?? '';
       final phone =
-          await secureStorageProvider.get(ProfileModel.phoneKey) ?? '';
+          await secureStorageProvider!.get(ProfileModel.phoneKey) ?? '';
       final location =
-          await secureStorageProvider.get(ProfileModel.locationKey) ?? '';
+          await secureStorageProvider!.get(ProfileModel.locationKey) ?? '';
       final email =
-          await secureStorageProvider.get(ProfileModel.emailKey) ?? '';
-      final issuerVerificationSetting = !(await secureStorageProvider
+          await secureStorageProvider!.get(ProfileModel.emailKey) ?? '';
+      final issuerVerificationSetting = !(await secureStorageProvider!
               .get(ProfileModel.issuerVerificationSettingKey) ==
           'false');
 
@@ -60,24 +61,25 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     final log = Logger('talao-wallet/profile/update');
 
     try {
-      await secureStorageProvider.set(
+      await secureStorageProvider!.set(
         ProfileModel.firstNameKey,
         event.model.firstName,
       );
-      await secureStorageProvider.set(
+      await secureStorageProvider!.set(
         ProfileModel.lastNameKey,
         event.model.lastName,
       );
-      await secureStorageProvider.set(ProfileModel.phoneKey, event.model.phone);
-      await secureStorageProvider.set(
+      await secureStorageProvider!
+          .set(ProfileModel.phoneKey, event.model.phone);
+      await secureStorageProvider!.set(
         ProfileModel.locationKey,
         event.model.location,
       );
-      await secureStorageProvider.set(
+      await secureStorageProvider!.set(
         ProfileModel.emailKey,
         event.model.email,
       );
-      await secureStorageProvider.set(
+      await secureStorageProvider!.set(
         ProfileModel.issuerVerificationSettingKey,
         event.model.issuerVerificationSetting.toString(),
       );
@@ -86,6 +88,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     } catch (e) {
       log.severe('something went wrong', e);
 
+      ///todo - change m
       emit(ProfileStateMessage(StateMessage.error('Failed to save profile. '
           'Check the logs for more information.')));
     }

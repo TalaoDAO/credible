@@ -48,7 +48,8 @@ class AppWidget extends StatelessWidget {
           ),
         ),
         BlocProvider<ProfileBloc>(
-            create: (context) => ProfileBloc(SecureStorageProvider.instance)),
+            create: (context) => ProfileBloc(
+                secureStorageProvider: SecureStorageProvider.instance)),
         BlocProvider<DIDBloc>(
           create: (context) => DIDBloc(
             secureStorageProvider: SecureStorageProvider.instance,
