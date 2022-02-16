@@ -60,10 +60,7 @@ class MaterialAppDefinition extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Talao-Wallet',
-      routes: {
-        '/splash': (context) => SplashPage(),
-      },
-      initialRoute: '/splash',
+      home: SplashPage(),
       theme: AppTheme.lightThemeData,
       darkTheme: AppTheme.darkThemeData,
       themeMode: context.select((ThemeCubit cubit) => cubit.state),
