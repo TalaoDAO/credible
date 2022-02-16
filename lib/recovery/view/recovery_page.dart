@@ -4,11 +4,12 @@ import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/mnemonic.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:talao/l10n/l10n.dart';
 
 class RecoveryPage extends StatefulWidget {
   static Route route() => MaterialPageRoute(
         builder: (context) => RecoveryPage(),
+        settings: RouteSettings(name: '/recoveryPage'),
       );
 
   @override
@@ -33,16 +34,16 @@ class _RecoveryPageState extends State<RecoveryPage> {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
     return BasePage(
-      title: localizations.onBoardingGenPhraseTitle,
+      title: l10n.onBoardingGenPhraseTitle,
       titleLeading: BackLeadingButton(),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           const SizedBox(height: 16.0),
           Text(
-            localizations.genPhraseInstruction,
+            l10n.genPhraseInstruction,
             textAlign: TextAlign.center,
             style: Theme.of(context)
                 .textTheme
@@ -51,7 +52,7 @@ class _RecoveryPageState extends State<RecoveryPage> {
           ),
           const SizedBox(height: 8.0),
           Text(
-            localizations.genPhraseExplanation,
+            l10n.genPhraseExplanation,
             textAlign: TextAlign.center,
             style: Theme.of(context)
                 .textTheme

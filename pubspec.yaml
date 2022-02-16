@@ -91,6 +91,7 @@ flutter:
     - assets/
     - assets/image/
     - assets/privacy/
+    - assets/terms/
     - assets/brand/logo-full.svg
     - assets/brand/logo-circular.svg
     - assets/brand/logo-title.svg
@@ -107,5 +108,3 @@ flutter:
     - assets/icon/wallet-filled.svg
     - assets/icon/location-target.svg
     - assets/icon/time-clock.svg
-    - assets/support.md
-    - assets/notices.md

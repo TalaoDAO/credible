@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TermsPage extends StatelessWidget {
-  static Route route() => MaterialPageRoute(builder: (_) => TermsPage());
+  static Route route() => MaterialPageRoute(
+        builder: (_) => TermsPage(),
+        settings: RouteSettings(name: '/termsPage'),
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +18,6 @@ class TermsPage extends StatelessWidget {
     }
     return MarkdownPage(
         title: localizations.onBoardingTosTitle,
-        file: 'assets/mobile_cgu_$filePath.md');
+        file: 'assets/terms/mobile_cgu_$filePath.md');
   }
 }
