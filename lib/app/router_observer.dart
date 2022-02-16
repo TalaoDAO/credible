@@ -21,6 +21,8 @@ class MyRouteObserver extends RouteObserver<PageRoute<dynamic>> {
 
   void _sendScreenView(PageRoute<dynamic> route) {
     var routeName = route.settings.name;
-    print('Screen -> $routeName'); // track screen of user
+    print('--------------------------------------------------------');
+    print('                 Screen -> $routeName'); // track screen of user
+    print('--------------------------------------------------------');
   }
 }

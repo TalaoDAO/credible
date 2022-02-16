@@ -11,6 +11,7 @@ import 'package:talao/app/shared/widget/navigation_bar.dart';
 class QrCodeScanPage extends StatefulWidget {
   static Route route() => MaterialPageRoute(
         builder: (context) => QrCodeScanPage(),
+        settings: RouteSettings(name: '/qrCodeScanPage'),
       );
 
   @override
