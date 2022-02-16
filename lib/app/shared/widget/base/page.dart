@@ -50,14 +50,7 @@ class BasePage extends StatelessWidget {
           ? CustomAppBar(
               title: title!,
               tag: titleTag,
-              leading: drawer == null
-                  ? titleLeading
-                  : Builder(builder: (context) {
-                      return IconButton(
-                        icon: const Icon(Icons.menu),
-                        onPressed: () => Scaffold.of(context).openDrawer(),
-                      );
-                    }),
+              leading: titleLeading,
               trailing: titleTrailing,
             )
           : null,

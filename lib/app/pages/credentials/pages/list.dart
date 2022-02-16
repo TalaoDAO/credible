@@ -54,6 +54,14 @@ class _CredentialsListState extends State<CredentialsList> {
         horizontal: 16.0,
       ),
       drawer: ProfilePage(),
+      titleLeading: Builder(
+        builder: (context) {
+          return IconButton(
+            icon: const Icon(Icons.menu),
+            onPressed: () => Scaffold.of(context).openDrawer(),
+          );
+        },
+      ),
       navigation: CustomNavBar(index: 0),
       body: BlocBuilder<WalletBloc, WalletBlocState>(
         builder: (context, state) {
