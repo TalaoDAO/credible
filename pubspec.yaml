@@ -48,7 +48,6 @@ dependencies:
   flutter_markdown: ^0.6.9
   url_launcher: ^6.0.17
   logging: ^1.0.2
-  shared_preferences: ^2.0.6
 
   json_annotation: ^4.0.1
   package_info_plus: ^1.3.0
@@ -88,24 +87,9 @@ flutter:
   generate: true
   uses-material-design: true
   assets:
-    - assets/brand/logo-full.svg
-    - assets/brand/logo-circular.svg
-    - assets/brand/logo-title.svg
-    - assets/brand/logo-subtitle.svg
-    - assets/brand/logo-splash.svg
-    - assets/brand/logo-minimal.svg
-    - assets/brand/spruce-icon.svg
-    - assets/brand/logo_talao.png
-    - assets/icon/domain.svg
-    - assets/icon/profile.svg
-    - assets/icon/profile-filled.svg
-    - assets/icon/qr-code.svg
-    - assets/icon/wallet.svg
-    - assets/icon/wallet-filled.svg
-    - assets/icon/location-target.svg
-    - assets/icon/time-clock.svg
-    - assets/image/
-    - assets/privacy.md
-    - assets/support.md
-    - assets/notices.md
     - assets/
+    - assets/image/
+    - assets/privacy/
+    - assets/terms/
+    - assets/brand/
+    - assets/icon/

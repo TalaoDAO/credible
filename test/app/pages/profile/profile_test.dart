@@ -2,28 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:talao/app/pages/profile/blocs/profile.dart';
-import 'package:talao/app/pages/profile/models/profile.dart';
-import 'package:talao/app/pages/profile/pages/theme.dart';
-import 'package:talao/app/pages/profile/profile.dart';
 import 'package:bloc_test/bloc_test.dart';
-import 'package:talao/theme/cubit/theme_cubit.dart';
+import 'package:talao/profile/profile.dart';
+import 'package:talao/theme/theme.dart';
 
 import '../../../helper/pump_app.dart';
 
-class MockProfileBloc extends MockBloc<ProfileEvent, ProfileState>
-    implements ProfileBloc {}
+class MockProfileCubit extends MockCubit<ProfileState> implements ProfileCubit {
+}
 
 class MockThemeCubit extends MockCubit<ThemeMode> implements ThemeCubit {}
 
 void main() {
-  late ProfileBloc profileBloc;
+  late ProfileCubit profileCubit;
   late ThemeCubit themeCubit;
 
   setUp(() {
-    profileBloc = MockProfileBloc();
-    when(() => profileBloc.state).thenReturn(
-      ProfileStateDefault(ProfileModel()),
+    profileCubit = MockProfileCubit();
+    when(() => profileCubit.state).thenReturn(
+      ProfileStateDefault(model: ProfileModel.empty),
     );
     themeCubit = MockThemeCubit();
   });
@@ -31,7 +28,7 @@ void main() {
   group('ProfilePage', () {
     testWidgets('renders ProfileView', (tester) async {
       await tester.pumpApp(
-          BlocProvider.value(value: profileBloc, child: ProfilePage()));
+          BlocProvider.value(value: profileCubit, child: ProfilePage()));
       expect(find.byType(ProfileView), findsOneWidget);
     });
   });
@@ -42,7 +39,7 @@ void main() {
       when(() => themeCubit.state).thenReturn(ThemeMode.system);
       await tester.pumpApp(MultiBlocProvider(
         providers: [
-          BlocProvider.value(value: profileBloc),
+          BlocProvider.value(value: profileCubit),
           BlocProvider.value(value: themeCubit),
         ],
         child: ProfileView(),

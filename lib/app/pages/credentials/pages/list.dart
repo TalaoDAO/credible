@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -5,9 +6,11 @@ import 'package:talao/app/pages/credentials/blocs/wallet.dart';
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
 import 'package:talao/app/pages/credentials/widget/list_item.dart';
 import 'package:talao/app/pages/qr_code/bloc/qrcode.dart';
+import 'package:talao/app/pages/qr_code/scan.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
-import 'package:talao/app/shared/widget/navigation_bar.dart';
+import 'package:talao/app/shared/widget/info_dialog.dart';
 import 'package:talao/deep_link/cubit/deep_link.dart';
+import 'package:talao/profile/profile.dart';
 
 class CredentialsList extends StatefulWidget {
   const CredentialsList({
@@ -16,6 +19,7 @@ class CredentialsList extends StatefulWidget {
 
   static Route route() => MaterialPageRoute(
         builder: (context) => CredentialsList(),
+        settings: RouteSettings(name: '/credibleList'),
       );
 
   @override
@@ -23,6 +27,8 @@ class CredentialsList extends StatefulWidget {
 }
 
 class _CredentialsListState extends State<CredentialsList> {
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   void dispose() {
     super.dispose();
@@ -45,28 +51,57 @@ class _CredentialsListState extends State<CredentialsList> {
   Widget build(BuildContext credentialListContext) {
     final localizations = AppLocalizations.of(credentialListContext)!;
 
-    return BasePage(
-      title: localizations.credentialListTitle,
-      padding: const EdgeInsets.symmetric(
-        vertical: 24.0,
-        horizontal: 16.0,
-      ),
-      navigation: CustomNavBar(index: 0),
-      body: BlocBuilder<WalletBloc, WalletBlocState>(
-        builder: (context, state) {
-          var _credentialList = <CredentialModel>[];
-          if (state is WalletBlocList) {
-            _credentialList = state.credentials;
-          } else {
-            _credentialList = [];
-          }
-          return Column(
-            children: List.generate(
-              _credentialList.length,
-              (index) => CredentialsListItem(item: _credentialList[index]),
-            ),
-          );
-        },
+    return WillPopScope(
+      onWillPop: () async {
+        if (scaffoldKey.currentState!.isDrawerOpen) {
+          Navigator.of(context).pop();
+        }
+        return false;
+      },
+      child: BasePage(
+        scaffoldKey: scaffoldKey,
+        title: localizations.credentialListTitle,
+        padding: const EdgeInsets.symmetric(
+          vertical: 24.0,
+          horizontal: 16.0,
+        ),
+        drawer: ProfilePage(),
+        titleLeading: IconButton(
+          icon: const Icon(Icons.menu),
+          onPressed: () => scaffoldKey.currentState!.openDrawer(),
+        ),
+        titleTrailing: IconButton(
+            icon: const Icon(Icons.qr_code_scanner),
+            onPressed: () {
+              if (kIsWeb) {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) => InfoDialog(
+                    title: localizations.unavailable_feature_title,
+                    subtitle: localizations.unavailable_feature_message,
+                    button: localizations.ok,
+                  ),
+                );
+              } else {
+                Navigator.of(context).push(QrCodeScanPage.route());
+              }
+            }),
+        body: BlocBuilder<WalletBloc, WalletBlocState>(
+          builder: (context, state) {
+            var _credentialList = <CredentialModel>[];
+            if (state is WalletBlocList) {
+              _credentialList = state.credentials;
+            } else {
+              _credentialList = [];
+            }
+            return Column(
+              children: List.generate(
+                _credentialList.length,
+                (index) => CredentialsListItem(item: _credentialList[index]),
+              ),
+            );
+          },
+        ),
       ),
     );
   }

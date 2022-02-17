@@ -5,12 +5,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:talao/app/pages/qr_code/bloc/qrcode.dart';
+import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
-import 'package:talao/app/shared/widget/navigation_bar.dart';
 
 class QrCodeScanPage extends StatefulWidget {
   static Route route() => MaterialPageRoute(
         builder: (context) => QrCodeScanPage(),
+        settings: RouteSettings(name: '/qrCodeScanPage'),
       );
 
   @override
@@ -77,8 +78,8 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
         padding: EdgeInsets.zero,
         title: localizations.scanTitle,
         scrollView: false,
-        navigation: CustomNavBar(index: 1),
         extendBelow: true,
+        titleLeading: BackLeadingButton(),
         body: SafeArea(
           child: QRView(
             key: qrKey,
