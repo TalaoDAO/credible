@@ -20,9 +20,8 @@ class ProfileEventUpdate extends ProfileEvent {
 
 class ProfileDataEventSubmit extends ProfileEvent {
   final ProfileModel model;
-  final String key;
 
-  ProfileDataEventSubmit(this.model, this.key);
+  ProfileDataEventSubmit(this.model);
 }
 
 abstract class ProfileState {}

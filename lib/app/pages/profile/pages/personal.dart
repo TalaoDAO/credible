@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/src/provider.dart';
 import 'package:talao/app/pages/profile/blocs/profile.dart';
 import 'package:talao/app/pages/profile/models/profile.dart';
+import 'package:talao/app/pages/profile/pages/add_credentiol.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
@@ -52,7 +53,16 @@ class _PersonalPageState extends State<PersonalPage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          final profileModel = ProfileModel(
+              firstName: firstNameController.text,
+              lastName: lastNameController.text,
+              phone: phoneController.text,
+              location: locationController.text,
+              email: emailController.text,
+              issuerVerificationSetting:
+                  widget.profile.issuerVerificationSetting);
 
+          Navigator.of(context).push(AddCredentialPage.route(profileModel));
         },
         child: Icon(
           Icons.qr_code_scanner_rounded,
