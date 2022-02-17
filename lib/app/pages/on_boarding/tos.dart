@@ -19,52 +19,55 @@ class OnBoardingTosPage extends StatelessWidget {
     final localizations = AppLocalizations.of(context)!;
     final _log = Logger('talao-wallet/markdown_page');
 
-    return BasePage(
-      backgroundColor: Theme.of(context).colorScheme.background,
-      title: localizations.onBoardingTosTitle,
-      scrollView: false,
-      padding: EdgeInsets.zero,
-      useSafeArea: false,
-      navigation: Container(
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surface,
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-              color: Theme.of(context).colorScheme.shadow,
-              offset: Offset(-1.0, -1.0),
-              blurRadius: 4.0,
-            ),
-          ],
-        ),
-        padding: const EdgeInsets.symmetric(
-          vertical: 12.0,
-        ),
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(
-                  localizations.onBoardingTosText,
-                  style: Theme.of(context).textTheme.bodyText2,
-                ),
-                const SizedBox(height: 20.0),
-                BaseButton.primary(
-                  context: context,
-                  onPressed: () {
-                    Navigator.of(context)
-                        .pushReplacement(OnBoardingKeyPage.route());
-                  },
-                  child: Text(localizations.onBoardingTosButton),
-                )
-              ],
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: BasePage(
+        backgroundColor: Theme.of(context).colorScheme.background,
+        title: localizations.onBoardingTosTitle,
+        scrollView: false,
+        padding: EdgeInsets.zero,
+        useSafeArea: false,
+        navigation: Container(
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.surface,
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                color: Theme.of(context).colorScheme.shadow,
+                offset: Offset(-1.0, -1.0),
+                blurRadius: 4.0,
+              ),
+            ],
+          ),
+          padding: const EdgeInsets.symmetric(
+            vertical: 12.0,
+          ),
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    localizations.onBoardingTosText,
+                    style: Theme.of(context).textTheme.bodyText2,
+                  ),
+                  const SizedBox(height: 20.0),
+                  BaseButton.primary(
+                    context: context,
+                    onPressed: () {
+                      Navigator.of(context)
+                          .pushReplacement(OnBoardingKeyPage.route());
+                    },
+                    child: Text(localizations.onBoardingTosButton),
+                  )
+                ],
+              ),
             ),
           ),
         ),
+        body: displayTerms(context, _log),
       ),
-      body: displayTerms(context, _log),
     );
   }
 
