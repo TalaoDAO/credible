@@ -10,11 +10,11 @@ import 'package:talao/profile/profile.dart';
 
 Future<Issuer> isApprovedIssuer(Uri uri, BuildContext context) async {
   final client = DioClient(Constants.checkIssuerServerUrl, Dio());
-  final profileBloc = context.read<ProfileBloc>();
+  final profileBloc = context.read<ProfileCubit>();
   final profile = profileBloc.state;
   if (profile is ProfileStateDefault) {
     final isIssuerVerificationSettingTrue =
-        profile.model.issuerVerificationSetting;
+        profile.model!.issuerVerificationSetting;
     if (isIssuerVerificationSettingTrue) {
       try {
         return await CheckIssuer(client, Constants.checkIssuerServerUrl, uri)

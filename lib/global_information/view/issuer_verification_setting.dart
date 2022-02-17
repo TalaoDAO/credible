@@ -11,19 +11,19 @@ class IssuerVerificationSetting extends StatelessWidget {
     final localizations = AppLocalizations.of(context)!;
 
     return BlocConsumer(
-        bloc: context.read<ProfileBloc>(),
+        bloc: context.read<ProfileCubit>(),
         listener: (context, state) {
           if (state is ProfileStateMessage) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              backgroundColor: state.message.color,
-              content: Text(state.message.message),
+              backgroundColor: state.message!.color,
+              content: Text(state.message!.message),
             ));
           }
         },
         builder: (context, state) {
           final model =
-              state is ProfileStateDefault ? state.model : ProfileModel();
-          final issuerVerificationSetting = model.issuerVerificationSetting;
+              state is ProfileStateDefault ? state.model : ProfileModel.empty;
+          final issuerVerificationSetting = model!.issuerVerificationSetting;
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
@@ -35,16 +35,15 @@ class IssuerVerificationSetting extends StatelessWidget {
                 Spacer(),
                 Switch(
                   onChanged: (value) {
-                    context
-                        .read<ProfileBloc>()
-                        .add(ProfileEventUpdate(ProfileModel(
-                          firstName: model.firstName,
-                          lastName: model.lastName,
-                          phone: model.phone,
-                          location: model.location,
-                          email: model.email,
-                          issuerVerificationSetting: value,
-                        )));
+                    var profileModel = ProfileModel(
+                      firstName: model.firstName,
+                      lastName: model.lastName,
+                      phone: model.phone,
+                      location: model.location,
+                      email: model.email,
+                      issuerVerificationSetting: value,
+                    );
+                    context.read<ProfileCubit>().update(profileModel);
                   },
                   value: issuerVerificationSetting,
                   activeColor: Theme.of(context).colorScheme.primary,

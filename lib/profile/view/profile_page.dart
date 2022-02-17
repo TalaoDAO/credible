@@ -1,5 +1,6 @@
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/pages/credentials/blocs/wallet.dart';
+import 'package:talao/app/shared/constants.dart';
 import 'package:talao/global_information/global_information.dart';
 import 'package:talao/personal/personal.dart';
 import 'package:talao/privacy/privacy.dart';
@@ -31,12 +32,12 @@ class ProfileView extends StatelessWidget {
     return Drawer(
       child: SafeArea(
         child: BlocConsumer(
-          bloc: context.read<ProfileBloc>(),
+          bloc: context.read<ProfileCubit>(),
           listener: (context, state) {},
           builder: (context, state) {
             final model =
-                state is ProfileStateDefault ? state.model : ProfileModel();
-            final firstName = model.firstName;
+                state is ProfileStateDefault ? state.model : ProfileModel.empty;
+            final firstName = model!.firstName;
             final lastName = model.lastName;
 
             return Column(
@@ -112,15 +113,15 @@ class ProfileView extends StatelessWidget {
                       await SecureStorageProvider.instance.delete('data');
 
                       await SecureStorageProvider.instance
-                          .delete(ProfileModel.firstNameKey);
+                          .delete(Constants.firstNameKey);
                       await SecureStorageProvider.instance
-                          .delete(ProfileModel.lastNameKey);
+                          .delete(Constants.lastNameKey);
                       await SecureStorageProvider.instance
-                          .delete(ProfileModel.phoneKey);
+                          .delete(Constants.phoneKey);
                       await SecureStorageProvider.instance
-                          .delete(ProfileModel.locationKey);
+                          .delete(Constants.locationKey);
                       await SecureStorageProvider.instance
-                          .delete(ProfileModel.emailKey);
+                          .delete(Constants.emailKey);
 
                       await context.read<WalletBloc>().deleteAll();
 

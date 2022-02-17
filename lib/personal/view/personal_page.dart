@@ -50,14 +50,16 @@ class _PersonalPageState extends State<PersonalPage> {
       titleTrailing: InkWell(
         borderRadius: BorderRadius.circular(8.0),
         onTap: () {
-          context.read<ProfileBloc>().add(ProfileEventUpdate(ProfileModel(
+          var model = ProfileModel(
               firstName: firstNameController.text,
               lastName: lastNameController.text,
               phone: phoneController.text,
               location: locationController.text,
               email: emailController.text,
               issuerVerificationSetting:
-                  widget.profile.issuerVerificationSetting)));
+                  widget.profile.issuerVerificationSetting);
+
+          context.read<ProfileCubit>().update(model);
           Navigator.of(context).pop();
         },
         child: Padding(
