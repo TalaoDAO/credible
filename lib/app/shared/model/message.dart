@@ -9,6 +9,7 @@ enum MessageType {
 }
 
 class StateMessage {
+
   final String message;
   final MessageType type;
   final ErrorHandler? errorHandler;
