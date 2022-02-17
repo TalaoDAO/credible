@@ -14,67 +14,72 @@ class OnBoardingKeyPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
 
-    return BasePage(
-      title: localizations.onBoardingKeyTitle,
-      scrollView: false,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Text(
-                  localizations.keyRecoveryTitle,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.subtitle1,
-                ),
-                const SizedBox(height: 32.0),
-                Text(
-                  localizations.keyRecoveryText,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodyText1,
-                ),
-                const SizedBox(height: 20.0),
-                BaseButton.primary(
-                  context: context,
-                  onPressed: () {
-                    Navigator.of(context).push(OnBoardingRecoveryPage.route());
-                  },
-                  child: Text(localizations.onBoardingKeyRecover),
-                ),
-              ],
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: BasePage(
+        title: localizations.onBoardingKeyTitle,
+        scrollView: false,
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Text(
+                    localizations.keyRecoveryTitle,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.subtitle1,
+                  ),
+                  const SizedBox(height: 32.0),
+                  Text(
+                    localizations.keyRecoveryText,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.bodyText1,
+                  ),
+                  const SizedBox(height: 20.0),
+                  BaseButton.primary(
+                    context: context,
+                    onPressed: () {
+                      Navigator.of(context)
+                          .push(OnBoardingRecoveryPage.route());
+                    },
+                    child: Text(localizations.onBoardingKeyRecover),
+                  ),
+                ],
+              ),
             ),
-          ),
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Text(
-                  localizations.keyGenerateTitle,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.subtitle1,
-                ),
-                const SizedBox(height: 32.0),
-                Text(
-                  localizations.keyGenerateText,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodyText1,
-                ),
-                const SizedBox(height: 20.0),
-                BaseButton.primary(
-                  context: context,
-                  onPressed: () {
-                    Navigator.of(context).push(OnBoardingGenPhrasePage.route());
-                  },
-                  child: Text(localizations.onBoardingKeyGenerate),
-                ),
-              ],
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Text(
+                    localizations.keyGenerateTitle,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.subtitle1,
+                  ),
+                  const SizedBox(height: 32.0),
+                  Text(
+                    localizations.keyGenerateText,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.bodyText1,
+                  ),
+                  const SizedBox(height: 20.0),
+                  BaseButton.primary(
+                    context: context,
+                    onPressed: () {
+                      Navigator.of(context)
+                          .push(OnBoardingGenPhrasePage.route());
+                    },
+                    child: Text(localizations.onBoardingKeyGenerate),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
