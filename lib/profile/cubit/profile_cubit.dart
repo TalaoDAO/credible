@@ -15,7 +15,9 @@ class ProfileCubit extends Cubit<ProfileState> {
   final SecureStorageProvider? secureStorageProvider;
 
   ProfileCubit({this.secureStorageProvider})
-      : super(ProfileStateDefault(model: ProfileModel.empty));
+      : super(ProfileStateDefault(model: ProfileModel.empty)){
+    load();
+  }
 
   void load() async {
     final log = Logger('talao-wallet/profile/load');

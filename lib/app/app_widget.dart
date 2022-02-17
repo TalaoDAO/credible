@@ -48,8 +48,9 @@ class AppWidget extends StatelessWidget {
           ),
         ),
         BlocProvider<ProfileCubit>(
-            create: (context) => ProfileCubit(
-                secureStorageProvider: SecureStorageProvider.instance)),
+          create: (context) => ProfileCubit(
+              secureStorageProvider: SecureStorageProvider.instance),
+        ),
         BlocProvider<DIDBloc>(
           create: (context) => DIDBloc(
             secureStorageProvider: SecureStorageProvider.instance,
