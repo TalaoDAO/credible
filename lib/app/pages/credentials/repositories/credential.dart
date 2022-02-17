@@ -1,11 +1,14 @@
-import 'package:talao/app/pages/credentials/database.dart';
+import 'dart:convert';
+
+import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
-import 'package:sembast/sembast.dart';
 import 'package:talao/app/pages/credentials/models/revokation_status.dart';
 
 class CredentialsRepository {
-  CredentialsRepository();
+  CredentialsRepository(SecureStorageProvider secureStorageProvider)
+      : _secureStorageProvider = secureStorageProvider;
 
+  final SecureStorageProvider _secureStorageProvider;
   Future<void> initializeRevocationStatus() async {
     final _credentialList = await findAll();
     for (final _credential in _credentialList) {
@@ -16,74 +19,57 @@ class CredentialsRepository {
     }
   }
 
-  Future<List<Map<String, dynamic>>> rawFindAll(/* dynamic filters */) async {
-    final db = await WalletDatabase.db;
-    final store = intMapStoreFactory.store('credentials');
-    final data = await store.find(db);
-
-    return data.map((m) => m.value).toList();
-  }
-
   Future<List<CredentialModel>> findAll(/* dynamic filters */) async {
-    final db = await WalletDatabase.db;
-    final store = intMapStoreFactory.store('credentials');
-    final data = await store.find(db);
+    final data = await _secureStorageProvider.getAllValues();
+    data.removeWhere((key, value) => key.substring(0, 11) != 'credential/');
+    var _credentialList = <CredentialModel>[];
+    data.forEach((key, value) {
+      _credentialList.add(CredentialModel.fromJson((value)));
+    });
 
-    return data.map((m) => CredentialModel.fromJson(m.value)).toList();
+    return _credentialList;
   }
 
   Future<CredentialModel?> findById(String id) async {
-    final db = await WalletDatabase.db;
-    final store = intMapStoreFactory.store('credentials');
-    final data = await store.find(
-      db,
-      finder: Finder(
-        filter: Filter.equals('id', id),
-      ),
-    );
-
+    final data = await _secureStorageProvider.get('credential/$id');
+    if (data == null) {
+      return null;
+    }
     if (data.isEmpty) return null;
 
-    return CredentialModel.fromJson(data.first.value);
+    return CredentialModel.fromJson(json.decode(data));
   }
 
   Future<int> deleteAll() async {
-    final db = await WalletDatabase.db;
-    final store = intMapStoreFactory.store('credentials');
-    return await store.delete(db);
+    final data = await _secureStorageProvider.getAllValues();
+    data.removeWhere((key, value) => key.substring(0, 11) != 'credential/');
+    var numberOfDeletedCredentials = 0;
+    data.forEach((key, value) {
+      _secureStorageProvider.delete(key);
+      numberOfDeletedCredentials++;
+    });
+    return numberOfDeletedCredentials;
   }
 
   Future<bool> deleteById(String id) async {
-    final db = await WalletDatabase.db;
-    final store = intMapStoreFactory.store('credentials');
-    final data = await store.delete(
-      db,
-      finder: Finder(
-        filter: Filter.equals('id', id),
-        limit: 1,
-      ),
-    );
-
-    return data > 0;
+    await _secureStorageProvider.delete('credential/$id');
+    return true;
   }
 
   Future<int> insert(CredentialModel credential) async {
-    final db = await WalletDatabase.db;
-    final store = intMapStoreFactory.store('credentials');
-    return await store.add(db, credential.toJson());
+    await _secureStorageProvider.set(
+      'credential/${credential.id}',
+      json.encode(credential.toJson()),
+    );
+    return 1;
   }
 
   Future<int> update(CredentialModel credential) async {
-    final db = await WalletDatabase.db;
-    final store = intMapStoreFactory.store('credentials');
-    return await store.update(
-      db,
-      credential.toJson(),
-      finder: Finder(
-        filter: Filter.equals('id', credential.id),
-        limit: 1,
-      ),
+    await _secureStorageProvider.set(
+      'credential/${credential.id}',
+      json.encode(credential.toJson()),
     );
+    return 1;
   }
 
   void dispose() {

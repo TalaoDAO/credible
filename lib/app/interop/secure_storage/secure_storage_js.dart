@@ -33,4 +33,14 @@ class SecureStorageWeb extends SecureStorageProvider {
   Future<void> delete(String key) async {
     window.localStorage.remove(key);
   }
+
+  @override
+  Future<Map<String, String>> getAllValues() async {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> deleteAll() async {
+    throw UnimplementedError();
+  }
 }

@@ -33,7 +33,7 @@ class AppWidget extends StatelessWidget {
         BlocProvider<WalletBloc>(
             lazy: false,
             create: (context) =>
-                WalletBloc(CredentialsRepository())..checkKey()),
+                WalletBloc(CredentialsRepository(SecureStorageProvider.instance))..checkKey()),
         BlocProvider<ScanBloc>(
             create: (context) => ScanBloc(
                 DioClient(Constants.checkIssuerServerUrl, Dio()),

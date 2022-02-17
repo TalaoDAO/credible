@@ -14,12 +14,9 @@ class SecureStorageIO extends SecureStorageProvider {
 
   @override
   Future<String?> get(String key) async {
-    try
-    {
+    try {
       return await _storage.read(key: key);
-    }
-    catch (e)
-    {
+    } catch (e) {
       return null;
     }
   }
@@ -39,5 +36,15 @@ class SecureStorageIO extends SecureStorageProvider {
       key: key,
       iOptions: _defaultIOSOptions,
     );
+  }
+
+  @override
+  Future<Map<String, String>> getAllValues() async {
+    return await _storage.readAll();
+  }
+
+  @override
+  Future<void> deleteAll() async {
+    return _storage.deleteAll();
   }
 }
