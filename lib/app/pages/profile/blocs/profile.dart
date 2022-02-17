@@ -105,7 +105,13 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       final location = event.model.location;
       final email = event.model.email;
 
-      final did = DIDKitProvider.instance.keyToDID('key', event.key);
+      final key = (await SecureStorageProvider.instance.get('key'))!;
+      final did = DIDKitProvider.instance.keyToDID('key', key);
+      final verificationMethod = DIDKitProvider.instance.keyToVerificationMethod('key', key);
+      final options = {
+        'proofPurpose': 'assertionMethod',
+        'verificationMethod': verificationMethod
+      };
 
       final selfIssued = SelfIssued('', 'SelfIssued', location, lastName,
           firstName, phone, email, Author('', ''), did);
@@ -113,7 +119,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       final credential = selfIssued.toJson();
 
       final vc = await CreateCredential(
-          credential: credential, options: {}, key: event.key);
+          credential: credential, options: options, key: key);
 
       emit(ProfileStateSubmitted(StateMessage.success(vc)));
     } catch (e) {

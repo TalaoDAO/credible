@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/pages/profile/usecase/create_credential.dart';
 
 void main() {
@@ -73,6 +74,14 @@ void main() {
       };
       final key = 'did:tz:tz2Qv4HgkUeuZC9atHsKoJVGj19HZQ3vWQGt';
       //todo write expectation
+      //final key = DIDKitProvider.instance.generateEd25519Key();
+      final did = DIDKitProvider.instance.keyToDID('key', key);
+      final verificationMethod = DIDKitProvider.instance.keyToVerificationMethod('key', key);
+      final options = {
+        'proofPurpose': 'assertionMethod',
+        'verificationMethod': verificationMethod
+      };
+      final vc = await CreateCredential(credential: selfIssuedJson,options: options, key: key);
       //expect(await CreateCredential(credential: selfIssuedJson, key: key), matcher)
     });
   });
