@@ -1,8 +1,12 @@
 import 'package:bloc/bloc.dart';
+import 'package:logging/logging.dart';
+import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/pages/profile/models/profile.dart';
+import 'package:talao/app/pages/profile/usecase/create_credential.dart';
+import 'package:talao/app/shared/model/author.dart';
 import 'package:talao/app/shared/model/message.dart';
-import 'package:logging/logging.dart';
+import 'package:talao/app/shared/model/self_issued/self_issued.dart';
 
 abstract class ProfileEvent {}
 
@@ -14,12 +18,25 @@ class ProfileEventUpdate extends ProfileEvent {
   ProfileEventUpdate(this.model);
 }
 
+class ProfileDataEventSubmit extends ProfileEvent {
+  final ProfileModel model;
+  final String key;
+
+  ProfileDataEventSubmit(this.model, this.key);
+}
+
 abstract class ProfileState {}
 
 class ProfileStateMessage extends ProfileState {
   final StateMessage message;
 
   ProfileStateMessage(this.message);
+}
+
+class ProfileStateSubmitted extends ProfileState {
+  final StateMessage message;
+
+  ProfileStateSubmitted(this.message);
 }
 
 class ProfileStateDefault extends ProfileState {
@@ -30,17 +47,18 @@ class ProfileStateDefault extends ProfileState {
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileBloc() : super(ProfileStateDefault(ProfileModel())) {
-        on<ProfileEventLoad>(_load);
-        on<ProfileEventUpdate>(_update);
-        add(ProfileEventLoad());
+    on<ProfileEventLoad>(_load);
+    on<ProfileEventUpdate>(_update);
+    on<ProfileDataEventSubmit>(_submit);
+    add(ProfileEventLoad());
   }
 
   void _load(
-    ProfileEventLoad event, Emitter<ProfileState> emit,
+    ProfileEventLoad event,
+    Emitter<ProfileState> emit,
   ) async {
     final log = Logger('talao-wallet/profile/load');
     try {
-
       final firstName =
           await SecureStorageProvider.instance.get(ProfileModel.firstNameKey) ??
               '';
@@ -75,13 +93,45 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     }
   }
 
+  void _submit(
+    ProfileDataEventSubmit event,
+    Emitter<ProfileState> emit,
+  ) async {
+    final log = Logger('talao-wallet/profile/submit');
+    try {
+      final firstName = event.model.firstName;
+      final lastName = event.model.lastName;
+      final phone = event.model.phone;
+      final location = event.model.location;
+      final email = event.model.email;
+
+      final did = DIDKitProvider.instance.keyToDID('key', event.key);
+
+      final selfIssued = SelfIssued('', 'SelfIssued', location, lastName,
+          firstName, phone, email, Author('', ''), did);
+
+      final credential = selfIssued.toJson();
+
+      final vc = await CreateCredential(
+          credential: credential, options: {}, key: event.key);
+
+      emit(ProfileStateSubmitted(StateMessage.success(vc)));
+    } catch (e) {
+      log.severe('something went wrong', e);
+
+      emit(ProfileStateMessage(
+          StateMessage.error('Failed to submit profile data. '
+              'Check the logs for more information.')));
+    }
+  }
+
   void _update(
-    ProfileEventUpdate event, Emitter<ProfileState> emit,
+    ProfileEventUpdate event,
+    Emitter<ProfileState> emit,
   ) async {
     final log = Logger('talao-wallet/profile/update');
 
     try {
-
       await SecureStorageProvider.instance.set(
         ProfileModel.firstNameKey,
         event.model.firstName,

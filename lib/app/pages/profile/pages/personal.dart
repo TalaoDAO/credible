@@ -57,7 +57,7 @@ class _PersonalPageState extends State<PersonalPage> {
         child: Icon(
           Icons.qr_code_scanner_rounded,
           size: 24.0,
-          semanticLabel: 'Scan QR for create credential from profile',
+          semanticLabel: 'Submit profile data to DidKit',
         ),
       ),
       titleTrailing: InkWell(

@@ -15,6 +15,7 @@ SelfIssued _$SelfIssuedFromJson(Map<String, dynamic> json) => SelfIssued(
       json['telephone'] as String? ?? '',
       json['email'] as String? ?? '',
       CredentialSubject.fromJsonAuthor(json['issuedBy']),
+      json['issuer'] as String? ?? '',
     );
 
 Map<String, dynamic> _$SelfIssuedToJson(SelfIssued instance) =>
@@ -27,4 +28,5 @@ Map<String, dynamic> _$SelfIssuedToJson(SelfIssued instance) =>
       'givenName': instance.givenName,
       'telephone': instance.telephone,
       'email': instance.email,
+      'issuer': instance.issuer,
     };

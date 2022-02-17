@@ -24,12 +24,14 @@ class SelfIssued extends CredentialSubject {
   final String telephone;
   @JsonKey(defaultValue: '')
   final String email;
+  @JsonKey(defaultValue: '')
+  final String issuer;
 
   factory SelfIssued.fromJson(Map<String, dynamic> json) =>
       _$SelfIssuedFromJson(json);
 
   SelfIssued(this.id, this.type, this.address, this.familyName, this.givenName,
-      this.telephone, this.email, this.issuedBy)
+      this.telephone, this.email, this.issuedBy,this.issuer)
       : super(id, type, issuedBy);
 
   @override
