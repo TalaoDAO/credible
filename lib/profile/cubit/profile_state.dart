@@ -2,28 +2,24 @@ part of 'profile_cubit.dart';
 
 @JsonSerializable()
 class ProfileState extends Equatable {
-  ProfileState({this.stateMessage, this.profileModel});
+  ProfileState({this.message, this.model});
 
   // factory ProfileState.fromJson(Map<String, dynamic> json) =>
   //     _$ProfileStateFromJson(json);
 
-  final ProfileModel? profileModel;
-  final StateMessage? stateMessage;
+  final ProfileModel? model;
+  final StateMessage? message;
 
   //Map<String, dynamic> toJson() => _$ProfileStateToJson(this);
 
   @override
-  List<Object?> get props => [profileModel, stateMessage];
+  List<Object?> get props => [model, message];
 }
 
 class ProfileStateMessage extends ProfileState {
-  final StateMessage? message;
-
-  ProfileStateMessage({this.message});
+  ProfileStateMessage({StateMessage? message}) : super(message: message);
 }
 
 class ProfileStateDefault extends ProfileState {
-  final ProfileModel? model;
-
-  ProfileStateDefault({this.model});
+  ProfileStateDefault({ProfileModel? model}) : super(model: model);
 }

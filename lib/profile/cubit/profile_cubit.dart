@@ -15,7 +15,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   final SecureStorageProvider? secureStorageProvider;
 
   ProfileCubit({this.secureStorageProvider})
-      : super(ProfileStateDefault(model: ProfileModel.empty)){
+      : super(ProfileState(model: ProfileModel.empty)){
     load();
   }
 
