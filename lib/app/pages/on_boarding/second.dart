@@ -1,12 +1,13 @@
 import 'package:talao/app/pages/on_boarding/third.dart';
 import 'package:talao/app/pages/on_boarding/tos.dart';
+import 'package:talao/app/shared/router.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OnBoardingSecondPage extends StatefulWidget {
-  static Route route() => MaterialPageRoute(
+  static Route route() => RightToLeftRoute(
         builder: (context) => OnBoardingSecondPage(),
       );
 

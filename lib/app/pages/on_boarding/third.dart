@@ -1,4 +1,5 @@
 import 'package:talao/app/pages/on_boarding/tos.dart';
+import 'package:talao/app/shared/router.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,7 @@ class OnBoardingThirdPage extends StatelessWidget {
   var animate = true;
 
   static Route route() =>
-      MaterialPageRoute(builder: (context) => OnBoardingThirdPage());
+      RightToLeftRoute(builder: (context) => OnBoardingThirdPage());
 
   @override
   Widget build(BuildContext context) {
