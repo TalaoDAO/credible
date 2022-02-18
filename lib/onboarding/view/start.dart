@@ -1,14 +1,14 @@
-import 'package:talao/app/pages/on_boarding/tos.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:talao/l10n/l10n.dart';
 import 'package:talao/onboarding/onboarding.dart';
 
 class OnBoardingStartPage extends StatefulWidget {
   static Route route() {
     return MaterialPageRoute<void>(
       builder: (context) => OnBoardingStartPage(),
+      settings: RouteSettings(name: '/onBoardingFirstPage'),
     );
   }
 
@@ -21,7 +21,7 @@ class _OnBoardingStartPageState extends State<OnBoardingStartPage> {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
     return WillPopScope(
       onWillPop: () async => false,
       child: GestureDetector(
@@ -52,7 +52,7 @@ class _OnBoardingStartPageState extends State<OnBoardingStartPage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  localizations.appPresentation1,
+                  l10n.appPresentation1,
                   style: Theme.of(context).textTheme.bodyText1,
                   textAlign: TextAlign.justify,
                 ),
@@ -111,7 +111,7 @@ class _OnBoardingStartPageState extends State<OnBoardingStartPage> {
                         Navigator.of(context)
                             .pushReplacement(OnBoardingTosPage.route());
                       },
-                      child: Text(localizations.onBoardingStartButton),
+                      child: Text(l10n.onBoardingStartButton),
                     )
                   ],
                 ),
