@@ -1,47 +1,58 @@
 import 'package:talao/app/pages/on_boarding/tos.dart';
-import 'package:talao/app/shared/router.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:talao/onboarding/onboarding.dart';
 
-// ignore: must_be_immutable
-class OnBoardingThirdPage extends StatelessWidget {
+class OnBoardingStartPage extends StatefulWidget {
+  static Route route() {
+    return MaterialPageRoute<void>(
+      builder: (context) => OnBoardingStartPage(),
+    );
+  }
+
+  @override
+  State<OnBoardingStartPage> createState() => _OnBoardingStartPageState();
+}
+
+class _OnBoardingStartPageState extends State<OnBoardingStartPage> {
   var animate = true;
-
-  static Route route() =>
-      RightToLeftRoute(builder: (context) => OnBoardingThirdPage());
 
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
-    return GestureDetector(
-      onTap: () {
-        Navigator.of(context).pop();
-      },
-      onHorizontalDragUpdate: (drag) async {
-        if (animate && drag.delta.dx > 2) {
-          Navigator.of(context).pop();
-          disableAnimation();
-        }
-      },
-      child: BasePage(
-          backgroundColor: Theme.of(context).colorScheme.surface,
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: GestureDetector(
+        onTap: () async {
+          await Navigator.of(context).push(OnBoardingSecondPage.route());
+        },
+        onHorizontalDragUpdate: (drag) async {
+          if (animate && drag.delta.dx < -2) {
+            disableAnimation();
+            await Navigator.of(context).push(
+              OnBoardingSecondPage.route(),
+            );
+          }
+        },
+        child: BasePage(
           scrollView: true,
+          backgroundColor: Theme.of(context).colorScheme.surface,
           body: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Image.asset(
-                  'assets/image/slide_3.png',
+                  'assets/image/slide_1.png',
                   height: 200,
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  localizations.appPresentation3,
+                  localizations.appPresentation1,
                   style: Theme.of(context).textTheme.bodyText1,
                   textAlign: TextAlign.justify,
                 ),
@@ -68,25 +79,25 @@ class OnBoardingThirdPage extends StatelessWidget {
                         children: [
                           Icon(
                             Icons.circle,
-                            color: Theme.of(context)
-                                .colorScheme
-                                .secondary
-                                .withOpacity(0.2),
-                            size: 15,
-                          ),
-                          SizedBox(width: 10),
-                          Icon(
-                            Icons.circle,
-                            color: Theme.of(context)
-                                .colorScheme
-                                .secondary
-                                .withOpacity(0.2),
-                            size: 15,
-                          ),
-                          SizedBox(width: 10),
-                          Icon(
-                            Icons.circle,
                             color: Theme.of(context).colorScheme.secondary,
+                            size: 15,
+                          ),
+                          SizedBox(width: 10),
+                          Icon(
+                            Icons.circle,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .secondary
+                                .withOpacity(0.2),
+                            size: 15,
+                          ),
+                          SizedBox(width: 10),
+                          Icon(
+                            Icons.circle,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .secondary
+                                .withOpacity(0.2),
                             size: 15,
                           ),
                         ],
@@ -106,7 +117,9 @@ class OnBoardingThirdPage extends StatelessWidget {
                 ),
               ),
             ),
-          )),
+          ),
+        ),
+      ),
     );
   }
 

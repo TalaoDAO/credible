@@ -1,7 +1,7 @@
-import 'package:talao/app/pages/on_boarding/start.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:talao/onboarding/onboarding.dart';
 
 MaterialApp _appWithHomeScreen(final WidgetTester tester) {
   return MaterialApp(

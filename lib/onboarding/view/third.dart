@@ -1,4 +1,3 @@
-import 'package:talao/app/pages/on_boarding/third.dart';
 import 'package:talao/app/pages/on_boarding/tos.dart';
 import 'package:talao/app/shared/router.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
@@ -6,33 +5,28 @@ import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class OnBoardingSecondPage extends StatefulWidget {
-  static Route route() => RightToLeftRoute(
-        builder: (context) => OnBoardingSecondPage(),
-      );
+class OnBoardingThirdPage extends StatefulWidget {
+  static Route route() =>
+      RightToLeftRoute(builder: (context) => OnBoardingThirdPage());
 
   @override
-  State<OnBoardingSecondPage> createState() => _OnBoardingSecondPageState();
+  State<OnBoardingThirdPage> createState() => _OnBoardingThirdPageState();
 }
 
-class _OnBoardingSecondPageState extends State<OnBoardingSecondPage> {
+class _OnBoardingThirdPageState extends State<OnBoardingThirdPage> {
   var animate = true;
 
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
     return GestureDetector(
+      onTap: () {
+        Navigator.of(context).pop();
+      },
       onHorizontalDragUpdate: (drag) async {
-        if (animate) {
-          if (drag.delta.dx > 2) {
-            Navigator.of(context).pop();
-            disableAnimation();
-          }
-
-          if (drag.delta.dx < -2) {
-            disableAnimation();
-            await Navigator.of(context).push(OnBoardingThirdPage.route());
-          }
+        if (animate && drag.delta.dx > 2) {
+          Navigator.of(context).pop();
+          disableAnimation();
         }
       },
       child: BasePage(
@@ -44,14 +38,14 @@ class _OnBoardingSecondPageState extends State<OnBoardingSecondPage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Image.asset(
-                  'assets/image/slide_2.png',
+                  'assets/image/slide_3.png',
                   height: 200,
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  localizations.appPresentation2,
+                  localizations.appPresentation3,
                   style: Theme.of(context).textTheme.bodyText1,
                   textAlign: TextAlign.justify,
                 ),
@@ -87,16 +81,16 @@ class _OnBoardingSecondPageState extends State<OnBoardingSecondPage> {
                           SizedBox(width: 10),
                           Icon(
                             Icons.circle,
-                            color: Theme.of(context).colorScheme.secondary,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .secondary
+                                .withOpacity(0.2),
                             size: 15,
                           ),
                           SizedBox(width: 10),
                           Icon(
                             Icons.circle,
-                            color: Theme.of(context)
-                                .colorScheme
-                                .secondary
-                                .withOpacity(0.2),
+                            color: Theme.of(context).colorScheme.secondary,
                             size: 15,
                           ),
                         ],
