@@ -16,4 +16,7 @@ abstract class SecureStorageProvider {
 
   Future<void> delete(String key);
 
+  Future<Map<String, dynamic>> getAllValues();
+
+  Future<void> deleteAll();
 }
