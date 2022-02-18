@@ -2,7 +2,8 @@ import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:flutter/material.dart';
 import 'package:talao/l10n/l10n.dart';
-import 'package:talao/onboarding/onboarding.dart';
+import 'package:talao/onboarding/second/view/onboarding_second_page.dart';
+import 'package:talao/onboarding/tos/view/onboarding_tos_page.dart';
 
 class OnBoardingStartPage extends StatefulWidget {
   static Route route() {
