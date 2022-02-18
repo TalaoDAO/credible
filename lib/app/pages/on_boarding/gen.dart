@@ -14,6 +14,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class OnBoardingGenPage extends StatefulWidget {
   static Route route() => MaterialPageRoute(
         builder: (context) => OnBoardingGenPage(),
+    settings: RouteSettings(name: '/onBoardingGenPage'),
       );
 
   @override

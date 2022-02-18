@@ -9,8 +9,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OnBoardingRecoveryPage extends StatefulWidget {
-
-static Route route() => MaterialPageRoute(builder: (context) => OnBoardingRecoveryPage());
+  static Route route() => MaterialPageRoute(
+        builder: (context) => OnBoardingRecoveryPage(),
+        settings: RouteSettings(name: '/onBoardingKeyPage'),
+      );
 
   static const _padding = EdgeInsets.symmetric(
     horizontal: 16.0,
@@ -82,7 +84,8 @@ class _OnBoardingRecoveryPageState extends State<OnBoardingRecoveryPage> {
                       mnemonicController.text,
                     );
 
-                    await Navigator.of(context).pushReplacement(OnBoardingGenPage.route());
+                    await Navigator.of(context)
+                        .pushReplacement(OnBoardingGenPage.route());
                   }
                 : null,
             child: Text(localizations.onBoardingRecoveryButton),
