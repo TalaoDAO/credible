@@ -8,12 +8,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talao/drawer/global_information/view/global_information_page.dart';
 import 'package:talao/drawer/personal/view/personal_page.dart';
 import 'package:talao/drawer/privacy/view/privacy.dart';
-import 'package:talao/drawer/profile/cubit/profile_cubit.dart';
-import 'package:talao/drawer/profile/models/profile.dart';
 import 'package:talao/drawer/recovery/view/recovery_page.dart';
 import 'package:talao/drawer/terms/view/terms_page.dart';
 import 'package:talao/drawer/theme/view/theme_page.dart';
 import 'package:talao/l10n/l10n.dart';
+import 'package:talao/profile/cubit/profile_cubit.dart';
+import 'package:talao/profile/models/profile.dart';
 import 'package:talao/theme/theme.dart';
 
 import 'widget/menu_item.dart';

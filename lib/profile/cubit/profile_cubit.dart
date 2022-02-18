@@ -5,7 +5,7 @@ import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/shared/constants.dart';
 import 'package:talao/app/shared/model/message.dart';
 import 'package:logging/logging.dart';
-import 'package:talao/drawer/profile/models/profile.dart';
+import 'package:talao/profile/models/models.dart';
 
 part 'profile_state.dart';
 

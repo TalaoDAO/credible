@@ -14,7 +14,7 @@ import 'package:talao/onboarding/key/onboarding_key.dart';
 class OnBoardingGenPage extends StatefulWidget {
   static Route route() => MaterialPageRoute(
         builder: (context) => OnBoardingGenPage(),
-    settings: RouteSettings(name: '/onBoardingGenPage'),
+        settings: RouteSettings(name: '/onBoardingGenPage'),
       );
 
   @override
@@ -40,7 +40,7 @@ class _OnBoardingGenPageState extends State<OnBoardingGenPage> {
       await SecureStorageProvider.instance.set('key', key);
       context.read<WalletBloc>().readyWalletBlocList();
       await Navigator.of(context).pushAndRemoveUntil(
-          CredentialsList.route(), ModalRoute.withName('/splash'));
+          CredentialsList.route(), (Route<dynamic> route) => false);
     } catch (error) {
       log.severe('something went wrong when generating a key', error);
 
