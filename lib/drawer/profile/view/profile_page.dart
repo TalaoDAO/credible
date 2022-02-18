@@ -57,8 +57,8 @@ class ProfileView extends StatelessWidget {
                 MenuItem(
                   icon: Icons.person,
                   title: l10n.personalTitle,
-                  onTap: () =>
-                      Navigator.of(context).push(PersonalPage.route(model)),
+                  onTap: () => Navigator.of(context).push(PersonalPage.route(
+                      profileModel: model, isFromOnBoarding: false)),
                 ),
                 MenuItem(
                   icon: Icons.receipt_long,

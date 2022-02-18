@@ -14,7 +14,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/deep_link/cubit/deep_link.dart';
 import 'package:talao/drawer/drawer.dart';
-import 'package:talao/drawer/profile/cubit/profile_cubit.dart';
 import 'package:talao/query_by_example/query_by_example.dart';
 import 'package:talao/theme/theme.dart';
 import 'pages/credentials/blocs/wallet.dart';
