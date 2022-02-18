@@ -32,7 +32,8 @@
     "revoked",
     "ok",
     "unavailable_feature_title",
-    "unavailable_feature_message"
+    "unavailable_feature_message",
+    "personalSkip"
   ],
 
   "es": [
@@ -68,7 +69,8 @@
     "revoked",
     "ok",
     "unavailable_feature_title",
-    "unavailable_feature_message"
+    "unavailable_feature_message",
+    "personalSkip"
   ],
 
   "fr": [
@@ -79,7 +81,8 @@
     "revoked",
     "ok",
     "unavailable_feature_title",
-    "unavailable_feature_message"
+    "unavailable_feature_message",
+    "personalSkip"
   ],
 
   "it": [
@@ -117,6 +120,7 @@
     "revoked",
     "ok",
     "unavailable_feature_title",
-    "unavailable_feature_message"
+    "unavailable_feature_message",
+    "personalSkip"
   ]
 }

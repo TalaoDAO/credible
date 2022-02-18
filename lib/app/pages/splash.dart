@@ -8,13 +8,13 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:talao/app/pages/credentials/blocs/scan.dart';
 import 'package:talao/app/pages/credentials/blocs/wallet.dart';
 import 'package:talao/app/pages/credentials/pages/list.dart';
-import 'package:talao/app/pages/on_boarding/start.dart';
 import 'package:talao/app/pages/qr_code/bloc/qrcode.dart';
 import 'package:talao/app/pages/qr_code/check_host.dart';
 import 'package:talao/app/pages/qr_code/is_issuer_approved.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/brand.dart';
 import 'package:talao/deep_link/deep_link.dart';
+import 'package:talao/onboarding/onboarding.dart';
 import 'package:talao/theme/theme.dart';
 import 'package:uni_links/uni_links.dart';
 
