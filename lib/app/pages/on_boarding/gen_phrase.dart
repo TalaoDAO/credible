@@ -13,6 +13,7 @@ import 'package:logging/logging.dart';
 class OnBoardingGenPhrasePage extends StatefulWidget {
   static Route route() => MaterialPageRoute(
         builder: (context) => OnBoardingGenPhrasePage(),
+    settings: RouteSettings(name: '/onBoardingGenPhrasePage'),
       );
 
   @override

@@ -12,6 +12,7 @@ import 'package:talao/l10n/l10n.dart';
 class OnBoardingTosPage extends StatelessWidget {
   static Route route() => MaterialPageRoute(
         builder: (context) => OnBoardingTosPage(),
+        settings: RouteSettings(name: '/onBoardingTermsPage'),
       );
 
   @override
