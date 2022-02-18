@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
+import 'package:talao/drawer/theme/view/widget/theme_item.dart';
 import 'package:talao/theme/cubit/theme_cubit.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:talao/theme/view/widget/theme_item.dart';
 
 class ThemePage extends StatelessWidget {
   static Route route(ThemeCubit themeCubit) => MaterialPageRoute(

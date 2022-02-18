@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:talao/profile/profile.dart';
+import 'package:talao/drawer/profile/cubit/profile_cubit.dart';
 
 class IssuerVerificationSetting extends StatelessWidget {
   const IssuerVerificationSetting({Key? key}) : super(key: key);
