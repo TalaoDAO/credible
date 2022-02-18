@@ -11,6 +11,7 @@ import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/info_dialog.dart';
 import 'package:talao/deep_link/cubit/deep_link.dart';
 import 'package:talao/drawer/drawer.dart';
+import 'package:talao/profile/view/profile_page.dart';
 
 class CredentialsList extends StatefulWidget {
   const CredentialsList({
