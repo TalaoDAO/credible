@@ -6,7 +6,7 @@ import 'package:talao/app/interop/check_issuer/models/issuer.dart';
 import 'package:talao/app/interop/network/network_client.dart';
 import 'package:talao/app/shared/constants.dart';
 import 'package:talao/app/shared/error_handler/error_handler.dart';
-import 'package:talao/profile/profile.dart';
+import 'package:talao/drawer/drawer.dart';
 
 Future<Issuer> isApprovedIssuer(Uri uri, BuildContext context) async {
   final client = DioClient(Constants.checkIssuerServerUrl, Dio());
