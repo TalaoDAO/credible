@@ -21,10 +21,13 @@ class CredentialsRepository {
 
   Future<List<CredentialModel>> findAll(/* dynamic filters */) async {
     final data = await _secureStorageProvider.getAllValues();
+
+    /// Substring's end needs to be < data.length
+    data.removeWhere((key, value) => key.length < 12);
     data.removeWhere((key, value) => key.substring(0, 11) != 'credential/');
     var _credentialList = <CredentialModel>[];
     data.forEach((key, value) {
-      _credentialList.add(CredentialModel.fromJson((value)));
+      _credentialList.add(CredentialModel.fromJson((json.decode(value))));
     });
 
     return _credentialList;
