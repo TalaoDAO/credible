@@ -3,7 +3,8 @@ import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:flutter/material.dart';
 import 'package:talao/l10n/l10n.dart';
-import 'package:talao/onboarding/onboarding.dart';
+import 'package:talao/onboarding/third/view/onboarding_third_page.dart';
+import 'package:talao/onboarding/tos/view/onboarding_tos_page.dart';
 
 class OnBoardingSecondPage extends StatefulWidget {
   static Route route() => RightToLeftRoute(

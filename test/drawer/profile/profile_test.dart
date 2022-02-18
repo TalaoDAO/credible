@@ -3,10 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:bloc_test/bloc_test.dart';
-import 'package:talao/profile/profile.dart';
+import 'package:talao/drawer/drawer.dart';
 import 'package:talao/theme/theme.dart';
 
-import '../../../helper/pump_app.dart';
+import '../../helper/pump_app.dart';
+
 
 class MockProfileCubit extends MockCubit<ProfileState> implements ProfileCubit {
 }

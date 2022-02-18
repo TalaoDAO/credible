@@ -2,7 +2,8 @@ import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:flutter/material.dart';
 import 'package:talao/l10n/l10n.dart';
-import 'package:talao/onboarding/onboarding.dart';
+import 'package:talao/onboarding/gen_phrase/view/onboarding_gen_phrase.dart';
+import 'package:talao/onboarding/recovery/view/onboarding_recovery.dart';
 
 class OnBoardingKeyPage extends StatelessWidget {
   static Route route() => MaterialPageRoute(
