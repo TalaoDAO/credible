@@ -16,8 +16,6 @@ class OnBoardingStartPage extends StatefulWidget {
   State<OnBoardingStartPage> createState() => _OnBoardingStartPageState();
 }
 
-enum TransitionDirection { leftToRight, rightToLeft }
-
 class _OnBoardingStartPageState extends State<OnBoardingStartPage> {
   var animate = true;
   @override
