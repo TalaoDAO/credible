@@ -2,7 +2,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/pages/credentials/blocs/wallet.dart';
 import 'package:talao/app/pages/credentials/pages/list.dart';
-import 'package:talao/app/pages/on_boarding/key.dart';
 import 'package:talao/app/shared/key_generation.dart';
 import 'package:talao/app/shared/ui/theme.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
@@ -10,6 +9,7 @@ import 'package:talao/app/shared/widget/spinner.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:talao/onboarding/key/onboarding_key.dart';
 
 class OnBoardingGenPage extends StatefulWidget {
   static Route route() => MaterialPageRoute(

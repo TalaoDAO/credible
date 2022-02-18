@@ -1,24 +1,23 @@
-import 'package:talao/app/pages/on_boarding/gen_phrase.dart';
-import 'package:talao/app/pages/on_boarding/recovery.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:talao/l10n/l10n.dart';
+import 'package:talao/onboarding/onboarding.dart';
 
 class OnBoardingKeyPage extends StatelessWidget {
   static Route route() => MaterialPageRoute(
         builder: (context) => OnBoardingKeyPage(),
-    settings: RouteSettings(name: '/onBoardingKeyPage'),
+        settings: RouteSettings(name: '/onBoardingKeyPage'),
       );
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
 
     return WillPopScope(
       onWillPop: () async => false,
       child: BasePage(
-        title: localizations.onBoardingKeyTitle,
+        title: l10n.onBoardingKeyTitle,
         scrollView: false,
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -29,13 +28,13 @@ class OnBoardingKeyPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
                   Text(
-                    localizations.keyRecoveryTitle,
+                    l10n.keyRecoveryTitle,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.subtitle1,
                   ),
                   const SizedBox(height: 32.0),
                   Text(
-                    localizations.keyRecoveryText,
+                    l10n.keyRecoveryText,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyText1,
                   ),
@@ -46,7 +45,7 @@ class OnBoardingKeyPage extends StatelessWidget {
                       Navigator.of(context)
                           .push(OnBoardingRecoveryPage.route());
                     },
-                    child: Text(localizations.onBoardingKeyRecover),
+                    child: Text(l10n.onBoardingKeyRecover),
                   ),
                 ],
               ),
@@ -57,13 +56,13 @@ class OnBoardingKeyPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
                   Text(
-                    localizations.keyGenerateTitle,
+                    l10n.keyGenerateTitle,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.subtitle1,
                   ),
                   const SizedBox(height: 32.0),
                   Text(
-                    localizations.keyGenerateText,
+                    l10n.keyGenerateText,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyText1,
                   ),
@@ -74,7 +73,7 @@ class OnBoardingKeyPage extends StatelessWidget {
                       Navigator.of(context)
                           .push(OnBoardingGenPhrasePage.route());
                     },
-                    child: Text(localizations.onBoardingKeyGenerate),
+                    child: Text(l10n.onBoardingKeyGenerate),
                   ),
                 ],
               ),
