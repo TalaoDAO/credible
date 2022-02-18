@@ -1,13 +1,13 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:logging/logging.dart';
-import 'package:talao/app/pages/on_boarding/key.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:flutter/material.dart';
 import 'package:talao/app/shared/widget/spinner.dart';
 import 'package:talao/l10n/l10n.dart';
+import 'package:talao/onboarding/key/onboarding_key.dart';
 
 class OnBoardingTosPage extends StatelessWidget {
   static Route route() => MaterialPageRoute(
