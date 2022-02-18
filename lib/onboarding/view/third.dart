@@ -1,13 +1,15 @@
-import 'package:talao/app/pages/on_boarding/tos.dart';
 import 'package:talao/app/shared/router.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:talao/l10n/l10n.dart';
+import 'package:talao/onboarding/onboarding.dart';
 
 class OnBoardingThirdPage extends StatefulWidget {
-  static Route route() =>
-      RightToLeftRoute(builder: (context) => OnBoardingThirdPage());
+  static Route route() => RightToLeftRoute(
+        builder: (context) => OnBoardingThirdPage(),
+        settings: RouteSettings(name: '/onBoardingThirdPage'),
+      );
 
   @override
   State<OnBoardingThirdPage> createState() => _OnBoardingThirdPageState();
@@ -18,7 +20,7 @@ class _OnBoardingThirdPageState extends State<OnBoardingThirdPage> {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
     return GestureDetector(
       onTap: () {
         Navigator.of(context).pop();
@@ -45,7 +47,7 @@ class _OnBoardingThirdPageState extends State<OnBoardingThirdPage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  localizations.appPresentation3,
+                  l10n.appPresentation3,
                   style: Theme.of(context).textTheme.bodyText1,
                   textAlign: TextAlign.justify,
                 ),
@@ -104,7 +106,7 @@ class _OnBoardingThirdPageState extends State<OnBoardingThirdPage> {
                         Navigator.of(context)
                             .pushReplacement(OnBoardingTosPage.route());
                       },
-                      child: Text(localizations.onBoardingStartButton),
+                      child: Text(l10n.onBoardingStartButton),
                     )
                   ],
                 ),
