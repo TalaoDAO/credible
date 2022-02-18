@@ -1,4 +1,4 @@
-export 'view/start.dart';
-export 'view/second.dart';
-export 'view/third.dart';
-export 'view/tos.dart';
+export 'start/onboarding_start.dart';
+export 'second/onboarding_second.dart';
+export 'third/onboarding_third.dart';
+export 'onboarding_terms/onboarding_terms.dart';
