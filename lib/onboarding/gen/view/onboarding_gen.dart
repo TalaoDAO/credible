@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/pages/credentials/blocs/wallet.dart';
-import 'package:talao/app/pages/credentials/pages/list.dart';
 import 'package:talao/app/shared/key_generation.dart';
 import 'package:talao/app/shared/ui/theme.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
@@ -9,7 +8,9 @@ import 'package:talao/app/shared/widget/spinner.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:talao/drawer/profile/models/profile.dart';
 import 'package:talao/onboarding/key/onboarding_key.dart';
+import 'package:talao/personal/view/personal_page.dart';
 
 class OnBoardingGenPage extends StatefulWidget {
   static Route route() => MaterialPageRoute(
@@ -40,7 +41,9 @@ class _OnBoardingGenPageState extends State<OnBoardingGenPage> {
       await SecureStorageProvider.instance.set('key', key);
       context.read<WalletBloc>().readyWalletBlocList();
       await Navigator.of(context).pushAndRemoveUntil(
-          CredentialsList.route(), (Route<dynamic> route) => false);
+          PersonalPage.route(
+              isFromOnBoarding: true, profileModel: ProfileModel.empty),
+          (Route<dynamic> route) => false);
     } catch (error) {
       log.severe('something went wrong when generating a key', error);
 
