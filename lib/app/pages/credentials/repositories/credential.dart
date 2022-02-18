@@ -5,6 +5,7 @@ import 'package:talao/app/pages/credentials/models/credential_model.dart';
 import 'package:talao/app/pages/credentials/models/revokation_status.dart';
 
 class CredentialsRepository {
+
   CredentialsRepository(SecureStorageProvider secureStorageProvider)
       : _secureStorageProvider = secureStorageProvider;
 
