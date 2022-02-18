@@ -6,8 +6,8 @@ import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:talao/app/shared/widget/spinner.dart';
+import 'package:talao/l10n/l10n.dart';
 
 class OnBoardingTosPage extends StatelessWidget {
   static Route route() => MaterialPageRoute(
@@ -16,14 +16,14 @@ class OnBoardingTosPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
     final _log = Logger('talao-wallet/markdown_page');
 
     return WillPopScope(
       onWillPop: () async => false,
       child: BasePage(
         backgroundColor: Theme.of(context).colorScheme.background,
-        title: localizations.onBoardingTosTitle,
+        title: l10n.onBoardingTosTitle,
         scrollView: false,
         padding: EdgeInsets.zero,
         useSafeArea: false,
@@ -49,7 +49,7 @@ class OnBoardingTosPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    localizations.onBoardingTosText,
+                    l10n.onBoardingTosText,
                     style: Theme.of(context).textTheme.bodyText2,
                   ),
                   const SizedBox(height: 20.0),
@@ -59,7 +59,7 @@ class OnBoardingTosPage extends StatelessWidget {
                       Navigator.of(context)
                           .pushReplacement(OnBoardingKeyPage.route());
                     },
-                    child: Text(localizations.onBoardingTosButton),
+                    child: Text(l10n.onBoardingTosButton),
                   )
                 ],
               ),
