@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:talao/app/pages/credentials/models/revokation_status.dart';
