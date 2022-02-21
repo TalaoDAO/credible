@@ -18,7 +18,7 @@ import 'package:talao/drawer/drawer.dart';
 import 'package:talao/onboarding/gen_phrase/cubit/onboarding_gen_phrase_cubit.dart';
 import 'package:talao/query_by_example/query_by_example.dart';
 import 'package:talao/theme/theme.dart';
-import 'pages/credentials/blocs/wallet.dart';
+import 'package:talao/wallet/bloc/wallet_bloc.dart';
 import 'pages/qr_code/bloc/qrcode.dart';
 
 class AppWidget extends StatelessWidget {
@@ -71,6 +71,7 @@ class AppWidget extends StatelessWidget {
 
 class MaterialAppDefinition extends StatelessWidget {
   const MaterialAppDefinition({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

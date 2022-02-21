@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:talao/app/pages/credentials/blocs/scan.dart';
-import 'package:talao/app/pages/credentials/blocs/wallet.dart';
+import 'package:talao/wallet/wallet.dart';
 import 'package:talao/app/pages/credentials/pages/list.dart';
 import 'package:talao/app/pages/qr_code/bloc/qrcode.dart';
 import 'package:talao/app/pages/qr_code/check_host.dart';

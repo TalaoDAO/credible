@@ -46,7 +46,6 @@ class CredentialsRepository {
 
   Future<int> deleteAll() async {
     final data = await _secureStorageProvider.getAllValues();
-    print(data);
     data.removeWhere((key, value) => !key.startsWith('credential/'));
     var numberOfDeletedCredentials = 0;
     data.forEach((key, value) {

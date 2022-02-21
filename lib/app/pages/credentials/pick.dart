@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talao/app/pages/credentials/blocs/scan.dart';
-import 'package:talao/app/pages/credentials/blocs/wallet.dart';
+import 'package:talao/wallet/wallet.dart';
 import 'package:talao/app/pages/credentials/pages/list.dart';
 import 'package:talao/app/pages/credentials/widget/list_item.dart';
 import 'package:talao/app/shared/model/translation.dart';
