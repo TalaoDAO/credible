@@ -15,8 +15,10 @@ part 'onboarding_gen_phrase_cubit.g.dart';
 
 class OnBoardingGenPhraseCubit extends Cubit<OnBoardingGenPhraseState> {
   final SecureStorageProvider secureStorageProvider;
+  final KeyGeneration keyGeneration;
 
-  OnBoardingGenPhraseCubit(this.secureStorageProvider)
+  OnBoardingGenPhraseCubit(
+      {required this.secureStorageProvider, required this.keyGeneration})
       : super(OnBoardingGenPhraseState());
 
   final log = Logger('talao-wallet/on-boarding/key-generation');
@@ -24,10 +26,9 @@ class OnBoardingGenPhraseCubit extends Cubit<OnBoardingGenPhraseState> {
   Future<void> generateKey(BuildContext context, List<String> mnemonic) async {
     try {
       emit(state.copyWith(status: OnBoardingGenPhraseStatus.loading));
-      await Future.delayed(Duration(seconds: 1));
       final mnemonicFormatted = mnemonic.join('F ');
       await saveMnemonicKey(mnemonicFormatted);
-      final key = await KeyGeneration.privateKey(mnemonicFormatted);
+      final key = await keyGeneration.privateKey(mnemonicFormatted);
       await secureStorageProvider.set('key', key);
       emit(state.copyWith(status: OnBoardingGenPhraseStatus.success));
     } catch (error) {

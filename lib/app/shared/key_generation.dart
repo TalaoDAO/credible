@@ -5,7 +5,7 @@ import 'package:hex/hex.dart';
 import 'package:secp256k1/secp256k1.dart';
 
 class KeyGeneration {
-  static Future<String> privateKey(String mnemonic) async {
+  Future<String> privateKey(String mnemonic) async {
     //mnemonic - notice photo opera keen climb agent soft parrot best joke field devote
     final seed = bip39.mnemonicToSeed(
         mnemonic); //[105, 104, 114, 235, 191, 74, 81, 25, 186, 14, 224, 98, 187, 127, 45, 150, 115, 57, 174, 200, 238, 175, 36, 200, 142, 171, 91, 50, 40, 188, 126, 59, 73, 165, 227, 3, 92, 110, 15, 220, 157, 233, 140, 87, 195, 12, 91, 90, 165, 113, 52, 220, 139, 101, 206, 246, 2, 182, 24, 189, 73, 225, 195, 72]

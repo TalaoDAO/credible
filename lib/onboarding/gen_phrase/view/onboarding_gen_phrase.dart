@@ -31,22 +31,22 @@ class _OnBoardingGenPhrasePageState extends State<OnBoardingGenPhrasePage> {
       title: localizations.onBoardingGenPhraseTitle,
       titleLeading: BackLeadingButton(),
       scrollView: true,
-      body: BlocBuilder<OnBoardingGenPhraseCubit, OnBoardingGenPhraseState>(
-        // listener: (context, state) async {
-        //   if (state.status == OnBoardingGenPhraseStatus.success) {
-        //     context.read<WalletBloc>().readyWalletBlocList();
-        //     await Navigator.of(context).pushAndRemoveUntil(
-        //         PersonalPage.route(
-        //             isFromOnBoarding: true, profileModel: ProfileModel.empty),
-        //         (Route<dynamic> route) => false);
-        //   }
-        //   if (state.status == OnBoardingGenPhraseStatus.failure) {
-        //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        //       backgroundColor: state.message!.color!,
-        //       content: Text(state.message!.message!),
-        //     ));
-        //   }
-        // },
+      body: BlocConsumer<OnBoardingGenPhraseCubit, OnBoardingGenPhraseState>(
+        listener: (context, state) async {
+          if (state.status == OnBoardingGenPhraseStatus.success) {
+            context.read<WalletBloc>().readyWalletBlocList();
+            await Navigator.of(context).pushAndRemoveUntil(
+                PersonalPage.route(
+                    isFromOnBoarding: true, profileModel: ProfileModel.empty),
+                (Route<dynamic> route) => false);
+          }
+          if (state.status == OnBoardingGenPhraseStatus.failure) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              backgroundColor: state.message!.color!,
+              content: Text(state.message!.message!),
+            ));
+          }
+        },
         builder: (context, state) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,

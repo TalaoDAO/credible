@@ -8,7 +8,7 @@ void main() {
         () async {
       final mnemonic =
           'state draft moral repeat knife trend animal pretty delay collect fall adjust';
-      final generatedKey = await KeyGeneration.privateKey(mnemonic);
+      final generatedKey = await KeyGeneration().privateKey(mnemonic);
       expect(
           generatedKey,
           equals(
