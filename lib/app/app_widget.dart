@@ -71,7 +71,6 @@ class AppWidget extends StatelessWidget {
 
 class MaterialAppDefinition extends StatelessWidget {
   const MaterialAppDefinition({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

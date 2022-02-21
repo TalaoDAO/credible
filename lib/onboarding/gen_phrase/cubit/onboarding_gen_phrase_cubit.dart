@@ -26,7 +26,7 @@ class OnBoardingGenPhraseCubit extends Cubit<OnBoardingGenPhraseState> {
   Future<void> generateKey(BuildContext context, List<String> mnemonic) async {
     try {
       emit(state.copyWith(status: OnBoardingGenPhraseStatus.loading));
-      final mnemonicFormatted = mnemonic.join('F ');
+      final mnemonicFormatted = mnemonic.join(' ');
       await saveMnemonicKey(mnemonicFormatted);
       final key = await keyGeneration.privateKey(mnemonicFormatted);
       await secureStorageProvider.set('key', key);

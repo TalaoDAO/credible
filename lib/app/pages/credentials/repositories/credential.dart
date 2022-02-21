@@ -5,11 +5,11 @@ import 'package:talao/app/pages/credentials/models/credential_model.dart';
 import 'package:talao/app/pages/credentials/models/revokation_status.dart';
 
 class CredentialsRepository {
-
   CredentialsRepository(SecureStorageProvider secureStorageProvider)
       : _secureStorageProvider = secureStorageProvider;
 
   final SecureStorageProvider _secureStorageProvider;
+
   Future<void> initializeRevocationStatus() async {
     final _credentialList = await findAll();
     for (final _credential in _credentialList) {
@@ -46,7 +46,8 @@ class CredentialsRepository {
 
   Future<int> deleteAll() async {
     final data = await _secureStorageProvider.getAllValues();
-    data.removeWhere((key, value) => key.substring(0, 11) != 'credential/');
+    print(data);
+    data.removeWhere((key, value) => !key.startsWith('credential/'));
     var numberOfDeletedCredentials = 0;
     data.forEach((key, value) {
       _secureStorageProvider.delete(key);
