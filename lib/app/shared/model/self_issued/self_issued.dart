@@ -12,8 +12,6 @@ class SelfIssued extends CredentialSubject {
   final String id;
   @override
   final String type;
-  @override
-  final Author issuedBy;
   @JsonKey(defaultValue: '')
   final String address;
   @JsonKey(defaultValue: '')
@@ -31,8 +29,8 @@ class SelfIssued extends CredentialSubject {
       _$SelfIssuedFromJson(json);
 
   SelfIssued(this.id, this.type, this.address, this.familyName, this.givenName,
-      this.telephone, this.email, this.issuedBy,this.issuer)
-      : super(id, type, issuedBy);
+      this.telephone, this.email, this.issuer)
+      : super(id, type, Author('', ''));
 
   @override
   Map<String, dynamic> toJson() => _$SelfIssuedToJson(this);

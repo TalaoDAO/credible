@@ -4,9 +4,8 @@ import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/pages/profile/models/profile.dart';
 import 'package:talao/app/pages/profile/usecase/create_credential.dart';
-import 'package:talao/app/shared/model/author.dart';
 import 'package:talao/app/shared/model/message.dart';
-import 'package:talao/app/shared/model/self_issued/self_issued.dart';
+import 'package:uuid/uuid.dart';
 
 abstract class ProfileEvent {}
 
@@ -106,23 +105,82 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
       final key = (await SecureStorageProvider.instance.get('key'))!;
       final did = DIDKitProvider.instance.keyToDID('key', key);
-      final verificationMethod = DIDKitProvider.instance.keyToVerificationMethod('key', key);
+      final verificationMethod =
+          await DIDKitProvider.instance.keyToVerificationMethod('key', key);
       final options = {
         'proofPurpose': 'assertionMethod',
         'verificationMethod': verificationMethod
       };
+      final verifyOptions = {'proofPurpose': 'assertionMethod'};
 
-      final selfIssued = SelfIssued('', 'SelfIssued', location, lastName,
-          firstName, phone, email, Author('', ''), did);
+      final id = 'urn:uuid:' + Uuid().v4();
+      ;
+      final selfIssuedJson = {
+        '@context': [
+          'https://www.w3.org/2018/credentials/v1',
+          {
+            'name': 'https://schema.org/name',
+            'description': 'https://schema.org/description',
+            'SelfIssued': {
+              '@context': {
+                '@protected': true,
+                '@version': 1.1,
+                'address': 'schema:address',
+                'email': 'schema:email',
+                'familyName': 'schema:familyName',
+                'givenName': 'scheama:givenName',
+                'id': '@id',
+                'schema': 'https://schema.org/',
+                'telephone': 'schema:telephone',
+                'type': '@type'
+              },
+              '@id': 'https://github.com/TalaoDAO/context/blob/main/README.md'
+            }
+          }
+        ],
+        'id': id,
+        'type': ['VerifiableCredential', 'SelfIssued'],
+        'credentialSubject': {
+          'id': did,
+          'type': 'SelfIssued',
+          'address': location,
+          'email': email,
+          'familyName': lastName,
+          'givenName': firstName,
+          'telephone': phone,
+        },
+        'issuer': did,
+        'issuanceDate': '2022-02-12T09:14:58Z',
+        'description': [
+          {
+            '@language': 'en',
+            '@value':
+                'This signed electronic certificate has been issued by the user itself.'
+          },
+          {'@language': 'de', '@value': ''},
+          {
+            '@language': 'fr',
+            '@value':
+                "Cette attestation électronique est signée par l'utilisateur."
+          }
+        ],
+        'name': [
+          {'@language': 'en', '@value': 'Self Issued credential'},
+          {'@language': 'de', '@value': ''},
+          {'@language': 'fr', '@value': 'Attestation déclarative'}
+        ]
+      };
 
-      final credential = selfIssued.toJson();
+      final verifyResult = await CreateCredential(
+          credential: selfIssuedJson,
+          options: options,
+          verifyOptions: verifyOptions,
+          key: key);
 
-      final vc = await CreateCredential(
-          credential: credential, options: options, key: key);
-
-      emit(ProfileStateSubmitted(StateMessage.success(vc)));
-    } catch (e) {
-      log.severe('something went wrong', e);
+      emit(ProfileStateSubmitted(StateMessage.success('success')));
+    } catch (e, s) {
+      print('e: $e,s: $s');
+      log.severe('something went wrong', e, s);
 
       emit(ProfileStateMessage(
           StateMessage.error('Failed to submit profile data. '

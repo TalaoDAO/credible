@@ -8,7 +8,6 @@ import 'package:talao/app/shared/widget/base/box_decoration.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/credential_field.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
-import 'package:talao/app/shared/widget/text_field_dialog.dart';
 
 class AddCredentialPage extends StatelessWidget {
   final ProfileModel profileModel;
@@ -28,6 +27,7 @@ class AddCredentialPage extends StatelessWidget {
     return BlocListener<ProfileBloc, ProfileState>(
         listener: (_, state) {
           if (state is ProfileStateSubmitted) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message.message)));
             Navigator.of(context).pop();
           }else if(state is ProfileStateMessage) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message.message)));
