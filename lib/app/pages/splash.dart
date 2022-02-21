@@ -172,7 +172,7 @@ class _SplashPageState extends State<SplashPage> {
             if (state is ScanStateMessage) {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 backgroundColor: state.message.color,
-                content: Text(state.message.message),
+                content: Text(state.message.message!),
               ));
             }
           },

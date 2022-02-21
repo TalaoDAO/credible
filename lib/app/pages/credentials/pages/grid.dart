@@ -31,7 +31,7 @@ class CredentialsGrid extends StatelessWidget {
         if (state is ScanStateMessage) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             backgroundColor: state.message.color,
-            content: Text(state.message.message),
+            content: Text(state.message.message!),
           ));
         }
       },

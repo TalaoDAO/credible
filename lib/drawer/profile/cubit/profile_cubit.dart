@@ -9,7 +9,7 @@ import 'package:talao/drawer/profile/models/models.dart';
 
 part 'profile_state.dart';
 
-//part 'profile_cubit.g.dart';
+part 'profile_cubit.g.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
   final SecureStorageProvider? secureStorageProvider;
@@ -82,7 +82,6 @@ class ProfileCubit extends Cubit<ProfileState> {
     } catch (e) {
       log.severe('something went wrong', e);
 
-      ///todo - change m
       emit(ProfileStateMessage(
           message: StateMessage.error('Failed to save profile. '
               'Check the logs for more information.')));

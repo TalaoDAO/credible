@@ -247,8 +247,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
     } catch (e) {
       log.severe('something went wrong', e);
       if (e is ErrorHandler) {
-        emit(ScanStateMessage(
-            StateMessage.error('An error occurred', errorHandler: e)));
+        emit(ScanStateMessage(StateMessage.error('An error occurred - $e')));
       } else {
         emit(ScanStateMessage(
             StateMessage.error('Something went wrong, please try again later. '
@@ -310,8 +309,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
     } catch (e) {
       log.severe('something went wrong', e);
       if (e is ErrorHandler) {
-        emit(ScanStateMessage(
-            StateMessage.error('An error occurred', errorHandler: e)));
+        emit(ScanStateMessage(StateMessage.error('An error occurred - $e')));
       } else {
         emit(ScanStateMessage(
             StateMessage.error('Something went wrong, please try again later. '
@@ -446,8 +444,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
     } catch (e) {
       log.severe('something went wrong', e);
       if (e is ErrorHandler) {
-        emit(ScanStateMessage(
-            StateMessage.error('An error occurred', errorHandler: e)));
+        emit(ScanStateMessage(StateMessage.error('An error occurred - $e')));
       } else {
         emit(ScanStateMessage(StateMessage.error(
             'Something went wrong, please try again later. ')));
