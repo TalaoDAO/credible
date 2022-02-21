@@ -22,8 +22,9 @@ class OnBoardingGenPhraseCubit extends Cubit<OnBoardingGenPhraseState> {
   final log = Logger('talao-wallet/on-boarding/key-generation');
 
   Future<void> generateKey(BuildContext context, List<String> mnemonic) async {
-    emit(state.copyWith(status: OnBoardingGenPhraseStatus.loading));
     try {
+      emit(state.copyWith(status: OnBoardingGenPhraseStatus.loading));
+      await Future.delayed(Duration(seconds: 1));
       final mnemonicFormatted = mnemonic.join('F ');
       await saveMnemonicKey(mnemonicFormatted);
       final key = await KeyGeneration.privateKey(mnemonicFormatted);
@@ -38,8 +39,6 @@ class OnBoardingGenPhraseCubit extends Cubit<OnBoardingGenPhraseState> {
         ),
       );
     }
-
-    return;
   }
 
   Future<void> saveMnemonicKey(String mnemonic) async {

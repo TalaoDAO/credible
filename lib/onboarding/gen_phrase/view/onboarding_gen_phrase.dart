@@ -6,6 +6,7 @@ import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/mnemonic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:talao/app/shared/widget/spinner.dart';
 import 'package:talao/drawer/profile/models/profile.dart';
 import 'package:talao/onboarding/gen_phrase/cubit/onboarding_gen_phrase_cubit.dart';
 import 'package:talao/personal/view/personal_page.dart';
@@ -30,22 +31,22 @@ class _OnBoardingGenPhrasePageState extends State<OnBoardingGenPhrasePage> {
       title: localizations.onBoardingGenPhraseTitle,
       titleLeading: BackLeadingButton(),
       scrollView: true,
-      body: BlocConsumer<OnBoardingGenPhraseCubit, OnBoardingGenPhraseState>(
-        listener: (context, state) async {
-          if (state.status == OnBoardingGenPhraseStatus.success) {
-            context.read<WalletBloc>().readyWalletBlocList();
-            await Navigator.of(context).pushAndRemoveUntil(
-                PersonalPage.route(
-                    isFromOnBoarding: true, profileModel: ProfileModel.empty),
-                (Route<dynamic> route) => false);
-          }
-          if (state.status == OnBoardingGenPhraseStatus.failure) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              backgroundColor: state.message!.color!,
-              content: Text(state.message!.message!),
-            ));
-          }
-        },
+      body: BlocBuilder<OnBoardingGenPhraseCubit, OnBoardingGenPhraseState>(
+        // listener: (context, state) async {
+        //   if (state.status == OnBoardingGenPhraseStatus.success) {
+        //     context.read<WalletBloc>().readyWalletBlocList();
+        //     await Navigator.of(context).pushAndRemoveUntil(
+        //         PersonalPage.route(
+        //             isFromOnBoarding: true, profileModel: ProfileModel.empty),
+        //         (Route<dynamic> route) => false);
+        //   }
+        //   if (state.status == OnBoardingGenPhraseStatus.failure) {
+        //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        //       backgroundColor: state.message!.color!,
+        //       content: Text(state.message!.message!),
+        //     ));
+        //   }
+        // },
         builder: (context, state) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -90,14 +91,26 @@ class _OnBoardingGenPhrasePageState extends State<OnBoardingGenPhrasePage> {
                   ],
                 ),
               ),
-              BaseButton.primary(
-                context: context,
-                onPressed: () async {
-                  await context
-                      .read<OnBoardingGenPhraseCubit>()
-                      .generateKey(context, state.mnemonic);
-                },
-                child: Text(localizations.onBoardingGenPhraseButton),
+              Container(
+                height: 42,
+                child: BaseButton.primary(
+                  context: context,
+                  onPressed: state.status == OnBoardingGenPhraseStatus.loading
+                      ? null
+                      : () async {
+                          await context
+                              .read<OnBoardingGenPhraseCubit>()
+                              .generateKey(context, state.mnemonic);
+                        },
+                  child: state.status == OnBoardingGenPhraseStatus.loading
+                      ? SizedBox.fromSize(
+                          size: Size.square(30),
+                          child: Spinner(
+                            color: Theme.of(context).colorScheme.onPrimary,
+                          ),
+                        )
+                      : Text(localizations.onBoardingGenPhraseButton),
+                ),
               ),
             ],
           );
