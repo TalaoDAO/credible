@@ -45,6 +45,10 @@ class _SplashPageState extends State<SplashPage> {
         await context.read<ThemeCubit>().getCurrentTheme();
       },
     );
+    Future.delayed(
+      Duration(milliseconds: 1500),
+      () async {},
+    );
   }
 
   @override
@@ -124,23 +128,15 @@ class _SplashPageState extends State<SplashPage> {
     final localizations = AppLocalizations.of(context)!;
     return MultiBlocListener(
       listeners: [
-        BlocListener<WalletBloc, WalletBlocState>(
+        BlocListener<WalletCubit, WalletState>(
           listener: (context, state) {
-            if (state is WalletBlocListReady) {
-              Future.delayed(
-                  Duration(
-                    milliseconds: 900,
-                  ), () {
-                context
-                    .read<WalletBloc>()
-                    .convertInWalletBlocList(state.credentials);
-                Navigator.of(context).push<void>(
-                  CredentialsList.route(),
-                );
-              });
+            if (state.status == KeyStatus.unAuthenticated) {
+              //todo check Mnemonics if we skip onboarding next time
+              Navigator.of(context)
+                  .pushReplacement(OnBoardingStartPage.route());
             }
-            if (state is WalletBlocCreateKey) {
-              Navigator.of(context).push<void>(OnBoardingStartPage.route());
+            if (state.status == KeyStatus.authenticated) {
+              Navigator.of(context).push<void>(CredentialsList.route());
             }
           },
         ),

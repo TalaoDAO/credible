@@ -34,7 +34,6 @@ class _OnBoardingGenPhrasePageState extends State<OnBoardingGenPhrasePage> {
       body: BlocConsumer<OnBoardingGenPhraseCubit, OnBoardingGenPhraseState>(
         listener: (context, state) async {
           if (state.status == OnBoardingGenPhraseStatus.success) {
-            context.read<WalletBloc>().readyWalletBlocList();
             await Navigator.of(context).pushAndRemoveUntil(
                 PersonalPage.route(
                     isFromOnBoarding: true, profileModel: ProfileModel.empty),

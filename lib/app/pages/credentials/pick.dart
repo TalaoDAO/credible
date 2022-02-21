@@ -56,7 +56,7 @@ class _CredentialsPickPageState extends State<CredentialsPickPage> {
         reasonList += getTranslation(e.reason, localizations) + '\n';
       });
     }
-    return BlocBuilder<WalletBloc, WalletBlocState>(
+    return BlocBuilder<WalletCubit, WalletState>(
         builder: (builderContext, walletState) {
       return BasePage(
         title: localizations.credentialPickTitle,

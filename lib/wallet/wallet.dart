@@ -1,1 +1,1 @@
-export 'bloc/wallet_bloc.dart';
+export 'cubit/wallet_cubit.dart';

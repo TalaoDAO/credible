@@ -86,14 +86,10 @@ class _CredentialsListState extends State<CredentialsList> {
                 Navigator.of(context).push(QrCodeScanPage.route());
               }
             }),
-        body: BlocBuilder<WalletBloc, WalletBlocState>(
+        body: BlocBuilder<WalletCubit, WalletState>(
           builder: (context, state) {
             var _credentialList = <CredentialModel>[];
-            if (state is WalletBlocList) {
-              _credentialList = state.credentials;
-            } else {
-              _credentialList = [];
-            }
+            _credentialList = state.credentials;
             return Column(
               children: List.generate(
                 _credentialList.length,

@@ -14,7 +14,7 @@ class CredentialsStream extends StatelessWidget {
   const CredentialsStream({Key? key, required this.child}) : super(key: key);
   @override
   Widget build(BuildContext context) =>
-      BlocBuilder<WalletBloc, WalletBlocState>(builder: (context, walletState) {
+      BlocBuilder<WalletCubit, WalletState>(builder: (context, walletState) {
         return child(context, walletState.credentials);
       });
 }

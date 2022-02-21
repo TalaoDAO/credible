@@ -94,7 +94,7 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
         false;
 
     if (confirm) {
-      await context.read<WalletBloc>().deleteById(widget.item.id);
+      await context.read<WalletCubit>().deleteById(widget.item.id);
       Navigator.of(context).pop();
       await Navigator.of(context).pushReplacement(CredentialsList.route());
     }
@@ -122,7 +122,7 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
       oldCredentialModel: widget.item,
       newAlias: newAlias ?? '',
     );
-    await context.read<WalletBloc>().updateCredential(newCredential);
+    await context.read<WalletCubit>().updateCredential(newCredential);
     Navigator.of(context).pop();
     await Navigator.of(context).push(CredentialsDetail.route(newCredential));
   }

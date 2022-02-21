@@ -170,9 +170,9 @@ class ScanStateCHAPIAskPermissionDIDAuth extends ScanState {
 
 class ScanBloc extends Bloc<ScanEvent, ScanState> {
   final DioClient client;
-  final WalletBloc walletBloc;
+  final WalletCubit walletCubit;
 
-  ScanBloc(this.client, this.walletBloc) : super(ScanStateIdle()) {
+  ScanBloc(this.client, this.walletCubit) : super(ScanStateIdle()) {
     on<ScanEventShowPreview>((event, emit) {
       emit(ScanStatePreview(preview: event.preview));
     });
@@ -237,7 +237,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
         }
       }
 
-      await walletBloc.insertCredential(CredentialModel.copyWithData(
+      await walletCubit.insertCredential(CredentialModel.copyWithData(
           oldCredentialModel: credentialModel, newData: jsonCredential));
 
       emit(ScanStateMessage(StateMessage.success(
@@ -379,7 +379,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
         emit(ScanStateMessage(StateMessage.error('Failed to verify credential. '
             'Check the logs for more information.')));
       }
-      await walletBloc.insertCredential(vc);
+      await walletCubit.insertCredential(vc);
 
       done(vcStr);
 

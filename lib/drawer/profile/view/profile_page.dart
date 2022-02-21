@@ -126,7 +126,7 @@ class ProfileView extends StatelessWidget {
                       await SecureStorageProvider.instance
                           .delete(Constants.emailKey);
 
-                      await context.read<WalletBloc>().deleteAll();
+                      await context.read<WalletCubit>().resetWallet();
 
                       await Navigator.of(context).push(SplashPage.route());
                     }

@@ -18,7 +18,7 @@ import 'package:talao/drawer/drawer.dart';
 import 'package:talao/onboarding/gen_phrase/cubit/onboarding_gen_phrase_cubit.dart';
 import 'package:talao/query_by_example/query_by_example.dart';
 import 'package:talao/theme/theme.dart';
-import 'package:talao/wallet/bloc/wallet_bloc.dart';
+import 'package:talao/wallet/cubit/wallet_cubit.dart';
 import 'pages/qr_code/bloc/qrcode.dart';
 
 class AppWidget extends StatelessWidget {
@@ -37,15 +37,14 @@ class AppWidget extends StatelessWidget {
         BlocProvider<DeepLinkCubit>(create: (context) => DeepLinkCubit()),
         BlocProvider<QueryByExampleCubit>(
             create: (context) => QueryByExampleCubit()),
-        BlocProvider<WalletBloc>(
-            lazy: false,
-            create: (context) => WalletBloc(
-                CredentialsRepository(SecureStorageProvider.instance))
-              ..checkKey()),
+        BlocProvider<WalletCubit>(
+            create: (context) => WalletCubit(
+                  CredentialsRepository(SecureStorageProvider.instance),
+                )),
         BlocProvider<ScanBloc>(
             create: (context) => ScanBloc(
                 DioClient(Constants.checkIssuerServerUrl, Dio()),
-                context.read<WalletBloc>())),
+                context.read<WalletCubit>())),
         BlocProvider<QRCodeBloc>(
           create: (context) => QRCodeBloc(
             DioClient(Constants.checkIssuerServerUrl, Dio()),

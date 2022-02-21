@@ -15,7 +15,7 @@ class DisplayStatus extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final wallet = context.read<WalletBloc>();
+    final wallet = context.read<WalletCubit>();
     final currentRevocationStatus = item.revocationStatus;
 
     final localizations = AppLocalizations.of(context)!;
