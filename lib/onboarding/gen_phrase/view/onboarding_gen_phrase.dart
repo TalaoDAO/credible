@@ -1,15 +1,14 @@
-import 'package:bip39/bip39.dart' as bip39;
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:talao/app/interop/secure_storage/secure_storage.dart';
-import 'package:talao/app/shared/ui/theme.dart';
+import 'package:talao/app/pages/credentials/blocs/wallet.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/mnemonic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:logging/logging.dart';
+import 'package:talao/drawer/profile/models/profile.dart';
 import 'package:talao/onboarding/gen_phrase/cubit/onboarding_gen_phrase_cubit.dart';
+import 'package:talao/personal/view/personal_page.dart';
 
 class OnBoardingGenPhrasePage extends StatefulWidget {
   static Route route() => MaterialPageRoute(
@@ -26,14 +25,27 @@ class _OnBoardingGenPhrasePageState extends State<OnBoardingGenPhrasePage> {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
-    final log = Logger('talao-wallet/on-boarding/gen-phrase');
 
     return BasePage(
       title: localizations.onBoardingGenPhraseTitle,
       titleLeading: BackLeadingButton(),
       scrollView: true,
       body: BlocConsumer<OnBoardingGenPhraseCubit, OnBoardingGenPhraseState>(
-        listener: (context, state) {},
+        listener: (context, state) async {
+          if (state.status == OnBoardingGenPhraseStatus.success) {
+            context.read<WalletBloc>().readyWalletBlocList();
+            await Navigator.of(context).pushAndRemoveUntil(
+                PersonalPage.route(
+                    isFromOnBoarding: true, profileModel: ProfileModel.empty),
+                (Route<dynamic> route) => false);
+          }
+          if (state.status == OnBoardingGenPhraseStatus.failure) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              backgroundColor: state.message!.color!,
+              content: Text(state.message!.message!),
+            ));
+          }
+        },
         builder: (context, state) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -81,28 +93,9 @@ class _OnBoardingGenPhrasePageState extends State<OnBoardingGenPhrasePage> {
               BaseButton.primary(
                 context: context,
                 onPressed: () async {
-                  // try {
-                  //   log.info('will save mnemonic to secure storage');
-                  //   await SecureStorageProvider.instance.set(
-                  //     'mnemonic',
-                  //     mnemonic.join(' '),
-                  //   );
-                  //   log.info('mnemonic saved');
-                  //
-                  //   await Navigator.of(context)
-                  //       .pushReplacement(OnBoardingGenPage.route());
-                  // } catch (error) {
-                  //   log.severe(
-                  //       'error ocurred setting mnemonic to secure storate',
-                  //       error);
-                  //
-                  //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  //     backgroundColor:
-                  //         Theme.of(context).colorScheme.snackBarError,
-                  //     content:
-                  //         Text('Failed to save mnemonic, please try again'),
-                  //   ));
-                  // }
+                  await context
+                      .read<OnBoardingGenPhraseCubit>()
+                      .generateKey(context, state.mnemonic);
                 },
                 child: Text(localizations.onBoardingGenPhraseButton),
               ),

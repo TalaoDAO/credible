@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:bip39/bip39.dart' as bip39;
+import 'package:logging/logging.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
+import 'package:talao/app/shared/key_generation.dart';
+import 'package:talao/app/shared/model/message.dart';
+import 'package:talao/l10n/l10n.dart';
 
 part 'onboarding_gen_phrase_state.dart';
 
@@ -15,55 +19,41 @@ class OnBoardingGenPhraseCubit extends Cubit<OnBoardingGenPhraseState> {
   OnBoardingGenPhraseCubit(this.secureStorageProvider)
       : super(OnBoardingGenPhraseState());
 
-  Future<void> generateKey(BuildContext context) async {
-    // final log = Logger('talao-wallet/on-boarding/key-generation');
-    // final localizations = AppLocalizations.of(context)!;
-    // try {
-    //   final mnemonic = (await SecureStorageProvider.instance.get('mnemonic'))!;
-    //   final key = await KeyGeneration.privateKey(mnemonic);
-    //
-    //   await SecureStorageProvider.instance.set('key', key);
-    //   context.read<WalletBloc>().readyWalletBlocList();
-    //   await Navigator.of(context).pushAndRemoveUntil(
-    //       PersonalPage.route(
-    //           isFromOnBoarding: true, profileModel: ProfileModel.empty),
-    //           (Route<dynamic> route) => false);
-    // } catch (error) {
-    //   log.severe('something went wrong when generating a key', error);
-    //
-    //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    //     backgroundColor: Theme.of(context).colorScheme.snackBarError,
-    //     content: Text(localizations.errorGeneratingKey),
-    //   ));
-    //   await Navigator.of(context).pushReplacement(OnBoardingKeyPage.route());
-    // }
+  final log = Logger('talao-wallet/on-boarding/key-generation');
+
+  Future<void> generateKey(BuildContext context, List<String> mnemonic) async {
+    emit(state.copyWith(status: OnBoardingGenPhraseStatus.loading));
+    try {
+      final mnemonicFormatted = mnemonic.join('F ');
+      await saveMnemonicKey(mnemonicFormatted);
+      final key = await KeyGeneration.privateKey(mnemonicFormatted);
+      await secureStorageProvider.set('key', key);
+      emit(state.copyWith(status: OnBoardingGenPhraseStatus.success));
+    } catch (error) {
+      log.severe('something went wrong when generating a key', error);
+      emit(
+        state.copyWith(
+          status: OnBoardingGenPhraseStatus.failure,
+          message: StateMessage.error(context.l10n.errorGeneratingKey),
+        ),
+      );
+    }
 
     return;
   }
 
-  Future<void> saveMnemonicKey() async {
-    // try {
-    //   log.info('will save mnemonic to secure storage');
-    //   await SecureStorageProvider.instance.set(
-    //     'mnemonic',
-    //     mnemonic.join(' '),
-    //   );
-    //   log.info('mnemonic saved');
-    //
-    //   await Navigator.of(context)
-    //       .pushReplacement(OnBoardingGenPage.route());
-    // } catch (error) {
-    //   log.severe(
-    //       'error ocurred setting mnemonic to secure storate',
-    //       error);
-    //
-    //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    //     backgroundColor:
-    //         Theme.of(context).colorScheme.snackBarError,
-    //     content:
-    //         Text('Failed to save mnemonic, please try again'),
-    //   ));
-    // }
-    return;
+  Future<void> saveMnemonicKey(String mnemonic) async {
+    try {
+      log.info('will save mnemonic to secure storage');
+      await secureStorageProvider.set('mnemonic', mnemonic);
+      log.info('mnemonic saved');
+    } catch (error) {
+      log.severe('error ocurred setting mnemonic to secure storate', error);
+      emit(state.copyWith(
+        status: OnBoardingGenPhraseStatus.failure,
+        message:
+            StateMessage.error('Failed to save mnemonic, please try again'),
+      ));
+    }
   }
 }

@@ -11,8 +11,10 @@ OnBoardingGenPhraseState _$OnBoardingGenPhraseStateFromJson(
     OnBoardingGenPhraseState(
       status: $enumDecodeNullable(
               _$OnBoardingGenPhraseStatusEnumMap, json['status']) ??
-          OnBoardingGenPhraseStatus.initial,
-      errorMessage: json['errorMessage'] as String?,
+          OnBoardingGenPhraseStatus.idle,
+      message: json['message'] == null
+          ? null
+          : StateMessage.fromJson(json['message'] as Map<String, dynamic>),
       mnemonic: (json['mnemonic'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
@@ -23,11 +25,11 @@ Map<String, dynamic> _$OnBoardingGenPhraseStateToJson(
     <String, dynamic>{
       'status': _$OnBoardingGenPhraseStatusEnumMap[instance.status],
       'mnemonic': instance.mnemonic,
-      'errorMessage': instance.errorMessage,
+      'message': instance.message,
     };
 
 const _$OnBoardingGenPhraseStatusEnumMap = {
-  OnBoardingGenPhraseStatus.initial: 'initial',
+  OnBoardingGenPhraseStatus.idle: 'idle',
   OnBoardingGenPhraseStatus.loading: 'loading',
   OnBoardingGenPhraseStatus.success: 'success',
   OnBoardingGenPhraseStatus.failure: 'failure',

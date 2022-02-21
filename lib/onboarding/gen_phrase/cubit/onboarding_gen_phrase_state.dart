@@ -1,12 +1,12 @@
 part of 'onboarding_gen_phrase_cubit.dart';
 
-enum OnBoardingGenPhraseStatus { initial, loading, success, failure }
+enum OnBoardingGenPhraseStatus { idle, loading, success, failure }
 
 @JsonSerializable()
 class OnBoardingGenPhraseState extends Equatable {
   OnBoardingGenPhraseState({
-    this.status = OnBoardingGenPhraseStatus.initial,
-    this.errorMessage,
+    this.status = OnBoardingGenPhraseStatus.idle,
+    this.message,
     List<String>? mnemonic,
   }) : mnemonic = mnemonic ?? bip39.generateMnemonic().split(' ');
 
@@ -15,21 +15,21 @@ class OnBoardingGenPhraseState extends Equatable {
 
   final OnBoardingGenPhraseStatus status;
   final List<String> mnemonic;
-  final String? errorMessage;
+  final StateMessage? message;
 
   OnBoardingGenPhraseState copyWith(
       {OnBoardingGenPhraseStatus? status,
       List<String>? mnemonic,
-      String? errorMessage}) {
+      StateMessage? message}) {
     return OnBoardingGenPhraseState(
       status: status ?? this.status,
       mnemonic: mnemonic ?? this.mnemonic,
-      errorMessage: errorMessage ?? this.errorMessage,
+      message: message ?? this.message,
     );
   }
 
   Map<String, dynamic> toJson() => _$OnBoardingGenPhraseStateToJson(this);
 
   @override
-  List<Object?> get props => [status, mnemonic, errorMessage];
+  List<Object?> get props => [status, mnemonic, message];
 }
