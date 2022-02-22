@@ -1,7 +1,6 @@
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/wallet/wallet.dart';
 import 'package:talao/app/shared/constants.dart';
-import 'package:talao/app/pages/splash.dart';
 import 'package:talao/app/shared/widget/confirm_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -127,8 +126,6 @@ class ProfileView extends StatelessWidget {
                           .delete(Constants.emailKey);
 
                       await context.read<WalletCubit>().resetWallet();
-
-                      await Navigator.of(context).push(SplashPage.route());
                     }
                   },
                 ),
