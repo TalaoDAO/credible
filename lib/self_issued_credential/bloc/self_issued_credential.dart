@@ -19,6 +19,7 @@ class SelfIssuedCredentialState with _$SelfIssuedCredentialState {
   const factory SelfIssuedCredentialState.loading() = Loading;
 
   const factory SelfIssuedCredentialState.error(String message) = Error;
+  const factory SelfIssuedCredentialState.warning(String message) = Warning;
 
   const factory SelfIssuedCredentialState.credentialCreated() =
       CredentialCreated;
@@ -70,9 +71,26 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
           jsonEncode(selfIssuedCredential.toJson()), jsonEncode(options), key);
       final result = await DIDKitProvider.instance
           .verifyCredential(vc, jsonEncode(verifyOptions));
-      final verifyResult = jsonDecode(result);
+      final jsonVerification = jsonDecode(result);
 
-      log.info('verifyResult: ${verifyResult.toString()}');
+      if (jsonVerification['warnings'].isNotEmpty) {
+        log.warning('credential verification return warnings',
+            jsonVerification['warnings']);
+
+        emit(SelfIssuedCredentialState.warning(
+            'Credential verification returned some warnings. '
+            'Check the logs for more information.'));
+      }
+
+      if (jsonVerification['errors'].isNotEmpty) {
+        log.severe('failed to verify credential', jsonVerification['errors']);
+        if (jsonVerification['errors'][0] != 'No applicable proof') {
+          emit(SelfIssuedCredentialState.error('Failed to verify credential. '
+              'Check the logs for more information.'));
+        }
+      }
+
+      log.info('verifyResult: ${jsonVerification.toString()}');
 
       emit(const SelfIssuedCredentialState.credentialCreated());
     } catch (e, s) {

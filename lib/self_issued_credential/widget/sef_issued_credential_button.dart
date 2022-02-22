@@ -47,6 +47,10 @@ class SelfIssuedCredentialButton extends StatelessWidget {
               ScaffoldMessenger.of(ctx)
                   .showSnackBar(SnackBar(content: Text(message)));
             },
+            warning: (message) {
+              ScaffoldMessenger.of(ctx)
+                  .showSnackBar(SnackBar(content: Text(message)));
+            },
             credentialCreated: () {
               //todo move the text to AppLocalization
               ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(

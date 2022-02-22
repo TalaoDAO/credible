@@ -32,6 +32,12 @@ class _$SelfIssuedCredentialStateTearOff {
     );
   }
 
+  Warning warning(String message) {
+    return Warning(
+      message,
+    );
+  }
+
   CredentialCreated credentialCreated() {
     return const CredentialCreated();
   }
@@ -47,6 +53,7 @@ mixin _$SelfIssuedCredentialState {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(String message) error,
+    required TResult Function(String message) warning,
     required TResult Function() credentialCreated,
   }) =>
       throw _privateConstructorUsedError;
@@ -55,6 +62,7 @@ mixin _$SelfIssuedCredentialState {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(String message)? error,
+    TResult Function(String message)? warning,
     TResult Function()? credentialCreated,
   }) =>
       throw _privateConstructorUsedError;
@@ -63,6 +71,7 @@ mixin _$SelfIssuedCredentialState {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(String message)? error,
+    TResult Function(String message)? warning,
     TResult Function()? credentialCreated,
     required TResult orElse(),
   }) =>
@@ -72,6 +81,7 @@ mixin _$SelfIssuedCredentialState {
     required TResult Function(Initial value) initial,
     required TResult Function(Loading value) loading,
     required TResult Function(Error value) error,
+    required TResult Function(Warning value) warning,
     required TResult Function(CredentialCreated value) credentialCreated,
   }) =>
       throw _privateConstructorUsedError;
@@ -80,6 +90,7 @@ mixin _$SelfIssuedCredentialState {
     TResult Function(Initial value)? initial,
     TResult Function(Loading value)? loading,
     TResult Function(Error value)? error,
+    TResult Function(Warning value)? warning,
     TResult Function(CredentialCreated value)? credentialCreated,
   }) =>
       throw _privateConstructorUsedError;
@@ -88,6 +99,7 @@ mixin _$SelfIssuedCredentialState {
     TResult Function(Initial value)? initial,
     TResult Function(Loading value)? loading,
     TResult Function(Error value)? error,
+    TResult Function(Warning value)? warning,
     TResult Function(CredentialCreated value)? credentialCreated,
     required TResult orElse(),
   }) =>
@@ -153,6 +165,7 @@ class _$Initial implements Initial {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(String message) error,
+    required TResult Function(String message) warning,
     required TResult Function() credentialCreated,
   }) {
     return initial();
@@ -164,6 +177,7 @@ class _$Initial implements Initial {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(String message)? error,
+    TResult Function(String message)? warning,
     TResult Function()? credentialCreated,
   }) {
     return initial?.call();
@@ -175,6 +189,7 @@ class _$Initial implements Initial {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(String message)? error,
+    TResult Function(String message)? warning,
     TResult Function()? credentialCreated,
     required TResult orElse(),
   }) {
@@ -190,6 +205,7 @@ class _$Initial implements Initial {
     required TResult Function(Initial value) initial,
     required TResult Function(Loading value) loading,
     required TResult Function(Error value) error,
+    required TResult Function(Warning value) warning,
     required TResult Function(CredentialCreated value) credentialCreated,
   }) {
     return initial(this);
@@ -201,6 +217,7 @@ class _$Initial implements Initial {
     TResult Function(Initial value)? initial,
     TResult Function(Loading value)? loading,
     TResult Function(Error value)? error,
+    TResult Function(Warning value)? warning,
     TResult Function(CredentialCreated value)? credentialCreated,
   }) {
     return initial?.call(this);
@@ -212,6 +229,7 @@ class _$Initial implements Initial {
     TResult Function(Initial value)? initial,
     TResult Function(Loading value)? loading,
     TResult Function(Error value)? error,
+    TResult Function(Warning value)? warning,
     TResult Function(CredentialCreated value)? credentialCreated,
     required TResult orElse(),
   }) {
@@ -268,6 +286,7 @@ class _$Loading implements Loading {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(String message) error,
+    required TResult Function(String message) warning,
     required TResult Function() credentialCreated,
   }) {
     return loading();
@@ -279,6 +298,7 @@ class _$Loading implements Loading {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(String message)? error,
+    TResult Function(String message)? warning,
     TResult Function()? credentialCreated,
   }) {
     return loading?.call();
@@ -290,6 +310,7 @@ class _$Loading implements Loading {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(String message)? error,
+    TResult Function(String message)? warning,
     TResult Function()? credentialCreated,
     required TResult orElse(),
   }) {
@@ -305,6 +326,7 @@ class _$Loading implements Loading {
     required TResult Function(Initial value) initial,
     required TResult Function(Loading value) loading,
     required TResult Function(Error value) error,
+    required TResult Function(Warning value) warning,
     required TResult Function(CredentialCreated value) credentialCreated,
   }) {
     return loading(this);
@@ -316,6 +338,7 @@ class _$Loading implements Loading {
     TResult Function(Initial value)? initial,
     TResult Function(Loading value)? loading,
     TResult Function(Error value)? error,
+    TResult Function(Warning value)? warning,
     TResult Function(CredentialCreated value)? credentialCreated,
   }) {
     return loading?.call(this);
@@ -327,6 +350,7 @@ class _$Loading implements Loading {
     TResult Function(Initial value)? initial,
     TResult Function(Loading value)? loading,
     TResult Function(Error value)? error,
+    TResult Function(Warning value)? warning,
     TResult Function(CredentialCreated value)? credentialCreated,
     required TResult orElse(),
   }) {
@@ -407,6 +431,7 @@ class _$Error implements Error {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(String message) error,
+    required TResult Function(String message) warning,
     required TResult Function() credentialCreated,
   }) {
     return error(message);
@@ -418,6 +443,7 @@ class _$Error implements Error {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(String message)? error,
+    TResult Function(String message)? warning,
     TResult Function()? credentialCreated,
   }) {
     return error?.call(message);
@@ -429,6 +455,7 @@ class _$Error implements Error {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(String message)? error,
+    TResult Function(String message)? warning,
     TResult Function()? credentialCreated,
     required TResult orElse(),
   }) {
@@ -444,6 +471,7 @@ class _$Error implements Error {
     required TResult Function(Initial value) initial,
     required TResult Function(Loading value) loading,
     required TResult Function(Error value) error,
+    required TResult Function(Warning value) warning,
     required TResult Function(CredentialCreated value) credentialCreated,
   }) {
     return error(this);
@@ -455,6 +483,7 @@ class _$Error implements Error {
     TResult Function(Initial value)? initial,
     TResult Function(Loading value)? loading,
     TResult Function(Error value)? error,
+    TResult Function(Warning value)? warning,
     TResult Function(CredentialCreated value)? credentialCreated,
   }) {
     return error?.call(this);
@@ -466,6 +495,7 @@ class _$Error implements Error {
     TResult Function(Initial value)? initial,
     TResult Function(Loading value)? loading,
     TResult Function(Error value)? error,
+    TResult Function(Warning value)? warning,
     TResult Function(CredentialCreated value)? credentialCreated,
     required TResult orElse(),
   }) {
@@ -482,6 +512,155 @@ abstract class Error implements SelfIssuedCredentialState {
   String get message;
   @JsonKey(ignore: true)
   $ErrorCopyWith<Error> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $WarningCopyWith<$Res> {
+  factory $WarningCopyWith(Warning value, $Res Function(Warning) then) =
+      _$WarningCopyWithImpl<$Res>;
+  $Res call({String message});
+}
+
+/// @nodoc
+class _$WarningCopyWithImpl<$Res>
+    extends _$SelfIssuedCredentialStateCopyWithImpl<$Res>
+    implements $WarningCopyWith<$Res> {
+  _$WarningCopyWithImpl(Warning _value, $Res Function(Warning) _then)
+      : super(_value, (v) => _then(v as Warning));
+
+  @override
+  Warning get _value => super._value as Warning;
+
+  @override
+  $Res call({
+    Object? message = freezed,
+  }) {
+    return _then(Warning(
+      message == freezed
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$Warning implements Warning {
+  const _$Warning(this.message);
+
+  @override
+  final String message;
+
+  @override
+  String toString() {
+    return 'SelfIssuedCredentialState.warning(message: $message)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is Warning &&
+            const DeepCollectionEquality().equals(other.message, message));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(message));
+
+  @JsonKey(ignore: true)
+  @override
+  $WarningCopyWith<Warning> get copyWith =>
+      _$WarningCopyWithImpl<Warning>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(String message) error,
+    required TResult Function(String message) warning,
+    required TResult Function() credentialCreated,
+  }) {
+    return warning(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(String message)? error,
+    TResult Function(String message)? warning,
+    TResult Function()? credentialCreated,
+  }) {
+    return warning?.call(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(String message)? error,
+    TResult Function(String message)? warning,
+    TResult Function()? credentialCreated,
+    required TResult orElse(),
+  }) {
+    if (warning != null) {
+      return warning(message);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Initial value) initial,
+    required TResult Function(Loading value) loading,
+    required TResult Function(Error value) error,
+    required TResult Function(Warning value) warning,
+    required TResult Function(CredentialCreated value) credentialCreated,
+  }) {
+    return warning(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(Initial value)? initial,
+    TResult Function(Loading value)? loading,
+    TResult Function(Error value)? error,
+    TResult Function(Warning value)? warning,
+    TResult Function(CredentialCreated value)? credentialCreated,
+  }) {
+    return warning?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Initial value)? initial,
+    TResult Function(Loading value)? loading,
+    TResult Function(Error value)? error,
+    TResult Function(Warning value)? warning,
+    TResult Function(CredentialCreated value)? credentialCreated,
+    required TResult orElse(),
+  }) {
+    if (warning != null) {
+      return warning(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class Warning implements SelfIssuedCredentialState {
+  const factory Warning(String message) = _$Warning;
+
+  String get message;
+  @JsonKey(ignore: true)
+  $WarningCopyWith<Warning> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -528,6 +707,7 @@ class _$CredentialCreated implements CredentialCreated {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function(String message) error,
+    required TResult Function(String message) warning,
     required TResult Function() credentialCreated,
   }) {
     return credentialCreated();
@@ -539,6 +719,7 @@ class _$CredentialCreated implements CredentialCreated {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(String message)? error,
+    TResult Function(String message)? warning,
     TResult Function()? credentialCreated,
   }) {
     return credentialCreated?.call();
@@ -550,6 +731,7 @@ class _$CredentialCreated implements CredentialCreated {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function(String message)? error,
+    TResult Function(String message)? warning,
     TResult Function()? credentialCreated,
     required TResult orElse(),
   }) {
@@ -565,6 +747,7 @@ class _$CredentialCreated implements CredentialCreated {
     required TResult Function(Initial value) initial,
     required TResult Function(Loading value) loading,
     required TResult Function(Error value) error,
+    required TResult Function(Warning value) warning,
     required TResult Function(CredentialCreated value) credentialCreated,
   }) {
     return credentialCreated(this);
@@ -576,6 +759,7 @@ class _$CredentialCreated implements CredentialCreated {
     TResult Function(Initial value)? initial,
     TResult Function(Loading value)? loading,
     TResult Function(Error value)? error,
+    TResult Function(Warning value)? warning,
     TResult Function(CredentialCreated value)? credentialCreated,
   }) {
     return credentialCreated?.call(this);
@@ -587,6 +771,7 @@ class _$CredentialCreated implements CredentialCreated {
     TResult Function(Initial value)? initial,
     TResult Function(Loading value)? loading,
     TResult Function(Error value)? error,
+    TResult Function(Warning value)? warning,
     TResult Function(CredentialCreated value)? credentialCreated,
     required TResult orElse(),
   }) {
