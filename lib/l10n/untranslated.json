@@ -1,5 +1,6 @@
 {
   "de": [
+    "credentialDetailDeleteSuccessMessage",
     "credentialPickTitle",
     "credentialPickAlertMessage",
     "blockChainDisplayMethod",
@@ -37,6 +38,7 @@
   ],
 
   "es": [
+    "credentialDetailDeleteSuccessMessage",
     "credentialPickTitle",
     "credentialPickAlertMessage",
     "blockChainDisplayMethod",
@@ -74,6 +76,7 @@
   ],
 
   "fr": [
+    "credentialDetailDeleteSuccessMessage",
     "credentialPickTitle",
     "credentialPickAlertMessage",
     "active",
@@ -86,6 +89,7 @@
   ],
 
   "it": [
+    "credentialDetailDeleteSuccessMessage",
     "credentialPickTitle",
     "credentialPickAlertMessage",
     "blockChainDisplayMethod",
