@@ -70,6 +70,7 @@
   "credentialDetailDeleteConfirmationDialog": "Do you really want to delete this credential?",
   "credentialDetailDeleteConfirmationDialogYes": "Yes",
   "credentialDetailDeleteConfirmationDialogNo": "No",
+  "credentialDetailDeleteSuccessMessage": "Successfully deleted.",
   "credentialDetailCopyFieldValue": "Copied field value to clipboard!",
   "credentialDetailStatus": "Verification Status",
   "credentialPresentTitle": "Presentation Request",
@@ -194,5 +195,5 @@
   "ok": "Okay",
   "unavailable_feature_title": "Unavailable Feature",
   "unavailable_feature_message": "This feature is not available on the browser",
-  "personalSkip": "SKIP"
+  "personalSkip": "SKIP",
 }

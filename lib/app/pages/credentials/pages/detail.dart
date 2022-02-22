@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:provider/src/provider.dart';
 import 'package:talao/app/interop/didkit/didkit.dart';
+import 'package:talao/l10n/l10n.dart';
 import 'package:talao/wallet/wallet.dart';
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
 import 'package:talao/app/pages/credentials/models/verification_state.dart';
@@ -15,7 +16,6 @@ import 'package:talao/app/shared/widget/confirm_dialog.dart';
 import 'package:talao/app/shared/widget/text_field_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:logging/logging.dart';
 
 class CredentialsDetail extends StatefulWidget {
@@ -82,14 +82,14 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
   }
 
   void delete() async {
+    final l10n = context.l10n;
     final confirm = await showDialog<bool>(
           context: context,
           builder: (BuildContext context) {
-            final localizations = AppLocalizations.of(context)!;
             return ConfirmDialog(
-              title: localizations.credentialDetailDeleteConfirmationDialog,
-              yes: localizations.credentialDetailDeleteConfirmationDialogYes,
-              no: localizations.credentialDetailDeleteConfirmationDialogNo,
+              title: l10n.credentialDetailDeleteConfirmationDialog,
+              yes: l10n.credentialDetailDeleteConfirmationDialogYes,
+              no: l10n.credentialDetailDeleteConfirmationDialogNo,
             );
           },
         ) ??
@@ -100,7 +100,7 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
       Navigator.of(context).pop();
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor: Theme.of(context).colorScheme.error,
-        content: Text('Successfully deleted'),
+        content: Text(l10n.credentialDetailDeleteSuccessMessage),
       ));
     }
   }
@@ -138,10 +138,9 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Add proper localization
-    final localizations = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
     return BasePage(
-      title: title != '' ? title : localizations.credential,
+      title: title != '' ? title : l10n.credential,
       titleTag: 'credential/${title ?? widget.item.id}/issuer',
       titleLeading: BackLeadingButton(),
       titleTrailing: IconButton(
@@ -157,7 +156,7 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
                 ),
                 height: kBottomNavigationBarHeight,
                 child: Tooltip(
-                  message: localizations.credentialDetailShare,
+                  message: l10n.credentialDetailShare,
                   child: BaseButton.primary(
                     context: context,
                     onPressed: () {
@@ -176,7 +175,7 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
                           color: Theme.of(context).colorScheme.onPrimary,
                         ),
                         const SizedBox(width: 16.0),
-                        Text(localizations.credentialDetailShare),
+                        Text(l10n.credentialDetailShare),
                       ],
                     ),
                   ),
@@ -196,7 +195,7 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  localizations.credentialDetailStatus,
+                  l10n.credentialDetailStatus,
                   style: Theme.of(context).textTheme.bodyText1!,
                 ),
               ),
@@ -239,7 +238,7 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
             ),
             onPressed: delete,
             child: Text(
-              localizations.credentialDetailDelete,
+              l10n.credentialDetailDelete,
               style: Theme.of(context)
                   .textTheme
                   .bodyText1!
