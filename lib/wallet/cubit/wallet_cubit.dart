@@ -54,17 +54,12 @@ class WalletCubit extends Cubit<WalletState> {
 
   Future insertCredential(CredentialModel credential) async {
     await repository.insert(credential);
-    await emitData();
+    final credentials = List.of(state.credentials)..add(credential);
+    emit(state.copyWith(credentials: credentials));
   }
 
   Future resetWallet() async {
     await repository.deleteAll();
     emit(state.copyWith(status: KeyStatus.resetKey, credentials: []));
-  }
-
-  Future emitData(/* dynamic filters */) async {
-    await repository.findAll(/* filters */).then((values) {
-      emit(state.copyWith(credentials: values));
-    });
   }
 }
