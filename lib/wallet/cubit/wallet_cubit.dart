@@ -44,6 +44,9 @@ class WalletCubit extends Cubit<WalletState> {
 
   Future updateCredential(CredentialModel credential) async {
     await repository.update(credential);
+    // final credentials = state.credentials;
+    // credentials[credentials.indexWhere((element) => element.id == credential.id.toString())] = credential;
+    // emit(state.copyWith(credentials: credentials));
     await emitData();
   }
 
