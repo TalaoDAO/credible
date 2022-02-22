@@ -1,14 +1,15 @@
+import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
 import 'package:talao/app/pages/credentials/pages/list.dart';
+import 'package:talao/app/shared/ui/ui.dart';
+import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
+import 'package:talao/app/shared/widget/base/page.dart';
+import 'package:talao/app/shared/widget/base/text_field.dart';
 import 'package:talao/drawer/profile/cubit/profile_cubit.dart';
 import 'package:talao/drawer/profile/models/profile.dart';
 import 'package:talao/l10n/l10n.dart';
-import 'package:talao/app/shared/ui/ui.dart';
-import 'package:talao/app/shared/widget/back_leading_button.dart';
-import 'package:talao/app/shared/widget/base/page.dart';
-import 'package:talao/app/shared/widget/base/text_field.dart';
-import 'package:flutter/material.dart';
+import 'package:talao/self_issued_credential/widget/sef_issued_credential_button.dart';
 
 class PersonalPage extends StatefulWidget {
   final ProfileModel profileModel;
@@ -67,6 +68,14 @@ class _PersonalPageState extends State<PersonalPage> {
       child: BasePage(
         title: l10n.personalTitle,
         titleLeading: widget.isFromOnBoarding ? null : BackLeadingButton(),
+        floatingActionButton: SelfIssuedCredentialButton(
+          givenName: widget.profileModel.firstName,
+          familyName: widget.profileModel.lastName,
+          telephone: widget.profileModel.phone,
+          email: widget.profileModel.email,
+          address: widget.profileModel.location,
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         titleTrailing: InkWell(
           borderRadius: BorderRadius.circular(8.0),
           onTap: () {

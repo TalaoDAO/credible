@@ -66,13 +66,13 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
           issuanceDate: issuanceDate,
           credentialSubject: selfIssued);
 
-      final verifyResult = await _createCredential(
-          credential: selfIssuedCredential.toJson(),
-          options: options,
-          verifyOptions: verifyOptions,
-          key: key);
+      final vc = await DIDKitProvider.instance.issueCredential(
+          jsonEncode(selfIssuedCredential.toJson()), jsonEncode(options), key);
+      final result = await DIDKitProvider.instance
+          .verifyCredential(vc, jsonEncode(verifyOptions));
+      final verifyResult = jsonDecode(result);
 
-      log.info('verifyResult:' + verifyResult);
+      log.info('verifyResult: ${verifyResult.toString()}');
 
       emit(const SelfIssuedCredentialState.credentialCreated());
     } catch (e, s) {
@@ -83,18 +83,5 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
           'Failed to create self issued credential. '
           'Check the logs for more information.'));
     }
-  }
-
-  Future<dynamic> _createCredential(
-      {required Map credential,
-      required Map options,
-      required Map verifyOptions,
-      required String key}) async {
-    final vc = await DIDKitProvider.instance
-        .issueCredential(jsonEncode(credential), jsonEncode(options), key);
-    final result = await DIDKitProvider.instance
-        .verifyCredential(vc, jsonEncode(verifyOptions));
-    final verifyResult = jsonDecode(result);
-    return verifyResult;
   }
 }
