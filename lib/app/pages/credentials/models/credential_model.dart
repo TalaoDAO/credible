@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/pages/credentials/models/credential_status.dart';
@@ -24,7 +25,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 part 'credential_model.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class CredentialModel {
+class CredentialModel extends Equatable {
   @JsonKey(fromJson: fromJsonId)
   final String id;
   final String? alias;
@@ -353,4 +354,16 @@ class CredentialModel {
   void _launchURL(String _url) async => await canLaunch(_url)
       ? await launch(_url)
       : throw 'Could not launch $_url';
+
+  @override
+  List<Object?> get props => [
+        id,
+        alias,
+        image,
+        data,
+        shareLink,
+        credentialPreview,
+        display,
+        revocationStatus
+      ];
 }

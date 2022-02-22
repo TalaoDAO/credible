@@ -126,8 +126,6 @@ class _SplashPageState extends State<SplashPage> {
       listeners: [
         BlocListener<WalletCubit, WalletState>(
           listenWhen: (previous, current) {
-            print(previous.status);
-            print(current.status);
             if (current.status != KeyStatus.needsKey) {
               return previous.status != current.status;
             }

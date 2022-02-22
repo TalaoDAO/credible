@@ -36,16 +36,18 @@ class WalletCubit extends Cubit<WalletState> {
 
   Future deleteById(String id) async {
     await repository.deleteById(id);
-    final credentials = state.credentials
-        .where((element) => element.id != id.toString())
-        .toList();
+    final credentials = List.of(state.credentials)
+      ..removeWhere((element) => element.id == id);
     emit(state.copyWith(credentials: credentials));
   }
 
   Future updateCredential(CredentialModel credential) async {
     await repository.update(credential);
     // final credentials = state.credentials;
-    // credentials[credentials.indexWhere((element) => element.id == credential.id.toString())] = credential;
+    // final index = credentials
+    //     .indexWhere((element) => element.id == credential.id.toString());
+    // credentials[index] = credential;
+    //
     // emit(state.copyWith(credentials: credentials));
     await emitData();
   }
