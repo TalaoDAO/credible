@@ -38,6 +38,7 @@ class AppWidget extends StatelessWidget {
         BlocProvider<QueryByExampleCubit>(
             create: (context) => QueryByExampleCubit()),
         BlocProvider<WalletCubit>(
+            lazy: false,
             create: (context) => WalletCubit(
                   CredentialsRepository(SecureStorageProvider.instance),
                 )),
