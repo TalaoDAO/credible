@@ -410,12 +410,15 @@ See https://talao.co/wallet/test/presentationRequest for simulation and testing.
  Color : Red  
  Message : Request timeout
  
+ ### 409 Conflict  
+ Color : Red  
+ Message : Network error conflict
+ 
  ### 429 : Too many requests
  Color : Red  
  Message : The user has sent too many requests in a given amount of time.
  
  ### 500 Internal Server Error
- 
  Color : Red  
  Message : This is a server internal error. Contact the server administrator.
  
@@ -424,9 +427,9 @@ See https://talao.co/wallet/test/presentationRequest for simulation and testing.
  Message : Not implemented 
  
  ### 504 Gateway Timeout
-Color : Red  
-Message : Gateway timeout
+ Color : Red  
+ Message : Gateway timeout
 
  ### other code
-Color : Red  
-Message : An error occured
+ Color : Red  
+ Message : An error occured
