@@ -106,15 +106,16 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
   }
 
   void _edit() async {
+    final l10n = context.l10n;
     logger.info('Start edit flow');
 
     final newAlias = await showDialog<String>(
       context: context,
       builder: (context) => TextFieldDialog(
-        title: 'Do you want to edit this credential alias?',
+        title: l10n.credentialDetailEditConfirmationDialog,
         initialValue: title,
-        yes: 'Save',
-        no: 'Cancel',
+        yes: l10n.credentialDetailEditConfirmationDialogYes,
+        no: l10n.credentialDetailEditConfirmationDialogNo,
       ),
     );
 
@@ -132,7 +133,7 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
       title = newAlias;
     });
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text('Successfully updated'),
+      content: Text(l10n.credentialDetailEditSuccessMessage),
     ));
   }
 

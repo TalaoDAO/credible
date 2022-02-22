@@ -25,6 +25,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 part 'credential_model.g.dart';
 
 @JsonSerializable(explicitToJson: true)
+//ignore: must_be_immutable
 class CredentialModel extends Equatable {
   @JsonKey(fromJson: fromJsonId)
   final String id;
