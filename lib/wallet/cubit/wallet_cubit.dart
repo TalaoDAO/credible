@@ -39,8 +39,6 @@ class WalletCubit extends Cubit<WalletState> {
     final credentials = state.credentials
         .where((element) => element.id != id.toString())
         .toList();
-
-    print(credentials);
     emit(state.copyWith(credentials: credentials));
   }
 
