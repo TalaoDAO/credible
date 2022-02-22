@@ -1,6 +1,5 @@
 part of 'profile_cubit.dart';
 
-@JsonSerializable()
 class ProfileState extends Equatable {
   ProfileState({this.message, this.model});
 
