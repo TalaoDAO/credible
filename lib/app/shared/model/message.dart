@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:talao/app/shared/error_handler/error_handler.dart';
 
 part 'message.g.dart';
 
@@ -13,24 +14,26 @@ enum MessageType {
 
 @JsonSerializable()
 class StateMessage extends Equatable {
-  StateMessage({this.message, this.type});
+  StateMessage({this.message, this.type, this.errorHandler});
 
   factory StateMessage.fromJson(Map<String, dynamic> json) =>
       _$StateMessageFromJson(json);
 
   final String? message;
   final MessageType? type;
+  @JsonKey(ignore: true)
+  final ErrorHandler? errorHandler;
 
-  StateMessage.error(this.message)
+  StateMessage.error(this.message, {this.errorHandler})
       : type = MessageType.error;
 
-  StateMessage.warning(this.message)
+  StateMessage.warning(this.message, {this.errorHandler})
       : type = MessageType.warning;
 
-  StateMessage.info(this.message)
+  StateMessage.info(this.message, {this.errorHandler})
       : type = MessageType.info;
 
-  StateMessage.success(this.message)
+  StateMessage.success(this.message, {this.errorHandler})
       : type = MessageType.success;
 
   Map<String, dynamic> toJson() => _$StateMessageToJson(this);
