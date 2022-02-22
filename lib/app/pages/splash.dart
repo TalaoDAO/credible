@@ -130,12 +130,12 @@ class _SplashPageState extends State<SplashPage> {
       listeners: [
         BlocListener<WalletCubit, WalletState>(
           listener: (context, state) {
-            if (state.status == KeyStatus.unAuthenticated) {
+            if (state.status == KeyStatus.needsKey) {
               //todo check onboarding key or sth if we skip onboarding next time
               Navigator.of(context)
                   .pushReplacement(OnBoardingStartPage.route());
             }
-            if (state.status == KeyStatus.authenticated) {
+            if (state.status == KeyStatus.hasKey) {
               Navigator.of(context).push<void>(CredentialsList.route());
             }
           },

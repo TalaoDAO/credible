@@ -19,14 +19,14 @@ class WalletCubit extends Cubit<WalletState> {
   Future checkKey() async {
     final key = await SecureStorageProvider.instance.get('key');
     if (key == null) {
-      emit(state.copyWith(status: KeyStatus.unAuthenticated));
+      emit(state.copyWith(status: KeyStatus.needsKey));
     } else {
       if (key.isEmpty) {
-        emit(state.copyWith(status: KeyStatus.unAuthenticated));
+        emit(state.copyWith(status: KeyStatus.needsKey));
       } else {
         /// When app is initialized, set all credentials with active status to unknown status
         await repository.initializeRevocationStatus();
-        emit(state.copyWith(status: KeyStatus.authenticated));
+        emit(state.copyWith(status: KeyStatus.hasKey));
 
         /// load all credentials from repository
         await emitData();
@@ -52,7 +52,7 @@ class WalletCubit extends Cubit<WalletState> {
   Future resetWallet() async {
     await repository.deleteAll();
     await repository.initializeRevocationStatus();
-    emit(state.copyWith(status: KeyStatus.unAuthenticated, credentials: []));
+    emit(state.copyWith(status: KeyStatus.needsKey, credentials: []));
   }
 
   Future emitData(/* dynamic filters */) async {
