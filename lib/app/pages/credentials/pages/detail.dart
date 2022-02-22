@@ -43,11 +43,14 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
   bool showShareMenu = false;
   VerificationState verification = VerificationState.Unverified;
 
+  String? title = '';
+
   final logger = Logger('talao-wallet/credentials/detail');
 
   @override
   void initState() {
     super.initState();
+    title = widget.item.alias;
     verify();
   }
 
@@ -96,7 +99,7 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
     if (confirm) {
       await context.read<WalletCubit>().deleteById(widget.item.id);
       Navigator.of(context).pop();
-      await Navigator.of(context).pushReplacement(CredentialsList.route());
+      //await Navigator.of(context).pushReplacement(CredentialsList.route());
     }
   }
 
@@ -107,7 +110,7 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
       context: context,
       builder: (context) => TextFieldDialog(
         title: 'Do you want to edit this credential alias?',
-        initialValue: widget.item.alias,
+        initialValue: title,
         yes: 'Save',
         no: 'Cancel',
       ),
@@ -115,7 +118,7 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
 
     logger.info('Edit flow answered with: $newAlias');
 
-    if (newAlias != null && newAlias != widget.item.alias) {
+    if (newAlias != null && newAlias != title) {
       logger.info('New alias is different, going to update credential');
     }
     final newCredential = CredentialModel.copyWithAlias(
@@ -123,20 +126,21 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
       newAlias: newAlias ?? '',
     );
     await context.read<WalletCubit>().updateCredential(newCredential);
-    Navigator.of(context).pop();
-    await Navigator.of(context).push(CredentialsDetail.route(newCredential));
+    setState(() {
+      title = newAlias;
+    });
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text('Successfully updated'),
+    ));
   }
 
   @override
   Widget build(BuildContext context) {
     // TODO: Add proper localization
     final localizations = AppLocalizations.of(context)!;
-
     return BasePage(
-      title: widget.item.alias != ''
-          ? widget.item.alias
-          : localizations.credential,
-      titleTag: 'credential/${widget.item.alias ?? widget.item.id}/issuer',
+      title: title != '' ? title : localizations.credential,
+      titleTag: 'credential/${title ?? widget.item.id}/issuer',
       titleLeading: BackLeadingButton(),
       titleTrailing: IconButton(
         onPressed: _edit,
