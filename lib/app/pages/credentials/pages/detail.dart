@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:provider/src/provider.dart';
 import 'package:talao/app/interop/didkit/didkit.dart';
+import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/l10n/l10n.dart';
 import 'package:talao/wallet/wallet.dart';
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
@@ -99,7 +100,7 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
       await context.read<WalletCubit>().deleteById(widget.item.id);
       Navigator.of(context).pop();
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        backgroundColor: Theme.of(context).colorScheme.error,
+        backgroundColor: Theme.of(context).colorScheme.snackBarError,
         content: Text(l10n.credentialDetailDeleteSuccessMessage),
       ));
     }
