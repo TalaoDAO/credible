@@ -132,7 +132,6 @@ class _SplashPageState extends State<SplashPage> {
             return true;
           },
           listener: (context, state) {
-            print(state.status);
             if (state.status == KeyStatus.needsKey) {
               Future.delayed(
                 Duration(milliseconds: 1500),
