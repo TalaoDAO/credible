@@ -55,11 +55,7 @@ class WalletCubit extends Cubit<WalletState> {
 
   Future emitData(/* dynamic filters */) async {
     await repository.findAll(/* filters */).then((values) {
-      if (values.isEmpty) {
-        emit(state.copyWith(credentials: []));
-      } else {
-        emit(state.copyWith(credentials: values));
-      }
+      emit(state.copyWith(credentials: values));
     });
   }
 }

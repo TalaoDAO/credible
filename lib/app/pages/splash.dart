@@ -125,8 +125,14 @@ class _SplashPageState extends State<SplashPage> {
     return MultiBlocListener(
       listeners: [
         BlocListener<WalletCubit, WalletState>(
-          listenWhen: (previous, current) => previous.status != current.status,
+          listenWhen: (previous, current) {
+            if (current.status != KeyStatus.needsKey) {
+              return previous.status != current.status;
+            }
+            return true;
+          },
           listener: (context, state) {
+            print(state.status);
             if (state.status == KeyStatus.needsKey) {
               //todo check onboarding key or sth if we skip onboarding next time
               Future.delayed(
