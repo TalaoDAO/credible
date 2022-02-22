@@ -22,7 +22,7 @@ import 'package:uni_links/uni_links.dart';
 bool _initialUriIsHandled = false;
 
 class SplashPage extends StatefulWidget {
-  SplashPage({Key? key}) : super(key: key);
+  const SplashPage({Key? key}) : super(key: key);
 
   static Route route() {
     return MaterialPageRoute<void>(

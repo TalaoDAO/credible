@@ -1,4 +1,4 @@
-import 'package:talao/app/shared/key_generation.dart';
+import 'package:talao/app/interop/key_generation.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
