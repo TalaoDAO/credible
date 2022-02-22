@@ -5,7 +5,6 @@ import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/wallet/wallet.dart';
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
 import 'package:talao/app/pages/credentials/models/verification_state.dart';
-import 'package:talao/app/pages/credentials/pages/list.dart';
 import 'package:talao/app/pages/credentials/widget/display_status.dart';
 import 'package:talao/app/pages/credentials/widget/document.dart';
 import 'package:talao/app/pages/qr_code/display.dart';
@@ -99,7 +98,10 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
     if (confirm) {
       await context.read<WalletCubit>().deleteById(widget.item.id);
       Navigator.of(context).pop();
-      //await Navigator.of(context).pushReplacement(CredentialsList.route());
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Theme.of(context).colorScheme.error,
+        content: Text('Successfully deleted'),
+      ));
     }
   }
 
