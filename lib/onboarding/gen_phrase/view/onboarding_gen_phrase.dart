@@ -33,10 +33,10 @@ class _OnBoardingGenPhrasePageState extends State<OnBoardingGenPhrasePage> {
       body: BlocConsumer<OnBoardingGenPhraseCubit, OnBoardingGenPhraseState>(
         listener: (context, state) async {
           if (state.status == OnBoardingGenPhraseStatus.success) {
-            await Navigator.of(context).pushAndRemoveUntil(
-                PersonalPage.route(
-                    isFromOnBoarding: true, profileModel: ProfileModel.empty),
-                (Route<dynamic> route) => false);
+            await Navigator.of(context).pushReplacement(
+              PersonalPage.route(
+                  isFromOnBoarding: true, profileModel: ProfileModel.empty),
+            );
           }
           if (state.status == OnBoardingGenPhraseStatus.failure) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(

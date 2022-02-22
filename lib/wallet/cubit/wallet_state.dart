@@ -1,6 +1,6 @@
 part of 'wallet_cubit.dart';
 
-enum KeyStatus { needsKey, hasKey }
+enum KeyStatus { needsKey, hasKey, resetKey }
 
 @JsonSerializable()
 class WalletState extends Equatable {

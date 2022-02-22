@@ -27,7 +27,6 @@ class WalletCubit extends Cubit<WalletState> {
         /// When app is initialized, set all credentials with active status to unknown status
         await repository.initializeRevocationStatus();
         emit(state.copyWith(status: KeyStatus.hasKey));
-
         /// load all credentials from repository
         await emitData();
       }
@@ -51,7 +50,7 @@ class WalletCubit extends Cubit<WalletState> {
 
   Future resetWallet() async {
     await repository.deleteAll();
-    emit(state.copyWith(status: KeyStatus.needsKey, credentials: []));
+    emit(state.copyWith(status: KeyStatus.resetKey, credentials: []));
   }
 
   Future emitData(/* dynamic filters */) async {

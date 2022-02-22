@@ -23,4 +23,5 @@ Map<String, dynamic> _$WalletStateToJson(WalletState instance) =>
 const _$KeyStatusEnumMap = {
   KeyStatus.needsKey: 'needsKey',
   KeyStatus.hasKey: 'hasKey',
+  KeyStatus.resetKey: 'resetKey',
 };

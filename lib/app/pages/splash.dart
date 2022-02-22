@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:talao/app/pages/credentials/blocs/scan.dart';
+import 'package:talao/onboarding/key/view/onboarding_key_page.dart';
 import 'package:talao/wallet/wallet.dart';
 import 'package:talao/app/pages/credentials/pages/list.dart';
 import 'package:talao/app/pages/qr_code/bloc/qrcode.dart';
@@ -45,10 +46,6 @@ class _SplashPageState extends State<SplashPage> {
         await context.read<ThemeCubit>().getCurrentTheme();
       },
     );
-    Future.delayed(
-      Duration(milliseconds: 1500),
-      () async {},
-    );
   }
 
   @override
@@ -70,8 +67,7 @@ class _SplashPageState extends State<SplashPage> {
           if (key == 'uri') {
             final url = value.replaceAll(RegExp(r'^\"|\"$'), '');
             context.read<DeepLinkCubit>().addDeepLink(url);
-            Navigator.of(context).pushAndRemoveUntil(
-                CredentialsList.route(), ModalRoute.withName('/splash'));
+            Navigator.of(context).push(CredentialsList.route());
           }
         });
       }, onError: (Object err) {
@@ -129,14 +125,23 @@ class _SplashPageState extends State<SplashPage> {
     return MultiBlocListener(
       listeners: [
         BlocListener<WalletCubit, WalletState>(
+          listenWhen: (previous, current) => previous.status != current.status,
           listener: (context, state) {
             if (state.status == KeyStatus.needsKey) {
               //todo check onboarding key or sth if we skip onboarding next time
-              Navigator.of(context)
-                  .pushReplacement(OnBoardingStartPage.route());
+              Future.delayed(
+                Duration(milliseconds: 1500),
+                () => Navigator.of(context).push(OnBoardingStartPage.route()),
+              );
             }
             if (state.status == KeyStatus.hasKey) {
-              Navigator.of(context).push<void>(CredentialsList.route());
+              Future.delayed(
+                Duration(milliseconds: 1500),
+                () => Navigator.of(context).push(CredentialsList.route()),
+              );
+            }
+            if (state.status == KeyStatus.resetKey) {
+              Navigator.of(context).pushReplacement(OnBoardingKeyPage.route());
             }
           },
         ),
