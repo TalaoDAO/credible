@@ -387,7 +387,7 @@ See https://talao.co/wallet/test/presentationRequest for simulation and testing.
 ## Issuer/Verfier return codes (To be completed)
    
  ### 200 OK
- Color : Green
+ Color : Green  
  Message : No message or Credential presented successfully
  
  ### 201 Created
