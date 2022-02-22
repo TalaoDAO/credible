@@ -134,7 +134,6 @@ class _SplashPageState extends State<SplashPage> {
           listener: (context, state) {
             print(state.status);
             if (state.status == KeyStatus.needsKey) {
-              //todo check onboarding key or sth if we skip onboarding next time
               Future.delayed(
                 Duration(milliseconds: 1500),
                 () => Navigator.of(context).push(OnBoardingStartPage.route()),
