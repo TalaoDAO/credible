@@ -26,10 +26,11 @@ class WalletCubit extends Cubit<WalletState> {
       } else {
         /// When app is initialized, set all credentials with active status to unknown status
         await repository.initializeRevocationStatus();
-        emit(state.copyWith(status: KeyStatus.hasKey));
 
         /// load all credentials from repository
-        await emitData();
+        await repository.findAll(/* filters */).then((values) {
+          emit(state.copyWith(status: KeyStatus.hasKey, credentials: values));
+        });
       }
     }
   }
