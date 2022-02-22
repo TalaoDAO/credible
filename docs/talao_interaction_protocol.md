@@ -384,7 +384,7 @@ Verifier attaches messages for user but no credential criters :
 
 See https://talao.co/wallet/test/presentationRequest for simulation and testing.
 
-## Issuer/Verfier return codes (To be completed)
+## Servers return codes
    
  ### 200 OK
  Color : Green  
