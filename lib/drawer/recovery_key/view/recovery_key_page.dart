@@ -6,17 +6,17 @@ import 'package:talao/app/shared/widget/mnemonic.dart';
 import 'package:flutter/material.dart';
 import 'package:talao/l10n/l10n.dart';
 
-class RecoveryPage extends StatefulWidget {
+class RecoveryKeyPage extends StatefulWidget {
   static Route route() => MaterialPageRoute(
-        builder: (context) => RecoveryPage(),
+        builder: (context) => RecoveryKeyPage(),
         settings: RouteSettings(name: '/recoveryPage'),
       );
 
   @override
-  _RecoveryPageState createState() => _RecoveryPageState();
+  _RecoveryKeyPageState createState() => _RecoveryKeyPageState();
 }
 
-class _RecoveryPageState extends State<RecoveryPage> {
+class _RecoveryKeyPageState extends State<RecoveryKeyPage> {
   List<String>? _mnemonic;
 
   @override

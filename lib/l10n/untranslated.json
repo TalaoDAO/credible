@@ -7,6 +7,7 @@
     "credentialDetailEditSuccessMessage",
     "credentialPickTitle",
     "credentialPickAlertMessage",
+    "keyRecoveryTitle",
     "blockChainDisplayMethod",
     "blockChainAdress",
     "adressDisplayCopy",
@@ -38,7 +39,10 @@
     "ok",
     "unavailable_feature_title",
     "unavailable_feature_message",
-    "personalSkip"
+    "personalSkip",
+    "recoveryCredential",
+    "backupCredential",
+    "recoveryCredentialWarningDialogSubtitle"
   ],
 
   "es": [
@@ -80,7 +84,10 @@
     "ok",
     "unavailable_feature_title",
     "unavailable_feature_message",
-    "personalSkip"
+    "personalSkip",
+    "recoveryCredential",
+    "backupCredential",
+    "recoveryCredentialWarningDialogSubtitle"
   ],
 
   "fr": [
@@ -97,7 +104,10 @@
     "ok",
     "unavailable_feature_title",
     "unavailable_feature_message",
-    "personalSkip"
+    "personalSkip",
+    "recoveryCredential",
+    "backupCredential",
+    "recoveryCredentialWarningDialogSubtitle"
   ],
 
   "it": [
@@ -141,6 +151,9 @@
     "ok",
     "unavailable_feature_title",
     "unavailable_feature_message",
-    "personalSkip"
+    "personalSkip",
+    "recoveryCredential",
+    "backupCredential",
+    "recoveryCredentialWarningDialogSubtitle"
   ]
 }

@@ -96,7 +96,7 @@
   "personalTitle": "Persönlich",
   "privacyTitle": "Datenschutz und Sicherheit",
   "termsTitle": "Geschäftsbedingungen",
-  "recoveryTitle": "Wiederherstellung",
+  "recoveryKeyTitle": "Wiederherstellung",
   "recoveryWarningDialogTitle": "Seien Sie vorsichtig",
   "recoveryWarningDialogSubtitle": "Die Wiederherstellungsseite enthält sensible Informationen. Ihre Kennung könnte kompromittiert werden, wenn sie in die falschen Hände gerät. Sie sollten diese Seite nicht in der Öffentlichkeit öffnen oder an andere Personen weitergeben.",
   "recoveryText": "Bitte geben Sie Ihre Wiederherstellungsphrase ein",
@@ -112,7 +112,7 @@
   "lightThemeText": "Light Theme",
   "darkThemeText": "Dark Theme",
   "systemThemeText": "System Theme",
-  "keyRecoveryTitle": "Mein Identitätswallet wiederherstellen",
+  "keyRecoveryKeyTitle": "Mein Identitätswallet wiederherstellen",
   "keyRecoveryText": "Wenn Sie bereits ein Wallet verwendet haben und eine Wiederherstellungsphrase besitzen",
   "keyGenerateTitle": "Neues Wallet erstellen",
   "keyGenerateText": "Neue Kennung erstellen und eine neue Wiederherstellungsphrase anfordern",
@@ -161,5 +161,4 @@
   "credential": "Nachweise",
   "issuanceDate": "Issuance date",
   "appContactWebsite": "Website"
-
 }
