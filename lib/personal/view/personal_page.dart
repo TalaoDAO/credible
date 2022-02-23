@@ -77,11 +77,11 @@ class _PersonalPageState extends State<PersonalPage> {
         floatingActionButton: SelfIssuedCredentialButton(
           selfIssuedCredentialButtonClick: () {
             return SelfIssuedCredentialDataModel(
-              givenName: _isFirstName ? firstNameController.text : null,
-              familyName: _isLastName ? lastNameController.text : null,
-              telephone: _isPhone ? phoneController.text : null,
-              address: _isLocation ? locationController.text : null,
-              email: _isEmail ? emailController.text : null,
+              givenName: _isFirstName ? firstNameController.text : '',
+              familyName: _isLastName ? lastNameController.text : '',
+              telephone: _isPhone ? phoneController.text : '',
+              address: _isLocation ? locationController.text : '',
+              email: _isEmail ? emailController.text : '',
             );
           },
         ),
