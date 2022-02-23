@@ -12,6 +12,7 @@ import 'package:talao/app/shared/model/credential.dart';
 import 'package:talao/app/shared/model/display.dart';
 import 'package:talao/self_issued_credential/models/self_issued.dart';
 import 'package:talao/self_issued_credential/models/self_issued_credential.dart';
+import 'package:talao/self_issued_credential/widget/sef_issued_credential_button.dart';
 import 'package:talao/wallet/cubit/wallet_cubit.dart';
 import 'package:uuid/uuid.dart';
 
@@ -38,11 +39,8 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
       : super(const SelfIssuedCredentialState.initial());
 
   void createSelfIssuedCredential(
-      {required String givenName,
-      required String familyName,
-      required String telephone,
-      required String email,
-      required String address}) async {
+      {required SelfIssuedCredentialDataModel
+          selfIssuedCredentialDataModel}) async {
     final log = Logger('talao-wallet/sef_issued_credential/create');
     try {
       //show loading
@@ -63,11 +61,11 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
 
       final selfIssued = SelfIssued(
           id: did,
-          address: address,
-          familyName: familyName,
-          givenName: givenName,
-          telephone: telephone,
-          email: email);
+          address: selfIssuedCredentialDataModel.address,
+          familyName: selfIssuedCredentialDataModel.familyName,
+          givenName: selfIssuedCredentialDataModel.givenName,
+          telephone: selfIssuedCredentialDataModel.telephone,
+          email: selfIssuedCredentialDataModel.email);
 
       final selfIssuedCredential = SelfIssuedCredential(
           id: id,
