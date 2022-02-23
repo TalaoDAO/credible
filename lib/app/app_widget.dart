@@ -10,7 +10,7 @@ import 'package:talao/app/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:talao/app/interop/key_generation.dart';
+import 'package:talao/app/interop/key_handler.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/deep_link/cubit/deep_link.dart';
 import 'package:talao/drawer/drawer.dart';
@@ -33,7 +33,7 @@ class AppWidget extends StatelessWidget {
         BlocProvider<OnBoardingGenPhraseCubit>(
             create: (context) => OnBoardingGenPhraseCubit(
                 secureStorageProvider: SecureStorageProvider.instance,
-                keyGeneration: KeyGeneration())),
+                keyHandler: KeyHandler())),
         BlocProvider<DeepLinkCubit>(create: (context) => DeepLinkCubit()),
         BlocProvider<QueryByExampleCubit>(
             create: (context) => QueryByExampleCubit()),
