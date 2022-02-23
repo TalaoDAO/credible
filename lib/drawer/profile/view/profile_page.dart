@@ -1,7 +1,6 @@
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
-import 'package:talao/app/pages/credentials/blocs/wallet.dart';
+import 'package:talao/wallet/wallet.dart';
 import 'package:talao/app/shared/constants.dart';
-import 'package:talao/app/pages/splash.dart';
 import 'package:talao/app/shared/widget/confirm_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -126,9 +125,7 @@ class ProfileView extends StatelessWidget {
                       await SecureStorageProvider.instance
                           .delete(Constants.emailKey);
 
-                      await context.read<WalletBloc>().deleteAll();
-
-                      await Navigator.of(context).push(SplashPage.route());
+                      await context.read<WalletCubit>().resetWallet();
                     }
                   },
                 ),

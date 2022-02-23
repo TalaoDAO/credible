@@ -9,6 +9,7 @@ class CredentialsRepository {
       : _secureStorageProvider = secureStorageProvider;
 
   final SecureStorageProvider _secureStorageProvider;
+
   Future<void> initializeRevocationStatus() async {
     final _credentialList = await findAll();
     for (final _credential in _credentialList) {
@@ -21,10 +22,8 @@ class CredentialsRepository {
 
   Future<List<CredentialModel>> findAll(/* dynamic filters */) async {
     final data = await _secureStorageProvider.getAllValues();
+    data.removeWhere((key, value) => !key.startsWith('credential/'));
 
-    /// Substring's end needs to be < data.length
-    data.removeWhere((key, value) => key.length < 12);
-    data.removeWhere((key, value) => key.substring(0, 11) != 'credential/');
     var _credentialList = <CredentialModel>[];
     data.forEach((key, value) {
       _credentialList.add(CredentialModel.fromJson((json.decode(value))));
@@ -45,7 +44,7 @@ class CredentialsRepository {
 
   Future<int> deleteAll() async {
     final data = await _secureStorageProvider.getAllValues();
-    data.removeWhere((key, value) => key.substring(0, 11) != 'credential/');
+    data.removeWhere((key, value) => !key.startsWith('credential/'));
     var numberOfDeletedCredentials = 0;
     data.forEach((key, value) {
       _secureStorageProvider.delete(key);
@@ -73,9 +72,5 @@ class CredentialsRepository {
       json.encode(credential.toJson()),
     );
     return 1;
-  }
-
-  void dispose() {
-    print('it should never be called!');
   }
 }

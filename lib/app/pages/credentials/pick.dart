@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talao/app/pages/credentials/blocs/scan.dart';
-import 'package:talao/app/pages/credentials/blocs/wallet.dart';
+import 'package:talao/wallet/wallet.dart';
 import 'package:talao/app/pages/credentials/pages/list.dart';
 import 'package:talao/app/pages/credentials/widget/list_item.dart';
 import 'package:talao/app/shared/model/translation.dart';
@@ -56,7 +56,7 @@ class _CredentialsPickPageState extends State<CredentialsPickPage> {
         reasonList += getTranslation(e.reason, localizations) + '\n';
       });
     }
-    return BlocBuilder<WalletBloc, WalletBlocState>(
+    return BlocBuilder<WalletCubit, WalletState>(
         builder: (builderContext, walletState) {
       return BasePage(
         title: localizations.credentialPickTitle,

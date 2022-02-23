@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/interop/network/network_client.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
-import 'package:talao/app/pages/credentials/blocs/wallet.dart';
+import 'package:talao/wallet/wallet.dart';
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
 import 'package:talao/app/shared/constants.dart';
 import 'package:talao/app/shared/error_handler/error_handler.dart';
@@ -170,9 +170,9 @@ class ScanStateCHAPIAskPermissionDIDAuth extends ScanState {
 
 class ScanBloc extends Bloc<ScanEvent, ScanState> {
   final DioClient client;
-  final WalletBloc walletBloc;
+  final WalletCubit walletCubit;
 
-  ScanBloc(this.client, this.walletBloc) : super(ScanStateIdle()) {
+  ScanBloc(this.client, this.walletCubit) : super(ScanStateIdle()) {
     on<ScanEventShowPreview>((event, emit) {
       emit(ScanStatePreview(preview: event.preview));
     });
@@ -237,7 +237,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
         }
       }
 
-      await walletBloc.insertCredential(CredentialModel.copyWithData(
+      await walletCubit.insertCredential(CredentialModel.copyWithData(
           oldCredentialModel: credentialModel, newData: jsonCredential));
 
       emit(ScanStateMessage(StateMessage.success(
@@ -381,7 +381,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
         emit(ScanStateMessage(StateMessage.error('Failed to verify credential. '
             'Check the logs for more information.')));
       }
-      await walletBloc.insertCredential(vc);
+      await walletCubit.insertCredential(vc);
 
       done(vcStr);
 

@@ -6,7 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:talao/app/pages/credentials/blocs/scan.dart';
-import 'package:talao/app/pages/credentials/blocs/wallet.dart';
+import 'package:talao/onboarding/key/view/onboarding_key_page.dart';
+import 'package:talao/wallet/wallet.dart';
 import 'package:talao/app/pages/credentials/pages/list.dart';
 import 'package:talao/app/pages/qr_code/bloc/qrcode.dart';
 import 'package:talao/app/pages/qr_code/check_host.dart';
@@ -21,7 +22,7 @@ import 'package:uni_links/uni_links.dart';
 bool _initialUriIsHandled = false;
 
 class SplashPage extends StatefulWidget {
-  SplashPage({Key? key}) : super(key: key);
+  const SplashPage({Key? key}) : super(key: key);
 
   static Route route() {
     return MaterialPageRoute<void>(
@@ -66,8 +67,7 @@ class _SplashPageState extends State<SplashPage> {
           if (key == 'uri') {
             final url = value.replaceAll(RegExp(r'^\"|\"$'), '');
             context.read<DeepLinkCubit>().addDeepLink(url);
-            Navigator.of(context).pushAndRemoveUntil(
-                CredentialsList.route(), ModalRoute.withName('/splash'));
+            Navigator.of(context).push(CredentialsList.route());
           }
         });
       }, onError: (Object err) {
@@ -124,23 +124,28 @@ class _SplashPageState extends State<SplashPage> {
     final localizations = AppLocalizations.of(context)!;
     return MultiBlocListener(
       listeners: [
-        BlocListener<WalletBloc, WalletBlocState>(
-          listener: (context, state) {
-            if (state is WalletBlocListReady) {
-              Future.delayed(
-                  Duration(
-                    milliseconds: 900,
-                  ), () {
-                context
-                    .read<WalletBloc>()
-                    .convertInWalletBlocList(state.credentials);
-                Navigator.of(context).push<void>(
-                  CredentialsList.route(),
-                );
-              });
+        BlocListener<WalletCubit, WalletState>(
+          listenWhen: (previous, current) {
+            if (current.status != KeyStatus.needsKey) {
+              return previous.status != current.status;
             }
-            if (state is WalletBlocCreateKey) {
-              Navigator.of(context).push<void>(OnBoardingStartPage.route());
+            return true;
+          },
+          listener: (context, state) {
+            if (state.status == KeyStatus.needsKey) {
+              Future.delayed(
+                Duration(milliseconds: 1500),
+                () => Navigator.of(context).push(OnBoardingStartPage.route()),
+              );
+            }
+            if (state.status == KeyStatus.hasKey) {
+              Future.delayed(
+                Duration(milliseconds: 1500),
+                () => Navigator.of(context).push(CredentialsList.route()),
+              );
+            }
+            if (state.status == KeyStatus.resetKey) {
+              Navigator.of(context).pushReplacement(OnBoardingKeyPage.route());
             }
           },
         ),
@@ -172,7 +177,7 @@ class _SplashPageState extends State<SplashPage> {
             if (state is ScanStateMessage) {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 backgroundColor: state.message.color,
-                content: Text(state.message.message),
+                content: Text(state.message.message!),
               ));
             }
           },

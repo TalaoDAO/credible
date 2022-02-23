@@ -33,7 +33,7 @@ class AppTheme {
   static const Color lightShadow = Color(0xFFADACAC);
 
   static SnackBarThemeData get snackBarThemeData => SnackBarThemeData(
-        backgroundColor: Color(0xff3700B3),
+        backgroundColor: Colors.green,
         contentTextStyle: GoogleFonts.montserrat(
           color: const Color(0xFFFFFFFF),
           fontSize: 12.0,

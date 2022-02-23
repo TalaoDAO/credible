@@ -5,18 +5,20 @@ import 'package:talao/app/interop/network/network_client.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/pages/credentials/blocs/scan.dart';
 import 'package:talao/app/pages/credentials/repositories/credential.dart';
-import 'package:talao/app/pages/splash.dart';
 import 'package:talao/app/router_observer.dart';
 import 'package:talao/app/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:talao/app/interop/key_generation.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/deep_link/cubit/deep_link.dart';
 import 'package:talao/drawer/drawer.dart';
+import 'package:talao/onboarding/gen_phrase/cubit/onboarding_gen_phrase_cubit.dart';
 import 'package:talao/query_by_example/query_by_example.dart';
+import 'package:talao/splash/splash.dart';
 import 'package:talao/theme/theme.dart';
-import 'pages/credentials/blocs/wallet.dart';
+import 'package:talao/wallet/cubit/wallet_cubit.dart';
 import 'pages/qr_code/bloc/qrcode.dart';
 
 class AppWidget extends StatelessWidget {
@@ -28,17 +30,22 @@ class AppWidget extends StatelessWidget {
       providers: [
         BlocProvider<ThemeCubit>(
             create: (context) => ThemeCubit(SecureStorageProvider.instance)),
+        BlocProvider<OnBoardingGenPhraseCubit>(
+            create: (context) => OnBoardingGenPhraseCubit(
+                secureStorageProvider: SecureStorageProvider.instance,
+                keyGeneration: KeyGeneration())),
         BlocProvider<DeepLinkCubit>(create: (context) => DeepLinkCubit()),
         BlocProvider<QueryByExampleCubit>(
             create: (context) => QueryByExampleCubit()),
-        BlocProvider<WalletBloc>(
+        BlocProvider<WalletCubit>(
             lazy: false,
-            create: (context) =>
-                WalletBloc(CredentialsRepository(SecureStorageProvider.instance))..checkKey()),
+            create: (context) => WalletCubit(
+                  CredentialsRepository(SecureStorageProvider.instance),
+                )),
         BlocProvider<ScanBloc>(
             create: (context) => ScanBloc(
                 DioClient(Constants.checkIssuerServerUrl, Dio()),
-                context.read<WalletBloc>())),
+                context.read<WalletCubit>())),
         BlocProvider<QRCodeBloc>(
           create: (context) => QRCodeBloc(
             DioClient(Constants.checkIssuerServerUrl, Dio()),

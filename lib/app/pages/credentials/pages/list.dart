@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:talao/app/pages/credentials/blocs/wallet.dart';
+import 'package:talao/wallet/wallet.dart';
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
 import 'package:talao/app/pages/credentials/widget/list_item.dart';
 import 'package:talao/app/pages/qr_code/bloc/qrcode.dart';
@@ -86,14 +86,10 @@ class _CredentialsListState extends State<CredentialsList> {
                 Navigator.of(context).push(QrCodeScanPage.route());
               }
             }),
-        body: BlocBuilder<WalletBloc, WalletBlocState>(
+        body: BlocBuilder<WalletCubit, WalletState>(
           builder: (context, state) {
             var _credentialList = <CredentialModel>[];
-            if (state is WalletBlocList) {
-              _credentialList = state.credentials;
-            } else {
-              _credentialList = [];
-            }
+            _credentialList = state.credentials;
             return Column(
               children: List.generate(
                 _credentialList.length,
