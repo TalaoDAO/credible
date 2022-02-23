@@ -41,6 +41,12 @@ class _PersonalPageState extends State<PersonalPage> {
   late TextEditingController locationController;
   late TextEditingController emailController;
 
+  bool _isFirstName = true;
+  bool _isLastName = true;
+  bool _isPhone = true;
+  bool _isLocation = true;
+  bool _isEmail = true;
+
   @override
   void initState() {
     super.initState();
@@ -69,11 +75,15 @@ class _PersonalPageState extends State<PersonalPage> {
         title: l10n.personalTitle,
         titleLeading: widget.isFromOnBoarding ? null : BackLeadingButton(),
         floatingActionButton: SelfIssuedCredentialButton(
-          givenName: widget.profileModel.firstName,
-          familyName: widget.profileModel.lastName,
-          telephone: widget.profileModel.phone,
-          email: widget.profileModel.email,
-          address: widget.profileModel.location,
+          selfIssuedCredentialButtonClick: () {
+            return SelfIssuedCredentialDataModel(
+              givenName: _isFirstName ? firstNameController.text : '',
+              familyName: _isLastName ? lastNameController.text : '',
+              telephone: _isPhone ? phoneController.text : '',
+              address: _isLocation ? locationController.text : '',
+              email: _isEmail ? emailController.text : '',
+            );
+          },
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         titleTrailing: InkWell(
@@ -139,6 +149,18 @@ class _PersonalPageState extends State<PersonalPage> {
               controller: firstNameController,
               icon: Icons.person,
               textCapitalization: TextCapitalization.words,
+              prefixIcon: Checkbox(
+                value: _isFirstName,
+                fillColor: MaterialStateProperty.all(
+                    Theme.of(context).colorScheme.secondaryContainer),
+                onChanged: (value) {
+                  if (value != null && _isFirstName != value) {
+                    setState(() {
+                      _isFirstName = value;
+                    });
+                  }
+                },
+              ),
             ),
             const SizedBox(height: 16.0),
             BaseTextField(
@@ -146,6 +168,18 @@ class _PersonalPageState extends State<PersonalPage> {
               controller: lastNameController,
               icon: Icons.person,
               textCapitalization: TextCapitalization.words,
+              prefixIcon: Checkbox(
+                value: _isLastName,
+                fillColor: MaterialStateProperty.all(
+                    Theme.of(context).colorScheme.secondaryContainer),
+                onChanged: (value) {
+                  if (value != null && _isLastName != value) {
+                    setState(() {
+                      _isLastName = value;
+                    });
+                  }
+                },
+              ),
             ),
             const SizedBox(height: 16.0),
             BaseTextField(
@@ -153,6 +187,18 @@ class _PersonalPageState extends State<PersonalPage> {
               controller: phoneController,
               icon: Icons.phone,
               type: TextInputType.phone,
+              prefixIcon: Checkbox(
+                value: _isPhone,
+                fillColor: MaterialStateProperty.all(
+                    Theme.of(context).colorScheme.secondaryContainer),
+                onChanged: (value) {
+                  if (value != null && _isPhone != value) {
+                    setState(() {
+                      _isPhone = value;
+                    });
+                  }
+                },
+              ),
             ),
             const SizedBox(height: 16.0),
             BaseTextField(
@@ -160,6 +206,18 @@ class _PersonalPageState extends State<PersonalPage> {
               controller: locationController,
               icon: Icons.location_pin,
               textCapitalization: TextCapitalization.words,
+              prefixIcon: Checkbox(
+                value: _isLocation,
+                fillColor: MaterialStateProperty.all(
+                    Theme.of(context).colorScheme.secondaryContainer),
+                onChanged: (value) {
+                  if (value != null && _isLocation != value) {
+                    setState(() {
+                      _isLocation = value;
+                    });
+                  }
+                },
+              ),
             ),
             const SizedBox(height: 16.0),
             BaseTextField(
@@ -167,6 +225,18 @@ class _PersonalPageState extends State<PersonalPage> {
               controller: emailController,
               icon: Icons.email,
               type: TextInputType.emailAddress,
+              prefixIcon: Checkbox(
+                value: _isEmail,
+                fillColor: MaterialStateProperty.all(
+                    Theme.of(context).colorScheme.secondaryContainer),
+                onChanged: (value) {
+                  if (value != null && _isEmail != value) {
+                    setState(() {
+                      _isEmail = value;
+                    });
+                  }
+                },
+              ),
             ),
           ],
         ),

@@ -3,16 +3,30 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talao/self_issued_credential/bloc/self_issued_credential.dart';
 import 'package:talao/wallet/cubit/wallet_cubit.dart';
 
+typedef SelfIssuedCredentialButtonClick = SelfIssuedCredentialDataModel
+    Function();
+
+class SelfIssuedCredentialDataModel {
+  final String givenName;
+  final String familyName;
+  final String telephone;
+  final String email;
+  final String address;
+
+  SelfIssuedCredentialDataModel({
+    this.givenName = '',
+    this.familyName = '',
+    this.telephone = '',
+    this.email = '',
+    this.address = '',
+  });
+}
+
 class SelfIssuedCredentialButton extends StatelessWidget {
-  final String givenName, familyName, telephone, email, address;
+  final SelfIssuedCredentialButtonClick selfIssuedCredentialButtonClick;
 
   const SelfIssuedCredentialButton(
-      {Key? key,
-      this.givenName = '',
-      this.familyName = '',
-      this.telephone = '',
-      this.email = '',
-      this.address = ''})
+      {Key? key, required this.selfIssuedCredentialButtonClick})
       : super(key: key);
 
   @override
@@ -29,11 +43,8 @@ class SelfIssuedCredentialButton extends StatelessWidget {
                 orElse: () {
                   BlocProvider.of<SelfIssuedCredentialCubit>(ctx)
                       .createSelfIssuedCredential(
-                          givenName: givenName,
-                          familyName: familyName,
-                          telephone: telephone,
-                          email: email,
-                          address: address);
+                          selfIssuedCredentialDataModel:
+                              selfIssuedCredentialButtonClick.call());
                 },
                 loading: () => null);
           },
