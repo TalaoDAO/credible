@@ -2,10 +2,11 @@ import 'dart:convert';
 
 import 'package:provider/src/provider.dart';
 import 'package:talao/app/interop/didkit/didkit.dart';
-import 'package:talao/app/pages/credentials/blocs/wallet.dart';
+import 'package:talao/app/shared/ui/ui.dart';
+import 'package:talao/l10n/l10n.dart';
+import 'package:talao/wallet/wallet.dart';
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
 import 'package:talao/app/pages/credentials/models/verification_state.dart';
-import 'package:talao/app/pages/credentials/pages/list.dart';
 import 'package:talao/app/pages/credentials/widget/display_status.dart';
 import 'package:talao/app/pages/credentials/widget/document.dart';
 import 'package:talao/app/pages/qr_code/display.dart';
@@ -16,7 +17,6 @@ import 'package:talao/app/shared/widget/confirm_dialog.dart';
 import 'package:talao/app/shared/widget/text_field_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:logging/logging.dart';
 
 class CredentialsDetail extends StatefulWidget {
@@ -43,11 +43,14 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
   bool showShareMenu = false;
   VerificationState verification = VerificationState.Unverified;
 
+  String? title = '';
+
   final logger = Logger('talao-wallet/credentials/detail');
 
   @override
   void initState() {
     super.initState();
+    title = widget.item.alias;
     verify();
   }
 
@@ -80,63 +83,67 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
   }
 
   void delete() async {
+    final l10n = context.l10n;
     final confirm = await showDialog<bool>(
           context: context,
           builder: (BuildContext context) {
-            final localizations = AppLocalizations.of(context)!;
             return ConfirmDialog(
-              title: localizations.credentialDetailDeleteConfirmationDialog,
-              yes: localizations.credentialDetailDeleteConfirmationDialogYes,
-              no: localizations.credentialDetailDeleteConfirmationDialogNo,
+              title: l10n.credentialDetailDeleteConfirmationDialog,
+              yes: l10n.credentialDetailDeleteConfirmationDialogYes,
+              no: l10n.credentialDetailDeleteConfirmationDialogNo,
             );
           },
         ) ??
         false;
 
     if (confirm) {
-      await context.read<WalletBloc>().deleteById(widget.item.id);
+      await context.read<WalletCubit>().deleteById(widget.item.id);
       Navigator.of(context).pop();
-      await Navigator.of(context).pushReplacement(CredentialsList.route());
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Theme.of(context).colorScheme.snackBarError,
+        content: Text(l10n.credentialDetailDeleteSuccessMessage),
+      ));
     }
   }
 
   void _edit() async {
+    final l10n = context.l10n;
     logger.info('Start edit flow');
 
     final newAlias = await showDialog<String>(
       context: context,
       builder: (context) => TextFieldDialog(
-        title: 'Do you want to edit this credential alias?',
-        initialValue: widget.item.alias,
-        yes: 'Save',
-        no: 'Cancel',
+        title: l10n.credentialDetailEditConfirmationDialog,
+        initialValue: title,
+        yes: l10n.credentialDetailEditConfirmationDialogYes,
+        no: l10n.credentialDetailEditConfirmationDialogNo,
       ),
     );
 
     logger.info('Edit flow answered with: $newAlias');
 
-    if (newAlias != null && newAlias != widget.item.alias) {
+    if (newAlias != null && newAlias != title) {
       logger.info('New alias is different, going to update credential');
     }
     final newCredential = CredentialModel.copyWithAlias(
       oldCredentialModel: widget.item,
       newAlias: newAlias ?? '',
     );
-    await context.read<WalletBloc>().updateCredential(newCredential);
-    Navigator.of(context).pop();
-    await Navigator.of(context).push(CredentialsDetail.route(newCredential));
+    await context.read<WalletCubit>().updateCredential(newCredential);
+    setState(() {
+      title = newAlias;
+    });
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(l10n.credentialDetailEditSuccessMessage),
+    ));
   }
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Add proper localization
-    final localizations = AppLocalizations.of(context)!;
-
+    final l10n = context.l10n;
     return BasePage(
-      title: widget.item.alias != ''
-          ? widget.item.alias
-          : localizations.credential,
-      titleTag: 'credential/${widget.item.alias ?? widget.item.id}/issuer',
+      title: title != '' ? title : l10n.credential,
+      titleTag: 'credential/${title ?? widget.item.id}/issuer',
       titleLeading: BackLeadingButton(),
       titleTrailing: IconButton(
         onPressed: _edit,
@@ -151,7 +158,7 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
                 ),
                 height: kBottomNavigationBarHeight,
                 child: Tooltip(
-                  message: localizations.credentialDetailShare,
+                  message: l10n.credentialDetailShare,
                   child: BaseButton.primary(
                     context: context,
                     onPressed: () {
@@ -170,7 +177,7 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
                           color: Theme.of(context).colorScheme.onPrimary,
                         ),
                         const SizedBox(width: 16.0),
-                        Text(localizations.credentialDetailShare),
+                        Text(l10n.credentialDetailShare),
                       ],
                     ),
                   ),
@@ -190,7 +197,7 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  localizations.credentialDetailStatus,
+                  l10n.credentialDetailStatus,
                   style: Theme.of(context).textTheme.bodyText1!,
                 ),
               ),
@@ -233,7 +240,7 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
             ),
             onPressed: delete,
             child: Text(
-              localizations.credentialDetailDelete,
+              l10n.credentialDetailDelete,
               style: Theme.of(context)
                   .textTheme
                   .bodyText1!

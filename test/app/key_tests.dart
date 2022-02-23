@@ -1,4 +1,4 @@
-import 'package:talao/app/shared/key_generation.dart';
+import 'package:talao/app/interop/key_generation.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -8,7 +8,7 @@ void main() {
         () async {
       final mnemonic =
           'state draft moral repeat knife trend animal pretty delay collect fall adjust';
-      final generatedKey = await KeyGeneration.privateKey(mnemonic);
+      final generatedKey = await KeyGeneration().privateKey(mnemonic);
       expect(
           generatedKey,
           equals(

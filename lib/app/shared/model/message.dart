@@ -1,5 +1,9 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:talao/app/shared/error_handler/error_handler.dart';
+
+part 'message.g.dart';
 
 enum MessageType {
   error,
@@ -8,10 +12,16 @@ enum MessageType {
   success,
 }
 
-class StateMessage {
+@JsonSerializable()
+class StateMessage extends Equatable {
+  StateMessage({this.message, this.type, this.errorHandler});
 
-  final String message;
-  final MessageType type;
+  factory StateMessage.fromJson(Map<String, dynamic> json) =>
+      _$StateMessageFromJson(json);
+
+  final String? message;
+  final MessageType? type;
+  @JsonKey(ignore: true)
   final ErrorHandler? errorHandler;
 
   StateMessage.error(this.message, {this.errorHandler})
@@ -26,7 +36,12 @@ class StateMessage {
   StateMessage.success(this.message, {this.errorHandler})
       : type = MessageType.success;
 
-  Color get color {
+  Map<String, dynamic> toJson() => _$StateMessageToJson(this);
+
+  @override
+  List<Object?> get props => [message, type];
+
+  Color? get color {
     switch (type) {
       case MessageType.error:
         return Colors.red;
@@ -36,6 +51,9 @@ class StateMessage {
         return Colors.cyan;
       case MessageType.success:
         return Colors.green;
+      default:
+        Colors.green;
     }
+    return null;
   }
 }

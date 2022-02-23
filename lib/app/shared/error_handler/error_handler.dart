@@ -8,9 +8,11 @@ abstract class ErrorHandler implements Exception {
   void displayError(
       BuildContext context, ErrorHandler error, Color errorColor) {
     var errorMessage = getErrorMessage(context, error);
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      backgroundColor: errorColor,
-      content: Text(errorMessage),
-    ));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: errorColor,
+        content: Text(errorMessage),
+      ),
+    );
   }
 }

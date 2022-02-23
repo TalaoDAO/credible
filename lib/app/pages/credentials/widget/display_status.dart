@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
-import 'package:talao/app/pages/credentials/blocs/wallet.dart';
+import 'package:talao/wallet/wallet.dart';
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
 import 'package:talao/app/pages/credentials/models/credential_status.dart';
 import 'package:talao/app/pages/credentials/models/revokation_status.dart';
@@ -15,7 +15,7 @@ class DisplayStatus extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final wallet = context.read<WalletBloc>();
+    final wallet = context.read<WalletCubit>();
     final currentRevocationStatus = item.revocationStatus;
 
     final localizations = AppLocalizations.of(context)!;

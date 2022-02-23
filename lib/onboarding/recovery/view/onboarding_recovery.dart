@@ -6,7 +6,6 @@ import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/base/text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:talao/onboarding/gen/onboarding_gen.dart';
 
 class OnBoardingRecoveryPage extends StatefulWidget {
   static Route route() => MaterialPageRoute(
@@ -84,8 +83,8 @@ class _OnBoardingRecoveryPageState extends State<OnBoardingRecoveryPage> {
                       mnemonicController.text,
                     );
 
-                    await Navigator.of(context)
-                        .pushReplacement(OnBoardingGenPage.route());
+                    // await Navigator.of(context)
+                    //     .pushReplacement(OnBoardingGenPage.route());
                   }
                 : null,
             child: Text(localizations.onBoardingRecoveryButton),

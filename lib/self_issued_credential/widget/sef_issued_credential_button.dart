@@ -1,10 +1,7 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:talao/app/interop/network/network_client.dart';
-import 'package:talao/app/pages/credentials/blocs/wallet.dart';
-import 'package:talao/app/shared/constants.dart';
 import 'package:talao/self_issued_credential/bloc/self_issued_credential.dart';
+import 'package:talao/wallet/cubit/wallet_cubit.dart';
 
 class SelfIssuedCredentialButton extends StatelessWidget {
   final String givenName, familyName, telephone, email, address;
@@ -22,8 +19,8 @@ class SelfIssuedCredentialButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<SelfIssuedCredentialCubit>(
       create: (_) => SelfIssuedCredentialCubit(
-          BlocProvider.of<WalletBloc>(context),
-          DioClient(Constants.checkIssuerServerUrl, Dio())),
+        BlocProvider.of<WalletCubit>(context),
+      ),
       child: BlocConsumer<SelfIssuedCredentialCubit, SelfIssuedCredentialState>(
           builder: (ctx, state) {
         return FloatingActionButton(

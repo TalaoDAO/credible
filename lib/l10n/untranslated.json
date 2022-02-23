@@ -1,5 +1,10 @@
 {
   "de": [
+    "credentialDetailDeleteSuccessMessage",
+    "credentialDetailEditConfirmationDialog",
+    "credentialDetailEditConfirmationDialogYes",
+    "credentialDetailEditConfirmationDialogNo",
+    "credentialDetailEditSuccessMessage",
     "credentialPickTitle",
     "credentialPickAlertMessage",
     "blockChainDisplayMethod",
@@ -37,6 +42,11 @@
   ],
 
   "es": [
+    "credentialDetailDeleteSuccessMessage",
+    "credentialDetailEditConfirmationDialog",
+    "credentialDetailEditConfirmationDialogYes",
+    "credentialDetailEditConfirmationDialogNo",
+    "credentialDetailEditSuccessMessage",
     "credentialPickTitle",
     "credentialPickAlertMessage",
     "blockChainDisplayMethod",
@@ -74,6 +84,11 @@
   ],
 
   "fr": [
+    "credentialDetailDeleteSuccessMessage",
+    "credentialDetailEditConfirmationDialog",
+    "credentialDetailEditConfirmationDialogYes",
+    "credentialDetailEditConfirmationDialogNo",
+    "credentialDetailEditSuccessMessage",
     "credentialPickTitle",
     "credentialPickAlertMessage",
     "active",
@@ -86,6 +101,11 @@
   ],
 
   "it": [
+    "credentialDetailDeleteSuccessMessage",
+    "credentialDetailEditConfirmationDialog",
+    "credentialDetailEditConfirmationDialogYes",
+    "credentialDetailEditConfirmationDialogNo",
+    "credentialDetailEditSuccessMessage",
     "credentialPickTitle",
     "credentialPickAlertMessage",
     "blockChainDisplayMethod",

@@ -194,7 +194,7 @@ class QRCodeBloc extends Bloc<QRCodeEvent, QRCodeState> {
 
       if (e is ErrorHandler) {
         emit(QRCodeStateMessage(
-            StateMessage.error('An error occurred', errorHandler: e)));
+            StateMessage.error('An error occurred ', errorHandler: e)));
       } else {
         emit(QRCodeStateMessage(StateMessage.error(
             'An error occurred while connecting to the server. '
