@@ -1,4 +1,5 @@
-import 'package:talao/drawer/profile/cubit/profile_state.dart';
+import 'package:talao/app/interop/secure_storage/secure_storage.dart';
+import 'package:talao/drawer/backup/backup_credential.dart';
 import 'package:talao/wallet/wallet.dart';
 import 'package:talao/app/shared/widget/confirm_dialog.dart';
 import 'package:flutter/material.dart';
@@ -117,7 +118,9 @@ class ProfileView extends StatelessWidget {
                 MenuItem(
                   icon: Icons.backup,
                   title: l10n.backupCredential,
-                  onTap: () async {},
+                  onTap: () {
+                    Navigator.of(context).push(BackupCredentialPage.route());
+                  },
                 ),
                 MenuItem(
                   icon: Icons.restore_page,
@@ -135,7 +138,9 @@ class ProfileView extends StatelessWidget {
                         ) ??
                         false;
 
-                    if (confirm) {}
+                    if (confirm) {
+                      await Navigator.of(context).push(RecoveryKeyPage.route());
+                    }
                   },
                 ),
                 MenuItem(

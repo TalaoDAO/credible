@@ -1,6 +1,9 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
-import 'package:talao/app/shared/ui/theme.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
+import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/mnemonic.dart';
 import 'package:flutter/material.dart';
@@ -36,33 +39,36 @@ class _RecoveryKeyPageState extends State<RecoveryKeyPage> {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     return BasePage(
-      title: l10n.onBoardingGenPhraseTitle,
+      title: l10n.recoveryCredential,
       titleLeading: BackLeadingButton(),
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
         children: <Widget>[
-          const SizedBox(height: 16.0),
-          Text(
-            l10n.genPhraseInstruction,
-            textAlign: TextAlign.center,
-            style: Theme.of(context)
-                .textTheme
-                .subtitle2!
-                .copyWith(color: Theme.of(context).colorScheme.subtitle1),
-          ),
-          const SizedBox(height: 8.0),
-          Text(
-            l10n.genPhraseExplanation,
-            textAlign: TextAlign.center,
-            style: Theme.of(context)
-                .textTheme
-                .bodyText1!
-                .copyWith(color: Theme.of(context).colorScheme.subtitle2),
-          ),
-          const SizedBox(height: 48.0),
           if (_mnemonic != null && _mnemonic!.isNotEmpty)
             MnemonicDisplay(mnemonic: _mnemonic!),
         ],
+      ),
+      navigation: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: SizedBox(
+          height: 42,
+          child: BaseButton.primary(
+            context: context,
+            textColor: Theme.of(context).colorScheme.onPrimary,
+            onPressed: () async {
+              var result = await FilePicker.platform
+                  .pickFiles(type: FileType.custom, allowedExtensions: ['txt']);
+
+              if (result != null) {
+                var file = File(result.files.single.path!);
+                var text = await file.readAsString();
+                print(text);
+              }
+            },
+            child: Text('Upload Backup File'),
+          ),
+        ),
       ),
     );
   }
