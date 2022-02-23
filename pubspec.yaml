@@ -21,7 +21,6 @@ dependencies:
   dio: ^4.0.4
   ed25519_hd_key: ^2.2.0
   equatable: ^2.0.3
-  encrypt: ^5.0.1
   flutter:
     sdk: flutter
   flutter_localizations:
