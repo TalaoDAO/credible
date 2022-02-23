@@ -117,17 +117,16 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
   Future<void> _recordCredential(String vc) async {
     final jsonCredential = jsonDecode(vc);
     final credentialModel = CredentialModel(
-      id: 'uuid',
+      id: '',
       alias: null,
       image: 'image',
       data: jsonCredential,
-      display: Display.emptyDisplay(),
+      display: Display.emptyDisplay()..toJson(),
       shareLink: '',
-      credentialPreview: Credential.dummy(),
+      credentialPreview: Credential.fromJson(jsonCredential),
       revocationStatus: RevocationStatus.unknown,
     );
-    await walletCubit.insertCredential(CredentialModel.copyWithData(
-        oldCredentialModel: credentialModel, newData: jsonCredential));
+    await walletCubit.insertCredential(credentialModel);
     emit(const SelfIssuedCredentialState.credentialCreated());
   }
 }
