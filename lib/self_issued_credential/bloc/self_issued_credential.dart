@@ -5,7 +5,13 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
 import 'package:talao/app/interop/didkit/didkit.dart';
+import 'package:talao/app/interop/network/network_client.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
+import 'package:talao/app/pages/credentials/blocs/wallet.dart';
+import 'package:talao/app/pages/credentials/models/credential_model.dart';
+import 'package:talao/app/pages/credentials/models/revokation_status.dart';
+import 'package:talao/app/shared/model/credential.dart';
+import 'package:talao/app/shared/model/display.dart';
 import 'package:talao/self_issued_credential/models/self_issued.dart';
 import 'package:talao/self_issued_credential/models/self_issued_credential.dart';
 import 'package:uuid/uuid.dart';
@@ -19,6 +25,7 @@ class SelfIssuedCredentialState with _$SelfIssuedCredentialState {
   const factory SelfIssuedCredentialState.loading() = Loading;
 
   const factory SelfIssuedCredentialState.error(String message) = Error;
+
   const factory SelfIssuedCredentialState.warning(String message) = Warning;
 
   const factory SelfIssuedCredentialState.credentialCreated() =
@@ -26,7 +33,10 @@ class SelfIssuedCredentialState with _$SelfIssuedCredentialState {
 }
 
 class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
-  SelfIssuedCredentialCubit()
+  final WalletBloc walletBloc;
+  final DioClient _client;
+
+  SelfIssuedCredentialCubit(this.walletBloc,this._client)
       : super(const SelfIssuedCredentialState.initial());
 
   void createSelfIssuedCredential(
@@ -73,6 +83,9 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
           .verifyCredential(vc, jsonEncode(verifyOptions));
       final jsonVerification = jsonDecode(result);
 
+      log.info('vc: $vc');
+      log.info('verifyResult: ${jsonVerification.toString()}');
+
       if (jsonVerification['warnings'].isNotEmpty) {
         log.warning('credential verification return warnings',
             jsonVerification['warnings']);
@@ -87,12 +100,12 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
         if (jsonVerification['errors'][0] != 'No applicable proof') {
           emit(SelfIssuedCredentialState.error('Failed to verify credential. '
               'Check the logs for more information.'));
+        } else {
+          await _recordCredential(vc);
         }
+      } else {
+        await _recordCredential(vc);
       }
-
-      log.info('verifyResult: ${jsonVerification.toString()}');
-
-      emit(const SelfIssuedCredentialState.credentialCreated());
     } catch (e, s) {
       print('e: $e,s: $s');
       log.severe('something went wrong', e, s);
@@ -101,5 +114,22 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
           'Failed to create self issued credential. '
           'Check the logs for more information.'));
     }
+  }
+
+  Future<void> _recordCredential(String vc) async {
+    final jsonCredential = jsonDecode(vc);
+    final credentialModel = CredentialModel(
+      id: 'uuid',
+      alias: null,
+      image: 'image',
+      data: jsonCredential,
+      display: Display.emptyDisplay(),
+      shareLink: '',
+      credentialPreview: Credential.dummy(),
+      revocationStatus: RevocationStatus.unknown,
+    );
+    await walletBloc.insertCredential(CredentialModel.copyWithData(
+        oldCredentialModel: credentialModel, newData: jsonCredential));
+    emit(const SelfIssuedCredentialState.credentialCreated());
   }
 }
