@@ -30,9 +30,6 @@ class DocumentWidget extends StatelessWidget {
     if (model.credentialPreview.credentialSubject is Voucher) {
       return model.displayDetail(context, model);
     }
-    if (model.credentialPreview.credentialSubject is SelfIssued) {
-      return model.displayDetail(context, model);
-    }
     if (model.credentialPreview.credentialSubject
         is Ecole42LearningAchievement) {
       final localizations = AppLocalizations.of(context)!;
