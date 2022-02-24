@@ -1,6 +1,7 @@
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/drawer/backup/backup_credential.dart';
 import 'package:talao/drawer/recovery_credential/recovery_credential.dart';
+import 'package:talao/drawer/recovery_key/view/recovery_key_page.dart';
 import 'package:talao/wallet/wallet.dart';
 import 'package:talao/app/shared/widget/confirm_dialog.dart';
 import 'package:flutter/material.dart';
@@ -91,7 +92,7 @@ class ProfileView extends StatelessWidget {
                         false;
 
                     if (confirm) {
-                      //await Navigator.of(context).push(RecoveryKeyPage.route());
+                      await Navigator.of(context).push(RecoveryKeyPage.route());
                     }
                   },
                 ),
