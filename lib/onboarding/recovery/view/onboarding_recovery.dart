@@ -1,5 +1,6 @@
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
+import 'package:talao/app/pages/credentials/pages/list.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
