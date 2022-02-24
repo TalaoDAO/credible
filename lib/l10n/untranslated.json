@@ -42,6 +42,13 @@
     "personalSkip",
     "recoveryCredential",
     "backupCredential",
+    "backupCredentialPhrase",
+    "backupCredentialPhraseExplanation",
+    "backupCredentialButtonTitle",
+    "backupCredentialEmptyError",
+    "backupCredentialPermissionDeniedMessage",
+    "backupCredentialNotificationTitle",
+    "backupCredentialNotificationMessage",
     "recoveryCredentialWarningDialogSubtitle"
   ],
 
@@ -87,6 +94,13 @@
     "personalSkip",
     "recoveryCredential",
     "backupCredential",
+    "backupCredentialPhrase",
+    "backupCredentialPhraseExplanation",
+    "backupCredentialButtonTitle",
+    "backupCredentialEmptyError",
+    "backupCredentialPermissionDeniedMessage",
+    "backupCredentialNotificationTitle",
+    "backupCredentialNotificationMessage",
     "recoveryCredentialWarningDialogSubtitle"
   ],
 
@@ -107,6 +121,13 @@
     "personalSkip",
     "recoveryCredential",
     "backupCredential",
+    "backupCredentialPhrase",
+    "backupCredentialPhraseExplanation",
+    "backupCredentialButtonTitle",
+    "backupCredentialEmptyError",
+    "backupCredentialPermissionDeniedMessage",
+    "backupCredentialNotificationTitle",
+    "backupCredentialNotificationMessage",
     "recoveryCredentialWarningDialogSubtitle"
   ],
 
@@ -154,6 +175,13 @@
     "personalSkip",
     "recoveryCredential",
     "backupCredential",
+    "backupCredentialPhrase",
+    "backupCredentialPhraseExplanation",
+    "backupCredentialButtonTitle",
+    "backupCredentialEmptyError",
+    "backupCredentialPermissionDeniedMessage",
+    "backupCredentialNotificationTitle",
+    "backupCredentialNotificationMessage",
     "recoveryCredentialWarningDialogSubtitle"
   ]
 }

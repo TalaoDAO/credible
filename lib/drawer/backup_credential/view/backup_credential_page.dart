@@ -1,5 +1,8 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:downloads_path_provider_28/downloads_path_provider_28.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter/material.dart';
@@ -9,13 +12,19 @@ import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/l10n/l10n.dart';
 import 'package:path/path.dart' as path;
+import 'package:talao/wallet/cubit/wallet_cubit.dart';
 
-class BackupCredentialPage extends StatelessWidget {
+class BackupCredentialPage extends StatefulWidget {
   static Route route() => MaterialPageRoute(
         builder: (_) => BackupCredentialPage(),
         settings: RouteSettings(name: '/backupCredentialPage'),
       );
 
+  @override
+  State<BackupCredentialPage> createState() => _BackupCredentialPageState();
+}
+
+class _BackupCredentialPageState extends State<BackupCredentialPage> {
   Future<Directory?> _getDownloadDirectory() async {
     if (Platform.isAndroid) {
       return await DownloadsPathProvider.downloadsDirectory;
@@ -45,26 +54,71 @@ class BackupCredentialPage extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          BaseButton.primary(
-            context: context,
-            textColor: Theme.of(context).colorScheme.onPrimary,
-            onPressed: () async {
-              //todo: if credential is empty show popup
-              final downloadDirectory = await _getDownloadDirectory();
-              final isPermissionStatusGranted = await _getStoragePermission();
+          Column(
+            children: [
+              Text(
+                l10n.backupCredentialPhrase,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.subtitle1,
+              ),
+              const SizedBox(height: 8.0),
+              Text(
+                l10n.backupCredentialPhraseExplanation,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodyText1,
+              ),
+            ],
+          ),
+          const SizedBox(height: 32.0),
+          Center(
+            child: Icon(
+              Icons.file_download,
+              size: 100,
+              color: Theme.of(context).colorScheme.secondaryContainer,
+            ),
+          ),
+          const SizedBox(height: 32.0),
+          BlocBuilder<WalletCubit, WalletState>(builder: (context, state) {
+            return BaseButton.primary(
+              context: context,
+              textColor: Theme.of(context).colorScheme.onPrimary,
+              onPressed: () async {
+                if (state.credentials.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(l10n.backupCredentialEmptyError),
+                    backgroundColor: Theme.of(context).colorScheme.error,
+                  ));
+                  return;
+                }
 
-              if (isPermissionStatusGranted) {
-                final savePath = path.join(downloadDirectory!.path);
-                final filePath = '$savePath/talao-credential.txt';
-                final _myFile = File(filePath);
-                await _myFile.writeAsString('My name is Bibash');
-                await LocalNotification().showNotification(filePath);
-              } else {
-                // show snackbar after user declines
-              }
-            },
-            child: Text('Backup'),
-          )
+                final downloadDirectory = await _getDownloadDirectory();
+                final isPermissionStatusGranted = await _getStoragePermission();
+
+                if (isPermissionStatusGranted) {
+                  final savePath = path.join(downloadDirectory!.path);
+                  var date = DateFormat('yyyy-MM-dd').format(DateTime.now());
+                  final filePath = '$savePath/talao-credential-$date.txt';
+                  final _myFile = File(filePath);
+                  var data = {
+                    'date': date,
+                    'credentials': state.credentials,
+                  };
+                  await _myFile.writeAsString(jsonEncode(data));
+                  await LocalNotification().showNotification(
+                    filePath: filePath,
+                    title: l10n.backupCredentialNotificationTitle,
+                    message: l10n.backupCredentialNotificationMessage,
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(l10n.backupCredentialPermissionDeniedMessage),
+                    backgroundColor: Theme.of(context).colorScheme.error,
+                  ));
+                }
+              },
+              child: Text(l10n.backupCredentialButtonTitle),
+            );
+          })
         ],
       ),
     );

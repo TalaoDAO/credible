@@ -40,7 +40,8 @@ class LocalNotification {
     tz.setLocalLocation(tz.getLocation(timeZoneName!));
   }
 
-  Future<void> showNotification(String filePath) async {
+  Future<void> showNotification(
+      {String? filePath, String? title, String? message}) async {
     final android = AndroidNotificationDetails('channel id', 'channel name',
         channelDescription: 'channel description',
         priority: Priority.high,
@@ -50,8 +51,8 @@ class LocalNotification {
 
     await flutterLocalNotificationsPlugin.show(
       0, // notification id
-      'Success',
-      'File has been downloaded successfully!',
+      title,
+      message,
       platform,
       payload: filePath,
     );

@@ -202,5 +202,12 @@
   "personalSkip": "SKIP",
   "recoveryCredential": "Recovery - credential",
   "backupCredential": "Backup - credential",
+  "backupCredentialPhrase": "Download this encrypted backup file and save it somewhere safe",
+  "backupCredentialPhraseExplanation": "It is only way to recover your credentials later if you lose access to this wallet",
+  "backupCredentialButtonTitle": "Download File",
+  "backupCredentialEmptyError": "You do not have any credential in your wallet.",
+  "backupCredentialPermissionDeniedMessage": "You need permission to download this file.",
+  "backupCredentialNotificationTitle": "Success",
+  "backupCredentialNotificationMessage": "File has been successfully downloaded. Tap to open the file.",
   "recoveryCredentialWarningDialogSubtitle": "The recovery will delete any credentials you have stored in this wallet"
 }
