@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
 import 'package:talao/app/shared/model/author.dart';
 import 'package:talao/app/shared/model/certificate_of_employment/certificate_of_employment.dart';
@@ -13,8 +15,7 @@ import 'package:talao/app/shared/model/professional_skil_assessment/professional
 import 'package:talao/app/shared/model/professional_student_card/professional_student_card.dart';
 import 'package:talao/app/shared/model/resident_card/resident_card.dart';
 import 'package:talao/app/shared/model/voucher/voucher.dart';
-import 'package:flutter/material.dart';
-import 'package:json_annotation/json_annotation.dart';
+import 'package:talao/self_issued_credential/models/self_issued.dart';
 
 part 'credential_subject.g.dart';
 
@@ -32,6 +33,9 @@ class CredentialSubject {
     switch (type) {
       case 'ResidentCard':
         _backgroundColor = Colors.white;
+        break;
+      case 'SelfIssued':
+        _backgroundColor = Color(0xffdac5f8);
         break;
       case 'IdentityPass':
         _backgroundColor = Color(0xffCAFFBF);
@@ -123,6 +127,8 @@ class CredentialSubject {
     switch (json['type']) {
       case 'ResidentCard':
         return ResidentCard.fromJson(json);
+      case 'SelfIssued':
+        return SelfIssued.fromJson(json);
       case 'IdentityPass':
         return IdentityPass.fromJson(json);
       case 'Voucher':

@@ -8,6 +8,7 @@ class BaseTextField extends StatelessWidget {
   final TextInputType type;
   final TextCapitalization textCapitalization;
   final String? error;
+  final Widget? prefixIcon;
 
   const BaseTextField({
     Key? key,
@@ -17,14 +18,16 @@ class BaseTextField extends StatelessWidget {
     this.type = TextInputType.text,
     this.textCapitalization = TextCapitalization.none,
     this.error,
+    this.prefixIcon,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: UiConstraints.textFieldPadding,
-      padding: const EdgeInsets.symmetric(
-        horizontal: 24.0,
+      padding: EdgeInsets.only(
+        right: 24.0,
+        left: prefixIcon != null ? 0.0 : 24.0,
       ),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
@@ -53,6 +56,7 @@ class BaseTextField extends StatelessWidget {
           // hintStyle: Theme.of(context).textTheme.bodyText1!,
           labelText: label,
           labelStyle: Theme.of(context).textTheme.bodyText1!,
+          prefixIcon: prefixIcon,
           suffixIcon: Icon(
             icon,
             color: Theme.of(context).colorScheme.secondaryContainer,

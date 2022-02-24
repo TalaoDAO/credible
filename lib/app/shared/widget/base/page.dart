@@ -23,6 +23,9 @@ class BasePage extends StatelessWidget {
 
   final bool useSafeArea;
 
+  final Widget? floatingActionButton;
+  final FloatingActionButtonLocation? floatingActionButtonLocation;
+
   const BasePage({
     Key? key,
     this.scaffoldKey,
@@ -41,12 +44,16 @@ class BasePage extends StatelessWidget {
     this.extendBelow,
     required this.body,
     this.useSafeArea = true,
+    this.floatingActionButton,
+    this.floatingActionButtonLocation,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
+      floatingActionButton: floatingActionButton,
+      floatingActionButtonLocation: floatingActionButtonLocation,
       extendBody: extendBelow ?? false,
       backgroundColor:
           backgroundColor ?? Theme.of(context).colorScheme.background,

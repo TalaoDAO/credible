@@ -1,6 +1,11 @@
-part of 'profile_cubit.dart';
+import 'package:equatable/equatable.dart';
+import 'package:json_annotation/json_annotation.dart';
+import 'package:talao/app/shared/model/message.dart';
+import 'package:talao/drawer/profile/models/profile.dart';
 
-@JsonSerializable()
+part 'profile_state.g.dart';
+
+@JsonSerializable(explicitToJson: true)
 class ProfileState extends Equatable {
   ProfileState({this.message, this.model});
 

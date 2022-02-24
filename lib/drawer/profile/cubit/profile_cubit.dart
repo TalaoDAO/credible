@@ -1,21 +1,18 @@
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
-import 'package:json_annotation/json_annotation.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/shared/constants.dart';
 import 'package:talao/app/shared/model/message.dart';
 import 'package:logging/logging.dart';
 import 'package:talao/drawer/profile/models/models.dart';
 
-part 'profile_state.dart';
+import 'profile_state.dart';
 
-part 'profile_cubit.g.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
   final SecureStorageProvider? secureStorageProvider;
 
   ProfileCubit({this.secureStorageProvider})
-      : super(ProfileState(model: ProfileModel.empty)){
+      : super(ProfileState(model: ProfileModel.empty)) {
     load();
   }
 
@@ -52,7 +49,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
-  void update(ProfileModel profileModel) async {
+  Future<void> update(ProfileModel profileModel) async {
     final log = Logger('talao-wallet/profile/update');
 
     try {

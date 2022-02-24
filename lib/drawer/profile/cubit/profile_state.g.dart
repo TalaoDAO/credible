@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'profile_cubit.dart';
+part of 'profile_state.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
@@ -17,6 +17,6 @@ ProfileState _$ProfileStateFromJson(Map<String, dynamic> json) => ProfileState(
 
 Map<String, dynamic> _$ProfileStateToJson(ProfileState instance) =>
     <String, dynamic>{
-      'model': instance.model,
-      'message': instance.message,
+      'model': instance.model?.toJson(),
+      'message': instance.message?.toJson(),
     };
