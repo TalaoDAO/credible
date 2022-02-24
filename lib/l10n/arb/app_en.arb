@@ -209,5 +209,8 @@
   "backupCredentialPermissionDeniedMessage": "You need permission to download this file.",
   "backupCredentialNotificationTitle": "Success",
   "backupCredentialNotificationMessage": "File has been successfully downloaded. Tap to open the file.",
-  "recoveryCredentialWarningDialogSubtitle": "The recovery will delete any credentials you have stored in this wallet"
+  "recoveryCredentialWarningDialogSubtitle": "The recovery will delete any credentials you have stored in this wallet",
+  "recoveryCredentialPhrase": "Upload the downloaded backup file if you saved it before",
+  "recoveryCredentialPhraseExplanation": "It is only way to recover your credentials if you lost your credentials somehow",
+  "recoveryCredentialButtonTitle": "Upload Backup File"
 }

@@ -45,15 +45,23 @@ class _RecoveryCredentialPageState extends State<RecoveryCredentialPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
-          if (_mnemonic != null && _mnemonic!.isNotEmpty)
-            MnemonicDisplay(mnemonic: _mnemonic!),
-        ],
-      ),
-      navigation: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SizedBox(
-          height: 42,
-          child: BaseButton.primary(
+          Column(
+            children: [
+              Text(
+                l10n.recoveryCredentialPhrase,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.subtitle1,
+              ),
+              const SizedBox(height: 8.0),
+              Text(
+                l10n.recoveryCredentialPhraseExplanation,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodyText1,
+              ),
+            ],
+          ),
+          const SizedBox(height: 32.0),
+          BaseButton.primary(
             context: context,
             textColor: Theme.of(context).colorScheme.onPrimary,
             onPressed: () async {
@@ -65,9 +73,9 @@ class _RecoveryCredentialPageState extends State<RecoveryCredentialPage> {
                 print(text);
               }
             },
-            child: Text('Upload Backup File'),
-          ),
-        ),
+            child: Text(l10n.recoveryCredentialButtonTitle),
+          )
+        ],
       ),
     );
   }

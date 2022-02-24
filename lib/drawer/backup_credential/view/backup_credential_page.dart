@@ -103,6 +103,7 @@ class _BackupCredentialPageState extends State<BackupCredentialPage> {
                     'date': date,
                     'credentials': state.credentials,
                   };
+                  //todo: encrypt data
                   await _myFile.writeAsString(jsonEncode(data));
                   await LocalNotification().showNotification(
                     filePath: filePath,

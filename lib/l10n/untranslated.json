@@ -49,7 +49,10 @@
     "backupCredentialPermissionDeniedMessage",
     "backupCredentialNotificationTitle",
     "backupCredentialNotificationMessage",
-    "recoveryCredentialWarningDialogSubtitle"
+    "recoveryCredentialWarningDialogSubtitle",
+    "recoveryCredentialPhrase",
+    "recoveryCredentialPhraseExplanation",
+    "recoveryCredentialButtonTitle"
   ],
 
   "es": [
@@ -101,7 +104,10 @@
     "backupCredentialPermissionDeniedMessage",
     "backupCredentialNotificationTitle",
     "backupCredentialNotificationMessage",
-    "recoveryCredentialWarningDialogSubtitle"
+    "recoveryCredentialWarningDialogSubtitle",
+    "recoveryCredentialPhrase",
+    "recoveryCredentialPhraseExplanation",
+    "recoveryCredentialButtonTitle"
   ],
 
   "fr": [
@@ -128,7 +134,10 @@
     "backupCredentialPermissionDeniedMessage",
     "backupCredentialNotificationTitle",
     "backupCredentialNotificationMessage",
-    "recoveryCredentialWarningDialogSubtitle"
+    "recoveryCredentialWarningDialogSubtitle",
+    "recoveryCredentialPhrase",
+    "recoveryCredentialPhraseExplanation",
+    "recoveryCredentialButtonTitle"
   ],
 
   "it": [
@@ -182,6 +191,9 @@
     "backupCredentialPermissionDeniedMessage",
     "backupCredentialNotificationTitle",
     "backupCredentialNotificationMessage",
-    "recoveryCredentialWarningDialogSubtitle"
+    "recoveryCredentialWarningDialogSubtitle",
+    "recoveryCredentialPhrase",
+    "recoveryCredentialPhraseExplanation",
+    "recoveryCredentialButtonTitle"
   ]
 }
