@@ -10,9 +10,11 @@ import 'package:talao/app/interop/local_notification/local_notification.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
+import 'package:talao/app/shared/widget/mnemonic.dart';
 import 'package:talao/l10n/l10n.dart';
 import 'package:path/path.dart' as path;
 import 'package:talao/wallet/cubit/wallet_cubit.dart';
+import 'package:bip39/bip39.dart' as bip39;
 
 class BackupCredentialPage extends StatefulWidget {
   static Route route() => MaterialPageRoute(
@@ -25,6 +27,8 @@ class BackupCredentialPage extends StatefulWidget {
 }
 
 class _BackupCredentialPageState extends State<BackupCredentialPage> {
+  final List<String>? mnemonic = bip39.generateMnemonic().split(' ');
+
   Future<Directory?> _getDownloadDirectory() async {
     if (Platform.isAndroid) {
       return await DownloadsPathProvider.downloadsDirectory;
@@ -70,13 +74,7 @@ class _BackupCredentialPageState extends State<BackupCredentialPage> {
             ],
           ),
           const SizedBox(height: 32.0),
-          Center(
-            child: Icon(
-              Icons.file_download,
-              size: 100,
-              color: Theme.of(context).colorScheme.secondaryContainer,
-            ),
-          ),
+          MnemonicDisplay(mnemonic: mnemonic!),
           const SizedBox(height: 32.0),
           BlocBuilder<WalletCubit, WalletState>(builder: (context, state) {
             return BaseButton.primary(
