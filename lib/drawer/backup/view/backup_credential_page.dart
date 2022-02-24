@@ -55,7 +55,7 @@ class BackupCredentialPage extends StatelessWidget {
 
               if (isPermissionStatusGranted) {
                 final savePath = path.join(downloadDirectory!.path);
-                final filePath = '$savePath/credential.txt';
+                final filePath = '$savePath/talao-credential.txt';
                 final _myFile = File(filePath);
                 await _myFile.writeAsString('My name is Bibash');
                 await LocalNotification().showNotification(filePath);

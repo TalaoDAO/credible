@@ -26,11 +26,14 @@ class _RecoveryCredentialPageState extends State<RecoveryCredentialPage> {
   late TextEditingController mnemonicController;
   late bool buttonEnabled;
   late bool edited;
+}
+
+class _RecoveryCredentialPageState extends State<RecoveryCredentialPage> {
+  List<String>? _mnemonic;
 
   @override
   void initState() {
     super.initState();
-
     mnemonicController = TextEditingController();
     mnemonicController.addListener(() {
       setState(() {
