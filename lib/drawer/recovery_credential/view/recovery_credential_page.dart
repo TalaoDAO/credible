@@ -1,11 +1,9 @@
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
-import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
-import 'package:talao/app/shared/widget/mnemonic.dart';
 import 'package:flutter/material.dart';
 import 'package:talao/l10n/l10n.dart';
 
@@ -20,21 +18,6 @@ class RecoveryCredentialPage extends StatefulWidget {
 }
 
 class _RecoveryCredentialPageState extends State<RecoveryCredentialPage> {
-  List<String>? _mnemonic;
-
-  @override
-  void initState() {
-    super.initState();
-    loadMnemonic();
-  }
-
-  Future<void> loadMnemonic() async {
-    final phrase = (await SecureStorageProvider.instance.get('mnemonic'))!;
-    setState(() {
-      _mnemonic = phrase.split(' ');
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
