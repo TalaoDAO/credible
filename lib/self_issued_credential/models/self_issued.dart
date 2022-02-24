@@ -34,7 +34,15 @@ class SelfIssued extends CredentialSubject {
       : super(id, type, Author('', ''));
 
   @override
-  Map<String, dynamic> toJson() => _$SelfIssuedToJson(this);
+  Map<String, dynamic> toJson() => {
+        'id':id,
+        if (address != null && address!.isNotEmpty) 'address': address,
+        if (familyName != null && familyName!.isNotEmpty) 'familyName': familyName,
+        if (givenName != null && givenName!.isNotEmpty) 'givenName': givenName,
+        'type': type,
+        if (telephone != null && telephone!.isNotEmpty) 'telephone': telephone,
+        if (email != null && email!.isNotEmpty) 'email': email,
+      };
 
   @override
   Widget displayInList(BuildContext context, CredentialModel item) {
