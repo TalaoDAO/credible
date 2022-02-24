@@ -59,7 +59,6 @@ class _RecoveryKeyPageState extends State<RecoveryKeyPage> {
             onPressed: () async {
               var result = await FilePicker.platform
                   .pickFiles(type: FileType.custom, allowedExtensions: ['txt']);
-
               if (result != null) {
                 var file = File(result.files.single.path!);
                 var text = await file.readAsString();
