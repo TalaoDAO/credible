@@ -1,11 +1,11 @@
 part of 'wallet_cubit.dart';
 
-enum KeyStatus { needsKey, hasKey, resetKey }
+enum KeyStatus { init, needsKey, hasKey, resetKey }
 
 @JsonSerializable()
 class WalletState extends Equatable {
   WalletState({
-    this.status = KeyStatus.needsKey,
+    this.status = KeyStatus.init,
     List<CredentialModel>? credentials,
   }) : credentials = credentials ?? [];
 
