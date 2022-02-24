@@ -92,7 +92,7 @@ class ProfileView extends StatelessWidget {
                         false;
 
                     if (confirm) {
-                      //await Navigator.of(context).push(RecoveryKeyPage.route());
+                      await Navigator.of(context).push(RecoveryKeyPage.route());
                     }
                   },
                 ),
