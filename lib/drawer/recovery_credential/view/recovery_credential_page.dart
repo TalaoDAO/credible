@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:bip39/bip39.dart' as bip39;
 import 'package:file_picker/file_picker.dart';
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
@@ -23,8 +23,26 @@ class RecoveryCredentialPage extends StatefulWidget {
 }
 
 class _RecoveryCredentialPageState extends State<RecoveryCredentialPage> {
+  late TextEditingController mnemonicController;
+  late bool buttonEnabled;
+  late bool edited;
 
-  TextEditingController mnemonicController = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+
+    mnemonicController = TextEditingController();
+    mnemonicController.addListener(() {
+      setState(() {
+        edited = mnemonicController.text.isNotEmpty;
+        buttonEnabled = bip39.validateMnemonic(mnemonicController.text);
+      });
+    });
+
+    edited = false;
+    buttonEnabled = false;
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
@@ -52,37 +70,48 @@ class _RecoveryCredentialPageState extends State<RecoveryCredentialPage> {
           ),
           const SizedBox(height: 32.0),
           BaseTextField(
-            label:'d',
-            error: null,
+            label: l10n.recoveryMnemonicHintText,
             controller: mnemonicController,
+            error: edited && !buttonEnabled ? l10n.recoveryMnemonicError : null,
           ),
+          const SizedBox(height: 24.0),
           BaseButton.primary(
             context: context,
             textColor: Theme.of(context).colorScheme.onPrimary,
-            onPressed: () async {
-              var result = await FilePicker.platform
-                  .pickFiles(type: FileType.custom, allowedExtensions: ['txt']);
-              if (result != null) {
-                var file = File(result.files.single.path!);
-                print(file.path);
-                var text = await file.readAsString();
-                //todo: encrypt data
-                //todo: verify data
-                //todo: use mnemonic to generate key and verify
-                Map json = jsonDecode(text);
-                List credentialJson = json['credentials'];
-                //print(credentialJson.length);
-                var credentials = credentialJson
-                    .map((credential) => CredentialModel.fromJson(credential));
-                //print(credentials.length);
-                await context
-                    .read<WalletCubit>()
-                    .recoverWallet(credentials.toList());
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text('Successfully Recovered'),
-                ));
-              }
-            },
+            gradient: buttonEnabled
+                ? null
+                : LinearGradient(
+                    colors: [
+                      Theme.of(context).colorScheme.shadow,
+                      Theme.of(context).colorScheme.shadow
+                    ],
+                  ),
+            onPressed: !buttonEnabled
+                ? null
+                : () async {
+                    var result = await FilePicker.platform.pickFiles(
+                        type: FileType.custom, allowedExtensions: ['txt']);
+                    if (result != null) {
+                      var file = File(result.files.single.path!);
+                      print(file.path);
+                      var text = await file.readAsString();
+                      //todo: encrypt data
+                      //todo: verify data
+                      //todo: use mnemonic to generate key and verify
+                      Map json = jsonDecode(text);
+                      List credentialJson = json['credentials'];
+                      //print(credentialJson.length);
+                      var credentials = credentialJson.map(
+                          (credential) => CredentialModel.fromJson(credential));
+                      //print(credentials.length);
+                      await context
+                          .read<WalletCubit>()
+                          .recoverWallet(credentials.toList());
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text('Successfully Recovered'),
+                      ));
+                    }
+                  },
             child: Text(l10n.recoveryCredentialButtonTitle),
           )
         ],

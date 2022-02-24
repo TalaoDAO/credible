@@ -210,7 +210,7 @@
   "backupCredentialNotificationTitle": "Success",
   "backupCredentialNotificationMessage": "File has been successfully downloaded. Tap to open the file.",
   "recoveryCredentialWarningDialogSubtitle": "The recovery will delete any credentials you have stored in this wallet",
-  "recoveryCredentialPhrase": "Upload the downloaded backup file if you saved it before",
-  "recoveryCredentialPhraseExplanation": "It is only way to recover your credentials if you lost your credentials somehow",
+  "recoveryCredentialPhrase": "Write down the words and upload the backup file if you saved it before",
+  "recoveryCredentialPhraseExplanation": "You need both words in right order and encrypted backup file to recover your credentials if you lost your credentials somehow",
   "recoveryCredentialButtonTitle": "Upload Backup File"
 }
