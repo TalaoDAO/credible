@@ -141,8 +141,7 @@ class _PersonalPageState extends State<PersonalPage> {
                         selfIssuedCredentialDataModel);
 
             if (widget.isFromOnBoarding) {
-              await Navigator.of(context)
-                  .pushReplacement(CredentialsList.route());
+              await context.read<WalletCubit>().checkKey();
             } else {
               Navigator.of(context).pop();
             }
@@ -268,8 +267,7 @@ class _PersonalPageState extends State<PersonalPage> {
                         context: context,
                         textColor: Theme.of(context).colorScheme.onPrimary,
                         onPressed: () {
-                          Navigator.of(context)
-                              .pushReplacement(CredentialsList.route());
+                          context.read<WalletCubit>().checkKey();
                         },
                         child: Text(l10n.personalSkip),
                       )
