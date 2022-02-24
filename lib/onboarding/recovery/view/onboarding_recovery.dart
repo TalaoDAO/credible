@@ -1,11 +1,14 @@
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
+import 'package:talao/app/pages/credentials/pages/list.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/base/text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:talao/drawer/profile/models/profile.dart';
+import 'package:talao/personal/personal.dart';
 
 class OnBoardingRecoveryPage extends StatefulWidget {
   static Route route() => MaterialPageRoute(
@@ -82,9 +85,11 @@ class _OnBoardingRecoveryPageState extends State<OnBoardingRecoveryPage> {
                       'mnemonic',
                       mnemonicController.text,
                     );
-
-                    // await Navigator.of(context)
-                    //     .pushReplacement(OnBoardingGenPage.route());
+                    await Navigator.of(context).pushReplacement(
+                      PersonalPage.route(
+                          isFromOnBoarding: true,
+                          profileModel: ProfileModel.empty),
+                    );
                   }
                 : null,
             child: Text(localizations.onBoardingRecoveryButton),

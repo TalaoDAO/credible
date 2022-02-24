@@ -7,6 +7,7 @@ import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:flutter/material.dart';
+import 'package:talao/app/shared/widget/base/text_field.dart';
 import 'package:talao/l10n/l10n.dart';
 import 'package:talao/wallet/wallet.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,6 +23,8 @@ class RecoveryCredentialPage extends StatefulWidget {
 }
 
 class _RecoveryCredentialPageState extends State<RecoveryCredentialPage> {
+
+  TextEditingController mnemonicController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
@@ -48,6 +51,11 @@ class _RecoveryCredentialPageState extends State<RecoveryCredentialPage> {
             ],
           ),
           const SizedBox(height: 32.0),
+          BaseTextField(
+            label:'d',
+            error: null,
+            controller: mnemonicController,
+          ),
           BaseButton.primary(
             context: context,
             textColor: Theme.of(context).colorScheme.onPrimary,
@@ -60,6 +68,7 @@ class _RecoveryCredentialPageState extends State<RecoveryCredentialPage> {
                 var text = await file.readAsString();
                 //todo: encrypt data
                 //todo: verify data
+                //todo: use mnemonic to generate key and verify
                 Map json = jsonDecode(text);
                 List credentialJson = json['credentials'];
                 //print(credentialJson.length);
