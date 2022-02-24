@@ -27,7 +27,15 @@ class BackupCredentialPage extends StatefulWidget {
 }
 
 class _BackupCredentialPageState extends State<BackupCredentialPage> {
-  final List<String>? mnemonic = bip39.generateMnemonic().split(' ');
+  List<String>? _mnemonic;
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      _mnemonic = bip39.generateMnemonic().split(' ');
+    });
+  }
 
   Future<Directory?> _getDownloadDirectory() async {
     if (Platform.isAndroid) {
@@ -74,7 +82,8 @@ class _BackupCredentialPageState extends State<BackupCredentialPage> {
             ],
           ),
           const SizedBox(height: 32.0),
-          MnemonicDisplay(mnemonic: mnemonic!),
+          if (_mnemonic != null && _mnemonic!.isNotEmpty)
+            MnemonicDisplay(mnemonic: _mnemonic!),
           const SizedBox(height: 32.0),
           BlocBuilder<WalletCubit, WalletState>(builder: (context, state) {
             return BaseButton.primary(
