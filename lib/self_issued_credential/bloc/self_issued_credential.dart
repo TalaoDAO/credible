@@ -114,8 +114,9 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
 
   Future<void> _recordCredential(String vc) async {
     final jsonCredential = jsonDecode(vc);
+    final id = 'urn:uuid:' + Uuid().v4();
     final credentialModel = CredentialModel(
-      id: '',
+      id: id,
       alias: null,
       image: 'image',
       data: jsonCredential,
