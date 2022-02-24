@@ -10,7 +10,9 @@ import 'package:talao/drawer/profile/cubit/profile_cubit.dart';
 import 'package:talao/drawer/profile/models/profile.dart';
 import 'package:talao/l10n/l10n.dart';
 import 'package:talao/personal/bloc/personal_page_cubit.dart';
+import 'package:talao/self_issued_credential/bloc/self_issued_credential.dart';
 import 'package:talao/self_issued_credential/widget/sef_issued_credential_button.dart';
+import 'package:talao/wallet/cubit/wallet_cubit.dart';
 
 class PersonalPage extends StatefulWidget {
   final ProfileModel profileModel;
@@ -24,8 +26,13 @@ class PersonalPage extends StatefulWidget {
 
   static Route route({required profileModel, required isFromOnBoarding}) =>
       MaterialPageRoute(
-        builder: (context) => BlocProvider<PersonalPgeCubit>(
-          create: (_) => PersonalPgeCubit(),
+        builder: (context) => MultiBlocProvider(
+          providers: [
+            BlocProvider(create: (_) => PersonalPgeCubit()),
+            BlocProvider(
+                create: (_) =>
+                    SelfIssuedCredentialCubit(context.read<WalletCubit>())),
+          ],
           child: PersonalPage(
             profileModel: profileModel,
             isFromOnBoarding: isFromOnBoarding ?? false,
@@ -73,9 +80,46 @@ class _PersonalPageState extends State<PersonalPage> {
       child: BasePage(
         title: l10n.personalTitle,
         titleLeading: widget.isFromOnBoarding ? null : BackLeadingButton(),
-        floatingActionButton: SelfIssuedCredentialButton(
-          selfIssuedCredentialButtonClick: () {
-            return SelfIssuedCredentialDataModel(
+        floatingActionButton: widget.isFromOnBoarding
+            ? null
+            : SelfIssuedCredentialButton(
+                selfIssuedCredentialButtonClick: () {
+                  return SelfIssuedCredentialDataModel(
+                    givenName: personalPageCubit.state.isFirstName
+                        ? firstNameController.text
+                        : '',
+                    familyName: personalPageCubit.state.isLastName
+                        ? lastNameController.text
+                        : '',
+                    telephone: personalPageCubit.state.isPhone
+                        ? phoneController.text
+                        : '',
+                    address: personalPageCubit.state.isLocation
+                        ? locationController.text
+                        : '',
+                    email: personalPageCubit.state.isEmail
+                        ? emailController.text
+                        : '',
+                  );
+                },
+              ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+        titleTrailing: InkWell(
+          borderRadius: BorderRadius.circular(8.0),
+          onTap: () async {
+            var model = ProfileModel(
+                firstName: firstNameController.text,
+                lastName: lastNameController.text,
+                phone: phoneController.text,
+                location: locationController.text,
+                email: emailController.text,
+                issuerVerificationSetting:
+                    widget.profileModel.issuerVerificationSetting);
+
+            await context.read<ProfileCubit>().update(model);
+
+            ///save selfIssued credential when user press save button
+            final selfIssuedCredentialDataModel = SelfIssuedCredentialDataModel(
               givenName: personalPageCubit.state.isFirstName
                   ? firstNameController.text
                   : '',
@@ -87,26 +131,18 @@ class _PersonalPageState extends State<PersonalPage> {
               address: personalPageCubit.state.isLocation
                   ? locationController.text
                   : '',
-              email: personalPageCubit.state.isEmail ? emailController.text : '',
+              email:
+                  personalPageCubit.state.isEmail ? emailController.text : '',
             );
-          },
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-        titleTrailing: InkWell(
-          borderRadius: BorderRadius.circular(8.0),
-          onTap: () {
-            var model = ProfileModel(
-                firstName: firstNameController.text,
-                lastName: lastNameController.text,
-                phone: phoneController.text,
-                location: locationController.text,
-                email: emailController.text,
-                issuerVerificationSetting:
-                    widget.profileModel.issuerVerificationSetting);
+            await context
+                .read<SelfIssuedCredentialCubit>()
+                .createSelfIssuedCredential(
+                    selfIssuedCredentialDataModel:
+                        selfIssuedCredentialDataModel);
 
-            context.read<ProfileCubit>().update(model);
             if (widget.isFromOnBoarding) {
-              Navigator.of(context).pushReplacement(CredentialsList.route());
+              await Navigator.of(context)
+                  .pushReplacement(CredentialsList.route());
             } else {
               Navigator.of(context).pop();
             }

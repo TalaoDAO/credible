@@ -51,7 +51,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
-  void update(ProfileModel profileModel) async {
+  Future<void> update(ProfileModel profileModel) async {
     final log = Logger('talao-wallet/profile/update');
 
     try {

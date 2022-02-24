@@ -38,7 +38,7 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
   SelfIssuedCredentialCubit(this.walletCubit)
       : super(const SelfIssuedCredentialState.initial());
 
-  void createSelfIssuedCredential(
+  Future<void> createSelfIssuedCredential(
       {required SelfIssuedCredentialDataModel
           selfIssuedCredentialDataModel}) async {
     final log = Logger('talao-wallet/sef_issued_credential/create');
