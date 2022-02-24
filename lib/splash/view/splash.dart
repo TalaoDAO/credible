@@ -170,6 +170,19 @@ class _SplashPageState extends State<SplashPage> {
             if (state is QRCodeStateSuccess) {
               await Navigator.of(context).pushReplacement(state.route);
             }
+            if (state is QRCodeStateMessage) {
+              final errorHandler = state.message.errorHandler;
+              if (errorHandler != null) {
+                final color =
+                    state.message.color ?? Theme.of(context).colorScheme.error;
+                errorHandler.displayError(context, errorHandler, color);
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  backgroundColor: state.message.color,
+                  content: Text(state.message.message!),
+                ));
+              }
+            }
           },
         ),
         BlocListener<ScanBloc, ScanState>(
