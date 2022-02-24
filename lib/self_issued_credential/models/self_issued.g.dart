@@ -8,21 +8,30 @@ part of 'self_issued.dart';
 
 SelfIssued _$SelfIssuedFromJson(Map<String, dynamic> json) => SelfIssued(
       id: json['id'] as String,
-      address: json['address'] as String? ?? '',
-      familyName: json['familyName'] as String? ?? '',
-      givenName: json['givenName'] as String? ?? '',
+      address: json['address'] as String?,
+      familyName: json['familyName'] as String?,
+      givenName: json['givenName'] as String?,
       type: json['type'] as String? ?? 'SelfIssued',
-      telephone: json['telephone'] as String? ?? '',
-      email: json['email'] as String? ?? '',
+      telephone: json['telephone'] as String?,
+      email: json['email'] as String?,
     );
 
-Map<String, dynamic> _$SelfIssuedToJson(SelfIssued instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'type': instance.type,
-      'address': instance.address,
-      'familyName': instance.familyName,
-      'givenName': instance.givenName,
-      'telephone': instance.telephone,
-      'email': instance.email,
-    };
+Map<String, dynamic> _$SelfIssuedToJson(SelfIssued instance) {
+  final val = <String, dynamic>{
+    'id': instance.id,
+    'type': instance.type,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('address', instance.address);
+  writeNotNull('familyName', instance.familyName);
+  writeNotNull('givenName', instance.givenName);
+  writeNotNull('telephone', instance.telephone);
+  writeNotNull('email', instance.email);
+  return val;
+}

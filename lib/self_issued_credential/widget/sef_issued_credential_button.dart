@@ -7,18 +7,18 @@ typedef SelfIssuedCredentialButtonClick = SelfIssuedCredentialDataModel
     Function();
 
 class SelfIssuedCredentialDataModel {
-  final String givenName;
-  final String familyName;
-  final String telephone;
-  final String email;
-  final String address;
+  final String? givenName;
+  final String? familyName;
+  final String? telephone;
+  final String? email;
+  final String? address;
 
   SelfIssuedCredentialDataModel({
-    this.givenName = '',
-    this.familyName = '',
-    this.telephone = '',
-    this.email = '',
-    this.address = '',
+    this.givenName,
+    this.familyName,
+    this.telephone,
+    this.email,
+    this.address,
   });
 
   @override

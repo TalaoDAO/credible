@@ -121,18 +121,25 @@ class _PersonalPageState extends State<PersonalPage> {
             ///save selfIssued credential when user press save button
             final selfIssuedCredentialDataModel = SelfIssuedCredentialDataModel(
               givenName: personalPageCubit.state.isFirstName
-                  ? firstNameController.text
-                  : '',
+                  ? firstNameController.text.isNotEmpty
+                      ? firstNameController.text
+                      : null
+                  : null,
               familyName: personalPageCubit.state.isLastName
-                  ? lastNameController.text
-                  : '',
-              telephone:
-                  personalPageCubit.state.isPhone ? phoneController.text : '',
+                  ? lastNameController.text.isNotEmpty
+                      ? lastNameController.text
+                      : null
+                  : null,
+              telephone: personalPageCubit.state.isPhone
+                  ? phoneController.text.isNotEmpty
+                      ? phoneController.text
+                      : null
+                  : null,
               address: personalPageCubit.state.isLocation
                   ? locationController.text
-                  : '',
+                  : null,
               email:
-                  personalPageCubit.state.isEmail ? emailController.text : '',
+                  personalPageCubit.state.isEmail ? emailController.text : null,
             );
             await context
                 .read<SelfIssuedCredentialCubit>()
