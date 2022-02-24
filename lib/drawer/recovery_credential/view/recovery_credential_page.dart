@@ -1,11 +1,15 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
+import 'package:talao/app/pages/credentials/models/credential_model.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:flutter/material.dart';
 import 'package:talao/l10n/l10n.dart';
+import 'package:talao/wallet/wallet.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RecoveryCredentialPage extends StatefulWidget {
   static Route route() => MaterialPageRoute(
@@ -52,8 +56,22 @@ class _RecoveryCredentialPageState extends State<RecoveryCredentialPage> {
                   .pickFiles(type: FileType.custom, allowedExtensions: ['txt']);
               if (result != null) {
                 var file = File(result.files.single.path!);
+                print(file.path);
                 var text = await file.readAsString();
-                print(text);
+                //todo: encrypt data
+                //todo: verify data
+                Map json = jsonDecode(text);
+                List credentialJson = json['credentials'];
+                //print(credentialJson.length);
+                var credentials = credentialJson
+                    .map((credential) => CredentialModel.fromJson(credential));
+                //print(credentials.length);
+                await context
+                    .read<WalletCubit>()
+                    .recoverWallet(credentials.toList());
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text('Successfully Recovered'),
+                ));
               }
             },
             child: Text(l10n.recoveryCredentialButtonTitle),
