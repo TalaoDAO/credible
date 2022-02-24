@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'package:downloads_path_provider_28/downloads_path_provider_28.dart';
-import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter/material.dart';
+import 'package:talao/app/interop/local_notification/local_notification.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
@@ -49,14 +49,16 @@ class BackupCredentialPage extends StatelessWidget {
             context: context,
             textColor: Theme.of(context).colorScheme.onPrimary,
             onPressed: () async {
+              //todo: if credential is empty show popup
               final downloadDirectory = await _getDownloadDirectory();
               final isPermissionStatusGranted = await _getStoragePermission();
 
               if (isPermissionStatusGranted) {
                 final savePath = path.join(downloadDirectory!.path);
-
-                final _myFile = File('$savePath/credential.txt');
-                await _myFile.writeAsString('My name is Khan');
+                final filePath = '$savePath/credential.txt';
+                final _myFile = File(filePath);
+                await _myFile.writeAsString('My name is Bibash');
+                await LocalNotification().showNotification(filePath);
               } else {
                 // show snackbar after user declines
               }
