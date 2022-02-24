@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talao/app/interop/didkit/didkit.dart';
+import 'package:talao/app/interop/local_notification/local_notification.dart';
 import 'package:talao/app/interop/network/network_client.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/pages/credentials/blocs/scan.dart';
@@ -21,8 +22,19 @@ import 'package:talao/theme/theme.dart';
 import 'package:talao/wallet/cubit/wallet_cubit.dart';
 import 'pages/qr_code/bloc/qrcode.dart';
 
-class AppWidget extends StatelessWidget {
+class AppWidget extends StatefulWidget {
   const AppWidget({Key? key}) : super(key: key);
+
+  @override
+  State<AppWidget> createState() => _AppWidgetState();
+}
+
+class _AppWidgetState extends State<AppWidget> {
+  @override
+  void initState() {
+    LocalNotification().init();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
