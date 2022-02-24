@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/src/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talao/app/pages/credentials/pages/list.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
@@ -9,6 +9,7 @@ import 'package:talao/app/shared/widget/base/text_field.dart';
 import 'package:talao/drawer/profile/cubit/profile_cubit.dart';
 import 'package:talao/drawer/profile/models/profile.dart';
 import 'package:talao/l10n/l10n.dart';
+import 'package:talao/personal/bloc/personal_page_cubit.dart';
 import 'package:talao/self_issued_credential/widget/sef_issued_credential_button.dart';
 
 class PersonalPage extends StatefulWidget {
@@ -23,9 +24,12 @@ class PersonalPage extends StatefulWidget {
 
   static Route route({required profileModel, required isFromOnBoarding}) =>
       MaterialPageRoute(
-        builder: (context) => PersonalPage(
-          profileModel: profileModel,
-          isFromOnBoarding: isFromOnBoarding ?? false,
+        builder: (context) => BlocProvider<PersonalPgeCubit>(
+          create: (_) => PersonalPgeCubit(),
+          child: PersonalPage(
+            profileModel: profileModel,
+            isFromOnBoarding: isFromOnBoarding ?? false,
+          ),
         ),
         settings: RouteSettings(name: '/personalPage'),
       );
@@ -40,12 +44,6 @@ class _PersonalPageState extends State<PersonalPage> {
   late TextEditingController phoneController;
   late TextEditingController locationController;
   late TextEditingController emailController;
-
-  bool _isFirstName = true;
-  bool _isLastName = true;
-  bool _isPhone = true;
-  bool _isLocation = true;
-  bool _isEmail = true;
 
   @override
   void initState() {
@@ -64,6 +62,7 @@ class _PersonalPageState extends State<PersonalPage> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final personalPageCubit = BlocProvider.of<PersonalPgeCubit>(context);
     return WillPopScope(
       onWillPop: () async {
         if (!widget.isFromOnBoarding) {
@@ -77,11 +76,18 @@ class _PersonalPageState extends State<PersonalPage> {
         floatingActionButton: SelfIssuedCredentialButton(
           selfIssuedCredentialButtonClick: () {
             return SelfIssuedCredentialDataModel(
-              givenName: _isFirstName ? firstNameController.text : '',
-              familyName: _isLastName ? lastNameController.text : '',
-              telephone: _isPhone ? phoneController.text : '',
-              address: _isLocation ? locationController.text : '',
-              email: _isEmail ? emailController.text : '',
+              givenName: personalPageCubit.state.isFirstName
+                  ? firstNameController.text
+                  : '',
+              familyName: personalPageCubit.state.isLastName
+                  ? lastNameController.text
+                  : '',
+              telephone:
+                  personalPageCubit.state.isPhone ? phoneController.text : '',
+              address: personalPageCubit.state.isLocation
+                  ? locationController.text
+                  : '',
+              email: personalPageCubit.state.isEmail ? emailController.text : '',
             );
           },
         ),
@@ -119,127 +125,100 @@ class _PersonalPageState extends State<PersonalPage> {
         padding: const EdgeInsets.symmetric(
           vertical: 32.0,
         ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              child: Text(
-                l10n.personalSubtitle,
-                textAlign: TextAlign.center,
-                style: Theme.of(context)
-                    .textTheme
-                    .subtitle2!
-                    .copyWith(color: Theme.of(context).colorScheme.subtitle1),
+        body: BlocBuilder<PersonalPgeCubit, PersonalPageState>(
+            builder: (context, state) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                child: Text(
+                  l10n.personalSubtitle,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context)
+                      .textTheme
+                      .subtitle2!
+                      .copyWith(color: Theme.of(context).colorScheme.subtitle1),
+                ),
               ),
-            ),
-            // Center(
-            //   child: Container(
-            //     width: MediaQuery.of(context).size.width * 0.2,
-            //     height: MediaQuery.of(context).size.width * 0.2,
-            //     decoration: BoxDecoration(
-            //       color: Colors.pink,
-            //       borderRadius: BorderRadius.circular(16.0),
-            //     ),
-            //   ),
-            // ),
-            const SizedBox(height: 32.0),
-            BaseTextField(
-              label: l10n.personalFirstName,
-              controller: firstNameController,
-              icon: Icons.person,
-              textCapitalization: TextCapitalization.words,
-              prefixIcon: Checkbox(
-                value: _isFirstName,
-                fillColor: MaterialStateProperty.all(
-                    Theme.of(context).colorScheme.secondaryContainer),
-                onChanged: (value) {
-                  if (value != null && _isFirstName != value) {
-                    setState(() {
-                      _isFirstName = value;
-                    });
-                  }
-                },
+              // Center(
+              //   child: Container(
+              //     width: MediaQuery.of(context).size.width * 0.2,
+              //     height: MediaQuery.of(context).size.width * 0.2,
+              //     decoration: BoxDecoration(
+              //       color: Colors.pink,
+              //       borderRadius: BorderRadius.circular(16.0),
+              //     ),
+              //   ),
+              // ),
+              const SizedBox(height: 32.0),
+              BaseTextField(
+                label: l10n.personalFirstName,
+                controller: firstNameController,
+                icon: Icons.person,
+                textCapitalization: TextCapitalization.words,
+                prefixIcon: Checkbox(
+                  value: state.isFirstName,
+                  fillColor: MaterialStateProperty.all(
+                      Theme.of(context).colorScheme.secondaryContainer),
+                  onChanged: personalPageCubit.firstNameCheckBoxChange,
+                ),
               ),
-            ),
-            const SizedBox(height: 16.0),
-            BaseTextField(
-              label: l10n.personalLastName,
-              controller: lastNameController,
-              icon: Icons.person,
-              textCapitalization: TextCapitalization.words,
-              prefixIcon: Checkbox(
-                value: _isLastName,
-                fillColor: MaterialStateProperty.all(
-                    Theme.of(context).colorScheme.secondaryContainer),
-                onChanged: (value) {
-                  if (value != null && _isLastName != value) {
-                    setState(() {
-                      _isLastName = value;
-                    });
-                  }
-                },
+              const SizedBox(height: 16.0),
+              BaseTextField(
+                label: l10n.personalLastName,
+                controller: lastNameController,
+                icon: Icons.person,
+                textCapitalization: TextCapitalization.words,
+                prefixIcon: Checkbox(
+                  value: state.isLastName,
+                  fillColor: MaterialStateProperty.all(
+                      Theme.of(context).colorScheme.secondaryContainer),
+                  onChanged: personalPageCubit.lastNameCheckBoxChange,
+                ),
               ),
-            ),
-            const SizedBox(height: 16.0),
-            BaseTextField(
-              label: l10n.personalPhone,
-              controller: phoneController,
-              icon: Icons.phone,
-              type: TextInputType.phone,
-              prefixIcon: Checkbox(
-                value: _isPhone,
-                fillColor: MaterialStateProperty.all(
-                    Theme.of(context).colorScheme.secondaryContainer),
-                onChanged: (value) {
-                  if (value != null && _isPhone != value) {
-                    setState(() {
-                      _isPhone = value;
-                    });
-                  }
-                },
+              const SizedBox(height: 16.0),
+              BaseTextField(
+                label: l10n.personalPhone,
+                controller: phoneController,
+                icon: Icons.phone,
+                type: TextInputType.phone,
+                prefixIcon: Checkbox(
+                  value: state.isPhone,
+                  fillColor: MaterialStateProperty.all(
+                      Theme.of(context).colorScheme.secondaryContainer),
+                  onChanged: personalPageCubit.phoneCheckBoxChange,
+                ),
               ),
-            ),
-            const SizedBox(height: 16.0),
-            BaseTextField(
-              label: l10n.personalLocation,
-              controller: locationController,
-              icon: Icons.location_pin,
-              textCapitalization: TextCapitalization.words,
-              prefixIcon: Checkbox(
-                value: _isLocation,
-                fillColor: MaterialStateProperty.all(
-                    Theme.of(context).colorScheme.secondaryContainer),
-                onChanged: (value) {
-                  if (value != null && _isLocation != value) {
-                    setState(() {
-                      _isLocation = value;
-                    });
-                  }
-                },
+              const SizedBox(height: 16.0),
+              BaseTextField(
+                label: l10n.personalLocation,
+                controller: locationController,
+                icon: Icons.location_pin,
+                textCapitalization: TextCapitalization.words,
+                prefixIcon: Checkbox(
+                  value: state.isLocation,
+                  fillColor: MaterialStateProperty.all(
+                      Theme.of(context).colorScheme.secondaryContainer),
+                  onChanged: personalPageCubit.locationCheckBoxChange,
+                ),
               ),
-            ),
-            const SizedBox(height: 16.0),
-            BaseTextField(
-              label: l10n.personalMail,
-              controller: emailController,
-              icon: Icons.email,
-              type: TextInputType.emailAddress,
-              prefixIcon: Checkbox(
-                value: _isEmail,
-                fillColor: MaterialStateProperty.all(
-                    Theme.of(context).colorScheme.secondaryContainer),
-                onChanged: (value) {
-                  if (value != null && _isEmail != value) {
-                    setState(() {
-                      _isEmail = value;
-                    });
-                  }
-                },
+              const SizedBox(height: 16.0),
+              BaseTextField(
+                label: l10n.personalMail,
+                controller: emailController,
+                icon: Icons.email,
+                type: TextInputType.emailAddress,
+                prefixIcon: Checkbox(
+                  value: state.isEmail,
+                  fillColor: MaterialStateProperty.all(
+                      Theme.of(context).colorScheme.secondaryContainer),
+                  onChanged: personalPageCubit.emailCheckBoxChange,
+                ),
               ),
-            ),
-          ],
-        ),
+            ],
+          );
+        }),
         navigation: !widget.isFromOnBoarding
             ? null
             : SafeArea(

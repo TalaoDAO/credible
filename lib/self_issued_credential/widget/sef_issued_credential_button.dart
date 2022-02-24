@@ -20,6 +20,19 @@ class SelfIssuedCredentialDataModel {
     this.email = '',
     this.address = '',
   });
+
+  @override
+  String toString() {
+    return '''
+    SelfIssuedCredentialDataModel {
+                  givenName : $givenName,
+                  familyName : $familyName,
+                  telephone : $telephone,
+                  email : $email,
+                  address : $address,
+    }
+    ''';
+  }
 }
 
 class SelfIssuedCredentialButton extends StatelessWidget {
