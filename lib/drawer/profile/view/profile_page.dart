@@ -1,5 +1,5 @@
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
-import 'package:talao/drawer/backup/backup_credential.dart';
+import 'package:talao/drawer/backup_credential/backup_credential.dart';
 import 'package:talao/drawer/recovery_credential/recovery_credential.dart';
 import 'package:talao/drawer/recovery_key/view/recovery_key_page.dart';
 import 'package:talao/wallet/wallet.dart';

@@ -4,6 +4,7 @@ export 'profile/profile.dart';
 export 'privacy/privacy.dart';
 export 'recovery_credential/recovery_credential.dart';
 export 'recovery_key/recovery_key.dart';
+export 'backup_credential/backup_credential.dart';
 export 'support/support.dart';
 export 'terms/terms.dart';
 export 'theme/theme.dart';
