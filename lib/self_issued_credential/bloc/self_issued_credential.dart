@@ -51,7 +51,7 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
       final verificationMethod =
           await DIDKitProvider.instance.keyToVerificationMethod('key', key);
       final options = {
-        'proofPurpose': 'authentication',
+        'proofPurpose': 'assertionMethod',
         'verificationMethod': verificationMethod
       };
       final verifyOptions = {'proofPurpose': 'assertionMethod'};
