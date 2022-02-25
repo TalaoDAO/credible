@@ -32,6 +32,7 @@ class CredentialsDetail extends StatefulWidget {
       builder: (context) => CredentialsDetail(
         item: routeItem,
       ),
+      settings: RouteSettings(name: '/credibleDetails'),
     );
   }
 
