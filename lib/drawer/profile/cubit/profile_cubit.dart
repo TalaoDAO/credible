@@ -7,7 +7,6 @@ import 'package:talao/drawer/profile/models/models.dart';
 
 import 'profile_state.dart';
 
-
 class ProfileCubit extends Cubit<ProfileState> {
   final SecureStorageProvider? secureStorageProvider;
 
@@ -47,6 +46,10 @@ class ProfileCubit extends Cubit<ProfileState> {
           message: StateMessage.error('Failed to load profile. '
               'Check the logs for more information.')));
     }
+  }
+
+  void resetProfile() {
+    emit(ProfileStateDefault(model: ProfileModel.empty));
   }
 
   Future<void> update(ProfileModel profileModel) async {

@@ -37,11 +37,17 @@ class AppWidget extends StatelessWidget {
         BlocProvider<DeepLinkCubit>(create: (context) => DeepLinkCubit()),
         BlocProvider<QueryByExampleCubit>(
             create: (context) => QueryByExampleCubit()),
+        BlocProvider<ProfileCubit>(
+          create: (context) => ProfileCubit(
+              secureStorageProvider: SecureStorageProvider.instance),
+        ),
         BlocProvider<WalletCubit>(
-            lazy: false,
-            create: (context) => WalletCubit(
-                  CredentialsRepository(SecureStorageProvider.instance),
-                )),
+          lazy: false,
+          create: (context) => WalletCubit(
+              repository: CredentialsRepository(SecureStorageProvider.instance),
+              secureStorageProvider: SecureStorageProvider.instance,
+              profileCubit: context.read<ProfileCubit>()),
+        ),
         BlocProvider<ScanBloc>(
             create: (context) => ScanBloc(
                 DioClient(Constants.checkIssuerServerUrl, Dio()),
@@ -52,10 +58,6 @@ class AppWidget extends StatelessWidget {
             context.read<ScanBloc>(),
             context.read<QueryByExampleCubit>(),
           ),
-        ),
-        BlocProvider<ProfileCubit>(
-          create: (context) => ProfileCubit(
-              secureStorageProvider: SecureStorageProvider.instance),
         ),
         BlocProvider<DIDBloc>(
           create: (context) => DIDBloc(
