@@ -213,5 +213,12 @@
   "recoveryCredentialPhrase": "Write down the words and upload the backup file if you saved it before",
   "recoveryCredentialPhraseExplanation": "You need both words in right order and encrypted backup file to recover your credentials if you lost your credentials somehow",
   "recoveryCredentialButtonTitle": "Upload Backup File",
-  "recoveryCredentialSuccessMessage": "Successfully recovered"
+  "recoveryCredentialSuccessMessage": "Successfully recovered {postfix}.",
+  "@recoveryCredentialSuccessMessage": {
+    "description": "Success Message Count",
+    "type": "text",
+    "placeholders": {
+      "postfix": {}
+    }
+  }
 }
