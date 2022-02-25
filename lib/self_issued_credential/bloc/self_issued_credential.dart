@@ -117,7 +117,7 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
     final id = 'urn:uuid:' + Uuid().v4();
     final credentialModel = CredentialModel(
       id: id,
-      alias: null,
+      alias: '',
       image: 'image',
       data: jsonCredential,
       display: Display.emptyDisplay()..toJson(),
