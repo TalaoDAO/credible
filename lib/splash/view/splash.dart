@@ -125,12 +125,6 @@ class _SplashPageState extends State<SplashPage> {
     return MultiBlocListener(
       listeners: [
         BlocListener<WalletCubit, WalletState>(
-          listenWhen: (previous, current) {
-            if (current.status != KeyStatus.needsKey) {
-              return previous.status != current.status;
-            }
-            return true;
-          },
           listener: (context, state) {
             if (state.status == KeyStatus.needsKey) {
               Future.delayed(
