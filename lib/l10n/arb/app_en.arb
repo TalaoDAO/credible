@@ -212,5 +212,6 @@
   "recoveryCredentialWarningDialogSubtitle": "The recovery will delete any credentials you have stored in this wallet",
   "recoveryCredentialPhrase": "Write down the words and upload the backup file if you saved it before",
   "recoveryCredentialPhraseExplanation": "You need both words in right order and encrypted backup file to recover your credentials if you lost your credentials somehow",
-  "recoveryCredentialButtonTitle": "Upload Backup File"
+  "recoveryCredentialButtonTitle": "Upload Backup File",
+  "recoveryCredentialSuccessMessage": "Successfully recovered"
 }

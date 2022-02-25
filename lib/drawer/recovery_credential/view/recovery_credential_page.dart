@@ -112,8 +112,9 @@ class _RecoveryCredentialPageState extends State<RecoveryCredentialPage> {
                           .read<WalletCubit>()
                           .recoverWallet(credentials.toList());
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text('Successfully Recovered'),
-                      ));
+                          content: Text(
+                        '${l10n.recoveryCredentialSuccessMessage} ${credentials.length} ${credentials.length > 1 ? 'credentials' : 'credential'}.',
+                      )));
                     }
                   },
             child: Text(l10n.recoveryCredentialButtonTitle),
