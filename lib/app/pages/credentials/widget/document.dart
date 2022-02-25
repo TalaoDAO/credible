@@ -7,7 +7,6 @@ import 'package:talao/app/shared/model/professional_student_card/professional_st
 import 'package:talao/app/shared/model/voucher/voucher.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/box_decoration.dart';
-import 'package:talao/self_issued_credential/models/self_issued.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DocumentWidget extends StatelessWidget {
