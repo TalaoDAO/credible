@@ -85,13 +85,6 @@ class WalletCubit extends Cubit<WalletState> {
     await repository.deleteAll();
     credentials
         .forEach((credential) async => await repository.insert(credential));
-    emit(state.copyWith(credentials: credentials));
-  }
-
-  Future<void> recoverWallet(List<CredentialModel> credentials) async {
-    await repository.deleteAll();
-    credentials
-        .forEach((credential) async => await repository.insert(credential));
-    emit(state.copyWith(credentials: credentials));
+    emit(state.copyWith(status: KeyStatus.init, credentials: credentials));
   }
 }

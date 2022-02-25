@@ -89,32 +89,30 @@ class _RecoveryCredentialPageState extends State<RecoveryCredentialPage> {
                       Theme.of(context).colorScheme.shadow
                     ],
                   ),
-            onPressed: !buttonEnabled
-                ? null
-                : () async {
-                    var result = await FilePicker.platform.pickFiles(
-                        type: FileType.custom, allowedExtensions: ['txt']);
-                    if (result != null) {
-                      var file = File(result.files.single.path!);
-                      print(file.path);
-                      var text = await file.readAsString();
-                      //todo: encrypt data
-                      //todo: verify data
-                      //todo: use mnemonic to generate key and verify
-                      Map json = jsonDecode(text);
-                      List credentialJson = json['credentials'];
-                      //print(credentialJson.length);
-                      var credentials = credentialJson.map(
-                          (credential) => CredentialModel.fromJson(credential));
-                      //print(credentials.length);
-                      await context
-                          .read<WalletCubit>()
-                          .recoverWallet(credentials.toList());
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text('Successfully Recovered'),
-                      ));
-                    }
-                  },
+            onPressed: () async {
+              var result = await FilePicker.platform
+                  .pickFiles(type: FileType.custom, allowedExtensions: ['txt']);
+              if (result != null) {
+                var file = File(result.files.single.path!);
+                print(file.path);
+                var text = await file.readAsString();
+                //todo: encrypt data
+                //todo: verify data
+                //todo: use mnemonic to generate key and verify
+                Map json = jsonDecode(text);
+                List credentialJson = json['credentials'];
+                //print(credentialJson.length);
+                var credentials = credentialJson
+                    .map((credential) => CredentialModel.fromJson(credential));
+                //print(credentials.length);
+                await context
+                    .read<WalletCubit>()
+                    .recoverWallet(credentials.toList());
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text('Successfully Recovered'),
+                ));
+              }
+            },
             child: Text(l10n.recoveryCredentialButtonTitle),
           )
         ],
