@@ -157,8 +157,8 @@ class QRCodeBloc extends Bloc<QRCodeEvent, QRCodeState> {
                 yes: 'Accept',
                 url: event.uri,
                 onSubmit: (preview, context) {
-                  Navigator.of(context)
-                      .pushReplacement(CredentialsList.route());
+                  // Navigator.of(context)
+                  //     .pushReplacement(CredentialsList.route());
                 },
               )));
             } else if (data['query'].first['type'] == 'QueryByExample') {
