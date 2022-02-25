@@ -8,6 +8,7 @@ import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
 import 'package:talao/app/pages/credentials/models/revokation_status.dart';
+import 'package:talao/app/shared/constants.dart';
 import 'package:talao/app/shared/model/credential.dart';
 import 'package:talao/app/shared/model/display.dart';
 import 'package:talao/self_issued_credential/models/self_issued.dart';
@@ -47,11 +48,12 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
       emit(const SelfIssuedCredentialState.loading());
 
       final key = (await SecureStorageProvider.instance.get('key'))!;
-      final did = DIDKitProvider.instance.keyToDID('key', key);
-      final verificationMethod =
-          await DIDKitProvider.instance.keyToVerificationMethod('key', key);
+      final did =
+          DIDKitProvider.instance.keyToDID(Constants.defaultDIDMethod, key);
+      final verificationMethod = await DIDKitProvider.instance
+          .keyToVerificationMethod(Constants.defaultDIDMethod, key);
       final options = {
-        'proofPurpose': 'authentication',
+        'proofPurpose': 'assertionMethod',
         'verificationMethod': verificationMethod
       };
       final verifyOptions = {'proofPurpose': 'assertionMethod'};
