@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:file_picker/file_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
@@ -89,30 +90,32 @@ class _RecoveryCredentialPageState extends State<RecoveryCredentialPage> {
                       Theme.of(context).colorScheme.shadow
                     ],
                   ),
-            onPressed: () async {
-              var result = await FilePicker.platform
-                  .pickFiles(type: FileType.custom, allowedExtensions: ['txt']);
-              if (result != null) {
-                var file = File(result.files.single.path!);
-                print(file.path);
-                var text = await file.readAsString();
-                //todo: encrypt data
-                //todo: verify data
-                //todo: use mnemonic to generate key and verify
-                Map json = jsonDecode(text);
-                List credentialJson = json['credentials'];
-                //print(credentialJson.length);
-                var credentials = credentialJson
-                    .map((credential) => CredentialModel.fromJson(credential));
-                //print(credentials.length);
-                await context
-                    .read<WalletCubit>()
-                    .recoverWallet(credentials.toList());
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text('Successfully Recovered'),
-                ));
-              }
-            },
+            onPressed: !buttonEnabled
+                ? null
+                : () async {
+                    var appDir = (await getTemporaryDirectory()).path;
+                    await Directory(appDir).delete(recursive: true);
+                    var result = await FilePicker.platform.pickFiles(
+                        type: FileType.custom, allowedExtensions: ['txt']);
+                    if (result != null) {
+                      var file = File(result.files.single.path!);
+                      var text = await file.readAsString();
+                      //todo: encrypt data
+                      //todo: verify data
+                      //todo: use mnemonic to generate key and verify
+                      Map json = jsonDecode(text);
+                      print(text);
+                      List credentialJson = json['credentials'];
+                      var credentials = credentialJson.map(
+                          (credential) => CredentialModel.fromJson(credential));
+                      await context
+                          .read<WalletCubit>()
+                          .recoverWallet(credentials.toList());
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text('Successfully Recovered'),
+                      ));
+                    }
+                  },
             child: Text(l10n.recoveryCredentialButtonTitle),
           )
         ],
