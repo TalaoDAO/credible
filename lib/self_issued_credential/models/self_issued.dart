@@ -51,7 +51,7 @@ class SelfIssued extends CredentialSubject {
 
   @override
   Widget displayDetail(BuildContext context, CredentialModel item) {
-    final localizations = AppLocalizations.of(context)!;
+    final localizations = context.l10n;
     return Column(
       children: [
         familyName?.isNotEmpty ?? false

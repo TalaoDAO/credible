@@ -4,6 +4,8 @@ import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
 import 'package:talao/app/pages/credentials/repositories/credential.dart';
 import 'package:bloc/bloc.dart';
+import 'package:talao/app/shared/constants.dart';
+import 'package:talao/drawer/drawer.dart';
 
 part 'wallet_state.dart';
 
@@ -11,8 +13,14 @@ part 'wallet_cubit.g.dart';
 
 class WalletCubit extends Cubit<WalletState> {
   final CredentialsRepository repository;
+  final SecureStorageProvider secureStorageProvider;
+  final ProfileCubit profileCubit;
 
-  WalletCubit(this.repository) : super(WalletState()) {
+  WalletCubit({
+    required this.repository,
+    required this.secureStorageProvider,
+    required this.profileCubit,
+  }) : super(WalletState()) {
     checkKey();
   }
 
@@ -59,7 +67,16 @@ class WalletCubit extends Cubit<WalletState> {
   }
 
   Future resetWallet() async {
+    await secureStorageProvider.delete('key');
+    await secureStorageProvider.delete('mnemonic');
+    await secureStorageProvider.delete('data');
+    await secureStorageProvider.delete(Constants.firstNameKey);
+    await secureStorageProvider.delete(Constants.lastNameKey);
+    await secureStorageProvider.delete(Constants.phoneKey);
+    await secureStorageProvider.delete(Constants.locationKey);
+    await secureStorageProvider.delete(Constants.emailKey);
     await repository.deleteAll();
+    profileCubit.resetProfile();
     emit(state.copyWith(status: KeyStatus.resetKey, credentials: []));
     emit(state.copyWith(status: KeyStatus.init));
   }

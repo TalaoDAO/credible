@@ -1,7 +1,5 @@
-import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/drawer/profile/cubit/profile_state.dart';
 import 'package:talao/wallet/wallet.dart';
-import 'package:talao/app/shared/constants.dart';
 import 'package:talao/app/shared/widget/confirm_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -111,20 +109,6 @@ class ProfileView extends StatelessWidget {
                         ) ??
                         false;
                     if (confirm) {
-                      await SecureStorageProvider.instance.delete('key');
-                      await SecureStorageProvider.instance.delete('mnemonic');
-                      await SecureStorageProvider.instance.delete('data');
-
-                      await SecureStorageProvider.instance
-                          .delete(Constants.firstNameKey);
-                      await SecureStorageProvider.instance
-                          .delete(Constants.lastNameKey);
-                      await SecureStorageProvider.instance
-                          .delete(Constants.phoneKey);
-                      await SecureStorageProvider.instance
-                          .delete(Constants.locationKey);
-                      await SecureStorageProvider.instance
-                          .delete(Constants.emailKey);
 
                       await context.read<WalletCubit>().resetWallet();
                     }
