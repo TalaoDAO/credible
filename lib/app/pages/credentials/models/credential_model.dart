@@ -163,9 +163,6 @@ class CredentialModel extends Equatable {
     if (credentialPreview.credentialSubject is LoyaltyCard) {
       return credentialPreview.credentialSubject.displayDetail(context, item);
     }
-    if (credentialPreview.credentialSubject is SelfIssued) {
-      return credentialPreview.credentialSubject.displayDetail(context, item);
-    }
     if (credentialPreview.credentialSubject is Voucher) {
       return credentialPreview.credentialSubject.displayDetail(context, item);
     }
