@@ -433,7 +433,7 @@ See https://talao.co/wallet/test/presentationRequest for simulation and testing.
  
  ### 400 Bad Request
  Color : Red
- Message : The server could not understand the request due to invalid syntax.
+ Message : Bas request
  
  ### 401  unauthenticated
  Color : Red
@@ -441,7 +441,7 @@ See https://talao.co/wallet/test/presentationRequest for simulation and testing.
  
  ### 403 Forbidden
  Color : Red
- Message : The user does not have access rights to the content.
+ Message : Unhauthorized request.
  
  ### 408 Request Timeout
  Color : Red
@@ -449,13 +449,10 @@ See https://talao.co/wallet/test/presentationRequest for simulation and testing.
  
  ### 429 : Too many requests
  Color : Red
- 
  Message : The user has sent too many requests in a given amount of time.
  
  ### 500 Internal Server Error
- 
  Color : Red
- 
  Message : This is a server internal error. Contact the server administrator.
  
  ### 501 Not Implemented
