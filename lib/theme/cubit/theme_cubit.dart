@@ -5,7 +5,7 @@ import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 class ThemeCubit extends Cubit<ThemeMode> {
   final SecureStorageProvider secureStorageProvider;
 
-  ThemeCubit(this.secureStorageProvider) : super(ThemeMode.dark);
+  ThemeCubit(this.secureStorageProvider) : super(ThemeMode.light);
 
   Future<void> setLightTheme() async {
     await secureStorageProvider.set('theme', 'light');
@@ -40,7 +40,4 @@ class ThemeCubit extends Cubit<ThemeMode> {
       }
     }
   }
-
-
-
 }
