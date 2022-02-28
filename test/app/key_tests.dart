@@ -32,10 +32,12 @@ void main() {
     // derive path for ethereum '60' see bip 44, first address
     final child = rootKey.derivePath("m/44'/60'/0'/0/0"); //Instance of 'BIP32'
 
-    final toto = child.privateKey ?? Uint8List(0);
-    final key = SymmetricKey(keyValue: toto);
-    var keyPair = KeyPair.symmetric(key);
+    final privateKey = child.privateKey!;
+    //[44, 254, 73, 198, 41, 37, 89, 193, 190, 104, 116, 244, 188, 50, 31, 128, 25, 101, 57, 132, 49, 132, 105, 153, 166, 32, 39, 237, 145, 88, 63, 154]
 
+    final key = SymmetricKey(keyValue: privateKey);
+
+    var keyPair = KeyPair.symmetric(key);
     var message = '{"name": "My name is Bibash Shrestha"}';
     var ivVector = 'Talao';
 
