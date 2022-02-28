@@ -63,8 +63,9 @@ class SelfIssuedCredentialButton extends StatelessWidget {
           },
           child: Builder(builder: (_) {
             return state.maybeWhen(
-                orElse: () => Icon(Icons.vpn_key),
-                loading: () => Center(child: CircularProgressIndicator()));
+                orElse: () => Icon(Icons.fact_check_outlined),
+                loading: () =>
+                    Center(child: CircularProgressIndicator.adaptive()));
           }),
         );
       }, listener: (ctx, state) {

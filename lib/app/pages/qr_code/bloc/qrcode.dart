@@ -4,7 +4,6 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:talao/app/interop/network/network_client.dart';
 import 'package:talao/app/pages/credentials/blocs/scan.dart';
-import 'package:talao/app/pages/credentials/pages/list.dart';
 import 'package:talao/app/pages/credentials/pick.dart';
 import 'package:talao/app/pages/credentials/present.dart';
 import 'package:talao/app/pages/credentials/receive.dart';
