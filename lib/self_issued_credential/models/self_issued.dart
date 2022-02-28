@@ -35,12 +35,13 @@ class SelfIssued extends CredentialSubject {
 
   @override
   Map<String, dynamic> toJson() => {
-        'id':id,
-        if (address != null && address!.isNotEmpty) 'address': address,
-        if (familyName != null && familyName!.isNotEmpty) 'familyName': familyName,
+        'id': id,
         if (givenName != null && givenName!.isNotEmpty) 'givenName': givenName,
-        'type': type,
+        if (familyName != null && familyName!.isNotEmpty)
+          'familyName': familyName,
         if (telephone != null && telephone!.isNotEmpty) 'telephone': telephone,
+        if (address != null && address!.isNotEmpty) 'address': address,
+        'type': type,
         if (email != null && email!.isNotEmpty) 'email': email,
       };
 
@@ -54,22 +55,22 @@ class SelfIssued extends CredentialSubject {
     final localizations = context.l10n;
     return Column(
       children: [
+        givenName?.isNotEmpty ?? false
+            ? CredentialField(title: localizations.firstName, value: givenName!)
+            : SizedBox.shrink(),
         familyName?.isNotEmpty ?? false
             ? CredentialField(
-                title: localizations.firstName, value: familyName!)
+                title: localizations.lastName, value: familyName!)
             : SizedBox.shrink(),
-        givenName?.isNotEmpty ?? false
-            ? CredentialField(title: localizations.lastName, value: givenName!)
+        telephone?.isNotEmpty ?? false
+            ? CredentialField(
+                title: localizations.personalPhone, value: telephone!)
             : SizedBox.shrink(),
         address?.isNotEmpty ?? false
             ? CredentialField(title: localizations.address, value: address!)
             : SizedBox.shrink(),
         email?.isNotEmpty ?? false
             ? CredentialField(title: localizations.personalMail, value: email!)
-            : SizedBox.shrink(),
-        telephone?.isNotEmpty ?? false
-            ? CredentialField(
-                title: localizations.personalPhone, value: telephone!)
             : SizedBox.shrink(),
       ],
     );
