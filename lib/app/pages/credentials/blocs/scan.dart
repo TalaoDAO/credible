@@ -254,6 +254,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
             StateMessage.error('Something went wrong, please try again later. '
                 'Check the logs for more information.')));
       }
+      emit(ScanStateIdle());
     }
   }
 
