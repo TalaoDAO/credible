@@ -99,7 +99,6 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
 
     if (confirm) {
       await context.read<WalletCubit>().deleteById(widget.item.id);
-      Navigator.of(context).pop();
       final message = StateMessage(
         message: l10n.credentialDetailDeleteSuccessMessage,
         type: MessageType.success,
