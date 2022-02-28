@@ -3,6 +3,8 @@ import 'dart:typed_data';
 import 'package:talao/app/interop/key_generation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:crypto_keys/crypto_keys.dart';
+import 'package:bip32/bip32.dart' as bip32;
+import 'package:bip39/bip39.dart' as bip39;
 
 void main() {
   group('KeyGeneration', () {
@@ -20,12 +22,21 @@ void main() {
   });
 
   group('CryptoKeys', () {
-    //todo: generate keypair using mnemonics
-    var keyPair = KeyPair.generateSymmetric(128);
-
-    var message = '{"name": "My name is Bibash Shresth"}';
     var mnemonics =
         'notice photo opera keen climb agent soft parrot best joke field devote';
+
+    final seed = bip39.mnemonicToSeed(mnemonics);
+
+    var rootKey = bip32.BIP32.fromSeed(seed); //Instance of 'BIP32'
+
+    // derive path for ethereum '60' see bip 44, first address
+    final child = rootKey.derivePath("m/44'/60'/0'/0/0"); //Instance of 'BIP32'
+
+    final toto = child.privateKey ?? Uint8List(0);
+    final key = SymmetricKey(keyValue: toto);
+    var keyPair = KeyPair.symmetric(key);
+
+    var message = '{"name": "My name is Bibash Shrestha"}';
     var ivVector = 'Talao';
 
     test('encryptAndDecrypt', () async {
