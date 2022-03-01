@@ -30,7 +30,7 @@ class _BackupCredentialPageState extends State<BackupCredentialPage> {
         listener: (context, state) async {
           if (state.status == BackupCredentialStatus.failure) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text("Something went wrong. Please try again later."),
+              content: Text(l10n.backupCredentialError),
               backgroundColor: Theme.of(context).colorScheme.error,
             ));
           }
@@ -48,6 +48,9 @@ class _BackupCredentialPageState extends State<BackupCredentialPage> {
                   title: l10n.backupCredentialNotificationTitle,
                   message: l10n.backupCredentialNotificationMessage,
                 );
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(l10n.backupCredentialNotificationMessage),
+            ));
           }
         },
         builder: (context, state) {
