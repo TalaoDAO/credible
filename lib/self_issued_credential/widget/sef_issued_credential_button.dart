@@ -51,22 +51,20 @@ class SelfIssuedCredentialButton extends StatelessWidget {
       child: BlocConsumer<SelfIssuedCredentialCubit, SelfIssuedCredentialState>(
           builder: (ctx, state) {
         return FloatingActionButton(
-          onPressed: () {
-            state.maybeWhen(
-                orElse: () {
-                  BlocProvider.of<SelfIssuedCredentialCubit>(ctx)
+          onPressed: () async {
+            await state.maybeWhen(
+                orElse: () async {
+                  await BlocProvider.of<SelfIssuedCredentialCubit>(ctx)
                       .createSelfIssuedCredential(
                           selfIssuedCredentialDataModel:
                               selfIssuedCredentialButtonClick.call());
                 },
                 loading: () => null);
           },
-          child: Builder(builder: (_) {
-            return state.maybeWhen(
-                orElse: () => Icon(Icons.fact_check_outlined),
-                loading: () =>
-                    Center(child: CircularProgressIndicator.adaptive()));
-          }),
+          child: state.maybeWhen(
+            orElse: () => Icon(Icons.fact_check_outlined),
+            loading: () => Center(child: CircularProgressIndicator.adaptive()),
+          ),
         );
       }, listener: (ctx, state) {
         state.maybeWhen(

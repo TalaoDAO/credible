@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
@@ -46,6 +47,7 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
     try {
       //show loading
       emit(const SelfIssuedCredentialState.loading());
+      await Future.delayed(const Duration(seconds: 1));
 
       final key = (await SecureStorageProvider.instance.get('key'))!;
       final did =
