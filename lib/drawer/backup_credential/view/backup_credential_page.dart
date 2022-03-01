@@ -82,51 +82,63 @@ class _BackupCredentialPageState extends State<BackupCredentialPage> {
             ],
           ),
           const SizedBox(height: 32.0),
-          if (_mnemonic != null && _mnemonic!.isNotEmpty)
+          if (_mnemonic != null && _mnemonic!.isNotEmpty) ...[
             MnemonicDisplay(mnemonic: _mnemonic!),
-          const SizedBox(height: 32.0),
-          BlocBuilder<WalletCubit, WalletState>(builder: (context, state) {
-            return BaseButton.primary(
-              context: context,
-              textColor: Theme.of(context).colorScheme.onPrimary,
-              onPressed: () async {
-                if (state.credentials.isEmpty) {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text(l10n.backupCredentialEmptyError),
-                    backgroundColor: Theme.of(context).colorScheme.error,
-                  ));
-                  return;
-                }
+            const SizedBox(height: 32.0),
+            BlocBuilder<WalletCubit, WalletState>(builder: (context, state) {
+              return BaseButton.primary(
+                context: context,
+                textColor: Theme.of(context).colorScheme.onPrimary,
+                onPressed: () async {
+                  if (state.credentials.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text(l10n.backupCredentialEmptyError),
+                    ));
+                    return;
+                  }
 
-                final downloadDirectory = await _getDownloadDirectory();
-                final isPermissionStatusGranted = await _getStoragePermission();
+                  final downloadDirectory = await _getDownloadDirectory();
+                  final isPermissionStatusGranted =
+                      await _getStoragePermission();
 
-                if (isPermissionStatusGranted) {
-                  final savePath = path.join(downloadDirectory!.path);
-                  var date = DateFormat('yyyy-MM-dd').format(DateTime.now());
-                  final filePath = '$savePath/talao-credential-$date.txt';
-                  final _myFile = File(filePath);
-                  var data = {
-                    'date': date,
-                    'credentials': state.credentials,
-                  };
-                  //todo: encrypt data
-                  await _myFile.writeAsString(jsonEncode(data));
-                  await LocalNotification().showNotification(
-                    filePath: filePath,
-                    title: l10n.backupCredentialNotificationTitle,
-                    message: l10n.backupCredentialNotificationMessage,
-                  );
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text(l10n.backupCredentialPermissionDeniedMessage),
-                    backgroundColor: Theme.of(context).colorScheme.error,
-                  ));
-                }
-              },
-              child: Text(l10n.backupCredentialButtonTitle),
-            );
-          })
+                  if (isPermissionStatusGranted) {
+                    try {
+                      final savePath = path.join(downloadDirectory!.path);
+                      var date =
+                          DateFormat('yyyy-MM-dd').format(DateTime.now());
+                      final filePath = '$savePath/talao-credential-$date.txt';
+                      final _myFile = File(filePath);
+
+                      var data = {
+                        'date': date,
+                        'credentials': state.credentials,
+                      };
+                      //todo: encrypt data
+                      await _myFile.writeAsString(jsonEncode(data));
+                      await LocalNotification().showNotification(
+                        filePath: filePath,
+                        title: l10n.backupCredentialNotificationTitle,
+                        message: l10n.backupCredentialNotificationMessage,
+                      );
+                    } catch (e) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(
+                            "Something went wrong. Please try again later."),
+                        backgroundColor: Theme.of(context).colorScheme.error,
+                      ));
+                    }
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content:
+                          Text(l10n.backupCredentialPermissionDeniedMessage),
+                      backgroundColor: Theme.of(context).colorScheme.error,
+                    ));
+                  }
+                },
+                child: Text(l10n.backupCredentialButtonTitle),
+              );
+            }),
+          ]
         ],
       ),
     );

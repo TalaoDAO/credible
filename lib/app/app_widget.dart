@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:talao/app/interop/crypto_keys/crypto_keys.dart';
 import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/interop/local_notification/local_notification.dart';
 import 'package:talao/app/interop/network/network_client.dart';
@@ -11,7 +12,6 @@ import 'package:talao/app/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:talao/app/interop/key_generation.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/deep_link/cubit/deep_link.dart';
 import 'package:talao/drawer/drawer.dart';
@@ -45,7 +45,7 @@ class _AppWidgetState extends State<AppWidget> {
         BlocProvider<OnBoardingGenPhraseCubit>(
             create: (context) => OnBoardingGenPhraseCubit(
                 secureStorageProvider: SecureStorageProvider.instance,
-                keyGeneration: KeyGeneration())),
+                cryptoKeys: CryptoKeys())),
         BlocProvider<DeepLinkCubit>(create: (context) => DeepLinkCubit()),
         BlocProvider<QueryByExampleCubit>(
             create: (context) => QueryByExampleCubit()),

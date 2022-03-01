@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:logging/logging.dart';
+import 'package:talao/app/interop/crypto_keys/crypto_keys.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
-import 'package:talao/app/interop/key_generation.dart';
 import 'package:talao/app/shared/model/message.dart';
 import 'package:talao/l10n/l10n.dart';
 
@@ -15,10 +15,10 @@ part 'onboarding_gen_phrase_cubit.g.dart';
 
 class OnBoardingGenPhraseCubit extends Cubit<OnBoardingGenPhraseState> {
   final SecureStorageProvider secureStorageProvider;
-  final KeyGeneration keyGeneration;
+  final CryptoKeys cryptoKeys;
 
   OnBoardingGenPhraseCubit(
-      {required this.secureStorageProvider, required this.keyGeneration})
+      {required this.secureStorageProvider, required this.cryptoKeys})
       : super(OnBoardingGenPhraseState());
 
   final log = Logger('talao-wallet/on-boarding/key-generation');
@@ -28,8 +28,8 @@ class OnBoardingGenPhraseCubit extends Cubit<OnBoardingGenPhraseState> {
       emit(state.copyWith(status: OnBoardingGenPhraseStatus.loading));
       final mnemonicFormatted = mnemonic.join(' ');
       await saveMnemonicKey(mnemonicFormatted);
-      final key = await keyGeneration.privateKey(mnemonicFormatted);
-      await secureStorageProvider.set('key', key);
+      //final key = await keyGeneration.privateKey(mnemonicFormatted);
+      //await secureStorageProvider.set('key', key);
       emit(state.copyWith(status: OnBoardingGenPhraseStatus.success));
     } catch (error) {
       log.severe('something went wrong when generating a key', error);
