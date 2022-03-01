@@ -63,6 +63,7 @@ class RecoveryCredentialCubit extends Cubit<RecoveryCredentialState> {
             status: RecoveryCredentialStatus.success,
             recoveredCredentialLength: credentials.length));
       } catch (e) {
+        print(e.toString()); //Auth error
         emit(state.copyWith(status: RecoveryCredentialStatus.failure));
       }
     }
