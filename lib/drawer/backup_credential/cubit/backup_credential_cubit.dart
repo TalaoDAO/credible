@@ -12,6 +12,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:talao/app/interop/crypto_keys/crypto_keys.dart';
 import 'package:talao/app/interop/local_notification/local_notification.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
+import 'package:talao/app/shared/encryption.dart';
 import 'package:talao/app/shared/model/message.dart';
 import 'package:talao/wallet/cubit/wallet_cubit.dart';
 import 'package:path/path.dart' as path;
@@ -63,13 +64,13 @@ class BackupCredentialCubit extends Cubit<BackupCredentialState> {
         var date = DateFormat('yyyy-MM-dd').format(DateTime.now());
         final filePath = '$savePath/talao-credential-$date.txt';
         final _myFile = File(filePath);
-
-        var data = {
+        var message = {
           'date': date,
           'credentials': walletCubit.state.credentials,
         };
+        print(message);
         //todo: encrypt data
-        await _myFile.writeAsString(jsonEncode(data));
+        await _myFile.writeAsString(jsonEncode(message));
         emit(state.copyWith(status: BackupCredentialStatus.success));
       } catch (e) {
         emit(state.copyWith(status: BackupCredentialStatus.failure));

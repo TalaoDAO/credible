@@ -34,7 +34,6 @@ class CryptoKeys {
       initializationVector: Uint8List.fromList(Constants.ivVector.codeUnits),
     );
     return Encryption(
-      date: DateFormat('yyyy-MM-dd').format(DateTime.now()),
       cipherText: String.fromCharCodes(encryptedBytes.data),
       authenticationTag:
           String.fromCharCodes(encryptedBytes.authenticationTag!),
