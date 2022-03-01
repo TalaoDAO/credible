@@ -100,25 +100,30 @@ class _RecoveryCredentialPageState extends State<RecoveryCredentialPage> {
                     var result = await FilePicker.platform.pickFiles(
                         type: FileType.custom, allowedExtensions: ['txt']);
                     if (result != null) {
-                      var file = File(result.files.single.path!);
-                      var text = await file.readAsString();
-                      Map json = jsonDecode(text);
-                      var encryption = Encryption(
-                          cipherText: json['cipherText'],
-                          authenticationTag: json['authenticationTag']);
-                      var decryptedText = await CryptoKeys()
-                          .decrypt(mnemonicController.text, encryption);
-                      //todo: verify data
-                      Map decryptedJson = jsonDecode(decryptedText);
-                      List credentialJson = decryptedJson['credentials'];
-                      var credentials = credentialJson.map(
-                          (credential) => CredentialModel.fromJson(credential));
-                      await context
-                          .read<WalletCubit>()
-                          .recoverWallet(credentials.toList());
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text(l10n.recoveryCredentialSuccessMessage(
-                              '${credentials.length} ${credentials.length > 1 ? 'credentials' : 'credential'}'))));
+                      try {
+                        var file = File(result.files.single.path!);
+                        var text = await file.readAsString();
+                        Map json = jsonDecode(text);
+                        var encryption = Encryption(
+                            cipherText: json['cipherText'],
+                            authenticationTag: json['authenticationTag']);
+                        var decryptedText = await CryptoKeys()
+                            .decrypt(mnemonicController.text, encryption);
+                        //todo: verify data
+                        Map decryptedJson = jsonDecode(decryptedText);
+                        List credentialJson = decryptedJson['credentials'];
+                        var credentials = credentialJson.map((credential) =>
+                            CredentialModel.fromJson(credential));
+                        await context
+                            .read<WalletCubit>()
+                            .recoverWallet(credentials.toList());
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(l10n.recoveryCredentialSuccessMessage(
+                                '${credentials.length} ${credentials.length > 1 ? 'credentials' : 'credential'}'))));
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text("Sorry, either mnemonics or file is corrupted..")));
+                      }
                     }
                   },
             child: Text(l10n.recoveryCredentialButtonTitle),
