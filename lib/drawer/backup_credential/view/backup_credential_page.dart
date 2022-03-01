@@ -49,7 +49,7 @@ class _BackupCredentialPageState extends State<BackupCredentialPage> {
                   message: l10n.backupCredentialNotificationMessage,
                 );
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text(l10n.backupCredentialNotificationMessage),
+              content: Text(l10n.backupCredentialSuccessMessage),
             ));
           }
         },
