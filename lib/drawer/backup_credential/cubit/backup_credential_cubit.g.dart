@@ -15,6 +15,7 @@ BackupCredentialState _$BackupCredentialStateFromJson(
       message: json['message'] == null
           ? null
           : StateMessage.fromJson(json['message'] as Map<String, dynamic>),
+      filePath: json['filePath'] as String? ?? '',
       mnemonic: (json['mnemonic'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
@@ -26,11 +27,13 @@ Map<String, dynamic> _$BackupCredentialStateToJson(
       'status': _$BackupCredentialStatusEnumMap[instance.status],
       'mnemonic': instance.mnemonic,
       'message': instance.message,
+      'filePath': instance.filePath,
     };
 
 const _$BackupCredentialStatusEnumMap = {
   BackupCredentialStatus.idle: 'idle',
   BackupCredentialStatus.loading: 'loading',
   BackupCredentialStatus.success: 'success',
+  BackupCredentialStatus.permissionDenied: 'permissionDenied',
   BackupCredentialStatus.failure: 'failure',
 };
