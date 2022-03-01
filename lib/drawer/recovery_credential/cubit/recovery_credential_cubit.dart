@@ -41,12 +41,19 @@ class RecoveryCredentialCubit extends Cubit<RecoveryCredentialState> {
       try {
         var file = File(result.files.single.path!);
         var text = await file.readAsString();
+        //todo: verify text is json
         Map json = jsonDecode(text);
+        //todo: verify cipherText is available
+        //todo: verify authenticationTag is available
         var encryption = Encryption(
             cipherText: json['cipherText'],
             authenticationTag: json['authenticationTag']);
         var decryptedText = await CryptoKeys().decrypt(text, encryption);
-        //todo: verify data
+        //todo: catch menumonic auth error
+        //todo: verify encryptedData is json
+        //todo: verify date is available
+        //todo: verify credentials is available
+        //todo: verify credentials is CredentialModel
         Map decryptedJson = jsonDecode(decryptedText);
         List credentialJson = decryptedJson['credentials'];
         var credentials = credentialJson
