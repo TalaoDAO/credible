@@ -28,8 +28,8 @@ class OnBoardingGenPhraseCubit extends Cubit<OnBoardingGenPhraseState> {
       emit(state.copyWith(status: OnBoardingGenPhraseStatus.loading));
       final mnemonicFormatted = mnemonic.join(' ');
       await saveMnemonicKey(mnemonicFormatted);
-      //final key = await keyGeneration.privateKey(mnemonicFormatted);
-      //await secureStorageProvider.set('key', key);
+      final key = await cryptoKeys.generateKeyPair(mnemonicFormatted);
+      await secureStorageProvider.set('key', key.publicKey.hashCode.toString());
       emit(state.copyWith(status: OnBoardingGenPhraseStatus.success));
     } catch (error) {
       log.severe('something went wrong when generating a key', error);
