@@ -160,6 +160,7 @@
   "to": "a",
   "credential": "Credenciales",
   "issuanceDate": "Issuance date",
-  "appContactWebsite": "Website"
+  "appContactWebsite": "Website",
+  "selfIssuedCreatedSuccessfully": "Credencial autoemitida creada con éxito"
 
 }
