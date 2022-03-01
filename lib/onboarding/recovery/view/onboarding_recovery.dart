@@ -5,8 +5,8 @@ import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/base/text_field.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:talao/drawer/profile/models/profile.dart';
+import 'package:talao/l10n/l10n.dart';
 import 'package:talao/personal/personal.dart';
 
 class OnBoardingRecoveryPage extends StatefulWidget {
@@ -51,10 +51,10 @@ class _OnBoardingRecoveryPageState extends State<OnBoardingRecoveryPage> {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
 
     return BasePage(
-      title: localizations.onBoardingRecoveryTitle,
+      title: l10n.onBoardingRecoveryTitle,
       titleLeading: BackLeadingButton(),
       scrollView: false,
       padding: EdgeInsets.zero,
@@ -63,17 +63,15 @@ class _OnBoardingRecoveryPageState extends State<OnBoardingRecoveryPage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           OnBoardingRecoveryPage._padHorizontal(Text(
-            localizations.recoveryText,
+            l10n.recoveryText,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.subtitle1,
           )),
           const SizedBox(height: 24.0),
           BaseTextField(
-            label: localizations.recoveryMnemonicHintText,
+            label: l10n.recoveryMnemonicHintText,
             controller: mnemonicController,
-            error: edited && !buttonEnabled
-                ? localizations.recoveryMnemonicError
-                : null,
+            error: edited && !buttonEnabled ? l10n.recoveryMnemonicError : null,
           ),
           const SizedBox(height: 24.0),
           OnBoardingRecoveryPage._padHorizontal(BaseButton.primary(
@@ -91,7 +89,7 @@ class _OnBoardingRecoveryPageState extends State<OnBoardingRecoveryPage> {
                     );
                   }
                 : null,
-            child: Text(localizations.onBoardingRecoveryButton),
+            child: Text(l10n.onBoardingRecoveryButton),
           )),
           const SizedBox(height: 32.0),
         ],

@@ -12,7 +12,6 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:talao/app/interop/crypto_keys/crypto_keys.dart';
 import 'package:talao/app/interop/local_notification/local_notification.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
-import 'package:talao/app/shared/encryption.dart';
 import 'package:talao/app/shared/model/message.dart';
 import 'package:talao/wallet/cubit/wallet_cubit.dart';
 import 'package:path/path.dart' as path;
