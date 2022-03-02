@@ -59,7 +59,6 @@ class RecoveryCredentialCubit extends Cubit<RecoveryCredentialState> {
             !(json['date'] is String)) {
           throw FormatException();
         }
-        //todo: verify credentials is CredentialModel
         Map decryptedJson = jsonDecode(decryptedText);
         List credentialJson = decryptedJson['credentials'];
         var credentials = credentialJson
