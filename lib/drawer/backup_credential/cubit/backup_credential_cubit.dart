@@ -61,7 +61,9 @@ class BackupCredentialCubit extends Cubit<BackupCredentialState> {
       try {
         final savePath = path.join(downloadDirectory!.path);
         var date = DateFormat('yyyy-MM-dd').format(DateTime.now());
-        final filePath = '$savePath/talao-credential-$date.txt';
+        var fileName = getFileName(date);
+        final filePath = '$savePath/$fileName';
+        print(filePath);
         final _myFile = File(filePath);
         var message = {
           'date': date,
@@ -81,5 +83,11 @@ class BackupCredentialCubit extends Cubit<BackupCredentialState> {
     } else {
       emit(state.copyWith(status: BackupCredentialStatus.permissionDenied));
     }
+  }
+
+  String getFileName(String date) {
+    var millisecondsSinceEpoch = DateTime.now().millisecondsSinceEpoch;
+    var fileName = 'talao-credential-$date-$millisecondsSinceEpoch.txt';
+    return fileName;
   }
 }

@@ -68,7 +68,7 @@ class RecoveryCredentialCubit extends Cubit<RecoveryCredentialState> {
         emit(state.copyWith(
             status: RecoveryCredentialStatus.success,
             recoveredCredentialLength: credentials.length));
-      } on FormatException catch (e) {
+      } on FormatException {
         emit(state.copyWith(status: RecoveryCredentialStatus.invalidJson));
       } catch (e) {
         print(e.toString());
