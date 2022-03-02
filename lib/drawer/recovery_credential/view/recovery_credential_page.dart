@@ -58,9 +58,16 @@ class _RecoveryCredentialPageState extends State<RecoveryCredentialPage> {
           ));
         }
 
+        if (state.status == RecoveryCredentialStatus.authError) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(l10n.recoveryCredentialAuthErrorMessage),
+            backgroundColor: Theme.of(context).colorScheme.error,
+          ));
+        }
+
         if (state.status == RecoveryCredentialStatus.failure) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text("Sorry, either mnemonics or file is corrupted.."),
+            content: Text(l10n.recoveryCredentialDefaultErrorMessage),
             backgroundColor: Theme.of(context).colorScheme.error,
           ));
         }

@@ -217,6 +217,8 @@
   "recoveryCredentialButtonTitle": "Upload Backup File",
   "recoveryCredentialSuccessMessage": "Successfully recovered {postfix}.",
   "recoveryCredentialJSONFormatErrorMessage": "Please upload the valid file.",
+  "recoveryCredentialAuthErrorMessage": "Sorry, either mnemonics is incorrect or uploaded file is corrupted.",
+  "recoveryCredentialDefaultErrorMessage": "Something went wrong. Please try again later.",
   "@recoveryCredentialSuccessMessage": {
     "description": "Success Message Count",
     "type": "text",

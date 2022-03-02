@@ -52,7 +52,6 @@ class RecoveryCredentialCubit extends Cubit<RecoveryCredentialState> {
             cipherText: json['cipherText'],
             authenticationTag: json['authenticationTag']);
         var decryptedText = await CryptoKeys().decrypt(text, encryption);
-        //todo: catch menumonic auth error
         if (!json.containsKey('date') ||
             !json.containsKey('credentials') ||
             !(json['date'] is String)) {
@@ -70,9 +69,11 @@ class RecoveryCredentialCubit extends Cubit<RecoveryCredentialState> {
       } on FormatException catch (e) {
         emit(state.copyWith(status: RecoveryCredentialStatus.invalidJson));
       } catch (e) {
-        print(e.toString());
-        //Auth error - if wrong authenticattionTag is given
-        emit(state.copyWith(status: RecoveryCredentialStatus.failure));
+        if (e.toString().startsWith('Auth error')) {
+          emit(state.copyWith(status: RecoveryCredentialStatus.authError));
+        } else {
+          emit(state.copyWith(status: RecoveryCredentialStatus.failure));
+        }
       }
     }
   }

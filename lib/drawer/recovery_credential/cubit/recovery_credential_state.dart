@@ -5,6 +5,7 @@ enum RecoveryCredentialStatus {
   loading,
   success,
   invalidJson,
+  authError,
   failure
 }
 

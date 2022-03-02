@@ -31,5 +31,29 @@ void main() {
       final decryptedData = await CryptoKeys().decrypt(mnemonic, encryption);
       expect(decryptedData, equals(message.toString()));
     });
+
+    test('invalid cipherText', () async {
+      var inCipherText = '123';
+      var encryption = Encryption(
+          cipherText: inCipherText, authenticationTag: authenticationTag);
+      try {
+        await CryptoKeys().decrypt(mnemonic, encryption);
+      } catch (e) {
+        var error = e.toString().startsWith('Auth error');
+        expect(error, true);
+      }
+    });
+
+    test('invalid authenticationTag', () async {
+      var inValidAuthenticationTag = '123';
+      var encryption = Encryption(
+          cipherText: cipherText, authenticationTag: inValidAuthenticationTag);
+      try {
+        await CryptoKeys().decrypt(mnemonic, encryption);
+      } catch (e) {
+        var error = e.toString().startsWith('Auth error');
+        expect(error, true);
+      }
+    });
   });
 }
