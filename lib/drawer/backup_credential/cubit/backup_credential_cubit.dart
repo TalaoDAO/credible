@@ -68,7 +68,6 @@ class BackupCredentialCubit extends Cubit<BackupCredentialState> {
           'credentials': walletCubit.state.credentials,
         };
         final mnemonicFormatted = state.mnemonic.join(' ');
-        print(message);
         print(mnemonicFormatted);
         var encrypted =
             await cryptoKeys.encrypt(jsonEncode(message), mnemonicFormatted);
@@ -76,6 +75,7 @@ class BackupCredentialCubit extends Cubit<BackupCredentialState> {
         emit(state.copyWith(
             status: BackupCredentialStatus.success, filePath: filePath));
       } catch (e) {
+        print(e.toString());
         emit(state.copyWith(status: BackupCredentialStatus.failure));
       }
     } else {
