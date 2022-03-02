@@ -1,5 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:talao/app/interop/crypto_keys/crypto_keys.dart';
+import 'package:talao/app/interop/local_notification/local_notification.dart';
+import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
@@ -7,10 +10,19 @@ import 'package:talao/app/shared/widget/mnemonic.dart';
 import 'package:talao/app/shared/widget/spinner.dart';
 import 'package:talao/drawer/backup_credential/backup_credential.dart';
 import 'package:talao/l10n/l10n.dart';
+import 'package:talao/wallet/cubit/wallet_cubit.dart';
 
 class BackupCredentialPage extends StatefulWidget {
   static Route route() => MaterialPageRoute(
-        builder: (_) => BackupCredentialPage(),
+        builder: (_) => BlocProvider(
+          create: (context) => BackupCredentialCubit(
+            secureStorageProvider: SecureStorageProvider.instance,
+            cryptoKeys: CryptoKeys(),
+            walletCubit: context.read<WalletCubit>(),
+            localNotification: LocalNotification(),
+          ),
+          child: BackupCredentialPage(),
+        ),
         settings: RouteSettings(name: '/backupCredentialPage'),
       );
 
