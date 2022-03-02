@@ -1,3 +1,4 @@
+import 'package:talao/app/shared/ui/theme.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
@@ -106,8 +107,8 @@ class _RecoveryCredentialPageState extends State<RecoveryCredentialPage> {
                   ? null
                   : LinearGradient(
                       colors: [
-                        Theme.of(context).colorScheme.shadow,
-                        Theme.of(context).colorScheme.shadow
+                        Theme.of(context).colorScheme.buttonDisabled,
+                        Theme.of(context).colorScheme.buttonDisabled
                       ],
                     ),
               onPressed: !state.isMnemonicValid
