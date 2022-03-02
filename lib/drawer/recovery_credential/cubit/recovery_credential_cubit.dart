@@ -32,6 +32,7 @@ class RecoveryCredentialCubit extends Cubit<RecoveryCredentialState> {
   }
 
   Future<void> recoverWallet(String mnemonic) async {
+    print(mnemonic);
     emit(state.copyWith(status: RecoveryCredentialStatus.loading));
     if (Platform.isAndroid) {
       var appDir = (await getTemporaryDirectory()).path;
@@ -39,6 +40,7 @@ class RecoveryCredentialCubit extends Cubit<RecoveryCredentialState> {
     }
     var result = await FilePicker.platform
         .pickFiles(type: FileType.custom, allowedExtensions: ['txt']);
+
     if (result != null) {
       try {
           var file = File(result.files.single.path!);
@@ -61,6 +63,11 @@ class RecoveryCredentialCubit extends Cubit<RecoveryCredentialState> {
             throw FormatException();
           }
         Map decryptedJson = jsonDecode(decryptedText);
+        if (!decryptedJson.containsKey('date') ||
+            !decryptedJson.containsKey('credentials') ||
+            !(decryptedJson['date'] is String)) {
+          throw FormatException();
+        }
         List credentialJson = decryptedJson['credentials'];
         var credentials = credentialJson
             .map((credential) => CredentialModel.fromJson(credential));
