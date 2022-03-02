@@ -43,7 +43,8 @@ class RecoveryCredentialCubit extends Cubit<RecoveryCredentialState> {
       try {
         var file = File(result.files.single.path!);
         var text = await file.readAsString();
-        Map json = jsonDecode(text) as Map<String, String>;
+        print(text);
+        Map json = jsonDecode(text) as Map<String, dynamic>;
         if (!json.containsKey('cipherText') ||
             !json.containsKey('authenticationTag') ||
             !(json['cipherText'] is String) ||
@@ -70,6 +71,7 @@ class RecoveryCredentialCubit extends Cubit<RecoveryCredentialState> {
       } on FormatException catch (e) {
         emit(state.copyWith(status: RecoveryCredentialStatus.invalidJson));
       } catch (e) {
+        print(e.toString());
         if (e.toString().startsWith('Auth error')) {
           emit(state.copyWith(status: RecoveryCredentialStatus.authError));
         } else {

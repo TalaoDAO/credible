@@ -68,6 +68,7 @@ class BackupCredentialCubit extends Cubit<BackupCredentialState> {
           'credentials': walletCubit.state.credentials,
         };
         final mnemonicFormatted = state.mnemonic.join(' ');
+        print(mnemonicFormatted);
         var encrypted =
             await cryptoKeys.encrypt(jsonEncode(message), mnemonicFormatted);
         await _myFile.writeAsString(jsonEncode(encrypted));
