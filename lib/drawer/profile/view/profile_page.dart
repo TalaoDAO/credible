@@ -1,4 +1,3 @@
-import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/drawer/backup_credential/backup_credential.dart';
 import 'package:talao/drawer/profile/cubit/profile_state.dart';
 import 'package:talao/drawer/recovery_credential/recovery_credential.dart';

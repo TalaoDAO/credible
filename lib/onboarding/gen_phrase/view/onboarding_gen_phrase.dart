@@ -1,4 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:talao/app/interop/key_generation.dart';
+import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
@@ -12,7 +14,12 @@ import 'package:talao/personal/view/personal_page.dart';
 
 class OnBoardingGenPhrasePage extends StatefulWidget {
   static Route route() => MaterialPageRoute(
-        builder: (context) => OnBoardingGenPhrasePage(),
+        builder: (context) => BlocProvider(
+          create: (context) => OnBoardingGenPhraseCubit(
+              secureStorageProvider: SecureStorageProvider.instance,
+              keyGeneration: KeyGeneration()),
+          child: OnBoardingGenPhrasePage(),
+        ),
         settings: RouteSettings(name: '/onBoardingGenPhrasePage'),
       );
 

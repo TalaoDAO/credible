@@ -1,8 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:talao/app/interop/crypto_keys/crypto_keys.dart';
 import 'package:talao/app/interop/didkit/didkit.dart';
-import 'package:talao/app/interop/key_generation.dart';
 import 'package:talao/app/interop/local_notification/local_notification.dart';
 import 'package:talao/app/interop/network/network_client.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
@@ -16,7 +14,6 @@ import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/deep_link/cubit/deep_link.dart';
 import 'package:talao/drawer/drawer.dart';
 import 'package:talao/l10n/l10n.dart';
-import 'package:talao/onboarding/gen_phrase/cubit/onboarding_gen_phrase_cubit.dart';
 import 'package:talao/query_by_example/query_by_example.dart';
 import 'package:talao/splash/splash.dart';
 import 'package:talao/theme/theme.dart';
@@ -43,10 +40,6 @@ class _AppWidgetState extends State<AppWidget> {
       providers: [
         BlocProvider<ThemeCubit>(
             create: (context) => ThemeCubit(SecureStorageProvider.instance)),
-        BlocProvider<OnBoardingGenPhraseCubit>(
-            create: (context) => OnBoardingGenPhraseCubit(
-                secureStorageProvider: SecureStorageProvider.instance,
-                keyGeneration: KeyGeneration())),
         BlocProvider<DeepLinkCubit>(create: (context) => DeepLinkCubit()),
         BlocProvider<QueryByExampleCubit>(
             create: (context) => QueryByExampleCubit()),
