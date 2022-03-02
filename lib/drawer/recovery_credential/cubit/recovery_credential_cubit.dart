@@ -41,16 +41,14 @@ class RecoveryCredentialCubit extends Cubit<RecoveryCredentialState> {
       try {
         var file = File(result.files.single.path!);
         var text = await file.readAsString();
-        //todo: verify text is json
-        Map json = jsonDecode(text);
-        //todo: verify cipherText is available
-        //todo: verify authenticationTag is available
+        Map json = jsonDecode(text) as Map<String, String>;
+        //todo: verify cipherText is available and value is string
+        //todo: verify authenticationTag is available and value is string
         var encryption = Encryption(
             cipherText: json['cipherText'],
             authenticationTag: json['authenticationTag']);
         var decryptedText = await CryptoKeys().decrypt(text, encryption);
         //todo: catch menumonic auth error
-        //todo: verify encryptedData is json
         //todo: verify date is available
         //todo: verify credentials is available
         //todo: verify credentials is CredentialModel
@@ -62,8 +60,11 @@ class RecoveryCredentialCubit extends Cubit<RecoveryCredentialState> {
         emit(state.copyWith(
             status: RecoveryCredentialStatus.success,
             recoveredCredentialLength: credentials.length));
+      } on FormatException catch (e) {
+        emit(state.copyWith(status: RecoveryCredentialStatus.invalidJson));
       } catch (e) {
-        print(e.toString()); //Auth error
+        print(e.toString());
+        //Auth error - if wrong authenticattionTag is given
         emit(state.copyWith(status: RecoveryCredentialStatus.failure));
       }
     }

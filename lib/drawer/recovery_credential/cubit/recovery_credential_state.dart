@@ -1,6 +1,12 @@
 part of 'recovery_credential_cubit.dart';
 
-enum RecoveryCredentialStatus { idle, loading, success, failure }
+enum RecoveryCredentialStatus {
+  idle,
+  loading,
+  success,
+  invalidJson,
+  failure
+}
 
 @JsonSerializable()
 class RecoveryCredentialState extends Equatable {

@@ -216,6 +216,7 @@
   "recoveryCredentialPhraseExplanation": "You need both words in right order and encrypted backup file to recover your credentials if you lost your credentials somehow",
   "recoveryCredentialButtonTitle": "Upload Backup File",
   "recoveryCredentialSuccessMessage": "Successfully recovered {postfix}.",
+  "recoveryCredentialJSONFormatErrorMessage": "Please upload the valid file.",
   "@recoveryCredentialSuccessMessage": {
     "description": "Success Message Count",
     "type": "text",

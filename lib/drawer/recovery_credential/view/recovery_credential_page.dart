@@ -51,6 +51,13 @@ class _RecoveryCredentialPageState extends State<RecoveryCredentialPage> {
               content: Text(l10n.recoveryCredentialSuccessMessage(
                   '$credentialLength ${credentialLength! > 1 ? 'credentials' : 'credential'}'))));
         }
+        if (state.status == RecoveryCredentialStatus.invalidJson) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(l10n.recoveryCredentialJSONFormatErrorMessage),
+            backgroundColor: Theme.of(context).colorScheme.error,
+          ));
+        }
+
         if (state.status == RecoveryCredentialStatus.failure) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text("Sorry, either mnemonics or file is corrupted.."),

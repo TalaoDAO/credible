@@ -34,5 +34,6 @@ const _$RecoveryCredentialStatusEnumMap = {
   RecoveryCredentialStatus.idle: 'idle',
   RecoveryCredentialStatus.loading: 'loading',
   RecoveryCredentialStatus.success: 'success',
+  RecoveryCredentialStatus.invalidJson: 'invalidJson',
   RecoveryCredentialStatus.failure: 'failure',
 };
