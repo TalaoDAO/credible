@@ -55,7 +55,8 @@
     "recoveryCredentialPhrase",
     "recoveryCredentialPhraseExplanation",
     "recoveryCredentialButtonTitle",
-    "recoveryCredentialSuccessMessage"
+    "recoveryCredentialSuccessMessage",
+    "recoveryCredentialJSONFormatErrorMessage"
   ],
 
   "es": [
@@ -113,7 +114,8 @@
     "recoveryCredentialPhrase",
     "recoveryCredentialPhraseExplanation",
     "recoveryCredentialButtonTitle",
-    "recoveryCredentialSuccessMessage"
+    "recoveryCredentialSuccessMessage",
+    "recoveryCredentialJSONFormatErrorMessage"
   ],
 
   "fr": [
@@ -146,7 +148,8 @@
     "recoveryCredentialPhrase",
     "recoveryCredentialPhraseExplanation",
     "recoveryCredentialButtonTitle",
-    "recoveryCredentialSuccessMessage"
+    "recoveryCredentialSuccessMessage",
+    "recoveryCredentialJSONFormatErrorMessage"
   ],
 
   "it": [
@@ -206,6 +209,7 @@
     "recoveryCredentialPhrase",
     "recoveryCredentialPhraseExplanation",
     "recoveryCredentialButtonTitle",
-    "recoveryCredentialSuccessMessage"
+    "recoveryCredentialSuccessMessage",
+    "recoveryCredentialJSONFormatErrorMessage"
   ]
 }

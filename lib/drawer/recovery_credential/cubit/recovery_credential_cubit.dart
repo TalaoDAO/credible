@@ -42,8 +42,12 @@ class RecoveryCredentialCubit extends Cubit<RecoveryCredentialState> {
         var file = File(result.files.single.path!);
         var text = await file.readAsString();
         Map json = jsonDecode(text) as Map<String, String>;
-        //todo: verify cipherText is available and value is string
-        //todo: verify authenticationTag is available and value is string
+        if (!json.containsKey('cipherText') ||
+            !json.containsKey('authenticationTag') ||
+            !(json['cipherText'] is String) ||
+            !(json['authenticationTag'] is String)) {
+          throw FormatException();
+        }
         var encryption = Encryption(
             cipherText: json['cipherText'],
             authenticationTag: json['authenticationTag']);

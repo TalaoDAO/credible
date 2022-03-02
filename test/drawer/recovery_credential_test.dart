@@ -1,7 +1,5 @@
 import 'dart:convert';
-import 'package:talao/app/interop/crypto_keys/crypto_keys.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:talao/app/shared/encryption.dart';
 
 void main() {
   group('RecoverWallet', () {
@@ -24,6 +22,24 @@ void main() {
         var error = e.toString().startsWith('FormatException');
         expect(error, true);
       }
+    });
+
+    test('json string contains required key', () async {
+      var jsonString =
+          '{ "cipherText":"John", "authenticationTag":"New York" }';
+      var decodedJSON = json.decode(jsonString) as Map<String, dynamic>;
+      expect(decodedJSON.containsKey('cipherText'), true);
+      expect(decodedJSON.containsKey('authenticationTag'), true);
+      expect(decodedJSON.containsKey('random'), false);
+    });
+
+    test('json string contains string value', () async {
+      var jsonString =
+          '{ "cipherText":"John", "authenticationTag":"New York" }';
+      var decodedJSON = json.decode(jsonString) as Map<String, dynamic>;
+      expect(decodedJSON['cipherText'] is String, true);
+      expect(decodedJSON['authenticationTag'] is String, true);
+      expect(decodedJSON['authenticationTag'] is int, false);
     });
   });
 }
