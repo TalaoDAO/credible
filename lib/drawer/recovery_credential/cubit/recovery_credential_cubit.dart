@@ -33,8 +33,10 @@ class RecoveryCredentialCubit extends Cubit<RecoveryCredentialState> {
 
   Future<void> recoverWallet(String text) async {
     emit(state.copyWith(status: RecoveryCredentialStatus.loading));
-    var appDir = (await getTemporaryDirectory()).path;
-    await Directory(appDir).delete(recursive: true);
+    if (Platform.isAndroid) {
+      var appDir = (await getTemporaryDirectory()).path;
+      await Directory(appDir).delete(recursive: true);
+    }
     var result = await FilePicker.platform
         .pickFiles(type: FileType.custom, allowedExtensions: ['txt']);
     if (result != null) {
