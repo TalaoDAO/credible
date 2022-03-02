@@ -53,8 +53,11 @@ class RecoveryCredentialCubit extends Cubit<RecoveryCredentialState> {
             authenticationTag: json['authenticationTag']);
         var decryptedText = await CryptoKeys().decrypt(text, encryption);
         //todo: catch menumonic auth error
-        //todo: verify date is available
-        //todo: verify credentials is available
+        if (!json.containsKey('date') ||
+            !json.containsKey('credentials') ||
+            !(json['date'] is String)) {
+          throw FormatException();
+        }
         //todo: verify credentials is CredentialModel
         Map decryptedJson = jsonDecode(decryptedText);
         List credentialJson = decryptedJson['credentials'];
