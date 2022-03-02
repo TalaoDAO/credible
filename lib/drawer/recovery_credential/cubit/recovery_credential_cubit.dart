@@ -1,10 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
+
+import 'package:bip39/bip39.dart' as bip39;
 import 'package:equatable/equatable.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:bip39/bip39.dart' as bip39;
 import 'package:path_provider/path_provider.dart';
 import 'package:talao/app/interop/crypto_keys/crypto_keys.dart';
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
@@ -12,9 +13,8 @@ import 'package:talao/app/shared/encryption.dart';
 import 'package:talao/app/shared/model/message.dart';
 import 'package:talao/wallet/cubit/wallet_cubit.dart';
 
-part 'recovery_credential_state.dart';
-
 part 'recovery_credential_cubit.g.dart';
+part 'recovery_credential_state.dart';
 
 class RecoveryCredentialCubit extends Cubit<RecoveryCredentialState> {
   final WalletCubit walletCubit;
