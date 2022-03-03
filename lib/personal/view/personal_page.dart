@@ -52,6 +52,9 @@ class _PersonalPageState extends State<PersonalPage> {
   late TextEditingController phoneController;
   late TextEditingController locationController;
   late TextEditingController emailController;
+  late TextEditingController companyNameController;
+  late TextEditingController companyWebsiteController;
+  late TextEditingController jobTitleController;
 
   //
   late final l10n = context.l10n;
@@ -69,6 +72,10 @@ class _PersonalPageState extends State<PersonalPage> {
     locationController =
         TextEditingController(text: widget.profileModel.location);
     emailController = TextEditingController(text: widget.profileModel.email);
+    //enterprise
+    companyNameController = TextEditingController();
+    companyWebsiteController = TextEditingController();
+    jobTitleController = TextEditingController();
   }
 
   @override
@@ -325,7 +332,7 @@ class _PersonalPageState extends State<PersonalPage> {
         _textFieldSpace(),
         BaseTextField(
           label: l10n.compaynyWebsite,
-          controller: compaynyWebsiteController,
+          controller: companyWebsiteController,
           icon: Icons.web_outlined,
           type: TextInputType.url,
           prefixIcon: Checkbox(
