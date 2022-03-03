@@ -73,9 +73,9 @@ class _PersonalPageState extends State<PersonalPage> {
         TextEditingController(text: widget.profileModel.location);
     emailController = TextEditingController(text: widget.profileModel.email);
     //enterprise
-    companyNameController = TextEditingController();
-    companyWebsiteController = TextEditingController();
-    jobTitleController = TextEditingController();
+    companyNameController = TextEditingController(text: widget.profileModel.companyName);
+    companyWebsiteController = TextEditingController(text: widget.profileModel.companyWebsite);
+    jobTitleController = TextEditingController(text: widget.profileModel.jobTitle);
   }
 
   @override
