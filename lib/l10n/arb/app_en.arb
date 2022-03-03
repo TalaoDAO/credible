@@ -225,5 +225,6 @@
     "placeholders": {
       "postfix": {}
     }
-  }
+  },
+  "selfIssuedCreatedSuccessfully": "Self issued credential created successfully"
 }

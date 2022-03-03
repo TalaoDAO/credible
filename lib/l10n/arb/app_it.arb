@@ -158,5 +158,6 @@
   "signedBy": "Firmato da",
   "from": "da",
   "to": "a",
-  "credential": "Credenziali"
+  "credential": "Credenziali",
+  "selfIssuedCreatedSuccessfully": "Credenziale auto-rilasciata creata correttamente"
 }
