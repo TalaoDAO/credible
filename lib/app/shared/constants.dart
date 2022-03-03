@@ -17,4 +17,5 @@ class Constants {
       'profile/issuerVerificationSetting';
 
   static const String ivVector = 'Talao';
+  static const String additionalAuthenticatedData = 'Credible';
 }

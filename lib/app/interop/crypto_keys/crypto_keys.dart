@@ -29,7 +29,8 @@ class CryptoKeys {
         keyPair.publicKey!.createEncrypter(algorithms.encryption.aes.gcm);
     var encryptedBytes = encryptor.encrypt(
       Uint8List.fromList(message.codeUnits),
-      additionalAuthenticatedData: Uint8List.fromList(mnemonic.codeUnits),
+      additionalAuthenticatedData:
+          Uint8List.fromList(Constants.additionalAuthenticatedData.codeUnits),
       initializationVector: Uint8List.fromList(Constants.ivVector.codeUnits),
     );
     return Encryption(
@@ -48,7 +49,8 @@ class CryptoKeys {
       Uint8List.fromList(encryption.cipherText!.runes.toList()),
       authenticationTag:
           Uint8List.fromList(encryption.authenticationTag!.runes.toList()),
-      additionalAuthenticatedData: Uint8List.fromList(mnemonic.codeUnits),
+      additionalAuthenticatedData:
+          Uint8List.fromList(Constants.additionalAuthenticatedData.codeUnits),
       initializationVector: Uint8List.fromList(Constants.ivVector.codeUnits),
     ));
 
