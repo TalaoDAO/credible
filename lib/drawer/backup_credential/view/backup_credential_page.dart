@@ -7,7 +7,6 @@ import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/mnemonic.dart';
-import 'package:talao/app/shared/widget/spinner.dart';
 import 'package:talao/drawer/backup_credential/backup_credential.dart';
 import 'package:talao/l10n/l10n.dart';
 import 'package:talao/wallet/cubit/wallet_cubit.dart';

@@ -7,7 +7,6 @@ import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/mnemonic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:talao/app/shared/widget/spinner.dart';
 import 'package:talao/drawer/profile/models/profile.dart';
 import 'package:talao/onboarding/gen_phrase/cubit/onboarding_gen_phrase_cubit.dart';
 import 'package:talao/personal/view/personal_page.dart';
