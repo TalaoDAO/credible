@@ -12,6 +12,9 @@ class SelfIssuedCredentialDataModel {
   final String? telephone;
   final String? email;
   final String? address;
+  final String? companyName;
+  final String? companyWebsite;
+  final String? jobTitle;
 
   SelfIssuedCredentialDataModel({
     this.givenName,
@@ -19,6 +22,9 @@ class SelfIssuedCredentialDataModel {
     this.telephone,
     this.email,
     this.address,
+    this.companyName,
+    this.companyWebsite,
+    this.jobTitle,
   });
 
   @override
@@ -30,6 +36,9 @@ class SelfIssuedCredentialDataModel {
                   telephone : $telephone,
                   email : $email,
                   address : $address,
+                  companyName : $companyName,
+                  companyWebsite : $companyWebsite,
+                  jobTitle : $jobTitle,
     }
     ''';
   }

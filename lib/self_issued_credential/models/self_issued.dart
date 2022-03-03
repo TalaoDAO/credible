@@ -8,6 +8,8 @@ import 'package:talao/l10n/l10n.dart';
 
 part 'self_issued.g.dart';
 
+//TODO important: add enterprise property in SelfIssued model in future when supported
+
 @JsonSerializable(explicitToJson: true, includeIfNull: false)
 class SelfIssued extends CredentialSubject {
   @override
