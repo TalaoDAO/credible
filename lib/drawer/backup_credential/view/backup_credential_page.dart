@@ -98,14 +98,7 @@ class _BackupCredentialPageState extends State<BackupCredentialPage> {
                               .read<BackupCredentialCubit>()
                               .encryptAndDownloadFile();
                         },
-                  child: state.status == BackupCredentialStatus.loading
-                      ? SizedBox.fromSize(
-                          size: Size.square(30),
-                          child: Spinner(
-                            color: Theme.of(context).colorScheme.onPrimary,
-                          ),
-                        )
-                      : Text(l10n.backupCredentialButtonTitle),
+                  child: Text(l10n.backupCredentialButtonTitle),
                 ),
               )
             ],

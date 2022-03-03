@@ -107,14 +107,7 @@ class _OnBoardingGenPhrasePageState extends State<OnBoardingGenPhrasePage> {
                               .read<OnBoardingGenPhraseCubit>()
                               .generateKey(context, state.mnemonic);
                         },
-                  child: state.status == OnBoardingGenPhraseStatus.loading
-                      ? SizedBox.fromSize(
-                          size: Size.square(30),
-                          child: Spinner(
-                            color: Theme.of(context).colorScheme.onPrimary,
-                          ),
-                        )
-                      : Text(localizations.onBoardingGenPhraseButton),
+                  child: Text(localizations.onBoardingGenPhraseButton),
                 ),
               ),
             ],
