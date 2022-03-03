@@ -185,5 +185,6 @@
   "networkErrorUnableToProcess": "Incapacité à traiter la requête",
   "networkErrorUnauthenticated": "Vous devez être authentifié pour accéder à cette ressource",
   "networkErrorUnauthorizedRequest": "Requête non autorisée",
-  "networkErrorUnexpectedError": "Une erreur inattendue s'est produite"
+  "networkErrorUnexpectedError": "Une erreur inattendue s'est produite",
+  "selfIssuedCreatedSuccessfully": "Votre attestation a été créée avec succès"
 }

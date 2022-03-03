@@ -160,6 +160,7 @@
   "to": "bis",
   "credential": "Nachweise",
   "issuanceDate": "Issuance date",
-  "appContactWebsite": "Website"
+  "appContactWebsite": "Website",
+  "selfIssuedCreatedSuccessfully": "Selbst ausgestellter Berechtigungsnachweis erfolgreich erstellt"
 
 }

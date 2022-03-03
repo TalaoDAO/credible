@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:talao/l10n/l10n.dart';
 import 'package:talao/self_issued_credential/bloc/self_issued_credential.dart';
 import 'package:talao/wallet/cubit/wallet_cubit.dart';
 
@@ -44,9 +46,10 @@ class SelfIssuedCredentialButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localization = AppLocalizations.of(context);
     return BlocProvider<SelfIssuedCredentialCubit>(
       create: (_) => SelfIssuedCredentialCubit(
-        BlocProvider.of<WalletCubit>(context),
+        context.read<WalletCubit>(),
       ),
       child: BlocConsumer<SelfIssuedCredentialCubit, SelfIssuedCredentialState>(
           builder: (ctx, state) {
@@ -54,7 +57,8 @@ class SelfIssuedCredentialButton extends StatelessWidget {
           onPressed: () {
             state.maybeWhen(
                 orElse: () {
-                  BlocProvider.of<SelfIssuedCredentialCubit>(ctx)
+                  ctx
+                      .read<SelfIssuedCredentialCubit>()
                       .createSelfIssuedCredential(
                           selfIssuedCredentialDataModel:
                               selfIssuedCredentialButtonClick.call());
@@ -80,10 +84,9 @@ class SelfIssuedCredentialButton extends StatelessWidget {
                   .showSnackBar(SnackBar(content: Text(message)));
             },
             credentialCreated: () {
-              //todo move the text to AppLocalization
               ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
                   content:
-                      Text('self issued credential created successfully')));
+                      Text(localization?.selfIssuedCreatedSuccessfully ?? '')));
             });
       }),
     );
