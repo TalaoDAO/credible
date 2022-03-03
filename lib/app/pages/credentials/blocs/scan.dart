@@ -1,16 +1,16 @@
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
+import 'package:logging/logging.dart';
 import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/interop/network/network_client.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
-import 'package:talao/wallet/wallet.dart';
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
 import 'package:talao/app/shared/constants.dart';
 import 'package:talao/app/shared/error_handler/error_handler.dart';
 import 'package:talao/app/shared/model/message.dart';
-import 'package:dio/dio.dart';
-import 'package:logging/logging.dart';
+import 'package:talao/wallet/wallet.dart';
 import 'package:uuid/uuid.dart';
 
 abstract class ScanEvent {}
@@ -145,6 +145,7 @@ class ScanStateCHAPIStoreQueryByExample extends ScanState {
   final Map<String, dynamic> data;
   @override
   final Uri uri;
+
   ScanStateCHAPIStoreQueryByExample(
     this.data,
     this.uri,
@@ -197,8 +198,11 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
 
     try {
       final key = (await SecureStorageProvider.instance.get(keyId))!;
-      final did =
-          DIDKitProvider.instance.keyToDID(Constants.defaultDIDMethod, key);
+      final isEnterpriseUser = await SecureStorageProvider.instance
+          .get(SecureStorageKeys.isEnterpriseUser);
+      final did = DIDKitProvider.instance.keyToDID(
+          Constants.DIDMethod(isEnterpriseUser: isEnterpriseUser == 'true'),
+          key);
 
       final credential = await client.post(
         url,
@@ -272,8 +276,11 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
 
     try {
       final key = (await SecureStorageProvider.instance.get(keyId))!;
-      final did =
-          DIDKitProvider.instance.keyToDID(Constants.defaultDIDMethod, key);
+      final isEnterpriseUser = await SecureStorageProvider.instance
+          .get(SecureStorageKeys.isEnterpriseUser);
+      final did = DIDKitProvider.instance.keyToDID(
+          Constants.DIDMethod(isEnterpriseUser: isEnterpriseUser == 'true'),
+          key);
       final verificationMethod = await DIDKitProvider.instance
           .keyToVerificationMethod(Constants.defaultDIDMethod, key);
 
@@ -412,8 +419,11 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
 
     try {
       final key = (await SecureStorageProvider.instance.get(keyId))!;
-      final did =
-          DIDKitProvider.instance.keyToDID(Constants.defaultDIDMethod, key);
+      final isEnterpriseUser = await SecureStorageProvider.instance
+          .get(SecureStorageKeys.isEnterpriseUser);
+      final did = DIDKitProvider.instance.keyToDID(
+          Constants.DIDMethod(isEnterpriseUser: isEnterpriseUser == 'true'),
+          key);
       final verificationMethod = await DIDKitProvider.instance
           .keyToVerificationMethod(Constants.defaultDIDMethod, key);
 
@@ -472,8 +482,11 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
 
     try {
       final key = (await SecureStorageProvider.instance.get(keyId))!;
-      final did =
-          DIDKitProvider.instance.keyToDID(Constants.defaultDIDMethod, key);
+      final isEnterpriseUser = await SecureStorageProvider.instance
+          .get(SecureStorageKeys.isEnterpriseUser);
+      final did = DIDKitProvider.instance.keyToDID(
+          Constants.DIDMethod(isEnterpriseUser: isEnterpriseUser == 'true'),
+          key);
       final verificationMethod = await DIDKitProvider.instance
           .keyToVerificationMethod(Constants.defaultDIDMethod, key);
 

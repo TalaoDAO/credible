@@ -20,3 +20,7 @@ abstract class SecureStorageProvider {
 
   Future<void> deleteAll();
 }
+
+abstract class SecureStorageKeys {
+  static const isEnterpriseUser = 'isEnterpriseUser';
+}
