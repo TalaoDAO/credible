@@ -16,11 +16,13 @@ import 'package:talao/wallet/cubit/wallet_cubit.dart';
 class PersonalPage extends StatefulWidget {
   final ProfileModel profileModel;
   final bool isFromOnBoarding;
+  final bool isEnterprise;
 
   const PersonalPage({
     Key? key,
     required this.profileModel,
     required this.isFromOnBoarding,
+    this.isEnterprise = false,
   }) : super(key: key);
 
   static Route route({required profileModel, required isFromOnBoarding}) =>
@@ -51,6 +53,10 @@ class _PersonalPageState extends State<PersonalPage> {
   late TextEditingController locationController;
   late TextEditingController emailController;
 
+  //
+  late final l10n = context.l10n;
+  late final personalPageCubit = BlocProvider.of<PersonalPgeCubit>(context);
+
   @override
   void initState() {
     super.initState();
@@ -67,8 +73,6 @@ class _PersonalPageState extends State<PersonalPage> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    final personalPageCubit = BlocProvider.of<PersonalPgeCubit>(context);
     return WillPopScope(
       onWillPop: () async {
         if (!widget.isFromOnBoarding) {
@@ -215,7 +219,7 @@ class _PersonalPageState extends State<PersonalPage> {
                   onChanged: personalPageCubit.firstNameCheckBoxChange,
                 ),
               ),
-              const SizedBox(height: 16.0),
+              _textFieldSpace(),
               BaseTextField(
                 label: l10n.personalLastName,
                 controller: lastNameController,
@@ -228,7 +232,7 @@ class _PersonalPageState extends State<PersonalPage> {
                   onChanged: personalPageCubit.lastNameCheckBoxChange,
                 ),
               ),
-              const SizedBox(height: 16.0),
+              _textFieldSpace(),
               BaseTextField(
                 label: l10n.personalPhone,
                 controller: phoneController,
@@ -241,7 +245,7 @@ class _PersonalPageState extends State<PersonalPage> {
                   onChanged: personalPageCubit.phoneCheckBoxChange,
                 ),
               ),
-              const SizedBox(height: 16.0),
+              _textFieldSpace(),
               BaseTextField(
                 label: l10n.personalLocation,
                 controller: locationController,
@@ -254,7 +258,7 @@ class _PersonalPageState extends State<PersonalPage> {
                   onChanged: personalPageCubit.locationCheckBoxChange,
                 ),
               ),
-              const SizedBox(height: 16.0),
+              _textFieldSpace(),
               BaseTextField(
                 label: l10n.personalMail,
                 controller: emailController,
@@ -267,6 +271,7 @@ class _PersonalPageState extends State<PersonalPage> {
                   onChanged: personalPageCubit.emailCheckBoxChange,
                 ),
               ),
+              if (widget.isEnterprise) _buildEnterpriseTextFields(state)
             ],
           );
         }),
@@ -292,6 +297,59 @@ class _PersonalPageState extends State<PersonalPage> {
                 ),
               ),
       ),
+    );
+  }
+
+  Widget _textFieldSpace() {
+    return const SizedBox(height: 16.0);
+  }
+
+  Widget _buildEnterpriseTextFields(PersonalPageState state) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        _textFieldSpace(),
+        BaseTextField(
+          label: l10n.companyName,
+          controller: companyNameController,
+          icon: Icons.apartment,
+          type: TextInputType.text,
+          prefixIcon: Checkbox(
+            value: state.isCompanyName,
+            fillColor: MaterialStateProperty.all(
+                Theme.of(context).colorScheme.secondaryContainer),
+            onChanged: personalPageCubit.companyNameCheckBoxChange,
+          ),
+        ),
+        _textFieldSpace(),
+        BaseTextField(
+          label: l10n.compaynyWebsite,
+          controller: compaynyWebsiteController,
+          icon: Icons.web_outlined,
+          type: TextInputType.url,
+          prefixIcon: Checkbox(
+            value: state.isCompanyName,
+            fillColor: MaterialStateProperty.all(
+                Theme.of(context).colorScheme.secondaryContainer),
+            onChanged: personalPageCubit.companyNameCheckBoxChange,
+          ),
+        ),
+        _textFieldSpace(),
+        BaseTextField(
+          label: l10n.jobTitle,
+          controller: jobTitleController,
+          icon: Icons.work_outlined,
+          type: TextInputType.text,
+          prefixIcon: Checkbox(
+            value: state.isJobTitle,
+            fillColor: MaterialStateProperty.all(
+                Theme.of(context).colorScheme.secondaryContainer),
+            onChanged: personalPageCubit.jobTitleCheckBoxChange,
+          ),
+        ),
+        _textFieldSpace()
+      ],
     );
   }
 }
