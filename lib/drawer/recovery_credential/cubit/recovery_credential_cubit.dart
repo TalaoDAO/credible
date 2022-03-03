@@ -14,6 +14,7 @@ import 'package:talao/app/shared/model/message.dart';
 import 'package:talao/wallet/cubit/wallet_cubit.dart';
 
 part 'recovery_credential_cubit.g.dart';
+
 part 'recovery_credential_state.dart';
 
 class RecoveryCredentialCubit extends Cubit<RecoveryCredentialState> {
@@ -32,7 +33,6 @@ class RecoveryCredentialCubit extends Cubit<RecoveryCredentialState> {
   }
 
   Future<void> recoverWallet(String mnemonic) async {
-    print(mnemonic);
     emit(state.copyWith(status: RecoveryCredentialStatus.loading));
     if (Platform.isAndroid) {
       var appDir = (await getTemporaryDirectory()).path;
@@ -43,25 +43,20 @@ class RecoveryCredentialCubit extends Cubit<RecoveryCredentialState> {
 
     if (result != null) {
       try {
-          var file = File(result.files.single.path!);
-          var text = await file.readAsString();
-          print(text);
-          Map json = jsonDecode(text) as Map<String, dynamic>;
-          if (!json.containsKey('cipherText') ||
-              !json.containsKey('authenticationTag') ||
-              !(json['cipherText'] is String) ||
-              !(json['authenticationTag'] is String)) {
-            throw FormatException();
-          }
-          var encryption = Encryption(
-              cipherText: json['cipherText'],
-              authenticationTag: json['authenticationTag']);
-          var decryptedText = await CryptoKeys().decrypt(mnemonic, encryption);
-          if (!json.containsKey('date') ||
-              !json.containsKey('credentials') ||
-              !(json['date'] is String)) {
-            throw FormatException();
-          }
+        var file = File(result.files.single.path!);
+        var text = await file.readAsString();
+        print(text);
+        Map json = jsonDecode(text) as Map<String, dynamic>;
+        if (!json.containsKey('cipherText') ||
+            !json.containsKey('authenticationTag') ||
+            !(json['cipherText'] is String) ||
+            !(json['authenticationTag'] is String)) {
+          throw FormatException();
+        }
+        var encryption = Encryption(
+            cipherText: json['cipherText'],
+            authenticationTag: json['authenticationTag']);
+        var decryptedText = await CryptoKeys().decrypt(mnemonic, encryption);
         Map decryptedJson = jsonDecode(decryptedText);
         if (!decryptedJson.containsKey('date') ||
             !decryptedJson.containsKey('credentials') ||

@@ -1,6 +1,7 @@
 import 'package:talao/app/app_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
+import 'package:talao/app/interop/local_notification/local_notification.dart';
 
 Future<void> main() async {
   Logger.root.level = Level.ALL;
@@ -9,7 +10,7 @@ Future<void> main() async {
   });
 
   WidgetsFlutterBinding.ensureInitialized();
-
+  await LocalNotification().init();
   runApp(
     AppWidget(),
   );
