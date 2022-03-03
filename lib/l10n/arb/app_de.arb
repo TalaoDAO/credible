@@ -160,6 +160,8 @@
   "to": "bis",
   "credential": "Nachweise",
   "issuanceDate": "Issuance date",
-  "appContactWebsite": "Website"
+  "appContactWebsite": "Website",
+  "companyName": "Name der Firma",
+  "companyWebsite": "Unternehmenswebseite"
 
 }

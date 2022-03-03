@@ -199,5 +199,7 @@
   "ok": "Okay",
   "unavailable_feature_title": "Unavailable Feature",
   "unavailable_feature_message": "This feature is not available on the browser",
-  "personalSkip": "SKIP"
+  "personalSkip": "SKIP",
+  "companyName": "Company Name",
+  "companyWebsite": "Company Website"
 }

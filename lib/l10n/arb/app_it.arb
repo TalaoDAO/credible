@@ -158,6 +158,8 @@
   "signedBy": "Firmato da",
   "from": "da",
   "to": "a",
-  "credential": "Credenziali"
+  "credential": "Credenziali",
+  "companyName": "Nome della ditta",
+  "companyWebsite": "Sito web aziendale"
 
 }

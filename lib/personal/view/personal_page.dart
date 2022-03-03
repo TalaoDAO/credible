@@ -331,7 +331,7 @@ class _PersonalPageState extends State<PersonalPage> {
         ),
         _textFieldSpace(),
         BaseTextField(
-          label: l10n.compaynyWebsite,
+          label: l10n.companyWebsite,
           controller: companyWebsiteController,
           icon: Icons.web_outlined,
           type: TextInputType.url,
