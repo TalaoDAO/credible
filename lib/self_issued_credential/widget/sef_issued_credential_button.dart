@@ -49,7 +49,7 @@ class SelfIssuedCredentialButton extends StatelessWidget {
     final localization = AppLocalizations.of(context);
     return BlocProvider<SelfIssuedCredentialCubit>(
       create: (_) => SelfIssuedCredentialCubit(
-        BlocProvider.of<WalletCubit>(context),
+        context.read<WalletCubit>(),
       ),
       child: BlocConsumer<SelfIssuedCredentialCubit, SelfIssuedCredentialState>(
           builder: (ctx, state) {
@@ -57,7 +57,8 @@ class SelfIssuedCredentialButton extends StatelessWidget {
           onPressed: () {
             state.maybeWhen(
                 orElse: () {
-                  BlocProvider.of<SelfIssuedCredentialCubit>(ctx)
+                  ctx
+                      .read<SelfIssuedCredentialCubit>()
                       .createSelfIssuedCredential(
                           selfIssuedCredentialDataModel:
                               selfIssuedCredentialButtonClick.call());

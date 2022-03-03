@@ -68,7 +68,7 @@ class _PersonalPageState extends State<PersonalPage> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final personalPageCubit = BlocProvider.of<PersonalPgeCubit>(context);
+    final personalPageCubit = context.read<PersonalPgeCubit>();
     return WillPopScope(
       onWillPop: () async {
         if (!widget.isFromOnBoarding) {
