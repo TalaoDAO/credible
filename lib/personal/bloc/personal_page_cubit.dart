@@ -6,6 +6,9 @@ class PersonalPageState {
   final bool isPhone;
   final bool isLocation;
   final bool isEmail;
+  final bool isCompanyName;
+  final bool isCompanyWebsite;
+  final bool isJobTitle;
 
   const PersonalPageState({
     this.isFirstName = true,
@@ -13,6 +16,9 @@ class PersonalPageState {
     this.isPhone = true,
     this.isLocation = true,
     this.isEmail = true,
+    this.isCompanyName = true,
+    this.isCompanyWebsite = true,
+    this.isJobTitle = true,
   });
 
   PersonalPageState copyWith({
@@ -21,6 +27,9 @@ class PersonalPageState {
     bool? isPhone,
     bool? isLocation,
     bool? isEmail,
+    bool? isCompanyName,
+    bool? isCompanyWebsite,
+    bool? isJobTitle,
   }) {
     return PersonalPageState(
       isFirstName: isFirstName ?? this.isFirstName,
@@ -28,6 +37,9 @@ class PersonalPageState {
       isPhone: isPhone ?? this.isPhone,
       isLocation: isLocation ?? this.isLocation,
       isEmail: isEmail ?? this.isEmail,
+      isCompanyName: isCompanyName ?? this.isCompanyName,
+      isCompanyWebsite: isCompanyWebsite ?? this.isCompanyWebsite,
+      isJobTitle: isJobTitle ?? this.isJobTitle,
     );
   }
 }
@@ -53,5 +65,17 @@ class PersonalPgeCubit extends Cubit<PersonalPageState> {
 
   void emailCheckBoxChange(bool? value) {
     emit(state.copyWith(isEmail: value));
+  }
+
+  void companyNameCheckBoxChange(bool? value) {
+    emit(state.copyWith(isCompanyName: value));
+  }
+
+  void companyWebsiteCheckBoxChange(bool? value) {
+    emit(state.copyWith(isCompanyWebsite: value));
+  }
+
+  void jobTitleCheckBoxChange(bool? value) {
+    emit(state.copyWith(isJobTitle: value));
   }
 }

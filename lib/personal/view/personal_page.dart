@@ -336,10 +336,10 @@ class _PersonalPageState extends State<PersonalPage> {
           icon: Icons.web_outlined,
           type: TextInputType.url,
           prefixIcon: Checkbox(
-            value: state.isCompanyName,
+            value: state.isCompanyWebsite,
             fillColor: MaterialStateProperty.all(
                 Theme.of(context).colorScheme.secondaryContainer),
-            onChanged: personalPageCubit.companyNameCheckBoxChange,
+            onChanged: personalPageCubit.companyWebsiteCheckBoxChange,
           ),
         ),
         _textFieldSpace(),
