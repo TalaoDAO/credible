@@ -16,14 +16,14 @@ void main() {
 
   group('ThemeCubit', () {
     test('initial state is correct', () {
-      expect(ThemeCubit(mockSecureStorage).state, ThemeMode.dark);
+      expect(ThemeCubit(mockSecureStorage).state, ThemeMode.light);
     });
 
     group('setTheme', () {
       test('emits correct theme for null', () async {
         final themeCubit = ThemeCubit(mockSecureStorage);
         themeCubit.setTheme(null);
-        expect(themeCubit.state, ThemeMode.dark);
+        expect(themeCubit.state, ThemeMode.light);
       });
 
       test('emits correct theme for ThemeMode.Light', () async {
