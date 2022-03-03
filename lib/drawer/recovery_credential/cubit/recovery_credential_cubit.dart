@@ -9,7 +9,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:talao/app/interop/crypto_keys/crypto_keys.dart';
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
-import 'package:talao/app/shared/encryption.dart';
+import 'package:talao/app/shared/model/encryption/encryption.dart';
 import 'package:talao/app/shared/model/message.dart';
 import 'package:talao/wallet/cubit/wallet_cubit.dart';
 

@@ -3,7 +3,7 @@ import 'package:bip39/bip39.dart' as bip39;
 import 'package:bip32/bip32.dart' as bip32;
 import 'package:crypto_keys/crypto_keys.dart';
 import 'package:talao/app/shared/constants.dart';
-import 'package:talao/app/shared/encryption.dart';
+import 'package:talao/app/shared/model/encryption/encryption.dart';
 
 class CryptoKeys {
   Future<KeyPair> generateKeyPair(String mnemonic) async {

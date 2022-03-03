@@ -1,15 +1,15 @@
 import 'package:talao/app/interop/crypto_keys/crypto_keys.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:talao/app/shared/encryption.dart';
+import 'package:talao/app/shared/model/encryption/encryption.dart';
 
 void main() {
   group('CryptoKeys', () {
     var mnemonic =
         'notice photo opera keen climb agent soft parrot best joke field devote';
 
-    var message = '{"name": "My name is Bibash Shrestha."}';
-    var cipherText = '\x05¨`ýp<ÐW3AR1¯#.í©¥¿e,|V\x1Brt{)Ð¢\x17HØl\x01GP¹';
-    var authenticationTag = '§Sß-ð4´tY<ÞT	ú';
+    var message = '{"name": "My name is Bibash."}';
+    var cipherText = '¨`ýp<ÐW3AR1¯#.í©¥¿e,|VrtuXÅ';
+    var authenticationTag = 'äU~ÇÍÞ¦BÌuDÅ';
 
     test(
         'generateKeyPair() should always derive the same keypair when using the same mnemonic',
