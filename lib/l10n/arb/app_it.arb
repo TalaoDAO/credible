@@ -96,7 +96,7 @@
   "personalTitle": "Personale",
   "privacyTitle": "Privacy e sicurezza",
   "termsTitle": "Termini e condizioni",
-  "recoveryTitle": "Recupero",
+  "recoveryKeyTitle": "Recupero",
   "recoveryWarningDialogTitle": "Fai attenzione",
   "recoveryWarningDialogSubtitle": "La pagina di recupero contiene informazioni sensibili che nelle mani sbagliate possono compromettere il tuo identificativo. Non dovresti aprire questa pagina in pubblico, né condividerla con nessuno.",
   "recoveryText": "Inserisci la tua frase di recupero",
@@ -158,6 +158,6 @@
   "signedBy": "Firmato da",
   "from": "da",
   "to": "a",
-  "credential": "Credenziali"
-
+  "credential": "Credenziali",
+  "selfIssuedCreatedSuccessfully": "Credenziale auto-rilasciata creata correttamente"
 }
