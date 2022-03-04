@@ -13,11 +13,11 @@ import 'package:talao/app/pages/qr_code/bloc/qrcode.dart';
 import 'package:talao/app/pages/qr_code/check_host.dart';
 import 'package:talao/app/pages/qr_code/is_issuer_approved.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
-import 'package:talao/app/shared/widget/brand.dart';
 import 'package:talao/deep_link/deep_link.dart';
 import 'package:talao/onboarding/onboarding.dart';
 import 'package:talao/theme/theme.dart';
 import 'package:uni_links/uni_links.dart';
+import 'package:video_player/video_player.dart';
 
 bool _initialUriIsHandled = false;
 
@@ -36,21 +36,29 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPageState extends State<SplashPage> {
   StreamSubscription? _sub;
+  VideoPlayerController? _controller;
+  Future<void>? _initializeVideoPlayerFuture;
 
   @override
   void initState() {
-    super.initState();
+    _controller =
+        VideoPlayerController.asset('assets/splash/talao_animation_logo.mp4');
+    _initializeVideoPlayerFuture = _controller!.initialize();
+    _controller!.play();
+    _controller!.setLooping(true);
     Future.delayed(
       Duration(seconds: 0),
       () async {
         await context.read<ThemeCubit>().getCurrentTheme();
       },
     );
+    super.initState();
   }
 
   @override
   void dispose() {
     _sub?.cancel();
+    _controller?.dispose();
     super.dispose();
   }
 
@@ -128,13 +136,13 @@ class _SplashPageState extends State<SplashPage> {
           listener: (context, state) {
             if (state.status == KeyStatus.needsKey) {
               Future.delayed(
-                Duration(milliseconds: 1500),
+                Duration(seconds: 5),
                 () => Navigator.of(context).push(OnBoardingStartPage.route()),
               );
             }
             if (state.status == KeyStatus.hasKey) {
               Future.delayed(
-                Duration(milliseconds: 1500),
+                Duration(seconds: 5),
                 () => Navigator.of(context).push(CredentialsList.route()),
               );
             }
@@ -198,12 +206,22 @@ class _SplashPageState extends State<SplashPage> {
         ),
       ],
       child: BasePage(
-        backgroundColor: const Color(0xff121212),
+        backgroundColor: const Color(0xffffffff),
         scrollView: false,
-        body: Container(
-          alignment: Alignment.center,
-          padding: const EdgeInsets.all(24.0),
-          child: BrandMinimal(),
+        body: Center(
+          child: FutureBuilder(
+            future: _initializeVideoPlayerFuture,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                return AspectRatio(
+                  aspectRatio: _controller!.value.aspectRatio,
+                  child: VideoPlayer(_controller!),
+                );
+              } else {
+                return Center(child: CircularProgressIndicator());
+              }
+            },
+          ),
         ),
       ),
     );

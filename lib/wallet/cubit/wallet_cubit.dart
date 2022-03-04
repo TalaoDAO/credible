@@ -25,7 +25,7 @@ class WalletCubit extends Cubit<WalletState> {
   }
 
   Future checkKey() async {
-    final key = await SecureStorageProvider.instance.get('key');
+    final key = await secureStorageProvider.get('key');
     if (key == null) {
       emit(state.copyWith(status: KeyStatus.needsKey));
     } else {
