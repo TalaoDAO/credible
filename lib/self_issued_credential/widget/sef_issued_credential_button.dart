@@ -46,7 +46,7 @@ class SelfIssuedCredentialButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final localization = AppLocalizations.of(context);
+    final localization = context.l10n;
     return BlocProvider<SelfIssuedCredentialCubit>(
       create: (_) => SelfIssuedCredentialCubit(
         context.read<WalletCubit>(),
