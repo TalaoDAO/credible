@@ -4,7 +4,6 @@ import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
 import 'package:talao/app/pages/credentials/repositories/credential.dart';
 import 'package:bloc/bloc.dart';
-import 'package:talao/app/shared/constants.dart';
 import 'package:talao/drawer/drawer.dart';
 
 part 'wallet_state.dart';

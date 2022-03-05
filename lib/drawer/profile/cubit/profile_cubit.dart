@@ -19,14 +19,14 @@ class ProfileCubit extends Cubit<ProfileState> {
     final log = Logger('talao-wallet/profile/load');
     try {
       final firstName =
-          await secureStorageProvider!.get(Constants.firstNameKey) ?? '';
+          await secureStorageProvider.get(Constants.firstNameKey) ?? '';
       final lastName =
-          await secureStorageProvider!.get(Constants.lastNameKey) ?? '';
-      final phone = await secureStorageProvider!.get(Constants.phoneKey) ?? '';
+          await secureStorageProvider.get(Constants.lastNameKey) ?? '';
+      final phone = await secureStorageProvider.get(Constants.phoneKey) ?? '';
       final location =
-          await secureStorageProvider!.get(Constants.locationKey) ?? '';
-      final email = await secureStorageProvider!.get(Constants.emailKey) ?? '';
-      final issuerVerificationSetting = !(await secureStorageProvider!
+          await secureStorageProvider.get(Constants.locationKey) ?? '';
+      final email = await secureStorageProvider.get(Constants.emailKey) ?? '';
+      final issuerVerificationSetting = !(await secureStorageProvider
               .get(Constants.issuerVerificationSettingKey) ==
           'false');
 
