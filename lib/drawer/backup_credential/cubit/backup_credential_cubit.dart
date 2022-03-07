@@ -33,10 +33,10 @@ class BackupCredentialCubit extends Cubit<BackupCredentialState> {
   }) : super(BackupCredentialState());
 
   Future<Directory?> _getDownloadDirectory() async {
-    if (Platform.isAndroid) {
-      return await DownloadsPath.downloadsDirectory;
-    }
-    return await getApplicationDocumentsDirectory();
+    // if (Platform.isAndroid) {
+    //   return await DownloadsPath.downloadsDirectory;
+    // }
+    // return await getApplicationDocumentsDirectory();
   }
 
   Future<bool> _getStoragePermission() async {
