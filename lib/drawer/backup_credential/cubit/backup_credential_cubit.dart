@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-
-import 'package:downloads_path_provider_28/downloads_path_provider_28.dart';
+import 'package:downloads_path/downloads_path.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -35,7 +34,7 @@ class BackupCredentialCubit extends Cubit<BackupCredentialState> {
 
   Future<Directory?> _getDownloadDirectory() async {
     if (Platform.isAndroid) {
-      return await DownloadsPathProvider.downloadsDirectory;
+      return await DownloadsPath.downloadsDirectory;
     }
     return await getApplicationDocumentsDirectory();
   }

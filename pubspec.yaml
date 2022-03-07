@@ -20,7 +20,8 @@ dependencies:
   didkit:
     path: ../didkit/lib/flutter
   dio: ^4.0.4
-  downloads_path_provider_28: ^0.1.2
+  downloads_path:
+    path: packages/downloads_path
   ed25519_hd_key: ^2.2.0
   equatable: ^2.0.3
   file_picker: ^4.4.0
