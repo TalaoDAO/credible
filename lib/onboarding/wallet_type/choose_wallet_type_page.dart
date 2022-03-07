@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/onboarding/key/view/onboarding_key_page.dart';
+import 'package:talao/onboarding/wallet_type/bloc/choose_wallet_type_cubit.dart';
 
 class ChooseWalletType extends StatefulWidget {
   static Route route() => MaterialPageRoute(
-        builder: (context) => ChooseWalletType(),
+        builder: (context) => BlocProvider<ChooseWalletTypeCubit>(
+          create: (_) => ChooseWalletTypeCubit(),
+          child: ChooseWalletType(),
+        ),
         settings: RouteSettings(name: '/onBoardingChooseWalletTypePage'),
       );
 
@@ -21,6 +26,7 @@ class _ChooseWalletTypeState extends State<ChooseWalletType> {
     return BasePage(
       title: 'Wallet Type',
       backgroundColor: Theme.of(context).colorScheme.surface,
+      scrollView: false,
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -30,29 +36,27 @@ class _ChooseWalletTypeState extends State<ChooseWalletType> {
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.subtitle1,
             ),
-            DropdownButton<String>(
-              items: [
-                DropdownMenuItem(
-                  value: 'personal-wallet',
-                  child: Text(
-                    'Personal Wallet',
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodyText1,
-                  ),
-                ),
-                DropdownMenuItem(
-                  value: 'enterprise-wallet',
-                  child: Text(
-                    'Enterprise Wallet',
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodyText1,
-                  ),
-                ),
-              ],
-              onChanged: (String? value) {
-                //todo change the value in variable
-              },
-            )
+            const SizedBox(height: 20.0),
+            BlocBuilder<ChooseWalletTypeCubit, ChooseWalletTypeState>(
+                builder: (context, state) {
+              return DropdownButton<String>(
+                value: state.selectedWallet,
+                items: ChooseWalletTypeCubit.walletTypes
+                    .map(
+                      (e) => DropdownMenuItem(
+                        value: e,
+                        child: Text(
+                          e,
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.bodyText1,
+                        ),
+                      ),
+                    )
+                    .toList(),
+                onChanged:
+                    context.read<ChooseWalletTypeCubit>().onChangeWalletType,
+              );
+            })
           ],
         ),
       ),
@@ -61,7 +65,6 @@ class _ChooseWalletTypeState extends State<ChooseWalletType> {
         context: context,
         child: const Text('Continue'),
         onPressed: () {
-          //todo save wallet type
           Navigator.of(context).pushReplacement(OnBoardingKeyPage.route());
         },
       ),
