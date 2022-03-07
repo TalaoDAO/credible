@@ -57,12 +57,13 @@ class _ChooseWalletTypeState extends State<ChooseWalletType> {
         ),
       ),
       navigation: BaseButton.primary(
-          context: context,
-          child: const Text('Continue'),
-          onPressed: () {
-            //todo save wallet type
-            Navigator.of(context).pushReplacement(OnBoardingKeyPage.route());
-          },
+        margin: EdgeInsets.all(12),
+        context: context,
+        child: const Text('Continue'),
+        onPressed: () {
+          //todo save wallet type
+          Navigator.of(context).pushReplacement(OnBoardingKeyPage.route());
+        },
       ),
     );
   }
