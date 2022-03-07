@@ -8,6 +8,8 @@ class BaseButton extends StatelessWidget {
   final Color? textColor;
   final Color? borderColor;
   final BuildContext context;
+  final double? height;
+  final EdgeInsets margin;
 
   const BaseButton({
     required this.child,
@@ -16,6 +18,8 @@ class BaseButton extends StatelessWidget {
     this.gradient,
     this.textColor,
     this.borderColor,
+    this.height,
+    this.margin = EdgeInsets.zero,
   });
 
   BaseButton.white({
@@ -23,6 +27,8 @@ class BaseButton extends StatelessWidget {
     required BuildContext context,
     VoidCallback? onPressed,
     Color? borderColor,
+    double? height,
+    EdgeInsets? margin,
   }) : this(
           child: child,
           context: context,
@@ -31,6 +37,8 @@ class BaseButton extends StatelessWidget {
             colors: [Colors.white, Colors.white],
           ),
           borderColor: borderColor,
+          height: height,
+          margin: margin ?? EdgeInsets.zero,
         );
 
   BaseButton.primary({
@@ -40,6 +48,8 @@ class BaseButton extends StatelessWidget {
     Gradient? gradient,
     Color? borderColor,
     Color? textColor,
+    double? height,
+    EdgeInsets? margin,
   }) : this(
           child: child,
           context: context,
@@ -53,6 +63,8 @@ class BaseButton extends StatelessWidget {
               ),
           textColor: textColor ?? Theme.of(context).colorScheme.onPrimary,
           borderColor: borderColor,
+          height: height,
+          margin: margin ?? EdgeInsets.zero,
         );
 
   BaseButton.transparent({
@@ -61,6 +73,8 @@ class BaseButton extends StatelessWidget {
     VoidCallback? onPressed,
     Color? borderColor,
     Color? textColor,
+    double? height,
+    EdgeInsets? margin,
   }) : this(
           child: child,
           context: context,
@@ -75,6 +89,8 @@ class BaseButton extends StatelessWidget {
               textColor ?? Theme.of(context).colorScheme.secondaryContainer,
           borderColor:
               borderColor ?? Theme.of(context).colorScheme.secondaryContainer,
+          height: height,
+          margin: margin ?? EdgeInsets.zero,
         );
 
   @override
@@ -82,6 +98,8 @@ class BaseButton extends StatelessWidget {
     final textColor = this.textColor ?? Theme.of(context).colorScheme.button;
 
     return Container(
+      height: height ?? 38,
+      margin: margin,
       decoration: BoxDecoration(
         gradient: gradient,
         borderRadius: UiConstraints.buttonRadius,

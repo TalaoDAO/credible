@@ -225,6 +225,10 @@ extension CustomColorScheme on ColorScheme {
   Color get revokedCredential => Colors.red;
 
   Color get snackBarError => Colors.red;
+
+  Color get buttonDisabled => brightness == Brightness.light
+      ? const Color(0xFFADACAC)
+      : const Color(0xFF424242);
 }
 
 extension CustomTextTheme on TextTheme {
