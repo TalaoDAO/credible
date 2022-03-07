@@ -1,19 +1,18 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:downloads_path/downloads_path.dart';
+import 'dart:typed_data';
 import 'package:equatable/equatable.dart';
+import 'package:file_saver/file_saver.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:bip39/bip39.dart' as bip39;
-import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:talao/app/interop/crypto_keys/crypto_keys.dart';
 import 'package:talao/app/interop/local_notification/local_notification.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/shared/model/message.dart';
 import 'package:talao/wallet/cubit/wallet_cubit.dart';
-import 'package:path/path.dart' as path;
 
 part 'backup_credential_state.dart';
 
@@ -24,20 +23,15 @@ class BackupCredentialCubit extends Cubit<BackupCredentialState> {
   final CryptoKeys cryptoKeys;
   final WalletCubit walletCubit;
   final LocalNotification localNotification;
+  final FileSaver fileSaver;
 
   BackupCredentialCubit({
     required this.secureStorageProvider,
     required this.cryptoKeys,
     required this.walletCubit,
     required this.localNotification,
+    required this.fileSaver,
   }) : super(BackupCredentialState());
-
-  Future<Directory?> _getDownloadDirectory() async {
-    // if (Platform.isAndroid) {
-    //   return await DownloadsPath.downloadsDirectory;
-    // }
-    // return await getApplicationDocumentsDirectory();
-  }
 
   Future<bool> _getStoragePermission() async {
     if (await Permission.storage.request().isGranted) {
@@ -53,17 +47,12 @@ class BackupCredentialCubit extends Cubit<BackupCredentialState> {
 
   Future<void> encryptAndDownloadFile() async {
     emit(state.copyWith(status: BackupCredentialStatus.loading));
-    final downloadDirectory = await _getDownloadDirectory();
     final isPermissionStatusGranted = await _getStoragePermission();
 
     if (isPermissionStatusGranted) {
       try {
-        final savePath = path.join(downloadDirectory!.path);
         var date = DateFormat('yyyy-MM-dd').format(DateTime.now());
         var fileName = getFileName(date);
-        final filePath = '$savePath/$fileName';
-        print(filePath);
-        final _myFile = File(filePath);
         var message = {
           'date': date,
           'credentials': walletCubit.state.credentials,
@@ -72,11 +61,21 @@ class BackupCredentialCubit extends Cubit<BackupCredentialState> {
         print(mnemonicFormatted);
         var encrypted =
             await cryptoKeys.encrypt(jsonEncode(message), mnemonicFormatted);
-        await _myFile.writeAsString(jsonEncode(encrypted));
+        var filePath = await fileSaver.saveAs(
+            fileName,
+            Uint8List.fromList(jsonEncode(encrypted).runes.toList()),
+            'txt',
+            MimeType.TEXT);
+        print('*********************************************************');
+        print(filePath);
+        print('*********************************************************');
         emit(state.copyWith(
             status: BackupCredentialStatus.success, filePath: filePath));
       } catch (e) {
         print(e.toString());
+        print('*********************************************************');
+        print(e.toString());
+        print('*********************************************************');
         emit(state.copyWith(status: BackupCredentialStatus.failure));
       }
     } else {
@@ -86,7 +85,7 @@ class BackupCredentialCubit extends Cubit<BackupCredentialState> {
 
   String getFileName(String date) {
     var millisecondsSinceEpoch = DateTime.now().millisecondsSinceEpoch;
-    var fileName = 'talao-credential-$date-$millisecondsSinceEpoch.txt';
+    var fileName = 'talao-credential-$date-$millisecondsSinceEpoch';
     return fileName;
   }
 }

@@ -1,3 +1,4 @@
+import 'package:file_saver/file_saver.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:talao/app/interop/crypto_keys/crypto_keys.dart';
@@ -19,6 +20,7 @@ class BackupCredentialPage extends StatefulWidget {
             cryptoKeys: CryptoKeys(),
             walletCubit: context.read<WalletCubit>(),
             localNotification: LocalNotification(),
+            fileSaver: FileSaver.instance
           ),
           child: BackupCredentialPage(),
         ),

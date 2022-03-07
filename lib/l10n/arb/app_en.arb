@@ -204,7 +204,7 @@
   "backupCredential": "Backup - credential",
   "backupCredentialPhrase": "Write down these words and download this backup file and save it somewhere safe",
   "backupCredentialPhraseExplanation": "You need both words in right order and encrypted backup file to recover your credentials later if you lose access to this wallet",
-  "backupCredentialButtonTitle": "Download File",
+  "backupCredentialButtonTitle": "Save File",
   "backupCredentialEmptyError": "You do not have any credential in your wallet.",
   "backupCredentialPermissionDeniedMessage": "You need permission to download this file.",
   "backupCredentialNotificationTitle": "Success",
