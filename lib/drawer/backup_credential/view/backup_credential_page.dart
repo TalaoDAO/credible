@@ -16,12 +16,11 @@ class BackupCredentialPage extends StatefulWidget {
   static Route route() => MaterialPageRoute(
         builder: (_) => BlocProvider(
           create: (context) => BackupCredentialCubit(
-            secureStorageProvider: SecureStorageProvider.instance,
-            cryptoKeys: CryptoKeys(),
-            walletCubit: context.read<WalletCubit>(),
-            localNotification: LocalNotification(),
-            fileSaver: FileSaver.instance
-          ),
+              secureStorageProvider: SecureStorageProvider.instance,
+              cryptoKeys: CryptoKeys(),
+              walletCubit: context.read<WalletCubit>(),
+              localNotification: LocalNotification(),
+              fileSaver: FileSaver.instance),
           child: BackupCredentialPage(),
         ),
         settings: RouteSettings(name: '/backupCredentialPage'),
@@ -53,14 +52,14 @@ class _BackupCredentialPageState extends State<BackupCredentialPage> {
             ));
           }
           if (state.status == BackupCredentialStatus.success) {
-            await context
-                .read<BackupCredentialCubit>()
-                .localNotification
-                .showNotification(
-                  filePath: state.filePath,
-                  title: l10n.backupCredentialNotificationTitle,
-                  message: l10n.backupCredentialNotificationMessage,
-                );
+            // await context
+            //     .read<BackupCredentialCubit>()
+            //     .localNotification
+            //     .showNotification(
+            //       filePath: state.filePath,
+            //       title: l10n.backupCredentialNotificationTitle,
+            //       message: l10n.backupCredentialNotificationMessage,
+            //     );
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text(l10n.backupCredentialSuccessMessage),
             ));

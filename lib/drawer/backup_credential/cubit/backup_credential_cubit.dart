@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'dart:typed_data';
 import 'package:equatable/equatable.dart';
 import 'package:file_saver/file_saver.dart';
@@ -66,16 +65,9 @@ class BackupCredentialCubit extends Cubit<BackupCredentialState> {
             Uint8List.fromList(jsonEncode(encrypted).runes.toList()),
             'txt',
             MimeType.TEXT);
-        print('*********************************************************');
-        print(filePath);
-        print('*********************************************************');
         emit(state.copyWith(
             status: BackupCredentialStatus.success, filePath: filePath));
       } catch (e) {
-        print(e.toString());
-        print('*********************************************************');
-        print(e.toString());
-        print('*********************************************************');
         emit(state.copyWith(status: BackupCredentialStatus.failure));
       }
     } else {
