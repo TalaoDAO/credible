@@ -3,6 +3,7 @@ import 'package:provider/src/provider.dart';
 import 'package:talao/app/pages/credentials/blocs/scan.dart';
 import 'package:talao/app/shared/widget/confirm_dialog.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:talao/credentials/list/view/credentials_list.dart';
 
 class AskUserPermissionDIDAuth extends StatefulWidget {
   const AskUserPermissionDIDAuth({

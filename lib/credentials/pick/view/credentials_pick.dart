@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talao/app/pages/credentials/blocs/scan.dart';
+import 'package:talao/credentials/list/credentials_list.dart';
 import 'package:talao/wallet/wallet.dart';
-import 'package:talao/app/pages/credentials/pages/list.dart';
-import 'package:talao/app/pages/credentials/widget/list_item.dart';
+import 'package:talao/credentials/widget/list_item.dart';
 import 'package:talao/app/shared/model/translation.dart';
 import 'package:talao/app/shared/ui/theme.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
@@ -27,6 +27,7 @@ class CredentialsPickPage extends StatefulWidget {
           uri: routeUri,
           preview: preview,
         ),
+        settings: RouteSettings(name: '/credentialsPick'),
       );
 
   @override

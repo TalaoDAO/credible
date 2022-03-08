@@ -2,13 +2,14 @@ import 'dart:convert';
 
 import 'package:provider/src/provider.dart';
 import 'package:talao/app/interop/didkit/didkit.dart';
+import 'package:talao/app/shared/enum/verification_state.dart';
+import 'package:talao/app/shared/extension/verification_status.dart';
 import 'package:talao/app/shared/model/message.dart';
+import 'package:talao/credentials/widget/display_status.dart';
+import 'package:talao/credentials/widget/document.dart';
 import 'package:talao/l10n/l10n.dart';
 import 'package:talao/wallet/wallet.dart';
-import 'package:talao/app/pages/credentials/models/credential_model.dart';
-import 'package:talao/app/pages/credentials/models/verification_state.dart';
-import 'package:talao/app/pages/credentials/widget/display_status.dart';
-import 'package:talao/app/pages/credentials/widget/document.dart';
+import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:talao/app/pages/qr_code/display.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
@@ -32,7 +33,7 @@ class CredentialsDetail extends StatefulWidget {
       builder: (context) => CredentialsDetail(
         item: routeItem,
       ),
-      settings: RouteSettings(name: '/credibleDetails'),
+      settings: RouteSettings(name: '/credentialsDetails'),
     );
   }
 

@@ -1,6 +1,6 @@
-import 'package:talao/app/pages/credentials/models/credential_model.dart';
+import 'package:talao/app/shared/enum/revokation_status.dart';
+import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:talao/app/pages/credentials/models/revokation_status.dart';
 import 'package:talao/app/shared/model/credential.dart';
 import 'package:talao/app/shared/model/display.dart';
 

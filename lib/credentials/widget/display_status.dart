@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
+import 'package:talao/app/shared/enum/revokation_status.dart';
 import 'package:talao/wallet/wallet.dart';
-import 'package:talao/app/pages/credentials/models/credential_model.dart';
-import 'package:talao/app/pages/credentials/models/credential_status.dart';
-import 'package:talao/app/pages/credentials/models/revokation_status.dart';
+import 'package:talao/app/shared/model/credential_model/credential_model.dart';
+import 'package:talao/app/shared/enum/credential_status.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

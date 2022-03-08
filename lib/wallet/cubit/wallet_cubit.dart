@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
-import 'package:talao/app/pages/credentials/models/credential_model.dart';
-import 'package:talao/app/pages/credentials/repositories/credential.dart';
+import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:bloc/bloc.dart';
+import 'package:talao/credentials/credentials.dart';
 import 'package:talao/drawer/drawer.dart';
 
 part 'wallet_state.dart';

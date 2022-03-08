@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
-import 'package:talao/app/pages/credentials/models/credential_model.dart';
-import 'package:talao/app/pages/credentials/models/revokation_status.dart';
+import 'package:talao/app/shared/enum/revokation_status.dart';
+import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 
 class CredentialsRepository {
   CredentialsRepository(SecureStorageProvider secureStorageProvider)
