@@ -1,14 +1,22 @@
-import 'package:dotted_border/dotted_border.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/base/text_field.dart';
+import 'package:talao/onboarding/submit_enterprise_user/widgets/picked_file.dart';
+
+import 'bloc/submit_enterprise_user_cubit.dart';
+import 'widgets/pick_file_button.dart';
 
 class SubmitEnterpriseUserPage extends StatefulWidget {
   const SubmitEnterpriseUserPage({Key? key}) : super(key: key);
 
   static Route route() => MaterialPageRoute(
-        builder: (context) => SubmitEnterpriseUserPage(),
+        builder: (context) => BlocProvider<SubmitEnterpriseUserCubit>(
+          create: (_) => SubmitEnterpriseUserCubit(),
+          child: SubmitEnterpriseUserPage(),
+        ),
         settings: RouteSettings(name: '/submitEnterpriseUserPage'),
       );
 
@@ -55,19 +63,19 @@ class _SubmitEnterpriseUserPageState extends State<SubmitEnterpriseUserPage> {
           const SizedBox(
             height: 20,
           ),
-          DottedBorder(
-            color: Colors.grey,
-            dashPattern: [10,4],
-            child: Padding(
-              padding: EdgeInsets.all(4),
-              child: Center(
-                child: Icon(
-                  Icons.add,
-                  color: Colors.grey,
-                ),
-              ),
-            ),
-          )
+          BlocBuilder<SubmitEnterpriseUserCubit, SubmitEnterpriseUserState>(
+              builder: (_, state) {
+            if (state.rsaFile == null) {
+              return PickFileButton(onTap: _pickRSAJsonFile);
+            } else {
+              return PickedFile(
+                fileName: state.rsaFile!.name,
+                onDeleteButtonPress: () {
+                  context.read<SubmitEnterpriseUserCubit>().setRSAFile(null);
+                },
+              );
+            }
+          }),
         ],
       ),
       navigation: BaseButton.primary(
@@ -75,5 +83,18 @@ class _SubmitEnterpriseUserPageState extends State<SubmitEnterpriseUserPage> {
           margin: EdgeInsets.all(15),
           child: const Text('Confirm')),
     );
+  }
+
+  Future<void> _pickRSAJsonFile() async {
+    final pickedFiles = await FilePicker.platform.pickFiles(
+        dialogTitle: 'Please select RSA key file(with json extension)',
+        type: FileType.custom,
+        allowMultiple: false,
+        allowedExtensions: ['json']);
+    if (pickedFiles != null) {
+      context
+          .read<SubmitEnterpriseUserCubit>()
+          .setRSAFile(pickedFiles.files.first);
+    }
   }
 }
