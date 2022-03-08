@@ -17,10 +17,4 @@ class Constants {
   static const String emailKey = 'profile/email';
   static const String issuerVerificationSettingKey =
       'profile/issuerVerificationSetting';
-
-  static String DIDMethodName({required bool isEnterpriseUser}) =>
-      isEnterpriseUser ? enterpriseDIDMethodName : defaultDIDMethodName;
-
-  static String DIDMethod({required bool isEnterpriseUser}) =>
-      isEnterpriseUser ? enterpriseDIDMethod : defaultDIDMethod;
 }

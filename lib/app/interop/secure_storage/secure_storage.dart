@@ -23,4 +23,5 @@ abstract class SecureStorageProvider {
 
 abstract class SecureStorageKeys {
   static const isEnterpriseUser = 'isEnterpriseUser';
+  static const didMethod = 'DIDMethod';
 }

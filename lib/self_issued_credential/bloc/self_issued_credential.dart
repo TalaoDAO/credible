@@ -50,11 +50,14 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
       final key = (await SecureStorageProvider.instance.get('key'))!;
       final isEnterpriseUser = await SecureStorageProvider.instance
           .get(SecureStorageKeys.isEnterpriseUser);
-      final did = DIDKitProvider.instance.keyToDID(
-          Constants.DIDMethod(isEnterpriseUser: isEnterpriseUser == 'true'),
-          key);
-      final verificationMethod = await DIDKitProvider.instance
-          .keyToVerificationMethod(Constants.defaultDIDMethod, key);
+
+      final didMethod = isEnterpriseUser == 'true'
+          ? (await SecureStorageProvider.instance
+              .get(SecureStorageKeys.didMethod))!
+          : Constants.defaultDIDMethod;
+      final did = DIDKitProvider.instance.keyToDID(didMethod, key);
+      final verificationMethod =
+          await DIDKitProvider.instance.keyToVerificationMethod(didMethod, key);
       final options = {
         'proofPurpose': 'assertionMethod',
         'verificationMethod': verificationMethod
