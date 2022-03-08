@@ -58,16 +58,14 @@ class BackupCredentialCubit extends Cubit<BackupCredentialState> {
         };
         final mnemonicFormatted = state.mnemonic.join(' ');
         print(mnemonicFormatted);
-        var encrypted =
-            await cryptoKeys.encrypt(jsonEncode(message), mnemonicFormatted);
-        var filePath = await fileSaver.saveAs(
-            fileName,
-            Uint8List.fromList(jsonEncode(encrypted).runes.toList()),
-            'txt',
-            MimeType.TEXT);
+        var encrypted = await cryptoKeys.encrypt(jsonEncode(message), mnemonicFormatted);
+        var fileBytes = Uint8List.fromList(utf8.encode(jsonEncode(encrypted)));
+        var filePath =
+            await fileSaver.saveAs(fileName, fileBytes, 'txt', MimeType.TEXT);
         emit(state.copyWith(
             status: BackupCredentialStatus.success, filePath: filePath));
       } catch (e) {
+        print(e.toString());
         emit(state.copyWith(status: BackupCredentialStatus.failure));
       }
     } else {
