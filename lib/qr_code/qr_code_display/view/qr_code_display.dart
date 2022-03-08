@@ -20,6 +20,7 @@ class QrCodeDisplayPage extends StatelessWidget {
           name: name,
           data: data,
         ),
+        settings: RouteSettings(name: '/qrCodeDisplay'),
       );
 
   @override

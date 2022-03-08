@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:talao/app/pages/credentials/blocs/scan.dart';
+import 'package:talao/scan/bloc/scan.dart';
 import 'package:talao/credentials/list/credentials_list.dart';
 import 'package:talao/wallet/wallet.dart';
 import 'package:talao/credentials/widget/list_item.dart';

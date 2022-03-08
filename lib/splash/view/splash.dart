@@ -1,17 +1,24 @@
 import 'dart:async';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:talao/app/pages/credentials/blocs/scan.dart';
+import 'package:talao/app/interop/check_issuer/check_issuer.dart';
+import 'package:talao/app/interop/check_issuer/models/issuer.dart';
+import 'package:talao/app/interop/network/network_client.dart';
+import 'package:talao/scan/bloc/scan.dart';
+import 'package:talao/app/shared/constants.dart';
+import 'package:talao/app/shared/error_handler/error_handler.dart';
+import 'package:talao/app/shared/widget/confirm_dialog.dart';
 import 'package:talao/credentials/credentials.dart';
+import 'package:talao/drawer/profile/cubit/profile_cubit.dart';
+import 'package:talao/drawer/profile/cubit/profile_state.dart';
 import 'package:talao/onboarding/key/view/onboarding_key_page.dart';
+import 'package:talao/qr_code/qr_code.dart';
 import 'package:talao/wallet/wallet.dart';
-import 'package:talao/app/pages/qr_code/bloc/qrcode.dart';
-import 'package:talao/app/pages/qr_code/check_host.dart';
-import 'package:talao/app/pages/qr_code/is_issuer_approved.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/deep_link/deep_link.dart';
 import 'package:talao/onboarding/onboarding.dart';
@@ -123,6 +130,48 @@ class _SplashPageState extends State<SplashPage> {
         print('malformed initial uri: $err');
       }
     }
+  }
+
+  Future<bool?> checkHost(
+      Uri uri, Issuer approvedIssuer, BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+    return showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return ConfirmDialog(
+          title: localizations.scanPromptHost,
+          subtitle: (approvedIssuer.did.isEmpty)
+              ? uri.host
+              : '${approvedIssuer.organizationInfo.legalName}\n${approvedIssuer.organizationInfo.currentAddress}',
+          yes: localizations.communicationHostAllow,
+          no: localizations.communicationHostDeny,
+          lock: (uri.scheme == 'http') ? true : false,
+        );
+      },
+    );
+  }
+
+  Future<Issuer> isApprovedIssuer(Uri uri, BuildContext context) async {
+    final client = DioClient(Constants.checkIssuerServerUrl, Dio());
+    final profileCubit = context.read<ProfileCubit>();
+    final profile = profileCubit.state;
+    if (profile is ProfileStateDefault) {
+      final isIssuerVerificationSettingTrue =
+          profile.model!.issuerVerificationSetting;
+      if (isIssuerVerificationSettingTrue) {
+        try {
+          return await CheckIssuer(client, Constants.checkIssuerServerUrl, uri)
+              .isIssuerInApprovedList();
+        } catch (e) {
+          if (e is ErrorHandler) {
+            e.displayError(context, e, Theme.of(context).colorScheme.error);
+          }
+          return Issuer.emptyIssuer();
+        }
+      }
+    }
+    await profileCubit.close();
+    return Issuer.emptyIssuer();
   }
 
   @override

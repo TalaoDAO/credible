@@ -1,4 +1,4 @@
-import 'package:talao/app/pages/credentials/blocs/scan.dart';
+import 'package:talao/scan/bloc/scan.dart';
 import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
