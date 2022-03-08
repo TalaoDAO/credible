@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:provider/src/provider.dart';
 import 'package:talao/app/interop/didkit/didkit.dart';
-import 'package:talao/app/shared/enum/verification_state.dart';
-import 'package:talao/app/shared/extension/verification_status.dart';
+import 'package:talao/app/shared/extension/verification_state.dart';
+import 'package:talao/app/shared/enum/verification_status.dart';
 import 'package:talao/app/shared/model/message.dart';
 import 'package:talao/credentials/widget/display_status.dart';
 import 'package:talao/credentials/widget/document.dart';

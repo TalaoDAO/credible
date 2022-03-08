@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:talao/app/shared/extension/verification_status.dart';
+import 'package:talao/app/shared/enum/verification_status.dart';
 
 extension VerifyExtension on VerificationState {
   String get message {
