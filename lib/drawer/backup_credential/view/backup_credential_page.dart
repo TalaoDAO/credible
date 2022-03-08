@@ -52,6 +52,8 @@ class _BackupCredentialPageState extends State<BackupCredentialPage> {
             ));
           }
           if (state.status == BackupCredentialStatus.success) {
+            ///todo: waiting for filesaver package
+            ///issue: https://github.com/incrediblezayed/file_saver/issues/30
             // await context
             //     .read<BackupCredentialCubit>()
             //     .localNotification
