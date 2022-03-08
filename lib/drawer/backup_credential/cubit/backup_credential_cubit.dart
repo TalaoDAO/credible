@@ -51,7 +51,7 @@ class BackupCredentialCubit extends Cubit<BackupCredentialState> {
     if (isPermissionStatusGranted) {
       try {
         var date = DateFormat('yyyy-MM-dd').format(DateTime.now());
-        var fileName = getFileName(date);
+        var fileName = 'talao-credential-$date';
         var message = {
           'date': date,
           'credentials': walletCubit.state.credentials,
@@ -73,11 +73,5 @@ class BackupCredentialCubit extends Cubit<BackupCredentialState> {
     } else {
       emit(state.copyWith(status: BackupCredentialStatus.permissionDenied));
     }
-  }
-
-  String getFileName(String date) {
-    var millisecondsSinceEpoch = DateTime.now().millisecondsSinceEpoch;
-    var fileName = 'talao-credential-$date-$millisecondsSinceEpoch';
-    return fileName;
   }
 }
