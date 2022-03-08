@@ -20,4 +20,8 @@ class ChooseWalletTypeCubit extends Cubit<ChooseWalletTypeState> {
   void onChangeWalletType(String? value) {
     emit(state.copyWith(selectedWallet: value));
   }
+
+  bool isPersonalWalletSelected() {
+    return state.selectedWallet == walletTypes[0];
+  }
 }

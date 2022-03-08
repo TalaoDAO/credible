@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/onboarding/key/view/onboarding_key_page.dart';
+import 'package:talao/onboarding/submit_enterprise_user/submit_enterprise_user.dart';
 import 'package:talao/onboarding/wallet_type/bloc/choose_wallet_type_cubit.dart';
 
 class ChooseWalletType extends StatefulWidget {
@@ -65,7 +66,14 @@ class _ChooseWalletTypeState extends State<ChooseWalletType> {
         context: context,
         child: const Text('Continue'),
         onPressed: () {
-          Navigator.of(context).pushReplacement(OnBoardingKeyPage.route());
+          if (context
+              .read<ChooseWalletTypeCubit>()
+              .isPersonalWalletSelected()) {
+            Navigator.of(context).pushReplacement(OnBoardingKeyPage.route());
+          } else {
+            Navigator.of(context)
+                .pushReplacement(SubmitEnterpriseUserPage.route());
+          }
         },
       ),
     );
