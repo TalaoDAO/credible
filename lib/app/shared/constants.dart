@@ -17,4 +17,7 @@ class Constants {
   static const String emailKey = 'profile/email';
   static const String issuerVerificationSettingKey =
       'profile/issuerVerificationSetting';
+
+  static const String ivVector = 'Talao';
+  static const String additionalAuthenticatedData = 'Credible';
 }

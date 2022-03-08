@@ -103,7 +103,7 @@
   "personalTitle": "Personal",
   "privacyTitle": "Privacy & Security",
   "termsTitle": "Terms & Conditions",
-  "recoveryTitle": "Recovery",
+  "recoveryKeyTitle": "Recovery - key",
   "recoveryWarningDialogTitle": "Be careful",
   "recoveryWarningDialogSubtitle": "The recovery page contains sensitive information that will compromise your identifier in the wrong hands. You should not open this page in public or share it with anyone.",
   "recoveryText": "Please enter your recovery phrase",
@@ -199,5 +199,32 @@
   "ok": "Okay",
   "unavailable_feature_title": "Unavailable Feature",
   "unavailable_feature_message": "This feature is not available on the browser",
-  "personalSkip": "SKIP"
+  "personalSkip": "SKIP",
+  "recoveryCredential": "Recovery - credential",
+  "backupCredential": "Backup - credential",
+  "backupCredentialPhrase": "Write down these words and download this backup file and save it somewhere safe",
+  "backupCredentialPhraseExplanation": "You need both words in right order and encrypted backup file to recover your credentials later if you lose access to this wallet",
+  "backupCredentialButtonTitle": "Download File",
+  "backupCredentialEmptyError": "You do not have any credential in your wallet.",
+  "backupCredentialPermissionDeniedMessage": "You need permission to download this file.",
+  "backupCredentialNotificationTitle": "Success",
+  "backupCredentialNotificationMessage": "File has been successfully downloaded. Tap to open the file.",
+  "backupCredentialError": "Something went wrong. Please try again later.",
+  "backupCredentialSuccessMessage": "File has been successfully downloaded.",
+  "recoveryCredentialWarningDialogSubtitle": "The recovery will delete any credentials you have stored in this wallet",
+  "recoveryCredentialPhrase": "Write down the words and upload the backup file if you saved it before",
+  "recoveryCredentialPhraseExplanation": "You need both words in right order and encrypted backup file to recover your credentials if you lost your credentials somehow",
+  "recoveryCredentialButtonTitle": "Upload Backup File",
+  "recoveryCredentialSuccessMessage": "Successfully recovered {postfix}.",
+  "recoveryCredentialJSONFormatErrorMessage": "Please upload the valid file.",
+  "recoveryCredentialAuthErrorMessage": "Sorry, either mnemonics is incorrect or uploaded file is corrupted.",
+  "recoveryCredentialDefaultErrorMessage": "Something went wrong. Please try again later.",
+  "@recoveryCredentialSuccessMessage": {
+    "description": "Success Message Count",
+    "type": "text",
+    "placeholders": {
+      "postfix": {}
+    }
+  },
+  "selfIssuedCreatedSuccessfully": "Self issued credential created successfully"
 }

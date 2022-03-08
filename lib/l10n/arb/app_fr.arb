@@ -96,7 +96,7 @@
   "personalTitle": "Personnel",
   "privacyTitle": "Confidentialité et sécurité",
   "termsTitle": "Conditions d'utilisation",
-  "recoveryTitle": "Récupération",
+  "recoveryKeyTitle": "Récupération",
   "recoveryWarningDialogTitle": "Soyez prudent !",
   "recoveryWarningDialogSubtitle": "La page de récupération contient des informations sensibles qui peuvent compromettre vos identifiants dans de mauvaises mains. Vous ne devriez pas ouvrir cette page en public ou la partager avec qui que ce soit.",
   "recoveryText": "Veuillez entrer votre phrase de récupération",
@@ -185,5 +185,6 @@
   "networkErrorUnableToProcess": "Incapacité à traiter la requête",
   "networkErrorUnauthenticated": "Vous devez être authentifié pour accéder à cette ressource",
   "networkErrorUnauthorizedRequest": "Requête non autorisée",
-  "networkErrorUnexpectedError": "Une erreur inattendue s'est produite"
+  "networkErrorUnexpectedError": "Une erreur inattendue s'est produite",
+  "selfIssuedCreatedSuccessfully": "Votre attestation a été créée avec succès"
 }
