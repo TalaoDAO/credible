@@ -17,7 +17,7 @@ import 'package:talao/self_issued_credential/widget/sef_issued_credential_button
 import 'package:talao/wallet/cubit/wallet_cubit.dart';
 import 'package:uuid/uuid.dart';
 
-part 'self_issued_credential.freezed.dart';
+part 'self_issued_credential_cubit.freezed.dart';
 
 @freezed
 class SelfIssuedCredentialState with _$SelfIssuedCredentialState {
