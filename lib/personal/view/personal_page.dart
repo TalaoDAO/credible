@@ -16,13 +16,11 @@ import 'package:talao/wallet/cubit/wallet_cubit.dart';
 class PersonalPage extends StatefulWidget {
   final ProfileModel profileModel;
   final bool isFromOnBoarding;
-  final bool isEnterprise;
 
   const PersonalPage({
     Key? key,
     required this.profileModel,
     required this.isFromOnBoarding,
-    this.isEnterprise = false,
   }) : super(key: key);
 
   static Route route({required profileModel, required isFromOnBoarding}) =>
@@ -52,13 +50,6 @@ class _PersonalPageState extends State<PersonalPage> {
   late TextEditingController phoneController;
   late TextEditingController locationController;
   late TextEditingController emailController;
-  late TextEditingController companyNameController;
-  late TextEditingController companyWebsiteController;
-  late TextEditingController jobTitleController;
-
-  //
-  late final l10n = context.l10n;
-  late final personalPageCubit = BlocProvider.of<PersonalPgeCubit>(context);
 
   @override
   void initState() {
@@ -72,17 +63,12 @@ class _PersonalPageState extends State<PersonalPage> {
     locationController =
         TextEditingController(text: widget.profileModel.location);
     emailController = TextEditingController(text: widget.profileModel.email);
-    //enterprise
-    companyNameController =
-        TextEditingController(text: widget.profileModel.companyName);
-    companyWebsiteController =
-        TextEditingController(text: widget.profileModel.companyWebsite);
-    jobTitleController =
-        TextEditingController(text: widget.profileModel.jobTitle);
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final personalPageCubit = context.read<PersonalPgeCubit>();
     return WillPopScope(
       onWillPop: () async {
         if (!widget.isFromOnBoarding) {
@@ -97,7 +83,29 @@ class _PersonalPageState extends State<PersonalPage> {
             ? null
             : SelfIssuedCredentialButton(
                 selfIssuedCredentialButtonClick: () {
-                  return _createSelfIssuedModel();
+                  return SelfIssuedCredentialDataModel(
+                    givenName: personalPageCubit.state.isFirstName
+                        ? firstNameController.text.isNotEmpty
+                            ? firstNameController.text
+                            : null
+                        : null,
+                    familyName: personalPageCubit.state.isLastName
+                        ? lastNameController.text.isNotEmpty
+                            ? lastNameController.text
+                            : null
+                        : null,
+                    telephone: personalPageCubit.state.isPhone
+                        ? phoneController.text.isNotEmpty
+                            ? phoneController.text
+                            : null
+                        : null,
+                    address: personalPageCubit.state.isLocation
+                        ? locationController.text
+                        : null,
+                    email: personalPageCubit.state.isEmail
+                        ? emailController.text
+                        : null,
+                  );
                 },
               ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
@@ -110,16 +118,36 @@ class _PersonalPageState extends State<PersonalPage> {
                 phone: phoneController.text,
                 location: locationController.text,
                 email: emailController.text,
-                companyName: companyNameController.text,
-                companyWebsite: companyWebsiteController.text,
-                jobTitle: jobTitleController.text,
                 issuerVerificationSetting:
                     widget.profileModel.issuerVerificationSetting);
 
             await context.read<ProfileCubit>().update(model);
             if (widget.isFromOnBoarding) {
               ///save selfIssued credential when user press save button during onboarding
-              final selfIssuedCredentialDataModel = _createSelfIssuedModel();
+              final selfIssuedCredentialDataModel =
+                  SelfIssuedCredentialDataModel(
+                givenName: personalPageCubit.state.isFirstName
+                    ? firstNameController.text.isNotEmpty
+                        ? firstNameController.text
+                        : null
+                    : null,
+                familyName: personalPageCubit.state.isLastName
+                    ? lastNameController.text.isNotEmpty
+                        ? lastNameController.text
+                        : null
+                    : null,
+                telephone: personalPageCubit.state.isPhone
+                    ? phoneController.text.isNotEmpty
+                        ? phoneController.text
+                        : null
+                    : null,
+                address: personalPageCubit.state.isLocation
+                    ? locationController.text
+                    : null,
+                email: personalPageCubit.state.isEmail
+                    ? emailController.text
+                    : null,
+              );
               await context
                   .read<SelfIssuedCredentialCubit>()
                   .createSelfIssuedCredential(
@@ -187,7 +215,7 @@ class _PersonalPageState extends State<PersonalPage> {
                   onChanged: personalPageCubit.firstNameCheckBoxChange,
                 ),
               ),
-              _textFieldSpace(),
+              const SizedBox(height: 16.0),
               BaseTextField(
                 label: l10n.personalLastName,
                 controller: lastNameController,
@@ -200,7 +228,7 @@ class _PersonalPageState extends State<PersonalPage> {
                   onChanged: personalPageCubit.lastNameCheckBoxChange,
                 ),
               ),
-              _textFieldSpace(),
+              const SizedBox(height: 16.0),
               BaseTextField(
                 label: l10n.personalPhone,
                 controller: phoneController,
@@ -213,7 +241,7 @@ class _PersonalPageState extends State<PersonalPage> {
                   onChanged: personalPageCubit.phoneCheckBoxChange,
                 ),
               ),
-              _textFieldSpace(),
+              const SizedBox(height: 16.0),
               BaseTextField(
                 label: l10n.personalLocation,
                 controller: locationController,
@@ -226,7 +254,7 @@ class _PersonalPageState extends State<PersonalPage> {
                   onChanged: personalPageCubit.locationCheckBoxChange,
                 ),
               ),
-              _textFieldSpace(),
+              const SizedBox(height: 16.0),
               BaseTextField(
                 label: l10n.personalMail,
                 controller: emailController,
@@ -239,7 +267,6 @@ class _PersonalPageState extends State<PersonalPage> {
                   onChanged: personalPageCubit.emailCheckBoxChange,
                 ),
               ),
-              if (widget.isEnterprise) _buildEnterpriseTextFields(state)
             ],
           );
         }),
@@ -265,80 +292,6 @@ class _PersonalPageState extends State<PersonalPage> {
                 ),
               ),
       ),
-    );
-  }
-
-  Widget _textFieldSpace() {
-    return const SizedBox(height: 16.0);
-  }
-
-  Widget _buildEnterpriseTextFields(PersonalPageState state) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        _textFieldSpace(),
-        BaseTextField(
-          label: l10n.companyName,
-          controller: companyNameController,
-          icon: Icons.apartment,
-          type: TextInputType.text,
-          prefixIcon: Checkbox(
-            value: state.isCompanyName,
-            fillColor: MaterialStateProperty.all(
-                Theme.of(context).colorScheme.secondaryContainer),
-            onChanged: personalPageCubit.companyNameCheckBoxChange,
-          ),
-        ),
-        _textFieldSpace(),
-        BaseTextField(
-          label: l10n.companyWebsite,
-          controller: companyWebsiteController,
-          icon: Icons.web_outlined,
-          type: TextInputType.url,
-          prefixIcon: Checkbox(
-            value: state.isCompanyWebsite,
-            fillColor: MaterialStateProperty.all(
-                Theme.of(context).colorScheme.secondaryContainer),
-            onChanged: personalPageCubit.companyWebsiteCheckBoxChange,
-          ),
-        ),
-        _textFieldSpace(),
-        BaseTextField(
-          label: l10n.jobTitle,
-          controller: jobTitleController,
-          icon: Icons.work_outlined,
-          type: TextInputType.text,
-          prefixIcon: Checkbox(
-            value: state.isJobTitle,
-            fillColor: MaterialStateProperty.all(
-                Theme.of(context).colorScheme.secondaryContainer),
-            onChanged: personalPageCubit.jobTitleCheckBoxChange,
-          ),
-        ),
-        _textFieldSpace()
-      ],
-    );
-  }
-
-  SelfIssuedCredentialDataModel _createSelfIssuedModel() {
-    return SelfIssuedCredentialDataModel(
-      givenName:
-          personalPageCubit.state.isFirstName ? firstNameController.text : null,
-      familyName:
-          personalPageCubit.state.isLastName ? lastNameController.text : null,
-      telephone: personalPageCubit.state.isPhone ? phoneController.text : null,
-      address:
-          personalPageCubit.state.isLocation ? locationController.text : null,
-      email: personalPageCubit.state.isEmail ? emailController.text : null,
-      companyName: personalPageCubit.state.isCompanyName
-          ? companyNameController.text
-          : null,
-      companyWebsite: personalPageCubit.state.isCompanyWebsite
-          ? companyWebsiteController.text
-          : null,
-      jobTitle:
-          personalPageCubit.state.isJobTitle ? jobTitleController.text : null,
     );
   }
 }
