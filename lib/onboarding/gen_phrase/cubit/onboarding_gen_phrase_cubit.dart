@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:logging/logging.dart';
-import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/interop/key_generation.dart';
+import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/shared/model/message.dart';
 import 'package:talao/l10n/l10n.dart';
 

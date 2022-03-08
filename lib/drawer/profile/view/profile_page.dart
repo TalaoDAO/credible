@@ -1,11 +1,13 @@
+import 'package:talao/drawer/backup_credential/backup_credential.dart';
 import 'package:talao/drawer/profile/cubit/profile_state.dart';
+import 'package:talao/drawer/recovery_credential/recovery_credential.dart';
+import 'package:talao/drawer/recovery_key/view/recovery_key_page.dart';
 import 'package:talao/wallet/wallet.dart';
 import 'package:talao/app/shared/widget/confirm_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talao/drawer/global_information/view/global_information_page.dart';
 import 'package:talao/drawer/privacy/view/privacy.dart';
-import 'package:talao/drawer/recovery/view/recovery_page.dart';
 import 'package:talao/drawer/terms/view/terms_page.dart';
 import 'package:talao/drawer/theme/view/theme_page.dart';
 import 'package:talao/l10n/l10n.dart';
@@ -76,7 +78,7 @@ class ProfileView extends StatelessWidget {
                 ),
                 MenuItem(
                   icon: Icons.vpn_key,
-                  title: l10n.recoveryTitle,
+                  title: l10n.recoveryKeyTitle,
                   onTap: () async {
                     final confirm = await showDialog<bool>(
                           context: context,
@@ -90,7 +92,7 @@ class ProfileView extends StatelessWidget {
                         false;
 
                     if (confirm) {
-                      await Navigator.of(context).push(RecoveryPage.route());
+                      await Navigator.of(context).push(RecoveryKeyPage.route());
                     }
                   },
                 ),
@@ -111,6 +113,34 @@ class ProfileView extends StatelessWidget {
                     if (confirm) {
 
                       await context.read<WalletCubit>().resetWallet();
+                    }
+                  },
+                ),
+                MenuItem(
+                  icon: Icons.backup,
+                  title: l10n.backupCredential,
+                  onTap: () {
+                    Navigator.of(context).push(BackupCredentialPage.route());
+                  },
+                ),
+                MenuItem(
+                  icon: Icons.restore_page,
+                  title: l10n.recoveryCredential,
+                  onTap: () async {
+                    final confirm = await showDialog<bool>(
+                          context: context,
+                          builder: (context) => ConfirmDialog(
+                            title: l10n.recoveryWarningDialogTitle,
+                            subtitle:
+                                l10n.recoveryCredentialWarningDialogSubtitle,
+                            yes: l10n.showDialogYes,
+                            no: l10n.showDialogNo,
+                          ),
+                        ) ??
+                        false;
+
+                    if (confirm) {
+                      await Navigator.of(context).push(RecoveryCredentialPage.route());
                     }
                   },
                 ),

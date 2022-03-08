@@ -96,7 +96,7 @@
   "personalTitle": "Personal",
   "privacyTitle": "Privacidad y seguridad",
   "termsTitle": "Términos y condiciones",
-  "recoveryTitle": "Recuperación",
+  "recoveryKeyTitle": "Recuperación",
   "recoveryWarningDialogTitle": "Cuidado",
   "recoveryWarningDialogSubtitle": "La página de recuperación contiene información sensible, por lo que su identificador podría caer en malas manos. No debe abrir esta página en un lugar público ni compartirla con nadie.",
   "recoveryText": "Introduzca su frase de recuperación",
@@ -164,5 +164,4 @@
   "companyName": "Nombre de empresa",
   "companyWebsite": "Página Web de la compañía",
   "selfIssuedCreatedSuccessfully": "Credencial autoemitida creada con éxito"
-
 }
