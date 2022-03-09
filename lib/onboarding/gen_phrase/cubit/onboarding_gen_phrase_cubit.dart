@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:logging/logging.dart';
+import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/interop/key_generation.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/shared/model/message.dart';
@@ -30,6 +31,13 @@ class OnBoardingGenPhraseCubit extends Cubit<OnBoardingGenPhraseState> {
       await saveMnemonicKey(mnemonicFormatted);
       final key = await keyGeneration.privateKey(mnemonicFormatted);
       await secureStorageProvider.set('key', key);
+      //save did also
+      final didMethod = (await secureStorageProvider.get(SecureStorageKeys.DIDMethod))!;
+      final did = DIDKitProvider.instance.keyToDID(
+          didMethod,
+          key);
+      await secureStorageProvider.set(SecureStorageKeys.did, did);
+
       emit(state.copyWith(status: OnBoardingGenPhraseStatus.success));
     } catch (error) {
       log.severe('something went wrong when generating a key', error);
