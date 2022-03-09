@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talao/app/shared/constants.dart';
-import 'package:talao/drawer/global_information/bloc/did_bloc.dart';
+import 'package:talao/did/cubit/did_state.dart';
+import 'package:talao/did/did.dart';
 import 'package:talao/l10n/l10n.dart';
 
 class DIDDisplay extends StatelessWidget {
@@ -10,18 +11,17 @@ class DIDDisplay extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    return BlocConsumer(
-      bloc: context.read<DIDBloc>(),
+    return BlocConsumer<DIDCubit, DIDState>(
       listener: (context, state) {
         if (state is DIDStateMessage) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            backgroundColor: state.message.color,
-            content: Text(state.message.message!),
+            backgroundColor: state.message!.color,
+            content: Text(state.message!.message!),
           ));
         }
       },
       builder: (context, state) {
-        final did = state is DIDStateDefault ? state.DID : '';
+        final did = state is DIDStateDefault ? state.did! : '';
         var blockChainAddress = '';
         if (did.length > 7) {
           blockChainAddress = did.substring(7);
