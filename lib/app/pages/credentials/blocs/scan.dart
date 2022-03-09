@@ -194,17 +194,10 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
 
     final url = event.url;
     final credentialModel = event.credentialModel;
-    final keyId = event.key;
 
     try {
-      final key = (await SecureStorageProvider.instance.get(keyId))!;
-      final isEnterpriseUser = await SecureStorageProvider.instance
-          .get(SecureStorageKeys.isEnterpriseUser);
-      final didMethod = isEnterpriseUser == 'true'
-          ? (await SecureStorageProvider.instance
-              .get(SecureStorageKeys.didMethod))!
-          : Constants.defaultDIDMethod;
-      final did = DIDKitProvider.instance.keyToDID(didMethod, key);
+      final did = await SecureStorageProvider.instance
+          .get(SecureStorageKeys.did);
 
       final credential = await client.post(
         url,
@@ -278,13 +271,10 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
 
     try {
       final key = (await SecureStorageProvider.instance.get(keyId))!;
-      final isEnterpriseUser = await SecureStorageProvider.instance
-          .get(SecureStorageKeys.isEnterpriseUser);
-      final didMethod = isEnterpriseUser == 'true'
-          ? (await SecureStorageProvider.instance
-              .get(SecureStorageKeys.didMethod))!
-          : Constants.defaultDIDMethod;
-      final did = DIDKitProvider.instance.keyToDID(didMethod, key);
+      final did = await SecureStorageProvider.instance
+          .get(SecureStorageKeys.did);
+      final didMethod = (await SecureStorageProvider.instance
+          .get(SecureStorageKeys.DIDMethod))!;
       final verificationMethod =
           await DIDKitProvider.instance.keyToVerificationMethod(didMethod, key);
 
@@ -423,13 +413,10 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
 
     try {
       final key = (await SecureStorageProvider.instance.get(keyId))!;
-      final isEnterpriseUser = await SecureStorageProvider.instance
-          .get(SecureStorageKeys.isEnterpriseUser);
-      final didMethod = isEnterpriseUser == 'true'
-          ? (await SecureStorageProvider.instance
-              .get(SecureStorageKeys.didMethod))!
-          : Constants.defaultDIDMethod;
-      final did = DIDKitProvider.instance.keyToDID(didMethod, key);
+      final did = (await SecureStorageProvider.instance
+          .get(SecureStorageKeys.did))!;
+      final didMethod = (await SecureStorageProvider.instance
+          .get(SecureStorageKeys.DIDMethod))!;
       final verificationMethod =
           await DIDKitProvider.instance.keyToVerificationMethod(didMethod, key);
 
@@ -488,13 +475,10 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
 
     try {
       final key = (await SecureStorageProvider.instance.get(keyId))!;
-      final isEnterpriseUser = await SecureStorageProvider.instance
-          .get(SecureStorageKeys.isEnterpriseUser);
-      final didMethod = isEnterpriseUser == 'true'
-          ? (await SecureStorageProvider.instance
-              .get(SecureStorageKeys.didMethod))!
-          : Constants.defaultDIDMethod;
-      final did = DIDKitProvider.instance.keyToDID(didMethod, key);
+      final did = (await SecureStorageProvider.instance
+          .get(SecureStorageKeys.did))!;
+      final didMethod = (await SecureStorageProvider.instance
+          .get(SecureStorageKeys.DIDMethod))!;
       final verificationMethod =
           await DIDKitProvider.instance.keyToVerificationMethod(didMethod, key);
 

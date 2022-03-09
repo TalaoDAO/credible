@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:talao/app/interop/secure_storage/secure_storage.dart';
-import 'package:talao/app/shared/constants.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/onboarding/key/view/onboarding_key_page.dart';
@@ -67,18 +65,13 @@ class _ChooseWalletTypeState extends State<ChooseWalletType> {
         margin: EdgeInsets.all(12),
         context: context,
         child: const Text('Continue'),
-        onPressed: () async {
+        onPressed: () {
           if (context
               .read<ChooseWalletTypeCubit>()
               .isPersonalWalletSelected()) {
-            await Navigator.of(context)
-                .pushReplacement(OnBoardingKeyPage.route());
+            Navigator.of(context).pushReplacement(OnBoardingKeyPage.route());
           } else {
-            await SecureStorageProvider.instance.set(
-                SecureStorageKeys.isEnterpriseUser, true.toString());
-            await SecureStorageProvider.instance.set(
-                SecureStorageKeys.didMethod, Constants.enterpriseDIDMethod);
-            await Navigator.of(context)
+            Navigator.of(context)
                 .pushReplacement(SubmitEnterpriseUserPage.route());
           }
         },
