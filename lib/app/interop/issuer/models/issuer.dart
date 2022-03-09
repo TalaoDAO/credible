@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:talao/app/interop/check_issuer/models/organization_info.dart';
+import 'package:talao/app/interop/issuer/models/organization_info.dart';
 
 part 'issuer.g.dart';
 

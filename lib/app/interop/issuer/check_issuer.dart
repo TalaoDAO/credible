@@ -1,4 +1,5 @@
-import 'package:talao/app/interop/check_issuer/models/issuer.dart';
+
+import 'package:talao/app/interop/issuer/models/issuer.dart';
 import 'package:talao/app/interop/network/network_client.dart';
 
 class CheckIssuer {

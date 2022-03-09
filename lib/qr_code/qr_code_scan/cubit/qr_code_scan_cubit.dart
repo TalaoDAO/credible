@@ -2,8 +2,13 @@ import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:talao/app/interop/issuer/check_issuer.dart';
+import 'package:talao/app/interop/issuer/models/issuer.dart';
 import 'package:talao/app/interop/network/network_client.dart';
-import 'package:talao/qr_code/qr_code_scan/cubit/qr_code_state.dart';
+import 'package:talao/app/shared/constants.dart';
+import 'package:talao/drawer/drawer.dart';
+import 'package:talao/drawer/profile/cubit/profile_state.dart';
+import 'package:talao/qr_code/qr_code_scan/cubit/qr_code_scan_state.dart';
 import 'package:talao/scan/bloc/scan.dart';
 import 'package:talao/credentials/credentials.dart';
 import 'package:talao/app/shared/error_handler/error_handler.dart';
@@ -11,16 +16,18 @@ import 'package:talao/app/shared/model/message.dart';
 import 'package:logging/logging.dart';
 import 'package:talao/query_by_example/query_by_example.dart';
 
-class QRCodeCubit extends Cubit<QRCodeState> {
+class QRCodeScanCubit extends Cubit<QRCodeScanState> {
   final DioClient client;
   final ScanBloc scanBloc;
   final QueryByExampleCubit queryByExampleCubit;
+  final ProfileCubit profileCubit;
 
-  QRCodeCubit(
-    this.client,
-    this.scanBloc,
-    this.queryByExampleCubit,
-  ) : super(QRCodeStateWorking());
+  QRCodeScanCubit({
+    required this.client,
+    required this.scanBloc,
+    required this.queryByExampleCubit,
+    required this.profileCubit,
+  }) : super(QRCodeScanStateWorking());
 
   @override
   Future<void> close() async {
@@ -33,7 +40,7 @@ class QRCodeCubit extends Cubit<QRCodeState> {
 
     try {
       if (url == null) {
-        emit(QRCodeStateMessage(
+        emit(QRCodeScanStateMessage(
             message: StateMessage.error(
                 'This QRCode does not contain a valid message.')));
       } else {
@@ -42,12 +49,12 @@ class QRCodeCubit extends Cubit<QRCodeState> {
     } on FormatException catch (e) {
       print(e.message);
 
-      emit(QRCodeStateMessage(
+      emit(QRCodeScanStateMessage(
           message: StateMessage.error(
               'This QRCode does not contain a valid message.')));
     }
 
-    emit(QRCodeStateHost(uri: uri));
+    emit(QRCodeScanStateHost(uri: uri));
   }
 
   void deepLink(String data) async {
@@ -58,12 +65,12 @@ class QRCodeCubit extends Cubit<QRCodeState> {
     } on FormatException catch (e) {
       print(e.message);
 
-      emit(QRCodeStateMessage(
+      emit(QRCodeScanStateMessage(
           message: StateMessage.error(
               'This url does not contain a valid message.')));
     }
 
-    emit(QRCodeStateHost(uri: uri));
+    emit(QRCodeScanStateHost(uri: uri));
   }
 
   void accept(Uri uri) async {
@@ -78,7 +85,8 @@ class QRCodeCubit extends Cubit<QRCodeState> {
       scanBloc.add(ScanEventShowPreview(data));
       switch (data['type']) {
         case 'CredentialOffer':
-          emit(QRCodeStateSuccess(route: CredentialsReceivePage.route(uri)));
+          emit(
+              QRCodeScanStateSuccess(route: CredentialsReceivePage.route(uri)));
           break;
 
         case 'VerifiablePresentationRequest':
@@ -94,7 +102,7 @@ class QRCodeCubit extends Cubit<QRCodeState> {
                 challenge: data['challenge'],
                 domain: data['domain'],
               ));
-              emit(QRCodeStateSuccess(
+              emit(QRCodeScanStateSuccess(
                   route: CredentialsPresentPage.route(
                 resource: 'DID',
                 yes: 'Accept',
@@ -105,7 +113,7 @@ class QRCodeCubit extends Cubit<QRCodeState> {
                 },
               )));
             } else if (data['query'].first['type'] == 'QueryByExample') {
-              emit(QRCodeStateSuccess(
+              emit(QRCodeScanStateSuccess(
                   route: CredentialsPresentPage.route(
                 resource: 'credential',
                 url: uri,
@@ -118,7 +126,7 @@ class QRCodeCubit extends Cubit<QRCodeState> {
               throw UnimplementedError('Unimplemented Query Type');
             }
           } else {
-            emit(QRCodeStateSuccess(
+            emit(QRCodeScanStateSuccess(
                 route: CredentialsPresentPage.route(
               resource: 'credential',
               url: uri,
@@ -131,22 +139,41 @@ class QRCodeCubit extends Cubit<QRCodeState> {
           break;
 
         default:
-          emit(QRCodeStateUnknown());
+          emit(QRCodeScanStateUnknown());
           break;
       }
     } catch (e) {
       log.severe('An error occurred while connecting to the server.', e);
 
       if (e is ErrorHandler) {
-        emit(QRCodeStateMessage(
+        emit(QRCodeScanStateMessage(
             message:
                 StateMessage.error('An error occurred ', errorHandler: e)));
       } else {
-        emit(QRCodeStateMessage(
+        emit(QRCodeScanStateMessage(
             message: StateMessage.error(
                 'An error occurred while connecting to the server. '
                 'Check the logs for more information.')));
       }
     }
+  }
+
+  Future<Issuer> isApprovedIssuer(Uri uri, BuildContext context) async {
+    if (profileCubit.state is ProfileStateDefault) {
+      final isIssuerVerificationSettingTrue =
+          profileCubit.state.model!.issuerVerificationSetting;
+      if (isIssuerVerificationSettingTrue) {
+        try {
+          return await CheckIssuer(client, Constants.checkIssuerServerUrl, uri)
+              .isIssuerInApprovedList();
+        } catch (e) {
+          if (e is ErrorHandler) {
+            e.displayError(context, e, Theme.of(context).colorScheme.error);
+          }
+          return Issuer.emptyIssuer();
+        }
+      }
+    }
+    return Issuer.emptyIssuer();
   }
 }

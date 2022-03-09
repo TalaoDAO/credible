@@ -12,7 +12,6 @@ import 'package:talao/credentials/credentials.dart';
 import 'package:talao/deep_link/cubit/deep_link.dart';
 import 'package:talao/drawer/drawer.dart';
 import 'package:talao/l10n/l10n.dart';
-import 'package:talao/qr_code/qr_code.dart';
 import 'package:talao/query_by_example/query_by_example.dart';
 import 'package:talao/splash/splash.dart';
 import 'package:talao/theme/theme.dart';
@@ -45,13 +44,6 @@ class AppWidget extends StatelessWidget {
             create: (context) => ScanBloc(
                 DioClient(Constants.checkIssuerServerUrl, Dio()),
                 context.read<WalletCubit>())),
-        BlocProvider<QRCodeCubit>(
-          create: (context) => QRCodeCubit(
-            DioClient(Constants.checkIssuerServerUrl, Dio()),
-            context.read<ScanBloc>(),
-            context.read<QueryByExampleCubit>(),
-          ),
-        ),
       ],
       child: MaterialAppDefinition(),
     );
