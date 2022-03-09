@@ -40,7 +40,7 @@ class _CredentialsListState extends State<CredentialsList> {
       final deepLinkState = context.read<DeepLinkCubit>().state;
       if (deepLinkState != '') {
         context.read<DeepLinkCubit>().resetDeepLink();
-        context.read<QRCodeBloc>().add(QRCodeEventDeepLink(deepLinkState));
+        context.read<QRCodeCubit>().deepLink(deepLinkState);
       }
     });
     super.initState();

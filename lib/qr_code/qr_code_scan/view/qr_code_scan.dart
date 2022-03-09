@@ -6,7 +6,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
-import 'package:talao/qr_code/qr_code_scan/bloc/qr_code_bloc.dart';
+import 'package:talao/qr_code/qr_code_scan/cubit/qr_code_cubit.dart';
+import 'package:talao/qr_code/qr_code_scan/cubit/qr_code_state.dart';
 
 class QrCodeScanPage extends StatefulWidget {
   static Route route() => MaterialPageRoute(
@@ -56,7 +57,7 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
         setState(() {
           promptActive = true;
         });
-        context.read<QRCodeBloc>().add(QRCodeEventHost(scanData.code));
+        context.read<QRCodeCubit>().host(scanData.code);
       }
     });
   }
@@ -64,7 +65,7 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
-    return BlocListener<QRCodeBloc, QRCodeState>(
+    return BlocListener<QRCodeCubit, QRCodeState>(
       listener: (context, state) {
         if (state is QRCodeStateUnknown) {
           qrController.resumeCamera();

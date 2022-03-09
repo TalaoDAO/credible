@@ -9,6 +9,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:talao/app/interop/check_issuer/check_issuer.dart';
 import 'package:talao/app/interop/check_issuer/models/issuer.dart';
 import 'package:talao/app/interop/network/network_client.dart';
+import 'package:talao/qr_code/qr_code_scan/cubit/qr_code_state.dart';
 import 'package:talao/scan/bloc/scan.dart';
 import 'package:talao/app/shared/constants.dart';
 import 'package:talao/app/shared/error_handler/error_handler.dart';
@@ -200,16 +201,16 @@ class _SplashPageState extends State<SplashPage> {
             }
           },
         ),
-        BlocListener<QRCodeBloc, QRCodeState>(
+        BlocListener<QRCodeCubit, QRCodeState>(
           listener: (context, state) async {
             if (state is QRCodeStateHost) {
-              var approvedIssuer = await isApprovedIssuer(state.uri, context);
+              var approvedIssuer = await isApprovedIssuer(state.uri!, context);
               var acceptHost;
               acceptHost =
-                  await checkHost(state.uri, approvedIssuer, context) ?? false;
+                  await checkHost(state.uri!, approvedIssuer, context) ?? false;
 
               if (acceptHost) {
-                context.read<QRCodeBloc>().add(QRCodeEventAccept(state.uri));
+                context.read<QRCodeCubit>().accept(state.uri!);
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text(localizations.scanRefuseHost),
@@ -219,18 +220,18 @@ class _SplashPageState extends State<SplashPage> {
               }
             }
             if (state is QRCodeStateSuccess) {
-              await Navigator.of(context).pushReplacement(state.route);
+              await Navigator.of(context).pushReplacement(state.route!);
             }
             if (state is QRCodeStateMessage) {
-              final errorHandler = state.message.errorHandler;
+              final errorHandler = state.message!.errorHandler;
               if (errorHandler != null) {
                 final color =
-                    state.message.color ?? Theme.of(context).colorScheme.error;
+                    state.message!.color ?? Theme.of(context).colorScheme.error;
                 errorHandler.displayError(context, errorHandler, color);
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  backgroundColor: state.message.color,
-                  content: Text(state.message.message!),
+                  backgroundColor: state.message!.color,
+                  content: Text(state.message!.message!),
                 ));
               }
             }

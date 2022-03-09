@@ -1,2 +1,2 @@
 export 'view/qr_code_scan.dart';
-export 'bloc/qr_code_bloc.dart';
+export 'cubit/qr_code_cubit.dart';

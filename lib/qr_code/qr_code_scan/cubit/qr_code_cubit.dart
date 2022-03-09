@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:talao/app/interop/network/network_client.dart';
+import 'package:talao/qr_code/qr_code_scan/cubit/qr_code_state.dart';
 import 'package:talao/scan/bloc/scan.dart';
 import 'package:talao/credentials/credentials.dart';
 import 'package:talao/app/shared/error_handler/error_handler.dart';
@@ -10,64 +11,16 @@ import 'package:talao/app/shared/model/message.dart';
 import 'package:logging/logging.dart';
 import 'package:talao/query_by_example/query_by_example.dart';
 
-abstract class QRCodeEvent {}
-
-class QRCodeEventHost extends QRCodeEvent {
-  final String? data;
-
-  QRCodeEventHost(this.data);
-}
-
-class QRCodeEventDeepLink extends QRCodeEvent {
-  final String data;
-
-  QRCodeEventDeepLink(this.data);
-}
-
-class QRCodeEventAccept extends QRCodeEvent {
-  final Uri uri;
-
-  QRCodeEventAccept(this.uri);
-}
-
-abstract class QRCodeState {}
-
-class QRCodeStateWorking extends QRCodeState {}
-
-class QRCodeStateHost extends QRCodeState {
-  final Uri uri;
-
-  QRCodeStateHost(this.uri);
-}
-
-class QRCodeStateSuccess extends QRCodeState {
-  final Route route;
-
-  QRCodeStateSuccess(this.route);
-}
-
-class QRCodeStateUnknown extends QRCodeState {}
-
-class QRCodeStateMessage extends QRCodeState {
-  final StateMessage message;
-
-  QRCodeStateMessage(this.message);
-}
-
-class QRCodeBloc extends Bloc<QRCodeEvent, QRCodeState> {
+class QRCodeCubit extends Cubit<QRCodeState> {
   final DioClient client;
   final ScanBloc scanBloc;
   final QueryByExampleCubit queryByExampleCubit;
 
-  QRCodeBloc(
+  QRCodeCubit(
     this.client,
     this.scanBloc,
     this.queryByExampleCubit,
-  ) : super(QRCodeStateWorking()) {
-    on<QRCodeEventHost>(_host);
-    on<QRCodeEventAccept>(_accept);
-    on<QRCodeEventDeepLink>(_deepLink);
-  }
+  ) : super(QRCodeStateWorking());
 
   @override
   Future<void> close() async {
@@ -75,17 +28,14 @@ class QRCodeBloc extends Bloc<QRCodeEvent, QRCodeState> {
     return super.close();
   }
 
-  void _host(
-    QRCodeEventHost event,
-    Emitter<QRCodeState> emit,
-  ) async {
+  void host(String? url) async {
     late final uri;
 
     try {
-      final url = event.data;
       if (url == null) {
-        emit(QRCodeStateMessage(StateMessage.error(
-            'This QRCode does not contain a valid message.')));
+        emit(QRCodeStateMessage(
+            message: StateMessage.error(
+                'This QRCode does not contain a valid message.')));
       } else {
         uri = Uri.parse(url);
       }
@@ -93,47 +43,42 @@ class QRCodeBloc extends Bloc<QRCodeEvent, QRCodeState> {
       print(e.message);
 
       emit(QRCodeStateMessage(
-          StateMessage.error('This QRCode does not contain a valid message.')));
+          message: StateMessage.error(
+              'This QRCode does not contain a valid message.')));
     }
 
-    emit(QRCodeStateHost(uri));
+    emit(QRCodeStateHost(uri: uri));
   }
 
-  void _deepLink(
-    QRCodeEventDeepLink event,
-    Emitter<QRCodeState> emit,
-  ) async {
+  void deepLink(String data) async {
     late final uri;
 
     try {
-      uri = Uri.parse(event.data);
+      uri = Uri.parse(data);
     } on FormatException catch (e) {
       print(e.message);
 
       emit(QRCodeStateMessage(
-          StateMessage.error('This url does not contain a valid message.')));
+          message: StateMessage.error(
+              'This url does not contain a valid message.')));
     }
 
-    emit(QRCodeStateHost(uri));
+    emit(QRCodeStateHost(uri: uri));
   }
 
-  void _accept(
-    QRCodeEventAccept event,
-    Emitter<QRCodeState> emit,
-  ) async {
+  void accept(Uri uri) async {
     final log = Logger('talao-wallet/qrcode/accept');
 
     late final data;
 
     try {
-      final url = event.uri.toString();
-      final response = await client.get(url);
+      final response = await client.get(uri.toString());
       data = response is String ? jsonDecode(response) : response;
 
       scanBloc.add(ScanEventShowPreview(data));
       switch (data['type']) {
         case 'CredentialOffer':
-          emit(QRCodeStateSuccess(CredentialsReceivePage.route(event.uri)));
+          emit(QRCodeStateSuccess(route: CredentialsReceivePage.route(uri)));
           break;
 
         case 'VerifiablePresentationRequest':
@@ -145,38 +90,41 @@ class QRCodeBloc extends Bloc<QRCodeEvent, QRCodeState> {
                 (done) {
                   print('done');
                 },
-                event.uri,
+                uri,
                 challenge: data['challenge'],
                 domain: data['domain'],
               ));
-              emit(QRCodeStateSuccess(CredentialsPresentPage.route(
+              emit(QRCodeStateSuccess(
+                  route: CredentialsPresentPage.route(
                 resource: 'DID',
                 yes: 'Accept',
-                url: event.uri,
+                url: uri,
                 onSubmit: (preview, context) {
                   // Navigator.of(context)
                   //     .pushReplacement(CredentialsList.route());
                 },
               )));
             } else if (data['query'].first['type'] == 'QueryByExample') {
-              emit(QRCodeStateSuccess(CredentialsPresentPage.route(
+              emit(QRCodeStateSuccess(
+                  route: CredentialsPresentPage.route(
                 resource: 'credential',
-                url: event.uri,
+                url: uri,
                 onSubmit: (preview, context) {
-                  Navigator.of(context).pushReplacement(
-                      CredentialsPickPage.route(event.uri, preview));
+                  Navigator.of(context)
+                      .pushReplacement(CredentialsPickPage.route(uri, preview));
                 },
               )));
             } else {
               throw UnimplementedError('Unimplemented Query Type');
             }
           } else {
-            emit(QRCodeStateSuccess(CredentialsPresentPage.route(
+            emit(QRCodeStateSuccess(
+                route: CredentialsPresentPage.route(
               resource: 'credential',
-              url: event.uri,
+              url: uri,
               onSubmit: (preview, context) {
-                Navigator.of(context).pushReplacement(
-                    CredentialsPickPage.route(event.uri, preview));
+                Navigator.of(context)
+                    .pushReplacement(CredentialsPickPage.route(uri, preview));
               },
             )));
           }
@@ -191,11 +139,13 @@ class QRCodeBloc extends Bloc<QRCodeEvent, QRCodeState> {
 
       if (e is ErrorHandler) {
         emit(QRCodeStateMessage(
-            StateMessage.error('An error occurred ', errorHandler: e)));
+            message:
+                StateMessage.error('An error occurred ', errorHandler: e)));
       } else {
-        emit(QRCodeStateMessage(StateMessage.error(
-            'An error occurred while connecting to the server. '
-            'Check the logs for more information.')));
+        emit(QRCodeStateMessage(
+            message: StateMessage.error(
+                'An error occurred while connecting to the server. '
+                'Check the logs for more information.')));
       }
     }
   }

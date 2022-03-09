@@ -45,8 +45,8 @@ class AppWidget extends StatelessWidget {
             create: (context) => ScanBloc(
                 DioClient(Constants.checkIssuerServerUrl, Dio()),
                 context.read<WalletCubit>())),
-        BlocProvider<QRCodeBloc>(
-          create: (context) => QRCodeBloc(
+        BlocProvider<QRCodeCubit>(
+          create: (context) => QRCodeCubit(
             DioClient(Constants.checkIssuerServerUrl, Dio()),
             context.read<ScanBloc>(),
             context.read<QueryByExampleCubit>(),
