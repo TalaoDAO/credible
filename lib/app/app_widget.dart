@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talao/app/interop/network/network_client.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
+import 'package:talao/l10n/l10n.dart';
 import 'package:talao/scan/bloc/scan.dart';
 import 'package:talao/app/router_observer.dart';
 import 'package:talao/app/shared/constants.dart';
