@@ -26,8 +26,7 @@ class DIDBloc extends Bloc<DIDEvent, DIDState> {
     try {
       emit(DIDStateWorking());
 
-      final key = (await secureStorageProvider!.get('key'))!;
-      final DID = didKitProvider!.keyToDID(Constants.defaultDIDMethod, key);
+      final DID = (await secureStorageProvider!.get(SecureStorageKeys.did))!;
 
       emit(DIDStateDefault(DID));
     } catch (e) {

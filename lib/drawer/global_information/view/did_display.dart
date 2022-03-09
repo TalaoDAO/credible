@@ -40,6 +40,7 @@ class DIDDisplay extends StatelessWidget {
                     style: Theme.of(context).textTheme.bodyText2,
                   ),
                   Text(
+                    //TODO : Can we change did method name according to the user type?
                     Constants.defaultDIDMethodName,
                     style: Theme.of(context)
                         .textTheme

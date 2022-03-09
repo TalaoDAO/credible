@@ -1,16 +1,16 @@
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
+import 'package:logging/logging.dart';
 import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/interop/network/network_client.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
-import 'package:talao/wallet/wallet.dart';
 import 'package:talao/app/pages/credentials/models/credential_model.dart';
 import 'package:talao/app/shared/constants.dart';
 import 'package:talao/app/shared/error_handler/error_handler.dart';
 import 'package:talao/app/shared/model/message.dart';
-import 'package:dio/dio.dart';
-import 'package:logging/logging.dart';
+import 'package:talao/wallet/wallet.dart';
 import 'package:uuid/uuid.dart';
 
 abstract class ScanEvent {}
@@ -145,6 +145,7 @@ class ScanStateCHAPIStoreQueryByExample extends ScanState {
   final Map<String, dynamic> data;
   @override
   final Uri uri;
+
   ScanStateCHAPIStoreQueryByExample(
     this.data,
     this.uri,
@@ -193,12 +194,10 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
 
     final url = event.url;
     final credentialModel = event.credentialModel;
-    final keyId = event.key;
 
     try {
-      final key = (await SecureStorageProvider.instance.get(keyId))!;
-      final did =
-          DIDKitProvider.instance.keyToDID(Constants.defaultDIDMethod, key);
+      final did = await SecureStorageProvider.instance
+          .get(SecureStorageKeys.did);
 
       final credential = await client.post(
         url,
@@ -272,10 +271,12 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
 
     try {
       final key = (await SecureStorageProvider.instance.get(keyId))!;
-      final did =
-          DIDKitProvider.instance.keyToDID(Constants.defaultDIDMethod, key);
-      final verificationMethod = await DIDKitProvider.instance
-          .keyToVerificationMethod(Constants.defaultDIDMethod, key);
+      final did = await SecureStorageProvider.instance
+          .get(SecureStorageKeys.did);
+      final didMethod = (await SecureStorageProvider.instance
+          .get(SecureStorageKeys.DIDMethod))!;
+      final verificationMethod =
+          await DIDKitProvider.instance.keyToVerificationMethod(didMethod, key);
 
       final presentationId = 'urn:uuid:' + Uuid().v4();
       final presentation = await DIDKitProvider.instance.issuePresentation(
@@ -412,10 +413,12 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
 
     try {
       final key = (await SecureStorageProvider.instance.get(keyId))!;
-      final did =
-          DIDKitProvider.instance.keyToDID(Constants.defaultDIDMethod, key);
-      final verificationMethod = await DIDKitProvider.instance
-          .keyToVerificationMethod(Constants.defaultDIDMethod, key);
+      final did = (await SecureStorageProvider.instance
+          .get(SecureStorageKeys.did))!;
+      final didMethod = (await SecureStorageProvider.instance
+          .get(SecureStorageKeys.DIDMethod))!;
+      final verificationMethod =
+          await DIDKitProvider.instance.keyToVerificationMethod(didMethod, key);
 
       final presentation = await DIDKitProvider.instance.DIDAuth(
         did,
@@ -472,10 +475,12 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
 
     try {
       final key = (await SecureStorageProvider.instance.get(keyId))!;
-      final did =
-          DIDKitProvider.instance.keyToDID(Constants.defaultDIDMethod, key);
-      final verificationMethod = await DIDKitProvider.instance
-          .keyToVerificationMethod(Constants.defaultDIDMethod, key);
+      final did = (await SecureStorageProvider.instance
+          .get(SecureStorageKeys.did))!;
+      final didMethod = (await SecureStorageProvider.instance
+          .get(SecureStorageKeys.DIDMethod))!;
+      final verificationMethod =
+          await DIDKitProvider.instance.keyToVerificationMethod(didMethod, key);
 
       final presentationId = 'urn:uuid:' + Uuid().v4();
       final presentation = await DIDKitProvider.instance.issuePresentation(
