@@ -4,9 +4,9 @@ import 'package:talao/app/shared/widget/app_version.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/drawer/global_information/bloc/did_bloc.dart';
-import 'package:talao/drawer/global_information/view/did_display.dart';
-import 'package:talao/drawer/global_information/view/display_application_contacts.dart';
-import 'package:talao/drawer/global_information/view/issuer_verification_setting.dart';
+import 'package:talao/drawer/global_information/widget/did_display.dart';
+import 'package:talao/drawer/global_information/widget/display_application_contacts.dart';
+import 'package:talao/drawer/global_information/widget/issuer_verification_setting.dart';
 import 'package:talao/l10n/l10n.dart';
 
 class GlobalInformationPage extends StatelessWidget {
