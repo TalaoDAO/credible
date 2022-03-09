@@ -21,7 +21,7 @@ class CredentialsReceivePage extends StatelessWidget {
         builder: (context) => CredentialsReceivePage(
           url: routeUrl,
         ),
-    settings: RouteSettings(name: '/credentialsReceive'),
+        settings: RouteSettings(name: '/credentialsReceive'),
       );
 
   @override
@@ -32,8 +32,7 @@ class CredentialsReceivePage extends StatelessWidget {
       padding: const EdgeInsets.all(24.0),
       title: localizations.credentialReceiveTitle,
       titleTrailing: IconButton(
-        onPressed: () =>
-            Navigator.of(context).pushReplacement(CredentialsList.route()),
+        onPressed: () => Navigator.of(context).pop(),
         icon: Icon(Icons.close),
       ),
       body: BlocConsumer<ScanBloc, ScanState>(
@@ -92,8 +91,7 @@ class CredentialsReceivePage extends StatelessWidget {
                 const SizedBox(height: 8.0),
                 BaseButton.transparent(
                   context: context,
-                  onPressed: () => Navigator.of(builderContext)
-                      .pushReplacement(CredentialsList.route()),
+                  onPressed: () => Navigator.of(builderContext).pop(),
                   child: Text(localizations.credentialReceiveCancel),
                 ),
               ],

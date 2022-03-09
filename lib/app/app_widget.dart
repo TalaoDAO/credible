@@ -11,7 +11,6 @@ import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/credentials/credentials.dart';
 import 'package:talao/deep_link/cubit/deep_link.dart';
 import 'package:talao/drawer/drawer.dart';
-import 'package:talao/l10n/l10n.dart';
 import 'package:talao/query_by_example/query_by_example.dart';
 import 'package:talao/splash/splash.dart';
 import 'package:talao/theme/theme.dart';

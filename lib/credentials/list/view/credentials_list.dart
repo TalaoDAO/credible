@@ -36,11 +36,10 @@ class _CredentialsListState extends State<CredentialsList> {
   @override
   void initState() {
     Future.delayed(Duration.zero, () {
-      /// If there is a deepLink we give do as if it comming from QRCode
+      /// If there is a deepLink we give do as if it coming from QRCode
       final deepLinkState = context.read<DeepLinkCubit>().state;
       if (deepLinkState != '') {
-        context.read<DeepLinkCubit>().resetDeepLink();
-        context.read<QRCodeScanCubit>().deepLink(deepLinkState);
+        Navigator.of(context).push(QrCodeScanPage.route());
       }
     });
     super.initState();

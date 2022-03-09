@@ -6,6 +6,7 @@ import 'package:talao/app/interop/issuer/check_issuer.dart';
 import 'package:talao/app/interop/issuer/models/issuer.dart';
 import 'package:talao/app/interop/network/network_client.dart';
 import 'package:talao/app/shared/constants.dart';
+import 'package:talao/deep_link/cubit/deep_link.dart';
 import 'package:talao/drawer/drawer.dart';
 import 'package:talao/drawer/profile/cubit/profile_state.dart';
 import 'package:talao/qr_code/qr_code_scan/cubit/qr_code_scan_state.dart';
@@ -21,12 +22,14 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
   final ScanBloc scanBloc;
   final QueryByExampleCubit queryByExampleCubit;
   final ProfileCubit profileCubit;
+  final DeepLinkCubit deepLinkCubit;
 
   QRCodeScanCubit({
     required this.client,
     required this.scanBloc,
     required this.queryByExampleCubit,
     required this.profileCubit,
+    required this.deepLinkCubit,
   }) : super(QRCodeScanStateWorking());
 
   @override
@@ -35,42 +38,40 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
     return super.close();
   }
 
-  void host(String? url) async {
-    late final uri;
+  void emitWorkingState() {
+    emit(QRCodeScanStateWorking());
+  }
 
+  void host(String? url) async {
     try {
       if (url == null) {
         emit(QRCodeScanStateMessage(
             message: StateMessage.error(
                 'This QRCode does not contain a valid message.')));
       } else {
-        uri = Uri.parse(url);
+        var uri = Uri.parse(url);
+        emit(QRCodeScanStateHost(uri: uri));
       }
-    } on FormatException catch (e) {
-      print(e.message);
-
+    } on FormatException {
       emit(QRCodeScanStateMessage(
           message: StateMessage.error(
               'This QRCode does not contain a valid message.')));
     }
-
-    emit(QRCodeScanStateHost(uri: uri));
   }
 
-  void deepLink(String data) async {
-    late final uri;
-
-    try {
-      uri = Uri.parse(data);
-    } on FormatException catch (e) {
-      print(e.message);
-
-      emit(QRCodeScanStateMessage(
-          message: StateMessage.error(
-              'This url does not contain a valid message.')));
+  void deepLink() async {
+    var url = deepLinkCubit.state;
+    if (url != '') {
+      deepLinkCubit.resetDeepLink();
+      try {
+        var uri = Uri.parse(url);
+        emit(QRCodeScanStateHost(uri: uri));
+      } on FormatException {
+        emit(QRCodeScanStateMessage(
+            message: StateMessage.error(
+                'This url does not contain a valid message.')));
+      }
     }
-
-    emit(QRCodeScanStateHost(uri: uri));
   }
 
   void accept(Uri uri) async {

@@ -137,7 +137,7 @@ class _SplashPageState extends State<SplashPage> {
             }
             if (state.status == KeyStatus.hasKey) {
               Future.delayed(
-                Duration(seconds: 5),
+                Duration(seconds: 0),
                 () => Navigator.of(context).push(CredentialsList.route()),
               );
             }

@@ -10,7 +10,7 @@ import 'package:talao/app/shared/constants.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/confirm_dialog.dart';
-import 'package:talao/credentials/credentials.dart';
+import 'package:talao/deep_link/cubit/deep_link.dart';
 import 'package:talao/drawer/drawer.dart';
 import 'package:talao/qr_code/qr_code_scan/cubit/qr_code_scan_cubit.dart';
 import 'package:talao/qr_code/qr_code_scan/cubit/qr_code_scan_state.dart';
@@ -25,6 +25,7 @@ class QrCodeScanPage extends StatefulWidget {
             scanBloc: context.read<ScanBloc>(),
             queryByExampleCubit: context.read<QueryByExampleCubit>(),
             profileCubit: context.read<ProfileCubit>(),
+            deepLinkCubit: context.read<DeepLinkCubit>(),
           ),
           child: QrCodeScanPage(),
         ),
@@ -39,10 +40,9 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
   final qrKey = GlobalKey(debugLabel: 'QR');
   late QRViewController qrController;
 
-  bool promptActive = false;
-
   @override
   void initState() {
+    context.read<QRCodeScanCubit>().deepLink();
     super.initState();
   }
 
@@ -64,13 +64,9 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
 
   void onQRViewCreated(QRViewController controller) {
     qrController = controller;
-
     qrController.scannedDataStream.listen((scanData) {
       qrController.pauseCamera();
-      if (scanData.code is String && !promptActive) {
-        setState(() {
-          promptActive = true;
-        });
+      if (scanData.code is String) {
         context.read<QRCodeScanCubit>().host(scanData.code);
       }
     });
@@ -81,11 +77,6 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
     final localizations = AppLocalizations.of(context)!;
     return BlocListener<QRCodeScanCubit, QRCodeScanState>(
       listener: (context, state) async {
-        print(
-            '####################################################################################################################################################################################');
-        print('QRCodePage - QR $state');
-        print(
-            '####################################################################################################################################################################################');
         if (state is QRCodeScanStateHost) {
           var approvedIssuer = await context
               .read<QRCodeScanCubit>()
@@ -110,17 +101,19 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
           if (acceptHost) {
             context.read<QRCodeScanCubit>().accept(state.uri!);
           } else {
+            await qrController.resumeCamera();
+            context.read<QRCodeScanCubit>().emitWorkingState();
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text(localizations.scanRefuseHost),
             ));
-            await Navigator.of(context)
-                .pushReplacement(CredentialsList.route());
           }
         }
         if (state is QRCodeScanStateSuccess) {
+          await qrController.stopCamera();
           await Navigator.of(context).pushReplacement(state.route!);
         }
         if (state is QRCodeScanStateMessage) {
+          await qrController.resumeCamera();
           final errorHandler = state.message!.errorHandler;
           if (errorHandler != null) {
             final color =
@@ -134,7 +127,6 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
           }
         }
         if (state is QRCodeScanStateUnknown) {
-          await qrController.resumeCamera();
           await qrController.resumeCamera();
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(localizations.scanUnsupportedMessage),
