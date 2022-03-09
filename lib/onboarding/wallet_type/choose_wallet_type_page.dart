@@ -75,6 +75,8 @@ class _ChooseWalletTypeState extends State<ChooseWalletType> {
                 .pushReplacement(OnBoardingKeyPage.route());
           } else {
             await SecureStorageProvider.instance.set(
+                SecureStorageKeys.isEnterpriseUser, true.toString());
+            await SecureStorageProvider.instance.set(
                 SecureStorageKeys.didMethod, Constants.enterpriseDIDMethod);
             await Navigator.of(context)
                 .pushReplacement(SubmitEnterpriseUserPage.route());
