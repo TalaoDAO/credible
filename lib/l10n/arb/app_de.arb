@@ -161,5 +161,7 @@
   "credential": "Nachweise",
   "issuanceDate": "Issuance date",
   "appContactWebsite": "Website",
+  "companyName": "Name der Firma",
+  "companyWebsite": "Unternehmenswebseite",
   "selfIssuedCreatedSuccessfully": "Selbst ausgestellter Berechtigungsnachweis erfolgreich erstellt"
 }

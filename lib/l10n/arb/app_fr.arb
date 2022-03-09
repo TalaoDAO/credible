@@ -186,5 +186,7 @@
   "networkErrorUnauthenticated": "Vous devez être authentifié pour accéder à cette ressource",
   "networkErrorUnauthorizedRequest": "Requête non autorisée",
   "networkErrorUnexpectedError": "Une erreur inattendue s'est produite",
+  "companyName": "Nom de l'entreprise",
+  "companyWebsite": "Site Web d'entreprise",
   "selfIssuedCreatedSuccessfully": "Votre attestation a été créée avec succès"
 }

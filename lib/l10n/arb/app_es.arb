@@ -161,5 +161,7 @@
   "credential": "Credenciales",
   "issuanceDate": "Issuance date",
   "appContactWebsite": "Website",
+  "companyName": "Nombre de empresa",
+  "companyWebsite": "Página Web de la compañía",
   "selfIssuedCreatedSuccessfully": "Credencial autoemitida creada con éxito"
 }

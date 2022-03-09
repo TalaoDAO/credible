@@ -159,5 +159,7 @@
   "from": "da",
   "to": "a",
   "credential": "Credenziali",
+  "companyName": "Nome della ditta",
+  "companyWebsite": "Sito web aziendale",
   "selfIssuedCreatedSuccessfully": "Credenziale auto-rilasciata creata correttamente"
 }

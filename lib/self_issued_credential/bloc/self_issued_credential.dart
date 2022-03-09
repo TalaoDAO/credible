@@ -61,6 +61,7 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
       final formatter = DateFormat('yyyy-MM-ddTHH:mm:ss');
       final issuanceDate = formatter.format(DateTime.now()) + 'Z';
 
+      //TODO pass companyName,companyWebsite,jobTitle when creating SelfIssued when it supported in future
       final selfIssued = SelfIssued(
           id: did,
           address: selfIssuedCredentialDataModel.address,

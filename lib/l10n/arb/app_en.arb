@@ -226,5 +226,7 @@
       "postfix": {}
     }
   },
-  "selfIssuedCreatedSuccessfully": "Self issued credential created successfully"
+  "selfIssuedCreatedSuccessfully": "Self issued credential created successfully",
+  "companyName": "Company Name",
+  "companyWebsite": "Company Website"
 }
