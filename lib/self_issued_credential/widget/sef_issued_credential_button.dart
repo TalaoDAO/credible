@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:talao/credentials/credentials.dart';
 import 'package:talao/l10n/l10n.dart';
 import 'package:talao/self_issued_credential/cubit/self_issued_credential_cubit.dart';
 import 'package:talao/wallet/cubit/wallet_cubit.dart';
@@ -84,8 +85,7 @@ class SelfIssuedCredentialButton extends StatelessWidget {
             },
             credentialCreated: () {
               ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
-                  content:
-                      Text(localization.selfIssuedCreatedSuccessfully)));
+                  content: Text(localization.selfIssuedCreatedSuccessfully)));
             });
       }),
     );

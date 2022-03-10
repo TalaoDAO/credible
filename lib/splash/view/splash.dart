@@ -154,6 +154,11 @@ class _SplashPageState extends State<SplashPage> {
       listeners: [
         BlocListener<WalletCubit, WalletState>(
           listener: (context, state) {
+            if (state.status == WalletStatus.insert) {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(l10n.credentialAddedMessage),
+              ));
+            }
             if (state.status == WalletStatus.update) {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: Text(l10n.credentialDetailEditSuccessMessage),

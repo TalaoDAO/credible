@@ -11,7 +11,7 @@ class CredentialDetailsState extends Equatable {
       _$CredentialDetailsStateFromJson(json);
 
   final VerificationState verificationState;
-  final String title;
+  final String? title;
 
   CredentialDetailsState copyWith(
       {VerificationState? verificationState, String? title}) {

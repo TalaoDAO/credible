@@ -1,5 +1,6 @@
 {
   "de": [
+    "credentialAddedMessage",
     "credentialDetailDeleteSuccessMessage",
     "credentialDetailEditConfirmationDialog",
     "credentialDetailEditConfirmationDialogYes",
@@ -62,6 +63,7 @@
   ],
 
   "es": [
+    "credentialAddedMessage",
     "credentialDetailDeleteSuccessMessage",
     "credentialDetailEditConfirmationDialog",
     "credentialDetailEditConfirmationDialogYes",
@@ -123,6 +125,7 @@
   ],
 
   "fr": [
+    "credentialAddedMessage",
     "credentialDetailDeleteSuccessMessage",
     "credentialDetailEditConfirmationDialog",
     "credentialDetailEditConfirmationDialogYes",
@@ -159,6 +162,7 @@
   ],
 
   "it": [
+    "credentialAddedMessage",
     "credentialDetailDeleteSuccessMessage",
     "credentialDetailEditConfirmationDialog",
     "credentialDetailEditConfirmationDialogYes",

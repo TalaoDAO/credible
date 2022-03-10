@@ -145,6 +145,7 @@ class ScanStateCHAPIStoreQueryByExample extends ScanState {
   final Map<String, dynamic> data;
   @override
   final Uri uri;
+
   ScanStateCHAPIStoreQueryByExample(
     this.data,
     this.uri,
@@ -240,8 +241,8 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       await walletCubit.insertCredential(CredentialModel.copyWithData(
           oldCredentialModel: credentialModel, newData: jsonCredential));
 
-      emit(ScanStateMessage(StateMessage.success(
-          'A new credential has been successfully added!')));
+      // emit(ScanStateMessage(StateMessage.success(
+      //     'A new credential has been successfully added!')));
 
       emit(ScanStateSuccess());
     } catch (e) {
@@ -386,8 +387,8 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
 
       done(vcStr);
 
-      emit(ScanStateMessage(StateMessage.success(
-          'A new credential has been successfully added!')));
+      // emit(ScanStateMessage(StateMessage.success(
+      //     'A new credential has been successfully added!')));
     } catch (e) {
       log.severe('something went wrong', e);
 
