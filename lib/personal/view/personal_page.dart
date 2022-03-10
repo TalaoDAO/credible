@@ -154,7 +154,6 @@ class _PersonalPageState extends State<PersonalPage> {
                   .createSelfIssuedCredential(
                       selfIssuedCredentialDataModel:
                           selfIssuedCredentialDataModel);
-
               await Navigator.of(context)
                   .pushReplacement(CredentialsListPage.route());
             } else {

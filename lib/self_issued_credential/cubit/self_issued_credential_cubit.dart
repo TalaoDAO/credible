@@ -46,7 +46,7 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
     try {
       //show loading
       emit(const SelfIssuedCredentialState.loading());
-      await Future.delayed(Duration(seconds: 1));
+      await Future.delayed(Duration(milliseconds: 500));
       final key = (await SecureStorageProvider.instance.get('key'))!;
       final did =
           DIDKitProvider.instance.keyToDID(Constants.defaultDIDMethod, key);
@@ -75,6 +75,7 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
           issuanceDate: issuanceDate,
           credentialSubject: selfIssued);
 
+      await Future.delayed(Duration(milliseconds: 500));
       final vc = await DIDKitProvider.instance.issueCredential(
           jsonEncode(selfIssuedCredential.toJson()), jsonEncode(options), key);
       final result = await DIDKitProvider.instance
@@ -115,6 +116,7 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
   }
 
   Future<void> _recordCredential(String vc) async {
+    await Future.delayed(Duration(milliseconds: 500));
     final jsonCredential = jsonDecode(vc);
     final id = 'urn:uuid:' + Uuid().v4();
     final credentialModel = CredentialModel(
