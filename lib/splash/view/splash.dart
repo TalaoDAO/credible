@@ -125,6 +125,7 @@ class _SplashPageState extends State<SplashPage> {
   Widget build(BuildContext context) {
     _handleIncomingLinks(context);
     _handleInitialUri(context);
+    //context.read<DeepLinkCubit>().addDeepLink('123');
     return MultiBlocListener(
       listeners: [
         BlocListener<WalletCubit, WalletState>(
@@ -137,7 +138,7 @@ class _SplashPageState extends State<SplashPage> {
             }
             if (state.status == KeyStatus.hasKey) {
               Future.delayed(
-                Duration(seconds: 0),
+                Duration(seconds: 5),
                 () => Navigator.of(context).push(CredentialsList.route()),
               );
             }

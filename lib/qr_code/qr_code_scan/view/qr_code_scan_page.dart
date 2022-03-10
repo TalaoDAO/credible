@@ -78,34 +78,38 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
     return BlocListener<QRCodeScanCubit, QRCodeScanState>(
       listener: (context, state) async {
         if (state is QRCodeScanStateHost) {
-          var approvedIssuer = await context
-              .read<QRCodeScanCubit>()
-              .isApprovedIssuer(state.uri!, context);
+          if (!state.promptActive!) {
+            context.read<QRCodeScanCubit>().promptDeactivate();
 
-          var acceptHost = await showDialog<bool>(
-                context: context,
-                builder: (BuildContext context) {
-                  return ConfirmDialog(
-                    title: localizations.scanPromptHost,
-                    subtitle: (approvedIssuer.did.isEmpty)
-                        ? state.uri!.host
-                        : '${approvedIssuer.organizationInfo.legalName}\n${approvedIssuer.organizationInfo.currentAddress}',
-                    yes: localizations.communicationHostAllow,
-                    no: localizations.communicationHostDeny,
-                    lock: (state.uri!.scheme == 'http') ? true : false,
-                  );
-                },
-              ) ??
-              false;
+            ///'https://talao.co/wallet/test/wallet_credential/urn:uuid:531280fa-43a7-11ec-bad5-b5c99d8bb8cd?issuer=did%3Aethr%3A0xee09654eedaa79429f8d216fa51a129db0f72250'
+            var approvedIssuer = await context
+                .read<QRCodeScanCubit>()
+                .isApprovedIssuer(state.uri!, context);
+            var acceptHost = await showDialog<bool>(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return ConfirmDialog(
+                      title: localizations.scanPromptHost,
+                      subtitle: (approvedIssuer.did.isEmpty)
+                          ? state.uri!.host
+                          : '${approvedIssuer.organizationInfo.legalName}\n${approvedIssuer.organizationInfo.currentAddress}',
+                      yes: localizations.communicationHostAllow,
+                      no: localizations.communicationHostDeny,
+                      lock: (state.uri!.scheme == 'http') ? true : false,
+                    );
+                  },
+                ) ??
+                false;
 
-          if (acceptHost) {
-            context.read<QRCodeScanCubit>().accept(state.uri!);
-          } else {
-            await qrController.resumeCamera();
-            context.read<QRCodeScanCubit>().emitWorkingState();
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text(localizations.scanRefuseHost),
-            ));
+            if (acceptHost) {
+              context.read<QRCodeScanCubit>().accept(state.uri!);
+            } else {
+              await qrController.resumeCamera();
+              context.read<QRCodeScanCubit>().emitWorkingState();
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(localizations.scanRefuseHost),
+              ));
+            }
           }
         }
         if (state is QRCodeScanStateSuccess) {

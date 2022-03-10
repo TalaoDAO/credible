@@ -18,7 +18,7 @@ class CredentialsList extends StatefulWidget {
 
   static Route route() => MaterialPageRoute(
         builder: (context) => CredentialsList(),
-        settings: RouteSettings(name: '/credibleList'),
+        settings: RouteSettings(name: '/credentialsList'),
       );
 
   @override
