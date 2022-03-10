@@ -1,34 +1,17 @@
 import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:talao/app/interop/network/network_client.dart';
-import 'package:talao/app/shared/constants.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/confirm_dialog.dart';
-import 'package:talao/deep_link/cubit/deep_link.dart';
-import 'package:talao/drawer/drawer.dart';
 import 'package:talao/qr_code/qr_code_scan/cubit/qr_code_scan_cubit.dart';
-import 'package:talao/qr_code/qr_code_scan/cubit/qr_code_scan_state.dart';
-import 'package:talao/query_by_example/query_by_example.dart';
-import 'package:talao/scan/bloc/scan.dart';
 
 class QrCodeScanPage extends StatefulWidget {
   static Route route() => MaterialPageRoute(
-        builder: (context) => BlocProvider<QRCodeScanCubit>(
-          create: (context) => QRCodeScanCubit(
-            client: DioClient(Constants.checkIssuerServerUrl, Dio()),
-            scanBloc: context.read<ScanBloc>(),
-            queryByExampleCubit: context.read<QueryByExampleCubit>(),
-            profileCubit: context.read<ProfileCubit>(),
-            deepLinkCubit: context.read<DeepLinkCubit>(),
-          ),
-          child: QrCodeScanPage(),
-        ),
+        builder: (context) => QrCodeScanPage(),
         settings: RouteSettings(name: '/qrCodeScanPage'),
       );
 
@@ -42,7 +25,6 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
 
   @override
   void initState() {
-    context.read<QRCodeScanCubit>().deepLink();
     super.initState();
   }
 
@@ -67,7 +49,7 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
     qrController.scannedDataStream.listen((scanData) {
       qrController.pauseCamera();
       if (scanData.code is String) {
-        context.read<QRCodeScanCubit>().host(scanData.code);
+        context.read<QRCodeScanCubit>().host(scanData.code, false);
       }
     });
   }
@@ -80,8 +62,6 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
         if (state is QRCodeScanStateHost) {
           if (!state.promptActive!) {
             context.read<QRCodeScanCubit>().promptDeactivate();
-
-            ///'https://talao.co/wallet/test/wallet_credential/urn:uuid:531280fa-43a7-11ec-bad5-b5c99d8bb8cd?issuer=did%3Aethr%3A0xee09654eedaa79429f8d216fa51a129db0f72250'
             var approvedIssuer = await context
                 .read<QRCodeScanCubit>()
                 .isApprovedIssuer(state.uri!, context);
@@ -102,7 +82,7 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
                 false;
 
             if (acceptHost) {
-              context.read<QRCodeScanCubit>().accept(state.uri!);
+              context.read<QRCodeScanCubit>().accept(state.uri!, false);
             } else {
               await qrController.resumeCamera();
               context.read<QRCodeScanCubit>().emitWorkingState();

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talao/app/interop/network/network_client.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/l10n/l10n.dart';
+import 'package:talao/qr_code/qr_code_scan/cubit/qr_code_scan_cubit.dart';
 import 'package:talao/scan/bloc/scan.dart';
 import 'package:talao/app/router_observer.dart';
 import 'package:talao/app/shared/constants.dart';
@@ -44,6 +45,14 @@ class AppWidget extends StatelessWidget {
             create: (context) => ScanBloc(
                 DioClient(Constants.checkIssuerServerUrl, Dio()),
                 context.read<WalletCubit>())),
+        BlocProvider<QRCodeScanCubit>(
+          create: (context) => QRCodeScanCubit(
+            client: DioClient(Constants.checkIssuerServerUrl, Dio()),
+            scanBloc: context.read<ScanBloc>(),
+            queryByExampleCubit: context.read<QueryByExampleCubit>(),
+            profileCubit: context.read<ProfileCubit>(),
+          ),
+        )
       ],
       child: MaterialAppDefinition(),
     );

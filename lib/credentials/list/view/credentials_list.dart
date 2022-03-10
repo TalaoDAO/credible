@@ -1,9 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:talao/app/shared/model/credential_model/credential_model.dart';
+import 'package:talao/app/shared/widget/confirm_dialog.dart';
 import 'package:talao/credentials/widget/list_item.dart';
+import 'package:talao/l10n/l10n.dart';
 import 'package:talao/qr_code/qr_code.dart';
 import 'package:talao/wallet/wallet.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
@@ -37,9 +38,11 @@ class _CredentialsListState extends State<CredentialsList> {
   void initState() {
     Future.delayed(Duration.zero, () {
       /// If there is a deepLink we give do as if it coming from QRCode
-      final deepLinkState = context.read<DeepLinkCubit>().state;
-      if (deepLinkState != '') {
-        Navigator.of(context).push(QrCodeScanPage.route());
+      final deepLinkCubit = context.read<DeepLinkCubit>();
+      final deepLinkString = deepLinkCubit.state;
+      if (deepLinkString != '') {
+        deepLinkCubit.resetDeepLink();
+        context.read<QRCodeScanCubit>().deepLink(deepLinkString);
       }
     });
     super.initState();
@@ -47,8 +50,7 @@ class _CredentialsListState extends State<CredentialsList> {
 
   @override
   Widget build(BuildContext credentialListContext) {
-    final localizations = AppLocalizations.of(credentialListContext)!;
-
+    final l10n = context.l10n;
     return WillPopScope(
       onWillPop: () async {
         if (scaffoldKey.currentState!.isDrawerOpen) {
@@ -56,45 +58,112 @@ class _CredentialsListState extends State<CredentialsList> {
         }
         return false;
       },
-      child: BasePage(
-        scaffoldKey: scaffoldKey,
-        title: localizations.credentialListTitle,
-        padding: const EdgeInsets.symmetric(
-          vertical: 24.0,
-          horizontal: 16.0,
-        ),
-        drawer: ProfilePage(),
-        titleLeading: IconButton(
-          icon: const Icon(Icons.menu),
-          onPressed: () => scaffoldKey.currentState!.openDrawer(),
-        ),
-        titleTrailing: IconButton(
-            icon: const Icon(Icons.qr_code_scanner),
-            onPressed: () {
-              if (kIsWeb) {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) => InfoDialog(
-                    title: localizations.unavailable_feature_title,
-                    subtitle: localizations.unavailable_feature_message,
-                    button: localizations.ok,
-                  ),
-                );
-              } else {
-                Navigator.of(context).push(QrCodeScanPage.route());
+      child: MultiBlocListener(
+        listeners: [
+          BlocListener<QRCodeScanCubit, QRCodeScanState>(
+              listener: (context, state) async {
+            if (state.isDeepLink!) {
+              if (state is QRCodeScanStateHost) {
+                var url =
+                    'https://talao.co/wallet/test/wallet_credential/urn:uuid:531280fa-43a7-11ec-bad5-b5c99d8bb8cd?issuer=did%3Aethr%3A0xee09654eedaa79429f8d216fa51a129db0f72250';
+
+                print(state.uri.toString());
+                var approvedIssuer = await context
+                    .read<QRCodeScanCubit>()
+                    .isApprovedIssuer(Uri.parse(url), context);
+                var acceptHost = await showDialog<bool>(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return ConfirmDialog(
+                          title: l10n.scanPromptHost,
+                          subtitle: (approvedIssuer.did.isEmpty)
+                              ? state.uri!.host
+                              : '${approvedIssuer.organizationInfo.legalName}\n${approvedIssuer.organizationInfo.currentAddress}',
+                          yes: l10n.communicationHostAllow,
+                          no: l10n.communicationHostDeny,
+                          lock: (state.uri!.scheme == 'http') ? true : false,
+                        );
+                      },
+                    ) ??
+                    false;
+
+                if (acceptHost) {
+                  context.read<QRCodeScanCubit>().accept(state.uri!, true);
+                } else {
+                  //await qrController.resumeCamera();
+                  context.read<QRCodeScanCubit>().emitWorkingState();
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(l10n.scanRefuseHost),
+                  ));
+                }
               }
-            }),
-        body: BlocBuilder<WalletCubit, WalletState>(
-          builder: (context, state) {
-            var _credentialList = <CredentialModel>[];
-            _credentialList = state.credentials;
-            return Column(
-              children: List.generate(
-                _credentialList.length,
-                (index) => CredentialsListItem(item: _credentialList[index]),
-              ),
-            );
-          },
+              if (state is QRCodeScanStateSuccess) {
+                //   await qrController.stopCamera();
+                await Navigator.of(context).pushReplacement(state.route!);
+              }
+              if (state is QRCodeScanStateMessage) {
+                //   await qrController.resumeCamera();
+                final errorHandler = state.message!.errorHandler;
+                if (errorHandler != null) {
+                  final color = state.message!.color ??
+                      Theme.of(context).colorScheme.error;
+                  errorHandler.displayError(context, errorHandler, color);
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    backgroundColor: state.message!.color,
+                    content: Text(state.message!.message!),
+                  ));
+                }
+              }
+              if (state is QRCodeScanStateUnknown) {
+                //   await qrController.resumeCamera();
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(l10n.scanUnsupportedMessage),
+                ));
+              }
+            }
+          })
+        ],
+        child: BasePage(
+          scaffoldKey: scaffoldKey,
+          title: l10n.credentialListTitle,
+          padding: const EdgeInsets.symmetric(
+            vertical: 24.0,
+            horizontal: 16.0,
+          ),
+          drawer: ProfilePage(),
+          titleLeading: IconButton(
+            icon: const Icon(Icons.menu),
+            onPressed: () => scaffoldKey.currentState!.openDrawer(),
+          ),
+          titleTrailing: IconButton(
+              icon: const Icon(Icons.qr_code_scanner),
+              onPressed: () {
+                if (kIsWeb) {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) => InfoDialog(
+                      title: l10n.unavailable_feature_title,
+                      subtitle: l10n.unavailable_feature_message,
+                      button: l10n.ok,
+                    ),
+                  );
+                } else {
+                  Navigator.of(context).push(QrCodeScanPage.route());
+                }
+              }),
+          body: BlocBuilder<WalletCubit, WalletState>(
+            builder: (context, state) {
+              var _credentialList = <CredentialModel>[];
+              _credentialList = state.credentials;
+              return Column(
+                children: List.generate(
+                  _credentialList.length,
+                  (index) => CredentialsListItem(item: _credentialList[index]),
+                ),
+              );
+            },
+          ),
         ),
       ),
     );
