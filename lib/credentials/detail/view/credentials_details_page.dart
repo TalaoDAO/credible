@@ -1,10 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/src/provider.dart';
 import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/shared/extension/verification_state.dart';
-import 'package:talao/app/shared/enum/verification_status.dart';
 import 'package:talao/credentials/detail/cubit/credential_details_cubit.dart';
 import 'package:talao/credentials/widget/display_status.dart';
 import 'package:talao/credentials/widget/document.dart';
