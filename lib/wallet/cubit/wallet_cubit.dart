@@ -46,6 +46,7 @@ class WalletCubit extends Cubit<WalletState> {
     await repository.deleteById(id);
     final credentials = List.of(state.credentials)
       ..removeWhere((element) => element.id == id);
+    print(state.status);
     emit(state.copyWith(credentials: credentials));
   }
 
