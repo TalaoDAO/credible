@@ -1,11 +1,10 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/base/text_field.dart';
-import 'package:talao/onboarding/key/view/onboarding_key_page.dart';
+import 'package:talao/onboarding/submit_enterprise_user/bloc/verify_rsa_and_did_cubit.dart';
 import 'package:talao/onboarding/submit_enterprise_user/widgets/picked_file.dart';
 
 import 'bloc/submit_enterprise_user_cubit.dart';
@@ -15,8 +14,11 @@ class SubmitEnterpriseUserPage extends StatefulWidget {
   const SubmitEnterpriseUserPage({Key? key}) : super(key: key);
 
   static Route route() => MaterialPageRoute(
-        builder: (context) => BlocProvider<SubmitEnterpriseUserCubit>(
-          create: (_) => SubmitEnterpriseUserCubit(),
+        builder: (context) => MultiBlocProvider(
+          providers: [
+            BlocProvider(create: (_) => SubmitEnterpriseUserCubit()),
+            BlocProvider(create: (_) => VerifyRSAAndDIDCubit()),
+          ],
           child: SubmitEnterpriseUserPage(),
         ),
         settings: RouteSettings(name: '/submitEnterpriseUserPage'),
@@ -83,11 +85,13 @@ class _SubmitEnterpriseUserPageState extends State<SubmitEnterpriseUserPage> {
       navigation: BaseButton.primary(
           context: context,
           margin: EdgeInsets.all(15),
-          onPressed: () async {
-            await SecureStorageProvider.instance
-                .set(SecureStorageKeys.did, _didController.text);
-            await Navigator.of(context)
-                .pushReplacement(OnBoardingKeyPage.route());
+          onPressed: () {
+            context.read<VerifyRSAAndDIDCubit>().verify(
+                'did:web:' + _didController.text,
+                context.read<SubmitEnterpriseUserCubit>().state.rsaFile!);
+            //TODO define bloc listener and do navigation if successfully verified RSA and DID
+            // await Navigator.of(context)
+            //     .pushReplacement(OnBoardingKeyPage.route());
           },
           child: const Text('Confirm')),
     );
