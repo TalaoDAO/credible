@@ -50,7 +50,6 @@ class AppWidget extends StatelessWidget {
             client: DioClient(Constants.checkIssuerServerUrl, Dio()),
             scanBloc: context.read<ScanBloc>(),
             queryByExampleCubit: context.read<QueryByExampleCubit>(),
-            profileCubit: context.read<ProfileCubit>(),
           ),
         )
       ],

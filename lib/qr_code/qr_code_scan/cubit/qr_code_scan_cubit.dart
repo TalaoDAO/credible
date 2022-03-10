@@ -21,13 +21,11 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
   final DioClient client;
   final ScanBloc scanBloc;
   final QueryByExampleCubit queryByExampleCubit;
-  final ProfileCubit profileCubit;
 
   QRCodeScanCubit({
     required this.client,
     required this.scanBloc,
     required this.queryByExampleCubit,
-    required this.profileCubit,
   }) : super(QRCodeScanStateWorking());
 
   @override
