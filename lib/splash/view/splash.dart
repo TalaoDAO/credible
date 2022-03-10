@@ -4,7 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:talao/qr_code/qr_code.dart';
+import 'package:talao/app/interop/secure_storage/secure_storage.dart';
+import 'package:talao/qr_code/qr_code_scan/qr_code_scan.dart';
 import 'package:talao/scan/bloc/scan.dart';
 import 'package:talao/credentials/credentials.dart';
 import 'package:talao/onboarding/key/view/onboarding_key_page.dart';
@@ -47,9 +48,29 @@ class _SplashPageState extends State<SplashPage> {
       Duration(seconds: 0),
       () async {
         await context.read<ThemeCubit>().getCurrentTheme();
+        final key = await SecureStorageProvider.instance.get('key');
+        if (key == null) {
+          await onBoarding();
+        } else {
+          if (key.isEmpty) {
+            await onBoarding();
+          } else {
+            Future.delayed(
+              Duration(seconds: 5),
+              () => Navigator.of(context).push(CredentialsListPage.route()),
+            );
+          }
+        }
       },
     );
     super.initState();
+  }
+
+  Future<void> onBoarding() async {
+    Future.delayed(
+      Duration(seconds: 5),
+      () => Navigator.of(context).push(OnBoardingStartPage.route()),
+    );
   }
 
   @override
@@ -130,19 +151,7 @@ class _SplashPageState extends State<SplashPage> {
       listeners: [
         BlocListener<WalletCubit, WalletState>(
           listener: (context, state) {
-            if (state.status == KeyStatus.needsKey) {
-              Future.delayed(
-                Duration(seconds: 5),
-                () => Navigator.of(context).push(OnBoardingStartPage.route()),
-              );
-            }
-            if (state.status == KeyStatus.hasKey) {
-              Future.delayed(
-                Duration(seconds: 5),
-                () => Navigator.of(context).push(CredentialsListPage.route()),
-              );
-            }
-            if (state.status == KeyStatus.resetKey) {
+            if (state.status == WalletStatus.reset) {
               Navigator.of(context).pushReplacement(OnBoardingKeyPage.route());
             }
           },

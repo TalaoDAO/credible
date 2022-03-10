@@ -154,7 +154,7 @@ class _PersonalPageState extends State<PersonalPage> {
                       selfIssuedCredentialDataModel:
                           selfIssuedCredentialDataModel);
 
-              await context.read<WalletCubit>().checkKey();
+             // await context.read<WalletCubit>().checkKey();
             } else {
               Navigator.of(context).pop();
 
@@ -283,7 +283,7 @@ class _PersonalPageState extends State<PersonalPage> {
                         context: context,
                         textColor: Theme.of(context).colorScheme.onPrimary,
                         onPressed: () {
-                          context.read<WalletCubit>().checkKey();
+                          //context.read<WalletCubit>().checkKey();
                         },
                         child: Text(l10n.personalSkip),
                       )
