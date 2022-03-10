@@ -22,5 +22,9 @@ Map<String, dynamic> _$WalletStateToJson(WalletState instance) =>
 
 const _$WalletStatusEnumMap = {
   WalletStatus.init: 'init',
+  WalletStatus.idle: 'idle',
+  WalletStatus.insert: 'insert',
+  WalletStatus.delete: 'delete',
+  WalletStatus.update: 'update',
   WalletStatus.reset: 'reset',
 };

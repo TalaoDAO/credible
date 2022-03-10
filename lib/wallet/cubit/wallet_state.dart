@@ -1,6 +1,6 @@
 part of 'wallet_cubit.dart';
 
-enum WalletStatus { init, reset }
+enum WalletStatus { init, idle, insert, delete, update, reset }
 
 @JsonSerializable()
 class WalletState extends Equatable {

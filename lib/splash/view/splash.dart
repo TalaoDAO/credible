@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
+import 'package:talao/app/shared/model/message.dart';
+import 'package:talao/l10n/l10n.dart';
 import 'package:talao/qr_code/qr_code_scan/qr_code_scan.dart';
 import 'package:talao/scan/bloc/scan.dart';
 import 'package:talao/credentials/credentials.dart';
@@ -147,10 +149,27 @@ class _SplashPageState extends State<SplashPage> {
   Widget build(BuildContext context) {
     _handleIncomingLinks(context);
     _handleInitialUri(context);
+    var l10n = context.l10n;
     return MultiBlocListener(
       listeners: [
         BlocListener<WalletCubit, WalletState>(
           listener: (context, state) {
+            if (state.status == WalletStatus.update) {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(l10n.credentialDetailEditSuccessMessage),
+              ));
+            }
+            if (state.status == WalletStatus.delete) {
+              final message = StateMessage(
+                message: l10n.credentialDetailDeleteSuccessMessage,
+                type: MessageType.success,
+              );
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                backgroundColor: message.color,
+                content: Text(message.message!),
+              ));
+              Navigator.of(context).pop();
+            }
             if (state.status == WalletStatus.reset) {
               Navigator.of(context).pushReplacement(OnBoardingKeyPage.route());
             }

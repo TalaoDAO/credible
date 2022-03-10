@@ -5,6 +5,7 @@ import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/base/text_field.dart';
+import 'package:talao/credentials/credentials.dart';
 import 'package:talao/drawer/profile/cubit/profile_cubit.dart';
 import 'package:talao/drawer/profile/models/profile.dart';
 import 'package:talao/l10n/l10n.dart';
@@ -154,11 +155,12 @@ class _PersonalPageState extends State<PersonalPage> {
                       selfIssuedCredentialDataModel:
                           selfIssuedCredentialDataModel);
 
-             // await context.read<WalletCubit>().checkKey();
+              await Navigator.of(context)
+                  .pushReplacement(CredentialsListPage.route());
             } else {
               Navigator.of(context).pop();
 
-              /// Another popo to close the drawer
+              /// Another pop to close the drawer
               Navigator.of(context).pop();
             }
           },
@@ -283,7 +285,8 @@ class _PersonalPageState extends State<PersonalPage> {
                         context: context,
                         textColor: Theme.of(context).colorScheme.onPrimary,
                         onPressed: () {
-                          //context.read<WalletCubit>().checkKey();
+                          Navigator.of(context)
+                              .pushReplacement(CredentialsListPage.route());
                         },
                         child: Text(l10n.personalSkip),
                       )

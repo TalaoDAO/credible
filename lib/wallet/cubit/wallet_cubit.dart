@@ -32,7 +32,7 @@ class WalletCubit extends Cubit<WalletState> {
 
         /// load all credentials from repository
         await repository.findAll(/* filters */).then((values) {
-          emit(state.copyWith(credentials: values));
+          emit(state.copyWith(status: WalletStatus.init, credentials: values));
         });
       }
     }
@@ -42,8 +42,7 @@ class WalletCubit extends Cubit<WalletState> {
     await repository.deleteById(id);
     final credentials = List.of(state.credentials)
       ..removeWhere((element) => element.id == id);
-    print(state.status);
-    emit(state.copyWith(credentials: credentials));
+    emit(state.copyWith(status: WalletStatus.delete, credentials: credentials));
   }
 
   Future updateCredential(CredentialModel credential) async {
@@ -53,13 +52,23 @@ class WalletCubit extends Cubit<WalletState> {
     final credentials = List.of(state.credentials)
       ..removeWhere((element) => element.id == credential.id)
       ..insert(index, credential);
-    emit(state.copyWith(credentials: credentials));
+    emit(state.copyWith(status: WalletStatus.update, credentials: credentials));
+  }
+
+  Future handleUnknownRevocationStatus(CredentialModel credential) async {
+    await repository.update(credential);
+    final index = state.credentials
+        .indexWhere((element) => element.id == credential.id.toString());
+    final credentials = List.of(state.credentials)
+      ..removeWhere((element) => element.id == credential.id)
+      ..insert(index, credential);
+    emit(state.copyWith(status: WalletStatus.idle, credentials: credentials));
   }
 
   Future insertCredential(CredentialModel credential) async {
     await repository.insert(credential);
     final credentials = List.of(state.credentials)..add(credential);
-    emit(state.copyWith(credentials: credentials));
+    emit(state.copyWith(status: WalletStatus.insert, credentials: credentials));
   }
 
   Future resetWallet() async {
