@@ -125,9 +125,6 @@ class _SplashPageState extends State<SplashPage> {
   Widget build(BuildContext context) {
     _handleIncomingLinks(context);
     _handleInitialUri(context);
-
-    ///TODO remove
-    context.read<DeepLinkCubit>().addDeepLink('123');
     return MultiBlocListener(
       listeners: [
         BlocListener<WalletCubit, WalletState>(

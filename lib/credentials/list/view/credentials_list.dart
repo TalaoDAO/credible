@@ -64,13 +64,9 @@ class _CredentialsListState extends State<CredentialsList> {
               listener: (context, state) async {
             if (state.isDeepLink!) {
               if (state is QRCodeScanStateHost) {
-                var url =
-                    'https://talao.co/wallet/test/wallet_credential/urn:uuid:531280fa-43a7-11ec-bad5-b5c99d8bb8cd?issuer=did%3Aethr%3A0xee09654eedaa79429f8d216fa51a129db0f72250';
-
-                print(state.uri.toString());
                 var approvedIssuer = await context
                     .read<QRCodeScanCubit>()
-                    .isApprovedIssuer(Uri.parse(url), context);
+                    .isApprovedIssuer(state.uri!, context);
                 var acceptHost = await showDialog<bool>(
                       context: context,
                       builder: (BuildContext context) {
