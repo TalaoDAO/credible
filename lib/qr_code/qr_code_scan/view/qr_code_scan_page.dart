@@ -1,12 +1,19 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:talao/app/interop/issuer/check_issuer.dart';
+import 'package:talao/app/interop/issuer/models/issuer.dart';
+import 'package:talao/app/interop/network/network_client.dart';
+import 'package:talao/app/shared/constants.dart';
+import 'package:talao/app/shared/error_handler/error_handler.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/confirm_dialog.dart';
+import 'package:talao/drawer/drawer.dart';
 import 'package:talao/qr_code/qr_code_scan/cubit/qr_code_scan_cubit.dart';
 
 class QrCodeScanPage extends StatefulWidget {
@@ -57,43 +64,65 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
+
+    ///Note - Sync listener content with credential listener
     return BlocListener<QRCodeScanCubit, QRCodeScanState>(
       listener: (context, state) async {
-        if (state is QRCodeScanStateHost) {
-          if (!state.promptActive!) {
-            context.read<QRCodeScanCubit>().promptDeactivate();
-            var approvedIssuer = await context
-                .read<QRCodeScanCubit>()
-                .isApprovedIssuer(state.uri!, context);
-            var acceptHost = await showDialog<bool>(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return ConfirmDialog(
-                      title: localizations.scanPromptHost,
-                      subtitle: (approvedIssuer.did.isEmpty)
-                          ? state.uri!.host
-                          : '${approvedIssuer.organizationInfo.legalName}\n${approvedIssuer.organizationInfo.currentAddress}',
-                      yes: localizations.communicationHostAllow,
-                      no: localizations.communicationHostDeny,
-                      lock: (state.uri!.scheme == 'http') ? true : false,
-                    );
-                  },
-                ) ??
-                false;
+        if (state.isDeepLink!) return;
 
-            if (acceptHost) {
-              context.read<QRCodeScanCubit>().accept(state.uri!, false);
-            } else {
-              await qrController.resumeCamera();
-              context.read<QRCodeScanCubit>().emitWorkingState();
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(localizations.scanRefuseHost),
-              ));
+        if (state is QRCodeScanStateHost) {
+          if (state.promptActive!) return;
+          context.read<QRCodeScanCubit>().promptDeactivate();
+          var approvedIssuer = Issuer.emptyIssuer();
+
+          var profileCubit = context.read<ProfileCubit>();
+          if (profileCubit.state is ProfileStateDefault) {
+            final isIssuerVerificationSettingTrue =
+                profileCubit.state.model!.issuerVerificationSetting;
+            if (isIssuerVerificationSettingTrue) {
+              try {
+                approvedIssuer = await CheckIssuer(
+                        DioClient(Constants.checkIssuerServerUrl, Dio()),
+                        Constants.checkIssuerServerUrl,
+                        state.uri!)
+                    .isIssuerInApprovedList();
+              } catch (e) {
+                if (e is ErrorHandler) {
+                  e.displayError(
+                      context, e, Theme.of(context).colorScheme.error);
+                }
+              }
             }
+          }
+          var acceptHost = await showDialog<bool>(
+                context: context,
+                builder: (BuildContext context) {
+                  return ConfirmDialog(
+                    title: localizations.scanPromptHost,
+                    subtitle: (approvedIssuer.did.isEmpty)
+                        ? state.uri!.host
+                        : '${approvedIssuer.organizationInfo.legalName}\n${approvedIssuer.organizationInfo.currentAddress}',
+                    yes: localizations.communicationHostAllow,
+                    no: localizations.communicationHostDeny,
+                    lock: (state.uri!.scheme == 'http') ? true : false,
+                  );
+                },
+              ) ??
+              false;
+
+          if (acceptHost) {
+            context.read<QRCodeScanCubit>().accept(state.uri!, false);
+          } else {
+            await qrController.resumeCamera();
+            context.read<QRCodeScanCubit>().emitWorkingState();
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(localizations.scanRefuseHost),
+            ));
           }
         }
         if (state is QRCodeScanStateSuccess) {
           await qrController.stopCamera();
+          ///Note: PushReplacement to skip qr page when pressed back from routed Screen
           await Navigator.of(context).pushReplacement(state.route!);
         }
         if (state is QRCodeScanStateMessage) {

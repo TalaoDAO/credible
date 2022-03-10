@@ -4,12 +4,8 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:talao/app/interop/issuer/check_issuer.dart';
-import 'package:talao/app/interop/issuer/models/issuer.dart';
 import 'package:talao/app/interop/network/network_client.dart';
-import 'package:talao/app/shared/constants.dart';
 import 'package:talao/drawer/drawer.dart';
-import 'package:talao/drawer/profile/cubit/profile_state.dart';
 import 'package:talao/scan/bloc/scan.dart';
 import 'package:talao/credentials/credentials.dart';
 import 'package:talao/app/shared/error_handler/error_handler.dart';
@@ -168,24 +164,5 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
                 'Check the logs for more information.')));
       }
     }
-  }
-
-  Future<Issuer> isApprovedIssuer(Uri uri, BuildContext context) async {
-    if (profileCubit.state is ProfileStateDefault) {
-      final isIssuerVerificationSettingTrue =
-          profileCubit.state.model!.issuerVerificationSetting;
-      if (isIssuerVerificationSettingTrue) {
-        try {
-          return await CheckIssuer(client, Constants.checkIssuerServerUrl, uri)
-              .isIssuerInApprovedList();
-        } catch (e) {
-          if (e is ErrorHandler) {
-            e.displayError(context, e, Theme.of(context).colorScheme.error);
-          }
-          return Issuer.emptyIssuer();
-        }
-      }
-    }
-    return Issuer.emptyIssuer();
   }
 }

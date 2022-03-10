@@ -1,16 +1,22 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:talao/app/interop/issuer/check_issuer.dart';
+import 'package:talao/app/interop/issuer/models/issuer.dart';
+import 'package:talao/app/interop/network/network_client.dart';
+import 'package:talao/app/shared/constants.dart';
+import 'package:talao/app/shared/error_handler/error_handler.dart';
 import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:talao/app/shared/widget/confirm_dialog.dart';
 import 'package:talao/credentials/widget/list_item.dart';
+import 'package:talao/drawer/drawer.dart';
 import 'package:talao/l10n/l10n.dart';
 import 'package:talao/qr_code/qr_code.dart';
 import 'package:talao/wallet/wallet.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/info_dialog.dart';
 import 'package:talao/deep_link/cubit/deep_link.dart';
-import 'package:talao/drawer/profile/view/profile_page.dart';
 
 class CredentialsList extends StatefulWidget {
   const CredentialsList({
@@ -60,63 +66,85 @@ class _CredentialsListState extends State<CredentialsList> {
       },
       child: MultiBlocListener(
         listeners: [
+          ///Note - Sync listener content with qr code scan listener
           BlocListener<QRCodeScanCubit, QRCodeScanState>(
               listener: (context, state) async {
-            if (state.isDeepLink!) {
-              if (state is QRCodeScanStateHost) {
-                var approvedIssuer = await context
-                    .read<QRCodeScanCubit>()
-                    .isApprovedIssuer(state.uri!, context);
-                var acceptHost = await showDialog<bool>(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return ConfirmDialog(
-                          title: l10n.scanPromptHost,
-                          subtitle: (approvedIssuer.did.isEmpty)
-                              ? state.uri!.host
-                              : '${approvedIssuer.organizationInfo.legalName}\n${approvedIssuer.organizationInfo.currentAddress}',
-                          yes: l10n.communicationHostAllow,
-                          no: l10n.communicationHostDeny,
-                          lock: (state.uri!.scheme == 'http') ? true : false,
-                        );
-                      },
-                    ) ??
-                    false;
+            if (!state.isDeepLink!) return;
 
-                if (acceptHost) {
-                  context.read<QRCodeScanCubit>().accept(state.uri!, true);
-                } else {
-                  //await qrController.resumeCamera();
-                  context.read<QRCodeScanCubit>().emitWorkingState();
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text(l10n.scanRefuseHost),
-                  ));
+            if (state is QRCodeScanStateHost) {
+              // if (state.promptActive!) return;
+              // context.read<QRCodeScanCubit>().promptDeactivate();
+              var approvedIssuer = Issuer.emptyIssuer();
+
+              var profileCubit = context.read<ProfileCubit>();
+              if (profileCubit.state is ProfileStateDefault) {
+                final isIssuerVerificationSettingTrue =
+                    profileCubit.state.model!.issuerVerificationSetting;
+                if (isIssuerVerificationSettingTrue) {
+                  try {
+                    approvedIssuer = await CheckIssuer(
+                            DioClient(Constants.checkIssuerServerUrl, Dio()),
+                            Constants.checkIssuerServerUrl,
+                            state.uri!)
+                        .isIssuerInApprovedList();
+                  } catch (e) {
+                    if (e is ErrorHandler) {
+                      e.displayError(
+                          context, e, Theme.of(context).colorScheme.error);
+                    }
+                  }
                 }
               }
-              if (state is QRCodeScanStateSuccess) {
-                //   await qrController.stopCamera();
-                await Navigator.of(context).pushReplacement(state.route!);
-              }
-              if (state is QRCodeScanStateMessage) {
-                //   await qrController.resumeCamera();
-                final errorHandler = state.message!.errorHandler;
-                if (errorHandler != null) {
-                  final color = state.message!.color ??
-                      Theme.of(context).colorScheme.error;
-                  errorHandler.displayError(context, errorHandler, color);
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    backgroundColor: state.message!.color,
-                    content: Text(state.message!.message!),
-                  ));
-                }
-              }
-              if (state is QRCodeScanStateUnknown) {
-                //   await qrController.resumeCamera();
+              var acceptHost = await showDialog<bool>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return ConfirmDialog(
+                        title: l10n.scanPromptHost,
+                        subtitle: (approvedIssuer.did.isEmpty)
+                            ? state.uri!.host
+                            : '${approvedIssuer.organizationInfo.legalName}\n${approvedIssuer.organizationInfo.currentAddress}',
+                        yes: l10n.communicationHostAllow,
+                        no: l10n.communicationHostDeny,
+                        lock: (state.uri!.scheme == 'http') ? true : false,
+                      );
+                    },
+                  ) ??
+                  false;
+
+              if (acceptHost) {
+                context.read<QRCodeScanCubit>().accept(state.uri!, true);
+              } else {
+                //await qrController.resumeCamera();
+                context.read<QRCodeScanCubit>().emitWorkingState();
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(l10n.scanUnsupportedMessage),
+                  content: Text(l10n.scanRefuseHost),
                 ));
               }
+            }
+            if (state is QRCodeScanStateSuccess) {
+              //   await qrController.stopCamera();
+              ///Note: Push
+              await Navigator.of(context).push(state.route!);
+            }
+            if (state is QRCodeScanStateMessage) {
+              //   await qrController.resumeCamera();
+              final errorHandler = state.message!.errorHandler;
+              if (errorHandler != null) {
+                final color =
+                    state.message!.color ?? Theme.of(context).colorScheme.error;
+                errorHandler.displayError(context, errorHandler, color);
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  backgroundColor: state.message!.color,
+                  content: Text(state.message!.message!),
+                ));
+              }
+            }
+            if (state is QRCodeScanStateUnknown) {
+              //   await qrController.resumeCamera();
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(l10n.scanUnsupportedMessage),
+              ));
             }
           })
         ],
