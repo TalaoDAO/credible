@@ -6,7 +6,6 @@ import 'package:talao/app/shared/widget/spinner.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:talao/credentials/list/credentials_list.dart';
 import 'package:talao/credentials/widget/ask_user_permission_did_auth.dart';
 
 class CredentialsPresentPage extends StatefulWidget {
@@ -62,8 +61,7 @@ class _CredentialsPresentPageState extends State<CredentialsPresentPage> {
       padding: const EdgeInsets.all(16.0),
       title: title,
       titleTrailing: IconButton(
-        onPressed: () =>
-            Navigator.of(context).pushReplacement(CredentialsList.route()),
+        onPressed: () => Navigator.of(context).pop(),
         icon: Icon(Icons.close),
       ),
       body: BlocConsumer<ScanBloc, ScanState>(

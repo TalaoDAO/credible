@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:talao/credentials/credentials.dart';
 import 'package:talao/scan/bloc/scan.dart';
-import 'package:talao/credentials/list/credentials_list.dart';
 import 'package:talao/wallet/wallet.dart';
 import 'package:talao/credentials/widget/list_item.dart';
 import 'package:talao/app/shared/model/translation.dart';
@@ -63,7 +63,7 @@ class _CredentialsPickPageState extends State<CredentialsPickPage> {
         title: localizations.credentialPickTitle,
         titleTrailing: IconButton(
           onPressed: () {
-            Navigator.of(context).pushReplacement(CredentialsList.route());
+            Navigator.of(context).pop();
           },
           icon: Icon(Icons.close),
         ),
@@ -102,7 +102,7 @@ class _CredentialsPickPageState extends State<CredentialsPickPage> {
                         ),
                       );
                       Navigator.of(builderContext)
-                          .pushReplacement(CredentialsList.route());
+                          .pushReplacement(CredentialsListPage.route());
                     }
                   },
                   child: Text(localizations.credentialPickPresent),
@@ -127,7 +127,7 @@ class _CredentialsPickPageState extends State<CredentialsPickPage> {
             const SizedBox(height: 12.0),
             ...List.generate(
               walletState.credentials.length,
-              (index) => CredentialsListItem(
+              (index) => CredentialsListPageItem(
                 item: walletState.credentials[index],
                 selected: selection.contains(index),
                 onTap: () => toggle(index),

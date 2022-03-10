@@ -1,1 +1,1 @@
-export 'view/credentials_receive.dart';
+export 'view/credentials_receive_page.dart';

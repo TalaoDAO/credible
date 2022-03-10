@@ -71,7 +71,7 @@ class _SplashPageState extends State<SplashPage> {
           if (key == 'uri') {
             final url = value.replaceAll(RegExp(r'^\"|\"$'), '');
             context.read<DeepLinkCubit>().addDeepLink(url);
-            Navigator.of(context).push(CredentialsList.route());
+            Navigator.of(context).push(CredentialsListPage.route());
           }
         });
       }, onError: (Object err) {
@@ -138,7 +138,7 @@ class _SplashPageState extends State<SplashPage> {
             if (state.status == KeyStatus.hasKey) {
               Future.delayed(
                 Duration(seconds: 5),
-                () => Navigator.of(context).push(CredentialsList.route()),
+                () => Navigator.of(context).push(CredentialsListPage.route()),
               );
             }
             if (state.status == KeyStatus.resetKey) {

@@ -1,1 +1,1 @@
-export 'view/credentials_pick.dart';
+export 'view/credentials_pick_page.dart';

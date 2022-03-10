@@ -3,7 +3,7 @@ import 'package:provider/src/provider.dart';
 import 'package:talao/scan/bloc/scan.dart';
 import 'package:talao/app/shared/widget/confirm_dialog.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:talao/credentials/list/view/credentials_list.dart';
+import 'package:talao/credentials/list/view/credentials_list_page.dart';
 
 class AskUserPermissionDIDAuth extends StatefulWidget {
   const AskUserPermissionDIDAuth({
@@ -37,7 +37,7 @@ class _AskUserPermissionDIDAuthState extends State<AskUserPermissionDIDAuth> {
             state.keyId, state.done, state.uri,
             challenge: state.challenge, domain: state.domain));
       }
-        await Navigator.of(context).pushReplacement(CredentialsList.route());
+        await Navigator.of(context).pushReplacement(CredentialsListPage.route());
 
     });
     super.initState();

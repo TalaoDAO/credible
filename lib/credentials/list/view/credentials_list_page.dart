@@ -18,21 +18,21 @@ import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/info_dialog.dart';
 import 'package:talao/deep_link/cubit/deep_link.dart';
 
-class CredentialsList extends StatefulWidget {
-  const CredentialsList({
+class CredentialsListPage extends StatefulWidget {
+  const CredentialsListPage({
     Key? key,
   }) : super(key: key);
 
   static Route route() => MaterialPageRoute(
-        builder: (context) => CredentialsList(),
-        settings: RouteSettings(name: '/credentialsList'),
+        builder: (context) => CredentialsListPage(),
+        settings: RouteSettings(name: '/CredentialsListPage'),
       );
 
   @override
-  State<CredentialsList> createState() => _CredentialsListState();
+  State<CredentialsListPage> createState() => _CredentialsListPageState();
 }
 
-class _CredentialsListState extends State<CredentialsList> {
+class _CredentialsListPageState extends State<CredentialsListPage> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -183,7 +183,7 @@ class _CredentialsListState extends State<CredentialsList> {
               return Column(
                 children: List.generate(
                   _credentialList.length,
-                  (index) => CredentialsListItem(item: _credentialList[index]),
+                  (index) => CredentialsListPageItem(item: _credentialList[index]),
                 ),
               );
             },

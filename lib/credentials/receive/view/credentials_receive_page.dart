@@ -39,11 +39,11 @@ class CredentialsReceivePage extends StatelessWidget {
         listener: (listenerContext, state) {
           if (state is ScanStateSuccess) {
             // Navigator.of(listenerContext)
-            //     .pushReplacement(CredentialsList.route());
+            //     .pushReplacement(CredentialsListPage.route());
           }
           if (state is ScanStateIdle) {
             Navigator.of(listenerContext)
-                .pushReplacement(CredentialsList.route());
+                .pushReplacement(CredentialsListPage.route());
           }
         },
         builder: (builderContext, state) {

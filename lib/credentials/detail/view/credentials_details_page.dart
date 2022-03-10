@@ -20,28 +20,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:logging/logging.dart';
 
-class CredentialsDetail extends StatefulWidget {
+class CredentialsDetailsPage extends StatefulWidget {
   final CredentialModel item;
 
-  const CredentialsDetail({
+  const CredentialsDetailsPage({
     Key? key,
     required this.item,
   }) : super(key: key);
 
   static Route route(CredentialModel routeItem) {
     return MaterialPageRoute(
-      builder: (context) => CredentialsDetail(
+      builder: (context) => CredentialsDetailsPage(
         item: routeItem,
       ),
-      settings: RouteSettings(name: '/credentialsDetails'),
+      settings: RouteSettings(name: '/CredentialsDetailsPages'),
     );
   }
 
   @override
-  _CredentialsDetailState createState() => _CredentialsDetailState();
+  _CredentialsDetailsPageState createState() => _CredentialsDetailsPageState();
 }
 
-class _CredentialsDetailState extends State<CredentialsDetail> {
+class _CredentialsDetailsPageState extends State<CredentialsDetailsPage> {
   bool showShareMenu = false;
   VerificationState verification = VerificationState.Unverified;
 

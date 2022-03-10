@@ -110,7 +110,7 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
                     url: uri,
                     onSubmit: (preview, context) {
                       // Navigator.of(context)
-                      //     .pushReplacement(CredentialsList.route());
+                      //     .pushReplacement(CredentialsListPage.route());
                     },
                   )));
             } else if (data['query'].first['type'] == 'QueryByExample') {

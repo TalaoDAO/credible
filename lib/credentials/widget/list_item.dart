@@ -95,12 +95,12 @@ class __BaseItemState extends State<_BaseItem>
       );
 }
 
-class CredentialsListItem extends StatelessWidget {
+class CredentialsListPageItem extends StatelessWidget {
   final CredentialModel item;
   final VoidCallback? onTap;
   final bool? selected;
 
-  CredentialsListItem({
+  CredentialsListPageItem({
     Key? key,
     required this.item,
     this.onTap,
@@ -113,7 +113,7 @@ class CredentialsListItem extends StatelessWidget {
       enabled: true,
       onTap: onTap ??
           () => Navigator.of(context).push(
-                CredentialsDetail.route(item),
+                CredentialsDetailsPage.route(item),
               ),
       color: item.backgroundColor,
       child: displayListElement(context),
