@@ -16,7 +16,6 @@ import 'package:talao/qr_code/qr_code.dart';
 import 'package:talao/wallet/wallet.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/info_dialog.dart';
-import 'package:talao/deep_link/cubit/deep_link.dart';
 
 class CredentialsListPage extends StatefulWidget {
   const CredentialsListPage({
@@ -44,12 +43,7 @@ class _CredentialsListPageState extends State<CredentialsListPage> {
   void initState() {
     Future.delayed(Duration.zero, () {
       /// If there is a deepLink we give do as if it coming from QRCode
-      final deepLinkCubit = context.read<DeepLinkCubit>();
-      final deepLinkString = deepLinkCubit.state;
-      if (deepLinkString != '') {
-        deepLinkCubit.resetDeepLink();
-        context.read<QRCodeScanCubit>().deepLink(deepLinkString);
-      }
+      context.read<QRCodeScanCubit>().deepLink();
     });
     super.initState();
   }
@@ -69,6 +63,7 @@ class _CredentialsListPageState extends State<CredentialsListPage> {
           ///Note - Sync listener content with qr code scan listener
           BlocListener<QRCodeScanCubit, QRCodeScanState>(
               listener: (context, state) async {
+            if (state.isDeepLink == null) return;
             if (!state.isDeepLink!) return;
 
             if (state is QRCodeScanStateHost) {
@@ -183,7 +178,8 @@ class _CredentialsListPageState extends State<CredentialsListPage> {
               return Column(
                 children: List.generate(
                   _credentialList.length,
-                  (index) => CredentialsListPageItem(item: _credentialList[index]),
+                  (index) =>
+                      CredentialsListPageItem(item: _credentialList[index]),
                 ),
               );
             },

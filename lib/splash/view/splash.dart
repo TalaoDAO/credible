@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:talao/qr_code/qr_code.dart';
 import 'package:talao/scan/bloc/scan.dart';
 import 'package:talao/credentials/credentials.dart';
 import 'package:talao/onboarding/key/view/onboarding_key_page.dart';
@@ -69,9 +70,9 @@ class _SplashPageState extends State<SplashPage> {
         print('got uri: $uri');
         uri?.queryParameters.forEach((key, value) {
           if (key == 'uri') {
-            final url = value.replaceAll(RegExp(r'^\"|\"$'), '');
+            final url = value.replaceAll(RegExp(r'ß^\"|\"$'), '');
             context.read<DeepLinkCubit>().addDeepLink(url);
-            Navigator.of(context).push(CredentialsListPage.route());
+            context.read<QRCodeScanCubit>().deepLink();
           }
         });
       }, onError: (Object err) {

@@ -68,8 +68,6 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
     ///Note - Sync listener content with credential listener
     return BlocListener<QRCodeScanCubit, QRCodeScanState>(
       listener: (context, state) async {
-        if (state.isDeepLink!) return;
-
         if (state is QRCodeScanStateHost) {
           if (state.promptActive!) return;
           context.read<QRCodeScanCubit>().promptDeactivate();
@@ -84,8 +82,7 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
                 approvedIssuer = await CheckIssuer(
                         DioClient(Constants.checkIssuerServerUrl, Dio()),
                         Constants.checkIssuerServerUrl,
-                        state.uri!)
-                    .isIssuerInApprovedList();
+                        state.uri!).isIssuerInApprovedList();
               } catch (e) {
                 if (e is ErrorHandler) {
                   e.displayError(
@@ -122,6 +119,7 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
         }
         if (state is QRCodeScanStateSuccess) {
           await qrController.stopCamera();
+
           ///Note: PushReplacement to skip qr page when pressed back from routed Screen
           await Navigator.of(context).pushReplacement(state.route!);
         }

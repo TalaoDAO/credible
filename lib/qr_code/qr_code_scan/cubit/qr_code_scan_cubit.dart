@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:talao/app/interop/network/network_client.dart';
+import 'package:talao/deep_link/cubit/deep_link.dart';
 import 'package:talao/scan/bloc/scan.dart';
 import 'package:talao/credentials/credentials.dart';
 import 'package:talao/app/shared/error_handler/error_handler.dart';
@@ -20,11 +21,13 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
   final DioClient client;
   final ScanBloc scanBloc;
   final QueryByExampleCubit queryByExampleCubit;
+  final DeepLinkCubit deepLinkCubit;
 
   QRCodeScanCubit({
     required this.client,
     required this.scanBloc,
     required this.queryByExampleCubit,
+    required this.deepLinkCubit,
   }) : super(QRCodeScanStateWorking());
 
   @override
@@ -60,15 +63,19 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
     }
   }
 
-  void deepLink(String url) async {
-    try {
-      var uri = Uri.parse(url);
-      emit(QRCodeScanStateHost(uri: uri, isDeepLink: true));
-    } on FormatException {
-      emit(QRCodeScanStateMessage(
-          isDeepLink: true,
-          message: StateMessage.error(
-              'This url does not contain a valid message.')));
+  void deepLink() async {
+    final deepLinkUrl = deepLinkCubit.state;
+    if (deepLinkUrl != '') {
+      deepLinkCubit.resetDeepLink();
+      try {
+        var uri = Uri.parse(deepLinkUrl);
+        emit(QRCodeScanStateHost(uri: uri, isDeepLink: true));
+      } on FormatException {
+        emit(QRCodeScanStateMessage(
+            isDeepLink: true,
+            message: StateMessage.error(
+                'This url does not contain a valid message.')));
+      }
     }
   }
 
