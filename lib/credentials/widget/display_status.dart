@@ -24,7 +24,7 @@ class DisplayStatus extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             if (currentRevocationStatus == RevocationStatus.unknown) {
-              wallet.updateCredential(item);
+              wallet.handleUnknownRevocationStatus(item);
             }
             switch (snapshot.data) {
               case CredentialStatus.active:

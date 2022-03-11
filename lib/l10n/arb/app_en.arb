@@ -66,6 +66,7 @@
   "onBoardingSuccessTitle": "Identifier Created",
   "onBoardingSuccessButton": "Continue",
   "credentialDetailShare": "Share by QR code",
+  "credentialAddedMessage": "A new credential has been successfully added!",
   "credentialDetailDelete": "Delete credential",
   "credentialDetailDeleteConfirmationDialog": "Do you really want to delete this credential?",
   "credentialDetailDeleteConfirmationDialogYes": "Yes",

@@ -36,13 +36,12 @@ class CredentialsReceivePage extends StatelessWidget {
         icon: Icon(Icons.close),
       ),
       body: BlocConsumer<ScanBloc, ScanState>(
-        listener: (listenerContext, state) {
+        listener: (context, state) {
           if (state is ScanStateSuccess) {
-            // Navigator.of(listenerContext)
-            //     .pushReplacement(CredentialsListPage.route());
+            Navigator.of(context).pop();
           }
           if (state is ScanStateIdle) {
-            Navigator.of(listenerContext)
+            Navigator.of(context)
                 .pushReplacement(CredentialsListPage.route());
           }
         },
