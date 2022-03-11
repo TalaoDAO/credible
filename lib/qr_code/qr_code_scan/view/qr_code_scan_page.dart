@@ -82,7 +82,8 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
                 approvedIssuer = await CheckIssuer(
                         DioClient(Constants.checkIssuerServerUrl, Dio()),
                         Constants.checkIssuerServerUrl,
-                        state.uri!).isIssuerInApprovedList();
+                        state.uri!)
+                    .isIssuerInApprovedList();
               } catch (e) {
                 if (e is ErrorHandler) {
                   e.displayError(
