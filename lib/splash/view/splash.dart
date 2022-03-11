@@ -91,11 +91,14 @@ class _SplashPageState extends State<SplashPage> {
       _sub = uriLinkStream.listen((Uri? uri) {
         if (!mounted) return;
         print('got uri: $uri');
-        uri?.queryParameters.forEach((key, value) {
+        uri?.queryParameters.forEach((key, value) async {
           if (key == 'uri') {
             final url = value.replaceAll(RegExp(r'ß^\"|\"$'), '');
             context.read<DeepLinkCubit>().addDeepLink(url);
-            context.read<QRCodeScanCubit>().deepLink();
+            final key = await SecureStorageProvider.instance.get('key');
+            if (key != null) {
+              context.read<QRCodeScanCubit>().deepLink();
+            }
           }
         });
       }, onError: (Object err) {
