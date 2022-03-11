@@ -49,7 +49,8 @@ class VerifyRSAAndDIDCubit extends Cubit<VerifyRSAAndDIDState> {
       //start verifying RSA key
       for (var i = 0; i < filteredPublicKeyJwks.length; i++) {
         final publicKeyJwk = filteredPublicKeyJwks[i].value;
-        if (publicKeyJwk['n'] == rsaKey) {
+        if (publicKeyJwk['n'] == rsaKey &&
+            resolvedDIDJson['assertionMethod'].contain(publicKeyJwk['kid'])) {
           verified = true;
           break;
         }
