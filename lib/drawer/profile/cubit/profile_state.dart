@@ -1,16 +1,11 @@
-import 'package:equatable/equatable.dart';
-import 'package:json_annotation/json_annotation.dart';
-import 'package:talao/app/shared/model/message.dart';
-import 'package:talao/drawer/profile/models/profile.dart';
-
-part 'profile_state.g.dart';
+part of 'profile_cubit.dart';
 
 @JsonSerializable(explicitToJson: true)
 class ProfileState extends Equatable {
   ProfileState({this.message, this.model});
 
-   factory ProfileState.fromJson(Map<String, dynamic> json) =>
-       _$ProfileStateFromJson(json);
+  factory ProfileState.fromJson(Map<String, dynamic> json) =>
+      _$ProfileStateFromJson(json);
 
   final ProfileModel? model;
   final StateMessage? message;

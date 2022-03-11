@@ -8,8 +8,8 @@ import 'package:talao/app/shared/widget/base/text_field.dart';
 import 'package:talao/drawer/profile/cubit/profile_cubit.dart';
 import 'package:talao/drawer/profile/models/profile.dart';
 import 'package:talao/l10n/l10n.dart';
-import 'package:talao/personal/bloc/personal_page_cubit.dart';
-import 'package:talao/self_issued_credential/bloc/self_issued_credential.dart';
+import 'package:talao/personal/cubit/personal_page_cubit.dart';
+import 'package:talao/self_issued_credential/cubit/self_issued_credential_cubit.dart';
 import 'package:talao/self_issued_credential/widget/sef_issued_credential_button.dart';
 import 'package:talao/wallet/cubit/wallet_cubit.dart';
 

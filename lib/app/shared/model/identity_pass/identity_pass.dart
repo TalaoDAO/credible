@@ -1,5 +1,5 @@
-import 'package:talao/app/pages/credentials/models/credential_model.dart';
-import 'package:talao/app/pages/credentials/widget/display_issuer.dart';
+import 'package:talao/app/shared/model/credential_model/credential_model.dart';
+import 'package:talao/credentials/widget/display_issuer.dart';
 import 'package:talao/app/shared/model/author.dart';
 import 'package:talao/app/shared/model/credential_subject.dart';
 import 'package:talao/app/shared/model/identity_pass/identity_pass_recipient.dart';

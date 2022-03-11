@@ -4,14 +4,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:talao/app/pages/credentials/blocs/scan.dart';
+import 'package:talao/qr_code/qr_code.dart';
+import 'package:talao/scan/bloc/scan.dart';
+import 'package:talao/credentials/credentials.dart';
 import 'package:talao/onboarding/key/view/onboarding_key_page.dart';
 import 'package:talao/wallet/wallet.dart';
-import 'package:talao/app/pages/credentials/pages/list.dart';
-import 'package:talao/app/pages/qr_code/bloc/qrcode.dart';
-import 'package:talao/app/pages/qr_code/check_host.dart';
-import 'package:talao/app/pages/qr_code/is_issuer_approved.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/deep_link/deep_link.dart';
 import 'package:talao/onboarding/onboarding.dart';
@@ -73,9 +70,9 @@ class _SplashPageState extends State<SplashPage> {
         print('got uri: $uri');
         uri?.queryParameters.forEach((key, value) {
           if (key == 'uri') {
-            final url = value.replaceAll(RegExp(r'^\"|\"$'), '');
+            final url = value.replaceAll(RegExp(r'ß^\"|\"$'), '');
             context.read<DeepLinkCubit>().addDeepLink(url);
-            Navigator.of(context).push(CredentialsList.route());
+            context.read<QRCodeScanCubit>().deepLink();
           }
         });
       }, onError: (Object err) {
@@ -129,7 +126,6 @@ class _SplashPageState extends State<SplashPage> {
   Widget build(BuildContext context) {
     _handleIncomingLinks(context);
     _handleInitialUri(context);
-    final localizations = AppLocalizations.of(context)!;
     return MultiBlocListener(
       listeners: [
         BlocListener<WalletCubit, WalletState>(
@@ -143,47 +139,11 @@ class _SplashPageState extends State<SplashPage> {
             if (state.status == KeyStatus.hasKey) {
               Future.delayed(
                 Duration(seconds: 5),
-                () => Navigator.of(context).push(CredentialsList.route()),
+                () => Navigator.of(context).push(CredentialsListPage.route()),
               );
             }
             if (state.status == KeyStatus.resetKey) {
               Navigator.of(context).pushReplacement(OnBoardingKeyPage.route());
-            }
-          },
-        ),
-        BlocListener<QRCodeBloc, QRCodeState>(
-          listener: (context, state) async {
-            if (state is QRCodeStateHost) {
-              var approvedIssuer = await isApprovedIssuer(state.uri, context);
-              var acceptHost;
-              acceptHost =
-                  await checkHost(state.uri, approvedIssuer, context) ?? false;
-
-              if (acceptHost) {
-                context.read<QRCodeBloc>().add(QRCodeEventAccept(state.uri));
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(localizations.scanRefuseHost),
-                ));
-                await Navigator.of(context)
-                    .pushReplacement(CredentialsList.route());
-              }
-            }
-            if (state is QRCodeStateSuccess) {
-              await Navigator.of(context).pushReplacement(state.route);
-            }
-            if (state is QRCodeStateMessage) {
-              final errorHandler = state.message.errorHandler;
-              if (errorHandler != null) {
-                final color =
-                    state.message.color ?? Theme.of(context).colorScheme.error;
-                errorHandler.displayError(context, errorHandler, color);
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  backgroundColor: state.message.color,
-                  content: Text(state.message.message!),
-                ));
-              }
             }
           },
         ),

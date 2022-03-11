@@ -1,11 +1,15 @@
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/shared/constants.dart';
 import 'package:talao/app/shared/model/message.dart';
 import 'package:logging/logging.dart';
 import 'package:talao/drawer/profile/models/models.dart';
 
-import 'profile_state.dart';
+part 'profile_state.dart';
+
+part 'profile_cubit.g.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
   final SecureStorageProvider secureStorageProvider;
