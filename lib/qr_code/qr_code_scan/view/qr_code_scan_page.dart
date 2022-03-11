@@ -154,9 +154,7 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
         body: SafeArea(
           child: QRView(
             key: qrKey,
-            overlay: QrScannerOverlayShape(
-              borderColor: Colors.white70,
-            ),
+            overlay: QrScannerOverlayShape(borderColor: Colors.white70),
             onQRViewCreated: onQRViewCreated,
           ),
         ),
