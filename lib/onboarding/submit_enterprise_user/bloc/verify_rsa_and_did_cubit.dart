@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:file_picker/file_picker.dart';
@@ -25,47 +26,64 @@ class VerifyRSAAndDIDCubit extends Cubit<VerifyRSAAndDIDState> {
   VerifyRSAAndDIDCubit() : super(const VerifyRSAAndDIDState.initial());
 
   Future<void> verify(String did, PlatformFile rsaFile) async {
-    emit(const VerifyRSAAndDIDState.loading());
     final log = Logger('talao-wallet/onBoarding/VerifyRSAAndDIDCubit/verify');
+    try {
+      emit(const VerifyRSAAndDIDState.loading());
 
-    final resolvedDID = await DIDKitProvider.instance.resolveDID(did, '{}');
-    final resolvedDIDJson = jsonDecode(resolvedDID);
+      final resolvedDID = await DIDKitProvider.instance.resolveDID(did, '{}');
+      final resolvedDIDJson = jsonDecode(resolvedDID);
 
-    log.info('resolvedDIDJson: $resolvedDIDJson');
-    final error = resolvedDIDJson['didResolutionMetadata']['error'];
-    if (error == null) {
-      //read RSA json file
-      final rsaJson = jsonDecode(rsaFile.bytes.toString());
-      final rsaKey = rsaJson['verificationMethod']['publicKeyJwk']['n'];
-
-      // filter publicKeyJwk objects inside resolvedDIDJson json
-      final publicKeyJwks = JsonPath(r'$..publicKeyJwk');
-      final filteredPublicKeyJwks = publicKeyJwks
-          .read(resolvedDID)
-          .where((element) => element.value['kty'] == 'RSA')
-          .toList();
-      log.info('filtered: ${filteredPublicKeyJwks.length}');
-      var verified = false;
-      //start verifying RSA key
-      for (var i = 0; i < filteredPublicKeyJwks.length; i++) {
-        final publicKeyJwk = filteredPublicKeyJwks[i].value;
-        if (publicKeyJwk['n'] == rsaKey &&
-            resolvedDIDJson['assertionMethod'].contain(publicKeyJwk['kid'])) {
-          verified = true;
-          break;
+      final error = resolvedDIDJson['didResolutionMetadata']['error'];
+      if (error == null) {
+        //read RSA json file
+        if (rsaFile.path == null) {
+          emit(const VerifyRSAAndDIDState.error('Please import your RSA key'));
+          return;
         }
-      }
-      if (verified) {
-        await SecureStorageProvider.instance
-            .set(SecureStorageKeys.RSAKeyJson, jsonEncode(rsaJson));
-        await SecureStorageProvider.instance.set(SecureStorageKeys.did, did);
-        emit(const VerifyRSAAndDIDState.verified());
+        final RSAJsonFile = File(rsaFile.path!);
+        final RSAJsonString = await RSAJsonFile.readAsString();
+        final RSAJson = jsonDecode(RSAJsonString);
+
+        // filter publicKeyJwk objects
+        final publicKeyJwks = JsonPath(r'$..publicKeyJwk');
+        final RSAKey = publicKeyJwks
+            .read(RSAJson)
+            .where((element) => element.value['kty'] == 'RSA')
+            .toList()
+            .first.value['n'];
+
+        final filteredPublicKeyJwks = publicKeyJwks
+            .read(resolvedDIDJson)
+            .where((element) => element.value['kty'] == 'RSA')
+            .toList();
+
+        var verified = false;
+        //start verifying RSA key
+        for (var i = 0; i < filteredPublicKeyJwks.length; i++) {
+          final publicKeyJwk = filteredPublicKeyJwks[i].value;
+          if (publicKeyJwk['n'] == RSAKey &&
+              (resolvedDIDJson['didDocument']['assertionMethod'] as List<dynamic>).contains(publicKeyJwk['kid'])) {
+            verified = true;
+            break;
+          }
+        }
+        if (verified) {
+          await SecureStorageProvider.instance
+              .set(SecureStorageKeys.RSAKeyJson, jsonEncode(RSAJson));
+          await SecureStorageProvider.instance.set(SecureStorageKeys.did, did);
+          emit(const VerifyRSAAndDIDState.verified());
+        } else {
+          emit(const VerifyRSAAndDIDState.error(
+              'RSA not matched with your DID key'));
+        }
       } else {
-        emit(const VerifyRSAAndDIDState.error(
-            'RSA not matched with your DID key'));
+        emit(VerifyRSAAndDIDState.error(error));
       }
-    } else {
-      emit(VerifyRSAAndDIDState.error(error));
+    } catch (e, s) {
+      log.info('error in verifying RSA key :${e.toString()}, s: $s', e, s);
+      //TODO translate message
+      emit(const VerifyRSAAndDIDState.error(
+          'Some error happened when verifying'));
     }
   }
 }
