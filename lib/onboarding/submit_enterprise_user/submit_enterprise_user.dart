@@ -99,14 +99,16 @@ class _SubmitEnterpriseUserPageState extends State<SubmitEnterpriseUserPage> {
           state.maybeWhen(
               orElse: () => null,
               error: (message) {
-                ScaffoldMessenger.of(context)
-                    .showSnackBar(SnackBar(content: Text(message)));
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(message),
+                  backgroundColor: Theme.of(context).colorScheme.error,
+                ));
               },
               verified: () async {
                 //TODO translate all message and texts
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content:
-                        const Text('DID key and RSA key verified successfully')));
+                    content: const Text(
+                        'DID key and RSA key verified successfully')));
                 await Navigator.of(context)
                     .pushReplacement(OnBoardingKeyPage.route());
               });
@@ -120,18 +122,25 @@ class _SubmitEnterpriseUserPageState extends State<SubmitEnterpriseUserPage> {
                     final rsaFile =
                         context.read<SubmitEnterpriseUserCubit>().state.rsaFile;
                     if (_didController.text.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Please enter your DID key')));
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text('Please enter your DID key'),
+                          backgroundColor:
+                              Theme.of(context).colorScheme.error));
                       return;
                     }
                     if (rsaFile == null) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Please import your RSA key')));
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text('Please import your RSA key'),
+                          backgroundColor:
+                              Theme.of(context).colorScheme.error));
                       return;
                     }
                     context.read<VerifyRSAAndDIDCubit>().verify(
                         'did:web:' + _didController.text,
-                        context.read<SubmitEnterpriseUserCubit>().state.rsaFile!);
+                        context
+                            .read<SubmitEnterpriseUserCubit>()
+                            .state
+                            .rsaFile!);
                   },
                   child: const Text('Confirm'));
             },
