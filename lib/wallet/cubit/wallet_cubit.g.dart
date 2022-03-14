@@ -7,8 +7,8 @@ part of 'wallet_cubit.dart';
 // **************************************************************************
 
 WalletState _$WalletStateFromJson(Map<String, dynamic> json) => WalletState(
-      status: $enumDecodeNullable(_$KeyStatusEnumMap, json['status']) ??
-          KeyStatus.init,
+      status: $enumDecodeNullable(_$WalletStatusEnumMap, json['status']) ??
+          WalletStatus.init,
       credentials: (json['credentials'] as List<dynamic>?)
           ?.map((e) => CredentialModel.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -16,13 +16,15 @@ WalletState _$WalletStateFromJson(Map<String, dynamic> json) => WalletState(
 
 Map<String, dynamic> _$WalletStateToJson(WalletState instance) =>
     <String, dynamic>{
-      'status': _$KeyStatusEnumMap[instance.status],
+      'status': _$WalletStatusEnumMap[instance.status],
       'credentials': instance.credentials,
     };
 
-const _$KeyStatusEnumMap = {
-  KeyStatus.init: 'init',
-  KeyStatus.needsKey: 'needsKey',
-  KeyStatus.hasKey: 'hasKey',
-  KeyStatus.resetKey: 'resetKey',
+const _$WalletStatusEnumMap = {
+  WalletStatus.init: 'init',
+  WalletStatus.idle: 'idle',
+  WalletStatus.insert: 'insert',
+  WalletStatus.delete: 'delete',
+  WalletStatus.update: 'update',
+  WalletStatus.reset: 'reset',
 };

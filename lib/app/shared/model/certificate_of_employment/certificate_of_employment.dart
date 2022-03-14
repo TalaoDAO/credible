@@ -1,5 +1,4 @@
-import 'package:talao/app/pages/credentials/models/credential_model.dart';
-import 'package:talao/app/pages/credentials/widget/display_issuer.dart';
+import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:talao/app/shared/model/author.dart';
 import 'package:talao/app/shared/model/certificate_of_employment/work_for.dart';
 import 'package:talao/app/shared/model/credential_subject.dart';
@@ -8,6 +7,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:talao/app/shared/ui/theme.dart';
 import 'package:talao/app/shared/widget/base/credential_field.dart';
+import 'package:talao/credentials/widget/display_issuer.dart';
 
 part 'certificate_of_employment.g.dart';
 

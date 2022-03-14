@@ -1,21 +1,29 @@
 import 'dart:async';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:talao/app/pages/credentials/blocs/scan.dart';
-import 'package:talao/onboarding/key/view/onboarding_key_page.dart';
-import 'package:talao/wallet/wallet.dart';
-import 'package:talao/app/pages/credentials/pages/list.dart';
-import 'package:talao/app/pages/qr_code/bloc/qrcode.dart';
-import 'package:talao/app/pages/qr_code/check_host.dart';
-import 'package:talao/app/pages/qr_code/is_issuer_approved.dart';
+import 'package:talao/app/interop/issuer/check_issuer.dart';
+import 'package:talao/app/interop/issuer/models/issuer.dart';
+import 'package:talao/app/interop/network/network_client.dart';
+import 'package:talao/app/interop/secure_storage/secure_storage.dart';
+import 'package:talao/app/shared/constants.dart';
+import 'package:talao/app/shared/error_handler/error_handler.dart';
+import 'package:talao/app/shared/model/message.dart';
+import 'package:talao/app/shared/widget/confirm_dialog.dart';
+import 'package:talao/drawer/drawer.dart';
+import 'package:talao/l10n/l10n.dart';
+import 'package:talao/onboarding/key/onboarding_key.dart';
+import 'package:talao/qr_code/qr_code_scan/qr_code_scan.dart';
+import 'package:talao/credentials/credentials.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/deep_link/deep_link.dart';
 import 'package:talao/onboarding/onboarding.dart';
+import 'package:talao/scan/scan.dart';
 import 'package:talao/theme/theme.dart';
+import 'package:talao/wallet/wallet.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:video_player/video_player.dart';
 
@@ -50,9 +58,31 @@ class _SplashPageState extends State<SplashPage> {
       Duration(seconds: 0),
       () async {
         await context.read<ThemeCubit>().getCurrentTheme();
+        final key = await SecureStorageProvider.instance.get('key');
+        if (key == null) {
+          await onBoarding();
+        } else {
+          if (key.isEmpty) {
+            await onBoarding();
+          } else {
+            await _controller!.pause();
+            Future.delayed(
+              Duration(seconds: 5),
+              () => Navigator.of(context).push(CredentialsListPage.route()),
+            );
+          }
+        }
       },
     );
     super.initState();
+  }
+
+  Future<void> onBoarding() async {
+    await _controller!.pause();
+    Future.delayed(
+      Duration(seconds: 5),
+      () => Navigator.of(context).push(OnBoardingStartPage.route()),
+    );
   }
 
   @override
@@ -71,11 +101,14 @@ class _SplashPageState extends State<SplashPage> {
       _sub = uriLinkStream.listen((Uri? uri) {
         if (!mounted) return;
         print('got uri: $uri');
-        uri?.queryParameters.forEach((key, value) {
+        uri?.queryParameters.forEach((key, value) async {
           if (key == 'uri') {
-            final url = value.replaceAll(RegExp(r'^\"|\"$'), '');
+            final url = value.replaceAll(RegExp(r'ß^\"|\"$'), '');
             context.read<DeepLinkCubit>().addDeepLink(url);
-            Navigator.of(context).push(CredentialsList.route());
+            final key = await SecureStorageProvider.instance.get('key');
+            if (key != null) {
+              context.read<QRCodeScanCubit>().deepLink();
+            }
           }
         });
       }, onError: (Object err) {
@@ -129,61 +162,34 @@ class _SplashPageState extends State<SplashPage> {
   Widget build(BuildContext context) {
     _handleIncomingLinks(context);
     _handleInitialUri(context);
-    final localizations = AppLocalizations.of(context)!;
+    var l10n = context.l10n;
     return MultiBlocListener(
       listeners: [
         BlocListener<WalletCubit, WalletState>(
           listener: (context, state) {
-            if (state.status == KeyStatus.needsKey) {
-              Future.delayed(
-                Duration(seconds: 5),
-                () => Navigator.of(context).push(OnBoardingStartPage.route()),
-              );
+            if (state.status == WalletStatus.insert) {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(l10n.credentialAddedMessage),
+              ));
             }
-            if (state.status == KeyStatus.hasKey) {
-              Future.delayed(
-                Duration(seconds: 5),
-                () => Navigator.of(context).push(CredentialsList.route()),
-              );
+            if (state.status == WalletStatus.update) {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(l10n.credentialDetailEditSuccessMessage),
+              ));
             }
-            if (state.status == KeyStatus.resetKey) {
+            if (state.status == WalletStatus.delete) {
+              final message = StateMessage(
+                message: l10n.credentialDetailDeleteSuccessMessage,
+                type: MessageType.success,
+              );
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                backgroundColor: message.color,
+                content: Text(message.message!),
+              ));
+              Navigator.of(context).pop();
+            }
+            if (state.status == WalletStatus.reset) {
               Navigator.of(context).pushReplacement(OnBoardingKeyPage.route());
-            }
-          },
-        ),
-        BlocListener<QRCodeBloc, QRCodeState>(
-          listener: (context, state) async {
-            if (state is QRCodeStateHost) {
-              var approvedIssuer = await isApprovedIssuer(state.uri, context);
-              var acceptHost;
-              acceptHost =
-                  await checkHost(state.uri, approvedIssuer, context) ?? false;
-
-              if (acceptHost) {
-                context.read<QRCodeBloc>().add(QRCodeEventAccept(state.uri));
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(localizations.scanRefuseHost),
-                ));
-                await Navigator.of(context)
-                    .pushReplacement(CredentialsList.route());
-              }
-            }
-            if (state is QRCodeStateSuccess) {
-              await Navigator.of(context).pushReplacement(state.route);
-            }
-            if (state is QRCodeStateMessage) {
-              final errorHandler = state.message.errorHandler;
-              if (errorHandler != null) {
-                final color =
-                    state.message.color ?? Theme.of(context).colorScheme.error;
-                errorHandler.displayError(context, errorHandler, color);
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  backgroundColor: state.message.color,
-                  content: Text(state.message.message!),
-                ));
-              }
             }
           },
         ),
@@ -204,6 +210,89 @@ class _SplashPageState extends State<SplashPage> {
             }
           },
         ),
+
+        ///Note - Sync listener content with qr code scan listener
+        BlocListener<QRCodeScanCubit, QRCodeScanState>(
+            listener: (context, state) async {
+          if (state.isDeepLink == null) return;
+          if (!state.isDeepLink!) return;
+
+          if (state is QRCodeScanStateHost) {
+            // if (state.promptActive!) return;
+            // context.read<QRCodeScanCubit>().promptDeactivate();
+            var approvedIssuer = Issuer.emptyIssuer();
+
+            var profileCubit = context.read<ProfileCubit>();
+            if (profileCubit.state is ProfileStateDefault) {
+              final isIssuerVerificationSettingTrue =
+                  profileCubit.state.model!.issuerVerificationSetting;
+              if (isIssuerVerificationSettingTrue) {
+                try {
+                  approvedIssuer = await CheckIssuer(
+                          DioClient(Constants.checkIssuerServerUrl, Dio()),
+                          Constants.checkIssuerServerUrl,
+                          state.uri!)
+                      .isIssuerInApprovedList();
+                } catch (e) {
+                  if (e is ErrorHandler) {
+                    e.displayError(
+                        context, e, Theme.of(context).colorScheme.error);
+                  }
+                }
+              }
+            }
+            var acceptHost = await showDialog<bool>(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return ConfirmDialog(
+                      title: l10n.scanPromptHost,
+                      subtitle: (approvedIssuer.did.isEmpty)
+                          ? state.uri!.host
+                          : '${approvedIssuer.organizationInfo.legalName}\n${approvedIssuer.organizationInfo.currentAddress}',
+                      yes: l10n.communicationHostAllow,
+                      no: l10n.communicationHostDeny,
+                      lock: (state.uri!.scheme == 'http') ? true : false,
+                    );
+                  },
+                ) ??
+                false;
+
+            if (acceptHost) {
+              context.read<QRCodeScanCubit>().accept(state.uri!, true);
+            } else {
+              //await qrController.resumeCamera();
+              context.read<QRCodeScanCubit>().emitWorkingState();
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(l10n.scanRefuseHost),
+              ));
+            }
+          }
+          if (state is QRCodeScanStateSuccess) {
+            //   await qrController.stopCamera();
+            ///Note: Push
+            await Navigator.of(context).push(state.route!);
+          }
+          if (state is QRCodeScanStateMessage) {
+            //   await qrController.resumeCamera();
+            final errorHandler = state.message!.errorHandler;
+            if (errorHandler != null) {
+              final color =
+                  state.message!.color ?? Theme.of(context).colorScheme.error;
+              errorHandler.displayError(context, errorHandler, color);
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                backgroundColor: state.message!.color,
+                content: Text(state.message!.message!),
+              ));
+            }
+          }
+          if (state is QRCodeScanStateUnknown) {
+            //   await qrController.resumeCamera();
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(l10n.scanUnsupportedMessage),
+            ));
+          }
+        })
       ],
       child: BasePage(
         backgroundColor: const Color(0xffffffff),
