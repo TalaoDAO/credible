@@ -41,7 +41,7 @@ class CredentialsReceivePage extends StatelessWidget {
             Navigator.of(context).pop();
           }
           if (state is ScanStateIdle) {
-            Navigator.of(context).pushReplacement(CredentialsListPage.route());
+            Navigator.of(context).pop();
           }
         },
         builder: (builderContext, state) {
@@ -77,12 +77,15 @@ class CredentialsReceivePage extends StatelessWidget {
                         title: localizations.credentialPickAlertMessage,
                       ),
                     );
-                    context.read<ScanCubit>().credentialOffer(
-                          url: url.toString(),
-                          credentialModel: CredentialModel.copyWithAlias(
-                              oldCredentialModel: credential, newAlias: alias),
-                          keyId: 'key',
-                        );
+                    if (alias != null) {
+                      context.read<ScanCubit>().credentialOffer(
+                            url: url.toString(),
+                            credentialModel: CredentialModel.copyWithAlias(
+                                oldCredentialModel: credential,
+                                newAlias: alias),
+                            keyId: 'key',
+                          );
+                    }
                   },
                   child: Text(localizations.credentialReceiveConfirm),
                 ),

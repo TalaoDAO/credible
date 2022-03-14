@@ -72,6 +72,7 @@ class ScanCubit extends Cubit<ScanState> {
             message: StateMessage.warning(
                 'Credential verification returned some warnings. '
                 'Check the logs for more information.')));
+        return emit(ScanStateIdle());
       }
 
       if (jsonVerification['errors'].isNotEmpty) {
@@ -80,14 +81,12 @@ class ScanCubit extends Cubit<ScanState> {
           emit(ScanStateMessage(
               message: StateMessage.error('Failed to verify credential. '
                   'Check the logs for more information.')));
+          return emit(ScanStateIdle());
         }
       }
 
       await walletCubit.insertCredential(CredentialModel.copyWithData(
           oldCredentialModel: credentialModel, newData: jsonCredential));
-
-      // emit(ScanStateMessage(StateMessage.success(
-      //     'A new credential has been successfully added!')));
 
       emit(ScanStateSuccess());
     } catch (e) {
