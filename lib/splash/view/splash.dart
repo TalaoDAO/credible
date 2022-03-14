@@ -65,10 +65,12 @@ class _SplashPageState extends State<SplashPage> {
           if (key.isEmpty) {
             await onBoarding();
           } else {
-            await _controller!.pause();
             Future.delayed(
-              Duration(seconds: 5),
-              () => Navigator.of(context).push(CredentialsListPage.route()),
+              Duration(seconds: 2),
+              () async {
+                await _controller!.pause();
+                return Navigator.of(context).push(CredentialsListPage.route());
+              },
             );
           }
         }
