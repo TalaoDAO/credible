@@ -1,2 +1,2 @@
 export 'view/personal_page.dart';
-export 'bloc/personal_page_cubit.dart';
+export 'cubit/personal_page_cubit.dart';

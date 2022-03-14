@@ -1,5 +1,4 @@
 import 'package:talao/drawer/backup_credential/backup_credential.dart';
-import 'package:talao/drawer/profile/cubit/profile_state.dart';
 import 'package:talao/drawer/recovery_credential/recovery_credential.dart';
 import 'package:talao/drawer/recovery_key/view/recovery_key_page.dart';
 import 'package:talao/wallet/wallet.dart';
@@ -34,8 +33,7 @@ class ProfileView extends StatelessWidget {
 
     return Drawer(
       child: SafeArea(
-        child: BlocConsumer(
-          bloc: context.read<ProfileCubit>(),
+        child: BlocConsumer<ProfileCubit, ProfileState>(
           listener: (context, state) {},
           builder: (context, state) {
             final model =
@@ -111,7 +109,6 @@ class ProfileView extends StatelessWidget {
                         ) ??
                         false;
                     if (confirm) {
-
                       await context.read<WalletCubit>().resetWallet();
                     }
                   },
@@ -140,7 +137,8 @@ class ProfileView extends StatelessWidget {
                         false;
 
                     if (confirm) {
-                      await Navigator.of(context).push(RecoveryCredentialPage.route());
+                      await Navigator.of(context)
+                          .push(RecoveryCredentialPage.route());
                     }
                   },
                 ),

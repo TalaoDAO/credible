@@ -50,6 +50,8 @@ class _RecoveryCredentialPageState extends State<RecoveryCredentialPage> {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text(l10n.recoveryCredentialSuccessMessage(
                   '$credentialLength ${credentialLength! > 1 ? 'credentials' : 'credential'}'))));
+          Navigator.of(context).pop();
+          Navigator.of(context).pop();
         }
         if (state.status == RecoveryCredentialStatus.invalidJson) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:talao/self_issued_credential/cubit/self_issued_credential_cubit.dart';
 import 'package:talao/l10n/l10n.dart';
-import 'package:talao/self_issued_credential/bloc/self_issued_credential.dart';
 import 'package:talao/wallet/cubit/wallet_cubit.dart';
 
 typedef SelfIssuedCredentialButtonClick = SelfIssuedCredentialDataModel
@@ -60,12 +60,12 @@ class SelfIssuedCredentialButton extends StatelessWidget {
         context.read<WalletCubit>(),
       ),
       child: BlocConsumer<SelfIssuedCredentialCubit, SelfIssuedCredentialState>(
-          builder: (ctx, state) {
+          builder: (context, state) {
         return FloatingActionButton(
           onPressed: () {
             state.maybeWhen(
                 orElse: () {
-                  ctx
+                  context
                       .read<SelfIssuedCredentialCubit>()
                       .createSelfIssuedCredential(
                           selfIssuedCredentialDataModel:
@@ -80,19 +80,19 @@ class SelfIssuedCredentialButton extends StatelessWidget {
                     Center(child: CircularProgressIndicator.adaptive()));
           }),
         );
-      }, listener: (ctx, state) {
+      }, listener: (context, state) {
         state.maybeWhen(
             orElse: () => null,
             error: (message) {
-              ScaffoldMessenger.of(ctx)
+              ScaffoldMessenger.of(context)
                   .showSnackBar(SnackBar(content: Text(message)));
             },
             warning: (message) {
-              ScaffoldMessenger.of(ctx)
+              ScaffoldMessenger.of(context)
                   .showSnackBar(SnackBar(content: Text(message)));
             },
             credentialCreated: () {
-              ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text(localization.selfIssuedCreatedSuccessfully)));
             });
       }),

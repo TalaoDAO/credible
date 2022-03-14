@@ -110,7 +110,7 @@ Currently (Credible 0.1) when the wallet makes a GET to the Issuer endpoint, a J
  })
 
 
-The modification consists in adding a “scope” attribute, a "display" attribute and a shareLInk attribute to the JSON returned by the Issuer (Issuer GET response).
+The modification consists in adding a "display" attribute and a shareLInk attribute to the JSON returned by the Issuer (Issuer GET response).
  
 The "shareLink" attribute is an UR to be presented for share link as user convenience.
 
@@ -122,7 +122,6 @@ example:
            "type": "CredentialOffer",
            "credentialPreview": {...},
            "expires" : 12/08/2021Z ",
-           "scope" : [subjectId familyName givenName],
            "shareLink" : "https://talao.co/shareLink"
 }
 ```

@@ -8,7 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:talao/app/interop/crypto_keys/crypto_keys.dart';
-import 'package:talao/app/pages/credentials/models/credential_model.dart';
+import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:talao/app/shared/model/encryption/encryption.dart';
 import 'package:talao/app/shared/model/message.dart';
 import 'package:talao/wallet/cubit/wallet_cubit.dart';
@@ -40,12 +40,10 @@ class RecoveryCredentialCubit extends Cubit<RecoveryCredentialState> {
     }
     var result = await FilePicker.platform
         .pickFiles(type: FileType.custom, allowedExtensions: ['txt']);
-
     if (result != null) {
       try {
         var file = File(result.files.single.path!);
         var text = await file.readAsString();
-        print(text);
         Map json = jsonDecode(text) as Map<String, dynamic>;
         if (!json.containsKey('cipherText') ||
             !json.containsKey('authenticationTag') ||

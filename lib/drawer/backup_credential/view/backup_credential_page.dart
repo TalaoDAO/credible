@@ -1,3 +1,4 @@
+import 'package:file_saver/file_saver.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:talao/app/interop/crypto_keys/crypto_keys.dart';
@@ -15,11 +16,11 @@ class BackupCredentialPage extends StatefulWidget {
   static Route route() => MaterialPageRoute(
         builder: (_) => BlocProvider(
           create: (context) => BackupCredentialCubit(
-            secureStorageProvider: SecureStorageProvider.instance,
-            cryptoKeys: CryptoKeys(),
-            walletCubit: context.read<WalletCubit>(),
-            localNotification: LocalNotification(),
-          ),
+              secureStorageProvider: SecureStorageProvider.instance,
+              cryptoKeys: CryptoKeys(),
+              walletCubit: context.read<WalletCubit>(),
+              localNotification: LocalNotification(),
+              fileSaver: FileSaver.instance),
           child: BackupCredentialPage(),
         ),
         settings: RouteSettings(name: '/backupCredentialPage'),
@@ -51,14 +52,16 @@ class _BackupCredentialPageState extends State<BackupCredentialPage> {
             ));
           }
           if (state.status == BackupCredentialStatus.success) {
-            await context
-                .read<BackupCredentialCubit>()
-                .localNotification
-                .showNotification(
-                  filePath: state.filePath,
-                  title: l10n.backupCredentialNotificationTitle,
-                  message: l10n.backupCredentialNotificationMessage,
-                );
+            ///todo: waiting for filesaver package
+            ///issue: https://github.com/incrediblezayed/file_saver/issues/30
+            // await context
+            //     .read<BackupCredentialCubit>()
+            //     .localNotification
+            //     .showNotification(
+            //       filePath: state.filePath,
+            //       title: l10n.backupCredentialNotificationTitle,
+            //       message: l10n.backupCredentialNotificationMessage,
+            //     );
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text(l10n.backupCredentialSuccessMessage),
             ));

@@ -20,10 +20,10 @@ dependencies:
   didkit:
     path: ../didkit/lib/flutter
   dio: ^4.0.4
-  downloads_path_provider_28: ^0.1.2
   ed25519_hd_key: ^2.2.0
   equatable: ^2.0.3
   file_picker: ^4.4.0
+  file_saver: ^0.1.0
   flutter:
     sdk: flutter
   flutter_localizations:
@@ -36,6 +36,7 @@ dependencies:
   flutter_svg: ^1.0.0
   font_awesome_flutter: ^9.2.0
   freezed: ^1.1.1
+  freezed_annotation: ^1.1.0
   google_fonts: ^2.2.0
   hex: ^0.2.0
   intl: ^0.17.0
@@ -51,13 +52,9 @@ dependencies:
   qr_flutter: ^4.0.0
   secp256k1: ^0.3.0
   uni_links: ^0.5.1
-
-  freezed_annotation: ^1.1.0
-
-#  device_preview: ^1.0.0
-
   url_launcher: ^6.0.17
   uuid: ^3.0.5
+  video_player: ^2.2.19
 
   dotted_border: ^2.0.0+2
 
@@ -75,7 +72,7 @@ dev_dependencies:
   pedantic: ^1.11.0
 
 dependency_overrides:
-  analyzer: "2.8.0"
+  analyzer: "3.3.1"
 
 flutter_icons:
   android: "launcher_icon"
@@ -91,5 +88,5 @@ flutter:
     - assets/image/
     - assets/privacy/
     - assets/terms/
-    - assets/brand/
     - assets/icon/
+    - assets/splash/

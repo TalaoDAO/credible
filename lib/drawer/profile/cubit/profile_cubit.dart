@@ -1,16 +1,20 @@
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/shared/constants.dart';
 import 'package:talao/app/shared/model/message.dart';
 import 'package:logging/logging.dart';
 import 'package:talao/drawer/profile/models/models.dart';
 
-import 'profile_state.dart';
+part 'profile_state.dart';
+
+part 'profile_cubit.g.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
-  final SecureStorageProvider? secureStorageProvider;
+  final SecureStorageProvider secureStorageProvider;
 
-  ProfileCubit({this.secureStorageProvider})
+  ProfileCubit({required this.secureStorageProvider})
       : super(ProfileState(model: ProfileModel.empty)) {
     load();
   }
@@ -19,14 +23,14 @@ class ProfileCubit extends Cubit<ProfileState> {
     final log = Logger('talao-wallet/profile/load');
     try {
       final firstName =
-          await secureStorageProvider!.get(Constants.firstNameKey) ?? '';
+          await secureStorageProvider.get(Constants.firstNameKey) ?? '';
       final lastName =
-          await secureStorageProvider!.get(Constants.lastNameKey) ?? '';
-      final phone = await secureStorageProvider!.get(Constants.phoneKey) ?? '';
+          await secureStorageProvider.get(Constants.lastNameKey) ?? '';
+      final phone = await secureStorageProvider.get(Constants.phoneKey) ?? '';
       final location =
-          await secureStorageProvider!.get(Constants.locationKey) ?? '';
-      final email = await secureStorageProvider!.get(Constants.emailKey) ?? '';
-      final issuerVerificationSetting = !(await secureStorageProvider!
+          await secureStorageProvider.get(Constants.locationKey) ?? '';
+      final email = await secureStorageProvider.get(Constants.emailKey) ?? '';
+      final issuerVerificationSetting = !(await secureStorageProvider
               .get(Constants.issuerVerificationSettingKey) ==
           'false');
 
@@ -48,7 +52,12 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
-  void resetProfile() {
+  Future<void> resetProfile() async {
+    await secureStorageProvider.delete(Constants.firstNameKey);
+    await secureStorageProvider.delete(Constants.lastNameKey);
+    await secureStorageProvider.delete(Constants.phoneKey);
+    await secureStorageProvider.delete(Constants.locationKey);
+    await secureStorageProvider.delete(Constants.emailKey);
     emit(ProfileStateDefault(model: ProfileModel.empty));
   }
 
@@ -56,24 +65,24 @@ class ProfileCubit extends Cubit<ProfileState> {
     final log = Logger('talao-wallet/profile/update');
 
     try {
-      await secureStorageProvider!.set(
+      await secureStorageProvider.set(
         Constants.firstNameKey,
         profileModel.firstName,
       );
-      await secureStorageProvider!.set(
+      await secureStorageProvider.set(
         Constants.lastNameKey,
         profileModel.lastName,
       );
-      await secureStorageProvider!.set(Constants.phoneKey, profileModel.phone);
-      await secureStorageProvider!.set(
+      await secureStorageProvider.set(Constants.phoneKey, profileModel.phone);
+      await secureStorageProvider.set(
         Constants.locationKey,
         profileModel.location,
       );
-      await secureStorageProvider!.set(
+      await secureStorageProvider.set(
         Constants.emailKey,
         profileModel.email,
       );
-      await secureStorageProvider!.set(
+      await secureStorageProvider.set(
         Constants.issuerVerificationSettingKey,
         profileModel.issuerVerificationSetting.toString(),
       );
