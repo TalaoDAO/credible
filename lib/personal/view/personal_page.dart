@@ -235,7 +235,7 @@ class _PersonalPageState extends State<PersonalPage> {
             ],
           );
         }),
-        navigation: !widget.isFromOnBoarding
+        navigation: !widget.isFromOnBoarding || widget.isEnterprise
             ? null
             : SafeArea(
                 child: Padding(
