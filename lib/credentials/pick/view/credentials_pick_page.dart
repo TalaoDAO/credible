@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talao/credentials/credentials.dart';
+import 'package:talao/l10n/l10n.dart';
 import 'package:talao/scan/scan.dart';
 import 'package:talao/wallet/wallet.dart';
 import 'package:talao/credentials/widget/list_item.dart';
@@ -8,7 +9,6 @@ import 'package:talao/app/shared/ui/theme.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:talao/query_by_example/query_by_example.dart';
 
 class CredentialsPickPage extends StatefulWidget {
@@ -23,11 +23,11 @@ class CredentialsPickPage extends StatefulWidget {
 
   static Route route(Uri routeUri, Map<String, dynamic> preview) =>
       MaterialPageRoute(
-        builder: (context) => CredentialsPickPage(
-          uri: routeUri,
-          preview: preview,
+        builder: (context) => BlocProvider(
+          create: (context) => CredentialsPickCubit(),
+          child: CredentialsPickPage(uri: routeUri, preview: preview),
         ),
-        settings: RouteSettings(name: '/credentialsPick'),
+        settings: RouteSettings(name: '/credentialsPickPage'),
       );
 
   @override
@@ -35,114 +35,104 @@ class CredentialsPickPage extends StatefulWidget {
 }
 
 class _CredentialsPickPageState extends State<CredentialsPickPage> {
-  final selection = <int>{};
-
-  void toggle(int index) {
-    if (selection.contains(index)) {
-      selection.remove(index);
-    } else {
-      selection.add(index);
-    }
-    setState(() {});
-  }
-
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
     final queryByExampleCubit = context.read<QueryByExampleCubit>().state;
     var reasonList = '';
     if (queryByExampleCubit.type != '') {
       /// get all the reasons
       queryByExampleCubit.credentialQuery.forEach((e) {
-        reasonList += getTranslation(e.reason, localizations) + '\n';
+        reasonList += getTranslation(e.reason, l10n) + '\n';
       });
     }
     return BlocBuilder<WalletCubit, WalletState>(
-        builder: (builderContext, walletState) {
-      return BasePage(
-        title: localizations.credentialPickTitle,
-        titleTrailing: IconButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          icon: Icon(Icons.close),
-        ),
-        padding: const EdgeInsets.symmetric(
-          vertical: 24.0,
-          horizontal: 16.0,
-        ),
-        navigation: SafeArea(
-          child: Container(
-            padding: const EdgeInsets.all(16.0),
-            height: kBottomNavigationBarHeight + 16,
-            child: Tooltip(
-              message: localizations.credentialPickPresent,
-              child: Builder(builder: (builderContext) {
-                return BaseButton.primary(
-                  context: context,
-                  onPressed: () {
-                    if (selection.isEmpty) {
-                      ScaffoldMessenger.of(builderContext)
-                          .showSnackBar(SnackBar(
-                                                                                  backgroundColor:
-                            Theme.of(context).colorScheme.snackBarError,
-                        content: Text(localizations.credentialPickSelect),
-                      ));
-                    } else {
-                      final scanCubit = builderContext.read<ScanCubit>();
-                      scanCubit.verifiablePresentationRequest(
-                        url: widget.uri.toString(),
-                        keyId: 'key',
-                        credentials: selection
-                            .map((i) => walletState.credentials[i])
-                            .toList(),
-                        challenge: widget.preview['challenge'],
-                        domain: widget.preview['domain'],
-                      );
-                      Navigator.of(builderContext)
-                          .pushReplacement(CredentialsListPage.route());
-                    }
-                  },
-                  child: Text(localizations.credentialPickPresent),
-                );
-              }),
+        builder: (context, walletState) {
+      return BlocBuilder<CredentialsPickCubit, CredentialsPickState>(
+        builder: (context, credentialsPickState) {
+          return BasePage(
+            title: l10n.credentialPickTitle,
+            titleTrailing: IconButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: Icon(Icons.close),
             ),
-          ),
-        ),
-        body: Column(
-          children: <Widget>[
-            Text(
-              reasonList == ''
-                  ? localizations.credentialPickSelect
-                  : localizations.credentialPresentConfirm,
-              style: Theme.of(context).textTheme.bodyText1,
+            padding: const EdgeInsets.symmetric(
+              vertical: 24.0,
+              horizontal: 16.0,
             ),
-            Text(reasonList,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1
-                    ?.copyWith(fontWeight: FontWeight.w600)),
-            const SizedBox(height: 12.0),
-            ...List.generate(
-              walletState.credentials.length,
-              (index) => CredentialsListPageItem(
-                item: walletState.credentials[index],
-                selected: selection.contains(index),
-                onTap: () => toggle(index),
+            navigation: SafeArea(
+              child: Container(
+                padding: const EdgeInsets.all(16.0),
+                height: kBottomNavigationBarHeight + 16,
+                child: Tooltip(
+                  message: l10n.credentialPickPresent,
+                  child: Builder(builder: (context) {
+                    return BaseButton.primary(
+                      context: context,
+                      onPressed: () {
+                        if (credentialsPickState.selection.isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            backgroundColor:
+                                Theme.of(context).colorScheme.snackBarError,
+                            content: Text(l10n.credentialPickSelect),
+                          ));
+                        } else {
+                          final scanCubit = context.read<ScanCubit>();
+                          scanCubit.verifiablePresentationRequest(
+                            url: widget.uri.toString(),
+                            keyId: 'key',
+                            credentials: credentialsPickState.selection
+                                .map((i) => walletState.credentials[i])
+                                .toList(),
+                            challenge: widget.preview['challenge'],
+                            domain: widget.preview['domain'],
+                          );
+                        }
+                      },
+                      child: Text(l10n.credentialPickPresent),
+                    );
+                  }),
+                ),
               ),
             ),
-          ],
-        ),
+            body: Column(
+              children: <Widget>[
+                Text(
+                  reasonList == ''
+                      ? l10n.credentialPickSelect
+                      : l10n.credentialPresentConfirm,
+                  style: Theme.of(context).textTheme.bodyText1,
+                ),
+                Text(reasonList,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1
+                        ?.copyWith(fontWeight: FontWeight.w600)),
+                const SizedBox(height: 12.0),
+                ...List.generate(
+                  walletState.credentials.length,
+                  (index) => CredentialsListPageItem(
+                    item: walletState.credentials[index],
+                    selected: credentialsPickState.selection.contains(index),
+                    onTap: () =>
+                        context.read<CredentialsPickCubit>().toggle(index),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
       );
     });
   }
 }
 
-String getTranslation(
-    List<Translation> translations, AppLocalizations localizations) {
+String getTranslation(List<Translation> translations, AppLocalizations l10n) {
   var _translation;
-  var translated = translations
-      .where((element) => element.language == localizations.localeName);
+  var translated =
+      translations.where((element) => element.language == l10n.localeName);
   if (translated.isEmpty) {
     var titi = translations.where((element) => element.language == 'en');
     if (titi.isEmpty) {
