@@ -239,6 +239,9 @@ class _SplashPageState extends State<SplashPage> {
             if (state is ScanStateSuccess) {
               Navigator.of(context).pop();
             }
+            if (state is ScanStateIdle) {
+              Navigator.of(context).pop();
+            }
           },
         ),
 

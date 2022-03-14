@@ -34,15 +34,7 @@ class CredentialsReceivePage extends StatelessWidget {
         onPressed: () => Navigator.of(context).pop(),
         icon: Icon(Icons.close),
       ),
-      body: BlocConsumer<ScanCubit, ScanState>(
-        listener: (context, state) {
-          if (state is ScanStateSuccess) {
-            Navigator.of(context).pop();
-          }
-          if (state is ScanStateIdle) {
-            Navigator.of(context).pop();
-          }
-        },
+      body: BlocBuilder<ScanCubit, ScanState>(
         builder: (builderContext, state) {
           if (state is ScanStatePreview) {
             final credential = CredentialModel.fromJson(state.preview!);

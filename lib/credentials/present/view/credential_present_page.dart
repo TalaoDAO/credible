@@ -38,12 +38,7 @@ class _CredentialsPresentPageState extends State<CredentialsPresentPage> {
         onPressed: () => Navigator.of(context).pop(),
         icon: Icon(Icons.close),
       ),
-      body: BlocConsumer<ScanCubit, ScanState>(
-        listener: (context, state) {
-          if (state is ScanStateSuccess) {
-            Navigator.of(context).pop();
-          }
-        },
+      body: BlocBuilder<ScanCubit, ScanState>(
         builder: (context, state) {
           if (state is ScanStatePreview) {
             return Column(
@@ -77,7 +72,8 @@ class _CredentialsPresentPageState extends State<CredentialsPresentPage> {
                   context: context,
                   onPressed: () => Navigator.of(context).pushReplacement(
                       CredentialsPickPage.route(widget.uri, state.preview!)),
-                  child: Text( l10n.credentialPresentConfirm,
+                  child: Text(
+                    l10n.credentialPresentConfirm,
                   ),
                 ),
                 const SizedBox(height: 8.0),
@@ -86,7 +82,8 @@ class _CredentialsPresentPageState extends State<CredentialsPresentPage> {
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: Text( l10n.credentialPresentCancel,
+                  child: Text(
+                    l10n.credentialPresentCancel,
                   ),
                 ),
               ],
