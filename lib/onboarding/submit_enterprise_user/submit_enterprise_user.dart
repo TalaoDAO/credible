@@ -4,10 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/base/text_field.dart';
-import 'package:talao/onboarding/key/view/onboarding_key_page.dart';
+import 'package:talao/drawer/profile/models/profile.dart';
 import 'package:talao/onboarding/submit_enterprise_user/bloc/verify_rsa_and_did_cubit.dart';
 import 'package:talao/onboarding/submit_enterprise_user/widgets/picked_file.dart';
 import 'package:talao/onboarding/wallet_type/choose_wallet_type_page.dart';
+import 'package:talao/personal/view/personal_page.dart';
 
 import 'bloc/submit_enterprise_user_cubit.dart';
 import 'widgets/pick_file_button.dart';
@@ -109,8 +110,8 @@ class _SubmitEnterpriseUserPageState extends State<SubmitEnterpriseUserPage> {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     content: const Text(
                         'DID key and RSA key verified successfully')));
-                await Navigator.of(context)
-                    .pushReplacement(OnBoardingKeyPage.route());
+                await Navigator.of(context).pushReplacement(PersonalPage.route(
+                    profileModel: ProfileModel.empty, isFromOnBoarding: true));
               });
         }, builder: (context, state) {
           return state.maybeWhen(
