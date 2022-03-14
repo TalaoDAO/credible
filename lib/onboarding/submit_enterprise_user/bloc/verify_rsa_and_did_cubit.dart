@@ -50,7 +50,8 @@ class VerifyRSAAndDIDCubit extends Cubit<VerifyRSAAndDIDState> {
             .read(RSAJson)
             .where((element) => element.value['kty'] == 'RSA')
             .toList()
-            .first.value['n'];
+            .first
+            .value['n'];
 
         final filteredPublicKeyJwks = publicKeyJwks
             .read(resolvedDIDJson)
@@ -62,7 +63,9 @@ class VerifyRSAAndDIDCubit extends Cubit<VerifyRSAAndDIDState> {
         for (var i = 0; i < filteredPublicKeyJwks.length; i++) {
           final publicKeyJwk = filteredPublicKeyJwks[i].value;
           if (publicKeyJwk['n'] == RSAKey &&
-              (resolvedDIDJson['didDocument']['assertionMethod'] as List<dynamic>).contains(publicKeyJwk['kid'])) {
+              (resolvedDIDJson['didDocument']['assertionMethod']
+                      as List<dynamic>)
+                  .contains(publicKeyJwk['kid'])) {
             verified = true;
             break;
           }
@@ -70,6 +73,8 @@ class VerifyRSAAndDIDCubit extends Cubit<VerifyRSAAndDIDState> {
         if (verified) {
           await SecureStorageProvider.instance
               .set(SecureStorageKeys.RSAKeyJson, jsonEncode(RSAJson));
+          await SecureStorageProvider.instance
+              .set(SecureStorageKeys.key, RSAKey);
           await SecureStorageProvider.instance.set(SecureStorageKeys.did, did);
           emit(const VerifyRSAAndDIDState.verified());
         } else {
