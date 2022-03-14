@@ -78,10 +78,12 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   Future<void> onBoarding() async {
-    await _controller!.pause();
     Future.delayed(
       Duration(seconds: 5),
-      () => Navigator.of(context).push(OnBoardingStartPage.route()),
+      () {
+        _controller!.pause();
+        Navigator.of(context).push(OnBoardingStartPage.route());
+      },
     );
   }
 
