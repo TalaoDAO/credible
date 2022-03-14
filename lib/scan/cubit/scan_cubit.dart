@@ -165,7 +165,7 @@ class ScanCubit extends Cubit<ScanState> {
   }
 
   //
-  void store(
+  void storeCHAPI(
       {required Map<String, dynamic> data,
       required void Function(String) done}) async {
     final log = Logger('talao-wallet/scan/chapi-store');
@@ -241,7 +241,7 @@ class ScanCubit extends Cubit<ScanState> {
     emit(ScanStateSuccess());
   }
 
-  void getDIDAuth(
+  void getDIDAuthCHAPI(
       {required Uri uri,
       required String keyId,
       required void Function(String) done,
@@ -297,7 +297,7 @@ class ScanCubit extends Cubit<ScanState> {
   }
 
   //
-  void getQueryByExample({
+  void getQueryByExampleCHAPI({
     required String keyId,
     required List<CredentialModel> credentials,
     required String? challenge,
@@ -351,12 +351,12 @@ class ScanCubit extends Cubit<ScanState> {
   }
 
   //
-  void storeQueryByExample(
+  void storeQueryByExampleCHAPI(
       {required Map<String, dynamic> data, required Uri uri}) async {
     emit(ScanStateStoreQueryByExample(data: data, uri: uri));
   }
 
-  void askPermissionDIDAuth(
+  void askPermissionDIDAuthCHAPI(
       {required String keyId,
       String? challenge,
       String? domain,

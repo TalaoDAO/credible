@@ -100,7 +100,7 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
           if (data['query'] != null) {
             queryByExampleCubit.setQueryByExampleCubit(data['query'].first);
             if (data['query'].first['type'] == 'DIDAuth') {
-              scanCubit.askPermissionDIDAuth(
+              scanCubit.askPermissionDIDAuthCHAPI(
                 keyId: 'key',
                 done: (done) {
                   print('done');

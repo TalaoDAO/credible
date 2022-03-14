@@ -226,7 +226,7 @@ class _SplashPageState extends State<SplashPage> {
                   false;
 
               if (confirm && state is ScanStateAskPermissionDIDAuth) {
-                scanCubit.getDIDAuth(
+                scanCubit.getDIDAuthCHAPI(
                     keyId: state.keyId!,
                     done: state.done!,
                     uri: state.uri!,
