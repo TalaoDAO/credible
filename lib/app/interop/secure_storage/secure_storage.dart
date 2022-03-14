@@ -24,6 +24,7 @@ abstract class SecureStorageProvider {
 abstract class SecureStorageKeys {
   static const isEnterpriseUser = 'isEnterpriseUser';
   static const did = 'DID';
+  static const RSAKeyJson = 'RSAKeyJson';
   static const DIDMethod = 'DIDMethod';
   static const DIDMethodName = 'DIDMethodName';
 }
