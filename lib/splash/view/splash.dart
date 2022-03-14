@@ -80,10 +80,12 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   Future<void> onBoarding() async {
-    await _controller!.pause();
     Future.delayed(
       Duration(seconds: 5),
-      () => Navigator.of(context).push(OnBoardingStartPage.route()),
+      () {
+        _controller!.pause();
+        Navigator.of(context).push(OnBoardingStartPage.route());
+      },
     );
   }
 
@@ -195,20 +197,52 @@ class _SplashPageState extends State<SplashPage> {
             }
           },
         ),
-        BlocListener<ScanBloc, ScanState>(
-          listener: (context, state) {
+        BlocListener<ScanCubit, ScanState>(
+          listener: (context, state) async {
             if (state is ScanStateMessage) {
-              final errorHandler = state.message.errorHandler;
+              final errorHandler = state.message!.errorHandler;
               if (errorHandler != null) {
                 final color =
-                    state.message.color ?? Theme.of(context).colorScheme.error;
+                    state.message!.color ?? Theme.of(context).colorScheme.error;
                 errorHandler.displayError(context, errorHandler, color);
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  backgroundColor: state.message.color,
-                  content: Text(state.message.message!),
+                  backgroundColor: state.message!.color,
+                  content: Text(state.message!.message!),
                 ));
               }
+            }
+            if (state is ScanStateAskPermissionDIDAuth) {
+              final l10n = context.l10n;
+              final scanCubit = context.read<ScanCubit>();
+              final state = scanCubit.state;
+              final confirm = await showDialog<bool>(
+                    context: context,
+                    builder: (context) => ConfirmDialog(
+                      title:
+                          '${l10n.credentialPresentTitleDIDAuth}\n${l10n.confimrDIDAuth}',
+                      yes: l10n.showDialogYes,
+                      no: l10n.showDialogNo,
+                    ),
+                  ) ??
+                  false;
+
+              if (confirm && state is ScanStateAskPermissionDIDAuth) {
+                scanCubit.getDIDAuthCHAPI(
+                    keyId: state.keyId!,
+                    done: state.done!,
+                    uri: state.uri!,
+                    challenge: state.challenge!,
+                    domain: state.domain!);
+              } else {
+                Navigator.of(context).pop();
+              }
+            }
+            if (state is ScanStateSuccess) {
+              Navigator.of(context).pop();
+            }
+            if (state is ScanStateIdle) {
+              Navigator.of(context).pop();
             }
           },
         ),

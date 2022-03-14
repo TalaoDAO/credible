@@ -144,6 +144,7 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
             content: Text(localizations.scanUnsupportedMessage),
           ));
         }
+
       },
       child: BasePage(
         padding: EdgeInsets.zero,
