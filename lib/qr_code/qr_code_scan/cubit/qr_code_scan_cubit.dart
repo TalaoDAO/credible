@@ -109,42 +109,17 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
                 challenge: data['challenge'],
                 domain: data['domain'],
               );
-              emit(QRCodeScanStateSuccess(
-                  isDeepLink: isDeepLink,
-                  route: CredentialsPresentPage.route(
-                    resource: 'DID',
-                    yes: 'Accept',
-                    url: uri,
-                    onSubmit: (preview, context) {
-                      // Navigator.of(context)
-                      //     .pushReplacement(CredentialsListPage.route());
-                    },
-                  )));
             } else if (data['query'].first['type'] == 'QueryByExample') {
               emit(QRCodeScanStateSuccess(
                   isDeepLink: isDeepLink,
-                  route: CredentialsPresentPage.route(
-                    resource: 'credential',
-                    url: uri,
-                    onSubmit: (preview, context) {
-                      Navigator.of(context).pushReplacement(
-                          CredentialsPickPage.route(uri, preview));
-                    },
-                  )));
+                  route: CredentialsPresentPage.route(uri: uri)));
             } else {
               throw UnimplementedError('Unimplemented Query Type');
             }
           } else {
             emit(QRCodeScanStateSuccess(
                 isDeepLink: isDeepLink,
-                route: CredentialsPresentPage.route(
-                  resource: 'credential',
-                  url: uri,
-                  onSubmit: (preview, context) {
-                    Navigator.of(context).pushReplacement(
-                        CredentialsPickPage.route(uri, preview));
-                  },
-                )));
+                route: CredentialsPresentPage.route(uri: uri)));
           }
           break;
 

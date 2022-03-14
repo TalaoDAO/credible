@@ -196,7 +196,7 @@ class _SplashPageState extends State<SplashPage> {
           },
         ),
         BlocListener<ScanCubit, ScanState>(
-          listener: (context, state) {
+          listener: (context, state) async {
             if (state is ScanStateMessage) {
               final errorHandler = state.message!.errorHandler;
               if (errorHandler != null) {
@@ -209,6 +209,35 @@ class _SplashPageState extends State<SplashPage> {
                   content: Text(state.message!.message!),
                 ));
               }
+            }
+            if (state is ScanStateAskPermissionDIDAuth) {
+              final l10n = context.l10n;
+              final scanCubit = context.read<ScanCubit>();
+              final state = scanCubit.state;
+              final confirm = await showDialog<bool>(
+                    context: context,
+                    builder: (context) => ConfirmDialog(
+                      title:
+                          '${l10n.credentialPresentTitleDIDAuth}\n${l10n.confimrDIDAuth}',
+                      yes: l10n.showDialogYes,
+                      no: l10n.showDialogNo,
+                    ),
+                  ) ??
+                  false;
+
+              if (confirm && state is ScanStateAskPermissionDIDAuth) {
+                scanCubit.getDIDAuth(
+                    keyId: state.keyId!,
+                    done: state.done!,
+                    uri: state.uri!,
+                    challenge: state.challenge!,
+                    domain: state.domain!);
+              } else {
+                Navigator.of(context).pop();
+              }
+            }
+            if (state is ScanStateSuccess) {
+              Navigator.of(context).pop();
             }
           },
         ),

@@ -294,8 +294,6 @@ class ScanCubit extends Cubit<ScanState> {
                 'Something went wrong, please try again later. ')));
       }
     }
-
-    emit(ScanStateSuccess());
   }
 
   //
