@@ -110,6 +110,7 @@ class _SubmitEnterpriseUserPageState extends State<SubmitEnterpriseUserPage> {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     content: const Text(
                         'DID key and RSA key verified successfully')));
+                //TODO pass isEnterprise variable after merge with enterprise-personal-information branch
                 await Navigator.of(context).pushReplacement(PersonalPage.route(
                     profileModel: ProfileModel.empty, isFromOnBoarding: true));
               });
