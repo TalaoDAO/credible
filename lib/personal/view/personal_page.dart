@@ -101,31 +101,7 @@ class _PersonalPageState extends State<PersonalPage> {
         floatingActionButton: widget.isFromOnBoarding
             ? null
             : SelfIssuedCredentialButton(
-                selfIssuedCredentialButtonClick: () {
-                  return SelfIssuedCredentialDataModel(
-                    givenName: personalPageCubit.state.isFirstName
-                        ? firstNameController.text.isNotEmpty
-                            ? firstNameController.text
-                            : null
-                        : null,
-                    familyName: personalPageCubit.state.isLastName
-                        ? lastNameController.text.isNotEmpty
-                            ? lastNameController.text
-                            : null
-                        : null,
-                    telephone: personalPageCubit.state.isPhone
-                        ? phoneController.text.isNotEmpty
-                            ? phoneController.text
-                            : null
-                        : null,
-                    address: personalPageCubit.state.isLocation
-                        ? locationController.text
-                        : null,
-                    email: personalPageCubit.state.isEmail
-                        ? emailController.text
-                        : null,
-                  );
-                },
+                selfIssuedCredentialButtonClick: _getSelfIssuedCredential,
               ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         titleTrailing: InkWell(
@@ -137,41 +113,20 @@ class _PersonalPageState extends State<PersonalPage> {
                 phone: phoneController.text,
                 location: locationController.text,
                 email: emailController.text,
+                companyName: companyNameController.text,
+                companyWebsite: companyWebsiteController.text,
+                jobTitle: jobTitleController.text,
                 issuerVerificationSetting:
                     widget.profileModel.issuerVerificationSetting);
 
             await context.read<ProfileCubit>().update(model);
             if (widget.isFromOnBoarding) {
               ///save selfIssued credential when user press save button during onboarding
-              final selfIssuedCredentialDataModel =
-                  SelfIssuedCredentialDataModel(
-                givenName: personalPageCubit.state.isFirstName
-                    ? firstNameController.text.isNotEmpty
-                        ? firstNameController.text
-                        : null
-                    : null,
-                familyName: personalPageCubit.state.isLastName
-                    ? lastNameController.text.isNotEmpty
-                        ? lastNameController.text
-                        : null
-                    : null,
-                telephone: personalPageCubit.state.isPhone
-                    ? phoneController.text.isNotEmpty
-                        ? phoneController.text
-                        : null
-                    : null,
-                address: personalPageCubit.state.isLocation
-                    ? locationController.text
-                    : null,
-                email: personalPageCubit.state.isEmail
-                    ? emailController.text
-                    : null,
-              );
               await context
                   .read<SelfIssuedCredentialCubit>()
                   .createSelfIssuedCredential(
                       selfIssuedCredentialDataModel:
-                          selfIssuedCredentialDataModel);
+                          _getSelfIssuedCredential());
               await Navigator.of(context)
                   .pushReplacement(CredentialsListPage.route());
             } else {
@@ -211,16 +166,6 @@ class _PersonalPageState extends State<PersonalPage> {
                       .copyWith(color: Theme.of(context).colorScheme.subtitle1),
                 ),
               ),
-              // Center(
-              //   child: Container(
-              //     width: MediaQuery.of(context).size.width * 0.2,
-              //     height: MediaQuery.of(context).size.width * 0.2,
-              //     decoration: BoxDecoration(
-              //       color: Colors.pink,
-              //       borderRadius: BorderRadius.circular(16.0),
-              //     ),
-              //   ),
-              // ),
               const SizedBox(height: 32.0),
               BaseTextField(
                 label: l10n.personalFirstName,
@@ -314,6 +259,39 @@ class _PersonalPageState extends State<PersonalPage> {
               ),
       ),
     );
+  }
+
+  SelfIssuedCredentialDataModel _getSelfIssuedCredential() {
+    final selfIssuedCredentialDataModel = SelfIssuedCredentialDataModel(
+      givenName: personalPageCubit.state.isFirstName
+          ? firstNameController.text.isNotEmpty
+              ? firstNameController.text
+              : null
+          : null,
+      familyName: personalPageCubit.state.isLastName
+          ? lastNameController.text.isNotEmpty
+              ? lastNameController.text
+              : null
+          : null,
+      telephone: personalPageCubit.state.isPhone
+          ? phoneController.text.isNotEmpty
+              ? phoneController.text
+              : null
+          : null,
+      address:
+          personalPageCubit.state.isLocation ? locationController.text : null,
+      email: personalPageCubit.state.isEmail ? emailController.text : null,
+      companyName: personalPageCubit.state.isCompanyName
+          ? companyNameController.text
+          : null,
+      companyWebsite: personalPageCubit.state.isCompanyWebsite
+          ? companyWebsiteController.text
+          : null,
+      jobTitle:
+          personalPageCubit.state.isJobTitle ? jobTitleController.text : null,
+    );
+
+    return selfIssuedCredentialDataModel;
   }
 
   Widget _textFieldSpace() {
