@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
-import 'package:talao/scan/bloc/scan.dart';
 import 'package:talao/app/shared/widget/confirm_dialog.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:talao/credentials/list/view/credentials_list_page.dart';
+import 'package:talao/scan/cubit/scan_cubit.dart';
 
 class AskUserPermissionDIDAuth extends StatefulWidget {
   const AskUserPermissionDIDAuth({
@@ -20,8 +20,8 @@ class _AskUserPermissionDIDAuthState extends State<AskUserPermissionDIDAuth> {
   void initState() {
     Future.delayed(Duration.zero, () async {
       final localizations = AppLocalizations.of(context)!;
-      final scanBloc = context.read<ScanBloc>();
-      final state = scanBloc.state;
+      final scanCubit = context.read<ScanCubit>();
+      final state = scanCubit.state;
       final confirm = await showDialog<bool>(
             context: context,
             builder: (context) => ConfirmDialog(
@@ -32,13 +32,15 @@ class _AskUserPermissionDIDAuthState extends State<AskUserPermissionDIDAuth> {
           ) ??
           false;
 
-      if (confirm && state is ScanStateCHAPIAskPermissionDIDAuth) {
-        scanBloc.add(ScanEventCHAPIGetDIDAuth(
-            state.keyId, state.done, state.uri,
-            challenge: state.challenge, domain: state.domain));
+      if (confirm && state is ScanStateAskPermissionDIDAuth) {
+        scanCubit.getDIDAuth(
+            keyId: state.keyId!,
+            done: state.done!,
+            uri: state.uri!,
+            challenge: state.challenge!,
+            domain: state.domain!);
       }
-        await Navigator.of(context).pushReplacement(CredentialsListPage.route());
-
+      await Navigator.of(context).pushReplacement(CredentialsListPage.route());
     });
     super.initState();
   }

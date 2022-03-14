@@ -193,18 +193,18 @@ class _SplashPageState extends State<SplashPage> {
             }
           },
         ),
-        BlocListener<ScanBloc, ScanState>(
+        BlocListener<ScanCubit, ScanState>(
           listener: (context, state) {
             if (state is ScanStateMessage) {
-              final errorHandler = state.message.errorHandler;
+              final errorHandler = state.message!.errorHandler;
               if (errorHandler != null) {
                 final color =
-                    state.message.color ?? Theme.of(context).colorScheme.error;
+                    state.message!.color ?? Theme.of(context).colorScheme.error;
                 errorHandler.displayError(context, errorHandler, color);
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  backgroundColor: state.message.color,
-                  content: Text(state.message.message!),
+                  backgroundColor: state.message!.color,
+                  content: Text(state.message!.message!),
                 ));
               }
             }

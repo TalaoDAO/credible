@@ -1,4 +1,3 @@
-import 'package:talao/scan/bloc/scan.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
@@ -7,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:talao/credentials/widget/ask_user_permission_did_auth.dart';
+import 'package:talao/scan/scan.dart';
 
 class CredentialsPresentPage extends StatefulWidget {
   final Uri url;
@@ -64,7 +64,7 @@ class _CredentialsPresentPageState extends State<CredentialsPresentPage> {
         onPressed: () => Navigator.of(context).pop(),
         icon: Icon(Icons.close),
       ),
-      body: BlocConsumer<ScanBloc, ScanState>(
+      body: BlocConsumer<ScanCubit, ScanState>(
         listener: (context, state) {
           if (state is ScanStateSuccess) {
             goBack();
@@ -75,7 +75,7 @@ class _CredentialsPresentPageState extends State<CredentialsPresentPage> {
             return _credentialPreview(state, context, localizations);
           }
 
-          if (state is ScanStateCHAPIAskPermissionDIDAuth) {
+          if (state is ScanStateAskPermissionDIDAuth) {
             return AskUserPermissionDIDAuth();
           }
 
@@ -117,7 +117,7 @@ class _CredentialsPresentPageState extends State<CredentialsPresentPage> {
         const SizedBox(height: 24.0),
         BaseButton.transparent(
           context: context,
-          onPressed: () => widget.onSubmit(preview, context),
+          onPressed: () => widget.onSubmit(preview!, context),
           child: Text(
             widget.yes ?? localizations.credentialPresentConfirm,
           ),

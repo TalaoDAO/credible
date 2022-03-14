@@ -1,1 +1,1 @@
-export 'bloc/scan.dart';
+export 'cubit/scan_cubit.dart';

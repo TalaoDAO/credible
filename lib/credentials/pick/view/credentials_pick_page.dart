@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talao/credentials/credentials.dart';
-import 'package:talao/scan/bloc/scan.dart';
+import 'package:talao/scan/scan.dart';
 import 'package:talao/wallet/wallet.dart';
 import 'package:talao/credentials/widget/list_item.dart';
 import 'package:talao/app/shared/model/translation.dart';
@@ -84,22 +84,20 @@ class _CredentialsPickPageState extends State<CredentialsPickPage> {
                     if (selection.isEmpty) {
                       ScaffoldMessenger.of(builderContext)
                           .showSnackBar(SnackBar(
-                        backgroundColor:
+                                                                                  backgroundColor:
                             Theme.of(context).colorScheme.snackBarError,
                         content: Text(localizations.credentialPickSelect),
                       ));
                     } else {
-                      final scanBloc = builderContext.read<ScanBloc>();
-                      scanBloc.add(
-                        ScanEventVerifiablePresentationRequest(
-                          url: widget.uri.toString(),
-                          key: 'key',
-                          credentials: selection
-                              .map((i) => walletState.credentials[i])
-                              .toList(),
-                          challenge: widget.preview['challenge'],
-                          domain: widget.preview['domain'],
-                        ),
+                      final scanCubit = builderContext.read<ScanCubit>();
+                      scanCubit.verifiablePresentationRequest(
+                        url: widget.uri.toString(),
+                        keyId: 'key',
+                        credentials: selection
+                            .map((i) => walletState.credentials[i])
+                            .toList(),
+                        challenge: widget.preview['challenge'],
+                        domain: widget.preview['domain'],
                       );
                       Navigator.of(builderContext)
                           .pushReplacement(CredentialsListPage.route());

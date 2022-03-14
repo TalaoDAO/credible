@@ -1,10 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/interop/network/network_client.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/l10n/l10n.dart';
 import 'package:talao/qr_code/qr_code_scan/cubit/qr_code_scan_cubit.dart';
-import 'package:talao/scan/bloc/scan.dart';
+import 'package:talao/scan/cubit/scan_cubit.dart';
 import 'package:talao/app/router_observer.dart';
 import 'package:talao/app/shared/constants.dart';
 import 'package:flutter/material.dart';
@@ -42,14 +43,18 @@ class AppWidget extends StatelessWidget {
               secureStorageProvider: SecureStorageProvider.instance,
               profileCubit: context.read<ProfileCubit>()),
         ),
-        BlocProvider<ScanBloc>(
-            create: (context) => ScanBloc(
-                DioClient(Constants.checkIssuerServerUrl, Dio()),
-                context.read<WalletCubit>())),
+        BlocProvider<ScanCubit>(
+          create: (context) => ScanCubit(
+            client: DioClient(Constants.checkIssuerServerUrl, Dio()),
+            walletCubit: context.read<WalletCubit>(),
+            didKitProvider: DIDKitProvider.instance,
+            secureStorageProvider: SecureStorageProvider.instance,
+          ),
+        ),
         BlocProvider<QRCodeScanCubit>(
           create: (context) => QRCodeScanCubit(
               client: DioClient(Constants.checkIssuerServerUrl, Dio()),
-              scanBloc: context.read<ScanBloc>(),
+              scanCubit: context.read<ScanCubit>(),
               queryByExampleCubit: context.read<QueryByExampleCubit>(),
               deepLinkCubit: context.read<DeepLinkCubit>()),
         )
