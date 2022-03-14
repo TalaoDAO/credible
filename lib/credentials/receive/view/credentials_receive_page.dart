@@ -1,4 +1,3 @@
-import 'package:talao/scan/bloc/scan.dart';
 import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
@@ -6,8 +5,8 @@ import 'package:talao/app/shared/widget/text_field_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:talao/credentials/list/credentials_list.dart';
 import 'package:talao/credentials/widget/document.dart';
+import 'package:talao/scan/scan.dart';
 
 class CredentialsReceivePage extends StatelessWidget {
   final Uri url;
@@ -35,19 +34,10 @@ class CredentialsReceivePage extends StatelessWidget {
         onPressed: () => Navigator.of(context).pop(),
         icon: Icon(Icons.close),
       ),
-      body: BlocConsumer<ScanBloc, ScanState>(
-        listener: (context, state) {
-          if (state is ScanStateSuccess) {
-            Navigator.of(context).pop();
-          }
-          if (state is ScanStateIdle) {
-            Navigator.of(context)
-                .pushReplacement(CredentialsListPage.route());
-          }
-        },
+      body: BlocBuilder<ScanCubit, ScanState>(
         builder: (builderContext, state) {
           if (state is ScanStatePreview) {
-            final credential = CredentialModel.fromJson(state.preview);
+            final credential = CredentialModel.fromJson(state.preview!);
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
@@ -78,12 +68,15 @@ class CredentialsReceivePage extends StatelessWidget {
                         title: localizations.credentialPickAlertMessage,
                       ),
                     );
-                    context.read<ScanBloc>().add(ScanEventCredentialOffer(
-                          url.toString(),
-                          CredentialModel.copyWithAlias(
-                              oldCredentialModel: credential, newAlias: alias),
-                          'key',
-                        ));
+                    if (alias != null) {
+                      context.read<ScanCubit>().credentialOffer(
+                            url: url.toString(),
+                            credentialModel: CredentialModel.copyWithAlias(
+                                oldCredentialModel: credential,
+                                newAlias: alias),
+                            keyId: 'key',
+                          );
+                    }
                   },
                   child: Text(localizations.credentialReceiveConfirm),
                 ),
