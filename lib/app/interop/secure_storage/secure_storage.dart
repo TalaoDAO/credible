@@ -27,4 +27,7 @@ abstract class SecureStorageKeys {
   static const RSAKeyJson = 'RSAKeyJson';
   static const DIDMethod = 'DIDMethod';
   static const DIDMethodName = 'DIDMethodName';
+  static const companyName = 'companyName';
+  static const companyWebsite = 'companyWebsite';
+  static const jobTitle = 'jobTitle';
 }

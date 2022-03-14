@@ -21,5 +21,8 @@ class ProfileStateMessage extends ProfileState {
 }
 
 class ProfileStateDefault extends ProfileState {
-  ProfileStateDefault({ProfileModel? model}) : super(model: model);
+  final bool isEnterprise;
+
+  ProfileStateDefault({ProfileModel? model,required this.isEnterprise})
+      : super(model: model);
 }
