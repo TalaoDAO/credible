@@ -82,8 +82,7 @@ class CredentialModel extends Equatable {
         return CredentialStatus.expired;
       }
     }
-    if (credentialPreview.credentialStatus !=
-        CredentialStatusField.emptyCredentialStatusField()) {
+    if (credentialPreview.credentialStatus.type != '') {
       return await checkRevocationStatus();
     } else {
       return CredentialStatus.active;
