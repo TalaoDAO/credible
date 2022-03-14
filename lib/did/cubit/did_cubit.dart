@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
-import 'package:talao/app/shared/constants.dart';
 import 'package:talao/app/shared/model/message.dart';
 import 'package:logging/logging.dart';
 import 'package:talao/did/cubit/did_state.dart';
@@ -23,7 +22,7 @@ class DIDCubit extends Cubit<DIDState> {
 
       final DID = (await secureStorageProvider!.get(SecureStorageKeys.did))!;
 
-      emit(DIDStateDefault(did: did));
+      emit(DIDStateDefault(did: DID));
     } catch (e) {
       log.severe('something went wrong', e);
 
