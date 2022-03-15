@@ -35,8 +35,9 @@ class SelfIssuedCredentialState with _$SelfIssuedCredentialState {
 
 class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
   final WalletCubit walletCubit;
+  final SecureStorageProvider secureStorageProvider;
 
-  SelfIssuedCredentialCubit(this.walletCubit)
+  SelfIssuedCredentialCubit(this.walletCubit,this.secureStorageProvider)
       : super(const SelfIssuedCredentialState.initial());
 
   Future<void> createSelfIssuedCredential(
@@ -48,14 +49,14 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
       emit(const SelfIssuedCredentialState.loading());
       await Future.delayed(Duration(milliseconds: 500));
 
-      final isEnterpriseUser = await SecureStorageProvider.instance
+      final isEnterpriseUser = await secureStorageProvider
           .get(SecureStorageKeys.isEnterpriseUser);
 
       late final String key, verificationMethod;
 
 
       if (isEnterpriseUser == 'true') {
-        final RSAJsonString = (await SecureStorageProvider.instance
+        final RSAJsonString = (await secureStorageProvider
             .get(SecureStorageKeys.RSAKeyJson)) as String;
         final RSAJson = jsonDecode(RSAJsonString);
 
@@ -73,15 +74,15 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
         verificationMethod = publicKeyJwk['kid'];
 
       } else {
-        key = (await SecureStorageProvider.instance.get(SecureStorageKeys.key))!;
-        final didMethod = (await SecureStorageProvider.instance
+        key = (await secureStorageProvider.get(SecureStorageKeys.key))!;
+        final didMethod = (await secureStorageProvider
             .get(SecureStorageKeys.DIDMethod))!;
         verificationMethod = await DIDKitProvider.instance
             .keyToVerificationMethod(didMethod, key);
       }
 
       final did =
-          (await SecureStorageProvider.instance.get(SecureStorageKeys.did))!;
+          (await secureStorageProvider.get(SecureStorageKeys.did))!;
 
       final options = {
         'proofPurpose': 'assertionMethod',

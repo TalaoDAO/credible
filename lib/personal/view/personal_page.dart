@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
@@ -36,7 +37,7 @@ class PersonalPage extends StatefulWidget {
             BlocProvider(create: (_) => PersonalPgeCubit()),
             BlocProvider(
                 create: (_) =>
-                    SelfIssuedCredentialCubit(context.read<WalletCubit>())),
+                    SelfIssuedCredentialCubit(context.read<WalletCubit>(),SecureStorageProvider.instance)),
           ],
           child: PersonalPage(
             profileModel: profileModel,
