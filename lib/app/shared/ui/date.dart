@@ -6,7 +6,18 @@ class UiDate {
 
   static String displayDate(AppLocalizations localizations, String dateString) {
     if (dateString == '') return '';
-    final date = DateFormat('y-M-d').parse(dateString);
+    late var date;
+    try {
+      date = DateFormat('y-M-d').parse(dateString);
+    } on FormatException catch (_) {
+      try {
+        date = DateFormat('y-M-dThh:mm:ssZ').parse(dateString);
+      } catch (e) {
+        return '';
+      }
+    } catch (e) {
+      return '';
+    }
 
     return DateFormat.yMd(localizations.localeName).format(date);
   }
