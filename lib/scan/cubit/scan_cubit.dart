@@ -72,7 +72,6 @@ class ScanCubit extends Cubit<ScanState> {
             message: StateMessage.warning(
                 'Credential verification returned some warnings. '
                 'Check the logs for more information.')));
-        return emit(ScanStateIdle());
       }
 
       if (jsonVerification['errors'].isNotEmpty) {
