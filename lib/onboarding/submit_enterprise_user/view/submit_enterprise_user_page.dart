@@ -41,7 +41,7 @@ class _SubmitEnterpriseUserPageState extends State<SubmitEnterpriseUserPage> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        await Navigator.of(context).pushReplacement(ChooseWalletType.route());
+        await Navigator.of(context).pushReplacement(ChooseWalletTypePage.route());
         return false;
       },
       child: BasePage(
@@ -49,7 +49,7 @@ class _SubmitEnterpriseUserPageState extends State<SubmitEnterpriseUserPage> {
         titleLeading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () =>
-              Navigator.of(context).pushReplacement(ChooseWalletType.route()),
+              Navigator.of(context).pushReplacement(ChooseWalletTypePage.route()),
         ),
         body: Column(
           mainAxisSize: MainAxisSize.min,

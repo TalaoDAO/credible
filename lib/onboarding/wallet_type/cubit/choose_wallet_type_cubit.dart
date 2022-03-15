@@ -1,25 +1,17 @@
 import 'package:bloc/bloc.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/shared/constants.dart';
+import 'package:talao/onboarding/wallet_type/cubit/wallet_type_enum.dart';
 
-class ChooseWalletTypeState {
-  final String selectedWallet;
+import 'choose_wallet_type_state.dart';
 
-  const ChooseWalletTypeState({required this.selectedWallet});
-
-  ChooseWalletTypeState copyWith({String? selectedWallet}) {
-    return ChooseWalletTypeState(
-        selectedWallet: selectedWallet ?? this.selectedWallet);
-  }
-}
 
 class ChooseWalletTypeCubit extends Cubit<ChooseWalletTypeState> {
-  static const walletTypes = ['Personal Wallet', 'Enterprise Wallet'];
 
   ChooseWalletTypeCubit()
-      : super(ChooseWalletTypeState(selectedWallet: walletTypes[0]));
+      : super(ChooseWalletTypeState(selectedWallet: WalletTypes.personal));
 
-  void onChangeWalletType(String? value) {
+  void onChangeWalletType(WalletTypes? value) {
     emit(state.copyWith(selectedWallet: value));
 
     //save isEnterprise, DIDMethod and DIDMethodName
@@ -41,6 +33,6 @@ class ChooseWalletTypeCubit extends Cubit<ChooseWalletTypeState> {
   }
 
   bool isPersonalWalletSelected() {
-    return state.selectedWallet == walletTypes[0];
+    return state.selectedWallet == WalletTypes.personal;
   }
 }

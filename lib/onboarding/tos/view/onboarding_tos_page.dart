@@ -58,7 +58,7 @@ class OnBoardingTosPage extends StatelessWidget {
                     context: context,
                     onPressed: () {
                       Navigator.of(context)
-                          .pushReplacement(ChooseWalletType.route());
+                          .pushReplacement(ChooseWalletTypePage.route());
                     },
                     child: Text(l10n.onBoardingTosButton),
                   )
