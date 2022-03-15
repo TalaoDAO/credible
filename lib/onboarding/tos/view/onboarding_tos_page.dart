@@ -7,7 +7,7 @@ import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/spinner.dart';
 import 'package:talao/l10n/l10n.dart';
-import 'package:talao/onboarding/wallet_type/choose_wallet_type_page.dart';
+import 'package:talao/onboarding/wallet_type/choose_wallet_type.dart';
 
 class OnBoardingTosPage extends StatelessWidget {
   static Route route() => MaterialPageRoute(

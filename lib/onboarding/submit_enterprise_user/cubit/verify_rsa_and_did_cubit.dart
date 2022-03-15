@@ -3,24 +3,12 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:json_path/json_path.dart';
 import 'package:logging/logging.dart';
 import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 
-part 'verify_rsa_and_did_cubit.freezed.dart';
-
-@freezed
-class VerifyRSAAndDIDState with _$VerifyRSAAndDIDState {
-  const factory VerifyRSAAndDIDState.initial() = Initial;
-
-  const factory VerifyRSAAndDIDState.loading() = Loading;
-
-  const factory VerifyRSAAndDIDState.verified() = Verified;
-
-  const factory VerifyRSAAndDIDState.error(String message) = Error;
-}
+import 'verify_rsa_and_did_state.dart';
 
 class VerifyRSAAndDIDCubit extends Cubit<VerifyRSAAndDIDState> {
   VerifyRSAAndDIDCubit() : super(const VerifyRSAAndDIDState.initial());

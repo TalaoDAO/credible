@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
-import 'package:talao/onboarding/key/view/onboarding_key_page.dart';
+import 'package:talao/onboarding/key/onboarding_key.dart';
 import 'package:talao/onboarding/submit_enterprise_user/submit_enterprise_user.dart';
-import 'package:talao/onboarding/wallet_type/bloc/choose_wallet_type_cubit.dart';
+
+import '../cubit/choose_wallet_type_cubit.dart';
 
 class ChooseWalletType extends StatefulWidget {
   static Route route() => MaterialPageRoute(

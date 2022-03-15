@@ -13,31 +13,18 @@ import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:talao/app/shared/model/display.dart';
 import 'package:talao/self_issued_credential/models/self_issued.dart';
 import 'package:talao/self_issued_credential/models/self_issued_credential.dart';
-import 'package:talao/self_issued_credential/widget/sef_issued_credential_button.dart';
 import 'package:talao/wallet/cubit/wallet_cubit.dart';
 import 'package:uuid/uuid.dart';
 
-part 'self_issued_credential_cubit.freezed.dart';
+import '../view/models/self_issued_credential_model.dart';
+import 'self_issued_credential_state.dart';
 
-@freezed
-class SelfIssuedCredentialState with _$SelfIssuedCredentialState {
-  const factory SelfIssuedCredentialState.initial() = Initial;
-
-  const factory SelfIssuedCredentialState.loading() = Loading;
-
-  const factory SelfIssuedCredentialState.error(String message) = Error;
-
-  const factory SelfIssuedCredentialState.warning(String message) = Warning;
-
-  const factory SelfIssuedCredentialState.credentialCreated() =
-      CredentialCreated;
-}
 
 class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
   final WalletCubit walletCubit;
   final SecureStorageProvider secureStorageProvider;
 
-  SelfIssuedCredentialCubit(this.walletCubit,this.secureStorageProvider)
+  SelfIssuedCredentialCubit(this.walletCubit, this.secureStorageProvider)
       : super(const SelfIssuedCredentialState.initial());
 
   Future<void> createSelfIssuedCredential(
@@ -49,11 +36,10 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
       emit(const SelfIssuedCredentialState.loading());
       await Future.delayed(Duration(milliseconds: 500));
 
-      final isEnterpriseUser = await secureStorageProvider
-          .get(SecureStorageKeys.isEnterpriseUser);
+      final isEnterpriseUser =
+          await secureStorageProvider.get(SecureStorageKeys.isEnterpriseUser);
 
       late final String key, verificationMethod;
-
 
       if (isEnterpriseUser == 'true') {
         final RSAJsonString = (await secureStorageProvider
@@ -72,17 +58,15 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
         ///
         key = publicKeyJwk['n'];
         verificationMethod = publicKeyJwk['kid'];
-
       } else {
         key = (await secureStorageProvider.get(SecureStorageKeys.key))!;
-        final didMethod = (await secureStorageProvider
-            .get(SecureStorageKeys.DIDMethod))!;
+        final didMethod =
+            (await secureStorageProvider.get(SecureStorageKeys.DIDMethod))!;
         verificationMethod = await DIDKitProvider.instance
             .keyToVerificationMethod(didMethod, key);
       }
 
-      final did =
-          (await secureStorageProvider.get(SecureStorageKeys.did))!;
+      final did = (await secureStorageProvider.get(SecureStorageKeys.did))!;
 
       final options = {
         'proofPurpose': 'assertionMethod',

@@ -11,9 +11,10 @@ import 'package:talao/drawer/profile/cubit/profile_cubit.dart';
 import 'package:talao/drawer/profile/models/profile.dart';
 import 'package:talao/l10n/l10n.dart';
 import 'package:talao/personal/cubit/personal_page_cubit.dart';
-import 'package:talao/self_issued_credential/cubit/self_issued_credential_cubit.dart';
-import 'package:talao/self_issued_credential/widget/sef_issued_credential_button.dart';
+import 'package:talao/self_issued_credential/sef_issued_credential.dart';
 import 'package:talao/wallet/cubit/wallet_cubit.dart';
+
+import '../cubit/personal_page_state.dart';
 
 class PersonalPage extends StatefulWidget {
   final ProfileModel profileModel;
@@ -36,8 +37,9 @@ class PersonalPage extends StatefulWidget {
           providers: [
             BlocProvider(create: (_) => PersonalPgeCubit()),
             BlocProvider(
-                create: (_) =>
-                    SelfIssuedCredentialCubit(context.read<WalletCubit>(),SecureStorageProvider.instance)),
+                create: (_) => SelfIssuedCredentialCubit(
+                    context.read<WalletCubit>(),
+                    SecureStorageProvider.instance)),
           ],
           child: PersonalPage(
             profileModel: profileModel,
