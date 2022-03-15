@@ -7,6 +7,7 @@ import 'package:talao/app/shared/model/ecole_42_learning_achievement/has_credent
 import 'package:talao/app/shared/model/signature.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/image_card_text.dart';
+import 'package:talao/l10n/l10n.dart';
 
 part 'ecole_42_learning_achievement.g.dart';
 
@@ -50,6 +51,7 @@ class Ecole42LearningAchievement extends CredentialSubject {
     final _height = 1753.0;
     final _width = 1240.0;
     final _aspectRatio = _width / _height;
+    final localizations = AppLocalizations.of(context)!;
 
     return AspectRatio(
 
@@ -83,7 +85,7 @@ class Ecole42LearningAchievement extends CredentialSubject {
                               children: [
                                 ImageCardText(
                                     text:
-                                        '$givenName $familyName, born $birthDate',
+                                        '$givenName $familyName, born ${UiDate.displayDate(localizations, birthDate)}',
                                     textStyle: Theme.of(context)
                                         .textTheme
                                         .ecole42LearningAchievementStudentIdentity),

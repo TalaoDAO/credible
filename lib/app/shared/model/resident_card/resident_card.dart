@@ -1,11 +1,11 @@
 import 'package:talao/app/shared/model/credential_model/credential_model.dart';
+import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/credentials/widget/display_issuer.dart';
 import 'package:talao/app/shared/model/author.dart';
 import 'package:talao/app/shared/model/credential_subject.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:talao/app/shared/ui/theme.dart';
 import 'package:talao/app/shared/widget/base/credential_field.dart';
 
 part 'resident_card.g.dart';
@@ -92,7 +92,9 @@ class ResidentCard extends CredentialSubject {
                 ],
               ),
             ),
-            CredentialField(title: localizations.birthdate, value: birthDate),
+            CredentialField(
+                title: localizations.birthdate,
+                value: UiDate.displayDate(localizations, birthDate)),
             CredentialField(title: localizations.birthplace, value: birthPlace),
             CredentialField(title: localizations.address, value: address),
             CredentialField(

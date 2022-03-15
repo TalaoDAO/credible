@@ -5,6 +5,7 @@ import 'package:talao/app/shared/model/credential_subject.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:talao/app/shared/ui/date.dart';
 import 'package:talao/app/shared/ui/theme.dart';
 import 'package:talao/app/shared/widget/base/credential_field.dart';
 import 'package:talao/credentials/widget/display_issuer.dart';
@@ -89,7 +90,9 @@ class CertificateOfEmployment extends CredentialSubject {
                 ),
               )
             : SizedBox.shrink(),
-        CredentialField(title: localizations.startDate, value: startDate),
+        CredentialField(
+            title: localizations.startDate,
+            value: UiDate.displayDate(localizations, startDate)),
         CredentialField(
             value: employmentType, title: localizations.employmentType),
         CredentialField(title: localizations.baseSalary, value: baseSalary),

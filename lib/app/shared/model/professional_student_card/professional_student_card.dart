@@ -129,8 +129,7 @@ class JobStudentCardRecto extends Recto {
                   LayoutId(
                     id: 'expires',
                     child: ImageCardText(
-                        text: UiDate.displayDate(
-                            localizations, recipient.birthDate)),
+                        text: UiDate.displayDate(localizations, expires)),
                   ),
                   LayoutId(
                     id: 'signature',
