@@ -3,13 +3,13 @@ import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:intl/intl.dart';
+import 'package:json_path/json_path.dart';
 import 'package:logging/logging.dart';
 import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/shared/enum/revokation_status.dart';
-import 'package:talao/app/shared/model/credential_model/credential_model.dart';
-import 'package:talao/app/shared/constants.dart';
 import 'package:talao/app/shared/model/credential.dart';
+import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:talao/app/shared/model/display.dart';
 import 'package:talao/self_issued_credential/models/self_issued.dart';
 import 'package:talao/self_issued_credential/models/self_issued_credential.dart';
@@ -35,8 +35,9 @@ class SelfIssuedCredentialState with _$SelfIssuedCredentialState {
 
 class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
   final WalletCubit walletCubit;
+  final SecureStorageProvider secureStorageProvider;
 
-  SelfIssuedCredentialCubit(this.walletCubit)
+  SelfIssuedCredentialCubit(this.walletCubit,this.secureStorageProvider)
       : super(const SelfIssuedCredentialState.initial());
 
   Future<void> createSelfIssuedCredential(
@@ -47,15 +48,42 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
       //show loading
       emit(const SelfIssuedCredentialState.loading());
       await Future.delayed(Duration(milliseconds: 500));
-      final key = (await SecureStorageProvider.instance.get('key'))!;
 
-      final did = (await SecureStorageProvider.instance
-          .get(SecureStorageKeys.did))!;
-      final didMethod = (await SecureStorageProvider.instance
-          .get(SecureStorageKeys.DIDMethod))!;
+      final isEnterpriseUser = await secureStorageProvider
+          .get(SecureStorageKeys.isEnterpriseUser);
 
-      final verificationMethod =
-          await DIDKitProvider.instance.keyToVerificationMethod(didMethod, key);
+      late final String key, verificationMethod;
+
+
+      if (isEnterpriseUser == 'true') {
+        final RSAJsonString = (await secureStorageProvider
+            .get(SecureStorageKeys.RSAKeyJson)) as String;
+        final RSAJson = jsonDecode(RSAJsonString);
+
+        ///
+        final publicKeyJwks = JsonPath(r'$..publicKeyJwk');
+        final publicKeyJwk = publicKeyJwks
+            .read(RSAJson)
+            .where((element) => element.value['kty'] == 'RSA')
+            .toList()
+            .first
+            .value;
+
+        ///
+        key = publicKeyJwk['n'];
+        verificationMethod = publicKeyJwk['kid'];
+
+      } else {
+        key = (await secureStorageProvider.get(SecureStorageKeys.key))!;
+        final didMethod = (await secureStorageProvider
+            .get(SecureStorageKeys.DIDMethod))!;
+        verificationMethod = await DIDKitProvider.instance
+            .keyToVerificationMethod(didMethod, key);
+      }
+
+      final did =
+          (await secureStorageProvider.get(SecureStorageKeys.did))!;
+
       final options = {
         'proofPurpose': 'assertionMethod',
         'verificationMethod': verificationMethod
@@ -65,14 +93,16 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
       final formatter = DateFormat('yyyy-MM-ddTHH:mm:ss');
       final issuanceDate = formatter.format(DateTime.now()) + 'Z';
 
-      //TODO pass companyName,companyWebsite,jobTitle when creating SelfIssued when it supported in future
       final selfIssued = SelfIssued(
           id: did,
           address: selfIssuedCredentialDataModel.address,
           familyName: selfIssuedCredentialDataModel.familyName,
           givenName: selfIssuedCredentialDataModel.givenName,
           telephone: selfIssuedCredentialDataModel.telephone,
-          email: selfIssuedCredentialDataModel.email);
+          email: selfIssuedCredentialDataModel.email,
+          companyName: selfIssuedCredentialDataModel.companyName,
+          companyWebsite: selfIssuedCredentialDataModel.companyWebsite,
+          title: selfIssuedCredentialDataModel.jobTitle);
 
       final selfIssuedCredential = SelfIssuedCredential(
           id: id,
