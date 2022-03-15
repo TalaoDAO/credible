@@ -7,9 +7,8 @@ import 'package:logging/logging.dart';
 import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/shared/enum/revokation_status.dart';
-import 'package:talao/app/shared/model/credential_model/credential_model.dart';
-import 'package:talao/app/shared/constants.dart';
 import 'package:talao/app/shared/model/credential.dart';
+import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:talao/app/shared/model/display.dart';
 import 'package:talao/self_issued_credential/models/self_issued.dart';
 import 'package:talao/self_issued_credential/models/self_issued_credential.dart';
@@ -49,8 +48,8 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
       await Future.delayed(Duration(milliseconds: 500));
       final key = (await SecureStorageProvider.instance.get('key'))!;
 
-      final did = (await SecureStorageProvider.instance
-          .get(SecureStorageKeys.did))!;
+      final did =
+          (await SecureStorageProvider.instance.get(SecureStorageKeys.did))!;
       final didMethod = (await SecureStorageProvider.instance
           .get(SecureStorageKeys.DIDMethod))!;
 
@@ -65,14 +64,16 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
       final formatter = DateFormat('yyyy-MM-ddTHH:mm:ss');
       final issuanceDate = formatter.format(DateTime.now()) + 'Z';
 
-      //TODO pass companyName,companyWebsite,jobTitle when creating SelfIssued when it supported in future
       final selfIssued = SelfIssued(
           id: did,
           address: selfIssuedCredentialDataModel.address,
           familyName: selfIssuedCredentialDataModel.familyName,
           givenName: selfIssuedCredentialDataModel.givenName,
           telephone: selfIssuedCredentialDataModel.telephone,
-          email: selfIssuedCredentialDataModel.email);
+          email: selfIssuedCredentialDataModel.email,
+          companyName: selfIssuedCredentialDataModel.companyName,
+          companyWebsite: selfIssuedCredentialDataModel.companyWebsite,
+          title: selfIssuedCredentialDataModel.jobTitle);
 
       final selfIssuedCredential = SelfIssuedCredential(
           id: id,
