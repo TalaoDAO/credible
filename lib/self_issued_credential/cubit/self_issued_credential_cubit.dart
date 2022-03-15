@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:intl/intl.dart';
+import 'package:json_path/json_path.dart';
 import 'package:logging/logging.dart';
 import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
@@ -46,15 +47,42 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
       //show loading
       emit(const SelfIssuedCredentialState.loading());
       await Future.delayed(Duration(milliseconds: 500));
-      final key = (await SecureStorageProvider.instance.get('key'))!;
+
+      final isEnterpriseUser = await SecureStorageProvider.instance
+          .get(SecureStorageKeys.isEnterpriseUser);
+
+      late final String key, verificationMethod;
+
+
+      if (isEnterpriseUser == 'true') {
+        final RSAJsonString = (await SecureStorageProvider.instance
+            .get(SecureStorageKeys.RSAKeyJson)) as String;
+        final RSAJson = jsonDecode(RSAJsonString);
+
+        ///
+        final publicKeyJwks = JsonPath(r'$..publicKeyJwk');
+        final publicKeyJwk = publicKeyJwks
+            .read(RSAJson)
+            .where((element) => element.value['kty'] == 'RSA')
+            .toList()
+            .first
+            .value;
+
+        ///
+        key = publicKeyJwk['n'];
+        verificationMethod = publicKeyJwk['kid'];
+
+      } else {
+        key = (await SecureStorageProvider.instance.get(SecureStorageKeys.key))!;
+        final didMethod = (await SecureStorageProvider.instance
+            .get(SecureStorageKeys.DIDMethod))!;
+        verificationMethod = await DIDKitProvider.instance
+            .keyToVerificationMethod(didMethod, key);
+      }
 
       final did =
           (await SecureStorageProvider.instance.get(SecureStorageKeys.did))!;
-      final didMethod = (await SecureStorageProvider.instance
-          .get(SecureStorageKeys.DIDMethod))!;
 
-      final verificationMethod =
-          await DIDKitProvider.instance.keyToVerificationMethod(didMethod, key);
       final options = {
         'proofPurpose': 'assertionMethod',
         'verificationMethod': verificationMethod

@@ -14,6 +14,9 @@ SelfIssued _$SelfIssuedFromJson(Map<String, dynamic> json) => SelfIssued(
       type: json['type'] as String? ?? 'SelfIssued',
       telephone: json['telephone'] as String?,
       email: json['email'] as String?,
+      companyName: json['companyName'] as String?,
+      companyWebsite: json['companyWebsite'] as String?,
+      title: json['title'] as String?,
     );
 
 Map<String, dynamic> _$SelfIssuedToJson(SelfIssued instance) {
@@ -33,5 +36,8 @@ Map<String, dynamic> _$SelfIssuedToJson(SelfIssued instance) {
   writeNotNull('givenName', instance.givenName);
   writeNotNull('telephone', instance.telephone);
   writeNotNull('email', instance.email);
+  writeNotNull('companyName', instance.companyName);
+  writeNotNull('companyWebsite', instance.companyWebsite);
+  writeNotNull('title', instance.title);
   return val;
 }
