@@ -8,8 +8,6 @@ import 'package:talao/l10n/l10n.dart';
 
 part 'self_issued.g.dart';
 
-//TODO important: add enterprise property in SelfIssued model in future when supported
-
 @JsonSerializable(explicitToJson: true, includeIfNull: false)
 class SelfIssued extends CredentialSubject {
   @override
@@ -21,6 +19,9 @@ class SelfIssued extends CredentialSubject {
   final String? givenName;
   final String? telephone;
   final String? email;
+  final String? companyName;
+  final String? companyWebsite;
+  final String? title;
 
   factory SelfIssued.fromJson(Map<String, dynamic> json) =>
       _$SelfIssuedFromJson(json);
@@ -32,7 +33,10 @@ class SelfIssued extends CredentialSubject {
       this.givenName,
       this.type = 'SelfIssued',
       this.telephone,
-      this.email})
+      this.email,
+      this.companyName,
+      this.companyWebsite,
+      this.title})
       : super(id, type, Author('', ''));
 
   @override
@@ -45,6 +49,9 @@ class SelfIssued extends CredentialSubject {
         if (address != null && address!.isNotEmpty) 'address': address,
         'type': type,
         if (email != null && email!.isNotEmpty) 'email': email,
+        if (companyName != null && companyName!.isNotEmpty) 'companyName': companyName,
+        if (companyWebsite != null && companyWebsite!.isNotEmpty) 'companyWebsite': companyWebsite,
+        if (title != null && title!.isNotEmpty) 'title': title,
       };
 
   @override
@@ -73,6 +80,15 @@ class SelfIssued extends CredentialSubject {
             : SizedBox.shrink(),
         email?.isNotEmpty ?? false
             ? CredentialField(title: localizations.personalMail, value: email!)
+            : SizedBox.shrink(),
+        companyName?.isNotEmpty ?? false
+            ? CredentialField(title: localizations.companyName, value: companyName!)
+            : SizedBox.shrink(),
+        companyWebsite?.isNotEmpty ?? false
+            ? CredentialField(title: localizations.companyWebsite, value: companyWebsite!)
+            : SizedBox.shrink(),
+        title?.isNotEmpty ?? false
+            ? CredentialField(title: localizations.jobTitle, value: title!)
             : SizedBox.shrink(),
       ],
     );
