@@ -207,7 +207,7 @@ class _SplashPageState extends State<SplashPage> {
               Navigator.of(context).pop();
             }
             if (state.status == WalletStatus.reset) {
-              Navigator.of(context).pushReplacement(OnBoardingKeyPage.route());
+              Navigator.of(context).pushReplacement(ChooseWalletTypePage.route());
             }
           },
         ),
