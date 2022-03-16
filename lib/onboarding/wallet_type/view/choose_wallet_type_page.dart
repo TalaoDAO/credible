@@ -71,13 +71,15 @@ class _ChooseWalletTypePageState extends State<ChooseWalletTypePage> {
         margin: EdgeInsets.all(12),
         context: context,
         child: Text(localization.proceed),
-        onPressed: () {
+        onPressed: () async {
+          await context
+              .read<ChooseWalletTypeCubit>().save();
           if (context
               .read<ChooseWalletTypeCubit>()
               .isPersonalWalletSelected()) {
-            Navigator.of(context).pushReplacement(OnBoardingKeyPage.route());
+            await Navigator.of(context).pushReplacement(OnBoardingKeyPage.route());
           } else {
-            Navigator.of(context)
+            await Navigator.of(context)
                 .pushReplacement(SubmitEnterpriseUserPage.route());
           }
         },

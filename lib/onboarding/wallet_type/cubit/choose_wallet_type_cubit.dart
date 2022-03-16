@@ -13,21 +13,22 @@ class ChooseWalletTypeCubit extends Cubit<ChooseWalletTypeState> {
 
   void onChangeWalletType(WalletTypes? value) {
     emit(state.copyWith(selectedWallet: value));
+  }
 
-    //save isEnterprise, DIDMethod and DIDMethodName
+  Future<void> save() async {
     if (isPersonalWalletSelected()) {
-      secureStorageProvider.set(
+      await secureStorageProvider.set(
           SecureStorageKeys.isEnterpriseUser, false.toString());
-      secureStorageProvider.set(
+      await secureStorageProvider.set(
           SecureStorageKeys.DIDMethod, Constants.defaultDIDMethod);
-      secureStorageProvider.set(
+      await secureStorageProvider.set(
           SecureStorageKeys.DIDMethodName, Constants.defaultDIDMethodName);
     } else {
-      secureStorageProvider.set(
+      await secureStorageProvider.set(
           SecureStorageKeys.isEnterpriseUser, true.toString());
-      secureStorageProvider.set(
+      await secureStorageProvider.set(
           SecureStorageKeys.DIDMethod, Constants.enterpriseDIDMethod);
-      secureStorageProvider.set(
+      await secureStorageProvider.set(
           SecureStorageKeys.DIDMethodName, Constants.enterpriseDIDMethodName);
     }
   }
