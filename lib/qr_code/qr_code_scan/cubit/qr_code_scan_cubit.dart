@@ -144,4 +144,36 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
       }
     }
   }
+
+  bool isOpenIdUrl(Uri uri) {
+    var condition = false;
+    uri.queryParameters.forEach((key, value) {
+      if (key == 'scope' && value == 'openid') {
+        condition = true;
+      }
+    });
+    return condition;
+  }
+
+  bool requestAttributeExists(Uri uri) {
+    var condition = false;
+    uri.queryParameters.forEach((key, value) {
+      if (key == 'request') {
+        condition = true;
+      }
+    });
+    return condition;
+  }
+
+  bool requestUrlAttributeExists(Uri uri) {
+    var condition = false;
+    uri.queryParameters.forEach((key, value) {
+      if (key == 'request_uri') {
+        condition = true;
+      }
+    });
+    return condition;
+  }
+
+
 }

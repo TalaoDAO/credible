@@ -70,52 +70,66 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
       listener: (context, state) async {
         if (state is QRCodeScanStateHost) {
           if (state.promptActive!) return;
-          context.read<QRCodeScanCubit>().promptDeactivate();
-          var approvedIssuer = Issuer.emptyIssuer();
+          final qrCodeCubit = context.read<QRCodeScanCubit>();
+          qrCodeCubit.promptDeactivate();
 
-          var profileCubit = context.read<ProfileCubit>();
-          if (profileCubit.state is ProfileStateDefault) {
-            final isIssuerVerificationSettingTrue =
-                profileCubit.state.model!.issuerVerificationSetting;
-            if (isIssuerVerificationSettingTrue) {
-              try {
-                approvedIssuer = await CheckIssuer(
-                        DioClient(Constants.checkIssuerServerUrl, Dio()),
-                        Constants.checkIssuerServerUrl,
-                        state.uri!)
-                    .isIssuerInApprovedList();
-              } catch (e) {
-                if (e is ErrorHandler) {
-                  e.displayError(
-                      context, e, Theme.of(context).colorScheme.error);
+          if (qrCodeCubit.isOpenIdUrl(state.uri!)) {
+            if (qrCodeCubit.requestAttributeExists(state.uri!)) {
+              ////TODO: ShowSnackBar  Url not valid
+            } else {
+              if (qrCodeCubit.requestUrlAttributeExists(state.uri!)) {
+
+              } else {
+                ///TODO: ShowSnackBar  Url not valid
+              }
+            }
+          } else {
+            var approvedIssuer = Issuer.emptyIssuer();
+
+            var profileCubit = context.read<ProfileCubit>();
+            if (profileCubit.state is ProfileStateDefault) {
+              final isIssuerVerificationSettingTrue =
+                  profileCubit.state.model!.issuerVerificationSetting;
+              if (isIssuerVerificationSettingTrue) {
+                try {
+                  approvedIssuer = await CheckIssuer(
+                          DioClient(Constants.checkIssuerServerUrl, Dio()),
+                          Constants.checkIssuerServerUrl,
+                          state.uri!)
+                      .isIssuerInApprovedList();
+                } catch (e) {
+                  if (e is ErrorHandler) {
+                    e.displayError(
+                        context, e, Theme.of(context).colorScheme.error);
+                  }
                 }
               }
             }
-          }
-          var acceptHost = await showDialog<bool>(
-                context: context,
-                builder: (BuildContext context) {
-                  return ConfirmDialog(
-                    title: localizations.scanPromptHost,
-                    subtitle: (approvedIssuer.did.isEmpty)
-                        ? state.uri!.host
-                        : '${approvedIssuer.organizationInfo.legalName}\n${approvedIssuer.organizationInfo.currentAddress}',
-                    yes: localizations.communicationHostAllow,
-                    no: localizations.communicationHostDeny,
-                    lock: (state.uri!.scheme == 'http') ? true : false,
-                  );
-                },
-              ) ??
-              false;
+            var acceptHost = await showDialog<bool>(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return ConfirmDialog(
+                      title: localizations.scanPromptHost,
+                      subtitle: (approvedIssuer.did.isEmpty)
+                          ? state.uri!.host
+                          : '${approvedIssuer.organizationInfo.legalName}\n${approvedIssuer.organizationInfo.currentAddress}',
+                      yes: localizations.communicationHostAllow,
+                      no: localizations.communicationHostDeny,
+                      lock: (state.uri!.scheme == 'http') ? true : false,
+                    );
+                  },
+                ) ??
+                false;
 
-          if (acceptHost) {
-            context.read<QRCodeScanCubit>().accept(state.uri!, false);
-          } else {
-            await qrController.resumeCamera();
-            context.read<QRCodeScanCubit>().emitWorkingState();
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text(localizations.scanRefuseHost),
-            ));
+            if (acceptHost) {
+              context.read<QRCodeScanCubit>().accept(state.uri!, false);
+            } else {
+              await qrController.resumeCamera();
+              context.read<QRCodeScanCubit>().emitWorkingState();
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(localizations.scanRefuseHost),
+              ));
+            }
           }
         }
         if (state is QRCodeScanStateSuccess) {
@@ -144,7 +158,6 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
             content: Text(localizations.scanUnsupportedMessage),
           ));
         }
-
       },
       child: BasePage(
         padding: EdgeInsets.zero,

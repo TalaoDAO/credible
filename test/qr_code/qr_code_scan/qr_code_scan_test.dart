@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:talao/app/interop/crypto_keys/crypto_keys.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:talao/app/shared/model/encryption/encryption.dart';
@@ -11,7 +13,7 @@ void main() {
       var uri = Uri.parse(openIdUrl);
       var condition = false;
       uri.queryParameters.forEach((key, value) {
-        if(key == 'scope' && value == 'openid'){
+        if (key == 'scope' && value == 'openid') {
           condition = true;
         }
       });
@@ -19,10 +21,11 @@ void main() {
     });
 
     test('OpenId Request is inValid', () async {
-      var uri = Uri.parse('https://github.com/TalaoDAO/talao-wallet/issues/200');
+      var uri = Uri.parse(
+          'https://talao.co/wallet/test/wallet_credential/urn:uuid:374d3bea-0e22-11ec-9ef1-f37fc4c32c40?issuer=did%3Aethr%3A0xee09654eedaa79429f8d216fa51a129db0f72250');
       var condition = false;
       uri.queryParameters.forEach((key, value) {
-        if(key == 'scope' && value == 'openid'){
+        if (key == 'scope' && value == 'openid') {
           condition = true;
         }
       });
@@ -33,7 +36,7 @@ void main() {
       var uri = Uri.parse(openIdUrl);
       var condition = false;
       uri.queryParameters.forEach((key, value) {
-        if(key == 'request'){
+        if (key == 'request') {
           condition = true;
         }
       });
@@ -44,7 +47,7 @@ void main() {
       var uri = Uri.parse(openIdUrl);
       var condition = false;
       uri.queryParameters.forEach((key, value) {
-        if(key == 'request_uri'){
+        if (key == 'request_uri') {
           condition = true;
         }
       });
