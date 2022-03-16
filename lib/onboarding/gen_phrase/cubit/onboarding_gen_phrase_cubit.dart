@@ -35,7 +35,7 @@ class OnBoardingGenPhraseCubit extends Cubit<OnBoardingGenPhraseState> {
     try {
       emit(state.copyWith(status: OnBoardingGenPhraseStatus.loading));
       final mnemonicFormatted = mnemonic.join(' ');
-      await saveMnemonicKey(mnemonicFormatted);
+      await secureStorageProvider.set('mnemonic', mnemonicFormatted);
       final key = await keyGeneration.privateKey(mnemonicFormatted);
       await secureStorageProvider.set('key', key);
 
@@ -50,6 +50,7 @@ class OnBoardingGenPhraseCubit extends Cubit<OnBoardingGenPhraseState> {
 
       emit(state.copyWith(status: OnBoardingGenPhraseStatus.success));
     } catch (error) {
+      print(error);
       log.severe('something went wrong when generating a key', error);
       emit(
         state.copyWith(
@@ -57,21 +58,6 @@ class OnBoardingGenPhraseCubit extends Cubit<OnBoardingGenPhraseState> {
           message: StateMessage.error(context.l10n.errorGeneratingKey),
         ),
       );
-    }
-  }
-
-  Future<void> saveMnemonicKey(String mnemonic) async {
-    try {
-      log.info('will save mnemonic to secure storage');
-      await secureStorageProvider.set('mnemonic', mnemonic);
-      log.info('mnemonic saved');
-    } catch (error) {
-      log.severe('error ocurred setting mnemonic to secure storate', error);
-      emit(state.copyWith(
-        status: OnBoardingGenPhraseStatus.failure,
-        message:
-            StateMessage.error('Failed to save mnemonic, please try again'),
-      ));
     }
   }
 }
