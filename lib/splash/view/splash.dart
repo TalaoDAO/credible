@@ -18,7 +18,6 @@ import 'package:talao/credentials/credentials.dart';
 import 'package:talao/deep_link/deep_link.dart';
 import 'package:talao/drawer/drawer.dart';
 import 'package:talao/l10n/l10n.dart';
-import 'package:talao/onboarding/key/onboarding_key.dart';
 import 'package:talao/onboarding/onboarding.dart';
 import 'package:talao/qr_code/qr_code_scan/qr_code_scan.dart';
 import 'package:talao/scan/cubit/scan_message_string_state.dart';
@@ -59,7 +58,8 @@ class _SplashPageState extends State<SplashPage> {
       Duration(seconds: 0),
       () async {
         await context.read<ThemeCubit>().getCurrentTheme();
-        final key = await SecureStorageProvider.instance.get('key');
+        final key =
+            await SecureStorageProvider.instance.get(SecureStorageKeys.key);
         if (key == null) {
           await onBoarding();
         } else {
@@ -195,7 +195,8 @@ class _SplashPageState extends State<SplashPage> {
               Navigator.of(context).pop();
             }
             if (state.status == WalletStatus.reset) {
-              Navigator.of(context).pushReplacement(OnBoardingKeyPage.route());
+              Navigator.of(context)
+                  .pushReplacement(ChooseWalletTypePage.route());
             }
           },
         ),

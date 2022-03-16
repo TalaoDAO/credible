@@ -22,6 +22,8 @@ abstract class SecureStorageProvider {
 }
 
 abstract class SecureStorageKeys {
+  static const data = 'data';
+  static const mnemonic = 'mnemonic';
   static const isEnterpriseUser = 'isEnterpriseUser';
   static const did = 'DID';
   static const RSAKeyJson = 'RSAKeyJson';
