@@ -237,5 +237,8 @@
   "pleaseEnterYourDIDKey": "Please enter your DID key",
   "pleaseImportYourRSAKey": "Please import your RSA key",
   "confirm": "Confirm",
-  "pleaseSelectRSAKeyFileWithJsonExtension": "Please select RSA key file(with json extension)"
+  "pleaseSelectRSAKeyFileWithJsonExtension": "Please select RSA key file(with json extension)",
+  "rsaNotMatchedWithDIDKey": "RSA key not matched with DID key",
+  "didKeyNotResolved": "DID key not resolved",
+  "anUnknownErrorHappened": "An unknown error happened"
 }

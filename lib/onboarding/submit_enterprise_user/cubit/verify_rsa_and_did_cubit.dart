@@ -29,7 +29,11 @@ class VerifyRSAAndDIDCubit extends Cubit<VerifyRSAAndDIDState> {
       if (error == null) {
         //read RSA json file
         if (rsaFile.path == null) {
-          emit(const VerifyRSAAndDIDState.error('Please import your RSA key'));
+          emit(const VerifyRSAAndDIDState.error(VerifyRSAAndDIDErrorState.rsaKeyNotImported()));
+          return;
+        }
+        if(did.trim().isEmpty) {
+          emit(const VerifyRSAAndDIDState.error(VerifyRSAAndDIDErrorState.didKeyNotEntered()));
           return;
         }
         final RSAJsonFile = File(rsaFile.path!);
@@ -69,17 +73,14 @@ class VerifyRSAAndDIDCubit extends Cubit<VerifyRSAAndDIDState> {
           await secureStorageProvider.set(SecureStorageKeys.did, did);
           emit(const VerifyRSAAndDIDState.verified());
         } else {
-          emit(const VerifyRSAAndDIDState.error(
-              'RSA not matched with your DID key'));
+          emit(const VerifyRSAAndDIDState.error(VerifyRSAAndDIDErrorState.rsaNotMatchedWithDIDKey()));
         }
       } else {
-        emit(VerifyRSAAndDIDState.error(error));
+        emit(const VerifyRSAAndDIDState.error(VerifyRSAAndDIDErrorState.didKeyNotResolved()));
       }
     } catch (e, s) {
       log.info('error in verifying RSA key :${e.toString()}, s: $s', e, s);
-      //TODO translate message
-      emit(const VerifyRSAAndDIDState.error(
-          'Some error happened when verifying'));
+      emit(const VerifyRSAAndDIDState.error(VerifyRSAAndDIDErrorState.unknownError()));
     }
   }
 }

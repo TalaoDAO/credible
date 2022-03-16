@@ -67,7 +67,10 @@
     "pleaseEnterYourDIDKey",
     "pleaseImportYourRSAKey",
     "confirm",
-    "pleaseSelectRSAKeyFileWithJsonExtension"
+    "pleaseSelectRSAKeyFileWithJsonExtension",
+    "rsaNotMatchedWithDIDKey",
+    "didKeyNotResolved",
+    "anUnknownErrorHappened"
   ],
 
   "es": [
@@ -137,7 +140,10 @@
     "pleaseEnterYourDIDKey",
     "pleaseImportYourRSAKey",
     "confirm",
-    "pleaseSelectRSAKeyFileWithJsonExtension"
+    "pleaseSelectRSAKeyFileWithJsonExtension",
+    "rsaNotMatchedWithDIDKey",
+    "didKeyNotResolved",
+    "anUnknownErrorHappened"
   ],
 
   "fr": [
@@ -182,7 +188,10 @@
     "pleaseEnterYourDIDKey",
     "pleaseImportYourRSAKey",
     "confirm",
-    "pleaseSelectRSAKeyFileWithJsonExtension"
+    "pleaseSelectRSAKeyFileWithJsonExtension",
+    "rsaNotMatchedWithDIDKey",
+    "didKeyNotResolved",
+    "anUnknownErrorHappened"
   ],
 
   "it": [
@@ -254,6 +263,9 @@
     "pleaseEnterYourDIDKey",
     "pleaseImportYourRSAKey",
     "confirm",
-    "pleaseSelectRSAKeyFileWithJsonExtension"
+    "pleaseSelectRSAKeyFileWithJsonExtension",
+    "rsaNotMatchedWithDIDKey",
+    "didKeyNotResolved",
+    "anUnknownErrorHappened"
   ]
 }

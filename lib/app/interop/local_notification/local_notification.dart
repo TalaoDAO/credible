@@ -56,7 +56,7 @@ class LocalNotification {
   }
 
   Future<void> _onSelectNotification(String? filePath) async {
-    await OpenFile.open(filePath);
+    await OpenFile.open(filePath ?? '');
   }
 
   void cancelAllNotifications() async {

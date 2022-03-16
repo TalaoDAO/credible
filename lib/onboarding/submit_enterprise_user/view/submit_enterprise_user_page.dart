@@ -108,9 +108,9 @@ class _SubmitEnterpriseUserPageState extends State<SubmitEnterpriseUserPage> {
             listener: (_, state) {
           state.maybeWhen(
               orElse: () => null,
-              error: (message) {
+              error: (errorState) {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(message),
+                  content: Text(errorState.getMessage(context)),
                   backgroundColor: Theme.of(context).colorScheme.error,
                 ));
               },
@@ -133,7 +133,7 @@ class _SubmitEnterpriseUserPageState extends State<SubmitEnterpriseUserPage> {
                   onPressed: () {
                     final rsaFile =
                         context.read<SubmitEnterpriseUserCubit>().state.rsaFile;
-                    if (_didController.text.isEmpty) {
+                    if (_didController.text.trim().isEmpty) {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text(localization.pleaseEnterYourDIDKey),
                           backgroundColor:
