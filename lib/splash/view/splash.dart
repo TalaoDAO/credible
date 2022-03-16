@@ -13,6 +13,7 @@ import 'package:talao/app/shared/constants.dart';
 import 'package:talao/app/shared/error_handler/error_handler.dart';
 import 'package:talao/app/shared/model/message.dart';
 import 'package:talao/app/shared/widget/confirm_dialog.dart';
+import 'package:talao/did/cubit/did_cubit.dart';
 import 'package:talao/drawer/drawer.dart';
 import 'package:talao/l10n/l10n.dart';
 import 'package:talao/onboarding/key/onboarding_key.dart';
@@ -49,6 +50,7 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   void initState() {
+    var secureStorageProvider = SecureStorageProvider.instance;
     _controller =
         VideoPlayerController.asset('assets/splash/talao_animation_logo.mp4');
     _initializeVideoPlayerFuture = _controller!.initialize();
@@ -58,15 +60,17 @@ class _SplashPageState extends State<SplashPage> {
       Duration(seconds: 0),
       () async {
         await context.read<ThemeCubit>().getCurrentTheme();
-        final key = await SecureStorageProvider.instance.get('key');
+        final key = await secureStorageProvider.get('key');
         if (key == null) {
           await onBoarding();
         } else {
           if (key.isEmpty) {
             await onBoarding();
           } else {
+            var did = await secureStorageProvider.get(SecureStorageKeys.did);
+            context.read<DIDCubit>().load(did!);
             Future.delayed(
-              Duration(seconds: 2),
+              Duration(seconds: 5),
               () async {
                 await _controller!.pause();
                 return Navigator.of(context).push(CredentialsListPage.route());
