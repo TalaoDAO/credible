@@ -8,13 +8,13 @@ part of 'siopv2_param.dart';
 
 SIOPV2Param _$SIOPV2ParamFromJson(Map<String, dynamic> json) => SIOPV2Param(
       nonce: json['nonce'] as String?,
-      request_uri: json['request_uri'] as String?,
+      redirect_uri: json['redirect_uri'] as String?,
       claims: json['claims'] as String?,
     );
 
 Map<String, dynamic> _$SIOPV2ParamToJson(SIOPV2Param instance) =>
     <String, dynamic>{
       'nonce': instance.nonce,
-      'request_uri': instance.request_uri,
+      'redirect_uri': instance.redirect_uri,
       'claims': instance.claims,
     };

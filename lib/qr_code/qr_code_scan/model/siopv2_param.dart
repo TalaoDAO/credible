@@ -7,12 +7,12 @@ part 'siopv2_param.g.dart';
 class SIOPV2Param extends Equatable {
   SIOPV2Param({
     this.nonce,
-    this.request_uri,
+    this.redirect_uri,
     this.claims,
   });
 
   final String? nonce;
-  final String? request_uri;
+  final String? redirect_uri;
   final String? claims;
 
   factory SIOPV2Param.fromJson(Map<String, dynamic> json) =>
@@ -21,5 +21,5 @@ class SIOPV2Param extends Equatable {
   Map<String, dynamic> toJson() => _$SIOPV2ParamToJson(this);
 
   @override
-  List<Object?> get props => [nonce, request_uri, claims];
+  List<Object?> get props => [nonce, redirect_uri, claims];
 }

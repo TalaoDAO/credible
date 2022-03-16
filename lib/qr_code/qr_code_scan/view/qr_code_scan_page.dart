@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:talao/app/interop/issuer/check_issuer.dart';
 import 'package:talao/app/interop/issuer/models/issuer.dart';
@@ -14,6 +13,7 @@ import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/confirm_dialog.dart';
 import 'package:talao/drawer/drawer.dart';
+import 'package:talao/l10n/l10n.dart';
 import 'package:talao/qr_code/qr_code_scan/cubit/qr_code_scan_cubit.dart';
 
 class QrCodeScanPage extends StatefulWidget {
@@ -63,7 +63,7 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
+    final l10n = context.l10n;
 
     ///Note - Sync listener content with credential listener
     return BlocListener<QRCodeScanCubit, QRCodeScanState>(
@@ -72,15 +72,11 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
           if (state.promptActive!) return;
           final qrCodeCubit = context.read<QRCodeScanCubit>();
           qrCodeCubit.promptDeactivate();
-
-          if (qrCodeCubit.isOpenIdUrl()) {
-            if (qrCodeCubit.requestAttributeExists()) {
-              qrCodeCubit.emitQRCodeScanStateUnknown(false);
-            } else {
-              if (qrCodeCubit.requestUrlAttributeExists()) {
-                qrCodeCubit.getSIOPV2Parameters();
-              } else {
-                qrCodeCubit.emitQRCodeScanStateUnknown(false);
+          final deepLink = false;
+          if (qrCodeCubit.isOpenIdUrl(false)) {
+            if (!qrCodeCubit.requestAttributeExists(false)) {
+              if (qrCodeCubit.requestUrlAttributeExists(false)) {
+                print(qrCodeCubit.getSIOPV2Parameters(false).toJson());
               }
             }
           } else {
@@ -109,12 +105,12 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
                   context: context,
                   builder: (BuildContext context) {
                     return ConfirmDialog(
-                      title: localizations.scanPromptHost,
+                      title: l10n.scanPromptHost,
                       subtitle: (approvedIssuer.did.isEmpty)
                           ? state.uri!.host
                           : '${approvedIssuer.organizationInfo.legalName}\n${approvedIssuer.organizationInfo.currentAddress}',
-                      yes: localizations.communicationHostAllow,
-                      no: localizations.communicationHostDeny,
+                      yes: l10n.communicationHostAllow,
+                      no: l10n.communicationHostDeny,
                       lock: (state.uri!.scheme == 'http') ? true : false,
                     );
                   },
@@ -127,7 +123,7 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
               await qrController.resumeCamera();
               context.read<QRCodeScanCubit>().emitWorkingState();
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(localizations.scanRefuseHost),
+                content: Text(l10n.scanRefuseHost),
               ));
             }
           }
@@ -155,13 +151,13 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
         if (state is QRCodeScanStateUnknown) {
           await qrController.resumeCamera();
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(localizations.scanUnsupportedMessage),
+            content: Text(l10n.scanUnsupportedMessage),
           ));
         }
       },
       child: BasePage(
         padding: EdgeInsets.zero,
-        title: localizations.scanTitle,
+        title: l10n.scanTitle,
         scrollView: false,
         extendBelow: true,
         titleLeading: BackLeadingButton(),

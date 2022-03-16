@@ -146,58 +146,62 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
     }
   }
 
-  bool isOpenIdUrl() {
+  bool isOpenIdUrl(bool isDeepLink) {
     var condition = false;
     state.uri!.queryParameters.forEach((key, value) {
       if (key == 'scope' && value == 'openid') {
         condition = true;
       }
     });
+    if (!condition) {
+      emit(QRCodeScanStateUnknown(isDeepLink: isDeepLink));
+    }
     return condition;
   }
 
-  bool requestAttributeExists() {
+  bool requestAttributeExists(bool isDeepLink) {
     var condition = false;
     state.uri!.queryParameters.forEach((key, value) {
       if (key == 'request') {
         condition = true;
       }
     });
+
+    if (!condition) {
+      emit(QRCodeScanStateUnknown(isDeepLink: isDeepLink));
+    }
     return condition;
   }
 
-  bool requestUrlAttributeExists() {
+  bool requestUrlAttributeExists(bool isDeepLink) {
     var condition = false;
     state.uri!.queryParameters.forEach((key, value) {
       if (key == 'request_uri') {
         condition = true;
       }
     });
+    if (!condition) {
+      emit(QRCodeScanStateUnknown(isDeepLink: isDeepLink));
+    }
     return condition;
   }
 
-  SIOPV2Param getSIOPV2Parameters() {
+  SIOPV2Param getSIOPV2Parameters(bool isDeepLink) {
     var nonce;
-    var redirect_url;
+    var redirect_uri;
     var claims;
     state.uri!.queryParameters.forEach((key, value) {
       if (key == 'nonce') {
         nonce = value;
       }
-      if (key == 'request_uri') {
-        nonce = redirect_url;
+      if (key == 'redirect_uri') {
+        nonce = redirect_uri;
       }
       if (key == 'claims') {
         nonce = claims;
       }
     });
-    print(SIOPV2Param(claims: claims, nonce: nonce, redirect_url: redirect_url)
-        .toJson());
     return SIOPV2Param(
-        claims: claims, nonce: nonce, redirect_url: redirect_url);
-  }
-
-  void emitQRCodeScanStateUnknown(bool isDeepLink) {
-    emit(QRCodeScanStateUnknown(isDeepLink: isDeepLink));
+        claims: claims, nonce: nonce, redirect_uri: redirect_uri);
   }
 }
