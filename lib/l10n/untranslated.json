@@ -70,7 +70,12 @@
     "pleaseSelectRSAKeyFileWithJsonExtension",
     "rsaNotMatchedWithDIDKey",
     "didKeyNotResolved",
-    "anUnknownErrorHappened"
+    "anUnknownErrorHappened",
+    "walletType",
+    "chooseYourWalletType",
+    "proceed",
+    "enterpriseWallet",
+    "personalWallet"
   ],
 
   "es": [
@@ -143,7 +148,12 @@
     "pleaseSelectRSAKeyFileWithJsonExtension",
     "rsaNotMatchedWithDIDKey",
     "didKeyNotResolved",
-    "anUnknownErrorHappened"
+    "anUnknownErrorHappened",
+    "walletType",
+    "chooseYourWalletType",
+    "proceed",
+    "enterpriseWallet",
+    "personalWallet"
   ],
 
   "fr": [
@@ -191,7 +201,12 @@
     "pleaseSelectRSAKeyFileWithJsonExtension",
     "rsaNotMatchedWithDIDKey",
     "didKeyNotResolved",
-    "anUnknownErrorHappened"
+    "anUnknownErrorHappened",
+    "walletType",
+    "chooseYourWalletType",
+    "proceed",
+    "enterpriseWallet",
+    "personalWallet"
   ],
 
   "it": [
@@ -266,6 +281,11 @@
     "pleaseSelectRSAKeyFileWithJsonExtension",
     "rsaNotMatchedWithDIDKey",
     "didKeyNotResolved",
-    "anUnknownErrorHappened"
+    "anUnknownErrorHappened",
+    "walletType",
+    "chooseYourWalletType",
+    "proceed",
+    "enterpriseWallet",
+    "personalWallet"
   ]
 }

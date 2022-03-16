@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
+import 'package:talao/l10n/l10n.dart';
 import 'package:talao/onboarding/key/onboarding_key.dart';
 
 import '../../submit_enterprise_user/view/submit_enterprise_user_page.dart';
@@ -28,8 +29,9 @@ class ChooseWalletTypePage extends StatefulWidget {
 class _ChooseWalletTypePageState extends State<ChooseWalletTypePage> {
   @override
   Widget build(BuildContext context) {
+    final localization = context.l10n;
     return BasePage(
-      title: 'Wallet Type',
+      title: localization.walletType,
       backgroundColor: Theme.of(context).colorScheme.surface,
       scrollView: false,
       body: Center(
@@ -37,7 +39,7 @@ class _ChooseWalletTypePageState extends State<ChooseWalletTypePage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'Choose your wallet type',
+              localization.chooseYourWalletType,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.subtitle1,
             ),
@@ -51,7 +53,7 @@ class _ChooseWalletTypePageState extends State<ChooseWalletTypePage> {
                       (e) => DropdownMenuItem(
                         value: e,
                         child: Text(
-                          e.stringValue(),
+                          e.stringValue(context),
                           textAlign: TextAlign.center,
                           style: Theme.of(context).textTheme.bodyText1,
                         ),
@@ -68,7 +70,7 @@ class _ChooseWalletTypePageState extends State<ChooseWalletTypePage> {
       navigation: BaseButton.primary(
         margin: EdgeInsets.all(12),
         context: context,
-        child: const Text('Continue'),
+        child: Text(localization.proceed),
         onPressed: () {
           if (context
               .read<ChooseWalletTypeCubit>()

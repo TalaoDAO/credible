@@ -240,5 +240,10 @@
   "pleaseSelectRSAKeyFileWithJsonExtension": "Please select RSA key file(with json extension)",
   "rsaNotMatchedWithDIDKey": "RSA key not matched with DID key",
   "didKeyNotResolved": "DID key not resolved",
-  "anUnknownErrorHappened": "An unknown error happened"
+  "anUnknownErrorHappened": "An unknown error happened",
+  "walletType": "Wallet Type",
+  "chooseYourWalletType": "Choose your wallet type",
+  "proceed": "Continue",
+  "enterpriseWallet": "Enterprise Wallet",
+  "personalWallet": "Personal Wallet"
 }
