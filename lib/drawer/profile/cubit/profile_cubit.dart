@@ -15,7 +15,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   final SecureStorageProvider secureStorageProvider;
 
   ProfileCubit({required this.secureStorageProvider})
-      : super(ProfileState(model: ProfileModel.empty)) {
+      : super(ProfileState(model: ProfileModel.empty(isEnterprise: false))) {
     load();
   }
 
@@ -42,8 +42,10 @@ class ProfileCubit extends Cubit<ProfileState> {
       final issuerVerificationSetting = !(await secureStorageProvider
               .get(SecureStorageKeys.issuerVerificationSettingKey) ==
           'false');
+      final isEnterprise =
+          await secureStorageProvider.get(SecureStorageKeys.isEnterpriseUser);
 
-      final model = ProfileModel(
+      final profileModel = ProfileModel(
         firstName: firstName,
         lastName: lastName,
         phone: phone,
@@ -53,17 +55,15 @@ class ProfileCubit extends Cubit<ProfileState> {
         companyName: companyName,
         companyWebsite: companyWebsite,
         jobTitle: jobTitle,
+        isEnterprise: isEnterprise == 'true',
       );
 
-      final isEnterprise =
-          await secureStorageProvider.get(SecureStorageKeys.isEnterpriseUser);
-
-      emit(ProfileStateDefault(
-          model: model, isEnterprise: isEnterprise == 'true'));
+      emit(state.copyWith(model: profileModel));
     } catch (e) {
       log.severe('something went wrong', e);
-      emit(ProfileStateMessage(
-          message: StateMessage.error(message: ScanMessageStringState.failedToLoadProfile())));
+      emit(state.copyWith(
+          message: StateMessage.error(
+              message: ScanMessageStringState.failedToLoadProfile())));
     }
   }
 
@@ -78,8 +78,8 @@ class ProfileCubit extends Cubit<ProfileState> {
     await secureStorageProvider.delete(SecureStorageKeys.companyName);
     final isEnterprise =
         await secureStorageProvider.get(SecureStorageKeys.isEnterpriseUser);
-    emit(ProfileStateDefault(
-        model: ProfileModel.empty, isEnterprise: isEnterprise == 'true'));
+    emit(ProfileState(
+        model: ProfileModel.empty(isEnterprise: isEnterprise == 'true')));
   }
 
   Future<void> update(ProfileModel profileModel) async {
@@ -120,17 +120,13 @@ class ProfileCubit extends Cubit<ProfileState> {
         SecureStorageKeys.issuerVerificationSettingKey,
         profileModel.issuerVerificationSetting.toString(),
       );
-
-      final isEnterprise =
-          await secureStorageProvider.get(SecureStorageKeys.isEnterpriseUser);
-
-      emit(ProfileStateDefault(
-          model: profileModel, isEnterprise: isEnterprise == 'true'));
+      emit(ProfileState(model: profileModel));
     } catch (e) {
       log.severe('something went wrong', e);
 
-      emit(ProfileStateMessage(
-          message: StateMessage.error(message: ScanMessageStringState.failedToSaveProfile())));
+      emit(state.copyWith(
+          message: StateMessage.error(
+              message: ScanMessageStringState.failedToSaveProfile())));
     }
   }
 }

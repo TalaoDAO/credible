@@ -92,7 +92,8 @@ class _SubmitEnterpriseUserPageState extends State<SubmitEnterpriseUserPage> {
             BlocBuilder<SubmitEnterpriseUserCubit, SubmitEnterpriseUserState>(
                 builder: (_, state) {
               if (state.rsaFile == null) {
-                return PickFileButton(onTap: () => _pickRSAJsonFile(localization));
+                return PickFileButton(
+                    onTap: () => _pickRSAJsonFile(localization));
               } else {
                 return PickedFile(
                   fileName: state.rsaFile!.name,
@@ -120,9 +121,8 @@ class _SubmitEnterpriseUserPageState extends State<SubmitEnterpriseUserPage> {
                         localization.didKeyAndRSAKeyVerifiedSuccessfully)));
 
                 await Navigator.of(context).pushReplacement(PersonalPage.route(
-                    profileModel: ProfileModel.empty,
-                    isFromOnBoarding: true,
-                    isEnterprise: true));
+                    profileModel: ProfileModel.empty(isEnterprise: true),
+                    isFromOnBoarding: true));
               });
         }, builder: (context, state) {
           return state.maybeWhen(

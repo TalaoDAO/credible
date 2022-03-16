@@ -210,8 +210,7 @@ class _SplashPageState extends State<SplashPage> {
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   backgroundColor: state.message!.color,
-                  content:
-                      Text(state.message?.getMessage(context) ?? ''),
+                  content: Text(state.message?.getMessage(context) ?? ''),
                 ));
               }
             }
@@ -262,24 +261,23 @@ class _SplashPageState extends State<SplashPage> {
             var approvedIssuer = Issuer.emptyIssuer();
 
             var profileCubit = context.read<ProfileCubit>();
-            if (profileCubit.state is ProfileStateDefault) {
-              final isIssuerVerificationSettingTrue =
-                  profileCubit.state.model!.issuerVerificationSetting;
-              if (isIssuerVerificationSettingTrue) {
-                try {
-                  approvedIssuer = await CheckIssuer(
-                          DioClient(Constants.checkIssuerServerUrl, Dio()),
-                          Constants.checkIssuerServerUrl,
-                          state.uri!)
-                      .isIssuerInApprovedList();
-                } catch (e) {
-                  if (e is ErrorHandler) {
-                    e.displayError(
-                        context, e, Theme.of(context).colorScheme.error);
-                  }
+            final isIssuerVerificationSettingTrue =
+                profileCubit.state.model.issuerVerificationSetting;
+            if (isIssuerVerificationSettingTrue) {
+              try {
+                approvedIssuer = await CheckIssuer(
+                        DioClient(Constants.checkIssuerServerUrl, Dio()),
+                        Constants.checkIssuerServerUrl,
+                        state.uri!)
+                    .isIssuerInApprovedList();
+              } catch (e) {
+                if (e is ErrorHandler) {
+                  e.displayError(
+                      context, e, Theme.of(context).colorScheme.error);
                 }
               }
             }
+
             var acceptHost = await showDialog<bool>(
                   context: context,
                   builder: (BuildContext context) {
@@ -321,8 +319,7 @@ class _SplashPageState extends State<SplashPage> {
             } else {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 backgroundColor: state.message!.color,
-                content:
-                    Text(state.message?.getMessage(context) ?? ''),
+                content: Text(state.message?.getMessage(context) ?? ''),
               ));
             }
           }

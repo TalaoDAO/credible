@@ -74,21 +74,18 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
           var approvedIssuer = Issuer.emptyIssuer();
 
           var profileCubit = context.read<ProfileCubit>();
-          if (profileCubit.state is ProfileStateDefault) {
-            final isIssuerVerificationSettingTrue =
-                profileCubit.state.model!.issuerVerificationSetting;
-            if (isIssuerVerificationSettingTrue) {
-              try {
-                approvedIssuer = await CheckIssuer(
-                        DioClient(Constants.checkIssuerServerUrl, Dio()),
-                        Constants.checkIssuerServerUrl,
-                        state.uri!)
-                    .isIssuerInApprovedList();
-              } catch (e) {
-                if (e is ErrorHandler) {
-                  e.displayError(
-                      context, e, Theme.of(context).colorScheme.error);
-                }
+          final isIssuerVerificationSettingTrue =
+              profileCubit.state.model.issuerVerificationSetting;
+          if (isIssuerVerificationSettingTrue) {
+            try {
+              approvedIssuer = await CheckIssuer(
+                      DioClient(Constants.checkIssuerServerUrl, Dio()),
+                      Constants.checkIssuerServerUrl,
+                      state.uri!)
+                  .isIssuerInApprovedList();
+            } catch (e) {
+              if (e is ErrorHandler) {
+                e.displayError(context, e, Theme.of(context).colorScheme.error);
               }
             }
           }
@@ -144,7 +141,6 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
             content: Text(localizations.scanUnsupportedMessage),
           ));
         }
-
       },
       child: BasePage(
         padding: EdgeInsets.zero,

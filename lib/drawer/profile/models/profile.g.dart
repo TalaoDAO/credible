@@ -13,6 +13,7 @@ ProfileModel _$ProfileModelFromJson(Map<String, dynamic> json) => ProfileModel(
       location: json['location'] as String,
       email: json['email'] as String,
       issuerVerificationSetting: json['issuerVerificationSetting'] as bool,
+      isEnterprise: json['isEnterprise'] as bool,
       companyName: json['companyName'] as String? ?? '',
       companyWebsite: json['companyWebsite'] as String? ?? '',
       jobTitle: json['jobTitle'] as String? ?? '',
@@ -29,4 +30,5 @@ Map<String, dynamic> _$ProfileModelToJson(ProfileModel instance) =>
       'companyWebsite': instance.companyWebsite,
       'jobTitle': instance.jobTitle,
       'issuerVerificationSetting': instance.issuerVerificationSetting,
+      'isEnterprise': instance.isEnterprise,
     };
