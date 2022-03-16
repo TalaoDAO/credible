@@ -52,13 +52,9 @@ class SelfIssuedCredentialButton extends StatelessWidget {
       }, listener: (context, state) {
         state.maybeWhen(
             orElse: () => null,
-            error: (message) {
+            error: (errorState) {
               ScaffoldMessenger.of(context)
-                  .showSnackBar(SnackBar(content: Text(message)));
-            },
-            warning: (message) {
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(SnackBar(content: Text(message)));
+                  .showSnackBar(SnackBar(content: Text(errorState.getMessage(context))));
             },
             credentialCreated: () {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(

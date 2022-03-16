@@ -75,7 +75,9 @@
     "chooseYourWalletType",
     "proceed",
     "enterpriseWallet",
-    "personalWallet"
+    "personalWallet",
+    "failedToVerifySelfIssuedCredential",
+    "failedToCreateSelfIssuedCredential"
   ],
 
   "es": [
@@ -153,7 +155,9 @@
     "chooseYourWalletType",
     "proceed",
     "enterpriseWallet",
-    "personalWallet"
+    "personalWallet",
+    "failedToVerifySelfIssuedCredential",
+    "failedToCreateSelfIssuedCredential"
   ],
 
   "fr": [
@@ -206,7 +210,9 @@
     "chooseYourWalletType",
     "proceed",
     "enterpriseWallet",
-    "personalWallet"
+    "personalWallet",
+    "failedToVerifySelfIssuedCredential",
+    "failedToCreateSelfIssuedCredential"
   ],
 
   "it": [
@@ -286,6 +292,8 @@
     "chooseYourWalletType",
     "proceed",
     "enterpriseWallet",
-    "personalWallet"
+    "personalWallet",
+    "failedToVerifySelfIssuedCredential",
+    "failedToCreateSelfIssuedCredential"
   ]
 }

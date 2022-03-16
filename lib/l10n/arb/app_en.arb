@@ -245,5 +245,7 @@
   "chooseYourWalletType": "Choose your wallet type",
   "proceed": "Continue",
   "enterpriseWallet": "Enterprise Wallet",
-  "personalWallet": "Personal Wallet"
+  "personalWallet": "Personal Wallet",
+  "failedToVerifySelfIssuedCredential": "Failed to verify self issued credential",
+  "failedToCreateSelfIssuedCredential": "Failed to create self issued credential"
 }

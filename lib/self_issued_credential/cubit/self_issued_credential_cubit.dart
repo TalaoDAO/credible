@@ -107,17 +107,12 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
       if (jsonVerification['warnings'].isNotEmpty) {
         log.warning('credential verification return warnings',
             jsonVerification['warnings']);
-
-        emit(SelfIssuedCredentialState.warning(
-            'Credential verification returned some warnings. '
-            'Check the logs for more information.'));
       }
 
       if (jsonVerification['errors'].isNotEmpty) {
         log.severe('failed to verify credential', jsonVerification['errors']);
         if (jsonVerification['errors'][0] != 'No applicable proof') {
-          emit(SelfIssuedCredentialState.error('Failed to verify credential. '
-              'Check the logs for more information.'));
+          emit(const SelfIssuedCredentialState.error(SelfIssuedCredentialErrorState.failedToVerifySelfIssuedCredential()));
         } else {
           await _recordCredential(vc);
         }
@@ -128,9 +123,7 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
       print('e: $e,s: $s');
       log.severe('something went wrong', e, s);
 
-      emit(SelfIssuedCredentialState.error(
-          'Failed to create self issued credential. '
-          'Check the logs for more information.'));
+      emit(const SelfIssuedCredentialState.error(SelfIssuedCredentialErrorState.failedToCreateSelfIssuedCredential()));
     }
   }
 
