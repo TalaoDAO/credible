@@ -47,10 +47,10 @@ class _SplashPageState extends State<SplashPage> {
   StreamSubscription? _sub;
   VideoPlayerController? _controller;
   Future<void>? _initializeVideoPlayerFuture;
+  SecureStorageProvider secureStorageProvider = SecureStorageProvider.instance;
 
   @override
   void initState() {
-    var secureStorageProvider = SecureStorageProvider.instance;
     _controller =
         VideoPlayerController.asset('assets/splash/talao_animation_logo.mp4');
     _initializeVideoPlayerFuture = _controller!.initialize();
@@ -61,23 +61,33 @@ class _SplashPageState extends State<SplashPage> {
       () async {
         await context.read<ThemeCubit>().getCurrentTheme();
         final key = await secureStorageProvider.get('key');
-        if (key == null) {
-          await onBoarding();
-        } else {
-          if (key.isEmpty) {
-            await onBoarding();
-          } else {
-            var did = await secureStorageProvider.get(SecureStorageKeys.did);
-            context.read<DIDCubit>().load(did!);
-            Future.delayed(
-              Duration(seconds: 5),
-              () async {
-                await _controller!.pause();
-                return Navigator.of(context).push(CredentialsListPage.route());
-              },
-            );
-          }
+        if (key == null || key.isEmpty) {
+          return await onBoarding();
         }
+        var did = await secureStorageProvider.get(SecureStorageKeys.did);
+        var didMethod =
+            await secureStorageProvider.get(SecureStorageKeys.didMethod);
+        var didMethodName =
+            await secureStorageProvider.get(SecureStorageKeys.didMethodName);
+        if (did == null || did.isEmpty) {
+          return await onBoarding();
+        }
+        if (didMethod == null || didMethod.isEmpty) {
+          return await onBoarding();
+        }
+        if (didMethodName == null || didMethodName.isEmpty) {
+          return await onBoarding();
+        }
+        context
+            .read<DIDCubit>()
+            .load(did: did, didMethod: didMethod, didMethodName: didMethodName);
+        Future.delayed(
+          Duration(seconds: 5),
+          () async {
+            await _controller!.pause();
+            return Navigator.of(context).push(CredentialsListPage.route());
+          },
+        );
       },
     );
     super.initState();

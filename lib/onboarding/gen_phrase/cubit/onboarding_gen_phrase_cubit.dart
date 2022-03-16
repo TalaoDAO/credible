@@ -7,6 +7,7 @@ import 'package:logging/logging.dart';
 import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/interop/key_generation.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
+import 'package:talao/app/shared/constants.dart';
 import 'package:talao/app/shared/model/message.dart';
 import 'package:talao/did/cubit/did_cubit.dart';
 import 'package:talao/l10n/l10n.dart';
@@ -38,10 +39,15 @@ class OnBoardingGenPhraseCubit extends Cubit<OnBoardingGenPhraseState> {
       final key = await keyGeneration.privateKey(mnemonicFormatted);
       await secureStorageProvider.set('key', key);
 
-      final didMethod =
-          await secureStorageProvider.get(SecureStorageKeys.didMethod);
-      final did = didKitProvider.keyToDID(didMethod!, key);
-      didCubit.load(did);
+      final didMethod = Constants.defaultDIDMethod;
+      final did = didKitProvider.keyToDID(didMethod, key);
+
+      didCubit.set(
+        did: did,
+        didMethod: didMethod,
+        didMethodName: Constants.defaultDIDMethodName,
+      );
+
       emit(state.copyWith(status: OnBoardingGenPhraseStatus.success));
     } catch (error) {
       log.severe('something went wrong when generating a key', error);

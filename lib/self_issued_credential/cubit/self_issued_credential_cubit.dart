@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:intl/intl.dart';
 import 'package:json_path/json_path.dart';
 import 'package:logging/logging.dart';
@@ -64,8 +63,7 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
         verificationMethod = publicKeyJwk['kid'];
       } else {
         key = (await secureStorageProvider.get(SecureStorageKeys.key))!;
-        final didMethod =
-            (await secureStorageProvider.get(SecureStorageKeys.didMethod))!;
+        final didMethod = didCubit.state.didMethod!;
         verificationMethod = await DIDKitProvider.instance
             .keyToVerificationMethod(didMethod, key);
       }

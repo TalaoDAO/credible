@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:talao/app/interop/didkit/didkit.dart';
-import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/shared/widget/app_version.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
@@ -34,8 +32,7 @@ class GlobalInformationPage extends StatelessWidget {
           const SizedBox(height: 32.0),
           Center(
             child: Text(
-              'DIDKit v' +
-                  context.read<DIDCubit>().didKitProvider!.getVersion(),
+              'DIDKit v' + context.read<DIDCubit>().didKitProvider.getVersion(),
               style: Theme.of(context).textTheme.bodyText2,
             ),
           ),

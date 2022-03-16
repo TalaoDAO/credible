@@ -7,6 +7,7 @@ import 'package:json_path/json_path.dart';
 import 'package:logging/logging.dart';
 import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
+import 'package:talao/app/shared/constants.dart';
 import 'package:talao/did/did.dart';
 
 import 'verify_rsa_and_did_state.dart';
@@ -68,7 +69,11 @@ class VerifyRSAAndDIDCubit extends Cubit<VerifyRSAAndDIDState> {
           await secureStorageProvider.set(
               SecureStorageKeys.RSAKeyJson, jsonEncode(RSAJson));
           await secureStorageProvider.set(SecureStorageKeys.key, RSAKey);
-          didCubit.load(did);
+          didCubit.set(
+            did: did,
+            didMethod: Constants.enterpriseDIDMethod,
+            didMethodName: Constants.enterpriseDIDMethodName,
+          );
           emit(const VerifyRSAAndDIDState.verified());
         } else {
           emit(const VerifyRSAAndDIDState.error(
