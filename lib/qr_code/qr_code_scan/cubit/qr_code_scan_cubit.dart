@@ -10,6 +10,7 @@ import 'package:talao/credentials/credentials.dart';
 import 'package:talao/app/shared/error_handler/error_handler.dart';
 import 'package:talao/app/shared/model/message.dart';
 import 'package:logging/logging.dart';
+import 'package:talao/qr_code/qr_code_scan/model/siopv2_param.dart';
 import 'package:talao/query_by_example/query_by_example.dart';
 import 'package:talao/scan/scan.dart';
 
@@ -145,9 +146,9 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
     }
   }
 
-  bool isOpenIdUrl(Uri uri) {
+  bool isOpenIdUrl() {
     var condition = false;
-    uri.queryParameters.forEach((key, value) {
+    state.uri!.queryParameters.forEach((key, value) {
       if (key == 'scope' && value == 'openid') {
         condition = true;
       }
@@ -155,9 +156,9 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
     return condition;
   }
 
-  bool requestAttributeExists(Uri uri) {
+  bool requestAttributeExists() {
     var condition = false;
-    uri.queryParameters.forEach((key, value) {
+    state.uri!.queryParameters.forEach((key, value) {
       if (key == 'request') {
         condition = true;
       }
@@ -165,9 +166,9 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
     return condition;
   }
 
-  bool requestUrlAttributeExists(Uri uri) {
+  bool requestUrlAttributeExists() {
     var condition = false;
-    uri.queryParameters.forEach((key, value) {
+    state.uri!.queryParameters.forEach((key, value) {
       if (key == 'request_uri') {
         condition = true;
       }
@@ -175,5 +176,28 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
     return condition;
   }
 
+  SIOPV2Param getSIOPV2Parameters() {
+    var nonce;
+    var redirect_url;
+    var claims;
+    state.uri!.queryParameters.forEach((key, value) {
+      if (key == 'nonce') {
+        nonce = value;
+      }
+      if (key == 'request_uri') {
+        nonce = redirect_url;
+      }
+      if (key == 'claims') {
+        nonce = claims;
+      }
+    });
+    print(SIOPV2Param(claims: claims, nonce: nonce, redirect_url: redirect_url)
+        .toJson());
+    return SIOPV2Param(
+        claims: claims, nonce: nonce, redirect_url: redirect_url);
+  }
 
+  void emitQRCodeScanStateUnknown(bool isDeepLink) {
+    emit(QRCodeScanStateUnknown(isDeepLink: isDeepLink));
+  }
 }

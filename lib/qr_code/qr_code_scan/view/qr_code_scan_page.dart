@@ -73,14 +73,14 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
           final qrCodeCubit = context.read<QRCodeScanCubit>();
           qrCodeCubit.promptDeactivate();
 
-          if (qrCodeCubit.isOpenIdUrl(state.uri!)) {
-            if (qrCodeCubit.requestAttributeExists(state.uri!)) {
-              ////TODO: ShowSnackBar  Url not valid
+          if (qrCodeCubit.isOpenIdUrl()) {
+            if (qrCodeCubit.requestAttributeExists()) {
+              qrCodeCubit.emitQRCodeScanStateUnknown(false);
             } else {
-              if (qrCodeCubit.requestUrlAttributeExists(state.uri!)) {
-
+              if (qrCodeCubit.requestUrlAttributeExists()) {
+                qrCodeCubit.getSIOPV2Parameters();
               } else {
-                ///TODO: ShowSnackBar  Url not valid
+                qrCodeCubit.emitQRCodeScanStateUnknown(false);
               }
             }
           } else {
