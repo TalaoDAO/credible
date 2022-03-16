@@ -10,19 +10,15 @@ class DIDCubit extends Cubit<DIDState> {
   final DIDKitProvider? didKitProvider;
 
   DIDCubit({this.didKitProvider, this.secureStorageProvider})
-      : super(DIDStateDefault(did: '')) {
-    load();
-  }
+      : super(DIDStateDefault(did: ''));
 
-  void load() async {
+  void load(String did) async {
     final log = Logger('talao-wallet/DID/load');
 
     try {
       emit(DIDStateWorking());
-
-      final DID = (await secureStorageProvider!.get(SecureStorageKeys.did))!;
-
-      emit(DIDStateDefault(did: DID));
+      await SecureStorageProvider.instance.set(SecureStorageKeys.did, did);
+      emit(DIDStateDefault(did: did));
     } catch (e) {
       log.severe('something went wrong', e);
 

@@ -7,11 +7,17 @@ import 'package:json_path/json_path.dart';
 import 'package:logging/logging.dart';
 import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
+import 'package:talao/did/did.dart';
 
 import 'verify_rsa_and_did_state.dart';
 
 class VerifyRSAAndDIDCubit extends Cubit<VerifyRSAAndDIDState> {
-  VerifyRSAAndDIDCubit() : super(const VerifyRSAAndDIDState.initial());
+  final DIDCubit didCubit;
+  final SecureStorageProvider secureStorageProvider;
+
+  VerifyRSAAndDIDCubit(
+      {required this.didCubit, required this.secureStorageProvider})
+      : super(const VerifyRSAAndDIDState.initial());
 
   Future<void> verify(String did, PlatformFile rsaFile) async {
     final log = Logger('talao-wallet/onBoarding/VerifyRSAAndDIDCubit/verify');
@@ -59,11 +65,10 @@ class VerifyRSAAndDIDCubit extends Cubit<VerifyRSAAndDIDState> {
           }
         }
         if (verified) {
-          await SecureStorageProvider.instance
-              .set(SecureStorageKeys.RSAKeyJson, jsonEncode(RSAJson));
-          await SecureStorageProvider.instance
-              .set(SecureStorageKeys.key, RSAKey);
-          await SecureStorageProvider.instance.set(SecureStorageKeys.did, did);
+          await secureStorageProvider.set(
+              SecureStorageKeys.RSAKeyJson, jsonEncode(RSAJson));
+          await secureStorageProvider.set(SecureStorageKeys.key, RSAKey);
+          didCubit.load(did);
           emit(const VerifyRSAAndDIDState.verified());
         } else {
           emit(const VerifyRSAAndDIDState.error(

@@ -19,16 +19,16 @@ class ChooseWalletTypeCubit extends Cubit<ChooseWalletTypeState> {
       SecureStorageProvider.instance
           .set(SecureStorageKeys.isEnterpriseUser, false.toString());
       SecureStorageProvider.instance
-          .set(SecureStorageKeys.DIDMethod, Constants.defaultDIDMethod);
+          .set(SecureStorageKeys.didMethod, Constants.defaultDIDMethod);
       SecureStorageProvider.instance
-          .set(SecureStorageKeys.DIDMethodName, Constants.defaultDIDMethodName);
+          .set(SecureStorageKeys.didMethodName, Constants.defaultDIDMethodName);
     } else {
       SecureStorageProvider.instance
           .set(SecureStorageKeys.isEnterpriseUser, true.toString());
       SecureStorageProvider.instance
-          .set(SecureStorageKeys.DIDMethod, Constants.enterpriseDIDMethod);
+          .set(SecureStorageKeys.didMethod, Constants.enterpriseDIDMethod);
       SecureStorageProvider.instance.set(
-          SecureStorageKeys.DIDMethodName, Constants.enterpriseDIDMethodName);
+          SecureStorageKeys.didMethodName, Constants.enterpriseDIDMethodName);
     }
   }
 

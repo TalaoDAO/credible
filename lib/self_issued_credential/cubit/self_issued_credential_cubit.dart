@@ -11,6 +11,7 @@ import 'package:talao/app/shared/enum/revokation_status.dart';
 import 'package:talao/app/shared/model/credential.dart';
 import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:talao/app/shared/model/display.dart';
+import 'package:talao/did/cubit/did_cubit.dart';
 import 'package:talao/self_issued_credential/models/self_issued.dart';
 import 'package:talao/self_issued_credential/models/self_issued_credential.dart';
 import 'package:talao/wallet/cubit/wallet_cubit.dart';
@@ -19,12 +20,15 @@ import 'package:uuid/uuid.dart';
 import '../view/models/self_issued_credential_model.dart';
 import 'self_issued_credential_state.dart';
 
-
 class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
   final WalletCubit walletCubit;
+  final DIDCubit didCubit;
   final SecureStorageProvider secureStorageProvider;
 
-  SelfIssuedCredentialCubit(this.walletCubit, this.secureStorageProvider)
+  SelfIssuedCredentialCubit(
+      {required this.walletCubit,
+      required this.secureStorageProvider,
+      required this.didCubit})
       : super(const SelfIssuedCredentialState.initial());
 
   Future<void> createSelfIssuedCredential(
@@ -61,12 +65,12 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
       } else {
         key = (await secureStorageProvider.get(SecureStorageKeys.key))!;
         final didMethod =
-            (await secureStorageProvider.get(SecureStorageKeys.DIDMethod))!;
+            (await secureStorageProvider.get(SecureStorageKeys.didMethod))!;
         verificationMethod = await DIDKitProvider.instance
             .keyToVerificationMethod(didMethod, key);
       }
 
-      final did = (await secureStorageProvider.get(SecureStorageKeys.did))!;
+      final did = didCubit.state.did!;
 
       final options = {
         'proofPurpose': 'assertionMethod',

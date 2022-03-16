@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/interop/network/network_client.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
+import 'package:talao/did/did.dart';
 import 'package:talao/l10n/l10n.dart';
 import 'package:talao/qr_code/qr_code_scan/cubit/qr_code_scan_cubit.dart';
 import 'package:talao/scan/cubit/scan_cubit.dart';
@@ -57,6 +58,13 @@ class AppWidget extends StatelessWidget {
               scanCubit: context.read<ScanCubit>(),
               queryByExampleCubit: context.read<QueryByExampleCubit>(),
               deepLinkCubit: context.read<DeepLinkCubit>()),
+        ),
+        BlocProvider<DIDCubit>(
+          create: (context) => DIDCubit(
+            secureStorageProvider: SecureStorageProvider.instance,
+            didKitProvider: DIDKitProvider.instance,
+          ),
+          child: GlobalInformationPage(),
         )
       ],
       child: MaterialAppDefinition(),

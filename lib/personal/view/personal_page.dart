@@ -7,6 +7,7 @@ import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/base/text_field.dart';
 import 'package:talao/credentials/credentials.dart';
+import 'package:talao/did/cubit/did_cubit.dart';
 import 'package:talao/drawer/profile/cubit/profile_cubit.dart';
 import 'package:talao/drawer/profile/models/profile.dart';
 import 'package:talao/l10n/l10n.dart';
@@ -37,9 +38,12 @@ class PersonalPage extends StatefulWidget {
           providers: [
             BlocProvider(create: (_) => PersonalPgeCubit()),
             BlocProvider(
-                create: (_) => SelfIssuedCredentialCubit(
-                    context.read<WalletCubit>(),
-                    SecureStorageProvider.instance)),
+              create: (_) => SelfIssuedCredentialCubit(
+                walletCubit: context.read<WalletCubit>(),
+                secureStorageProvider: SecureStorageProvider.instance,
+                didCubit: context.read<DIDCubit>(),
+              ),
+            ),
           ],
           child: PersonalPage(
             profileModel: profileModel,

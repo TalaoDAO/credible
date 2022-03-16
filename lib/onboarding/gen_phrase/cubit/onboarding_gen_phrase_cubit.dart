@@ -8,6 +8,7 @@ import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/interop/key_generation.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/shared/model/message.dart';
+import 'package:talao/did/cubit/did_cubit.dart';
 import 'package:talao/l10n/l10n.dart';
 
 part 'onboarding_gen_phrase_state.dart';
@@ -17,10 +18,15 @@ part 'onboarding_gen_phrase_cubit.g.dart';
 class OnBoardingGenPhraseCubit extends Cubit<OnBoardingGenPhraseState> {
   final SecureStorageProvider secureStorageProvider;
   final KeyGeneration keyGeneration;
+  final DIDKitProvider didKitProvider;
+  final DIDCubit didCubit;
 
-  OnBoardingGenPhraseCubit(
-      {required this.secureStorageProvider, required this.keyGeneration})
-      : super(OnBoardingGenPhraseState());
+  OnBoardingGenPhraseCubit({
+    required this.secureStorageProvider,
+    required this.keyGeneration,
+    required this.didKitProvider,
+    required this.didCubit,
+  }) : super(OnBoardingGenPhraseState());
 
   final log = Logger('talao-wallet/on-boarding/key-generation');
 
@@ -31,13 +37,11 @@ class OnBoardingGenPhraseCubit extends Cubit<OnBoardingGenPhraseState> {
       await saveMnemonicKey(mnemonicFormatted);
       final key = await keyGeneration.privateKey(mnemonicFormatted);
       await secureStorageProvider.set('key', key);
-      //save did also
-      final didMethod = (await secureStorageProvider.get(SecureStorageKeys.DIDMethod))!;
-      final did = DIDKitProvider.instance.keyToDID(
-          didMethod,
-          key);
-      await secureStorageProvider.set(SecureStorageKeys.did, did);
 
+      final didMethod =
+          await secureStorageProvider.get(SecureStorageKeys.didMethod);
+      final did = didKitProvider.keyToDID(didMethod!, key);
+      didCubit.load(did);
       emit(state.copyWith(status: OnBoardingGenPhraseStatus.success));
     } catch (error) {
       log.severe('something went wrong when generating a key', error);

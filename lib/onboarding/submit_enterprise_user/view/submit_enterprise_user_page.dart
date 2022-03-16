@@ -1,9 +1,11 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/base/text_field.dart';
+import 'package:talao/did/cubit/did_cubit.dart';
 import 'package:talao/drawer/profile/models/profile.dart';
 import 'package:talao/onboarding/wallet_type/choose_wallet_type.dart';
 import 'package:talao/personal/view/personal_page.dart';
@@ -22,7 +24,12 @@ class SubmitEnterpriseUserPage extends StatefulWidget {
         builder: (context) => MultiBlocProvider(
           providers: [
             BlocProvider(create: (_) => SubmitEnterpriseUserCubit()),
-            BlocProvider(create: (_) => VerifyRSAAndDIDCubit()),
+            BlocProvider(
+              create: (_) => VerifyRSAAndDIDCubit(
+                secureStorageProvider: SecureStorageProvider.instance,
+                didCubit: context.read<DIDCubit>(),
+              ),
+            ),
           ],
           child: SubmitEnterpriseUserPage(),
         ),
@@ -41,15 +48,16 @@ class _SubmitEnterpriseUserPageState extends State<SubmitEnterpriseUserPage> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        await Navigator.of(context).pushReplacement(ChooseWalletTypePage.route());
+        await Navigator.of(context)
+            .pushReplacement(ChooseWalletTypePage.route());
         return false;
       },
       child: BasePage(
         title: 'Submit',
         titleLeading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () =>
-              Navigator.of(context).pushReplacement(ChooseWalletTypePage.route()),
+          onPressed: () => Navigator.of(context)
+              .pushReplacement(ChooseWalletTypePage.route()),
         ),
         body: Column(
           mainAxisSize: MainAxisSize.min,

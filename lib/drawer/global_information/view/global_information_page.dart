@@ -13,13 +13,7 @@ import 'package:talao/l10n/l10n.dart';
 
 class GlobalInformationPage extends StatelessWidget {
   static Route route() => MaterialPageRoute(
-        builder: (_) => BlocProvider(
-          create: (context) => DIDCubit(
-            secureStorageProvider: SecureStorageProvider.instance,
-            didKitProvider: DIDKitProvider.instance,
-          ),
-          child: GlobalInformationPage(),
-        ),
+        builder: (_) => GlobalInformationPage(),
         settings: RouteSettings(name: '/globalInformationPage'),
       );
 
