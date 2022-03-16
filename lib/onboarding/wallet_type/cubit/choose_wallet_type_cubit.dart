@@ -5,10 +5,10 @@ import 'package:talao/onboarding/wallet_type/cubit/wallet_type_enum.dart';
 
 import 'choose_wallet_type_state.dart';
 
-
 class ChooseWalletTypeCubit extends Cubit<ChooseWalletTypeState> {
+  final SecureStorageProvider secureStorageProvider;
 
-  ChooseWalletTypeCubit()
+  ChooseWalletTypeCubit(this.secureStorageProvider)
       : super(ChooseWalletTypeState(selectedWallet: WalletTypes.personal));
 
   void onChangeWalletType(WalletTypes? value) {
@@ -16,18 +16,18 @@ class ChooseWalletTypeCubit extends Cubit<ChooseWalletTypeState> {
 
     //save isEnterprise, DIDMethod and DIDMethodName
     if (isPersonalWalletSelected()) {
-      SecureStorageProvider.instance
-          .set(SecureStorageKeys.isEnterpriseUser, false.toString());
-      SecureStorageProvider.instance
-          .set(SecureStorageKeys.DIDMethod, Constants.defaultDIDMethod);
-      SecureStorageProvider.instance
-          .set(SecureStorageKeys.DIDMethodName, Constants.defaultDIDMethodName);
+      secureStorageProvider.set(
+          SecureStorageKeys.isEnterpriseUser, false.toString());
+      secureStorageProvider.set(
+          SecureStorageKeys.DIDMethod, Constants.defaultDIDMethod);
+      secureStorageProvider.set(
+          SecureStorageKeys.DIDMethodName, Constants.defaultDIDMethodName);
     } else {
-      SecureStorageProvider.instance
-          .set(SecureStorageKeys.isEnterpriseUser, true.toString());
-      SecureStorageProvider.instance
-          .set(SecureStorageKeys.DIDMethod, Constants.enterpriseDIDMethod);
-      SecureStorageProvider.instance.set(
+      secureStorageProvider.set(
+          SecureStorageKeys.isEnterpriseUser, true.toString());
+      secureStorageProvider.set(
+          SecureStorageKeys.DIDMethod, Constants.enterpriseDIDMethod);
+      secureStorageProvider.set(
           SecureStorageKeys.DIDMethodName, Constants.enterpriseDIDMethodName);
     }
   }

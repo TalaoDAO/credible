@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/onboarding/key/onboarding_key.dart';
@@ -12,7 +13,7 @@ import '../cubit/wallet_type_enum.dart';
 class ChooseWalletTypePage extends StatefulWidget {
   static Route route() => MaterialPageRoute(
         builder: (context) => BlocProvider<ChooseWalletTypeCubit>(
-          create: (_) => ChooseWalletTypeCubit(),
+          create: (_) => ChooseWalletTypeCubit(SecureStorageProvider.instance),
           child: ChooseWalletTypePage(),
         ),
         settings: RouteSettings(name: '/onBoardingChooseWalletTypePage'),

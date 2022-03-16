@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:intl/intl.dart';
 import 'package:json_path/json_path.dart';
 import 'package:logging/logging.dart';
@@ -19,12 +18,13 @@ import 'package:uuid/uuid.dart';
 import '../view/models/self_issued_credential_model.dart';
 import 'self_issued_credential_state.dart';
 
-
 class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
   final WalletCubit walletCubit;
   final SecureStorageProvider secureStorageProvider;
+  final DIDKitProvider didKitProvider;
 
-  SelfIssuedCredentialCubit(this.walletCubit, this.secureStorageProvider)
+  SelfIssuedCredentialCubit(
+      this.walletCubit, this.secureStorageProvider, this.didKitProvider)
       : super(const SelfIssuedCredentialState.initial());
 
   Future<void> createSelfIssuedCredential(
@@ -62,8 +62,8 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
         key = (await secureStorageProvider.get(SecureStorageKeys.key))!;
         final didMethod =
             (await secureStorageProvider.get(SecureStorageKeys.DIDMethod))!;
-        verificationMethod = await DIDKitProvider.instance
-            .keyToVerificationMethod(didMethod, key);
+        verificationMethod =
+            await didKitProvider.keyToVerificationMethod(didMethod, key);
       }
 
       final did = (await secureStorageProvider.get(SecureStorageKeys.did))!;
@@ -95,10 +95,10 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
           credentialSubject: selfIssued);
 
       await Future.delayed(Duration(milliseconds: 500));
-      final vc = await DIDKitProvider.instance.issueCredential(
+      final vc = await didKitProvider.issueCredential(
           jsonEncode(selfIssuedCredential.toJson()), jsonEncode(options), key);
-      final result = await DIDKitProvider.instance
-          .verifyCredential(vc, jsonEncode(verifyOptions));
+      final result =
+          await didKitProvider.verifyCredential(vc, jsonEncode(verifyOptions));
       final jsonVerification = jsonDecode(result);
 
       log.info('vc: $vc');
