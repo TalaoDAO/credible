@@ -59,7 +59,15 @@
     "recoveryCredentialSuccessMessage",
     "recoveryCredentialJSONFormatErrorMessage",
     "recoveryCredentialAuthErrorMessage",
-    "recoveryCredentialDefaultErrorMessage"
+    "recoveryCredentialDefaultErrorMessage",
+    "submit",
+    "insertYourDIDKey",
+    "importYourRSAKeyJsonFile",
+    "didKeyAndRSAKeyVerifiedSuccessfully",
+    "pleaseEnterYourDIDKey",
+    "pleaseImportYourRSAKey",
+    "confirm",
+    "pleaseSelectRSAKeyFileWithJsonExtension"
   ],
 
   "es": [
@@ -121,7 +129,15 @@
     "recoveryCredentialSuccessMessage",
     "recoveryCredentialJSONFormatErrorMessage",
     "recoveryCredentialAuthErrorMessage",
-    "recoveryCredentialDefaultErrorMessage"
+    "recoveryCredentialDefaultErrorMessage",
+    "submit",
+    "insertYourDIDKey",
+    "importYourRSAKeyJsonFile",
+    "didKeyAndRSAKeyVerifiedSuccessfully",
+    "pleaseEnterYourDIDKey",
+    "pleaseImportYourRSAKey",
+    "confirm",
+    "pleaseSelectRSAKeyFileWithJsonExtension"
   ],
 
   "fr": [
@@ -158,7 +174,15 @@
     "recoveryCredentialSuccessMessage",
     "recoveryCredentialJSONFormatErrorMessage",
     "recoveryCredentialAuthErrorMessage",
-    "recoveryCredentialDefaultErrorMessage"
+    "recoveryCredentialDefaultErrorMessage",
+    "submit",
+    "insertYourDIDKey",
+    "importYourRSAKeyJsonFile",
+    "didKeyAndRSAKeyVerifiedSuccessfully",
+    "pleaseEnterYourDIDKey",
+    "pleaseImportYourRSAKey",
+    "confirm",
+    "pleaseSelectRSAKeyFileWithJsonExtension"
   ],
 
   "it": [
@@ -222,6 +246,14 @@
     "recoveryCredentialSuccessMessage",
     "recoveryCredentialJSONFormatErrorMessage",
     "recoveryCredentialAuthErrorMessage",
-    "recoveryCredentialDefaultErrorMessage"
+    "recoveryCredentialDefaultErrorMessage",
+    "submit",
+    "insertYourDIDKey",
+    "importYourRSAKeyJsonFile",
+    "didKeyAndRSAKeyVerifiedSuccessfully",
+    "pleaseEnterYourDIDKey",
+    "pleaseImportYourRSAKey",
+    "confirm",
+    "pleaseSelectRSAKeyFileWithJsonExtension"
   ]
 }

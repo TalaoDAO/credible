@@ -229,5 +229,13 @@
   },
   "selfIssuedCreatedSuccessfully": "Self issued credential created successfully",
   "companyName": "Company Name",
-  "companyWebsite": "Company Website"
+  "companyWebsite": "Company Website",
+  "submit" : "Submit",
+  "insertYourDIDKey": "Insert your DID key",
+  "importYourRSAKeyJsonFile": "Import your RSA key json file",
+  "didKeyAndRSAKeyVerifiedSuccessfully": "DID key and RSA key verified successfully",
+  "pleaseEnterYourDIDKey": "Please enter your DID key",
+  "pleaseImportYourRSAKey": "Please import your RSA key",
+  "confirm": "Confirm",
+  "pleaseSelectRSAKeyFileWithJsonExtension": "Please select RSA key file(with json extension)"
 }
