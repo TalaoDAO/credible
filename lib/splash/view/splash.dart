@@ -16,7 +16,6 @@ import 'package:talao/app/shared/widget/confirm_dialog.dart';
 import 'package:talao/did/cubit/did_cubit.dart';
 import 'package:talao/drawer/drawer.dart';
 import 'package:talao/l10n/l10n.dart';
-import 'package:talao/onboarding/key/onboarding_key.dart';
 import 'package:talao/qr_code/qr_code_scan/qr_code_scan.dart';
 import 'package:talao/credentials/credentials.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
@@ -64,6 +63,7 @@ class _SplashPageState extends State<SplashPage> {
         if (key == null || key.isEmpty) {
           return await onBoarding();
         }
+
         var did = await secureStorageProvider.get(SecureStorageKeys.did);
         var didMethod =
             await secureStorageProvider.get(SecureStorageKeys.didMethod);
@@ -77,6 +77,20 @@ class _SplashPageState extends State<SplashPage> {
         }
         if (didMethodName == null || didMethodName.isEmpty) {
           return await onBoarding();
+        }
+
+        final isEnterprise =
+            await secureStorageProvider.get(SecureStorageKeys.isEnterpriseUser);
+        if (isEnterprise == null || isEnterprise.isEmpty) {
+          return await onBoarding();
+        }
+
+        if (isEnterprise == 'true') {
+          final rsaKeyJson =
+              await secureStorageProvider.get(SecureStorageKeys.rsaKeyJson);
+          if (rsaKeyJson == null || rsaKeyJson.isEmpty) {
+            return await onBoarding();
+          }
         }
         context
             .read<DIDCubit>()
@@ -207,7 +221,8 @@ class _SplashPageState extends State<SplashPage> {
               Navigator.of(context).pop();
             }
             if (state.status == WalletStatus.reset) {
-              Navigator.of(context).pushReplacement(ChooseWalletTypePage.route());
+              Navigator.of(context)
+                  .pushReplacement(ChooseWalletTypePage.route());
             }
           },
         ),
