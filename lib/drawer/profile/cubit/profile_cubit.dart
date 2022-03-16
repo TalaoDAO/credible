@@ -5,6 +5,7 @@ import 'package:logging/logging.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/shared/model/message.dart';
 import 'package:talao/drawer/profile/models/models.dart';
+import 'package:talao/scan/cubit/scan_message_string_state.dart';
 
 part 'profile_cubit.g.dart';
 
@@ -62,8 +63,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     } catch (e) {
       log.severe('something went wrong', e);
       emit(ProfileStateMessage(
-          message: StateMessage.error('Failed to load profile. '
-              'Check the logs for more information.')));
+          message: StateMessage.error(message: ScanMessageStringState.failedToLoadProfile())));
     }
   }
 
@@ -130,8 +130,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       log.severe('something went wrong', e);
 
       emit(ProfileStateMessage(
-          message: StateMessage.error('Failed to save profile. '
-              'Check the logs for more information.')));
+          message: StateMessage.error(message: ScanMessageStringState.failedToSaveProfile())));
     }
   }
 }

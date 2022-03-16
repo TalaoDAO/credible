@@ -4,18 +4,19 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:logging/logging.dart';
 import 'package:talao/app/interop/network/network_client.dart';
-import 'package:talao/deep_link/cubit/deep_link.dart';
-import 'package:talao/credentials/credentials.dart';
 import 'package:talao/app/shared/error_handler/error_handler.dart';
 import 'package:talao/app/shared/model/message.dart';
-import 'package:logging/logging.dart';
+import 'package:talao/credentials/credentials.dart';
+import 'package:talao/deep_link/cubit/deep_link.dart';
 import 'package:talao/query_by_example/query_by_example.dart';
+import 'package:talao/scan/cubit/scan_message_string_state.dart';
 import 'package:talao/scan/scan.dart';
 
-part 'qr_code_scan_state.dart';
-
 part 'qr_code_scan_cubit.g.dart';
+
+part 'qr_code_scan_state.dart';
 
 class QRCodeScanCubit extends Cubit<QRCodeScanState> {
   final DioClient client;
@@ -49,8 +50,8 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
       if (url == null) {
         emit(QRCodeScanStateMessage(
             isDeepLink: isDeepLink,
-            message: StateMessage.error(
-                'This QRCode does not contain a valid message.')));
+            message: StateMessage.error(message: ScanMessageStringState
+                .thisQRCodeDoseNotContainAValidMessage())));
       } else {
         var uri = Uri.parse(url);
         emit(QRCodeScanStateHost(isDeepLink: isDeepLink, uri: uri));
@@ -58,8 +59,8 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
     } on FormatException {
       emit(QRCodeScanStateMessage(
           isDeepLink: isDeepLink,
-          message: StateMessage.error(
-              'This QRCode does not contain a valid message.')));
+          message: StateMessage.error(message:
+          ScanMessageStringState.thisQRCodeDoseNotContainAValidMessage())));
     }
   }
 
@@ -73,8 +74,8 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
       } on FormatException {
         emit(QRCodeScanStateMessage(
             isDeepLink: true,
-            message: StateMessage.error(
-                'This url does not contain a valid message.')));
+            message: StateMessage.error(message:
+            ScanMessageStringState.thisUrlDoseNotContainAValidMessage())));
       }
     }
   }
@@ -133,14 +134,14 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
       if (e is ErrorHandler) {
         emit(QRCodeScanStateMessage(
             isDeepLink: isDeepLink,
-            message:
-                StateMessage.error('An error occurred ', errorHandler: e)));
+            message: StateMessage.error(message:
+            ScanMessageStringState.anErrorOccurred(),
+                errorHandler: e)));
       } else {
         emit(QRCodeScanStateMessage(
             isDeepLink: isDeepLink,
-            message: StateMessage.error(
-                'An error occurred while connecting to the server. '
-                'Check the logs for more information.')));
+            message: StateMessage.error(message: ScanMessageStringState
+                .anErrorOccurredWhileConnectingToTheServer())));
       }
     }
   }

@@ -77,7 +77,19 @@
     "enterpriseWallet",
     "personalWallet",
     "failedToVerifySelfIssuedCredential",
-    "failedToCreateSelfIssuedCredential"
+    "failedToCreateSelfIssuedCredential",
+    "credentialVerificationReturnWarning",
+    "failedToVerifyCredential",
+    "somethingsWentWrongTryAgainLater",
+    "successfullyPresentedYourCredential",
+    "successfullyPresentedYourDID",
+    "thisQRCodeDoseNotContainAValidMessage",
+    "thisUrlDoseNotContainAValidMessage",
+    "anErrorOccurredWhileConnectingToTheServer",
+    "failedToSaveMnemonicPleaseTryAgain",
+    "failedToLoadProfile",
+    "failedToSaveProfile",
+    "failedToLoadDID"
   ],
 
   "es": [
@@ -157,7 +169,19 @@
     "enterpriseWallet",
     "personalWallet",
     "failedToVerifySelfIssuedCredential",
-    "failedToCreateSelfIssuedCredential"
+    "failedToCreateSelfIssuedCredential",
+    "credentialVerificationReturnWarning",
+    "failedToVerifyCredential",
+    "somethingsWentWrongTryAgainLater",
+    "successfullyPresentedYourCredential",
+    "successfullyPresentedYourDID",
+    "thisQRCodeDoseNotContainAValidMessage",
+    "thisUrlDoseNotContainAValidMessage",
+    "anErrorOccurredWhileConnectingToTheServer",
+    "failedToSaveMnemonicPleaseTryAgain",
+    "failedToLoadProfile",
+    "failedToSaveProfile",
+    "failedToLoadDID"
   ],
 
   "fr": [
@@ -212,7 +236,19 @@
     "enterpriseWallet",
     "personalWallet",
     "failedToVerifySelfIssuedCredential",
-    "failedToCreateSelfIssuedCredential"
+    "failedToCreateSelfIssuedCredential",
+    "credentialVerificationReturnWarning",
+    "failedToVerifyCredential",
+    "somethingsWentWrongTryAgainLater",
+    "successfullyPresentedYourCredential",
+    "successfullyPresentedYourDID",
+    "thisQRCodeDoseNotContainAValidMessage",
+    "thisUrlDoseNotContainAValidMessage",
+    "anErrorOccurredWhileConnectingToTheServer",
+    "failedToSaveMnemonicPleaseTryAgain",
+    "failedToLoadProfile",
+    "failedToSaveProfile",
+    "failedToLoadDID"
   ],
 
   "it": [
@@ -294,6 +330,18 @@
     "enterpriseWallet",
     "personalWallet",
     "failedToVerifySelfIssuedCredential",
-    "failedToCreateSelfIssuedCredential"
+    "failedToCreateSelfIssuedCredential",
+    "credentialVerificationReturnWarning",
+    "failedToVerifyCredential",
+    "somethingsWentWrongTryAgainLater",
+    "successfullyPresentedYourCredential",
+    "successfullyPresentedYourDID",
+    "thisQRCodeDoseNotContainAValidMessage",
+    "thisUrlDoseNotContainAValidMessage",
+    "anErrorOccurredWhileConnectingToTheServer",
+    "failedToSaveMnemonicPleaseTryAgain",
+    "failedToLoadProfile",
+    "failedToSaveProfile",
+    "failedToLoadDID"
   ]
 }

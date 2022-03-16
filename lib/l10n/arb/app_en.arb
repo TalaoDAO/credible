@@ -247,5 +247,17 @@
   "enterpriseWallet": "Enterprise Wallet",
   "personalWallet": "Personal Wallet",
   "failedToVerifySelfIssuedCredential": "Failed to verify self issued credential",
-  "failedToCreateSelfIssuedCredential": "Failed to create self issued credential"
+  "failedToCreateSelfIssuedCredential": "Failed to create self issued credential",
+  "credentialVerificationReturnWarning": "Credential verification returned some warnings. ",
+  "failedToVerifyCredential": "Failed to verify credential.",
+  "somethingsWentWrongTryAgainLater": "Something went wrong, please try again later. ",
+  "successfullyPresentedYourCredential": "Successfully presented your credential(s)!",
+  "successfullyPresentedYourDID": "Successfully presented your DID!",
+  "thisQRCodeDoseNotContainAValidMessage": "This QRCode does not contain a valid message.",
+  "thisUrlDoseNotContainAValidMessage": "This url does not contain a valid message.",
+  "anErrorOccurredWhileConnectingToTheServer": "An error occurred while connecting to the server.",
+  "failedToSaveMnemonicPleaseTryAgain": "Failed to save mnemonic, please try again",
+  "failedToLoadProfile": "Failed to load profile. ",
+  "failedToSaveProfile": "Failed to save profile. ",
+  "failedToLoadDID": "Failed to load DID. "
 }

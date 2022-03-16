@@ -12,15 +12,16 @@ import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/shared/constants.dart';
 import 'package:talao/app/shared/error_handler/error_handler.dart';
 import 'package:talao/app/shared/model/message.dart';
+import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/confirm_dialog.dart';
+import 'package:talao/credentials/credentials.dart';
+import 'package:talao/deep_link/deep_link.dart';
 import 'package:talao/drawer/drawer.dart';
 import 'package:talao/l10n/l10n.dart';
 import 'package:talao/onboarding/key/onboarding_key.dart';
-import 'package:talao/qr_code/qr_code_scan/qr_code_scan.dart';
-import 'package:talao/credentials/credentials.dart';
-import 'package:talao/app/shared/widget/base/page.dart';
-import 'package:talao/deep_link/deep_link.dart';
 import 'package:talao/onboarding/onboarding.dart';
+import 'package:talao/qr_code/qr_code_scan/qr_code_scan.dart';
+import 'package:talao/scan/cubit/scan_message_string_state.dart';
 import 'package:talao/scan/scan.dart';
 import 'package:talao/theme/theme.dart';
 import 'package:talao/wallet/wallet.dart';
@@ -183,12 +184,13 @@ class _SplashPageState extends State<SplashPage> {
             }
             if (state.status == WalletStatus.delete) {
               final message = StateMessage(
-                message: l10n.credentialDetailDeleteSuccessMessage,
+                message: ScanMessageStringState
+                    .credentialDetailDeleteSuccessMessage(),
                 type: MessageType.success,
               );
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 backgroundColor: message.color,
-                content: Text(message.message!),
+                content: Text(message.getMessage(context) ?? ''),
               ));
               Navigator.of(context).pop();
             }
@@ -208,7 +210,8 @@ class _SplashPageState extends State<SplashPage> {
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   backgroundColor: state.message!.color,
-                  content: Text(state.message!.message!),
+                  content:
+                      Text(state.message?.getMessage(context) ?? ''),
                 ));
               }
             }
@@ -318,7 +321,8 @@ class _SplashPageState extends State<SplashPage> {
             } else {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 backgroundColor: state.message!.color,
-                content: Text(state.message!.message!),
+                content:
+                    Text(state.message?.getMessage(context) ?? ''),
               ));
             }
           }

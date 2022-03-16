@@ -1,12 +1,12 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:talao/app/interop/key_generation.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/mnemonic.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:talao/drawer/profile/models/profile.dart';
 import 'package:talao/onboarding/gen_phrase/cubit/onboarding_gen_phrase_cubit.dart';
 import 'package:talao/personal/view/personal_page.dart';
@@ -47,7 +47,7 @@ class _OnBoardingGenPhrasePageState extends State<OnBoardingGenPhrasePage> {
           if (state.status == OnBoardingGenPhraseStatus.failure) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               backgroundColor: state.message!.color!,
-              content: Text(state.message!.message!),
+              content: Text(state.message?.getMessage(context) ?? ''),
             ));
           }
         },
