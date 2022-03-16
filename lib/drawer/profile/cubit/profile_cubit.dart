@@ -3,7 +3,6 @@ import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:logging/logging.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
-import 'package:talao/app/shared/constants.dart';
 import 'package:talao/app/shared/model/message.dart';
 import 'package:talao/drawer/profile/models/models.dart';
 
@@ -23,13 +22,15 @@ class ProfileCubit extends Cubit<ProfileState> {
     final log = Logger('talao-wallet/profile/load');
     try {
       final firstName =
-          await secureStorageProvider.get(Constants.firstNameKey) ?? '';
+          await secureStorageProvider.get(SecureStorageKeys.firstNameKey) ?? '';
       final lastName =
-          await secureStorageProvider.get(Constants.lastNameKey) ?? '';
-      final phone = await secureStorageProvider.get(Constants.phoneKey) ?? '';
+          await secureStorageProvider.get(SecureStorageKeys.lastNameKey) ?? '';
+      final phone =
+          await secureStorageProvider.get(SecureStorageKeys.phoneKey) ?? '';
       final location =
-          await secureStorageProvider.get(Constants.locationKey) ?? '';
-      final email = await secureStorageProvider.get(Constants.emailKey) ?? '';
+          await secureStorageProvider.get(SecureStorageKeys.locationKey) ?? '';
+      final email =
+          await secureStorageProvider.get(SecureStorageKeys.emailKey) ?? '';
       final companyName =
           await secureStorageProvider.get(SecureStorageKeys.companyName) ?? '';
       final companyWebsite =
@@ -38,7 +39,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       final jobTitle =
           await secureStorageProvider.get(SecureStorageKeys.jobTitle) ?? '';
       final issuerVerificationSetting = !(await secureStorageProvider
-              .get(Constants.issuerVerificationSettingKey) ==
+              .get(SecureStorageKeys.issuerVerificationSettingKey) ==
           'false');
 
       final model = ProfileModel(
@@ -67,11 +68,11 @@ class ProfileCubit extends Cubit<ProfileState> {
   }
 
   Future<void> resetProfile() async {
-    await secureStorageProvider.delete(Constants.firstNameKey);
-    await secureStorageProvider.delete(Constants.lastNameKey);
-    await secureStorageProvider.delete(Constants.phoneKey);
-    await secureStorageProvider.delete(Constants.locationKey);
-    await secureStorageProvider.delete(Constants.emailKey);
+    await secureStorageProvider.delete(SecureStorageKeys.firstNameKey);
+    await secureStorageProvider.delete(SecureStorageKeys.lastNameKey);
+    await secureStorageProvider.delete(SecureStorageKeys.phoneKey);
+    await secureStorageProvider.delete(SecureStorageKeys.locationKey);
+    await secureStorageProvider.delete(SecureStorageKeys.emailKey);
     await secureStorageProvider.delete(SecureStorageKeys.jobTitle);
     await secureStorageProvider.delete(SecureStorageKeys.companyWebsite);
     await secureStorageProvider.delete(SecureStorageKeys.companyName);
@@ -86,20 +87,21 @@ class ProfileCubit extends Cubit<ProfileState> {
 
     try {
       await secureStorageProvider.set(
-        Constants.firstNameKey,
+        SecureStorageKeys.firstNameKey,
         profileModel.firstName,
       );
       await secureStorageProvider.set(
-        Constants.lastNameKey,
+        SecureStorageKeys.lastNameKey,
         profileModel.lastName,
       );
-      await secureStorageProvider.set(Constants.phoneKey, profileModel.phone);
       await secureStorageProvider.set(
-        Constants.locationKey,
+          SecureStorageKeys.phoneKey, profileModel.phone);
+      await secureStorageProvider.set(
+        SecureStorageKeys.locationKey,
         profileModel.location,
       );
       await secureStorageProvider.set(
-        Constants.emailKey,
+        SecureStorageKeys.emailKey,
         profileModel.email,
       );
       await secureStorageProvider.set(
@@ -115,7 +117,7 @@ class ProfileCubit extends Cubit<ProfileState> {
         profileModel.jobTitle.toString(),
       );
       await secureStorageProvider.set(
-        Constants.issuerVerificationSettingKey,
+        SecureStorageKeys.issuerVerificationSettingKey,
         profileModel.issuerVerificationSetting.toString(),
       );
 
