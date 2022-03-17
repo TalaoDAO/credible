@@ -73,7 +73,7 @@ class OnBoardingTosPage extends StatelessWidget {
   }
 
   FutureBuilder<String> displayTerms(BuildContext context, Logger _log) {
-    final localizations = AppLocalizations.of(context)!;
+    final localizations = context.l10n;
     final String path;
     final languagesList = ['fr', 'it', 'es', 'de'];
     if (languagesList.contains(localizations.localeName)) {

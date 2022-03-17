@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:talao/app/interop/issuer/check_issuer.dart';
 import 'package:talao/app/interop/issuer/models/issuer.dart';
@@ -14,6 +13,7 @@ import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/confirm_dialog.dart';
 import 'package:talao/drawer/drawer.dart';
+import 'package:talao/l10n/l10n.dart';
 import 'package:talao/qr_code/qr_code_scan/cubit/qr_code_scan_cubit.dart';
 
 class QrCodeScanPage extends StatefulWidget {
@@ -63,7 +63,7 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
+    final localizations = context.l10n;
 
     ///Note - Sync listener content with credential listener
     return BlocListener<QRCodeScanCubit, QRCodeScanState>(
@@ -74,21 +74,18 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
           var approvedIssuer = Issuer.emptyIssuer();
 
           var profileCubit = context.read<ProfileCubit>();
-          if (profileCubit.state is ProfileStateDefault) {
-            final isIssuerVerificationSettingTrue =
-                profileCubit.state.model!.issuerVerificationSetting;
-            if (isIssuerVerificationSettingTrue) {
-              try {
-                approvedIssuer = await CheckIssuer(
-                        DioClient(Constants.checkIssuerServerUrl, Dio()),
-                        Constants.checkIssuerServerUrl,
-                        state.uri!)
-                    .isIssuerInApprovedList();
-              } catch (e) {
-                if (e is ErrorHandler) {
-                  e.displayError(
-                      context, e, Theme.of(context).colorScheme.error);
-                }
+          final isIssuerVerificationSettingTrue =
+              profileCubit.state.model.issuerVerificationSetting;
+          if (isIssuerVerificationSettingTrue) {
+            try {
+              approvedIssuer = await CheckIssuer(
+                      DioClient(Constants.checkIssuerServerUrl, Dio()),
+                      Constants.checkIssuerServerUrl,
+                      state.uri!)
+                  .isIssuerInApprovedList();
+            } catch (e) {
+              if (e is ErrorHandler) {
+                e.displayError(context, e, Theme.of(context).colorScheme.error);
               }
             }
           }
@@ -134,7 +131,7 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
           } else {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               backgroundColor: state.message!.color,
-              content: Text(state.message!.message!),
+              content: Text(state.message?.getMessage(context) ?? ''),
             ));
           }
         }
@@ -144,7 +141,6 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
             content: Text(localizations.scanUnsupportedMessage),
           ));
         }
-
       },
       child: BasePage(
         padding: EdgeInsets.zero,

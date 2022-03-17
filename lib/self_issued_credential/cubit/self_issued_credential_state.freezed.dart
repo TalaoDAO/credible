@@ -26,15 +26,9 @@ class _$SelfIssuedCredentialStateTearOff {
     return const Loading();
   }
 
-  Error error(String message) {
+  Error error(SelfIssuedCredentialErrorState errorState) {
     return Error(
-      message,
-    );
-  }
-
-  Warning warning(String message) {
-    return Warning(
-      message,
+      errorState,
     );
   }
 
@@ -52,8 +46,7 @@ mixin _$SelfIssuedCredentialState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(String message) error,
-    required TResult Function(String message) warning,
+    required TResult Function(SelfIssuedCredentialErrorState errorState) error,
     required TResult Function() credentialCreated,
   }) =>
       throw _privateConstructorUsedError;
@@ -61,8 +54,7 @@ mixin _$SelfIssuedCredentialState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(String message)? error,
-    TResult Function(String message)? warning,
+    TResult Function(SelfIssuedCredentialErrorState errorState)? error,
     TResult Function()? credentialCreated,
   }) =>
       throw _privateConstructorUsedError;
@@ -70,8 +62,7 @@ mixin _$SelfIssuedCredentialState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(String message)? error,
-    TResult Function(String message)? warning,
+    TResult Function(SelfIssuedCredentialErrorState errorState)? error,
     TResult Function()? credentialCreated,
     required TResult orElse(),
   }) =>
@@ -81,7 +72,6 @@ mixin _$SelfIssuedCredentialState {
     required TResult Function(Initial value) initial,
     required TResult Function(Loading value) loading,
     required TResult Function(Error value) error,
-    required TResult Function(Warning value) warning,
     required TResult Function(CredentialCreated value) credentialCreated,
   }) =>
       throw _privateConstructorUsedError;
@@ -90,7 +80,6 @@ mixin _$SelfIssuedCredentialState {
     TResult Function(Initial value)? initial,
     TResult Function(Loading value)? loading,
     TResult Function(Error value)? error,
-    TResult Function(Warning value)? warning,
     TResult Function(CredentialCreated value)? credentialCreated,
   }) =>
       throw _privateConstructorUsedError;
@@ -99,7 +88,6 @@ mixin _$SelfIssuedCredentialState {
     TResult Function(Initial value)? initial,
     TResult Function(Loading value)? loading,
     TResult Function(Error value)? error,
-    TResult Function(Warning value)? warning,
     TResult Function(CredentialCreated value)? credentialCreated,
     required TResult orElse(),
   }) =>
@@ -164,8 +152,7 @@ class _$Initial implements Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(String message) error,
-    required TResult Function(String message) warning,
+    required TResult Function(SelfIssuedCredentialErrorState errorState) error,
     required TResult Function() credentialCreated,
   }) {
     return initial();
@@ -176,8 +163,7 @@ class _$Initial implements Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(String message)? error,
-    TResult Function(String message)? warning,
+    TResult Function(SelfIssuedCredentialErrorState errorState)? error,
     TResult Function()? credentialCreated,
   }) {
     return initial?.call();
@@ -188,8 +174,7 @@ class _$Initial implements Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(String message)? error,
-    TResult Function(String message)? warning,
+    TResult Function(SelfIssuedCredentialErrorState errorState)? error,
     TResult Function()? credentialCreated,
     required TResult orElse(),
   }) {
@@ -205,7 +190,6 @@ class _$Initial implements Initial {
     required TResult Function(Initial value) initial,
     required TResult Function(Loading value) loading,
     required TResult Function(Error value) error,
-    required TResult Function(Warning value) warning,
     required TResult Function(CredentialCreated value) credentialCreated,
   }) {
     return initial(this);
@@ -217,7 +201,6 @@ class _$Initial implements Initial {
     TResult Function(Initial value)? initial,
     TResult Function(Loading value)? loading,
     TResult Function(Error value)? error,
-    TResult Function(Warning value)? warning,
     TResult Function(CredentialCreated value)? credentialCreated,
   }) {
     return initial?.call(this);
@@ -229,7 +212,6 @@ class _$Initial implements Initial {
     TResult Function(Initial value)? initial,
     TResult Function(Loading value)? loading,
     TResult Function(Error value)? error,
-    TResult Function(Warning value)? warning,
     TResult Function(CredentialCreated value)? credentialCreated,
     required TResult orElse(),
   }) {
@@ -285,8 +267,7 @@ class _$Loading implements Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(String message) error,
-    required TResult Function(String message) warning,
+    required TResult Function(SelfIssuedCredentialErrorState errorState) error,
     required TResult Function() credentialCreated,
   }) {
     return loading();
@@ -297,8 +278,7 @@ class _$Loading implements Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(String message)? error,
-    TResult Function(String message)? warning,
+    TResult Function(SelfIssuedCredentialErrorState errorState)? error,
     TResult Function()? credentialCreated,
   }) {
     return loading?.call();
@@ -309,8 +289,7 @@ class _$Loading implements Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(String message)? error,
-    TResult Function(String message)? warning,
+    TResult Function(SelfIssuedCredentialErrorState errorState)? error,
     TResult Function()? credentialCreated,
     required TResult orElse(),
   }) {
@@ -326,7 +305,6 @@ class _$Loading implements Loading {
     required TResult Function(Initial value) initial,
     required TResult Function(Loading value) loading,
     required TResult Function(Error value) error,
-    required TResult Function(Warning value) warning,
     required TResult Function(CredentialCreated value) credentialCreated,
   }) {
     return loading(this);
@@ -338,7 +316,6 @@ class _$Loading implements Loading {
     TResult Function(Initial value)? initial,
     TResult Function(Loading value)? loading,
     TResult Function(Error value)? error,
-    TResult Function(Warning value)? warning,
     TResult Function(CredentialCreated value)? credentialCreated,
   }) {
     return loading?.call(this);
@@ -350,7 +327,6 @@ class _$Loading implements Loading {
     TResult Function(Initial value)? initial,
     TResult Function(Loading value)? loading,
     TResult Function(Error value)? error,
-    TResult Function(Warning value)? warning,
     TResult Function(CredentialCreated value)? credentialCreated,
     required TResult orElse(),
   }) {
@@ -369,7 +345,9 @@ abstract class Loading implements SelfIssuedCredentialState {
 abstract class $ErrorCopyWith<$Res> {
   factory $ErrorCopyWith(Error value, $Res Function(Error) then) =
       _$ErrorCopyWithImpl<$Res>;
-  $Res call({String message});
+  $Res call({SelfIssuedCredentialErrorState errorState});
+
+  $SelfIssuedCredentialErrorStateCopyWith<$Res> get errorState;
 }
 
 /// @nodoc
@@ -384,28 +362,36 @@ class _$ErrorCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? message = freezed,
+    Object? errorState = freezed,
   }) {
     return _then(Error(
-      message == freezed
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String,
+      errorState == freezed
+          ? _value.errorState
+          : errorState // ignore: cast_nullable_to_non_nullable
+              as SelfIssuedCredentialErrorState,
     ));
+  }
+
+  @override
+  $SelfIssuedCredentialErrorStateCopyWith<$Res> get errorState {
+    return $SelfIssuedCredentialErrorStateCopyWith<$Res>(_value.errorState,
+        (value) {
+      return _then(_value.copyWith(errorState: value));
+    });
   }
 }
 
 /// @nodoc
 
 class _$Error implements Error {
-  const _$Error(this.message);
+  const _$Error(this.errorState);
 
   @override
-  final String message;
+  final SelfIssuedCredentialErrorState errorState;
 
   @override
   String toString() {
-    return 'SelfIssuedCredentialState.error(message: $message)';
+    return 'SelfIssuedCredentialState.error(errorState: $errorState)';
   }
 
   @override
@@ -413,12 +399,13 @@ class _$Error implements Error {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is Error &&
-            const DeepCollectionEquality().equals(other.message, message));
+            const DeepCollectionEquality()
+                .equals(other.errorState, errorState));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(message));
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(errorState));
 
   @JsonKey(ignore: true)
   @override
@@ -430,11 +417,10 @@ class _$Error implements Error {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(String message) error,
-    required TResult Function(String message) warning,
+    required TResult Function(SelfIssuedCredentialErrorState errorState) error,
     required TResult Function() credentialCreated,
   }) {
-    return error(message);
+    return error(errorState);
   }
 
   @override
@@ -442,11 +428,10 @@ class _$Error implements Error {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(String message)? error,
-    TResult Function(String message)? warning,
+    TResult Function(SelfIssuedCredentialErrorState errorState)? error,
     TResult Function()? credentialCreated,
   }) {
-    return error?.call(message);
+    return error?.call(errorState);
   }
 
   @override
@@ -454,13 +439,12 @@ class _$Error implements Error {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(String message)? error,
-    TResult Function(String message)? warning,
+    TResult Function(SelfIssuedCredentialErrorState errorState)? error,
     TResult Function()? credentialCreated,
     required TResult orElse(),
   }) {
     if (error != null) {
-      return error(message);
+      return error(errorState);
     }
     return orElse();
   }
@@ -471,7 +455,6 @@ class _$Error implements Error {
     required TResult Function(Initial value) initial,
     required TResult Function(Loading value) loading,
     required TResult Function(Error value) error,
-    required TResult Function(Warning value) warning,
     required TResult Function(CredentialCreated value) credentialCreated,
   }) {
     return error(this);
@@ -483,7 +466,6 @@ class _$Error implements Error {
     TResult Function(Initial value)? initial,
     TResult Function(Loading value)? loading,
     TResult Function(Error value)? error,
-    TResult Function(Warning value)? warning,
     TResult Function(CredentialCreated value)? credentialCreated,
   }) {
     return error?.call(this);
@@ -495,7 +477,6 @@ class _$Error implements Error {
     TResult Function(Initial value)? initial,
     TResult Function(Loading value)? loading,
     TResult Function(Error value)? error,
-    TResult Function(Warning value)? warning,
     TResult Function(CredentialCreated value)? credentialCreated,
     required TResult orElse(),
   }) {
@@ -507,160 +488,11 @@ class _$Error implements Error {
 }
 
 abstract class Error implements SelfIssuedCredentialState {
-  const factory Error(String message) = _$Error;
+  const factory Error(SelfIssuedCredentialErrorState errorState) = _$Error;
 
-  String get message;
+  SelfIssuedCredentialErrorState get errorState;
   @JsonKey(ignore: true)
   $ErrorCopyWith<Error> get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $WarningCopyWith<$Res> {
-  factory $WarningCopyWith(Warning value, $Res Function(Warning) then) =
-      _$WarningCopyWithImpl<$Res>;
-  $Res call({String message});
-}
-
-/// @nodoc
-class _$WarningCopyWithImpl<$Res>
-    extends _$SelfIssuedCredentialStateCopyWithImpl<$Res>
-    implements $WarningCopyWith<$Res> {
-  _$WarningCopyWithImpl(Warning _value, $Res Function(Warning) _then)
-      : super(_value, (v) => _then(v as Warning));
-
-  @override
-  Warning get _value => super._value as Warning;
-
-  @override
-  $Res call({
-    Object? message = freezed,
-  }) {
-    return _then(Warning(
-      message == freezed
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$Warning implements Warning {
-  const _$Warning(this.message);
-
-  @override
-  final String message;
-
-  @override
-  String toString() {
-    return 'SelfIssuedCredentialState.warning(message: $message)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is Warning &&
-            const DeepCollectionEquality().equals(other.message, message));
-  }
-
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(message));
-
-  @JsonKey(ignore: true)
-  @override
-  $WarningCopyWith<Warning> get copyWith =>
-      _$WarningCopyWithImpl<Warning>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function(String message) error,
-    required TResult Function(String message) warning,
-    required TResult Function() credentialCreated,
-  }) {
-    return warning(message);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(String message)? error,
-    TResult Function(String message)? warning,
-    TResult Function()? credentialCreated,
-  }) {
-    return warning?.call(message);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(String message)? error,
-    TResult Function(String message)? warning,
-    TResult Function()? credentialCreated,
-    required TResult orElse(),
-  }) {
-    if (warning != null) {
-      return warning(message);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(Initial value) initial,
-    required TResult Function(Loading value) loading,
-    required TResult Function(Error value) error,
-    required TResult Function(Warning value) warning,
-    required TResult Function(CredentialCreated value) credentialCreated,
-  }) {
-    return warning(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(Initial value)? initial,
-    TResult Function(Loading value)? loading,
-    TResult Function(Error value)? error,
-    TResult Function(Warning value)? warning,
-    TResult Function(CredentialCreated value)? credentialCreated,
-  }) {
-    return warning?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(Initial value)? initial,
-    TResult Function(Loading value)? loading,
-    TResult Function(Error value)? error,
-    TResult Function(Warning value)? warning,
-    TResult Function(CredentialCreated value)? credentialCreated,
-    required TResult orElse(),
-  }) {
-    if (warning != null) {
-      return warning(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class Warning implements SelfIssuedCredentialState {
-  const factory Warning(String message) = _$Warning;
-
-  String get message;
-  @JsonKey(ignore: true)
-  $WarningCopyWith<Warning> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -706,8 +538,7 @@ class _$CredentialCreated implements CredentialCreated {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(String message) error,
-    required TResult Function(String message) warning,
+    required TResult Function(SelfIssuedCredentialErrorState errorState) error,
     required TResult Function() credentialCreated,
   }) {
     return credentialCreated();
@@ -718,8 +549,7 @@ class _$CredentialCreated implements CredentialCreated {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(String message)? error,
-    TResult Function(String message)? warning,
+    TResult Function(SelfIssuedCredentialErrorState errorState)? error,
     TResult Function()? credentialCreated,
   }) {
     return credentialCreated?.call();
@@ -730,8 +560,7 @@ class _$CredentialCreated implements CredentialCreated {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(String message)? error,
-    TResult Function(String message)? warning,
+    TResult Function(SelfIssuedCredentialErrorState errorState)? error,
     TResult Function()? credentialCreated,
     required TResult orElse(),
   }) {
@@ -747,7 +576,6 @@ class _$CredentialCreated implements CredentialCreated {
     required TResult Function(Initial value) initial,
     required TResult Function(Loading value) loading,
     required TResult Function(Error value) error,
-    required TResult Function(Warning value) warning,
     required TResult Function(CredentialCreated value) credentialCreated,
   }) {
     return credentialCreated(this);
@@ -759,7 +587,6 @@ class _$CredentialCreated implements CredentialCreated {
     TResult Function(Initial value)? initial,
     TResult Function(Loading value)? loading,
     TResult Function(Error value)? error,
-    TResult Function(Warning value)? warning,
     TResult Function(CredentialCreated value)? credentialCreated,
   }) {
     return credentialCreated?.call(this);
@@ -771,7 +598,6 @@ class _$CredentialCreated implements CredentialCreated {
     TResult Function(Initial value)? initial,
     TResult Function(Loading value)? loading,
     TResult Function(Error value)? error,
-    TResult Function(Warning value)? warning,
     TResult Function(CredentialCreated value)? credentialCreated,
     required TResult orElse(),
   }) {
@@ -784,4 +610,325 @@ class _$CredentialCreated implements CredentialCreated {
 
 abstract class CredentialCreated implements SelfIssuedCredentialState {
   const factory CredentialCreated() = _$CredentialCreated;
+}
+
+/// @nodoc
+class _$SelfIssuedCredentialErrorStateTearOff {
+  const _$SelfIssuedCredentialErrorStateTearOff();
+
+  FailedToVerifySelfIssuedCredential failedToVerifySelfIssuedCredential() {
+    return const FailedToVerifySelfIssuedCredential();
+  }
+
+  FailedToCreateSelfIssuedCredential failedToCreateSelfIssuedCredential() {
+    return const FailedToCreateSelfIssuedCredential();
+  }
+}
+
+/// @nodoc
+const $SelfIssuedCredentialErrorState =
+    _$SelfIssuedCredentialErrorStateTearOff();
+
+/// @nodoc
+mixin _$SelfIssuedCredentialErrorState {
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() failedToVerifySelfIssuedCredential,
+    required TResult Function() failedToCreateSelfIssuedCredential,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? failedToVerifySelfIssuedCredential,
+    TResult Function()? failedToCreateSelfIssuedCredential,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? failedToVerifySelfIssuedCredential,
+    TResult Function()? failedToCreateSelfIssuedCredential,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(FailedToVerifySelfIssuedCredential value)
+        failedToVerifySelfIssuedCredential,
+    required TResult Function(FailedToCreateSelfIssuedCredential value)
+        failedToCreateSelfIssuedCredential,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(FailedToVerifySelfIssuedCredential value)?
+        failedToVerifySelfIssuedCredential,
+    TResult Function(FailedToCreateSelfIssuedCredential value)?
+        failedToCreateSelfIssuedCredential,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(FailedToVerifySelfIssuedCredential value)?
+        failedToVerifySelfIssuedCredential,
+    TResult Function(FailedToCreateSelfIssuedCredential value)?
+        failedToCreateSelfIssuedCredential,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $SelfIssuedCredentialErrorStateCopyWith<$Res> {
+  factory $SelfIssuedCredentialErrorStateCopyWith(
+          SelfIssuedCredentialErrorState value,
+          $Res Function(SelfIssuedCredentialErrorState) then) =
+      _$SelfIssuedCredentialErrorStateCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class _$SelfIssuedCredentialErrorStateCopyWithImpl<$Res>
+    implements $SelfIssuedCredentialErrorStateCopyWith<$Res> {
+  _$SelfIssuedCredentialErrorStateCopyWithImpl(this._value, this._then);
+
+  final SelfIssuedCredentialErrorState _value;
+  // ignore: unused_field
+  final $Res Function(SelfIssuedCredentialErrorState) _then;
+}
+
+/// @nodoc
+abstract class $FailedToVerifySelfIssuedCredentialCopyWith<$Res> {
+  factory $FailedToVerifySelfIssuedCredentialCopyWith(
+          FailedToVerifySelfIssuedCredential value,
+          $Res Function(FailedToVerifySelfIssuedCredential) then) =
+      _$FailedToVerifySelfIssuedCredentialCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class _$FailedToVerifySelfIssuedCredentialCopyWithImpl<$Res>
+    extends _$SelfIssuedCredentialErrorStateCopyWithImpl<$Res>
+    implements $FailedToVerifySelfIssuedCredentialCopyWith<$Res> {
+  _$FailedToVerifySelfIssuedCredentialCopyWithImpl(
+      FailedToVerifySelfIssuedCredential _value,
+      $Res Function(FailedToVerifySelfIssuedCredential) _then)
+      : super(_value, (v) => _then(v as FailedToVerifySelfIssuedCredential));
+
+  @override
+  FailedToVerifySelfIssuedCredential get _value =>
+      super._value as FailedToVerifySelfIssuedCredential;
+}
+
+/// @nodoc
+
+class _$FailedToVerifySelfIssuedCredential
+    extends FailedToVerifySelfIssuedCredential {
+  const _$FailedToVerifySelfIssuedCredential() : super._();
+
+  @override
+  String toString() {
+    return 'SelfIssuedCredentialErrorState.failedToVerifySelfIssuedCredential()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is FailedToVerifySelfIssuedCredential);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() failedToVerifySelfIssuedCredential,
+    required TResult Function() failedToCreateSelfIssuedCredential,
+  }) {
+    return failedToVerifySelfIssuedCredential();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? failedToVerifySelfIssuedCredential,
+    TResult Function()? failedToCreateSelfIssuedCredential,
+  }) {
+    return failedToVerifySelfIssuedCredential?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? failedToVerifySelfIssuedCredential,
+    TResult Function()? failedToCreateSelfIssuedCredential,
+    required TResult orElse(),
+  }) {
+    if (failedToVerifySelfIssuedCredential != null) {
+      return failedToVerifySelfIssuedCredential();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(FailedToVerifySelfIssuedCredential value)
+        failedToVerifySelfIssuedCredential,
+    required TResult Function(FailedToCreateSelfIssuedCredential value)
+        failedToCreateSelfIssuedCredential,
+  }) {
+    return failedToVerifySelfIssuedCredential(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(FailedToVerifySelfIssuedCredential value)?
+        failedToVerifySelfIssuedCredential,
+    TResult Function(FailedToCreateSelfIssuedCredential value)?
+        failedToCreateSelfIssuedCredential,
+  }) {
+    return failedToVerifySelfIssuedCredential?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(FailedToVerifySelfIssuedCredential value)?
+        failedToVerifySelfIssuedCredential,
+    TResult Function(FailedToCreateSelfIssuedCredential value)?
+        failedToCreateSelfIssuedCredential,
+    required TResult orElse(),
+  }) {
+    if (failedToVerifySelfIssuedCredential != null) {
+      return failedToVerifySelfIssuedCredential(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class FailedToVerifySelfIssuedCredential
+    extends SelfIssuedCredentialErrorState {
+  const factory FailedToVerifySelfIssuedCredential() =
+      _$FailedToVerifySelfIssuedCredential;
+  const FailedToVerifySelfIssuedCredential._() : super._();
+}
+
+/// @nodoc
+abstract class $FailedToCreateSelfIssuedCredentialCopyWith<$Res> {
+  factory $FailedToCreateSelfIssuedCredentialCopyWith(
+          FailedToCreateSelfIssuedCredential value,
+          $Res Function(FailedToCreateSelfIssuedCredential) then) =
+      _$FailedToCreateSelfIssuedCredentialCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class _$FailedToCreateSelfIssuedCredentialCopyWithImpl<$Res>
+    extends _$SelfIssuedCredentialErrorStateCopyWithImpl<$Res>
+    implements $FailedToCreateSelfIssuedCredentialCopyWith<$Res> {
+  _$FailedToCreateSelfIssuedCredentialCopyWithImpl(
+      FailedToCreateSelfIssuedCredential _value,
+      $Res Function(FailedToCreateSelfIssuedCredential) _then)
+      : super(_value, (v) => _then(v as FailedToCreateSelfIssuedCredential));
+
+  @override
+  FailedToCreateSelfIssuedCredential get _value =>
+      super._value as FailedToCreateSelfIssuedCredential;
+}
+
+/// @nodoc
+
+class _$FailedToCreateSelfIssuedCredential
+    extends FailedToCreateSelfIssuedCredential {
+  const _$FailedToCreateSelfIssuedCredential() : super._();
+
+  @override
+  String toString() {
+    return 'SelfIssuedCredentialErrorState.failedToCreateSelfIssuedCredential()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is FailedToCreateSelfIssuedCredential);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() failedToVerifySelfIssuedCredential,
+    required TResult Function() failedToCreateSelfIssuedCredential,
+  }) {
+    return failedToCreateSelfIssuedCredential();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? failedToVerifySelfIssuedCredential,
+    TResult Function()? failedToCreateSelfIssuedCredential,
+  }) {
+    return failedToCreateSelfIssuedCredential?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? failedToVerifySelfIssuedCredential,
+    TResult Function()? failedToCreateSelfIssuedCredential,
+    required TResult orElse(),
+  }) {
+    if (failedToCreateSelfIssuedCredential != null) {
+      return failedToCreateSelfIssuedCredential();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(FailedToVerifySelfIssuedCredential value)
+        failedToVerifySelfIssuedCredential,
+    required TResult Function(FailedToCreateSelfIssuedCredential value)
+        failedToCreateSelfIssuedCredential,
+  }) {
+    return failedToCreateSelfIssuedCredential(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(FailedToVerifySelfIssuedCredential value)?
+        failedToVerifySelfIssuedCredential,
+    TResult Function(FailedToCreateSelfIssuedCredential value)?
+        failedToCreateSelfIssuedCredential,
+  }) {
+    return failedToCreateSelfIssuedCredential?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(FailedToVerifySelfIssuedCredential value)?
+        failedToVerifySelfIssuedCredential,
+    TResult Function(FailedToCreateSelfIssuedCredential value)?
+        failedToCreateSelfIssuedCredential,
+    required TResult orElse(),
+  }) {
+    if (failedToCreateSelfIssuedCredential != null) {
+      return failedToCreateSelfIssuedCredential(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class FailedToCreateSelfIssuedCredential
+    extends SelfIssuedCredentialErrorState {
+  const factory FailedToCreateSelfIssuedCredential() =
+      _$FailedToCreateSelfIssuedCredential;
+  const FailedToCreateSelfIssuedCredential._() : super._();
 }

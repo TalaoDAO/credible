@@ -1,23 +1,24 @@
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:logging/logging.dart';
 import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/interop/network/network_client.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
-import 'package:talao/wallet/wallet.dart';
-import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:talao/app/shared/constants.dart';
 import 'package:talao/app/shared/error_handler/error_handler.dart';
+import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:talao/app/shared/model/message.dart';
-import 'package:dio/dio.dart';
-import 'package:logging/logging.dart';
+import 'package:talao/scan/cubit/scan_message_string_state.dart';
+import 'package:talao/wallet/wallet.dart';
 import 'package:uuid/uuid.dart';
 
-part 'scan_state.dart';
-
 part 'scan_cubit.g.dart';
+
+part 'scan_state.dart';
 
 class ScanCubit extends Cubit<ScanState> {
   final DioClient client;
@@ -69,9 +70,8 @@ class ScanCubit extends Cubit<ScanState> {
             jsonVerification['warnings']);
 
         emit(ScanStateMessage(
-            message: StateMessage.warning(
-                'Credential verification returned some warnings. '
-                'Check the logs for more information.')));
+            message: StateMessage.warning(message:
+            ScanMessageStringState.credentialVerificationReturnWarning())));
         return emit(ScanStateIdle());
       }
 
@@ -79,8 +79,8 @@ class ScanCubit extends Cubit<ScanState> {
         log.severe('failed to verify credential', jsonVerification['errors']);
         if (jsonVerification['errors'][0] != 'No applicable proof') {
           emit(ScanStateMessage(
-              message: StateMessage.error('Failed to verify credential. '
-                  'Check the logs for more information.')));
+              message: StateMessage.error(message:
+              ScanMessageStringState.failedToVerifyCredential())));
           return emit(ScanStateIdle());
         }
       }
@@ -93,12 +93,13 @@ class ScanCubit extends Cubit<ScanState> {
       log.severe('something went wrong', e);
       if (e is ErrorHandler) {
         emit(ScanStateMessage(
-            message: StateMessage.error('An error occurred', errorHandler: e)));
+            message: StateMessage.error(message:
+            ScanMessageStringState.anErrorOccurred(),
+                errorHandler: e)));
       } else {
         emit(ScanStateMessage(
-            message: StateMessage.error(
-                'Something went wrong, please try again later. '
-                'Check the logs for more information.')));
+            message: StateMessage.error(message:
+            ScanMessageStringState.somethingsWentWrongTryAgainLater())));
       }
       emit(ScanStateIdle());
     }
@@ -146,20 +147,21 @@ class ScanCubit extends Cubit<ScanState> {
       );
 
       emit(ScanStateMessage(
-          message:
-              StateMessage.success('Successfully presented your credential!')));
+          message: StateMessage.success(message:
+          ScanMessageStringState.successfullyPresentedYourCredential())));
 
       emit(ScanStateSuccess());
     } catch (e) {
       log.severe('something went wrong', e);
       if (e is ErrorHandler) {
         emit(ScanStateMessage(
-            message: StateMessage.error('An error occurred', errorHandler: e)));
+            message: StateMessage.error(message:
+            ScanMessageStringState.anErrorOccurred(),
+                errorHandler: e)));
       } else {
         emit(ScanStateMessage(
-            message: StateMessage.error(
-                'Something went wrong, please try again later. '
-                'Check the logs for more information.')));
+            message: StateMessage.error(message:
+            ScanMessageStringState.somethingsWentWrongTryAgainLater())));
       }
     }
   }
@@ -209,9 +211,8 @@ class ScanCubit extends Cubit<ScanState> {
             jsonVerification['warnings']);
 
         emit(ScanStateMessage(
-            message: StateMessage.warning(
-                'Credential verification returned some warnings. '
-                'Check the logs for more information.')));
+            message: StateMessage.warning(message:
+            ScanMessageStringState.credentialVerificationReturnWarning())));
       }
 
       if (jsonVerification['errors'].isNotEmpty) {
@@ -220,8 +221,8 @@ class ScanCubit extends Cubit<ScanState> {
         // done(jsonEncode(jsonVerification['errors']));
 
         emit(ScanStateMessage(
-            message: StateMessage.error('Failed to verify credential. '
-                'Check the logs for more information.')));
+            message: StateMessage.error(message:
+            ScanMessageStringState.failedToVerifyCredential())));
       }
       await walletCubit.insertCredential(vc);
 
@@ -233,9 +234,8 @@ class ScanCubit extends Cubit<ScanState> {
       log.severe('something went wrong', e);
 
       emit(ScanStateMessage(
-          message: StateMessage.error(
-              'Something went wrong, please try again later. '
-              'Check the logs for more information.')));
+          message: StateMessage.error(message:
+          ScanMessageStringState.somethingsWentWrongTryAgainLater())));
     }
 
     emit(ScanStateSuccess());
@@ -275,23 +275,26 @@ class ScanCubit extends Cubit<ScanState> {
         done(presentation);
 
         emit(ScanStateMessage(
-            message: StateMessage.success('Successfully presented your DID!')));
+            message: StateMessage.success(message:
+            ScanMessageStringState.successfullyPresentedYourDID())));
 
         emit(ScanStateSuccess());
       } else {
         emit(ScanStateMessage(
-            message: StateMessage.error(
-                'Something went wrong, please try again later.')));
+            message: StateMessage.error(message:
+            ScanMessageStringState.somethingsWentWrongTryAgainLater())));
       }
     } catch (e) {
       log.severe('something went wrong', e);
       if (e is ErrorHandler) {
         emit(ScanStateMessage(
-            message: StateMessage.error('An error occurred', errorHandler: e)));
+            message: StateMessage.error(message:
+            ScanMessageStringState.anErrorOccurred(),
+                errorHandler: e)));
       } else {
         emit(ScanStateMessage(
-            message: StateMessage.error(
-                'Something went wrong, please try again later. ')));
+            message: StateMessage.error(message:
+            ScanMessageStringState.somethingsWentWrongTryAgainLater())));
       }
     }
   }
@@ -336,15 +339,14 @@ class ScanCubit extends Cubit<ScanState> {
       done(presentation);
 
       emit(ScanStateMessage(
-          message: StateMessage.success(
-              'Successfully presented your credential(s)!')));
+          message: StateMessage.success(message:
+          ScanMessageStringState.successfullyPresentedYourCredential())));
     } catch (e) {
       log.severe('something went wrong', e);
 
       emit(ScanStateMessage(
-          message: StateMessage.error(
-              'Something went wrong, please try again later. '
-              'Check the logs for more information.')));
+          message: StateMessage.error(message:
+          ScanMessageStringState.somethingsWentWrongTryAgainLater())));
     }
 
     emit(ScanStateSuccess());

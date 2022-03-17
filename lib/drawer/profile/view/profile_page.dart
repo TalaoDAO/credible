@@ -5,7 +5,6 @@ import 'package:talao/drawer/backup_credential/backup_credential.dart';
 import 'package:talao/drawer/global_information/view/global_information_page.dart';
 import 'package:talao/drawer/privacy/view/privacy.dart';
 import 'package:talao/drawer/profile/cubit/profile_cubit.dart';
-import 'package:talao/drawer/profile/models/profile.dart';
 import 'package:talao/drawer/recovery_credential/recovery_credential.dart';
 import 'package:talao/drawer/recovery_key/view/recovery_key_page.dart';
 import 'package:talao/drawer/terms/view/terms_page.dart';
@@ -36,17 +35,8 @@ class ProfileView extends StatelessWidget {
         child: BlocConsumer<ProfileCubit, ProfileState>(
           listener: (context, state) {},
           builder: (context, state) {
-            late final ProfileModel model;
-            late final isEnterprise;
-            if (state is ProfileStateDefault) {
-              model = state.model!;
-              isEnterprise = state.isEnterprise;
-            } else {
-              model = ProfileModel.empty;
-              isEnterprise = false;
-            }
-            final firstName = model.firstName;
-            final lastName = model.lastName;
+            final firstName = state.model.firstName;
+            final lastName = state.model.lastName;
 
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -62,10 +52,12 @@ class ProfileView extends StatelessWidget {
                 MenuItem(
                   icon: Icons.person,
                   title: l10n.personalTitle,
-                  onTap: () => Navigator.of(context).push(PersonalPage.route(
-                      profileModel: model,
+                  onTap: () => Navigator.of(context).push(
+                    PersonalPage.route(
+                      profileModel: state.model,
                       isFromOnBoarding: false,
-                      isEnterprise: isEnterprise)),
+                    ),
+                  ),
                 ),
                 MenuItem(
                   icon: Icons.receipt_long,

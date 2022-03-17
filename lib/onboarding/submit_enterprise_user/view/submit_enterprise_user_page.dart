@@ -1,12 +1,14 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/base/text_field.dart';
 import 'package:talao/did/cubit/did_cubit.dart';
 import 'package:talao/drawer/profile/models/profile.dart';
+import 'package:talao/l10n/l10n.dart';
 import 'package:talao/onboarding/wallet_type/choose_wallet_type.dart';
 import 'package:talao/personal/view/personal_page.dart';
 
@@ -28,6 +30,7 @@ class SubmitEnterpriseUserPage extends StatefulWidget {
               create: (_) => VerifyRSAAndDIDCubit(
                 secureStorageProvider: SecureStorageProvider.instance,
                 didCubit: context.read<DIDCubit>(),
+                didKitProvider: DIDKitProvider.instance,
               ),
             ),
           ],
@@ -46,6 +49,7 @@ class _SubmitEnterpriseUserPageState extends State<SubmitEnterpriseUserPage> {
 
   @override
   Widget build(BuildContext context) {
+    final localization = context.l10n;
     return WillPopScope(
       onWillPop: () async {
         await Navigator.of(context)
@@ -53,7 +57,7 @@ class _SubmitEnterpriseUserPageState extends State<SubmitEnterpriseUserPage> {
         return false;
       },
       child: BasePage(
-        title: 'Submit',
+        title: localization.submit,
         titleLeading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.of(context)
@@ -64,7 +68,7 @@ class _SubmitEnterpriseUserPageState extends State<SubmitEnterpriseUserPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              'Insert your DID key',
+              localization.insertYourDIDKey,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.subtitle1,
             ),
@@ -83,7 +87,7 @@ class _SubmitEnterpriseUserPageState extends State<SubmitEnterpriseUserPage> {
               height: 20,
             ),
             Text(
-              'Import your RSA key json file',
+              localization.importYourRSAKeyJsonFile,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.subtitle1,
             ),
@@ -93,7 +97,8 @@ class _SubmitEnterpriseUserPageState extends State<SubmitEnterpriseUserPage> {
             BlocBuilder<SubmitEnterpriseUserCubit, SubmitEnterpriseUserState>(
                 builder: (_, state) {
               if (state.rsaFile == null) {
-                return PickFileButton(onTap: _pickRSAJsonFile);
+                return PickFileButton(
+                    onTap: () => _pickRSAJsonFile(localization));
               } else {
                 return PickedFile(
                   fileName: state.rsaFile!.name,
@@ -109,22 +114,20 @@ class _SubmitEnterpriseUserPageState extends State<SubmitEnterpriseUserPage> {
             listener: (_, state) {
           state.maybeWhen(
               orElse: () => null,
-              error: (message) {
+              error: (errorState) {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(message),
+                  content: Text(errorState.getMessage(context)),
                   backgroundColor: Theme.of(context).colorScheme.error,
                 ));
               },
               verified: () async {
-                //TODO translate all message and texts
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: const Text(
-                        'DID key and RSA key verified successfully')));
+                    content: Text(
+                        localization.didKeyAndRSAKeyVerifiedSuccessfully)));
 
                 await Navigator.of(context).pushReplacement(PersonalPage.route(
-                    profileModel: ProfileModel.empty,
-                    isFromOnBoarding: true,
-                    isEnterprise: true));
+                    profileModel: ProfileModel.empty(isEnterprise: true),
+                    isFromOnBoarding: true));
               });
         }, builder: (context, state) {
           return state.maybeWhen(
@@ -135,16 +138,16 @@ class _SubmitEnterpriseUserPageState extends State<SubmitEnterpriseUserPage> {
                   onPressed: () {
                     final rsaFile =
                         context.read<SubmitEnterpriseUserCubit>().state.rsaFile;
-                    if (_didController.text.isEmpty) {
+                    if (_didController.text.trim().isEmpty) {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text('Please enter your DID key'),
+                          content: Text(localization.pleaseEnterYourDIDKey),
                           backgroundColor:
                               Theme.of(context).colorScheme.error));
                       return;
                     }
                     if (rsaFile == null) {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text('Please import your RSA key'),
+                          content: Text(localization.pleaseImportYourRSAKey),
                           backgroundColor:
                               Theme.of(context).colorScheme.error));
                       return;
@@ -156,7 +159,7 @@ class _SubmitEnterpriseUserPageState extends State<SubmitEnterpriseUserPage> {
                             .state
                             .rsaFile!);
                   },
-                  child: const Text('Confirm'));
+                  child: Text(localization.confirm));
             },
             loading: () {
               return SizedBox(
@@ -172,9 +175,9 @@ class _SubmitEnterpriseUserPageState extends State<SubmitEnterpriseUserPage> {
     );
   }
 
-  Future<void> _pickRSAJsonFile() async {
+  Future<void> _pickRSAJsonFile(AppLocalizations localizations) async {
     final pickedFiles = await FilePicker.platform.pickFiles(
-        dialogTitle: 'Please select RSA key file(with json extension)',
+        dialogTitle: localizations.pleaseSelectRSAKeyFileWithJsonExtension,
         type: FileType.custom,
         allowMultiple: false,
         allowedExtensions: ['json']);
