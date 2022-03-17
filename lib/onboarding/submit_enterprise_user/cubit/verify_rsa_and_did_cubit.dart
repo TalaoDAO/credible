@@ -8,16 +8,17 @@ import 'package:logging/logging.dart';
 import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/shared/constants.dart';
-import 'package:talao/did/did.dart';
+import 'package:talao/did/cubit/did_cubit.dart';
 
 import 'verify_rsa_and_did_state.dart';
 
 class VerifyRSAAndDIDCubit extends Cubit<VerifyRSAAndDIDState> {
   final DIDCubit didCubit;
+  final DIDKitProvider didKitProvider;
   final SecureStorageProvider secureStorageProvider;
 
   VerifyRSAAndDIDCubit(
-      {required this.didCubit, required this.secureStorageProvider})
+      {required this.didCubit, required this.secureStorageProvider,required this.didKitProvider})
       : super(const VerifyRSAAndDIDState.initial());
 
   Future<void> verify(String did, PlatformFile rsaFile) async {
@@ -25,14 +26,18 @@ class VerifyRSAAndDIDCubit extends Cubit<VerifyRSAAndDIDState> {
     try {
       emit(const VerifyRSAAndDIDState.loading());
 
-      final resolvedDID = await DIDKitProvider.instance.resolveDID(did, '{}');
+      final resolvedDID = await didKitProvider.resolveDID(did, '{}');
       final resolvedDIDJson = jsonDecode(resolvedDID);
 
       final error = resolvedDIDJson['didResolutionMetadata']['error'];
       if (error == null) {
         //read RSA json file
         if (rsaFile.path == null) {
-          emit(const VerifyRSAAndDIDState.error('Please import your RSA key'));
+          emit(const VerifyRSAAndDIDState.error(VerifyRSAAndDIDErrorState.rsaKeyNotImported()));
+          return;
+        }
+        if(did.trim().isEmpty) {
+          emit(const VerifyRSAAndDIDState.error(VerifyRSAAndDIDErrorState.didKeyNotEntered()));
           return;
         }
         final RSAJsonFile = File(rsaFile.path!);
@@ -76,17 +81,14 @@ class VerifyRSAAndDIDCubit extends Cubit<VerifyRSAAndDIDState> {
           );
           emit(const VerifyRSAAndDIDState.verified());
         } else {
-          emit(const VerifyRSAAndDIDState.error(
-              'RSA not matched with your DID key'));
+          emit(const VerifyRSAAndDIDState.error(VerifyRSAAndDIDErrorState.rsaNotMatchedWithDIDKey()));
         }
       } else {
-        emit(VerifyRSAAndDIDState.error(error));
+        emit(const VerifyRSAAndDIDState.error(VerifyRSAAndDIDErrorState.didKeyNotResolved()));
       }
     } catch (e, s) {
       log.info('error in verifying RSA key :${e.toString()}, s: $s', e, s);
-      //TODO translate message
-      emit(const VerifyRSAAndDIDState.error(
-          'Some error happened when verifying'));
+      emit(const VerifyRSAAndDIDState.error(VerifyRSAAndDIDErrorState.unknownError()));
     }
   }
 }

@@ -3,9 +3,9 @@ import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:logging/logging.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
-import 'package:talao/app/shared/constants.dart';
 import 'package:talao/app/shared/model/message.dart';
 import 'package:talao/drawer/profile/models/models.dart';
+import 'package:talao/scan/cubit/scan_message_string_state.dart';
 
 part 'profile_cubit.g.dart';
 
@@ -15,7 +15,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   final SecureStorageProvider secureStorageProvider;
 
   ProfileCubit({required this.secureStorageProvider})
-      : super(ProfileState(model: ProfileModel.empty)) {
+      : super(ProfileState(model: ProfileModel.empty(isEnterprise: false))) {
     load();
   }
 
@@ -23,13 +23,15 @@ class ProfileCubit extends Cubit<ProfileState> {
     final log = Logger('talao-wallet/profile/load');
     try {
       final firstName =
-          await secureStorageProvider.get(Constants.firstNameKey) ?? '';
+          await secureStorageProvider.get(SecureStorageKeys.firstNameKey) ?? '';
       final lastName =
-          await secureStorageProvider.get(Constants.lastNameKey) ?? '';
-      final phone = await secureStorageProvider.get(Constants.phoneKey) ?? '';
+          await secureStorageProvider.get(SecureStorageKeys.lastNameKey) ?? '';
+      final phone =
+          await secureStorageProvider.get(SecureStorageKeys.phoneKey) ?? '';
       final location =
-          await secureStorageProvider.get(Constants.locationKey) ?? '';
-      final email = await secureStorageProvider.get(Constants.emailKey) ?? '';
+          await secureStorageProvider.get(SecureStorageKeys.locationKey) ?? '';
+      final email =
+          await secureStorageProvider.get(SecureStorageKeys.emailKey) ?? '';
       final companyName =
           await secureStorageProvider.get(SecureStorageKeys.companyName) ?? '';
       final companyWebsite =
@@ -38,10 +40,12 @@ class ProfileCubit extends Cubit<ProfileState> {
       final jobTitle =
           await secureStorageProvider.get(SecureStorageKeys.jobTitle) ?? '';
       final issuerVerificationSetting = !(await secureStorageProvider
-              .get(Constants.issuerVerificationSettingKey) ==
+              .get(SecureStorageKeys.issuerVerificationSettingKey) ==
           'false');
+      final isEnterprise =
+          await secureStorageProvider.get(SecureStorageKeys.isEnterpriseUser);
 
-      final model = ProfileModel(
+      final profileModel = ProfileModel(
         firstName: firstName,
         lastName: lastName,
         phone: phone,
@@ -51,34 +55,29 @@ class ProfileCubit extends Cubit<ProfileState> {
         companyName: companyName,
         companyWebsite: companyWebsite,
         jobTitle: jobTitle,
+        isEnterprise: isEnterprise == 'true',
       );
 
-      final isEnterprise =
-          await secureStorageProvider.get(SecureStorageKeys.isEnterpriseUser);
-
-      emit(ProfileStateDefault(
-          model: model, isEnterprise: isEnterprise == 'true'));
+      emit(state.copyWith(model: profileModel));
     } catch (e) {
       log.severe('something went wrong', e);
-      emit(ProfileStateMessage(
-          message: StateMessage.error('Failed to load profile. '
-              'Check the logs for more information.')));
+      emit(state.copyWith(
+          message: StateMessage.error(
+              message: ScanMessageStringState.failedToLoadProfile())));
     }
   }
 
   Future<void> resetProfile() async {
-    await secureStorageProvider.delete(Constants.firstNameKey);
-    await secureStorageProvider.delete(Constants.lastNameKey);
-    await secureStorageProvider.delete(Constants.phoneKey);
-    await secureStorageProvider.delete(Constants.locationKey);
-    await secureStorageProvider.delete(Constants.emailKey);
+    await secureStorageProvider.delete(SecureStorageKeys.firstNameKey);
+    await secureStorageProvider.delete(SecureStorageKeys.lastNameKey);
+    await secureStorageProvider.delete(SecureStorageKeys.phoneKey);
+    await secureStorageProvider.delete(SecureStorageKeys.locationKey);
+    await secureStorageProvider.delete(SecureStorageKeys.emailKey);
     await secureStorageProvider.delete(SecureStorageKeys.jobTitle);
     await secureStorageProvider.delete(SecureStorageKeys.companyWebsite);
     await secureStorageProvider.delete(SecureStorageKeys.companyName);
-    final isEnterprise =
-        await secureStorageProvider.get(SecureStorageKeys.isEnterpriseUser);
-    emit(ProfileStateDefault(
-        model: ProfileModel.empty, isEnterprise: isEnterprise == 'true'));
+    await secureStorageProvider.delete(SecureStorageKeys.isEnterpriseUser);
+    emit(ProfileState(model: ProfileModel.empty(isEnterprise: false)));
   }
 
   Future<void> update(ProfileModel profileModel) async {
@@ -86,20 +85,21 @@ class ProfileCubit extends Cubit<ProfileState> {
 
     try {
       await secureStorageProvider.set(
-        Constants.firstNameKey,
+        SecureStorageKeys.firstNameKey,
         profileModel.firstName,
       );
       await secureStorageProvider.set(
-        Constants.lastNameKey,
+        SecureStorageKeys.lastNameKey,
         profileModel.lastName,
       );
-      await secureStorageProvider.set(Constants.phoneKey, profileModel.phone);
       await secureStorageProvider.set(
-        Constants.locationKey,
+          SecureStorageKeys.phoneKey, profileModel.phone);
+      await secureStorageProvider.set(
+        SecureStorageKeys.locationKey,
         profileModel.location,
       );
       await secureStorageProvider.set(
-        Constants.emailKey,
+        SecureStorageKeys.emailKey,
         profileModel.email,
       );
       await secureStorageProvider.set(
@@ -115,21 +115,19 @@ class ProfileCubit extends Cubit<ProfileState> {
         profileModel.jobTitle.toString(),
       );
       await secureStorageProvider.set(
-        Constants.issuerVerificationSettingKey,
+        SecureStorageKeys.issuerVerificationSettingKey,
         profileModel.issuerVerificationSetting.toString(),
       );
-
       final isEnterprise =
           await secureStorageProvider.get(SecureStorageKeys.isEnterpriseUser);
-
-      emit(ProfileStateDefault(
-          model: profileModel, isEnterprise: isEnterprise == 'true'));
+      emit(ProfileState(
+          model: profileModel.copyWith(isEnterprise: isEnterprise == 'true')));
     } catch (e) {
       log.severe('something went wrong', e);
 
-      emit(ProfileStateMessage(
-          message: StateMessage.error('Failed to save profile. '
-              'Check the logs for more information.')));
+      emit(state.copyWith(
+          message: StateMessage.error(
+              message: ScanMessageStringState.failedToSaveProfile())));
     }
   }
 }

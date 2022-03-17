@@ -119,40 +119,37 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
           } else {
             var approvedIssuer = Issuer.emptyIssuer();
 
-            var profileCubit = context.read<ProfileCubit>();
-            if (profileCubit.state is ProfileStateDefault) {
-              final isIssuerVerificationSettingTrue =
-                  profileCubit.state.model!.issuerVerificationSetting;
-              if (isIssuerVerificationSettingTrue) {
-                try {
-                  approvedIssuer = await CheckIssuer(
-                          DioClient(Constants.checkIssuerServerUrl, Dio()),
-                          Constants.checkIssuerServerUrl,
-                          state.uri!)
-                      .isIssuerInApprovedList();
-                } catch (e) {
-                  if (e is ErrorHandler) {
-                    e.displayError(
-                        context, e, Theme.of(context).colorScheme.error);
-                  }
-                }
+          var profileCubit = context.read<ProfileCubit>();
+          final isIssuerVerificationSettingTrue =
+              profileCubit.state.model.issuerVerificationSetting;
+          if (isIssuerVerificationSettingTrue) {
+            try {
+              approvedIssuer = await CheckIssuer(
+                      DioClient(Constants.checkIssuerServerUrl, Dio()),
+                      Constants.checkIssuerServerUrl,
+                      state.uri!)
+                  .isIssuerInApprovedList();
+            } catch (e) {
+              if (e is ErrorHandler) {
+                e.displayError(context, e, Theme.of(context).colorScheme.error);
               }
             }
-            var acceptHost = await showDialog<bool>(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return ConfirmDialog(
-                      title: l10n.scanPromptHost,
-                      subtitle: (approvedIssuer.did.isEmpty)
-                          ? state.uri!.host
-                          : '${approvedIssuer.organizationInfo.legalName}\n${approvedIssuer.organizationInfo.currentAddress}',
-                      yes: l10n.communicationHostAllow,
-                      no: l10n.communicationHostDeny,
-                      lock: (state.uri!.scheme == 'http') ? true : false,
-                    );
-                  },
-                ) ??
-                false;
+          }
+          var acceptHost = await showDialog<bool>(
+                context: context,
+                builder: (BuildContext context) {
+                  return ConfirmDialog(
+                    title: l10n.scanPromptHost,
+                    subtitle: (approvedIssuer.did.isEmpty)
+                        ? state.uri!.host
+                        : '${approvedIssuer.organizationInfo.legalName}\n${approvedIssuer.organizationInfo.currentAddress}',
+                    yes: l10n.communicationHostAllow,
+                    no: l10n.communicationHostDeny,
+                    lock: (state.uri!.scheme == 'http') ? true : false,
+                  );
+                },
+              ) ??
+              false;
 
             if (acceptHost) {
               context
@@ -183,7 +180,7 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
           } else {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               backgroundColor: state.message!.color,
-              content: Text(state.message!.message!),
+              content: Text(state.message?.getMessage(context) ?? ''),
             ));
           }
         }

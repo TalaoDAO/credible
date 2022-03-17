@@ -23,11 +23,13 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
   final WalletCubit walletCubit;
   final DIDCubit didCubit;
   final SecureStorageProvider secureStorageProvider;
+  final DIDKitProvider didKitProvider;
 
   SelfIssuedCredentialCubit(
       {required this.walletCubit,
       required this.secureStorageProvider,
-      required this.didCubit})
+      required this.didCubit,
+      required this.didKitProvider})
       : super(const SelfIssuedCredentialState.initial());
 
   Future<void> createSelfIssuedCredential(
@@ -63,8 +65,8 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
         verificationMethod = publicKeyJwk['kid'];
       } else {
         key = (await secureStorageProvider.get(SecureStorageKeys.key))!;
-        final didMethod = didCubit.state.didMethod!;
-        verificationMethod = await DIDKitProvider.instance
+        final didMethod = didCubit.state.didMethod!;;
+        verificationMethod = await didKitProvider
             .keyToVerificationMethod(didMethod, key);
       }
 
@@ -97,10 +99,10 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
           credentialSubject: selfIssued);
 
       await Future.delayed(Duration(milliseconds: 500));
-      final vc = await DIDKitProvider.instance.issueCredential(
+      final vc = await didKitProvider.issueCredential(
           jsonEncode(selfIssuedCredential.toJson()), jsonEncode(options), key);
-      final result = await DIDKitProvider.instance
-          .verifyCredential(vc, jsonEncode(verifyOptions));
+      final result =
+          await didKitProvider.verifyCredential(vc, jsonEncode(verifyOptions));
       final jsonVerification = jsonDecode(result);
 
       log.info('vc: $vc');
@@ -109,17 +111,12 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
       if (jsonVerification['warnings'].isNotEmpty) {
         log.warning('credential verification return warnings',
             jsonVerification['warnings']);
-
-        emit(SelfIssuedCredentialState.warning(
-            'Credential verification returned some warnings. '
-            'Check the logs for more information.'));
       }
 
       if (jsonVerification['errors'].isNotEmpty) {
         log.severe('failed to verify credential', jsonVerification['errors']);
         if (jsonVerification['errors'][0] != 'No applicable proof') {
-          emit(SelfIssuedCredentialState.error('Failed to verify credential. '
-              'Check the logs for more information.'));
+          emit(const SelfIssuedCredentialState.error(SelfIssuedCredentialErrorState.failedToVerifySelfIssuedCredential()));
         } else {
           await _recordCredential(vc);
         }
@@ -130,9 +127,7 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
       print('e: $e,s: $s');
       log.severe('something went wrong', e, s);
 
-      emit(SelfIssuedCredentialState.error(
-          'Failed to create self issued credential. '
-          'Check the logs for more information.'));
+      emit(const SelfIssuedCredentialState.error(SelfIssuedCredentialErrorState.failedToCreateSelfIssuedCredential()));
     }
   }
 

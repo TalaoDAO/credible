@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:talao/app/shared/error_handler/error_handler.dart';
+import 'package:talao/scan/cubit/scan_message_string_state.dart';
 
 part 'message.g.dart';
 
@@ -14,32 +15,36 @@ enum MessageType {
 
 @JsonSerializable()
 class StateMessage extends Equatable {
-  StateMessage({this.message, this.type, this.errorHandler});
+  StateMessage(
+      {this.serverMessage, this.message, this.type, this.errorHandler});
 
   factory StateMessage.fromJson(Map<String, dynamic> json) =>
       _$StateMessageFromJson(json);
 
-  final String? message;
+  @JsonKey(name: 'message')
+  final String? serverMessage;
+  @JsonKey(ignore: true)
+  final ScanMessageStringState? message;
   final MessageType? type;
   @JsonKey(ignore: true)
   final ErrorHandler? errorHandler;
 
-  StateMessage.error(this.message, {this.errorHandler})
+  StateMessage.error({this.serverMessage,this.message, this.errorHandler})
       : type = MessageType.error;
 
-  StateMessage.warning(this.message, {this.errorHandler})
+  StateMessage.warning({this.serverMessage,this.message, this.errorHandler})
       : type = MessageType.warning;
 
-  StateMessage.info(this.message, {this.errorHandler})
+  StateMessage.info({this.serverMessage,this.message, this.errorHandler})
       : type = MessageType.info;
 
-  StateMessage.success(this.message, {this.errorHandler})
+  StateMessage.success({this.serverMessage,this.message, this.errorHandler})
       : type = MessageType.success;
 
   Map<String, dynamic> toJson() => _$StateMessageToJson(this);
 
   @override
-  List<Object?> get props => [message, type];
+  List<Object?> get props => [message, serverMessage, type];
 
   Color? get color {
     switch (type) {
@@ -55,5 +60,9 @@ class StateMessage extends Equatable {
         Colors.green;
     }
     return null;
+  }
+
+  String? getMessage(BuildContext context) {
+    return message?.getMessage(context) ?? serverMessage;
   }
 }
