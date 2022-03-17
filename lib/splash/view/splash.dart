@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:json_path/json_path.dart';
 import 'package:talao/app/interop/issuer/check_issuer.dart';
 import 'package:talao/app/interop/issuer/models/issuer.dart';
 import 'package:talao/app/interop/network/network_client.dart';
@@ -291,15 +293,42 @@ class _SplashPageState extends State<SplashPage> {
               if (!qrCodeCubit.requestAttributeExists(isDeepLink: isDeepLink)) {
                 if (qrCodeCubit.requestUrlAttributeExists(
                     isDeepLink: isDeepLink)) {
-                  var data = (await qrCodeCubit.getSIOPV2Parameters(
-                      isDeepLink: isDeepLink))
-                      .toJson();
+                  var sIOPV2Param = await qrCodeCubit.getSIOPV2Parameters(
+                      isDeepLink: isDeepLink);
+
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text(data.toString()),
+                    content: Text(sIOPV2Param.toString()),
                   ));
+                  if (sIOPV2Param.claims != null) {
+                    final claimsJson = jsonDecode(sIOPV2Param.claims!);
+                    final fieldsPath = JsonPath(r'$..fields');
+                    var credentialField = fieldsPath
+                        .read(claimsJson)
+                        .first
+                        .value
+                        .where((e) =>
+                            e['path'].toString() ==
+                            '[\$.credentialSubject.type]'.toString())
+                        .toList()
+                        .first;
+                    var credential = credentialField['filter']['pattern'];
+                    var issuerField = fieldsPath
+                        .read(claimsJson)
+                        .first
+                        .value
+                        .where((e) =>
+                            e['path'].toString() == '[\$.issuer]'.toString())
+                        .toList()
+                        .first;
+                    var issuer = issuerField['filter']['pattern'];
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content:
+                          Text('Credential : $credential\nIssuer: $issuer'),
+                    ));
+                  }
                 }
               }
-            }else{
+            } else {
               var approvedIssuer = Issuer.emptyIssuer();
 
               var profileCubit = context.read<ProfileCubit>();
@@ -309,9 +338,9 @@ class _SplashPageState extends State<SplashPage> {
                 if (isIssuerVerificationSettingTrue) {
                   try {
                     approvedIssuer = await CheckIssuer(
-                        DioClient(Constants.checkIssuerServerUrl, Dio()),
-                        Constants.checkIssuerServerUrl,
-                        state.uri!)
+                            DioClient(Constants.checkIssuerServerUrl, Dio()),
+                            Constants.checkIssuerServerUrl,
+                            state.uri!)
                         .isIssuerInApprovedList();
                   } catch (e) {
                     if (e is ErrorHandler) {
@@ -322,23 +351,25 @@ class _SplashPageState extends State<SplashPage> {
                 }
               }
               var acceptHost = await showDialog<bool>(
-                context: context,
-                builder: (BuildContext context) {
-                  return ConfirmDialog(
-                    title: l10n.scanPromptHost,
-                    subtitle: (approvedIssuer.did.isEmpty)
-                        ? state.uri!.host
-                        : '${approvedIssuer.organizationInfo.legalName}\n${approvedIssuer.organizationInfo.currentAddress}',
-                    yes: l10n.communicationHostAllow,
-                    no: l10n.communicationHostDeny,
-                    lock: (state.uri!.scheme == 'http') ? true : false,
-                  );
-                },
-              ) ??
+                    context: context,
+                    builder: (BuildContext context) {
+                      return ConfirmDialog(
+                        title: l10n.scanPromptHost,
+                        subtitle: (approvedIssuer.did.isEmpty)
+                            ? state.uri!.host
+                            : '${approvedIssuer.organizationInfo.legalName}\n${approvedIssuer.organizationInfo.currentAddress}',
+                        yes: l10n.communicationHostAllow,
+                        no: l10n.communicationHostDeny,
+                        lock: (state.uri!.scheme == 'http') ? true : false,
+                      );
+                    },
+                  ) ??
                   false;
 
               if (acceptHost) {
-                context.read<QRCodeScanCubit>().accept(uri: state.uri!, isDeepLink: isDeepLink);
+                context
+                    .read<QRCodeScanCubit>()
+                    .accept(uri: state.uri!, isDeepLink: isDeepLink);
               } else {
                 //await qrController.resumeCamera();
                 context.read<QRCodeScanCubit>().emitWorkingState();
