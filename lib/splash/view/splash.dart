@@ -291,8 +291,8 @@ class _SplashPageState extends State<SplashPage> {
               if (!qrCodeCubit.requestAttributeExists(isDeepLink: isDeepLink)) {
                 if (qrCodeCubit.requestUrlAttributeExists(
                     isDeepLink: isDeepLink)) {
-                  var data = qrCodeCubit
-                      .getSIOPV2Parameters(isDeepLink: isDeepLink)
+                  var data = (await qrCodeCubit.getSIOPV2Parameters(
+                      isDeepLink: isDeepLink))
                       .toJson();
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     content: Text(data.toString()),

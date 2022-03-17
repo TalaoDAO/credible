@@ -1,9 +1,11 @@
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:talao/app/interop/jwt_decode/jwt_decode.dart';
 import 'package:talao/app/interop/network/network_client.dart';
 import 'package:talao/deep_link/cubit/deep_link.dart';
 import 'package:talao/credentials/credentials.dart';
@@ -23,12 +25,14 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
   final ScanCubit scanCubit;
   final QueryByExampleCubit queryByExampleCubit;
   final DeepLinkCubit deepLinkCubit;
+  final JWTDecode jwtDecode;
 
   QRCodeScanCubit({
     required this.client,
     required this.scanCubit,
     required this.queryByExampleCubit,
     required this.deepLinkCubit,
+    required this.jwtDecode,
   }) : super(QRCodeScanStateWorking());
 
   @override
@@ -185,10 +189,13 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
     return condition;
   }
 
-  SIOPV2Param getSIOPV2Parameters({required bool isDeepLink}) {
+  Future<SIOPV2Param> getSIOPV2Parameters({required bool isDeepLink}) async {
     var nonce;
     var redirect_uri;
+    var request_uri;
     var claims;
+    var requestUriPayload;
+
     state.uri!.queryParameters.forEach((key, value) {
       if (key == 'nonce') {
         nonce = value;
@@ -197,10 +204,54 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
         redirect_uri = value;
       }
       if (key == 'claims') {
-        redirect_uri = value;
+        claims = value;
+      }
+      if (key == 'request_uri') {
+        request_uri = value;
       }
     });
+
+    if (request_uri != null) {
+      var encodedData = await fetchRequestUriPayload(url: request_uri);
+      if (encodedData != null) {
+        requestUriPayload = decoder(token: encodedData);
+      }
+    }
+
     return SIOPV2Param(
-        claims: claims, nonce: nonce, redirect_uri: redirect_uri);
+      claims: claims,
+      nonce: nonce,
+      redirect_uri: redirect_uri,
+      request_uri: request_uri,
+      requestUriPayload: requestUriPayload,
+    );
+  }
+
+  Future<dynamic> fetchRequestUriPayload({required String url}) async {
+    final log = Logger('talao-wallet/qrcode/fetchRequestUriPayload');
+    url =
+        'https://talao.co/gaiax/login_request_uri/e2b9c23a-a59a-11ec-88ec-0a1628958560';
+    late final data;
+
+    try {
+      final response = await Dio().get(url);
+      data = response.toString();
+    } catch (e) {
+      log.severe('An error occurred while connecting to the server.', e);
+    }
+    return data;
+  }
+
+  String decoder({required String token}) {
+    final log = Logger('talao-wallet/qrcode/jwtDecode');
+    late final data;
+
+    try {
+      final payload = jwtDecode.parseJwt(token);
+      data = payload.toString();
+    } catch (e) {
+      log.severe('An error occurred while decoding.', e);
+    }
+    return data;
   }
 }

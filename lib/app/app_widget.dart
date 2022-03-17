@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talao/app/interop/didkit/didkit.dart';
+import 'package:talao/app/interop/jwt_decode/jwt_decode.dart';
 import 'package:talao/app/interop/network/network_client.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/did/did.dart';
@@ -54,10 +55,12 @@ class AppWidget extends StatelessWidget {
         ),
         BlocProvider<QRCodeScanCubit>(
           create: (context) => QRCodeScanCubit(
-              client: DioClient(Constants.checkIssuerServerUrl, Dio()),
-              scanCubit: context.read<ScanCubit>(),
-              queryByExampleCubit: context.read<QueryByExampleCubit>(),
-              deepLinkCubit: context.read<DeepLinkCubit>()),
+            client: DioClient(Constants.checkIssuerServerUrl, Dio()),
+            scanCubit: context.read<ScanCubit>(),
+            queryByExampleCubit: context.read<QueryByExampleCubit>(),
+            deepLinkCubit: context.read<DeepLinkCubit>(),
+            jwtDecode: JWTDecode(),
+          ),
         ),
         BlocProvider<DIDCubit>(
           create: (context) => DIDCubit(
