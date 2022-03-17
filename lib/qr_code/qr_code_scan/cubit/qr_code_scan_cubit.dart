@@ -212,6 +212,8 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
       }
     });
 
+    print(claims);
+    print(jsonDecode(claims));
     if (request_uri != null) {
       var encodedData = await fetchRequestUriPayload(url: request_uri);
       if (encodedData != null) {
