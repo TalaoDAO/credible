@@ -1,8 +1,10 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:json_path/json_path.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:talao/app/interop/issuer/check_issuer.dart';
 import 'package:talao/app/interop/issuer/models/issuer.dart';
@@ -80,12 +82,38 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
             if (!qrCodeCubit.requestAttributeExists(isDeepLink: isDeepLink)) {
               if (qrCodeCubit.requestUrlAttributeExists(
                   isDeepLink: isDeepLink)) {
-                var data = (await qrCodeCubit.getSIOPV2Parameters(
-                        isDeepLink: isDeepLink))
-                    .toJson();
+                var sIOPV2Param = await qrCodeCubit.getSIOPV2Parameters(
+                    isDeepLink: isDeepLink);
+
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(data.toString()),
+                  content: Text(sIOPV2Param.toString()),
                 ));
+                if (sIOPV2Param.claims != null) {
+                  final claimsJson = jsonDecode(sIOPV2Param.claims!);
+                  final fieldsPath = JsonPath(r'$..fields');
+                  var credentialField = fieldsPath
+                      .read(claimsJson)
+                      .first
+                      .value
+                      .where((e) =>
+                          e['path'].toString() ==
+                          '[\$.credentialSubject.type]'.toString())
+                      .toList()
+                      .first;
+                  var credential = credentialField['filter']['pattern'];
+                  var issuerField = fieldsPath
+                      .read(claimsJson)
+                      .first
+                      .value
+                      .where((e) =>
+                          e['path'].toString() == '[\$.issuer]'.toString())
+                      .toList()
+                      .first;
+                  var issuer = issuerField['filter']['pattern'];
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text('Credential : $credential\nIssuer: $issuer'),
+                  ));
+                }
               }
             }
           } else {
