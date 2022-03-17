@@ -10,11 +10,11 @@ import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/shared/constants.dart';
 import 'package:talao/app/shared/model/message.dart';
 import 'package:talao/did/cubit/did_cubit.dart';
-
-part 'onboarding_gen_phrase_state.dart';
 import 'package:talao/scan/cubit/scan_message_string_state.dart';
 
 part 'onboarding_gen_phrase_cubit.g.dart';
+
+part 'onboarding_gen_phrase_state.dart';
 
 class OnBoardingGenPhraseCubit extends Cubit<OnBoardingGenPhraseState> {
   final SecureStorageProvider secureStorageProvider;
@@ -54,8 +54,8 @@ class OnBoardingGenPhraseCubit extends Cubit<OnBoardingGenPhraseState> {
       emit(
         state.copyWith(
           status: OnBoardingGenPhraseStatus.failure,
-          message:
-              StateMessage.error(message: ScanMessageStringState.errorGeneratingKey()),
+          message: StateMessage.error(
+              message: ScanMessageStringState.errorGeneratingKey()),
         ),
       );
     }
@@ -70,8 +70,9 @@ class OnBoardingGenPhraseCubit extends Cubit<OnBoardingGenPhraseState> {
       log.severe('error ocurred setting mnemonic to secure storate', error);
       emit(state.copyWith(
         status: OnBoardingGenPhraseStatus.failure,
-        message: StateMessage.error(message:
-        ScanMessageStringState.failedToSaveMnemonicPleaseTryAgain()),
+        message: StateMessage.error(
+            message:
+                ScanMessageStringState.failedToSaveMnemonicPleaseTryAgain()),
       ));
     }
   }

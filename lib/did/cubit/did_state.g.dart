@@ -7,9 +7,9 @@ part of 'did_state.dart';
 // **************************************************************************
 
 DIDState _$DIDStateFromJson(Map<String, dynamic> json) => DIDState(
-      did: json['did'] as String?,
-      didMethod: json['didMethod'] as String?,
-      didMethodName: json['didMethodName'] as String?,
+      did: json['did'] as String? ?? '',
+      didMethod: json['didMethod'] as String? ?? '',
+      didMethodName: json['didMethodName'] as String? ?? '',
       message: json['message'] == null
           ? null
           : StateMessage.fromJson(json['message'] as Map<String, dynamic>),
