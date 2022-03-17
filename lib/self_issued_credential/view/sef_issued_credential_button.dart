@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/did/cubit/did_cubit.dart';
 import 'package:talao/l10n/l10n.dart';
@@ -26,7 +27,8 @@ class SelfIssuedCredentialButton extends StatelessWidget {
       create: (_) => SelfIssuedCredentialCubit(
           walletCubit: context.read<WalletCubit>(),
           secureStorageProvider: SecureStorageProvider.instance,
-          didCubit: context.read<DIDCubit>()),
+          didCubit: context.read<DIDCubit>(),
+      didKitProvider: DIDKitProvider.instance),
       child: BlocConsumer<SelfIssuedCredentialCubit, SelfIssuedCredentialState>(
           builder: (context, state) {
         return FloatingActionButton(
@@ -51,13 +53,9 @@ class SelfIssuedCredentialButton extends StatelessWidget {
       }, listener: (context, state) {
         state.maybeWhen(
             orElse: () => null,
-            error: (message) {
+            error: (errorState) {
               ScaffoldMessenger.of(context)
-                  .showSnackBar(SnackBar(content: Text(message)));
-            },
-            warning: (message) {
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(SnackBar(content: Text(message)));
+                  .showSnackBar(SnackBar(content: Text(errorState.getMessage(context))));
             },
             credentialCreated: () {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(

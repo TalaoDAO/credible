@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
@@ -20,35 +21,28 @@ import '../cubit/personal_page_state.dart';
 class PersonalPage extends StatefulWidget {
   final ProfileModel profileModel;
   final bool isFromOnBoarding;
-  final bool isEnterprise;
 
   const PersonalPage({
     Key? key,
     required this.profileModel,
     required this.isFromOnBoarding,
-    this.isEnterprise = false,
   }) : super(key: key);
 
-  static Route route(
-          {required profileModel,
-          required isFromOnBoarding,
-          bool isEnterprise = false}) =>
+  static Route route({required profileModel, required isFromOnBoarding}) =>
       MaterialPageRoute(
         builder: (context) => MultiBlocProvider(
           providers: [
             BlocProvider(create: (_) => PersonalPgeCubit()),
             BlocProvider(
-              create: (_) => SelfIssuedCredentialCubit(
-                walletCubit: context.read<WalletCubit>(),
-                secureStorageProvider: SecureStorageProvider.instance,
-                didCubit: context.read<DIDCubit>(),
-              ),
-            ),
+                create: (_) => SelfIssuedCredentialCubit(
+                    walletCubit: context.read<WalletCubit>(),
+                    secureStorageProvider: SecureStorageProvider.instance,
+                    didKitProvider: DIDKitProvider.instance,
+                    didCubit: context.read<DIDCubit>())),
           ],
           child: PersonalPage(
             profileModel: profileModel,
             isFromOnBoarding: isFromOnBoarding ?? false,
-            isEnterprise: isEnterprise,
           ),
         ),
         settings: RouteSettings(name: '/personalPage'),
@@ -71,6 +65,7 @@ class _PersonalPageState extends State<PersonalPage> {
   //
   late final l10n = context.l10n;
   late final personalPageCubit = context.read<PersonalPgeCubit>();
+  late final isEnterprise = widget.profileModel.isEnterprise;
 
   @override
   void initState() {
@@ -114,7 +109,7 @@ class _PersonalPageState extends State<PersonalPage> {
         titleTrailing: InkWell(
           borderRadius: BorderRadius.circular(8.0),
           onTap: () async {
-            var model = ProfileModel(
+            var model = widget.profileModel.copyWith(
                 firstName: firstNameController.text,
                 lastName: lastNameController.text,
                 phone: phoneController.text,
@@ -238,11 +233,11 @@ class _PersonalPageState extends State<PersonalPage> {
                   onChanged: personalPageCubit.emailCheckBoxChange,
                 ),
               ),
-              if (widget.isEnterprise) _buildEnterpriseTextFields(state)
+              if (isEnterprise) _buildEnterpriseTextFields(state)
             ],
           );
         }),
-        navigation: !widget.isFromOnBoarding || widget.isEnterprise
+        navigation: !widget.isFromOnBoarding || isEnterprise
             ? null
             : SafeArea(
                 child: Padding(

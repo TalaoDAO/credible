@@ -89,7 +89,6 @@
   "scanTitle": "Acquisisci",
   "scanPromptHost": "Ti fidi di questo host?",
   "scanRefuseHost": "La richiesta di comunicazione è stata negata.",
-  "scanUnsupportedMessage": "Messaggio non supportato ricevuto.",
   "qrCodeSharing": "Ora stai condividendo",
   "qrCodeNoValidMessage": "Questo codice QR non contiene un messaggio valido.",
   "profileTitle": "Impostazioni",

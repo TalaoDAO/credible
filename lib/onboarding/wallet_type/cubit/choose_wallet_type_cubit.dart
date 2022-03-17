@@ -5,19 +5,22 @@ import 'package:talao/onboarding/wallet_type/cubit/wallet_type_enum.dart';
 import 'choose_wallet_type_state.dart';
 
 class ChooseWalletTypeCubit extends Cubit<ChooseWalletTypeState> {
-  ChooseWalletTypeCubit()
+  final SecureStorageProvider secureStorageProvider;
+
+  ChooseWalletTypeCubit(this.secureStorageProvider)
       : super(ChooseWalletTypeState(selectedWallet: WalletTypes.personal));
 
   void onChangeWalletType(WalletTypes? value) {
     emit(state.copyWith(selectedWallet: value));
+  }
 
-    //save isEnterprise, DIDMethod and DIDMethodName
+  Future<void> save() async {
     if (isPersonalWalletSelected()) {
-      SecureStorageProvider.instance
-          .set(SecureStorageKeys.isEnterpriseUser, false.toString());
+      await secureStorageProvider.set(
+          SecureStorageKeys.isEnterpriseUser, false.toString());
     } else {
-      SecureStorageProvider.instance
-          .set(SecureStorageKeys.isEnterpriseUser, true.toString());
+      await secureStorageProvider.set(
+          SecureStorageKeys.isEnterpriseUser, true.toString());
     }
   }
 

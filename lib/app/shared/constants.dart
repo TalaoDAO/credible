@@ -11,13 +11,6 @@ class Constants {
   static const String checkIssuerServerUrl =
       'https://talao.co/trusted-issuers-registry/v1/issuers';
 
-  static const String firstNameKey = 'profile/firstName';
-  static const String lastNameKey = 'profile/lastName';
-  static const String phoneKey = 'profile/phone';
-  static const String locationKey = 'profile/location';
-  static const String emailKey = 'profile/email';
-  static const String issuerVerificationSettingKey =
-      'profile/issuerVerificationSetting';
 
   static const String ivVector = 'Talao';
   static const String additionalAuthenticatedData = 'Credible';

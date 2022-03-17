@@ -16,7 +16,7 @@ class DIDDisplay extends StatelessWidget {
         if (state is DIDStateMessage) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             backgroundColor: state.message!.color,
-            content: Text(state.message!.message!),
+            content: Text(state.message?.getMessage(context) ?? ''),
           ));
         }
       },

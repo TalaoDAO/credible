@@ -38,7 +38,6 @@ class DIDCubit extends Cubit<DIDState> {
     emit(DIDStateWorking());
     emit(DIDStateDefault(
         did: did, didMethod: didMethod, didMethodName: didMethodName));
-
     log.info('successfully Loaded');
   }
 }

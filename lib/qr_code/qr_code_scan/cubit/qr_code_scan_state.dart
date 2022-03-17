@@ -51,8 +51,8 @@ class QRCodeScanStateSuccess extends QRCodeScanState {
 }
 
 class QRCodeScanStateUnknown extends QRCodeScanState {
-  QRCodeScanStateUnknown({required bool isDeepLink})
-      : super(promptActive: false, isDeepLink: isDeepLink);
+  QRCodeScanStateUnknown({required Uri uri, required bool isDeepLink})
+      : super(uri: uri, promptActive: false, isDeepLink: isDeepLink);
 }
 
 class QRCodeScanStateMessage extends QRCodeScanState {

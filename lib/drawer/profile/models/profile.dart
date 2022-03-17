@@ -12,6 +12,7 @@ class ProfileModel extends Equatable {
     required this.location,
     required this.email,
     required this.issuerVerificationSetting,
+    required this.isEnterprise,
     this.companyName = '',
     this.companyWebsite = '',
     this.jobTitle = '',
@@ -20,17 +21,18 @@ class ProfileModel extends Equatable {
   factory ProfileModel.fromJson(Map<String, dynamic> json) =>
       _$ProfileModelFromJson(json);
 
-  static final empty = ProfileModel(
-    firstName: '',
-    lastName: '',
-    phone: '',
-    location: '',
-    email: '',
-    companyName: '',
-    companyWebsite: '',
-    jobTitle: '',
-    issuerVerificationSetting: true,
-  );
+  factory ProfileModel.empty({required bool isEnterprise}) => ProfileModel(
+        firstName: '',
+        lastName: '',
+        phone: '',
+        location: '',
+        email: '',
+        companyName: '',
+        companyWebsite: '',
+        jobTitle: '',
+        issuerVerificationSetting: true,
+        isEnterprise: isEnterprise,
+      );
 
   final String firstName;
   final String lastName;
@@ -41,6 +43,7 @@ class ProfileModel extends Equatable {
   final String companyWebsite;
   final String jobTitle;
   final bool issuerVerificationSetting;
+  final bool isEnterprise;
 
   @override
   List<Object> get props => [
@@ -52,7 +55,8 @@ class ProfileModel extends Equatable {
         issuerVerificationSetting,
         companyName,
         companyWebsite,
-        jobTitle
+        jobTitle,
+        isEnterprise
       ];
 
   Map<String, dynamic> toJson() => _$ProfileModelToJson(this);
@@ -66,7 +70,8 @@ class ProfileModel extends Equatable {
       String? companyName,
       String? companyWebsite,
       String? jobTitle,
-      bool? issuerVerificationSetting}) {
+      bool? issuerVerificationSetting,
+      bool? isEnterprise}) {
     return ProfileModel(
       firstName: firstName ?? this.firstName,
       lastName: lastName ?? this.lastName,
@@ -78,6 +83,7 @@ class ProfileModel extends Equatable {
       jobTitle: jobTitle ?? this.jobTitle,
       issuerVerificationSetting:
           issuerVerificationSetting ?? this.issuerVerificationSetting,
+      isEnterprise: isEnterprise ?? this.isEnterprise,
     );
   }
 }
