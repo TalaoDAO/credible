@@ -7,7 +7,6 @@ class SubmitEnterpriseUserState {
   const SubmitEnterpriseUserState({this.rsaFile, this.did = ''});
 
   SubmitEnterpriseUserState copyWith({PlatformFile? rsaFile, String? did}) {
-    return SubmitEnterpriseUserState(
-        rsaFile: rsaFile ?? this.rsaFile, did: did ?? this.did);
+    return SubmitEnterpriseUserState(rsaFile: rsaFile, did: did ?? this.did);
   }
 }

@@ -45,6 +45,12 @@ class _SubmitEnterpriseUserPageState extends State<SubmitEnterpriseUserPage> {
   late final TextEditingController _didController = TextEditingController();
 
   @override
+  void initState() {
+    _didController.text = 'did:web:';
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
@@ -73,10 +79,6 @@ class _SubmitEnterpriseUserPageState extends State<SubmitEnterpriseUserPage> {
             ),
             BaseTextField(
               controller: _didController,
-              prefixIcon: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Text('did:web:'),
-              ),
               prefixConstraint: BoxConstraints(minHeight: 0, minWidth: 0),
             ),
             const SizedBox(
@@ -150,7 +152,7 @@ class _SubmitEnterpriseUserPageState extends State<SubmitEnterpriseUserPage> {
                       return;
                     }
                     context.read<VerifyRSAAndDIDCubit>().verify(
-                        'did:web:' + _didController.text,
+                        _didController.text,
                         context
                             .read<SubmitEnterpriseUserCubit>()
                             .state
@@ -177,7 +179,7 @@ class _SubmitEnterpriseUserPageState extends State<SubmitEnterpriseUserPage> {
         dialogTitle: 'Please select RSA key file(with json extension)',
         type: FileType.custom,
         allowMultiple: false,
-        allowedExtensions: ['json']);
+        allowedExtensions: ['json', 'txt']);
     if (pickedFiles != null) {
       context
           .read<SubmitEnterpriseUserCubit>()
