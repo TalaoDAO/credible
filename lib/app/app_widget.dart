@@ -56,6 +56,7 @@ class AppWidget extends StatelessWidget {
         BlocProvider<QRCodeScanCubit>(
           create: (context) => QRCodeScanCubit(
             client: DioClient(Constants.checkIssuerServerUrl, Dio()),
+            requestClient: DioClient('', Dio()),
             scanCubit: context.read<ScanCubit>(),
             queryByExampleCubit: context.read<QueryByExampleCubit>(),
             deepLinkCubit: context.read<DeepLinkCubit>(),

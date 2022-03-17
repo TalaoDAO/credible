@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
-import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -22,6 +21,7 @@ part 'qr_code_scan_cubit.g.dart';
 
 class QRCodeScanCubit extends Cubit<QRCodeScanState> {
   final DioClient client;
+  final DioClient requestClient;
   final ScanCubit scanCubit;
   final QueryByExampleCubit queryByExampleCubit;
   final DeepLinkCubit deepLinkCubit;
@@ -29,6 +29,7 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
 
   QRCodeScanCubit({
     required this.client,
+    required this.requestClient,
     required this.scanCubit,
     required this.queryByExampleCubit,
     required this.deepLinkCubit,
@@ -217,7 +218,6 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
         requestUriPayload = decoder(token: encodedData);
       }
     }
-
     return SIOPV2Param(
       claims: claims,
       nonce: nonce,
@@ -229,12 +229,10 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
 
   Future<dynamic> fetchRequestUriPayload({required String url}) async {
     final log = Logger('talao-wallet/qrcode/fetchRequestUriPayload');
-    url =
-        'https://talao.co/gaiax/login_request_uri/e2b9c23a-a59a-11ec-88ec-0a1628958560';
     late final data;
 
     try {
-      final response = await Dio().get(url);
+      final response = await requestClient.get(url);
       data = response.toString();
     } catch (e) {
       log.severe('An error occurred while connecting to the server.', e);
