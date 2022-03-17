@@ -2,26 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
-import 'package:talao/onboarding/key/view/onboarding_key_page.dart';
-import 'package:talao/onboarding/submit_enterprise_user/submit_enterprise_user.dart';
-import 'package:talao/onboarding/wallet_type/bloc/choose_wallet_type_cubit.dart';
+import 'package:talao/onboarding/key/onboarding_key.dart';
 
-class ChooseWalletType extends StatefulWidget {
+import '../../submit_enterprise_user/view/submit_enterprise_user_page.dart';
+import '../cubit/choose_wallet_type_cubit.dart';
+import '../cubit/choose_wallet_type_state.dart';
+import '../cubit/wallet_type_enum.dart';
+
+class ChooseWalletTypePage extends StatefulWidget {
   static Route route() => MaterialPageRoute(
         builder: (context) => BlocProvider<ChooseWalletTypeCubit>(
           create: (_) => ChooseWalletTypeCubit(),
-          child: ChooseWalletType(),
+          child: ChooseWalletTypePage(),
         ),
         settings: RouteSettings(name: '/onBoardingChooseWalletTypePage'),
       );
 
-  const ChooseWalletType({Key? key}) : super(key: key);
+  const ChooseWalletTypePage({Key? key}) : super(key: key);
 
   @override
-  _ChooseWalletTypeState createState() => _ChooseWalletTypeState();
+  _ChooseWalletTypePageState createState() => _ChooseWalletTypePageState();
 }
 
-class _ChooseWalletTypeState extends State<ChooseWalletType> {
+class _ChooseWalletTypePageState extends State<ChooseWalletTypePage> {
   @override
   Widget build(BuildContext context) {
     return BasePage(
@@ -40,14 +43,14 @@ class _ChooseWalletTypeState extends State<ChooseWalletType> {
             const SizedBox(height: 20.0),
             BlocBuilder<ChooseWalletTypeCubit, ChooseWalletTypeState>(
                 builder: (context, state) {
-              return DropdownButton<String>(
+              return DropdownButton<WalletTypes>(
                 value: state.selectedWallet,
-                items: ChooseWalletTypeCubit.walletTypes
+                items: WalletTypes.values
                     .map(
                       (e) => DropdownMenuItem(
                         value: e,
                         child: Text(
-                          e,
+                          e.stringValue(),
                           textAlign: TextAlign.center,
                           style: Theme.of(context).textTheme.bodyText1,
                         ),

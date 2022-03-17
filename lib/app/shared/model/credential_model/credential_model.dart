@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/shared/enum/credential_status.dart';
 import 'package:talao/app/shared/enum/revokation_status.dart';
-import 'package:talao/app/shared/model/credential_status_field.dart';
 import 'package:talao/credentials/widget/display_issuer.dart';
 import 'package:talao/app/shared/model/certificate_of_employment/certificate_of_employment.dart';
 import 'package:talao/app/shared/model/credential.dart';

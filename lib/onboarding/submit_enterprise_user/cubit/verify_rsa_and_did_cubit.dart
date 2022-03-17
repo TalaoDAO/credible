@@ -3,27 +3,22 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:json_path/json_path.dart';
 import 'package:logging/logging.dart';
 import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
+import 'package:talao/app/shared/constants.dart';
+import 'package:talao/did/did.dart';
 
-part 'verify_rsa_and_did_cubit.freezed.dart';
-
-@freezed
-class VerifyRSAAndDIDState with _$VerifyRSAAndDIDState {
-  const factory VerifyRSAAndDIDState.initial() = Initial;
-
-  const factory VerifyRSAAndDIDState.loading() = Loading;
-
-  const factory VerifyRSAAndDIDState.verified() = Verified;
-
-  const factory VerifyRSAAndDIDState.error(String message) = Error;
-}
+import 'verify_rsa_and_did_state.dart';
 
 class VerifyRSAAndDIDCubit extends Cubit<VerifyRSAAndDIDState> {
-  VerifyRSAAndDIDCubit() : super(const VerifyRSAAndDIDState.initial());
+  final DIDCubit didCubit;
+  final SecureStorageProvider secureStorageProvider;
+
+  VerifyRSAAndDIDCubit(
+      {required this.didCubit, required this.secureStorageProvider})
+      : super(const VerifyRSAAndDIDState.initial());
 
   Future<void> verify(String did, PlatformFile rsaFile) async {
     final log = Logger('talao-wallet/onBoarding/VerifyRSAAndDIDCubit/verify');
@@ -71,11 +66,14 @@ class VerifyRSAAndDIDCubit extends Cubit<VerifyRSAAndDIDState> {
           }
         }
         if (verified) {
-          await SecureStorageProvider.instance
-              .set(SecureStorageKeys.RSAKeyJson, jsonEncode(RSAJson));
-          await SecureStorageProvider.instance
-              .set(SecureStorageKeys.key, RSAKey);
-          await SecureStorageProvider.instance.set(SecureStorageKeys.did, did);
+          await secureStorageProvider.set(
+              SecureStorageKeys.rsaKeyJson, jsonEncode(RSAJson));
+          await secureStorageProvider.set(SecureStorageKeys.key, RSAKey);
+          didCubit.set(
+            did: did,
+            didMethod: Constants.enterpriseDIDMethod,
+            didMethodName: Constants.enterpriseDIDMethodName,
+          );
           emit(const VerifyRSAAndDIDState.verified());
         } else {
           emit(const VerifyRSAAndDIDState.error(

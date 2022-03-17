@@ -1,50 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
+import 'package:talao/did/cubit/did_cubit.dart';
 import 'package:talao/l10n/l10n.dart';
 import 'package:talao/self_issued_credential/cubit/self_issued_credential_cubit.dart';
 import 'package:talao/wallet/cubit/wallet_cubit.dart';
 
+import '../cubit/self_issued_credential_state.dart';
+import 'models/self_issued_credential_model.dart';
+
 typedef SelfIssuedCredentialButtonClick = SelfIssuedCredentialDataModel
     Function();
-
-class SelfIssuedCredentialDataModel {
-  final String? givenName;
-  final String? familyName;
-  final String? telephone;
-  final String? email;
-  final String? address;
-  final String? companyName;
-  final String? companyWebsite;
-  final String? jobTitle;
-
-  SelfIssuedCredentialDataModel({
-    this.givenName,
-    this.familyName,
-    this.telephone,
-    this.email,
-    this.address,
-    this.companyName,
-    this.companyWebsite,
-    this.jobTitle,
-  });
-
-  @override
-  String toString() {
-    return '''
-    SelfIssuedCredentialDataModel {
-                  givenName : $givenName,
-                  familyName : $familyName,
-                  telephone : $telephone,
-                  email : $email,
-                  address : $address,
-                  companyName : $companyName,
-                  companyWebsite : $companyWebsite,
-                  jobTitle : $jobTitle,
-    }
-    ''';
-  }
-}
 
 class SelfIssuedCredentialButton extends StatelessWidget {
   final SelfIssuedCredentialButtonClick selfIssuedCredentialButtonClick;
@@ -58,9 +24,9 @@ class SelfIssuedCredentialButton extends StatelessWidget {
     final localization = context.l10n;
     return BlocProvider<SelfIssuedCredentialCubit>(
       create: (_) => SelfIssuedCredentialCubit(
-        context.read<WalletCubit>(),
-        SecureStorageProvider.instance,
-      ),
+          walletCubit: context.read<WalletCubit>(),
+          secureStorageProvider: SecureStorageProvider.instance,
+          didCubit: context.read<DIDCubit>()),
       child: BlocConsumer<SelfIssuedCredentialCubit, SelfIssuedCredentialState>(
           builder: (context, state) {
         return FloatingActionButton(
