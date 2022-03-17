@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
-import 'package:talao/app/shared/constants.dart';
 import 'package:talao/onboarding/wallet_type/cubit/wallet_type_enum.dart';
 
 import 'choose_wallet_type_state.dart';
@@ -19,17 +18,9 @@ class ChooseWalletTypeCubit extends Cubit<ChooseWalletTypeState> {
     if (isPersonalWalletSelected()) {
       await secureStorageProvider.set(
           SecureStorageKeys.isEnterpriseUser, false.toString());
-      await secureStorageProvider.set(
-          SecureStorageKeys.DIDMethod, Constants.defaultDIDMethod);
-      await secureStorageProvider.set(
-          SecureStorageKeys.DIDMethodName, Constants.defaultDIDMethodName);
     } else {
       await secureStorageProvider.set(
           SecureStorageKeys.isEnterpriseUser, true.toString());
-      await secureStorageProvider.set(
-          SecureStorageKeys.DIDMethod, Constants.enterpriseDIDMethod);
-      await secureStorageProvider.set(
-          SecureStorageKeys.DIDMethodName, Constants.enterpriseDIDMethodName);
     }
   }
 

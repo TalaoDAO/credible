@@ -36,9 +36,10 @@ class PersonalPage extends StatefulWidget {
             BlocProvider(create: (_) => PersonalPgeCubit()),
             BlocProvider(
                 create: (_) => SelfIssuedCredentialCubit(
-                    context.read<WalletCubit>(),
-                    SecureStorageProvider.instance,
-                    DIDKitProvider.instance)),
+                    walletCubit: context.read<WalletCubit>(),
+                    secureStorageProvider: SecureStorageProvider.instance,
+                    didKitProvider: DIDKitProvider.instance,
+                    didCubit: context.read<DIDCubit>())),
           ],
           child: PersonalPage(
             profileModel: profileModel,

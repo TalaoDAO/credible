@@ -14,8 +14,10 @@ import 'package:talao/app/shared/error_handler/error_handler.dart';
 import 'package:talao/app/shared/model/message.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/confirm_dialog.dart';
+import 'package:talao/did/cubit/did_cubit.dart';
 import 'package:talao/credentials/credentials.dart';
 import 'package:talao/deep_link/deep_link.dart';
+import 'package:talao/did/cubit/did_cubit.dart';
 import 'package:talao/drawer/drawer.dart';
 import 'package:talao/l10n/l10n.dart';
 import 'package:talao/onboarding/onboarding.dart';
@@ -46,6 +48,7 @@ class _SplashPageState extends State<SplashPage> {
   StreamSubscription? _sub;
   VideoPlayerController? _controller;
   Future<void>? _initializeVideoPlayerFuture;
+  SecureStorageProvider secureStorageProvider = SecureStorageProvider.instance;
 
   @override
   void initState() {
@@ -58,23 +61,49 @@ class _SplashPageState extends State<SplashPage> {
       Duration(seconds: 0),
       () async {
         await context.read<ThemeCubit>().getCurrentTheme();
-        final key =
-            await SecureStorageProvider.instance.get(SecureStorageKeys.key);
-        if (key == null) {
-          await onBoarding();
-        } else {
-          if (key.isEmpty) {
-            await onBoarding();
-          } else {
-            Future.delayed(
-              Duration(seconds: 2),
-              () async {
-                await _controller!.pause();
-                return Navigator.of(context).push(CredentialsListPage.route());
-              },
-            );
+        final key = await secureStorageProvider.get(SecureStorageKeys.key);
+        if (key == null || key.isEmpty) {
+          return await onBoarding();
+        }
+
+        var did = await secureStorageProvider.get(SecureStorageKeys.did);
+        var didMethod =
+            await secureStorageProvider.get(SecureStorageKeys.didMethod);
+        var didMethodName =
+            await secureStorageProvider.get(SecureStorageKeys.didMethodName);
+        if (did == null || did.isEmpty) {
+          return await onBoarding();
+        }
+        if (didMethod == null || didMethod.isEmpty) {
+          return await onBoarding();
+        }
+        if (didMethodName == null || didMethodName.isEmpty) {
+          return await onBoarding();
+        }
+
+        final isEnterprise =
+            await secureStorageProvider.get(SecureStorageKeys.isEnterpriseUser);
+        if (isEnterprise == null || isEnterprise.isEmpty) {
+          return await onBoarding();
+        }
+
+        if (isEnterprise == 'true') {
+          final rsaKeyJson =
+              await secureStorageProvider.get(SecureStorageKeys.rsaKeyJson);
+          if (rsaKeyJson == null || rsaKeyJson.isEmpty) {
+            return await onBoarding();
           }
         }
+        context
+            .read<DIDCubit>()
+            .load(did: did, didMethod: didMethod, didMethodName: didMethodName);
+        Future.delayed(
+          Duration(seconds: 5),
+          () async {
+            await _controller!.pause();
+            return Navigator.of(context).push(CredentialsListPage.route());
+          },
+        );
       },
     );
     super.initState();

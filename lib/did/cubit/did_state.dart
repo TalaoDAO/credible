@@ -6,18 +6,25 @@ part 'did_state.g.dart';
 
 @JsonSerializable()
 class DIDState extends Equatable {
-  DIDState({this.did, this.message});
+  DIDState({
+    this.did = '',
+    this.didMethod = '',
+    this.didMethodName = '',
+    this.message,
+  });
 
   factory DIDState.fromJson(Map<String, dynamic> json) =>
       _$DIDStateFromJson(json);
 
   final String? did;
+  final String? didMethod;
+  final String? didMethodName;
   final StateMessage? message;
 
   Map<String, dynamic> toJson() => _$DIDStateToJson(this);
 
   @override
-  List<Object?> get props => [did, message];
+  List<Object?> get props => [did, didMethod, didMethodName, message];
 }
 
 class DIDStateWorking extends DIDState {}
@@ -27,5 +34,6 @@ class DIDStateMessage extends DIDState {
 }
 
 class DIDStateDefault extends DIDState {
-  DIDStateDefault({String? did}) : super(did: did);
+  DIDStateDefault({String? did, String? didMethod, String? didMethodName})
+      : super(did: did, didMethod: didMethod, didMethodName: didMethodName);
 }

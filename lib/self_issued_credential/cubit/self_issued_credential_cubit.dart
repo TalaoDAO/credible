@@ -10,6 +10,7 @@ import 'package:talao/app/shared/enum/revokation_status.dart';
 import 'package:talao/app/shared/model/credential.dart';
 import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:talao/app/shared/model/display.dart';
+import 'package:talao/did/cubit/did_cubit.dart';
 import 'package:talao/self_issued_credential/models/self_issued.dart';
 import 'package:talao/self_issued_credential/models/self_issued_credential.dart';
 import 'package:talao/wallet/cubit/wallet_cubit.dart';
@@ -20,11 +21,15 @@ import 'self_issued_credential_state.dart';
 
 class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
   final WalletCubit walletCubit;
+  final DIDCubit didCubit;
   final SecureStorageProvider secureStorageProvider;
   final DIDKitProvider didKitProvider;
 
   SelfIssuedCredentialCubit(
-      this.walletCubit, this.secureStorageProvider, this.didKitProvider)
+      {required this.walletCubit,
+      required this.secureStorageProvider,
+      required this.didCubit,
+      required this.didKitProvider})
       : super(const SelfIssuedCredentialState.initial());
 
   Future<void> createSelfIssuedCredential(
@@ -42,9 +47,9 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
       late final String key, verificationMethod;
 
       if (isEnterpriseUser == 'true') {
-        final RSAJsonString = (await secureStorageProvider
-            .get(SecureStorageKeys.RSAKeyJson)) as String;
-        final RSAJson = jsonDecode(RSAJsonString);
+        final rsaJsonString = (await secureStorageProvider
+            .get(SecureStorageKeys.rsaKeyJson)) as String;
+        final RSAJson = jsonDecode(rsaJsonString);
 
         ///
         final publicKeyJwks = JsonPath(r'$..publicKeyJwk');
@@ -60,13 +65,12 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
         verificationMethod = publicKeyJwk['kid'];
       } else {
         key = (await secureStorageProvider.get(SecureStorageKeys.key))!;
-        final didMethod =
-            (await secureStorageProvider.get(SecureStorageKeys.DIDMethod))!;
-        verificationMethod =
-            await didKitProvider.keyToVerificationMethod(didMethod, key);
+        final didMethod = didCubit.state.didMethod!;;
+        verificationMethod = await didKitProvider
+            .keyToVerificationMethod(didMethod, key);
       }
 
-      final did = (await secureStorageProvider.get(SecureStorageKeys.did))!;
+      final did = didCubit.state.did!;
 
       final options = {
         'proofPurpose': 'assertionMethod',

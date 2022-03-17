@@ -7,14 +7,18 @@ import 'package:json_path/json_path.dart';
 import 'package:logging/logging.dart';
 import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
+import 'package:talao/app/shared/constants.dart';
+import 'package:talao/did/cubit/did_cubit.dart';
 
 import 'verify_rsa_and_did_state.dart';
 
 class VerifyRSAAndDIDCubit extends Cubit<VerifyRSAAndDIDState> {
-  final SecureStorageProvider secureStorageProvider;
+  final DIDCubit didCubit;
   final DIDKitProvider didKitProvider;
+  final SecureStorageProvider secureStorageProvider;
 
-  VerifyRSAAndDIDCubit(this.secureStorageProvider, this.didKitProvider)
+  VerifyRSAAndDIDCubit(
+      {required this.didCubit, required this.secureStorageProvider,required this.didKitProvider})
       : super(const VerifyRSAAndDIDState.initial());
 
   Future<void> verify(String did, PlatformFile rsaFile) async {
@@ -68,9 +72,13 @@ class VerifyRSAAndDIDCubit extends Cubit<VerifyRSAAndDIDState> {
         }
         if (verified) {
           await secureStorageProvider.set(
-              SecureStorageKeys.RSAKeyJson, jsonEncode(RSAJson));
+              SecureStorageKeys.rsaKeyJson, jsonEncode(RSAJson));
           await secureStorageProvider.set(SecureStorageKeys.key, RSAKey);
-          await secureStorageProvider.set(SecureStorageKeys.did, did);
+          didCubit.set(
+            did: did,
+            didMethod: Constants.enterpriseDIDMethod,
+            didMethodName: Constants.enterpriseDIDMethodName,
+          );
           emit(const VerifyRSAAndDIDState.verified());
         } else {
           emit(const VerifyRSAAndDIDState.error(VerifyRSAAndDIDErrorState.rsaNotMatchedWithDIDKey()));

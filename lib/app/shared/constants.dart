@@ -1,4 +1,5 @@
 class Constants {
+  //TODO: Handle based on isEnterprise
   static final String defaultDIDMethod = 'tz';
   static final String defaultDIDMethodName = 'Tezos';
   static final String enterpriseDIDMethod = 'web';

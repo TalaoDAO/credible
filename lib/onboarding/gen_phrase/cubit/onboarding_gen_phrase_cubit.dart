@@ -7,20 +7,27 @@ import 'package:logging/logging.dart';
 import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/interop/key_generation.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
+import 'package:talao/app/shared/constants.dart';
 import 'package:talao/app/shared/model/message.dart';
+import 'package:talao/did/cubit/did_cubit.dart';
+
+part 'onboarding_gen_phrase_state.dart';
 import 'package:talao/scan/cubit/scan_message_string_state.dart';
 
 part 'onboarding_gen_phrase_cubit.g.dart';
 
-part 'onboarding_gen_phrase_state.dart';
-
 class OnBoardingGenPhraseCubit extends Cubit<OnBoardingGenPhraseState> {
   final SecureStorageProvider secureStorageProvider;
   final KeyGeneration keyGeneration;
+  final DIDKitProvider didKitProvider;
+  final DIDCubit didCubit;
 
-  OnBoardingGenPhraseCubit(
-      {required this.secureStorageProvider, required this.keyGeneration})
-      : super(OnBoardingGenPhraseState());
+  OnBoardingGenPhraseCubit({
+    required this.secureStorageProvider,
+    required this.keyGeneration,
+    required this.didKitProvider,
+    required this.didCubit,
+  }) : super(OnBoardingGenPhraseState());
 
   final log = Logger('talao-wallet/on-boarding/key-generation');
 
@@ -30,12 +37,16 @@ class OnBoardingGenPhraseCubit extends Cubit<OnBoardingGenPhraseState> {
       final mnemonicFormatted = mnemonic.join(' ');
       await saveMnemonicKey(mnemonicFormatted);
       final key = await keyGeneration.privateKey(mnemonicFormatted);
-      await secureStorageProvider.set('key', key);
-      //save did also
-      final didMethod =
-          (await secureStorageProvider.get(SecureStorageKeys.DIDMethod))!;
-      final did = DIDKitProvider.instance.keyToDID(didMethod, key);
-      await secureStorageProvider.set(SecureStorageKeys.did, did);
+      await secureStorageProvider.set(SecureStorageKeys.key, key);
+
+      final didMethod = Constants.defaultDIDMethod;
+      final did = didKitProvider.keyToDID(didMethod, key);
+
+      didCubit.set(
+        did: did,
+        didMethod: didMethod,
+        didMethodName: Constants.defaultDIDMethodName,
+      );
 
       emit(state.copyWith(status: OnBoardingGenPhraseStatus.success));
     } catch (error) {

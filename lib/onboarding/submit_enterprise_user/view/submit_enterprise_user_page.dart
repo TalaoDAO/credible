@@ -6,6 +6,7 @@ import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/base/text_field.dart';
+import 'package:talao/did/cubit/did_cubit.dart';
 import 'package:talao/drawer/profile/models/profile.dart';
 import 'package:talao/l10n/l10n.dart';
 import 'package:talao/onboarding/wallet_type/choose_wallet_type.dart';
@@ -26,8 +27,12 @@ class SubmitEnterpriseUserPage extends StatefulWidget {
           providers: [
             BlocProvider(create: (_) => SubmitEnterpriseUserCubit()),
             BlocProvider(
-                create: (_) => VerifyRSAAndDIDCubit(
-                    SecureStorageProvider.instance, DIDKitProvider.instance)),
+              create: (_) => VerifyRSAAndDIDCubit(
+                secureStorageProvider: SecureStorageProvider.instance,
+                didCubit: context.read<DIDCubit>(),
+                didKitProvider: DIDKitProvider.instance,
+              ),
+            ),
           ],
           child: SubmitEnterpriseUserPage(),
         ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
+import 'package:talao/did/cubit/did_cubit.dart';
 import 'package:talao/l10n/l10n.dart';
 import 'package:talao/self_issued_credential/cubit/self_issued_credential_cubit.dart';
 import 'package:talao/wallet/cubit/wallet_cubit.dart';
@@ -24,10 +25,10 @@ class SelfIssuedCredentialButton extends StatelessWidget {
     final localization = context.l10n;
     return BlocProvider<SelfIssuedCredentialCubit>(
       create: (_) => SelfIssuedCredentialCubit(
-        context.read<WalletCubit>(),
-        SecureStorageProvider.instance,
-        DIDKitProvider.instance,
-      ),
+          walletCubit: context.read<WalletCubit>(),
+          secureStorageProvider: SecureStorageProvider.instance,
+          didCubit: context.read<DIDCubit>(),
+      didKitProvider: DIDKitProvider.instance),
       child: BlocConsumer<SelfIssuedCredentialCubit, SelfIssuedCredentialState>(
           builder: (context, state) {
         return FloatingActionButton(
