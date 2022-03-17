@@ -77,7 +77,7 @@ void main() {
 
     test('Type is GaiaxPass', () async {
       final fieldsPath = JsonPath(r'$..fields');
-      var credentialType = fieldsPath
+      var credentialField = fieldsPath
           .read(claim)
           .first
           .value
@@ -85,21 +85,21 @@ void main() {
               e['path'].toString() == '[\$.credentialSubject.type]'.toString())
           .toList()
           .first;
-      var credential = credentialType['filter']['pattern'];
+      var credential = credentialField['filter']['pattern'];
       expect(credential, 'GaiaxPass');
     });
 
     test('Issuer is did:web:talao.co', () async {
       final fieldsPath = JsonPath(r'$..fields');
-      var credentialType = fieldsPath
+      var issuerField = fieldsPath
           .read(claim)
           .first
           .value
           .where((e) => e['path'].toString() == '[\$.issuer]'.toString())
           .toList()
           .first;
-      var credential = credentialType['filter']['pattern'];
-      expect(credential, 'did:web:talao.co');
+      var issuer = issuerField['filter']['pattern'];
+      expect(issuer, 'did:web:talao.co');
     });
   });
 }
