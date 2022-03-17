@@ -35,7 +35,7 @@ class OnBoardingGenPhraseCubit extends Cubit<OnBoardingGenPhraseState> {
     try {
       emit(state.copyWith(status: OnBoardingGenPhraseStatus.loading));
       final mnemonicFormatted = mnemonic.join(' ');
-      await saveMnemonicKey(mnemonicFormatted);
+      await secureStorageProvider.set('mnemonic', mnemonicFormatted);
       final key = await keyGeneration.privateKey(mnemonicFormatted);
       await secureStorageProvider.set(SecureStorageKeys.key, key);
 

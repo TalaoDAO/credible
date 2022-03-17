@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:talao/l10n/l10n.dart';
 import 'package:talao/onboarding/gen_phrase/view/onboarding_gen_phrase.dart';
 import 'package:talao/onboarding/recovery/view/onboarding_recovery.dart';
+import 'package:talao/onboarding/wallet_type/view/choose_wallet_type_page.dart';
 
 class OnBoardingKeyPage extends StatelessWidget {
   static Route route() => MaterialPageRoute(
@@ -16,10 +17,19 @@ class OnBoardingKeyPage extends StatelessWidget {
     final l10n = context.l10n;
 
     return WillPopScope(
-      onWillPop: () async => false,
+      onWillPop: () async {
+        await Navigator.of(context)
+            .pushReplacement(ChooseWalletTypePage.route());
+        return false;
+      },
       child: BasePage(
         title: l10n.onBoardingKeyTitle,
         scrollView: false,
+        titleLeading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => Navigator.of(context)
+              .pushReplacement(ChooseWalletTypePage.route()),
+        ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[

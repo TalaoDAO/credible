@@ -89,7 +89,6 @@
   "scanTitle": "Scan",
   "scanPromptHost": "Faites vous confiance à ce domaine ?",
   "scanRefuseHost": "La requête a été refusée.",
-  "scanUnsupportedMessage": "Message non supporté.",
   "qrCodeSharing": "Vous partagez",
   "qrCodeNoValidMessage": "Ce QR code ne contient pas un message valide.",
   "profileTitle": "Paramètres",

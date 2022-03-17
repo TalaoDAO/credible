@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:json_path/json_path.dart';
 import 'package:talao/app/interop/issuer/check_issuer.dart';
 import 'package:talao/app/interop/issuer/models/issuer.dart';
 import 'package:talao/app/interop/network/network_client.dart';
@@ -17,7 +19,6 @@ import 'package:talao/app/shared/widget/confirm_dialog.dart';
 import 'package:talao/did/cubit/did_cubit.dart';
 import 'package:talao/credentials/credentials.dart';
 import 'package:talao/deep_link/deep_link.dart';
-import 'package:talao/did/cubit/did_cubit.dart';
 import 'package:talao/drawer/drawer.dart';
 import 'package:talao/l10n/l10n.dart';
 import 'package:talao/onboarding/onboarding.dart';
@@ -286,9 +287,51 @@ class _SplashPageState extends State<SplashPage> {
           if (!state.isDeepLink!) return;
 
           if (state is QRCodeScanStateHost) {
+            final isDeepLink = true;
             // if (state.promptActive!) return;
+            final qrCodeCubit = context.read<QRCodeScanCubit>();
             // context.read<QRCodeScanCubit>().promptDeactivate();
-            var approvedIssuer = Issuer.emptyIssuer();
+            if (qrCodeCubit.isOpenIdUrl(isDeepLink: isDeepLink)) {
+              if (!qrCodeCubit.requestAttributeExists(isDeepLink: isDeepLink)) {
+                if (qrCodeCubit.requestUrlAttributeExists(
+                    isDeepLink: isDeepLink)) {
+                  var sIOPV2Param = await qrCodeCubit.getSIOPV2Parameters(
+                      isDeepLink: isDeepLink);
+
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(sIOPV2Param.toString()),
+                  ));
+                  if (sIOPV2Param.claims != null) {
+                    final claimsJson = jsonDecode(sIOPV2Param.claims!);
+                    final fieldsPath = JsonPath(r'$..fields');
+                    var credentialField = fieldsPath
+                        .read(claimsJson)
+                        .first
+                        .value
+                        .where((e) =>
+                            e['path'].toString() ==
+                            '[\$.credentialSubject.type]'.toString())
+                        .toList()
+                        .first;
+                    var credential = credentialField['filter']['pattern'];
+                    var issuerField = fieldsPath
+                        .read(claimsJson)
+                        .first
+                        .value
+                        .where((e) =>
+                            e['path'].toString() == '[\$.issuer]'.toString())
+                        .toList()
+                        .first;
+                    var issuer = issuerField['filter']['pattern'];
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content:
+                          Text('Credential : $credential\nIssuer: $issuer'),
+                    ));
+                  }
+                }
+              }
+            } else {
+              var approvedIssuer = Issuer.emptyIssuer();
 
             var profileCubit = context.read<ProfileCubit>();
             final isIssuerVerificationSettingTrue =
@@ -324,14 +367,17 @@ class _SplashPageState extends State<SplashPage> {
                 ) ??
                 false;
 
-            if (acceptHost) {
-              context.read<QRCodeScanCubit>().accept(state.uri!, true);
-            } else {
-              //await qrController.resumeCamera();
-              context.read<QRCodeScanCubit>().emitWorkingState();
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(l10n.scanRefuseHost),
-              ));
+              if (acceptHost) {
+                context
+                    .read<QRCodeScanCubit>()
+                    .accept(uri: state.uri!, isDeepLink: isDeepLink);
+              } else {
+                //await qrController.resumeCamera();
+                context.read<QRCodeScanCubit>().emitWorkingState();
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(l10n.scanRefuseHost),
+                ));
+              }
             }
           }
           if (state is QRCodeScanStateSuccess) {
