@@ -283,53 +283,69 @@ class _SplashPageState extends State<SplashPage> {
           if (!state.isDeepLink!) return;
 
           if (state is QRCodeScanStateHost) {
+            final isDeepLink = true;
             // if (state.promptActive!) return;
+            final qrCodeCubit = context.read<QRCodeScanCubit>();
             // context.read<QRCodeScanCubit>().promptDeactivate();
-            var approvedIssuer = Issuer.emptyIssuer();
+            if (qrCodeCubit.isOpenIdUrl(isDeepLink: isDeepLink)) {
+              if (!qrCodeCubit.requestAttributeExists(isDeepLink: isDeepLink)) {
+                if (qrCodeCubit.requestUrlAttributeExists(
+                    isDeepLink: isDeepLink)) {
+                  var data = qrCodeCubit
+                      .getSIOPV2Parameters(isDeepLink: isDeepLink)
+                      .toJson();
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(data.toString()),
+                  ));
+                }
+              }
+            }else{
+              var approvedIssuer = Issuer.emptyIssuer();
 
-            var profileCubit = context.read<ProfileCubit>();
-            if (profileCubit.state is ProfileStateDefault) {
-              final isIssuerVerificationSettingTrue =
-                  profileCubit.state.model!.issuerVerificationSetting;
-              if (isIssuerVerificationSettingTrue) {
-                try {
-                  approvedIssuer = await CheckIssuer(
-                          DioClient(Constants.checkIssuerServerUrl, Dio()),
-                          Constants.checkIssuerServerUrl,
-                          state.uri!)
-                      .isIssuerInApprovedList();
-                } catch (e) {
-                  if (e is ErrorHandler) {
-                    e.displayError(
-                        context, e, Theme.of(context).colorScheme.error);
+              var profileCubit = context.read<ProfileCubit>();
+              if (profileCubit.state is ProfileStateDefault) {
+                final isIssuerVerificationSettingTrue =
+                    profileCubit.state.model!.issuerVerificationSetting;
+                if (isIssuerVerificationSettingTrue) {
+                  try {
+                    approvedIssuer = await CheckIssuer(
+                        DioClient(Constants.checkIssuerServerUrl, Dio()),
+                        Constants.checkIssuerServerUrl,
+                        state.uri!)
+                        .isIssuerInApprovedList();
+                  } catch (e) {
+                    if (e is ErrorHandler) {
+                      e.displayError(
+                          context, e, Theme.of(context).colorScheme.error);
+                    }
                   }
                 }
               }
-            }
-            var acceptHost = await showDialog<bool>(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return ConfirmDialog(
-                      title: l10n.scanPromptHost,
-                      subtitle: (approvedIssuer.did.isEmpty)
-                          ? state.uri!.host
-                          : '${approvedIssuer.organizationInfo.legalName}\n${approvedIssuer.organizationInfo.currentAddress}',
-                      yes: l10n.communicationHostAllow,
-                      no: l10n.communicationHostDeny,
-                      lock: (state.uri!.scheme == 'http') ? true : false,
-                    );
-                  },
-                ) ??
-                false;
+              var acceptHost = await showDialog<bool>(
+                context: context,
+                builder: (BuildContext context) {
+                  return ConfirmDialog(
+                    title: l10n.scanPromptHost,
+                    subtitle: (approvedIssuer.did.isEmpty)
+                        ? state.uri!.host
+                        : '${approvedIssuer.organizationInfo.legalName}\n${approvedIssuer.organizationInfo.currentAddress}',
+                    yes: l10n.communicationHostAllow,
+                    no: l10n.communicationHostDeny,
+                    lock: (state.uri!.scheme == 'http') ? true : false,
+                  );
+                },
+              ) ??
+                  false;
 
-            if (acceptHost) {
-              context.read<QRCodeScanCubit>().accept(state.uri!, true);
-            } else {
-              //await qrController.resumeCamera();
-              context.read<QRCodeScanCubit>().emitWorkingState();
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(l10n.scanRefuseHost),
-              ));
+              if (acceptHost) {
+                context.read<QRCodeScanCubit>().accept(uri: state.uri!, isDeepLink: isDeepLink);
+              } else {
+                //await qrController.resumeCamera();
+                context.read<QRCodeScanCubit>().emitWorkingState();
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(l10n.scanRefuseHost),
+                ));
+              }
             }
           }
           if (state is QRCodeScanStateSuccess) {

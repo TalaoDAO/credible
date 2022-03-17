@@ -1,8 +1,4 @@
-import 'dart:convert';
-
-import 'package:talao/app/interop/crypto_keys/crypto_keys.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:talao/app/shared/model/encryption/encryption.dart';
 
 void main() {
   group('QR Code Scan', () {

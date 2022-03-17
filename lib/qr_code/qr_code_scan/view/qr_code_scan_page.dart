@@ -30,6 +30,8 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
   final qrKey = GlobalKey(debugLabel: 'QR');
   late QRViewController qrController;
 
+  final isDeepLink = false;
+
   @override
   void initState() {
     super.initState();
@@ -56,7 +58,9 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
     qrController.scannedDataStream.listen((scanData) {
       qrController.pauseCamera();
       if (scanData.code is String) {
-        context.read<QRCodeScanCubit>().host(scanData.code, false);
+        context
+            .read<QRCodeScanCubit>()
+            .host(url: scanData.code, isDeepLink: isDeepLink);
       }
     });
   }
@@ -72,11 +76,16 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
           if (state.promptActive!) return;
           final qrCodeCubit = context.read<QRCodeScanCubit>();
           qrCodeCubit.promptDeactivate();
-          final deepLink = false;
-          if (qrCodeCubit.isOpenIdUrl(false)) {
-            if (!qrCodeCubit.requestAttributeExists(false)) {
-              if (qrCodeCubit.requestUrlAttributeExists(false)) {
-                print(qrCodeCubit.getSIOPV2Parameters(false).toJson());
+          if (qrCodeCubit.isOpenIdUrl(isDeepLink: isDeepLink)) {
+            if (!qrCodeCubit.requestAttributeExists(isDeepLink: isDeepLink)) {
+              if (qrCodeCubit.requestUrlAttributeExists(
+                  isDeepLink: isDeepLink)) {
+                var data = qrCodeCubit
+                    .getSIOPV2Parameters(isDeepLink: isDeepLink)
+                    .toJson();
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(data.toString()),
+                ));
               }
             }
           } else {
@@ -118,7 +127,9 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
                 false;
 
             if (acceptHost) {
-              context.read<QRCodeScanCubit>().accept(state.uri!, false);
+              context
+                  .read<QRCodeScanCubit>()
+                  .accept(uri: state.uri!, isDeepLink: isDeepLink);
             } else {
               await qrController.resumeCamera();
               context.read<QRCodeScanCubit>().emitWorkingState();

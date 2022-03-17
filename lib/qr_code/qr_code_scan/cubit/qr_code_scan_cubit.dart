@@ -45,7 +45,7 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
     emit(state.copyWith(promptActive: false));
   }
 
-  void host(String? url, bool isDeepLink) async {
+  void host({required String? url, required bool isDeepLink}) async {
     try {
       if (url == null) {
         emit(QRCodeScanStateMessage(
@@ -80,7 +80,7 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
     }
   }
 
-  void accept(Uri uri, bool isDeepLink) async {
+  void accept({required Uri uri, required bool isDeepLink}) async {
     final log = Logger('talao-wallet/qrcode/accept');
 
     late final data;
@@ -125,7 +125,7 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
           break;
 
         default:
-          emit(QRCodeScanStateUnknown(isDeepLink: isDeepLink));
+          emit(QRCodeScanStateUnknown(isDeepLink: isDeepLink, uri: state.uri!));
           break;
       }
     } catch (e) {
@@ -146,7 +146,7 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
     }
   }
 
-  bool isOpenIdUrl(bool isDeepLink) {
+  bool isOpenIdUrl({required bool isDeepLink}) {
     var condition = false;
     state.uri!.queryParameters.forEach((key, value) {
       if (key == 'scope' && value == 'openid') {
@@ -154,26 +154,25 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
       }
     });
     if (!condition) {
-      emit(QRCodeScanStateUnknown(isDeepLink: isDeepLink));
+      emit(QRCodeScanStateUnknown(isDeepLink: isDeepLink, uri: state.uri!));
     }
     return condition;
   }
 
-  bool requestAttributeExists(bool isDeepLink) {
+  bool requestAttributeExists({required bool isDeepLink}) {
     var condition = false;
     state.uri!.queryParameters.forEach((key, value) {
       if (key == 'request') {
         condition = true;
       }
     });
-
-    if (!condition) {
-      emit(QRCodeScanStateUnknown(isDeepLink: isDeepLink));
+    if (condition) {
+      emit(QRCodeScanStateUnknown(isDeepLink: isDeepLink, uri: state.uri!));
     }
     return condition;
   }
 
-  bool requestUrlAttributeExists(bool isDeepLink) {
+  bool requestUrlAttributeExists({required bool isDeepLink}) {
     var condition = false;
     state.uri!.queryParameters.forEach((key, value) {
       if (key == 'request_uri') {
@@ -181,12 +180,12 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
       }
     });
     if (!condition) {
-      emit(QRCodeScanStateUnknown(isDeepLink: isDeepLink));
+      emit(QRCodeScanStateUnknown(isDeepLink: isDeepLink, uri: state.uri!));
     }
     return condition;
   }
 
-  SIOPV2Param getSIOPV2Parameters(bool isDeepLink) {
+  SIOPV2Param getSIOPV2Parameters({required bool isDeepLink}) {
     var nonce;
     var redirect_uri;
     var claims;
@@ -195,10 +194,10 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
         nonce = value;
       }
       if (key == 'redirect_uri') {
-        nonce = redirect_uri;
+        redirect_uri = value;
       }
       if (key == 'claims') {
-        nonce = claims;
+        redirect_uri = value;
       }
     });
     return SIOPV2Param(
