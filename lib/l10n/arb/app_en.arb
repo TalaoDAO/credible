@@ -230,7 +230,7 @@
   "selfIssuedCreatedSuccessfully": "Self issued credential created successfully",
   "companyName": "Company Name",
   "companyWebsite": "Company Website",
-  "submit" : "Submit",
+  "submit": "Submit",
   "insertYourDIDKey": "Insert your DID key",
   "importYourRSAKeyJsonFile": "Import your RSA key json file",
   "didKeyAndRSAKeyVerifiedSuccessfully": "DID key and RSA key verified successfully",

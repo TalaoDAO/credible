@@ -92,7 +92,8 @@
     "failedToSaveProfile",
     "failedToLoadDID",
     "thisFieldIsRequired",
-    "personalOpenIdRestrictionMessage"
+    "personalOpenIdRestrictionMessage",
+    "credentialEmptyError"
   ],
 
   "es": [
@@ -187,7 +188,8 @@
     "failedToSaveProfile",
     "failedToLoadDID",
     "thisFieldIsRequired",
-    "personalOpenIdRestrictionMessage"
+    "personalOpenIdRestrictionMessage",
+    "credentialEmptyError"
   ],
 
   "fr": [
@@ -257,7 +259,8 @@
     "failedToSaveProfile",
     "failedToLoadDID",
     "thisFieldIsRequired",
-    "personalOpenIdRestrictionMessage"
+    "personalOpenIdRestrictionMessage",
+    "credentialEmptyError"
   ],
 
   "it": [
@@ -354,6 +357,7 @@
     "failedToSaveProfile",
     "failedToLoadDID",
     "thisFieldIsRequired",
-    "personalOpenIdRestrictionMessage"
+    "personalOpenIdRestrictionMessage",
+    "credentialEmptyError"
   ]
 }

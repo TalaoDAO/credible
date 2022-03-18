@@ -158,42 +158,33 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
     }
   }
 
-  bool isOpenIdUrl({required bool isDeepLink}) {
+  bool isOpenIdUrl() {
     var condition = false;
     state.uri!.queryParameters.forEach((key, value) {
       if (key == 'scope' && value == 'openid') {
         condition = true;
       }
     });
-    if (!condition) {
-      emit(QRCodeScanStateUnknown(isDeepLink: isDeepLink, uri: state.uri!));
-    }
     return condition;
   }
 
-  bool requestAttributeExists({required bool isDeepLink}) {
+  bool requestAttributeExists() {
     var condition = false;
     state.uri!.queryParameters.forEach((key, value) {
       if (key == 'request') {
         condition = true;
       }
     });
-    if (condition) {
-      emit(QRCodeScanStateUnknown(isDeepLink: isDeepLink, uri: state.uri!));
-    }
     return condition;
   }
 
-  bool requestUrlAttributeExists({required bool isDeepLink}) {
+  bool requestUriAttributeExists() {
     var condition = false;
     state.uri!.queryParameters.forEach((key, value) {
       if (key == 'request_uri') {
         condition = true;
       }
     });
-    if (!condition) {
-      emit(QRCodeScanStateUnknown(isDeepLink: isDeepLink, uri: state.uri!));
-    }
     return condition;
   }
 
