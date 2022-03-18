@@ -163,9 +163,6 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
         condition = true;
       }
     });
-    if (!condition) {
-      emit(QRCodeScanStateUnknown(isDeepLink: isDeepLink, uri: state.uri!));
-    }
     return condition;
   }
 
