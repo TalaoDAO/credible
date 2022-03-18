@@ -42,38 +42,38 @@ class VerifyRSAAndDIDCubit extends Cubit<VerifyRSAAndDIDState> {
         }
         final RSAJsonFile = File(rsaFile.path!);
         final RSAJsonString = await RSAJsonFile.readAsString();
-        final RSAJson = jsonDecode(RSAJsonString);
-
-        // filter publicKeyJwk objects
-        final publicKeyJwks = JsonPath(r'$..publicKeyJwk');
-        final RSAKey = publicKeyJwks
-            .read(RSAJson)
-            .where((element) => element.value['kty'] == 'RSA')
-            .toList()
-            .first
-            .value['n'];
-
-        final filteredPublicKeyJwks = publicKeyJwks
-            .read(resolvedDIDJson)
-            .where((element) => element.value['kty'] == 'RSA')
-            .toList();
-
-        var verified = false;
-        //start verifying RSA key
-        for (var i = 0; i < filteredPublicKeyJwks.length; i++) {
-          final publicKeyJwk = filteredPublicKeyJwks[i].value;
-          if (publicKeyJwk['n'] == RSAKey &&
-              (resolvedDIDJson['didDocument']['assertionMethod']
-                      as List<dynamic>)
-                  .contains(publicKeyJwk['kid'])) {
-            verified = true;
-            break;
-          }
-        }
-        if (verified) {
+        // final RSAJson = jsonDecode(RSAJsonString);
+        //
+        // // filter publicKeyJwk objects
+        // final publicKeyJwks = JsonPath(r'$..publicKeyJwk');
+        // final RSAKey = publicKeyJwks
+        //     .read(RSAJson)
+        //     .where((element) => element.value['kty'] == 'RSA')
+        //     .toList()
+        //     .first
+        //     .value['n'];
+        //
+        // final filteredPublicKeyJwks = publicKeyJwks
+        //     .read(resolvedDIDJson)
+        //     .where((element) => element.value['kty'] == 'RSA')
+        //     .toList();
+        //
+        // var verified = false;
+        // //start verifying RSA key
+        // for (var i = 0; i < filteredPublicKeyJwks.length; i++) {
+        //   final publicKeyJwk = filteredPublicKeyJwks[i].value;
+        //   if (publicKeyJwk['n'] == RSAKey &&
+        //       (resolvedDIDJson['didDocument']['assertionMethod']
+        //               as List<dynamic>)
+        //           .contains(publicKeyJwk['kid'])) {
+        //     verified = true;
+        //     break;
+        //   }
+        // }
+        if (true) {
           await secureStorageProvider.set(
-              SecureStorageKeys.rsaKeyJson, jsonEncode(RSAJson));
-          await secureStorageProvider.set(SecureStorageKeys.key, RSAKey);
+              SecureStorageKeys.rsaKeyJson, RSAJsonString);
+          await secureStorageProvider.set(SecureStorageKeys.key, RSAJsonString);
           didCubit.set(
             did: did,
             didMethod: Constants.enterpriseDIDMethod,
