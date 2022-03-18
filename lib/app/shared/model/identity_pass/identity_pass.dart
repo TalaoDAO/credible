@@ -1,4 +1,5 @@
 import 'package:talao/app/shared/model/credential_model/credential_model.dart';
+import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/credentials/widget/display_issuer.dart';
 import 'package:talao/app/shared/model/author.dart';
 import 'package:talao/app/shared/model/credential_subject.dart';
@@ -74,7 +75,8 @@ class IdentityPass extends CredentialSubject {
             : SizedBox.shrink(),
         recipient.birthDate != ''
             ? CredentialField(
-                title: localizations.birthdate, value: recipient.birthDate)
+                title: localizations.birthdate,
+                value: UiDate.displayDate(localizations, recipient.birthDate))
             : SizedBox.shrink(),
         recipient.email != ''
             ? CredentialField(
