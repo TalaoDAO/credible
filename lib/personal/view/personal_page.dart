@@ -160,87 +160,133 @@ class _PersonalPageState extends State<PersonalPage> {
         ),
         body: BlocBuilder<PersonalPgeCubit, PersonalPageState>(
             builder: (context, state) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: Text(
-                  l10n.personalSubtitle,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context)
-                      .textTheme
-                      .subtitle2!
-                      .copyWith(color: Theme.of(context).colorScheme.subtitle1),
+          return Form(
+            key: enterpriseFormKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  child: Text(
+                    l10n.personalSubtitle,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                        color: Theme.of(context).colorScheme.subtitle1),
+                  ),
                 ),
-              ),
-              const SizedBox(height: 32.0),
-              BaseTextField(
-                label: l10n.personalFirstName,
-                controller: firstNameController,
-                icon: Icons.person,
-                textCapitalization: TextCapitalization.words,
-                prefixIcon: Checkbox(
-                  value: state.isFirstName,
-                  fillColor: MaterialStateProperty.all(
-                      Theme.of(context).colorScheme.secondaryContainer),
-                  onChanged: personalPageCubit.firstNameCheckBoxChange,
+                const SizedBox(height: 32.0),
+                BaseTextField(
+                  label: l10n.personalFirstName,
+                  controller: firstNameController,
+                  icon: Icons.person,
+                  textCapitalization: TextCapitalization.words,
+                  validator: !isEnterprise
+                      ? null
+                      : (value) {
+                          if (value?.isEmpty ?? true) {
+                            return l10n.thisFieldIsRequired;
+                          } else {
+                            return null;
+                          }
+                        },
+                  prefixIcon: Checkbox(
+                    value: state.isFirstName,
+                    fillColor: MaterialStateProperty.all(
+                        Theme.of(context).colorScheme.secondaryContainer),
+                    onChanged: personalPageCubit.firstNameCheckBoxChange,
+                  ),
                 ),
-              ),
-              _textFieldSpace(),
-              BaseTextField(
-                label: l10n.personalLastName,
-                controller: lastNameController,
-                icon: Icons.person,
-                textCapitalization: TextCapitalization.words,
-                prefixIcon: Checkbox(
-                  value: state.isLastName,
-                  fillColor: MaterialStateProperty.all(
-                      Theme.of(context).colorScheme.secondaryContainer),
-                  onChanged: personalPageCubit.lastNameCheckBoxChange,
+                _textFieldSpace(),
+                BaseTextField(
+                  label: l10n.personalLastName,
+                  controller: lastNameController,
+                  icon: Icons.person,
+                  textCapitalization: TextCapitalization.words,
+                  validator: !isEnterprise
+                      ? null
+                      : (value) {
+                          if (value?.isEmpty ?? true) {
+                            return l10n.thisFieldIsRequired;
+                          } else {
+                            return null;
+                          }
+                        },
+                  prefixIcon: Checkbox(
+                    value: state.isLastName,
+                    fillColor: MaterialStateProperty.all(
+                        Theme.of(context).colorScheme.secondaryContainer),
+                    onChanged: personalPageCubit.lastNameCheckBoxChange,
+                  ),
                 ),
-              ),
-              _textFieldSpace(),
-              BaseTextField(
-                label: l10n.personalPhone,
-                controller: phoneController,
-                icon: Icons.phone,
-                type: TextInputType.phone,
-                prefixIcon: Checkbox(
-                  value: state.isPhone,
-                  fillColor: MaterialStateProperty.all(
-                      Theme.of(context).colorScheme.secondaryContainer),
-                  onChanged: personalPageCubit.phoneCheckBoxChange,
+                _textFieldSpace(),
+                BaseTextField(
+                  label: l10n.personalPhone,
+                  controller: phoneController,
+                  icon: Icons.phone,
+                  type: TextInputType.phone,
+                  validator: !isEnterprise
+                      ? null
+                      : (value) {
+                          if (value?.isEmpty ?? true) {
+                            return l10n.thisFieldIsRequired;
+                          } else {
+                            return null;
+                          }
+                        },
+                  prefixIcon: Checkbox(
+                    value: state.isPhone,
+                    fillColor: MaterialStateProperty.all(
+                        Theme.of(context).colorScheme.secondaryContainer),
+                    onChanged: personalPageCubit.phoneCheckBoxChange,
+                  ),
                 ),
-              ),
-              _textFieldSpace(),
-              BaseTextField(
-                label: l10n.personalLocation,
-                controller: locationController,
-                icon: Icons.location_pin,
-                textCapitalization: TextCapitalization.words,
-                prefixIcon: Checkbox(
-                  value: state.isLocation,
-                  fillColor: MaterialStateProperty.all(
-                      Theme.of(context).colorScheme.secondaryContainer),
-                  onChanged: personalPageCubit.locationCheckBoxChange,
+                _textFieldSpace(),
+                BaseTextField(
+                  label: l10n.personalLocation,
+                  controller: locationController,
+                  icon: Icons.location_pin,
+                  textCapitalization: TextCapitalization.words,
+                  validator: !isEnterprise
+                      ? null
+                      : (value) {
+                          if (value?.isEmpty ?? true) {
+                            return l10n.thisFieldIsRequired;
+                          } else {
+                            return null;
+                          }
+                        },
+                  prefixIcon: Checkbox(
+                    value: state.isLocation,
+                    fillColor: MaterialStateProperty.all(
+                        Theme.of(context).colorScheme.secondaryContainer),
+                    onChanged: personalPageCubit.locationCheckBoxChange,
+                  ),
                 ),
-              ),
-              _textFieldSpace(),
-              BaseTextField(
-                label: l10n.personalMail,
-                controller: emailController,
-                icon: Icons.email,
-                type: TextInputType.emailAddress,
-                prefixIcon: Checkbox(
-                  value: state.isEmail,
-                  fillColor: MaterialStateProperty.all(
-                      Theme.of(context).colorScheme.secondaryContainer),
-                  onChanged: personalPageCubit.emailCheckBoxChange,
+                _textFieldSpace(),
+                BaseTextField(
+                  label: l10n.personalMail,
+                  controller: emailController,
+                  icon: Icons.email,
+                  type: TextInputType.emailAddress,
+                  validator: !isEnterprise
+                      ? null
+                      : (value) {
+                          if (value?.isEmpty ?? true) {
+                            return l10n.thisFieldIsRequired;
+                          } else {
+                            return null;
+                          }
+                        },
+                  prefixIcon: Checkbox(
+                    value: state.isEmail,
+                    fillColor: MaterialStateProperty.all(
+                        Theme.of(context).colorScheme.secondaryContainer),
+                    onChanged: personalPageCubit.emailCheckBoxChange,
+                  ),
                 ),
-              ),
-              if (isEnterprise) _buildEnterpriseTextFields(state)
-            ],
+                if (isEnterprise) _buildEnterpriseTextFields(state)
+              ],
+            ),
           );
         }),
         navigation: !widget.isFromOnBoarding || isEnterprise
@@ -307,75 +353,72 @@ class _PersonalPageState extends State<PersonalPage> {
   }
 
   Widget _buildEnterpriseTextFields(PersonalPageState state) {
-    return Form(
-      key: enterpriseFormKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _textFieldSpace(),
-          BaseTextField(
-            label: l10n.companyName,
-            controller: companyNameController,
-            icon: Icons.apartment,
-            type: TextInputType.text,
-            validator: (value) {
-              if (value?.isEmpty ?? true) {
-                return l10n.thisFieldIsRequired;
-              } else {
-                return null;
-              }
-            },
-            prefixIcon: Checkbox(
-              value: state.isCompanyName,
-              fillColor: MaterialStateProperty.all(
-                  Theme.of(context).colorScheme.secondaryContainer),
-              onChanged: personalPageCubit.companyNameCheckBoxChange,
-            ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        _textFieldSpace(),
+        BaseTextField(
+          label: l10n.companyName,
+          controller: companyNameController,
+          icon: Icons.apartment,
+          type: TextInputType.text,
+          validator: (value) {
+            if (value?.isEmpty ?? true) {
+              return l10n.thisFieldIsRequired;
+            } else {
+              return null;
+            }
+          },
+          prefixIcon: Checkbox(
+            value: state.isCompanyName,
+            fillColor: MaterialStateProperty.all(
+                Theme.of(context).colorScheme.secondaryContainer),
+            onChanged: personalPageCubit.companyNameCheckBoxChange,
           ),
-          _textFieldSpace(),
-          BaseTextField(
-            label: l10n.companyWebsite,
-            controller: companyWebsiteController,
-            icon: Icons.web_outlined,
-            type: TextInputType.url,
-            validator: (value) {
-              if (value?.isEmpty ?? true) {
-                return l10n.thisFieldIsRequired;
-              } else {
-                return null;
-              }
-            },
-            prefixIcon: Checkbox(
-              value: state.isCompanyWebsite,
-              fillColor: MaterialStateProperty.all(
-                  Theme.of(context).colorScheme.secondaryContainer),
-              onChanged: personalPageCubit.companyWebsiteCheckBoxChange,
-            ),
+        ),
+        _textFieldSpace(),
+        BaseTextField(
+          label: l10n.companyWebsite,
+          controller: companyWebsiteController,
+          icon: Icons.web_outlined,
+          type: TextInputType.url,
+          validator: (value) {
+            if (value?.isEmpty ?? true) {
+              return l10n.thisFieldIsRequired;
+            } else {
+              return null;
+            }
+          },
+          prefixIcon: Checkbox(
+            value: state.isCompanyWebsite,
+            fillColor: MaterialStateProperty.all(
+                Theme.of(context).colorScheme.secondaryContainer),
+            onChanged: personalPageCubit.companyWebsiteCheckBoxChange,
           ),
-          _textFieldSpace(),
-          BaseTextField(
-            label: l10n.jobTitle,
-            controller: jobTitleController,
-            icon: Icons.work_outlined,
-            type: TextInputType.text,
-            validator: (value) {
-              if (value?.isEmpty ?? true) {
-                return l10n.thisFieldIsRequired;
-              } else {
-                return null;
-              }
-            },
-            prefixIcon: Checkbox(
-              value: state.isJobTitle,
-              fillColor: MaterialStateProperty.all(
-                  Theme.of(context).colorScheme.secondaryContainer),
-              onChanged: personalPageCubit.jobTitleCheckBoxChange,
-            ),
+        ),
+        _textFieldSpace(),
+        BaseTextField(
+          label: l10n.jobTitle,
+          controller: jobTitleController,
+          icon: Icons.work_outlined,
+          type: TextInputType.text,
+          validator: (value) {
+            if (value?.isEmpty ?? true) {
+              return l10n.thisFieldIsRequired;
+            } else {
+              return null;
+            }
+          },
+          prefixIcon: Checkbox(
+            value: state.isJobTitle,
+            fillColor: MaterialStateProperty.all(
+                Theme.of(context).colorScheme.secondaryContainer),
+            onChanged: personalPageCubit.jobTitleCheckBoxChange,
           ),
-          _textFieldSpace()
-        ],
-      ),
+        ),
+        _textFieldSpace()
+      ],
     );
   }
 }
