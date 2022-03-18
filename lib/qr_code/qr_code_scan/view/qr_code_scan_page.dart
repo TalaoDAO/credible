@@ -120,25 +120,56 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
                   isDeepLink: isDeepLink);
             }
 
-            var credential = qrCodeCubit.getCredential(sIOPV2Param.claims!);
-            var issuer = qrCodeCubit.getIssuer(sIOPV2Param.claims!);
+            var openIdCredential =
+                qrCodeCubit.getCredential(sIOPV2Param.claims!);
+            var openIdIssuer = qrCodeCubit.getIssuer(sIOPV2Param.claims!);
 
             ///check if credential and issuer both are not present
             ///TODO: Review this code... JSONPath should not cause issue in future
-            if (credential == '' && issuer == '') {
+            if (openIdCredential == '' && openIdIssuer == '') {
               return qrCodeCubit.emitQRCodeScanStateUnknown(
                   isDeepLink: isDeepLink);
             }
 
-            //TODO: Check my credential list with credentials and issuer
+            var selectedCredentials = [];
             walletCubit.state.credentials
                 .forEach((CredentialModel credentialModel) {
-              print(credentialModel.credentialPreview.issuer);
-              print(credentialModel.credentialPreview.type);
+              var credentialTypeList = credentialModel.credentialPreview.type;
+              var issuer = credentialModel.credentialPreview.issuer;
+
+              ///credential and issuer provided in claims
+              if (openIdCredential != '' && openIdIssuer != '') {
+                if (credentialTypeList.contains(openIdCredential) &&
+                    openIdIssuer == issuer) {
+                  selectedCredentials.add(credentialModel);
+                }
+              }
+
+              ///credential provided in claims
+              if (openIdCredential != '' &&
+                  credentialTypeList.contains(openIdCredential)) {
+                selectedCredentials.add(credentialModel);
+              }
+
+              ///issuer provided in claims
+              if (openIdIssuer != '' && openIdIssuer == issuer) {
+                selectedCredentials.add(credentialModel);
+              }
             });
 
+            if (selectedCredentials.isEmpty) {
+              ///TODO: User should be directed to url to add credentials.
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(
+                      'User should be directed to url to add credentials.')));
+              return;
+            }
+
+            ///TODO: Present Credentials
+
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text('Credential : $credential\nIssuer: $issuer'),
+              content:
+                  Text('Credential : $openIdCredential\nIssuer: $openIdIssuer'),
             ));
           } else {
             var approvedIssuer = Issuer.emptyIssuer();

@@ -11,6 +11,7 @@ import 'package:talao/app/interop/network/network_client.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/shared/constants.dart';
 import 'package:talao/app/shared/error_handler/error_handler.dart';
+import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:talao/app/shared/model/message.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/confirm_dialog.dart';
@@ -288,20 +289,22 @@ class _SplashPageState extends State<SplashPage> {
             final isDeepLink = true;
             var profileCubit = context.read<ProfileCubit>();
             final qrCodeCubit = context.read<QRCodeScanCubit>();
+            final walletCubit = context.read<WalletCubit>();
             // if (state.promptActive!) return;
             // qrCodeCubit.promptDeactivate();
 
             ///Check openId or https
             if (qrCodeCubit.isOpenIdUrl()) {
               ///restrict non-enterprise user
-              if (!profileCubit.state.model.isEnterprise) {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text(l10n.personalOpenIdRestrictionMessage)));
-                return;
-              }
+              ///TODO: Remove this comment
+              // if (!profileCubit.state.model.isEnterprise) {
+              //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              //       content: Text(l10n.personalOpenIdRestrictionMessage)));
+              //   return;
+              // }
 
               ///credential should not be empty since we have to present
-              if (context.read<WalletCubit>().state.credentials.isEmpty) {
+              if (walletCubit.state.credentials.isEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text(l10n.credentialEmptyError)));
                 return;
@@ -328,17 +331,56 @@ class _SplashPageState extends State<SplashPage> {
                     isDeepLink: isDeepLink);
               }
 
-              var credential = qrCodeCubit.getCredential(sIOPV2Param.claims!);
-              var issuer = qrCodeCubit.getIssuer(sIOPV2Param.claims!);
+              var openIdCredential =
+                  qrCodeCubit.getCredential(sIOPV2Param.claims!);
+              var openIdIssuer = qrCodeCubit.getIssuer(sIOPV2Param.claims!);
 
               ///check if credential and issuer both are not present
-              if (credential == '' && issuer == '') {
+              ///TODO: Review this code... JSONPath should not cause issue in future
+              if (openIdCredential == '' && openIdIssuer == '') {
                 return qrCodeCubit.emitQRCodeScanStateUnknown(
                     isDeepLink: isDeepLink);
               }
 
+              var selectedCredentials = [];
+              walletCubit.state.credentials
+                  .forEach((CredentialModel credentialModel) {
+                var credentialTypeList = credentialModel.credentialPreview.type;
+                var issuer = credentialModel.credentialPreview.issuer;
+
+                ///credential and issuer provided in claims
+                if (openIdCredential != '' && openIdIssuer != '') {
+                  if (credentialTypeList.contains(openIdCredential) &&
+                      openIdIssuer == issuer) {
+                    selectedCredentials.add(credentialModel);
+                  }
+                }
+
+                ///credential provided in claims
+                if (openIdCredential != '' &&
+                    credentialTypeList.contains(openIdCredential)) {
+                  selectedCredentials.add(credentialModel);
+                }
+
+                ///issuer provided in claims
+                if (openIdIssuer != '' && openIdIssuer == issuer) {
+                  selectedCredentials.add(credentialModel);
+                }
+              });
+
+              if (selectedCredentials.isEmpty) {
+                ///TODO: User should be directed to url to add credentials.
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(
+                        'User should be directed to url to add credentials.')));
+                return;
+              }
+
+              ///TODO: Present Credentials
+
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text('Credential : $credential\nIssuer: $issuer'),
+                content: Text(
+                    'Credential : $openIdCredential\nIssuer: $openIdIssuer'),
               ));
             } else {
               var approvedIssuer = Issuer.emptyIssuer();
