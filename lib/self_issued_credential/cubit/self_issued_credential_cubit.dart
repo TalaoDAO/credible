@@ -79,9 +79,9 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
           givenName: selfIssuedCredentialDataModel.givenName,
           telephone: selfIssuedCredentialDataModel.telephone,
           email: selfIssuedCredentialDataModel.email,
-          companyName: selfIssuedCredentialDataModel.companyName,
+          workFor: selfIssuedCredentialDataModel.companyName,
           companyWebsite: selfIssuedCredentialDataModel.companyWebsite,
-          title: selfIssuedCredentialDataModel.jobTitle);
+          jobTitle: selfIssuedCredentialDataModel.jobTitle);
 
       final selfIssuedCredential = SelfIssuedCredential(
           id: id,
