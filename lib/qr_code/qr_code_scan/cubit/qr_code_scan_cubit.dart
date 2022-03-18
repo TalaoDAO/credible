@@ -286,4 +286,8 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
         .first;
     return issuerField['filter']['pattern'];
   }
+
+  void emitQRCodeScanStateUnknown({required bool isDeepLink}) {
+    emit(QRCodeScanStateUnknown(isDeepLink: isDeepLink, uri: state.uri!));
+  }
 }

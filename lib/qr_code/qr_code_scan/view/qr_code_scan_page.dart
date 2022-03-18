@@ -91,6 +91,8 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
                 if (sIOPV2Param.claims != null) {
                   var credential = qrCodeCubit.getCredential(sIOPV2Param.claims!);
                   var issuer = qrCodeCubit.getIssuer(sIOPV2Param.claims!);
+
+
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     content: Text('Credential : $credential\nIssuer: $issuer'),
                   ));
@@ -103,6 +105,7 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
           var profileCubit = context.read<ProfileCubit>();
           final isIssuerVerificationSettingTrue =
               profileCubit.state.model.issuerVerificationSetting;
+
           if (isIssuerVerificationSettingTrue) {
             try {
               approvedIssuer = await CheckIssuer(
@@ -116,6 +119,7 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
               }
             }
           }
+
           var acceptHost = await showDialog<bool>(
                 context: context,
                 builder: (BuildContext context) {
