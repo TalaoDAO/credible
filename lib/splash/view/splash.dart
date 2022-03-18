@@ -1,12 +1,10 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:json_path/json_path.dart';
 import 'package:talao/app/interop/issuer/check_issuer.dart';
 import 'package:talao/app/interop/issuer/models/issuer.dart';
 import 'package:talao/app/interop/network/network_client.dart';

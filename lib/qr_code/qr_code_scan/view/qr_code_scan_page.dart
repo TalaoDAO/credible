@@ -1,16 +1,15 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:json_path/json_path.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:talao/app/interop/issuer/check_issuer.dart';
 import 'package:talao/app/interop/issuer/models/issuer.dart';
 import 'package:talao/app/interop/network/network_client.dart';
 import 'package:talao/app/shared/constants.dart';
 import 'package:talao/app/shared/error_handler/error_handler.dart';
+import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/confirm_dialog.dart';
@@ -76,8 +75,10 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
     return BlocListener<QRCodeScanCubit, QRCodeScanState>(
       listener: (context, state) async {
         if (state is QRCodeScanStateHost) {
-          var profileCubit = context.read<ProfileCubit>();
+          final profileCubit = context.read<ProfileCubit>();
           final qrCodeCubit = context.read<QRCodeScanCubit>();
+          final walletCubit = context.read<WalletCubit>();
+
           if (state.promptActive!) return;
           qrCodeCubit.promptDeactivate();
 
@@ -92,7 +93,7 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
             // }
 
             ///credential should not be empty since we have to present
-            if (context.read<WalletCubit>().state.credentials.isEmpty) {
+            if (walletCubit.state.credentials.isEmpty) {
               ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text(l10n.credentialEmptyError)));
               return;
@@ -123,10 +124,18 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
             var issuer = qrCodeCubit.getIssuer(sIOPV2Param.claims!);
 
             ///check if credential and issuer both are not present
+            ///TODO: Review this code... JSONPath should not cause issue in future
             if (credential == '' && issuer == '') {
               return qrCodeCubit.emitQRCodeScanStateUnknown(
                   isDeepLink: isDeepLink);
             }
+
+            //TODO: Check my credential list with credentials and issuer
+            walletCubit.state.credentials
+                .forEach((CredentialModel credentialModel) {
+              print(credentialModel.credentialPreview.issuer);
+              print(credentialModel.credentialPreview.type);
+            });
 
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text('Credential : $credential\nIssuer: $issuer'),
