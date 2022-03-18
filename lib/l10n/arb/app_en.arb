@@ -260,5 +260,7 @@
   "failedToLoadProfile": "Failed to load profile. ",
   "failedToSaveProfile": "Failed to save profile. ",
   "failedToLoadDID": "Failed to load DID. ",
-  "thisFieldIsRequired": "This field is required"
+  "thisFieldIsRequired": "This field is required",
+  "personalOpenIdRestrictionMessage": "Personal wallet does not have access.",
+  "credentialEmptyError": "You do not have any credential in your wallet."
 }

@@ -288,34 +288,46 @@ class _SplashPageState extends State<SplashPage> {
 
           if (state is QRCodeScanStateHost) {
             final isDeepLink = true;
-            // if (state.promptActive!) return;
+            var profileCubit = context.read<ProfileCubit>();
             final qrCodeCubit = context.read<QRCodeScanCubit>();
-            // context.read<QRCodeScanCubit>().promptDeactivate();
+            // if (state.promptActive!) return;
+            // qrCodeCubit.promptDeactivate();
             if (qrCodeCubit.isOpenIdUrl(isDeepLink: isDeepLink)) {
-              if (!qrCodeCubit.requestAttributeExists(isDeepLink: isDeepLink)) {
-                if (qrCodeCubit.requestUrlAttributeExists(
-                    isDeepLink: isDeepLink)) {
-                  var sIOPV2Param = await qrCodeCubit.getSIOPV2Parameters(
-                      isDeepLink: isDeepLink);
+              if (!profileCubit.state.model.isEnterprise) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(l10n.personalOpenIdRestrictionMessage)));
+                return;
+              }
+
+              if (context.read<WalletCubit>().state.credentials.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(l10n.credentialEmptyError)));
+                return;
+              }
+
+              if (qrCodeCubit.requestAttributeExists(isDeepLink: isDeepLink)) {
+                return;
+              }
+
+              if (qrCodeCubit.requestUrlAttributeExists(
+                  isDeepLink: isDeepLink)) {
+                var sIOPV2Param = await qrCodeCubit.getSIOPV2Parameters(
+                    isDeepLink: isDeepLink);
+
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(sIOPV2Param.toString())));
+                if (sIOPV2Param.claims != null) {
+                  var credential =
+                      qrCodeCubit.getCredential(sIOPV2Param.claims!);
+                  var issuer = qrCodeCubit.getIssuer(sIOPV2Param.claims!);
 
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text(sIOPV2Param.toString()),
+                    content: Text('Credential : $credential\nIssuer: $issuer'),
                   ));
-                  if (sIOPV2Param.claims != null) {
-                    var credential =
-                        qrCodeCubit.getCredential(sIOPV2Param.claims!);
-                    var issuer = qrCodeCubit.getIssuer(sIOPV2Param.claims!);
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content:
-                          Text('Credential : $credential\nIssuer: $issuer'),
-                    ));
-                  }
                 }
               }
             } else {
               var approvedIssuer = Issuer.emptyIssuer();
-
-              var profileCubit = context.read<ProfileCubit>();
               final isIssuerVerificationSettingTrue =
                   profileCubit.state.model.issuerVerificationSetting;
               if (isIssuerVerificationSettingTrue) {

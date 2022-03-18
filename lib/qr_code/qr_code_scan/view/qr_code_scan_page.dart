@@ -17,6 +17,7 @@ import 'package:talao/app/shared/widget/confirm_dialog.dart';
 import 'package:talao/drawer/drawer.dart';
 import 'package:talao/l10n/l10n.dart';
 import 'package:talao/qr_code/qr_code_scan/cubit/qr_code_scan_cubit.dart';
+import 'package:talao/wallet/cubit/wallet_cubit.dart';
 
 class QrCodeScanPage extends StatefulWidget {
   static Route route() => MaterialPageRoute(
@@ -75,66 +76,77 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
     return BlocListener<QRCodeScanCubit, QRCodeScanState>(
       listener: (context, state) async {
         if (state is QRCodeScanStateHost) {
-          if (state.promptActive!) return;
+          var profileCubit = context.read<ProfileCubit>();
           final qrCodeCubit = context.read<QRCodeScanCubit>();
+          if (state.promptActive!) return;
           qrCodeCubit.promptDeactivate();
           if (qrCodeCubit.isOpenIdUrl(isDeepLink: isDeepLink)) {
-            if (!qrCodeCubit.requestAttributeExists(isDeepLink: isDeepLink)) {
-              if (qrCodeCubit.requestUrlAttributeExists(
-                  isDeepLink: isDeepLink)) {
-                var sIOPV2Param = await qrCodeCubit.getSIOPV2Parameters(
-                    isDeepLink: isDeepLink);
+            if (!profileCubit.state.model.isEnterprise) {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(l10n.personalOpenIdRestrictionMessage)));
+              return;
+            }
+
+            if (context.read<WalletCubit>().state.credentials.isEmpty) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(l10n.credentialEmptyError)));
+              return;
+            }
+
+            if (qrCodeCubit.requestAttributeExists(isDeepLink: isDeepLink)) {
+              return;
+            }
+
+            if (qrCodeCubit.requestUrlAttributeExists(isDeepLink: isDeepLink)) {
+              var sIOPV2Param =
+                  await qrCodeCubit.getSIOPV2Parameters(isDeepLink: isDeepLink);
+
+              ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(sIOPV2Param.toString())));
+              if (sIOPV2Param.claims != null) {
+                var credential = qrCodeCubit.getCredential(sIOPV2Param.claims!);
+                var issuer = qrCodeCubit.getIssuer(sIOPV2Param.claims!);
 
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(sIOPV2Param.toString()),
+                  content: Text('Credential : $credential\nIssuer: $issuer'),
                 ));
-                if (sIOPV2Param.claims != null) {
-                  var credential = qrCodeCubit.getCredential(sIOPV2Param.claims!);
-                  var issuer = qrCodeCubit.getIssuer(sIOPV2Param.claims!);
-
-
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text('Credential : $credential\nIssuer: $issuer'),
-                  ));
-                }
               }
             }
           } else {
             var approvedIssuer = Issuer.emptyIssuer();
+            final isIssuerVerificationSettingTrue =
+                profileCubit.state.model.issuerVerificationSetting;
 
-          var profileCubit = context.read<ProfileCubit>();
-          final isIssuerVerificationSettingTrue =
-              profileCubit.state.model.issuerVerificationSetting;
-
-          if (isIssuerVerificationSettingTrue) {
-            try {
-              approvedIssuer = await CheckIssuer(
-                      DioClient(Constants.checkIssuerServerUrl, Dio()),
-                      Constants.checkIssuerServerUrl,
-                      state.uri!)
-                  .isIssuerInApprovedList();
-            } catch (e) {
-              if (e is ErrorHandler) {
-                e.displayError(context, e, Theme.of(context).colorScheme.error);
+            if (isIssuerVerificationSettingTrue) {
+              try {
+                approvedIssuer = await CheckIssuer(
+                        DioClient(Constants.checkIssuerServerUrl, Dio()),
+                        Constants.checkIssuerServerUrl,
+                        state.uri!)
+                    .isIssuerInApprovedList();
+              } catch (e) {
+                if (e is ErrorHandler) {
+                  e.displayError(
+                      context, e, Theme.of(context).colorScheme.error);
+                }
               }
             }
-          }
 
-          var acceptHost = await showDialog<bool>(
-                context: context,
-                builder: (BuildContext context) {
-                  return ConfirmDialog(
-                    title: l10n.scanPromptHost,
-                    subtitle: (approvedIssuer.did.isEmpty)
-                        ? state.uri!.host
-                        : '${approvedIssuer.organizationInfo.legalName}\n${approvedIssuer.organizationInfo.currentAddress}',
-                    yes: l10n.communicationHostAllow,
-                    no: l10n.communicationHostDeny,
-                    lock: (state.uri!.scheme == 'http') ? true : false,
-                  );
-                },
-              ) ??
-              false;
+            var acceptHost = await showDialog<bool>(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return ConfirmDialog(
+                      title: l10n.scanPromptHost,
+                      subtitle: (approvedIssuer.did.isEmpty)
+                          ? state.uri!.host
+                          : '${approvedIssuer.organizationInfo.legalName}\n${approvedIssuer.organizationInfo.currentAddress}',
+                      yes: l10n.communicationHostAllow,
+                      no: l10n.communicationHostDeny,
+                      lock: (state.uri!.scheme == 'http') ? true : false,
+                    );
+                  },
+                ) ??
+                false;
 
             if (acceptHost) {
               context

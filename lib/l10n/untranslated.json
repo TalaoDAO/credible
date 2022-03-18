@@ -91,7 +91,8 @@
     "failedToLoadProfile",
     "failedToSaveProfile",
     "failedToLoadDID",
-    "thisFieldIsRequired"
+    "thisFieldIsRequired",
+    "personalOpenIdRestrictionMessage"
   ],
 
   "es": [
@@ -185,7 +186,8 @@
     "failedToLoadProfile",
     "failedToSaveProfile",
     "failedToLoadDID",
-    "thisFieldIsRequired"
+    "thisFieldIsRequired",
+    "personalOpenIdRestrictionMessage"
   ],
 
   "fr": [
@@ -254,7 +256,8 @@
     "failedToLoadProfile",
     "failedToSaveProfile",
     "failedToLoadDID",
-    "thisFieldIsRequired"
+    "thisFieldIsRequired",
+    "personalOpenIdRestrictionMessage"
   ],
 
   "it": [
@@ -350,6 +353,7 @@
     "failedToLoadProfile",
     "failedToSaveProfile",
     "failedToLoadDID",
-    "thisFieldIsRequired"
+    "thisFieldIsRequired",
+    "personalOpenIdRestrictionMessage"
   ]
 }
