@@ -90,7 +90,8 @@
     "failedToSaveMnemonicPleaseTryAgain",
     "failedToLoadProfile",
     "failedToSaveProfile",
-    "failedToLoadDID"
+    "failedToLoadDID",
+    "thisFieldIsRequired"
   ],
 
   "es": [
@@ -183,7 +184,8 @@
     "failedToSaveMnemonicPleaseTryAgain",
     "failedToLoadProfile",
     "failedToSaveProfile",
-    "failedToLoadDID"
+    "failedToLoadDID",
+    "thisFieldIsRequired"
   ],
 
   "fr": [
@@ -251,7 +253,8 @@
     "failedToSaveMnemonicPleaseTryAgain",
     "failedToLoadProfile",
     "failedToSaveProfile",
-    "failedToLoadDID"
+    "failedToLoadDID",
+    "thisFieldIsRequired"
   ],
 
   "it": [
@@ -346,6 +349,7 @@
     "failedToSaveMnemonicPleaseTryAgain",
     "failedToLoadProfile",
     "failedToSaveProfile",
-    "failedToLoadDID"
+    "failedToLoadDID",
+    "thisFieldIsRequired"
   ]
 }

@@ -10,6 +10,7 @@ class BaseTextField extends StatelessWidget {
   final String? error;
   final Widget? prefixIcon;
   final BoxConstraints? prefixConstraint;
+  final String? Function(String?)? validator;
 
   const BaseTextField({
     Key? key,
@@ -21,6 +22,7 @@ class BaseTextField extends StatelessWidget {
     this.error,
     this.prefixIcon,
     this.prefixConstraint,
+    this.validator,
   }) : super(key: key);
 
   @override
@@ -43,6 +45,7 @@ class BaseTextField extends StatelessWidget {
         maxLines: 1,
         textCapitalization: textCapitalization,
         style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 17),
+        validator: validator,
         decoration: InputDecoration(
           border: InputBorder.none,
           enabledBorder: InputBorder.none,
