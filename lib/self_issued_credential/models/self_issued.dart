@@ -19,9 +19,9 @@ class SelfIssued extends CredentialSubject {
   final String? givenName;
   final String? telephone;
   final String? email;
-  final String? companyName;
+  final String? workFor;
   final String? companyWebsite;
-  final String? title;
+  final String? jobTitle;
 
   factory SelfIssued.fromJson(Map<String, dynamic> json) =>
       _$SelfIssuedFromJson(json);
@@ -34,9 +34,9 @@ class SelfIssued extends CredentialSubject {
       this.type = 'SelfIssued',
       this.telephone,
       this.email,
-      this.companyName,
+      this.workFor,
       this.companyWebsite,
-      this.title})
+      this.jobTitle})
       : super(id, type, Author('', ''));
 
   @override
@@ -49,9 +49,9 @@ class SelfIssued extends CredentialSubject {
         if (address != null && address!.isNotEmpty) 'address': address,
         'type': type,
         if (email != null && email!.isNotEmpty) 'email': email,
-        if (companyName != null && companyName!.isNotEmpty) 'workFor': companyName,
+        if (workFor != null && workFor!.isNotEmpty) 'workFor': workFor,
         if (companyWebsite != null && companyWebsite!.isNotEmpty) 'companyWebsite': companyWebsite,
-        if (title != null && title!.isNotEmpty) 'jobTitle': title,
+        if (jobTitle != null && jobTitle!.isNotEmpty) 'jobTitle': jobTitle,
       };
 
   @override
@@ -81,14 +81,14 @@ class SelfIssued extends CredentialSubject {
         email?.isNotEmpty ?? false
             ? CredentialField(title: localizations.personalMail, value: email!)
             : SizedBox.shrink(),
-        companyName?.isNotEmpty ?? false
-            ? CredentialField(title: localizations.companyName, value: companyName!)
+        workFor?.isNotEmpty ?? false
+            ? CredentialField(title: localizations.companyName, value: workFor!)
             : SizedBox.shrink(),
         companyWebsite?.isNotEmpty ?? false
             ? CredentialField(title: localizations.companyWebsite, value: companyWebsite!)
             : SizedBox.shrink(),
-        title?.isNotEmpty ?? false
-            ? CredentialField(title: localizations.jobTitle, value: title!)
+        jobTitle?.isNotEmpty ?? false
+            ? CredentialField(title: localizations.jobTitle, value: jobTitle!)
             : SizedBox.shrink(),
       ],
     );
