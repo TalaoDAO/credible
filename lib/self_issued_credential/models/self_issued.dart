@@ -49,9 +49,9 @@ class SelfIssued extends CredentialSubject {
         if (address != null && address!.isNotEmpty) 'address': address,
         'type': type,
         if (email != null && email!.isNotEmpty) 'email': email,
-        if (companyName != null && companyName!.isNotEmpty) 'companyName': companyName,
+        if (companyName != null && companyName!.isNotEmpty) 'workFor': companyName,
         if (companyWebsite != null && companyWebsite!.isNotEmpty) 'companyWebsite': companyWebsite,
-        if (title != null && title!.isNotEmpty) 'title': title,
+        if (title != null && title!.isNotEmpty) 'jobTitle': title,
       };
 
   @override
