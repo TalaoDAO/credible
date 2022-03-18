@@ -89,27 +89,8 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
                   content: Text(sIOPV2Param.toString()),
                 ));
                 if (sIOPV2Param.claims != null) {
-                  final claimsJson = jsonDecode(sIOPV2Param.claims!);
-                  final fieldsPath = JsonPath(r'$..fields');
-                  var credentialField = fieldsPath
-                      .read(claimsJson)
-                      .first
-                      .value
-                      .where((e) =>
-                          e['path'].toString() ==
-                          '[\$.credentialSubject.type]'.toString())
-                      .toList()
-                      .first;
-                  var credential = credentialField['filter']['pattern'];
-                  var issuerField = fieldsPath
-                      .read(claimsJson)
-                      .first
-                      .value
-                      .where((e) =>
-                          e['path'].toString() == '[\$.issuer]'.toString())
-                      .toList()
-                      .first;
-                  var issuer = issuerField['filter']['pattern'];
+                  var credential = qrCodeCubit.getCredential(sIOPV2Param.claims!);
+                  var issuer = qrCodeCubit.getIssuer(sIOPV2Param.claims!);
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     content: Text('Credential : $credential\nIssuer: $issuer'),
                   ));

@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:json_path/json_path.dart';
 import 'package:talao/app/interop/jwt_decode/jwt_decode.dart';
 import 'package:logging/logging.dart';
 import 'package:talao/app/interop/network/network_client.dart';
@@ -57,8 +58,9 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
       if (url == null) {
         emit(QRCodeScanStateMessage(
             isDeepLink: isDeepLink,
-            message: StateMessage.error(message: ScanMessageStringState
-                .thisQRCodeDoseNotContainAValidMessage())));
+            message: StateMessage.error(
+                message: ScanMessageStringState
+                    .thisQRCodeDoseNotContainAValidMessage())));
       } else {
         var uri = Uri.parse(url);
         emit(QRCodeScanStateHost(isDeepLink: isDeepLink, uri: uri));
@@ -66,8 +68,9 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
     } on FormatException {
       emit(QRCodeScanStateMessage(
           isDeepLink: isDeepLink,
-          message: StateMessage.error(message:
-          ScanMessageStringState.thisQRCodeDoseNotContainAValidMessage())));
+          message: StateMessage.error(
+              message: ScanMessageStringState
+                  .thisQRCodeDoseNotContainAValidMessage())));
     }
   }
 
@@ -81,8 +84,9 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
       } on FormatException {
         emit(QRCodeScanStateMessage(
             isDeepLink: true,
-            message: StateMessage.error(message:
-            ScanMessageStringState.thisUrlDoseNotContainAValidMessage())));
+            message: StateMessage.error(
+                message: ScanMessageStringState
+                    .thisUrlDoseNotContainAValidMessage())));
       }
     }
   }
@@ -141,14 +145,15 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
       if (e is ErrorHandler) {
         emit(QRCodeScanStateMessage(
             isDeepLink: isDeepLink,
-            message: StateMessage.error(message:
-            ScanMessageStringState.anErrorOccurred(),
+            message: StateMessage.error(
+                message: ScanMessageStringState.anErrorOccurred(),
                 errorHandler: e)));
       } else {
         emit(QRCodeScanStateMessage(
             isDeepLink: isDeepLink,
-            message: StateMessage.error(message: ScanMessageStringState
-                .anErrorOccurredWhileConnectingToTheServer())));
+            message: StateMessage.error(
+                message: ScanMessageStringState
+                    .anErrorOccurredWhileConnectingToTheServer())));
       }
     }
   }
@@ -253,5 +258,32 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
       log.severe('An error occurred while decoding.', e);
     }
     return data;
+  }
+
+  String getCredential(String claims) {
+    final claimsJson = jsonDecode(claims);
+    final fieldsPath = JsonPath(r'$..fields');
+    var credentialField = fieldsPath
+        .read(claimsJson)
+        .first
+        .value
+        .where((e) =>
+            e['path'].toString() == '[\$.credentialSubject.type]'.toString())
+        .toList()
+        .first;
+    return credentialField['filter']['pattern'];
+  }
+
+  String getIssuer(String claims) {
+    final claimsJson = jsonDecode(claims);
+    final fieldsPath = JsonPath(r'$..fields');
+    var issuerField = fieldsPath
+        .read(claimsJson)
+        .first
+        .value
+        .where((e) => e['path'].toString() == '[\$.issuer]'.toString())
+        .toList()
+        .first;
+    return issuerField['filter']['pattern'];
   }
 }

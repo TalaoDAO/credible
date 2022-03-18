@@ -302,27 +302,9 @@ class _SplashPageState extends State<SplashPage> {
                     content: Text(sIOPV2Param.toString()),
                   ));
                   if (sIOPV2Param.claims != null) {
-                    final claimsJson = jsonDecode(sIOPV2Param.claims!);
-                    final fieldsPath = JsonPath(r'$..fields');
-                    var credentialField = fieldsPath
-                        .read(claimsJson)
-                        .first
-                        .value
-                        .where((e) =>
-                            e['path'].toString() ==
-                            '[\$.credentialSubject.type]'.toString())
-                        .toList()
-                        .first;
-                    var credential = credentialField['filter']['pattern'];
-                    var issuerField = fieldsPath
-                        .read(claimsJson)
-                        .first
-                        .value
-                        .where((e) =>
-                            e['path'].toString() == '[\$.issuer]'.toString())
-                        .toList()
-                        .first;
-                    var issuer = issuerField['filter']['pattern'];
+                    var credential =
+                        qrCodeCubit.getCredential(sIOPV2Param.claims!);
+                    var issuer = qrCodeCubit.getIssuer(sIOPV2Param.claims!);
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       content:
                           Text('Credential : $credential\nIssuer: $issuer'),
@@ -333,39 +315,39 @@ class _SplashPageState extends State<SplashPage> {
             } else {
               var approvedIssuer = Issuer.emptyIssuer();
 
-            var profileCubit = context.read<ProfileCubit>();
-            final isIssuerVerificationSettingTrue =
-                profileCubit.state.model.issuerVerificationSetting;
-            if (isIssuerVerificationSettingTrue) {
-              try {
-                approvedIssuer = await CheckIssuer(
-                        DioClient(Constants.checkIssuerServerUrl, Dio()),
-                        Constants.checkIssuerServerUrl,
-                        state.uri!)
-                    .isIssuerInApprovedList();
-              } catch (e) {
-                if (e is ErrorHandler) {
-                  e.displayError(
-                      context, e, Theme.of(context).colorScheme.error);
+              var profileCubit = context.read<ProfileCubit>();
+              final isIssuerVerificationSettingTrue =
+                  profileCubit.state.model.issuerVerificationSetting;
+              if (isIssuerVerificationSettingTrue) {
+                try {
+                  approvedIssuer = await CheckIssuer(
+                          DioClient(Constants.checkIssuerServerUrl, Dio()),
+                          Constants.checkIssuerServerUrl,
+                          state.uri!)
+                      .isIssuerInApprovedList();
+                } catch (e) {
+                  if (e is ErrorHandler) {
+                    e.displayError(
+                        context, e, Theme.of(context).colorScheme.error);
+                  }
                 }
               }
-            }
 
-            var acceptHost = await showDialog<bool>(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return ConfirmDialog(
-                      title: l10n.scanPromptHost,
-                      subtitle: (approvedIssuer.did.isEmpty)
-                          ? state.uri!.host
-                          : '${approvedIssuer.organizationInfo.legalName}\n${approvedIssuer.organizationInfo.currentAddress}',
-                      yes: l10n.communicationHostAllow,
-                      no: l10n.communicationHostDeny,
-                      lock: (state.uri!.scheme == 'http') ? true : false,
-                    );
-                  },
-                ) ??
-                false;
+              var acceptHost = await showDialog<bool>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return ConfirmDialog(
+                        title: l10n.scanPromptHost,
+                        subtitle: (approvedIssuer.did.isEmpty)
+                            ? state.uri!.host
+                            : '${approvedIssuer.organizationInfo.legalName}\n${approvedIssuer.organizationInfo.currentAddress}',
+                        yes: l10n.communicationHostAllow,
+                        no: l10n.communicationHostDeny,
+                        lock: (state.uri!.scheme == 'http') ? true : false,
+                      );
+                    },
+                  ) ??
+                  false;
 
               if (acceptHost) {
                 context
