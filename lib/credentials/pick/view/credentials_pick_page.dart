@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/credentials/credentials.dart';
 import 'package:talao/l10n/l10n.dart';
 import 'package:talao/scan/scan.dart';
@@ -82,7 +83,7 @@ class _CredentialsPickPageState extends State<CredentialsPickPage> {
                           final scanCubit = context.read<ScanCubit>();
                           scanCubit.verifiablePresentationRequest(
                             url: widget.uri.toString(),
-                            keyId: 'key',
+                            keyId: SecureStorageKeys.key,
                             credentials: credentialsPickState.selection
                                 .map((i) => walletState.credentials[i])
                                 .toList(),

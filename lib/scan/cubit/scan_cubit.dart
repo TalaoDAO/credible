@@ -44,8 +44,7 @@ class ScanCubit extends Cubit<ScanState> {
     final log = Logger('talao-wallet/scan/credential-offer');
 
     try {
-      final key = (await secureStorageProvider.get(keyId))!;
-      final did = didKitProvider.keyToDID(Constants.defaultDIDMethod, key);
+      final did = (await secureStorageProvider.get(SecureStorageKeys.did))!;
 
       final credential = await client.post(
         url,
@@ -73,7 +72,6 @@ class ScanCubit extends Cubit<ScanState> {
             message: StateMessage.warning(
                 message: ScanMessageStringState
                     .credentialVerificationReturnWarning())));
-        return emit(ScanStateIdle());
       }
 
       if (jsonVerification['errors'].isNotEmpty) {
@@ -117,7 +115,7 @@ class ScanCubit extends Cubit<ScanState> {
 
     try {
       final key = (await secureStorageProvider.get(keyId))!;
-      final did = didKitProvider.keyToDID(Constants.defaultDIDMethod, key);
+      final did = await secureStorageProvider.get(SecureStorageKeys.did);
       final verificationMethod = await didKitProvider.keyToVerificationMethod(
           Constants.defaultDIDMethod, key);
 
@@ -257,40 +255,43 @@ class ScanCubit extends Cubit<ScanState> {
 
     try {
       final key = (await secureStorageProvider.get(keyId))!;
-      final did = didKitProvider.keyToDID(Constants.defaultDIDMethod, key);
+      final did = await secureStorageProvider.get(SecureStorageKeys.did);
       final verificationMethod = await didKitProvider.keyToVerificationMethod(
           Constants.defaultDIDMethod, key);
+      if (did != null) {
+        final presentation = await didKitProvider.DIDAuth(
+          did,
+          jsonEncode({
+            'verificationMethod': verificationMethod,
+            'proofPurpose': 'authentication',
+            'challenge': challenge,
+            'domain': domain,
+          }),
+          key,
+        );
+        final credential = await client.post(
+          uri.toString(),
+          data: FormData.fromMap(<String, dynamic>{
+            'presentation': presentation,
+          }),
+        );
+        if (credential == 'ok') {
+          done(presentation);
 
-      final presentation = await didKitProvider.DIDAuth(
-        did,
-        jsonEncode({
-          'verificationMethod': verificationMethod,
-          'proofPurpose': 'authentication',
-          'challenge': challenge,
-          'domain': domain,
-        }),
-        key,
-      );
-      final credential = await client.post(
-        uri.toString(),
-        data: FormData.fromMap(<String, dynamic>{
-          'presentation': presentation,
-        }),
-      );
-      if (credential == 'ok') {
-        done(presentation);
+          emit(ScanStateMessage(
+              message: StateMessage.success(
+                  message:
+                      ScanMessageStringState.successfullyPresentedYourDID())));
 
-        emit(ScanStateMessage(
-            message: StateMessage.success(
-                message:
-                    ScanMessageStringState.successfullyPresentedYourDID())));
-
-        emit(ScanStateSuccess());
+          emit(ScanStateSuccess());
+        } else {
+          emit(ScanStateMessage(
+              message: StateMessage.error(
+                  message: ScanMessageStringState
+                      .somethingsWentWrongTryAgainLater())));
+        }
       } else {
-        emit(ScanStateMessage(
-            message: StateMessage.error(
-                message: ScanMessageStringState
-                    .somethingsWentWrongTryAgainLater())));
+        throw Exception('DID is not set. It is required to present DIDAuth');
       }
     } catch (e) {
       log.severe('something went wrong', e);
@@ -321,7 +322,7 @@ class ScanCubit extends Cubit<ScanState> {
 
     try {
       final key = (await secureStorageProvider.get(keyId))!;
-      final did = didKitProvider.keyToDID(Constants.defaultDIDMethod, key);
+      final did = await secureStorageProvider.get(SecureStorageKeys.did);
       final verificationMethod = await didKitProvider.keyToVerificationMethod(
           Constants.defaultDIDMethod, key);
 
