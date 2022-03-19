@@ -41,11 +41,14 @@ class OnBoardingGenPhraseCubit extends Cubit<OnBoardingGenPhraseState> {
 
       final didMethod = Constants.defaultDIDMethod;
       final did = didKitProvider.keyToDID(didMethod, key);
+      final verificationMethod =
+          await didKitProvider.keyToVerificationMethod(didMethod, key);
 
       didCubit.set(
         did: did,
         didMethod: didMethod,
         didMethodName: Constants.defaultDIDMethodName,
+        verificationMethod: verificationMethod,
       );
 
       emit(state.copyWith(status: OnBoardingGenPhraseStatus.success));

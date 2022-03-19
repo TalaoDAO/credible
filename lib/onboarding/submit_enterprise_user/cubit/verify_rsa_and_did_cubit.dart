@@ -77,10 +77,13 @@ class VerifyRSAAndDIDCubit extends Cubit<VerifyRSAAndDIDState> {
           await secureStorageProvider.set(
               SecureStorageKeys.rsaKeyJson, RSAJsonString);
           await secureStorageProvider.set(SecureStorageKeys.key, RSAJsonString);
+          final RSAKey = jsonDecode(RSAJsonString);
+          final verificationMethod = RSAKey['kid'];
           didCubit.set(
             did: did,
             didMethod: Constants.enterpriseDIDMethod,
             didMethodName: Constants.enterpriseDIDMethodName,
+            verificationMethod: verificationMethod,
           );
           emit(const VerifyRSAAndDIDState.verified());
         } else {

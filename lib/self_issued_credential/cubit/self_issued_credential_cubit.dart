@@ -43,22 +43,15 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
       final isEnterpriseUser =
           await secureStorageProvider.get(SecureStorageKeys.isEnterpriseUser);
 
-      late final String key, verificationMethod;
+      late final String key;
+      final verificationMethod =
+          await secureStorageProvider.get(SecureStorageKeys.verificationMethod);
 
       if (isEnterpriseUser == 'true') {
-        final rsaJsonString = (await secureStorageProvider
-            .get(SecureStorageKeys.rsaKeyJson)) as String;
-        final RSAJson = jsonDecode(rsaJsonString) as Map<String, dynamic>;
-
-        ///
-        key = rsaJsonString;
-        verificationMethod = RSAJson['kid'];
+        key = (await secureStorageProvider.get(SecureStorageKeys.rsaKeyJson))
+            as String;
       } else {
         key = (await secureStorageProvider.get(SecureStorageKeys.key))!;
-        final didMethod = didCubit.state.didMethod!;
-        ;
-        verificationMethod =
-            await didKitProvider.keyToVerificationMethod(didMethod, key);
       }
 
       final did = didCubit.state.did!;

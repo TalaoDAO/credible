@@ -8,7 +8,6 @@ import 'package:logging/logging.dart';
 import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/interop/network/network_client.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
-import 'package:talao/app/shared/constants.dart';
 import 'package:talao/app/shared/error_handler/error_handler.dart';
 import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:talao/app/shared/model/message.dart';
@@ -116,8 +115,8 @@ class ScanCubit extends Cubit<ScanState> {
     try {
       final key = (await secureStorageProvider.get(keyId))!;
       final did = await secureStorageProvider.get(SecureStorageKeys.did);
-      final verificationMethod = await didKitProvider.keyToVerificationMethod(
-          Constants.defaultDIDMethod, key);
+      final verificationMethod =
+          await secureStorageProvider.get(SecureStorageKeys.verificationMethod);
 
       final presentationId = 'urn:uuid:' + Uuid().v4();
       final presentation = await didKitProvider.issuePresentation(
@@ -256,8 +255,9 @@ class ScanCubit extends Cubit<ScanState> {
     try {
       final key = (await secureStorageProvider.get(keyId))!;
       final did = await secureStorageProvider.get(SecureStorageKeys.did);
-      final verificationMethod = await didKitProvider.keyToVerificationMethod(
-          Constants.defaultDIDMethod, key);
+      final verificationMethod =
+          await secureStorageProvider.get(SecureStorageKeys.verificationMethod);
+
       if (did != null) {
         final presentation = await didKitProvider.DIDAuth(
           did,
@@ -323,8 +323,8 @@ class ScanCubit extends Cubit<ScanState> {
     try {
       final key = (await secureStorageProvider.get(keyId))!;
       final did = await secureStorageProvider.get(SecureStorageKeys.did);
-      final verificationMethod = await didKitProvider.keyToVerificationMethod(
-          Constants.defaultDIDMethod, key);
+      final verificationMethod =
+          await secureStorageProvider.get(SecureStorageKeys.verificationMethod);
 
       final presentationId = 'urn:uuid:' + Uuid().v4();
       final presentation = await didKitProvider.issuePresentation(
