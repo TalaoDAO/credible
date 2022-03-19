@@ -91,7 +91,13 @@
     "failedToLoadProfile",
     "failedToSaveProfile",
     "failedToLoadDID",
-    "thisFieldIsRequired"
+    "thisFieldIsRequired",
+    "createPersonalWalletTitle",
+    "createPersonalWalletText",
+    "createPersonalWalletButtonTitle",
+    "createEnterpriseWalletTitle",
+    "createEnterpriseWalletText",
+    "createEnterpriseWalletButtonTitle"
   ],
 
   "es": [
@@ -185,7 +191,13 @@
     "failedToLoadProfile",
     "failedToSaveProfile",
     "failedToLoadDID",
-    "thisFieldIsRequired"
+    "thisFieldIsRequired",
+    "createPersonalWalletTitle",
+    "createPersonalWalletText",
+    "createPersonalWalletButtonTitle",
+    "createEnterpriseWalletTitle",
+    "createEnterpriseWalletText",
+    "createEnterpriseWalletButtonTitle"
   ],
 
   "fr": [
@@ -254,7 +266,13 @@
     "failedToLoadProfile",
     "failedToSaveProfile",
     "failedToLoadDID",
-    "thisFieldIsRequired"
+    "thisFieldIsRequired",
+    "createPersonalWalletTitle",
+    "createPersonalWalletText",
+    "createPersonalWalletButtonTitle",
+    "createEnterpriseWalletTitle",
+    "createEnterpriseWalletText",
+    "createEnterpriseWalletButtonTitle"
   ],
 
   "it": [
@@ -350,6 +368,12 @@
     "failedToLoadProfile",
     "failedToSaveProfile",
     "failedToLoadDID",
-    "thisFieldIsRequired"
+    "thisFieldIsRequired",
+    "createPersonalWalletTitle",
+    "createPersonalWalletText",
+    "createPersonalWalletButtonTitle",
+    "createEnterpriseWalletTitle",
+    "createEnterpriseWalletText",
+    "createEnterpriseWalletButtonTitle"
   ]
 }

@@ -5,11 +5,9 @@ import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/l10n/l10n.dart';
 import 'package:talao/onboarding/key/onboarding_key.dart';
-
-import '../../submit_enterprise_user/view/submit_enterprise_user_page.dart';
-import '../cubit/choose_wallet_type_cubit.dart';
-import '../cubit/choose_wallet_type_state.dart';
-import '../cubit/wallet_type_enum.dart';
+import 'package:talao/onboarding/onboarding.dart';
+import 'package:talao/onboarding/submit_enterprise_user/view/submit_enterprise_user_page.dart';
+import 'package:talao/onboarding/wallet_type/cubit/choose_wallet_type_cubit.dart';
 
 class ChooseWalletTypePage extends StatefulWidget {
   static Route route() => MaterialPageRoute(
@@ -29,60 +27,81 @@ class ChooseWalletTypePage extends StatefulWidget {
 class _ChooseWalletTypePageState extends State<ChooseWalletTypePage> {
   @override
   Widget build(BuildContext context) {
-    final localization = context.l10n;
+    final l10n = context.l10n;
     return BasePage(
-      title: localization.walletType,
+      title: l10n.walletType,
       backgroundColor: Theme.of(context).colorScheme.surface,
       scrollView: false,
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              localization.chooseYourWalletType,
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.subtitle1,
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Text(
+                    l10n.createPersonalWalletTitle,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.subtitle1,
+                  ),
+                  const SizedBox(height: 32.0),
+                  Text(
+                    l10n.createPersonalWalletText,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.bodyText1,
+                  ),
+                  const SizedBox(height: 20.0),
+                  BaseButton.primary(
+                    context: context,
+                    onPressed: () async {
+                      context
+                          .read<ChooseWalletTypeCubit>()
+                          .onChangeWalletType(WalletTypes.enterprise);
+                      await context.read<ChooseWalletTypeCubit>().save();
+                      await Navigator.of(context)
+                          .pushReplacement(OnBoardingKeyPage.route());
+                    },
+                    child: Text(l10n.createPersonalWalletButtonTitle),
+                  ),
+                ],
+              ),
             ),
-            const SizedBox(height: 20.0),
-            BlocBuilder<ChooseWalletTypeCubit, ChooseWalletTypeState>(
-                builder: (context, state) {
-              return DropdownButton<WalletTypes>(
-                value: state.selectedWallet,
-                items: WalletTypes.values
-                    .map(
-                      (e) => DropdownMenuItem(
-                        value: e,
-                        child: Text(
-                          e.stringValue(context),
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.bodyText1,
-                        ),
-                      ),
-                    )
-                    .toList(),
-                onChanged:
-                    context.read<ChooseWalletTypeCubit>().onChangeWalletType,
-              );
-            })
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Text(
+                    l10n.createEnterpriseWalletTitle,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.subtitle1,
+                  ),
+                  const SizedBox(height: 32.0),
+                  Text(
+                    l10n.createEnterpriseWalletText,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.bodyText1,
+                  ),
+                  const SizedBox(height: 20.0),
+                  BaseButton.primary(
+                    context: context,
+                    onPressed: () async {
+                      context
+                          .read<ChooseWalletTypeCubit>()
+                          .onChangeWalletType(WalletTypes.enterprise);
+                      await context.read<ChooseWalletTypeCubit>().save();
+                      await Navigator.of(context)
+                          .pushReplacement(SubmitEnterpriseUserPage.route());
+                    },
+                    child: Text(l10n.createEnterpriseWalletButtonTitle),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
-      ),
-      navigation: BaseButton.primary(
-        margin: EdgeInsets.all(12),
-        context: context,
-        child: Text(localization.proceed),
-        onPressed: () async {
-          await context
-              .read<ChooseWalletTypeCubit>().save();
-          if (context
-              .read<ChooseWalletTypeCubit>()
-              .isPersonalWalletSelected()) {
-            await Navigator.of(context).pushReplacement(OnBoardingKeyPage.route());
-          } else {
-            await Navigator.of(context)
-                .pushReplacement(SubmitEnterpriseUserPage.route());
-          }
-        },
       ),
     );
   }
