@@ -6,8 +6,6 @@ import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/l10n/l10n.dart';
 import 'package:talao/onboarding/key/onboarding_key.dart';
 import 'package:talao/onboarding/onboarding.dart';
-import 'package:talao/onboarding/submit_enterprise_user/view/submit_enterprise_user_page.dart';
-import 'package:talao/onboarding/wallet_type/cubit/choose_wallet_type_cubit.dart';
 
 class ChooseWalletTypePage extends StatefulWidget {
   static Route route() => MaterialPageRoute(
