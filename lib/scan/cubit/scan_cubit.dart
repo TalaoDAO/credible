@@ -329,7 +329,7 @@ class ScanCubit extends Cubit<ScanState> {
       client
           .changeHeaders({'Content-Type': 'application/x-www-form-urlencoded'});
       final result = await client.post(
-        sIOPV2Param['redirect_uri'],
+        sIOPV2Param.redirect_uri,
         data: FormData.fromMap(<String, dynamic>{
           'vp_token': vpToken,
           'id_token': idToken,
@@ -455,7 +455,7 @@ class ScanCubit extends Cubit<ScanState> {
       'verificationMethod':
           await secureStorageProvider.get(SecureStorageKeys.verificationMethod),
       'proofPurpose': 'authentication',
-      challenge: challenge
+      'challenge': challenge
     });
     final presentationId = 'urn:uuid:' + Uuid().v4();
     final vpToken = await DIDKitProvider.instance.issuePresentation(
@@ -464,7 +464,7 @@ class ScanCubit extends Cubit<ScanState> {
           'type': ['VerifiablePresentation'],
           'id': presentationId,
           'holder': did,
-          'verifiableCredential': credential,
+          'verifiableCredential': credential.data,
         }),
         options,
         key!);
@@ -475,9 +475,6 @@ class ScanCubit extends Cubit<ScanState> {
     final key = await secureStorageProvider.get(SecureStorageKeys.key);
     final did = await secureStorageProvider.get(SecureStorageKeys.did);
 
-    /// We need kid for the id token and, at least with did:web and RSA key, kid == verificationMethod
-    final kid =
-        await secureStorageProvider.get(SecureStorageKeys.verificationMethod);
     final timeStamp = DateTime.now().millisecondsSinceEpoch ~/ 1000;
     var claims = JsonWebTokenClaims.fromJson({
       'exp': timeStamp + 600,
