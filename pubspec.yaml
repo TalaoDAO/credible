@@ -57,6 +57,7 @@ dependencies:
   url_launcher: ^6.0.17
   uuid: ^3.0.5
   video_player: ^2.2.19
+  jose: ^0.3.2
 
 
 dev_dependencies:

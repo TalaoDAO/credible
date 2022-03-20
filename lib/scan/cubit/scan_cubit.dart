@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
+import 'package:jose/jose.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:logging/logging.dart';
 import 'package:talao/app/interop/didkit/didkit.dart';
@@ -309,6 +310,63 @@ class ScanCubit extends Cubit<ScanState> {
     }
   }
 
+  void presentCredentialToSiopV2Request(
+      {required credential, required sIOPV2Param}) async {
+    final log =
+        Logger('talao-wallet/scan/present-credential-to-siop-v2-request');
+
+    try {
+      final vpToken = await createVpToken(
+          credential: credential, challenge: sIOPV2Param.nonce);
+      final idToken = await createIdToken(nonce: sIOPV2Param.nonce);
+// prepare the post request
+// Content-Type: application/x-www-form-urlencoded
+// data =
+// id_token=encoded_jwt&vp_token=verifiable_presentation
+// There is a stackoverflow question about How to post x-www-form-urlencoded in Flutter
+// execute the request
+// Request is sent to redirect_uri.
+      client
+          .changeHeaders({'Content-Type': 'application/x-www-form-urlencoded'});
+      final result = await client.post(
+        sIOPV2Param['redirect_uri'],
+        data: FormData.fromMap(<String, dynamic>{
+          'vp_token': vpToken,
+          'id_token': idToken,
+        }),
+      );
+
+      client.changeHeaders({'Content-Type': 'application/json; charset=UTF-8'});
+
+      if (result == 'ok') {
+        emit(ScanStateMessage(
+            message: StateMessage.success(
+                message:
+                    ScanMessageStringState.successfullyPresentedYourDID())));
+
+        emit(ScanStateSuccess());
+      } else {
+        emit(ScanStateMessage(
+            message: StateMessage.error(
+                message: ScanMessageStringState
+                    .somethingsWentWrongTryAgainLater())));
+      }
+    } catch (e) {
+      log.severe('something went wrong', e);
+      if (e is ErrorHandler) {
+        emit(ScanStateMessage(
+            message: StateMessage.error(
+                message: ScanMessageStringState.anErrorOccurred(),
+                errorHandler: e)));
+      } else {
+        emit(ScanStateMessage(
+            message: StateMessage.error(
+                message: ScanMessageStringState
+                    .somethingsWentWrongTryAgainLater())));
+      }
+    }
+  }
+
   //
   void getQueryByExampleCHAPI({
     required String keyId,
@@ -382,5 +440,70 @@ class ScanCubit extends Cubit<ScanState> {
         uri: uri,
         challenge: challenge,
         domain: domain));
+  }
+
+  void askPermissionPresentCredentialToSiopV2Request(
+      {credential, sIOPV2Param}) async {
+    emit(ScanStateAskPermissionPresentCredentialToSiopV2Request(
+        credential: credential, sIOPV2Param: sIOPV2Param));
+  }
+
+  Future<String> createVpToken({challenge, credential}) async {
+    final key = await secureStorageProvider.get(SecureStorageKeys.key);
+    final did = await secureStorageProvider.get(SecureStorageKeys.did);
+    final options = jsonEncode({
+      'verificationMethod':
+          await secureStorageProvider.get(SecureStorageKeys.verificationMethod),
+      'proofPurpose': 'authentication',
+      challenge: challenge
+    });
+    final presentationId = 'urn:uuid:' + Uuid().v4();
+    final vpToken = await DIDKitProvider.instance.issuePresentation(
+        jsonEncode({
+          '@context': ['https://www.w3.org/2018/credentials/v1'],
+          'type': ['VerifiablePresentation'],
+          'id': presentationId,
+          'holder': did,
+          'verifiableCredential': credential,
+        }),
+        options,
+        key!);
+    return vpToken;
+  }
+
+  Future<String> createIdToken({nonce}) async {
+    final key = await secureStorageProvider.get(SecureStorageKeys.key);
+    final did = await secureStorageProvider.get(SecureStorageKeys.did);
+
+    /// We need kid for the id token and, at least with did:web and RSA key, kid == verificationMethod
+    final kid =
+        await secureStorageProvider.get(SecureStorageKeys.verificationMethod);
+    final timeStamp = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+    var claims = JsonWebTokenClaims.fromJson({
+      'exp': timeStamp + 600,
+      'iat': timeStamp,
+      'i_am_siop': true,
+      'sub': did,
+      'nonce': nonce,
+    });
+
+    // create a builder, decoding the JWT in a JWS, so using a
+    // JsonWebSignatureBuilder
+    var builder = JsonWebSignatureBuilder();
+
+    // set the content
+    builder.jsonContent = claims.toJson();
+
+    // add a key to sign, can only add one for JWT
+    builder.addRecipient(JsonWebKey.fromJson(jsonDecode(key!)),
+        algorithm: 'RS256');
+
+    // build the jws
+    var jws = builder.build();
+
+    // output the compact serialization
+    print('jwt compact serialization: ${jws.toCompactSerialization()}');
+
+    return jws.toCompactSerialization();
   }
 }

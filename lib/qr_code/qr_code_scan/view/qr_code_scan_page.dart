@@ -157,20 +157,8 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
               }
             });
 
-            if (selectedCredentials.isEmpty) {
-              ///TODO: User should be directed to url to add credentials.
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(
-                      'User should be directed to url to add credentials.')));
-              return;
-            }
-
-            ///TODO: Present Credentials
-
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content:
-                  Text('Credential : $openIdCredential\nIssuer: $openIdIssuer'),
-            ));
+            qrCodeCubit.presentCredentialToSiopV2Request(
+                selectedCredentials, sIOPV2Param);
           } else {
             var approvedIssuer = Issuer.emptyIssuer();
             final isIssuerVerificationSettingTrue =

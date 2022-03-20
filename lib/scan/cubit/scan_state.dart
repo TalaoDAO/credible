@@ -66,3 +66,10 @@ class ScanStateAskPermissionDIDAuth extends ScanState {
             uri: uri,
             done: done);
 }
+
+class ScanStateAskPermissionPresentCredentialToSiopV2Request extends ScanState {
+  final credential;
+  final sIOPV2Param;
+  ScanStateAskPermissionPresentCredentialToSiopV2Request(
+      {required this.credential, required this.sIOPV2Param});
+}

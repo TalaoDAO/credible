@@ -98,4 +98,8 @@ class DioClient {
       }
     }
   }
+
+  void changeHeaders(Map<String, dynamic> headers) {
+    _dio.options.headers = headers;
+  }
 }

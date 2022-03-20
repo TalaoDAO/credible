@@ -270,6 +270,28 @@ class _SplashPageState extends State<SplashPage> {
                 Navigator.of(context).pop();
               }
             }
+            if (state
+                is ScanStateAskPermissionPresentCredentialToSiopV2Request) {
+              final l10n = context.l10n;
+              final confirm = await showDialog<bool>(
+                    context: context,
+                    builder: (context) => ConfirmDialog(
+                      title:
+                          '${l10n.credentialPresentTitleDIDAuth}\n${l10n.confimrDIDAuth}',
+                      yes: l10n.showDialogYes,
+                      no: l10n.showDialogNo,
+                    ),
+                  ) ??
+                  false;
+
+              if (confirm) {
+                context.read<ScanCubit>().presentCredentialToSiopV2Request(
+                    credential: state.credential,
+                    sIOPV2Param: state.sIOPV2Param);
+              } else {
+                Navigator.of(context).pop();
+              }
+            }
             if (state is ScanStateSuccess) {
               Navigator.of(context).pop();
             }
