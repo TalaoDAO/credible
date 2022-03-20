@@ -97,7 +97,9 @@
     "createPersonalWalletButtonTitle",
     "createEnterpriseWalletTitle",
     "createEnterpriseWalletText",
-    "createEnterpriseWalletButtonTitle"
+    "createEnterpriseWalletButtonTitle",
+    "personalOpenIdRestrictionMessage",
+    "credentialEmptyError"
   ],
 
   "es": [
@@ -197,7 +199,9 @@
     "createPersonalWalletButtonTitle",
     "createEnterpriseWalletTitle",
     "createEnterpriseWalletText",
-    "createEnterpriseWalletButtonTitle"
+    "createEnterpriseWalletButtonTitle",
+    "personalOpenIdRestrictionMessage",
+    "credentialEmptyError"
   ],
 
   "fr": [
@@ -272,7 +276,9 @@
     "createPersonalWalletButtonTitle",
     "createEnterpriseWalletTitle",
     "createEnterpriseWalletText",
-    "createEnterpriseWalletButtonTitle"
+    "createEnterpriseWalletButtonTitle",
+    "personalOpenIdRestrictionMessage",
+    "credentialEmptyError"
   ],
 
   "it": [
@@ -374,6 +380,8 @@
     "createPersonalWalletButtonTitle",
     "createEnterpriseWalletTitle",
     "createEnterpriseWalletText",
-    "createEnterpriseWalletButtonTitle"
+    "createEnterpriseWalletButtonTitle",
+    "personalOpenIdRestrictionMessage",
+    "credentialEmptyError"
   ]
 }

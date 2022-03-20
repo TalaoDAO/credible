@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:json_path/json_path.dart';
 import 'package:talao/app/interop/jwt_decode/jwt_decode.dart';
 import 'package:logging/logging.dart';
 import 'package:talao/app/interop/network/network_client.dart';
@@ -156,7 +157,7 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
     }
   }
 
-  bool isOpenIdUrl({required bool isDeepLink}) {
+  bool isOpenIdUrl() {
     var condition = false;
     state.uri!.queryParameters.forEach((key, value) {
       if (key == 'scope' && value == 'openid') {
@@ -166,29 +167,23 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
     return condition;
   }
 
-  bool requestAttributeExists({required bool isDeepLink}) {
+  bool requestAttributeExists() {
     var condition = false;
     state.uri!.queryParameters.forEach((key, value) {
       if (key == 'request') {
         condition = true;
       }
     });
-    if (condition) {
-      emit(QRCodeScanStateUnknown(isDeepLink: isDeepLink, uri: state.uri!));
-    }
     return condition;
   }
 
-  bool requestUrlAttributeExists({required bool isDeepLink}) {
+  bool requestUriAttributeExists() {
     var condition = false;
     state.uri!.queryParameters.forEach((key, value) {
       if (key == 'request_uri') {
         condition = true;
       }
     });
-    if (!condition) {
-      emit(QRCodeScanStateUnknown(isDeepLink: isDeepLink, uri: state.uri!));
-    }
     return condition;
   }
 
@@ -253,5 +248,36 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
       log.severe('An error occurred while decoding.', e);
     }
     return data;
+  }
+
+  String getCredential(String claims) {
+    final claimsJson = jsonDecode(claims);
+    final fieldsPath = JsonPath(r'$..fields');
+    var credentialField = fieldsPath
+        .read(claimsJson)
+        .first
+        .value
+        .where((e) =>
+            e['path'].toString() == '[\$.credentialSubject.type]'.toString())
+        .toList()
+        .first;
+    return credentialField['filter']['pattern'];
+  }
+
+  String getIssuer(String claims) {
+    final claimsJson = jsonDecode(claims);
+    final fieldsPath = JsonPath(r'$..fields');
+    var issuerField = fieldsPath
+        .read(claimsJson)
+        .first
+        .value
+        .where((e) => e['path'].toString() == '[\$.issuer]'.toString())
+        .toList()
+        .first;
+    return issuerField['filter']['pattern'];
+  }
+
+  void emitQRCodeScanStateUnknown({required bool isDeepLink}) {
+    emit(QRCodeScanStateUnknown(isDeepLink: isDeepLink, uri: state.uri!));
   }
 }

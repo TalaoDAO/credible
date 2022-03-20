@@ -266,5 +266,7 @@
   "createPersonalWalletButtonTitle": "Personal Wallet",
   "createEnterpriseWalletTitle": "Create Enterprise Wallet",
   "createEnterpriseWalletText": "Create an enterprise wallet to access company credentials",
-  "createEnterpriseWalletButtonTitle": "Enterprise Wallet"
+  "createEnterpriseWalletButtonTitle": "Enterprise Wallet",
+  "personalOpenIdRestrictionMessage": "Personal wallet does not have access.",
+  "credentialEmptyError": "You do not have any credential in your wallet."
 }

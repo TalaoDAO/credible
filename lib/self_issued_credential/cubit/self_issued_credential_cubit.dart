@@ -40,19 +40,9 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
       emit(const SelfIssuedCredentialState.loading());
       await Future.delayed(Duration(milliseconds: 500));
 
-      final isEnterpriseUser =
-          await secureStorageProvider.get(SecureStorageKeys.isEnterpriseUser);
-
-      late final String key;
+      final key = (await secureStorageProvider.get(SecureStorageKeys.key))!;
       final verificationMethod =
           await secureStorageProvider.get(SecureStorageKeys.verificationMethod);
-
-      if (isEnterpriseUser == 'true') {
-        key = (await secureStorageProvider.get(SecureStorageKeys.rsaKeyJson))
-            as String;
-      } else {
-        key = (await secureStorageProvider.get(SecureStorageKeys.key))!;
-      }
 
       final did = didCubit.state.did!;
 
