@@ -33,6 +33,7 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
   late QRViewController qrController;
 
   final isDeepLink = false;
+  bool isQrCodeScanned = false;
 
   @override
   void initState() {
@@ -59,7 +60,8 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
     qrController = controller;
     qrController.scannedDataStream.listen((scanData) {
       qrController.pauseCamera();
-      if (scanData.code is String) {
+      if (scanData.code is String && !isQrCodeScanned) {
+        isQrCodeScanned = true;
         context
             .read<QRCodeScanCubit>()
             .host(url: scanData.code, isDeepLink: isDeepLink);
