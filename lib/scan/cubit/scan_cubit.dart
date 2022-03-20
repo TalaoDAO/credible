@@ -448,6 +448,12 @@ class ScanCubit extends Cubit<ScanState> {
         credential: credential, sIOPV2Param: sIOPV2Param));
   }
 
+  void PickCredentialToPresentToSiopV2Request(
+      {credentials, sIOPV2Param}) async {
+    emit(ScanStatePickCredentialToPresentToSiopV2Request(
+        credentials: credentials, sIOPV2Param: sIOPV2Param));
+  }
+
   Future<String> createVpToken({challenge, credential}) async {
     final key = await secureStorageProvider.get(SecureStorageKeys.key);
     final did = await secureStorageProvider.get(SecureStorageKeys.did);

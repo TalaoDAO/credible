@@ -159,11 +159,9 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
 
   bool isOpenIdUrl() {
     var condition = false;
-    state.uri!.queryParameters.forEach((key, value) {
-      if (key == 'scope' && value == 'openid') {
-        condition = true;
-      }
-    });
+    if (state.uri?.scheme == 'openid') {
+      condition = true;
+    }
     return condition;
   }
 
@@ -179,7 +177,15 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
           credential: selectedCredentials.first, sIOPV2Param: sIOPV2Param);
     }
 
-    if (selectedCredentials.length > 1) {}
+    if (selectedCredentials.length > 1) {
+      print('on the right track');
+      scanCubit.PickCredentialToPresentToSiopV2Request(
+        credentials: selectedCredentials,
+        sIOPV2Param: sIOPV2Param,
+      );
+      // emit(QRCodeScanStateSuccess(
+      //     isDeepLink: false, route: CredentialsPresentPage.route(uri: Uri())));
+    }
   }
 
   bool requestAttributeExists() {

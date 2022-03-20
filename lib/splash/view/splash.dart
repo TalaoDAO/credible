@@ -15,6 +15,7 @@ import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:talao/app/shared/model/message.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/confirm_dialog.dart';
+import 'package:talao/credentials/pick/view/siop_v2_credentials_pick_page.dart';
 import 'package:talao/did/cubit/did_cubit.dart';
 import 'package:talao/credentials/credentials.dart';
 import 'package:talao/deep_link/deep_link.dart';
@@ -277,7 +278,7 @@ class _SplashPageState extends State<SplashPage> {
                     context: context,
                     builder: (context) => ConfirmDialog(
                       title:
-                          '${l10n.credentialPresentTitleDIDAuth}\n${l10n.confimrDIDAuth}',
+                          '${l10n.credentialPresentTitleSiopV2}\n${l10n.confirmSiopV2}',
                       yes: l10n.showDialogYes,
                       no: l10n.showDialogNo,
                     ),
@@ -291,6 +292,12 @@ class _SplashPageState extends State<SplashPage> {
               } else {
                 Navigator.of(context).pop();
               }
+            }
+            if (state is ScanStatePickCredentialToPresentToSiopV2Request) {
+              await Navigator.of(context).pushReplacement(
+                  SiopV2CredentialsPickPage.route(
+                      credentials: state.credentials,
+                      siopV2Param: state.sIOPV2Param));
             }
             if (state is ScanStateSuccess) {
               Navigator.of(context).pop();

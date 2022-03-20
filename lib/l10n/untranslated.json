@@ -99,7 +99,9 @@
     "createEnterpriseWalletText",
     "createEnterpriseWalletButtonTitle",
     "personalOpenIdRestrictionMessage",
-    "credentialEmptyError"
+    "credentialEmptyError",
+    "credentialPresentTitleSiopV2",
+    "confirmSiopV2"
   ],
 
   "es": [
@@ -201,7 +203,9 @@
     "createEnterpriseWalletText",
     "createEnterpriseWalletButtonTitle",
     "personalOpenIdRestrictionMessage",
-    "credentialEmptyError"
+    "credentialEmptyError",
+    "credentialPresentTitleSiopV2",
+    "confirmSiopV2"
   ],
 
   "fr": [
@@ -278,7 +282,9 @@
     "createEnterpriseWalletText",
     "createEnterpriseWalletButtonTitle",
     "personalOpenIdRestrictionMessage",
-    "credentialEmptyError"
+    "credentialEmptyError",
+    "credentialPresentTitleSiopV2",
+    "confirmSiopV2"
   ],
 
   "it": [
@@ -382,6 +388,8 @@
     "createEnterpriseWalletText",
     "createEnterpriseWalletButtonTitle",
     "personalOpenIdRestrictionMessage",
-    "credentialEmptyError"
+    "credentialEmptyError",
+    "credentialPresentTitleSiopV2",
+    "confirmSiopV2"
   ]
 }

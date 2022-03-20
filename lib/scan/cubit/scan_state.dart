@@ -73,3 +73,10 @@ class ScanStateAskPermissionPresentCredentialToSiopV2Request extends ScanState {
   ScanStateAskPermissionPresentCredentialToSiopV2Request(
       {required this.credential, required this.sIOPV2Param});
 }
+
+class ScanStatePickCredentialToPresentToSiopV2Request extends ScanState {
+  final credentials;
+  final sIOPV2Param;
+  ScanStatePickCredentialToPresentToSiopV2Request(
+      {required this.credentials, required this.sIOPV2Param});
+}

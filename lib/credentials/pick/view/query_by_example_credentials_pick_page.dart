@@ -12,11 +12,11 @@ import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:flutter/material.dart';
 import 'package:talao/query_by_example/query_by_example.dart';
 
-class CredentialsPickPage extends StatefulWidget {
+class QueryByExampleCredentialsPickPage extends StatefulWidget {
   final Uri uri;
   final Map<String, dynamic> preview;
 
-  const CredentialsPickPage({
+  const QueryByExampleCredentialsPickPage({
     Key? key,
     required this.uri,
     required this.preview,
@@ -26,16 +26,19 @@ class CredentialsPickPage extends StatefulWidget {
       MaterialPageRoute(
         builder: (context) => BlocProvider(
           create: (context) => CredentialsPickCubit(),
-          child: CredentialsPickPage(uri: routeUri, preview: preview),
+          child: QueryByExampleCredentialsPickPage(
+              uri: routeUri, preview: preview),
         ),
         settings: RouteSettings(name: '/credentialsPickPage'),
       );
 
   @override
-  _CredentialsPickPageState createState() => _CredentialsPickPageState();
+  _QueryByExampleCredentialsPickPageState createState() =>
+      _QueryByExampleCredentialsPickPageState();
 }
 
-class _CredentialsPickPageState extends State<CredentialsPickPage> {
+class _QueryByExampleCredentialsPickPageState
+    extends State<QueryByExampleCredentialsPickPage> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
