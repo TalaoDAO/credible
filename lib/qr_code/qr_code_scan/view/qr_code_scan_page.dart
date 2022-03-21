@@ -72,6 +72,7 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
   Future<void> resumeCamera() async {
     await qrController.resumeCamera();
     isQrCodeScanned = false;
+    context.read<QRCodeScanCubit>().emitWorkingState();
   }
 
   @override
@@ -205,7 +206,6 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
                   .accept(uri: state.uri!, isDeepLink: isDeepLink);
             } else {
               await resumeCamera();
-              context.read<QRCodeScanCubit>().emitWorkingState();
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: Text(l10n.scanRefuseHost),
               ));
