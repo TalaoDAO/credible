@@ -319,13 +319,13 @@ class ScanCubit extends Cubit<ScanState> {
       final vpToken = await createVpToken(
           credential: credential, challenge: sIOPV2Param.nonce);
       final idToken = await createIdToken(nonce: sIOPV2Param.nonce);
-// prepare the post request
-// Content-Type: application/x-www-form-urlencoded
-// data =
-// id_token=encoded_jwt&vp_token=verifiable_presentation
-// There is a stackoverflow question about How to post x-www-form-urlencoded in Flutter
-// execute the request
-// Request is sent to redirect_uri.
+      // prepare the post request
+      // Content-Type: application/x-www-form-urlencoded
+      // data =
+      // id_token=encoded_jwt&vp_token=verifiable_presentation
+      // There is a stackoverflow question about How to post x-www-form-urlencoded in Flutter
+      // execute the request
+      // Request is sent to redirect_uri.
       client
           .changeHeaders({'Content-Type': 'application/x-www-form-urlencoded'});
       final result = await client.post(
@@ -364,6 +364,7 @@ class ScanCubit extends Cubit<ScanState> {
                 message: ScanMessageStringState
                     .somethingsWentWrongTryAgainLater())));
       }
+      emit(ScanStateIdle());
     }
   }
 
@@ -452,7 +453,7 @@ class ScanCubit extends Cubit<ScanState> {
       'challenge': challenge
     });
     final presentationId = 'urn:uuid:' + Uuid().v4();
-    final vpToken = await DIDKitProvider.instance.issuePresentation(
+    final vpToken = await didKitProvider.issuePresentation(
         jsonEncode({
           '@context': ['https://www.w3.org/2018/credentials/v1'],
           'type': ['VerifiablePresentation'],

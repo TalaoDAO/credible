@@ -70,7 +70,6 @@ class _SIOPV2CredentialPickPageState extends State<SIOPV2CredentialPickPage> {
                       scanCubit.presentCredentialToSiopV2Request(
                           credential: widget.credentials[state.index],
                           sIOPV2Param: widget.sIOPV2Param);
-                      Navigator.of(context).pop();
                     },
                     child: Text(l10n.credentialPickPresent),
                   );
