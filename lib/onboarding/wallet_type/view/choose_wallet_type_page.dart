@@ -26,79 +26,82 @@ class _ChooseWalletTypePageState extends State<ChooseWalletTypePage> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    return BasePage(
-      title: l10n.walletType,
-      backgroundColor: Theme.of(context).colorScheme.surface,
-      scrollView: false,
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Text(
-                    l10n.createPersonalWalletTitle,
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.subtitle1,
-                  ),
-                  const SizedBox(height: 32.0),
-                  Text(
-                    l10n.createPersonalWalletText,
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodyText1,
-                  ),
-                  const SizedBox(height: 20.0),
-                  BaseButton.primary(
-                    context: context,
-                    onPressed: () async {
-                      context
-                          .read<ChooseWalletTypeCubit>()
-                          .onChangeWalletType(WalletTypes.enterprise);
-                      await context.read<ChooseWalletTypeCubit>().save();
-                      await Navigator.of(context)
-                          .pushReplacement(OnBoardingKeyPage.route());
-                    },
-                    child: Text(l10n.createPersonalWalletButtonTitle),
-                  ),
-                ],
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: BasePage(
+        title: l10n.walletType,
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        scrollView: false,
+        body: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    Text(
+                      l10n.createPersonalWalletTitle,
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.subtitle1,
+                    ),
+                    const SizedBox(height: 32.0),
+                    Text(
+                      l10n.createPersonalWalletText,
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.bodyText1,
+                    ),
+                    const SizedBox(height: 20.0),
+                    BaseButton.primary(
+                      context: context,
+                      onPressed: () async {
+                        context
+                            .read<ChooseWalletTypeCubit>()
+                            .onChangeWalletType(WalletTypes.enterprise);
+                        await context.read<ChooseWalletTypeCubit>().save();
+                        await Navigator.of(context)
+                            .push(OnBoardingKeyPage.route());
+                      },
+                      child: Text(l10n.createPersonalWalletButtonTitle),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Text(
-                    l10n.createEnterpriseWalletTitle,
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.subtitle1,
-                  ),
-                  const SizedBox(height: 32.0),
-                  Text(
-                    l10n.createEnterpriseWalletText,
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodyText1,
-                  ),
-                  const SizedBox(height: 20.0),
-                  BaseButton.primary(
-                    context: context,
-                    onPressed: () async {
-                      context
-                          .read<ChooseWalletTypeCubit>()
-                          .onChangeWalletType(WalletTypes.enterprise);
-                      await context.read<ChooseWalletTypeCubit>().save();
-                      await Navigator.of(context)
-                          .pushReplacement(SubmitEnterpriseUserPage.route());
-                    },
-                    child: Text(l10n.createEnterpriseWalletButtonTitle),
-                  ),
-                ],
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    Text(
+                      l10n.createEnterpriseWalletTitle,
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.subtitle1,
+                    ),
+                    const SizedBox(height: 32.0),
+                    Text(
+                      l10n.createEnterpriseWalletText,
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.bodyText1,
+                    ),
+                    const SizedBox(height: 20.0),
+                    BaseButton.primary(
+                      context: context,
+                      onPressed: () async {
+                        context
+                            .read<ChooseWalletTypeCubit>()
+                            .onChangeWalletType(WalletTypes.enterprise);
+                        await context.read<ChooseWalletTypeCubit>().save();
+                        await Navigator.of(context)
+                            .push(SubmitEnterpriseUserPage.route());
+                      },
+                      child: Text(l10n.createEnterpriseWalletButtonTitle),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
