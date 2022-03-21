@@ -129,8 +129,7 @@ class JobStudentCardRecto extends Recto {
                   LayoutId(
                     id: 'expires',
                     child: ImageCardText(
-                        text: UiDate.displayDate(
-                            localizations, recipient.birthDate)),
+                        text: UiDate.displayDate(localizations, expires)),
                   ),
                   LayoutId(
                     id: 'signature',
@@ -153,6 +152,11 @@ class ProfessionalStudentCardDelegate extends MultiChildLayoutDelegate {
 
   @override
   void performLayout(Size size) {
+    if (hasChild('familyName')) {
+      layoutChild('familyName', BoxConstraints.loose(size));
+      positionChild(
+          'familyName', Offset(size.width * 0.15, size.height * 0.29));
+    }
     if (hasChild('givenName')) {
       layoutChild('givenName', BoxConstraints.loose(size));
       positionChild('givenName', Offset(size.width * 0.19, size.height * 0.38));

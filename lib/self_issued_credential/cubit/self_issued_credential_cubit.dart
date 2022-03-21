@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:json_path/json_path.dart';
 import 'package:logging/logging.dart';
 import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
@@ -41,25 +40,9 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
       emit(const SelfIssuedCredentialState.loading());
       await Future.delayed(Duration(milliseconds: 500));
 
-      final isEnterpriseUser =
-          await secureStorageProvider.get(SecureStorageKeys.isEnterpriseUser);
-
-      late final String key, verificationMethod;
-
-      if (isEnterpriseUser == 'true') {
-        final rsaJsonString = (await secureStorageProvider
-            .get(SecureStorageKeys.rsaKeyJson)) as String;
-        final RSAJson = jsonDecode(rsaJsonString) as Map<String,dynamic>;
-
-        ///
-        key = rsaJsonString;
-        verificationMethod = RSAJson['kid'];
-      } else {
-        key = (await secureStorageProvider.get(SecureStorageKeys.key))!;
-        final didMethod = didCubit.state.didMethod!;;
-        verificationMethod = await didKitProvider
-            .keyToVerificationMethod(didMethod, key);
-      }
+      final key = (await secureStorageProvider.get(SecureStorageKeys.key))!;
+      final verificationMethod =
+          await secureStorageProvider.get(SecureStorageKeys.verificationMethod);
 
       final did = didCubit.state.did!;
 
@@ -107,7 +90,9 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
       if (jsonVerification['errors'].isNotEmpty) {
         log.severe('failed to verify credential', jsonVerification['errors']);
         if (jsonVerification['errors'][0] != 'No applicable proof') {
-          emit(const SelfIssuedCredentialState.error(SelfIssuedCredentialErrorState.failedToVerifySelfIssuedCredential()));
+          emit(const SelfIssuedCredentialState.error(
+              SelfIssuedCredentialErrorState
+                  .failedToVerifySelfIssuedCredential()));
         } else {
           await _recordCredential(vc);
         }
@@ -118,7 +103,8 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
       print('e: $e,s: $s');
       log.severe('something went wrong', e, s);
 
-      emit(const SelfIssuedCredentialState.error(SelfIssuedCredentialErrorState.failedToCreateSelfIssuedCredential()));
+      emit(const SelfIssuedCredentialState.error(
+          SelfIssuedCredentialErrorState.failedToCreateSelfIssuedCredential()));
     }
   }
 

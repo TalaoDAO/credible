@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:talao/credentials/credentials.dart';
+import 'package:talao/app/interop/secure_storage/secure_storage.dart';
+import 'package:talao/credentials/pick/query_by_example/cubit/query_by_example_credentials_pick_cubit.dart';
 import 'package:talao/l10n/l10n.dart';
 import 'package:talao/scan/scan.dart';
 import 'package:talao/wallet/wallet.dart';
@@ -11,11 +12,11 @@ import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:flutter/material.dart';
 import 'package:talao/query_by_example/query_by_example.dart';
 
-class CredentialsPickPage extends StatefulWidget {
+class QueryByExampleCredentialPickPage extends StatefulWidget {
   final Uri uri;
   final Map<String, dynamic> preview;
 
-  const CredentialsPickPage({
+  const QueryByExampleCredentialPickPage({
     Key? key,
     required this.uri,
     required this.preview,
@@ -24,17 +25,20 @@ class CredentialsPickPage extends StatefulWidget {
   static Route route(Uri routeUri, Map<String, dynamic> preview) =>
       MaterialPageRoute(
         builder: (context) => BlocProvider(
-          create: (context) => CredentialsPickCubit(),
-          child: CredentialsPickPage(uri: routeUri, preview: preview),
+          create: (context) => QueryByExampleCredentialPickCubit(),
+          child: QueryByExampleCredentialPickPage(
+              uri: routeUri, preview: preview),
         ),
-        settings: RouteSettings(name: '/credentialsPickPage'),
+        settings: RouteSettings(name: '/QueryByExampleCredentialPickPage'),
       );
 
   @override
-  _CredentialsPickPageState createState() => _CredentialsPickPageState();
+  _QueryByExampleCredentialPickPageState createState() =>
+      _QueryByExampleCredentialPickPageState();
 }
 
-class _CredentialsPickPageState extends State<CredentialsPickPage> {
+class _QueryByExampleCredentialPickPageState
+    extends State<QueryByExampleCredentialPickPage> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
@@ -48,8 +52,9 @@ class _CredentialsPickPageState extends State<CredentialsPickPage> {
     }
     return BlocBuilder<WalletCubit, WalletState>(
         builder: (context, walletState) {
-      return BlocBuilder<CredentialsPickCubit, CredentialsPickState>(
-        builder: (context, credentialsPickState) {
+      return BlocBuilder<QueryByExampleCredentialPickCubit,
+          QueryByExampleCredentialPickState>(
+        builder: (context, state) {
           return BasePage(
             title: l10n.credentialPickTitle,
             titleTrailing: IconButton(
@@ -72,7 +77,7 @@ class _CredentialsPickPageState extends State<CredentialsPickPage> {
                     return BaseButton.primary(
                       context: context,
                       onPressed: () {
-                        if (credentialsPickState.selection.isEmpty) {
+                        if (state.selection.isEmpty) {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             backgroundColor:
                                 Theme.of(context).colorScheme.snackBarError,
@@ -82,8 +87,8 @@ class _CredentialsPickPageState extends State<CredentialsPickPage> {
                           final scanCubit = context.read<ScanCubit>();
                           scanCubit.verifiablePresentationRequest(
                             url: widget.uri.toString(),
-                            keyId: 'key',
-                            credentials: credentialsPickState.selection
+                            keyId: SecureStorageKeys.key,
+                            credentials: state.selection
                                 .map((i) => walletState.credentials[i])
                                 .toList(),
                             challenge: widget.preview['challenge'],
@@ -115,9 +120,10 @@ class _CredentialsPickPageState extends State<CredentialsPickPage> {
                   walletState.credentials.length,
                   (index) => CredentialsListPageItem(
                     item: walletState.credentials[index],
-                    selected: credentialsPickState.selection.contains(index),
-                    onTap: () =>
-                        context.read<CredentialsPickCubit>().toggle(index),
+                    selected: state.selection.contains(index),
+                    onTap: () => context
+                        .read<QueryByExampleCredentialPickCubit>()
+                        .toggle(index),
                   ),
                 ),
               ],

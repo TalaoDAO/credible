@@ -7,6 +7,7 @@
     "credentialDetailEditConfirmationDialogNo",
     "credentialDetailEditSuccessMessage",
     "credentialPickTitle",
+    "siopV2credentialPickSelect",
     "credentialPickAlertMessage",
     "scanUnsupportedMessage",
     "keyRecoveryTitle",
@@ -91,7 +92,17 @@
     "failedToLoadProfile",
     "failedToSaveProfile",
     "failedToLoadDID",
-    "thisFieldIsRequired"
+    "thisFieldIsRequired",
+    "createPersonalWalletTitle",
+    "createPersonalWalletText",
+    "createPersonalWalletButtonTitle",
+    "createEnterpriseWalletTitle",
+    "createEnterpriseWalletText",
+    "createEnterpriseWalletButtonTitle",
+    "personalOpenIdRestrictionMessage",
+    "credentialEmptyError",
+    "credentialPresentTitleSiopV2",
+    "confirmSiopV2"
   ],
 
   "es": [
@@ -102,6 +113,7 @@
     "credentialDetailEditConfirmationDialogNo",
     "credentialDetailEditSuccessMessage",
     "credentialPickTitle",
+    "siopV2credentialPickSelect",
     "credentialPickAlertMessage",
     "scanUnsupportedMessage",
     "blockChainDisplayMethod",
@@ -185,7 +197,17 @@
     "failedToLoadProfile",
     "failedToSaveProfile",
     "failedToLoadDID",
-    "thisFieldIsRequired"
+    "thisFieldIsRequired",
+    "createPersonalWalletTitle",
+    "createPersonalWalletText",
+    "createPersonalWalletButtonTitle",
+    "createEnterpriseWalletTitle",
+    "createEnterpriseWalletText",
+    "createEnterpriseWalletButtonTitle",
+    "personalOpenIdRestrictionMessage",
+    "credentialEmptyError",
+    "credentialPresentTitleSiopV2",
+    "confirmSiopV2"
   ],
 
   "fr": [
@@ -196,6 +218,7 @@
     "credentialDetailEditConfirmationDialogNo",
     "credentialDetailEditSuccessMessage",
     "credentialPickTitle",
+    "siopV2credentialPickSelect",
     "credentialPickAlertMessage",
     "scanUnsupportedMessage",
     "active",
@@ -254,7 +277,17 @@
     "failedToLoadProfile",
     "failedToSaveProfile",
     "failedToLoadDID",
-    "thisFieldIsRequired"
+    "thisFieldIsRequired",
+    "createPersonalWalletTitle",
+    "createPersonalWalletText",
+    "createPersonalWalletButtonTitle",
+    "createEnterpriseWalletTitle",
+    "createEnterpriseWalletText",
+    "createEnterpriseWalletButtonTitle",
+    "personalOpenIdRestrictionMessage",
+    "credentialEmptyError",
+    "credentialPresentTitleSiopV2",
+    "confirmSiopV2"
   ],
 
   "it": [
@@ -265,6 +298,7 @@
     "credentialDetailEditConfirmationDialogNo",
     "credentialDetailEditSuccessMessage",
     "credentialPickTitle",
+    "siopV2credentialPickSelect",
     "credentialPickAlertMessage",
     "scanUnsupportedMessage",
     "blockChainDisplayMethod",
@@ -350,6 +384,16 @@
     "failedToLoadProfile",
     "failedToSaveProfile",
     "failedToLoadDID",
-    "thisFieldIsRequired"
+    "thisFieldIsRequired",
+    "createPersonalWalletTitle",
+    "createPersonalWalletText",
+    "createPersonalWalletButtonTitle",
+    "createEnterpriseWalletTitle",
+    "createEnterpriseWalletText",
+    "createEnterpriseWalletButtonTitle",
+    "personalOpenIdRestrictionMessage",
+    "credentialEmptyError",
+    "credentialPresentTitleSiopV2",
+    "confirmSiopV2"
   ]
 }

@@ -15,12 +15,15 @@ class DIDCubit extends Cubit<DIDState> {
     required String did,
     required String didMethod,
     required String didMethodName,
+    required String verificationMethod,
   }) async {
     final log = Logger('talao-wallet/DID/set');
 
     emit(DIDStateWorking());
     await secureStorageProvider.set(SecureStorageKeys.did, did);
     await secureStorageProvider.set(SecureStorageKeys.didMethod, didMethod);
+    await secureStorageProvider.set(
+        SecureStorageKeys.verificationMethod, verificationMethod);
     await secureStorageProvider.set(
         SecureStorageKeys.didMethodName, didMethodName);
     emit(DIDStateDefault(

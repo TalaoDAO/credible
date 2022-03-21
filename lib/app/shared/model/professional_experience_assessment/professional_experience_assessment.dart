@@ -80,8 +80,8 @@ class ProfessionalExperienceAssessment extends CredentialSubject {
   @override
   Widget displayDetail(BuildContext context, CredentialModel item) {
     final localizations = AppLocalizations.of(context)!;
-    final _startDate = startDate;
-    final _endDate = endDate;
+    final _startDate = UiDate.displayDate(localizations, startDate);
+    final _endDate = UiDate.displayDate(localizations, endDate);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

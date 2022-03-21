@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:json_path/json_path.dart';
 import 'package:logging/logging.dart';
 import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
@@ -18,7 +17,9 @@ class VerifyRSAAndDIDCubit extends Cubit<VerifyRSAAndDIDState> {
   final SecureStorageProvider secureStorageProvider;
 
   VerifyRSAAndDIDCubit(
-      {required this.didCubit, required this.secureStorageProvider,required this.didKitProvider})
+      {required this.didCubit,
+      required this.secureStorageProvider,
+      required this.didKitProvider})
       : super(const VerifyRSAAndDIDState.initial());
 
   Future<void> verify(String did, PlatformFile rsaFile) async {
@@ -33,11 +34,13 @@ class VerifyRSAAndDIDCubit extends Cubit<VerifyRSAAndDIDState> {
       if (error == null) {
         //read RSA json file
         if (rsaFile.path == null) {
-          emit(const VerifyRSAAndDIDState.error(VerifyRSAAndDIDErrorState.rsaKeyNotImported()));
+          emit(const VerifyRSAAndDIDState.error(
+              VerifyRSAAndDIDErrorState.rsaKeyNotImported()));
           return;
         }
-        if(did.trim().isEmpty) {
-          emit(const VerifyRSAAndDIDState.error(VerifyRSAAndDIDErrorState.didKeyNotEntered()));
+        if (did.trim().isEmpty) {
+          emit(const VerifyRSAAndDIDState.error(
+              VerifyRSAAndDIDErrorState.didKeyNotEntered()));
           return;
         }
         final RSAJsonFile = File(rsaFile.path!);
@@ -74,21 +77,27 @@ class VerifyRSAAndDIDCubit extends Cubit<VerifyRSAAndDIDState> {
           await secureStorageProvider.set(
               SecureStorageKeys.rsaKeyJson, RSAJsonString);
           await secureStorageProvider.set(SecureStorageKeys.key, RSAJsonString);
+          final RSAKey = jsonDecode(RSAJsonString);
+          final verificationMethod = RSAKey['kid'];
           didCubit.set(
             did: did,
             didMethod: Constants.enterpriseDIDMethod,
             didMethodName: Constants.enterpriseDIDMethodName,
+            verificationMethod: verificationMethod,
           );
           emit(const VerifyRSAAndDIDState.verified());
         } else {
-          emit(const VerifyRSAAndDIDState.error(VerifyRSAAndDIDErrorState.rsaNotMatchedWithDIDKey()));
+          emit(const VerifyRSAAndDIDState.error(
+              VerifyRSAAndDIDErrorState.rsaNotMatchedWithDIDKey()));
         }
       } else {
-        emit(const VerifyRSAAndDIDState.error(VerifyRSAAndDIDErrorState.didKeyNotResolved()));
+        emit(const VerifyRSAAndDIDState.error(
+            VerifyRSAAndDIDErrorState.didKeyNotResolved()));
       }
     } catch (e, s) {
       log.info('error in verifying RSA key :${e.toString()}, s: $s', e, s);
-      emit(const VerifyRSAAndDIDState.error(VerifyRSAAndDIDErrorState.unknownError()));
+      emit(const VerifyRSAAndDIDState.error(
+          VerifyRSAAndDIDErrorState.unknownError()));
     }
   }
 }

@@ -68,15 +68,12 @@ class CredentialsReceivePage extends StatelessWidget {
                         title: localizations.credentialPickAlertMessage,
                       ),
                     );
-                    if (alias != null) {
-                      context.read<ScanCubit>().credentialOffer(
-                            url: url.toString(),
-                            credentialModel: CredentialModel.copyWithAlias(
-                                oldCredentialModel: credential,
-                                newAlias: alias),
-                            keyId: 'key',
-                          );
-                    }
+                    context.read<ScanCubit>().credentialOffer(
+                          url: url.toString(),
+                          credentialModel: CredentialModel.copyWithAlias(
+                              oldCredentialModel: credential, newAlias: alias),
+                          keyId: 'key',
+                        );
                   },
                   child: Text(localizations.credentialReceiveConfirm),
                 ),

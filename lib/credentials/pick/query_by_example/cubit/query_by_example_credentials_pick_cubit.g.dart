@@ -1,20 +1,20 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'credentials_pick_cubit.dart';
+part of 'query_by_example_credentials_pick_cubit.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-CredentialsPickState _$CredentialsPickStateFromJson(
+QueryByExampleCredentialPickState _$QueryByExampleCredentialPickStateFromJson(
         Map<String, dynamic> json) =>
-    CredentialsPickState(
+    QueryByExampleCredentialPickState(
       selection:
           (json['selection'] as List<dynamic>?)?.map((e) => e as int).toList(),
     );
 
-Map<String, dynamic> _$CredentialsPickStateToJson(
-        CredentialsPickState instance) =>
+Map<String, dynamic> _$QueryByExampleCredentialPickStateToJson(
+        QueryByExampleCredentialPickState instance) =>
     <String, dynamic>{
       'selection': instance.selection,
     };

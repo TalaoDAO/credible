@@ -8,7 +8,7 @@ class ChooseWalletTypeCubit extends Cubit<ChooseWalletTypeState> {
   final SecureStorageProvider secureStorageProvider;
 
   ChooseWalletTypeCubit(this.secureStorageProvider)
-      : super(ChooseWalletTypeState(selectedWallet: WalletTypes.personal));
+      : super(ChooseWalletTypeState());
 
   void onChangeWalletType(WalletTypes? value) {
     emit(state.copyWith(selectedWallet: value));

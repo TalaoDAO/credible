@@ -30,6 +30,7 @@ abstract class SecureStorageKeys {
   static const key = 'key';
   static const didMethod = 'DIDMethod';
   static const didMethodName = 'DIDMethodName';
+  static const verificationMethod = 'VerificationMethod';
   static const companyName = 'companyName';
   static const companyWebsite = 'companyWebsite';
   static const jobTitle = 'jobTitle';

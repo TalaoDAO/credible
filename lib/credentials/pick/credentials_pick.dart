@@ -1,2 +1,2 @@
-export 'view/credentials_pick_page.dart';
-export 'cubit/credentials_pick_cubit.dart';
+export 'query_by_example/query_by_example_credentials_pick.dart';
+export 'siopv2/siopv2_credentials_pick.dart';

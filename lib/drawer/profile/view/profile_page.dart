@@ -1,14 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talao/app/shared/widget/confirm_dialog.dart';
-import 'package:talao/drawer/backup_credential/backup_credential.dart';
-import 'package:talao/drawer/global_information/view/global_information_page.dart';
-import 'package:talao/drawer/privacy/view/privacy.dart';
-import 'package:talao/drawer/profile/cubit/profile_cubit.dart';
-import 'package:talao/drawer/recovery_credential/recovery_credential.dart';
-import 'package:talao/drawer/recovery_key/view/recovery_key_page.dart';
-import 'package:talao/drawer/terms/view/terms_page.dart';
-import 'package:talao/drawer/theme/view/theme_page.dart';
+import 'package:talao/drawer/drawer.dart';
 import 'package:talao/l10n/l10n.dart';
 import 'package:talao/personal/view/personal_page.dart';
 import 'package:talao/theme/theme.dart';
@@ -37,6 +30,7 @@ class ProfileView extends StatelessWidget {
           builder: (context, state) {
             final firstName = state.model.firstName;
             final lastName = state.model.lastName;
+            final isEnterprise = state.model.isEnterprise;
 
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -75,26 +69,29 @@ class ProfileView extends StatelessWidget {
                   title: l10n.onBoardingTosTitle,
                   onTap: () => Navigator.of(context).push(TermsPage.route()),
                 ),
-                MenuItem(
-                  icon: Icons.vpn_key,
-                  title: l10n.recoveryKeyTitle,
-                  onTap: () async {
-                    final confirm = await showDialog<bool>(
-                          context: context,
-                          builder: (context) => ConfirmDialog(
-                            title: l10n.recoveryWarningDialogTitle,
-                            subtitle: l10n.recoveryWarningDialogSubtitle,
-                            yes: l10n.showDialogYes,
-                            no: l10n.showDialogNo,
-                          ),
-                        ) ??
-                        false;
+                isEnterprise
+                    ? SizedBox.shrink()
+                    : MenuItem(
+                        icon: Icons.vpn_key,
+                        title: l10n.recoveryKeyTitle,
+                        onTap: () async {
+                          final confirm = await showDialog<bool>(
+                                context: context,
+                                builder: (context) => ConfirmDialog(
+                                  title: l10n.recoveryWarningDialogTitle,
+                                  subtitle: l10n.recoveryWarningDialogSubtitle,
+                                  yes: l10n.showDialogYes,
+                                  no: l10n.showDialogNo,
+                                ),
+                              ) ??
+                              false;
 
-                    if (confirm) {
-                      await Navigator.of(context).push(RecoveryKeyPage.route());
-                    }
-                  },
-                ),
+                          if (confirm) {
+                            await Navigator.of(context)
+                                .push(RecoveryKeyPage.route());
+                          }
+                        },
+                      ),
                 MenuItem(
                   icon: Icons.settings_backup_restore,
                   title: l10n.resetWalletButton,

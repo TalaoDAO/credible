@@ -1,4 +1,5 @@
 import 'package:talao/app/shared/model/credential_model/credential_model.dart';
+import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/credentials/widget/display_issuer.dart';
 import 'package:talao/app/shared/model/author.dart';
 import 'package:talao/app/shared/model/credential_subject.dart';
@@ -6,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:talao/app/shared/model/learning_achievement/has_credential.dart';
-import 'package:talao/app/shared/ui/theme.dart';
 import 'package:talao/app/shared/widget/base/credential_field.dart';
 
 part 'learning_achievement.g.dart';
@@ -53,7 +53,9 @@ class LearningAchievement extends CredentialSubject {
         CredentialField(value: familyName, title: localizations.firstName),
         CredentialField(title: localizations.lastName, value: givenName),
         CredentialField(title: localizations.personalMail, value: email),
-        CredentialField(title: localizations.birthdate, value: birthDate),
+        CredentialField(
+            title: localizations.birthdate,
+            value: UiDate.displayDate(localizations, birthDate)),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(

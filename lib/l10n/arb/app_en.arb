@@ -86,6 +86,7 @@
   "credentialPickPresent": "Present",
   "credentialPickTitle": "Present Credentials",
   "credentialPickSelect": "Choose one or more credentials from your wallet to present",
+  "siopV2credentialPickSelect": "Choose only one credentials from your wallet to present",
   "credentialPickAlertMessage": "Do you want to give an alias to this credential?",
   "credentialReceiveTitle": "Credential Offer",
   "credentialReceiveHost": "wants to send you a credential",
@@ -230,7 +231,7 @@
   "selfIssuedCreatedSuccessfully": "Self issued credential created successfully",
   "companyName": "Company Name",
   "companyWebsite": "Company Website",
-  "submit" : "Submit",
+  "submit": "Submit",
   "insertYourDIDKey": "Insert your DID key",
   "importYourRSAKeyJsonFile": "Import your RSA key json file",
   "didKeyAndRSAKeyVerifiedSuccessfully": "DID key and RSA key verified successfully",
@@ -260,5 +261,15 @@
   "failedToLoadProfile": "Failed to load profile. ",
   "failedToSaveProfile": "Failed to save profile. ",
   "failedToLoadDID": "Failed to load DID. ",
-  "thisFieldIsRequired": "This field is required"
+  "thisFieldIsRequired": "This field is required",
+  "createPersonalWalletTitle": "Create Personal Wallet",
+  "createPersonalWalletText": "Create a personal wallet to access your credentials",
+  "createPersonalWalletButtonTitle": "Personal Wallet",
+  "createEnterpriseWalletTitle": "Create Enterprise Wallet",
+  "createEnterpriseWalletText": "Create an enterprise wallet to access company credentials",
+  "createEnterpriseWalletButtonTitle": "Enterprise Wallet",
+  "personalOpenIdRestrictionMessage": "Personal wallet does not have access.",
+  "credentialEmptyError": "You do not have any credential in your wallet.",
+  "credentialPresentTitleSiopV2": "Present Credential",
+  "confirmSiopV2": "Please confirm the credential presented"
 }
