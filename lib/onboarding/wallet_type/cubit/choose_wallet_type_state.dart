@@ -3,7 +3,7 @@ import 'wallet_type_enum.dart';
 class ChooseWalletTypeState {
   final WalletTypes selectedWallet;
 
-  const ChooseWalletTypeState({required this.selectedWallet});
+  const ChooseWalletTypeState({this.selectedWallet = WalletTypes.personal});
 
   ChooseWalletTypeState copyWith({WalletTypes? selectedWallet}) {
     return ChooseWalletTypeState(
