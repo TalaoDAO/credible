@@ -1,6 +1,7 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
@@ -171,6 +172,11 @@ class _SubmitEnterpriseUserPageState extends State<SubmitEnterpriseUserPage> {
   }
 
   Future<void> _pickRSAJsonFile(AppLocalizations localizations) async {
+    final storagePermission = await requestPermission(Permission.storage);
+    if (!storagePermission) {
+      await openAppSettings();
+      return;
+    }
     final pickedFiles = await FilePicker.platform.pickFiles(
         dialogTitle: localizations.pleaseSelectRSAKeyFileWithJsonExtension,
         type: FileType.custom,
@@ -180,6 +186,19 @@ class _SubmitEnterpriseUserPageState extends State<SubmitEnterpriseUserPage> {
       context
           .read<SubmitEnterpriseUserCubit>()
           .setRSAFile(pickedFiles.files.first);
+    }
+  }
+
+  Future<bool> requestPermission(Permission setting) async {
+    final _result = await setting.request();
+    switch (_result) {
+      case PermissionStatus.granted:
+      case PermissionStatus.limited:
+        return true;
+      case PermissionStatus.denied:
+      case PermissionStatus.restricted:
+      case PermissionStatus.permanentlyDenied:
+        return false;
     }
   }
 }
