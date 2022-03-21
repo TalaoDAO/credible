@@ -9,6 +9,7 @@ import 'package:talao/app/interop/jwt_decode/jwt_decode.dart';
 import 'package:logging/logging.dart';
 import 'package:talao/app/interop/network/network_client.dart';
 import 'package:talao/app/shared/error_handler/error_handler.dart';
+import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:talao/app/shared/model/message.dart';
 import 'package:talao/qr_code/qr_code_scan/model/siopv2_param.dart';
 import 'package:talao/credentials/credentials.dart';
@@ -161,27 +162,15 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
     return condition;
   }
 
-  void presentCredentialToSiopV2Request(List selectedCredentials, sIOPV2Param) {
+  void presentCredentialToSIOPV2Request(
+      List<CredentialModel> selectedCredentials, SIOPV2Param sIOPV2Param) {
     if (selectedCredentials.isEmpty) {
       ///TODO: User should be directed to url to add credentials.
       return;
     }
-    // scanCubit.emitScanStatePreview(preview: data);
 
-    if (selectedCredentials.length == 1) {
-      scanCubit.askPermissionPresentCredentialToSiopV2Request(
-          credential: selectedCredentials.first, sIOPV2Param: sIOPV2Param);
-    }
-
-    if (selectedCredentials.length > 1) {
-      print('on the right track');
-      scanCubit.PickCredentialToPresentToSiopV2Request(
-        credentials: selectedCredentials,
-        sIOPV2Param: sIOPV2Param,
-      );
-      // emit(QRCodeScanStateSuccess(
-      //     isDeepLink: false, route: CredentialsPresentPage.route(uri: Uri())));
-    }
+    scanCubit.pickCredentialToPresentToSIOPV2Request(
+        credentials: selectedCredentials.first, sIOPV2Param: sIOPV2Param);
   }
 
   bool requestAttributeExists() {

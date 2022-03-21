@@ -135,7 +135,7 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
                   isDeepLink: isDeepLink);
             }
 
-            var selectedCredentials = [];
+            var selectedCredentials = <CredentialModel>[];
             walletCubit.state.credentials
                 .forEach((CredentialModel credentialModel) {
               var credentialTypeList = credentialModel.credentialPreview.type;
@@ -161,7 +161,7 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
               }
             });
 
-            qrCodeCubit.presentCredentialToSiopV2Request(
+            qrCodeCubit.presentCredentialToSIOPV2Request(
                 selectedCredentials, sIOPV2Param);
           } else {
             var approvedIssuer = Issuer.emptyIssuer();

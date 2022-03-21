@@ -13,6 +13,8 @@ class ScanState extends Equatable {
     this.challenge,
     this.domain,
     this.done,
+    this.credentials,
+    this.sIOPV2Param,
   });
 
   factory ScanState.fromJson(Map<String, dynamic> json) =>
@@ -27,12 +29,24 @@ class ScanState extends Equatable {
   final String? domain;
   @JsonKey(ignore: true)
   final void Function(String)? done;
+  final List<CredentialModel>? credentials;
+  final SIOPV2Param? sIOPV2Param;
 
   Map<String, dynamic> toJson() => _$ScanStateToJson(this);
 
   @override
-  List<Object?> get props =>
-      [message, preview, data, uri, keyId, challenge, domain, done];
+  List<Object?> get props => [
+        message,
+        preview,
+        data,
+        uri,
+        keyId,
+        challenge,
+        domain,
+        done,
+        credentials,
+        sIOPV2Param
+      ];
 }
 
 class ScanStateIdle extends ScanState {}
@@ -67,16 +81,8 @@ class ScanStateAskPermissionDIDAuth extends ScanState {
             done: done);
 }
 
-class ScanStateAskPermissionPresentCredentialToSiopV2Request extends ScanState {
-  final credential;
-  final sIOPV2Param;
-  ScanStateAskPermissionPresentCredentialToSiopV2Request(
-      {required this.credential, required this.sIOPV2Param});
-}
-
-class ScanStatePickCredentialToPresentToSiopV2Request extends ScanState {
-  final credentials;
-  final sIOPV2Param;
-  ScanStatePickCredentialToPresentToSiopV2Request(
-      {required this.credentials, required this.sIOPV2Param});
+class ScanStateStoreSIOPV2 extends ScanState {
+  ScanStateStoreSIOPV2(
+      {List<CredentialModel>? credentials, SIOPV2Param? sIOPV2Param})
+      : super(credentials: credentials, sIOPV2Param: sIOPV2Param);
 }

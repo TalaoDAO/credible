@@ -12,6 +12,7 @@ import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/shared/error_handler/error_handler.dart';
 import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:talao/app/shared/model/message.dart';
+import 'package:talao/qr_code/qr_code_scan/model/siopv2_param.dart';
 import 'package:talao/scan/cubit/scan_message_string_state.dart';
 import 'package:talao/wallet/wallet.dart';
 import 'package:uuid/uuid.dart';
@@ -442,15 +443,9 @@ class ScanCubit extends Cubit<ScanState> {
         domain: domain));
   }
 
-  void askPermissionPresentCredentialToSiopV2Request(
-      {credential, sIOPV2Param}) async {
-    emit(ScanStateAskPermissionPresentCredentialToSiopV2Request(
-        credential: credential, sIOPV2Param: sIOPV2Param));
-  }
-
-  void PickCredentialToPresentToSiopV2Request(
+  void pickCredentialToPresentToSIOPV2Request(
       {credentials, sIOPV2Param}) async {
-    emit(ScanStatePickCredentialToPresentToSiopV2Request(
+    emit(ScanStateStoreSIOPV2(
         credentials: credentials, sIOPV2Param: sIOPV2Param));
   }
 

@@ -271,33 +271,33 @@ class _SplashPageState extends State<SplashPage> {
                 Navigator.of(context).pop();
               }
             }
-            if (state
-                is ScanStateAskPermissionPresentCredentialToSiopV2Request) {
-              final l10n = context.l10n;
-              final confirm = await showDialog<bool>(
-                    context: context,
-                    builder: (context) => ConfirmDialog(
-                      title:
-                          '${l10n.credentialPresentTitleSiopV2}\n${l10n.confirmSiopV2}',
-                      yes: l10n.showDialogYes,
-                      no: l10n.showDialogNo,
-                    ),
-                  ) ??
-                  false;
+            if (state is ScanStateStoreSIOPV2) {
+              if (state.credentials!.length == 1) {
+                final l10n = context.l10n;
+                final confirm = await showDialog<bool>(
+                      context: context,
+                      builder: (context) => ConfirmDialog(
+                        title:
+                            '${l10n.credentialPresentTitleSiopV2}\n${l10n.confirmSiopV2}',
+                        yes: l10n.showDialogYes,
+                        no: l10n.showDialogNo,
+                      ),
+                    ) ??
+                    false;
 
-              if (confirm) {
-                context.read<ScanCubit>().presentCredentialToSiopV2Request(
-                    credential: state.credential,
-                    sIOPV2Param: state.sIOPV2Param);
+                if (confirm) {
+                  context.read<ScanCubit>().presentCredentialToSiopV2Request(
+                      credential: state.credentials,
+                      sIOPV2Param: state.sIOPV2Param);
+                } else {
+                  Navigator.of(context).pop();
+                }
               } else {
-                Navigator.of(context).pop();
+                await Navigator.of(context).pushReplacement(
+                    SiopV2CredentialsPickPage.route(
+                        credentials: state.credentials,
+                        siopV2Param: state.sIOPV2Param));
               }
-            }
-            if (state is ScanStatePickCredentialToPresentToSiopV2Request) {
-              await Navigator.of(context).pushReplacement(
-                  SiopV2CredentialsPickPage.route(
-                      credentials: state.credentials,
-                      siopV2Param: state.sIOPV2Param));
             }
             if (state is ScanStateSuccess) {
               Navigator.of(context).pop();
@@ -369,7 +369,7 @@ class _SplashPageState extends State<SplashPage> {
                     isDeepLink: isDeepLink);
               }
 
-              var selectedCredentials = [];
+              var selectedCredentials = <CredentialModel>[];
               walletCubit.state.credentials
                   .forEach((CredentialModel credentialModel) {
                 var credentialTypeList = credentialModel.credentialPreview.type;
@@ -395,7 +395,7 @@ class _SplashPageState extends State<SplashPage> {
                 }
               });
 
-              qrCodeCubit.presentCredentialToSiopV2Request(
+              qrCodeCubit.presentCredentialToSIOPV2Request(
                   selectedCredentials, sIOPV2Param);
             } else {
               var approvedIssuer = Issuer.emptyIssuer();
