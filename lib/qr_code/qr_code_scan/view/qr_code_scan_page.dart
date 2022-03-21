@@ -13,6 +13,7 @@ import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/confirm_dialog.dart';
+import 'package:talao/credentials/credentials.dart';
 import 'package:talao/drawer/drawer.dart';
 import 'package:talao/l10n/l10n.dart';
 import 'package:talao/qr_code/qr_code_scan/cubit/qr_code_scan_cubit.dart';
@@ -161,8 +162,17 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
               }
             });
 
-            qrCodeCubit.presentCredentialToSIOPV2Request(
-                selectedCredentials, sIOPV2Param);
+            if (selectedCredentials.isEmpty) {
+              ///TODO: User should be directed to url to add credentials.
+              return;
+            }
+
+            await Navigator.of(context).pushReplacement(
+              SiopV2CredentialsPickPage.route(
+                credentials: selectedCredentials,
+                siopV2Param: sIOPV2Param,
+              ),
+            );
           } else {
             var approvedIssuer = Issuer.emptyIssuer();
             final isIssuerVerificationSettingTrue =

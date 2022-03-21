@@ -271,34 +271,6 @@ class _SplashPageState extends State<SplashPage> {
                 Navigator.of(context).pop();
               }
             }
-            if (state is ScanStateStoreSIOPV2) {
-              if (state.credentials!.length == 1) {
-                final l10n = context.l10n;
-                final confirm = await showDialog<bool>(
-                      context: context,
-                      builder: (context) => ConfirmDialog(
-                        title:
-                            '${l10n.credentialPresentTitleSiopV2}\n${l10n.confirmSiopV2}',
-                        yes: l10n.showDialogYes,
-                        no: l10n.showDialogNo,
-                      ),
-                    ) ??
-                    false;
-
-                if (confirm) {
-                  context.read<ScanCubit>().presentCredentialToSiopV2Request(
-                      credential: state.credentials,
-                      sIOPV2Param: state.sIOPV2Param);
-                } else {
-                  Navigator.of(context).pop();
-                }
-              } else {
-                await Navigator.of(context).pushReplacement(
-                    SiopV2CredentialsPickPage.route(
-                        credentials: state.credentials,
-                        siopV2Param: state.sIOPV2Param));
-              }
-            }
             if (state is ScanStateSuccess) {
               Navigator.of(context).pop();
             }
@@ -395,8 +367,17 @@ class _SplashPageState extends State<SplashPage> {
                 }
               });
 
-              qrCodeCubit.presentCredentialToSIOPV2Request(
-                  selectedCredentials, sIOPV2Param);
+              if (selectedCredentials.isEmpty) {
+                ///TODO: User should be directed to url to add credentials.
+                return;
+              }
+
+              await Navigator.of(context).pushReplacement(
+                SiopV2CredentialsPickPage.route(
+                  credentials: selectedCredentials,
+                  siopV2Param: sIOPV2Param,
+                ),
+              );
             } else {
               var approvedIssuer = Issuer.emptyIssuer();
               final isIssuerVerificationSettingTrue =

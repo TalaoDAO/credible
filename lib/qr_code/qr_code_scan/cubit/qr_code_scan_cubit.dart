@@ -162,17 +162,6 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
     return condition;
   }
 
-  void presentCredentialToSIOPV2Request(
-      List<CredentialModel> selectedCredentials, SIOPV2Param sIOPV2Param) {
-    if (selectedCredentials.isEmpty) {
-      ///TODO: User should be directed to url to add credentials.
-      return;
-    }
-
-    scanCubit.pickCredentialToPresentToSIOPV2Request(
-        credentials: selectedCredentials.first, sIOPV2Param: sIOPV2Param);
-  }
-
   bool requestAttributeExists() {
     var condition = false;
     state.uri!.queryParameters.forEach((key, value) {

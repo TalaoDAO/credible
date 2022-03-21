@@ -61,20 +61,12 @@ class _SiopV2CredentialsPickPageState extends State<SiopV2CredentialsPickPage> {
                   return BaseButton.primary(
                     context: context,
                     onPressed: () {
-                      if (credentialsPickState.selection.isEmpty) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          backgroundColor:
-                              Theme.of(context).colorScheme.snackBarError,
-                          content: Text(l10n.credentialPickSelect),
-                        ));
-                      } else {
-                        final scanCubit = context.read<ScanCubit>();
-                        scanCubit.presentCredentialToSiopV2Request(
-                            credential: widget.credentials[
-                                credentialsPickState.selection.first],
-                            sIOPV2Param: widget.siopV2Param);
-                        Navigator.of(context).pop();
-                      }
+                      final scanCubit = context.read<ScanCubit>();
+                      scanCubit.presentCredentialToSiopV2Request(
+                          credential: widget.credentials[
+                              credentialsPickState.selection.first],
+                          sIOPV2Param: widget.siopV2Param);
+                      Navigator.of(context).pop();
                     },
                     child: Text(l10n.credentialPickPresent),
                   );
