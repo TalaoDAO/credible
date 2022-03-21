@@ -15,7 +15,6 @@ import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:talao/app/shared/model/message.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/confirm_dialog.dart';
-import 'package:talao/credentials/pick/view/siopv2_credentials_pick_page.dart';
 import 'package:talao/did/cubit/did_cubit.dart';
 import 'package:talao/credentials/credentials.dart';
 import 'package:talao/deep_link/deep_link.dart';
@@ -373,9 +372,9 @@ class _SplashPageState extends State<SplashPage> {
               }
 
               await Navigator.of(context).pushReplacement(
-                SiopV2CredentialsPickPage.route(
+                SIOPV2CredentialPickPage.route(
                   credentials: selectedCredentials,
-                  siopV2Param: sIOPV2Param,
+                  sIOPV2Param: sIOPV2Param,
                 ),
               );
             } else {

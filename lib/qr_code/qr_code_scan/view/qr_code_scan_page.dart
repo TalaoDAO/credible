@@ -168,9 +168,9 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
             }
 
             await Navigator.of(context).pushReplacement(
-              SiopV2CredentialsPickPage.route(
+              SIOPV2CredentialPickPage.route(
                 credentials: selectedCredentials,
-                siopV2Param: sIOPV2Param,
+                sIOPV2Param: sIOPV2Param,
               ),
             );
           } else {

@@ -12,11 +12,11 @@ import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:flutter/material.dart';
 import 'package:talao/query_by_example/query_by_example.dart';
 
-class QueryByExampleQueryByExampleCredentialPickPage extends StatefulWidget {
+class QueryByExampleCredentialPickPage extends StatefulWidget {
   final Uri uri;
   final Map<String, dynamic> preview;
 
-  const QueryByExampleQueryByExampleCredentialPickPage({
+  const QueryByExampleCredentialPickPage({
     Key? key,
     required this.uri,
     required this.preview,
@@ -26,19 +26,19 @@ class QueryByExampleQueryByExampleCredentialPickPage extends StatefulWidget {
       MaterialPageRoute(
         builder: (context) => BlocProvider(
           create: (context) => QueryByExampleCredentialPickCubit(),
-          child: QueryByExampleQueryByExampleCredentialPickPage(
+          child: QueryByExampleCredentialPickPage(
               uri: routeUri, preview: preview),
         ),
         settings: RouteSettings(name: '/QueryByExampleCredentialPickPage'),
       );
 
   @override
-  _QueryByExampleQueryByExampleCredentialPickPageState createState() =>
-      _QueryByExampleQueryByExampleCredentialPickPageState();
+  _QueryByExampleCredentialPickPageState createState() =>
+      _QueryByExampleCredentialPickPageState();
 }
 
-class _QueryByExampleQueryByExampleCredentialPickPageState
-    extends State<QueryByExampleQueryByExampleCredentialPickPage> {
+class _QueryByExampleCredentialPickPageState
+    extends State<QueryByExampleCredentialPickPage> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;

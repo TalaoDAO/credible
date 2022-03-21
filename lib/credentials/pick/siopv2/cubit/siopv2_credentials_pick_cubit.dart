@@ -10,6 +10,7 @@ class SIOPV2CredentialPickCubit extends Cubit<SIOPV2CredentialPickState> {
   SIOPV2CredentialPickCubit() : super(SIOPV2CredentialPickState());
 
   void toggle(int index) {
+    if (state.index == index) return;
     emit(state.copyWith(index: index));
   }
 }

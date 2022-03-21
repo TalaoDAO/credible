@@ -1,4 +1,4 @@
-part of 'query_by_example_credentials_pick_cubit.dart';
+part of 'siopv2_credentials_pick_cubit.dart';
 
 @JsonSerializable()
 class SIOPV2CredentialPickState extends Equatable {

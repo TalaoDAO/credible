@@ -3,7 +3,7 @@ import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:talao/credentials/pick/view/query_by_example_credentials_pick_page.dart';
+import 'package:talao/credentials/pick/credentials_pick.dart';
 import 'package:talao/l10n/l10n.dart';
 import 'package:talao/scan/scan.dart';
 
@@ -71,7 +71,7 @@ class _CredentialsPresentPageState extends State<CredentialsPresentPage> {
                 BaseButton.transparent(
                   context: context,
                   onPressed: () => Navigator.of(context).pushReplacement(
-                      QueryByExampleCredentialsPickPage.route(
+                      QueryByExampleCredentialPickPage.route(
                           widget.uri, state.preview!)),
                   child: Text(
                     l10n.credentialPresentConfirm,

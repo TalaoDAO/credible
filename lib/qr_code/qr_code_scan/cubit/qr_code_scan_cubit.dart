@@ -9,7 +9,6 @@ import 'package:talao/app/interop/jwt_decode/jwt_decode.dart';
 import 'package:logging/logging.dart';
 import 'package:talao/app/interop/network/network_client.dart';
 import 'package:talao/app/shared/error_handler/error_handler.dart';
-import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:talao/app/shared/model/message.dart';
 import 'package:talao/qr_code/qr_code_scan/model/siopv2_param.dart';
 import 'package:talao/credentials/credentials.dart';

@@ -86,6 +86,7 @@
   "credentialPickPresent": "Present",
   "credentialPickTitle": "Present Credentials",
   "credentialPickSelect": "Choose one or more credentials from your wallet to present",
+  "siopV2credentialPickSelect": "Choose only one credentials from your wallet to present",
   "credentialPickAlertMessage": "Do you want to give an alias to this credential?",
   "credentialReceiveTitle": "Credential Offer",
   "credentialReceiveHost": "wants to send you a credential",
