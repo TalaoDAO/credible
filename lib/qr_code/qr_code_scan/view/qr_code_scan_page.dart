@@ -69,6 +69,11 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
     });
   }
 
+  Future<void> resumeCamera() async {
+    await qrController.resumeCamera();
+    isQrCodeScanned = false;
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
@@ -80,9 +85,6 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
           final profileCubit = context.read<ProfileCubit>();
           final qrCodeCubit = context.read<QRCodeScanCubit>();
           final walletCubit = context.read<WalletCubit>();
-
-          if (state.promptActive!) return;
-          qrCodeCubit.promptDeactivate();
 
           ///Check openId or https
           if (qrCodeCubit.isOpenIdUrl()) {
@@ -202,7 +204,7 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
                   .read<QRCodeScanCubit>()
                   .accept(uri: state.uri!, isDeepLink: isDeepLink);
             } else {
-              await qrController.resumeCamera();
+              await resumeCamera();
               context.read<QRCodeScanCubit>().emitWorkingState();
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: Text(l10n.scanRefuseHost),
@@ -217,7 +219,7 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
           await Navigator.of(context).pushReplacement(state.route!);
         }
         if (state is QRCodeScanStateMessage) {
-          await qrController.resumeCamera();
+          await resumeCamera();
           final errorHandler = state.message!.errorHandler;
           if (errorHandler != null) {
             final color =
@@ -231,7 +233,7 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
           }
         }
         if (state is QRCodeScanStateUnknown) {
-          await qrController.resumeCamera();
+          await resumeCamera();
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(l10n.scanUnsupportedMessage),
           ));

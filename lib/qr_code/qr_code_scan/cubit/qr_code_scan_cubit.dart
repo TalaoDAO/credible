@@ -48,10 +48,6 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
     emit(QRCodeScanStateWorking());
   }
 
-  void promptDeactivate() {
-    emit(state.copyWith(promptActive: false));
-  }
-
   void host({required String? url, required bool isDeepLink}) async {
     try {
       if (url == null) {

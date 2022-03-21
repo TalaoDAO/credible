@@ -319,7 +319,6 @@ class _SplashPageState extends State<SplashPage> {
             var profileCubit = context.read<ProfileCubit>();
             final qrCodeCubit = context.read<QRCodeScanCubit>();
             final walletCubit = context.read<WalletCubit>();
-            // if (state.promptActive!) return;
             // qrCodeCubit.promptDeactivate();
 
             ///Check openId or https
