@@ -62,7 +62,6 @@ class _PersonalPageState extends State<PersonalPage> {
   late TextEditingController companyWebsiteController;
   late TextEditingController jobTitleController;
 
-  //
   late final l10n = context.l10n;
   late final personalPageCubit = context.read<PersonalPgeCubit>();
   late final isEnterprise = widget.profileModel.isEnterprise;
@@ -189,12 +188,14 @@ class _PersonalPageState extends State<PersonalPage> {
                             return null;
                           }
                         },
-                  prefixIcon: Checkbox(
-                    value: state.isFirstName,
-                    fillColor: MaterialStateProperty.all(
-                        Theme.of(context).colorScheme.secondaryContainer),
-                    onChanged: personalPageCubit.firstNameCheckBoxChange,
-                  ),
+                  prefixIcon: isEnterprise && widget.isFromOnBoarding
+                      ? null
+                      : Checkbox(
+                          value: state.isFirstName,
+                          fillColor: MaterialStateProperty.all(
+                              Theme.of(context).colorScheme.secondaryContainer),
+                          onChanged: personalPageCubit.firstNameCheckBoxChange,
+                        ),
                 ),
                 _textFieldSpace(),
                 BaseTextField(
@@ -211,12 +212,14 @@ class _PersonalPageState extends State<PersonalPage> {
                             return null;
                           }
                         },
-                  prefixIcon: Checkbox(
-                    value: state.isLastName,
-                    fillColor: MaterialStateProperty.all(
-                        Theme.of(context).colorScheme.secondaryContainer),
-                    onChanged: personalPageCubit.lastNameCheckBoxChange,
-                  ),
+                  prefixIcon: isEnterprise && widget.isFromOnBoarding
+                      ? null
+                      : Checkbox(
+                          value: state.isLastName,
+                          fillColor: MaterialStateProperty.all(
+                              Theme.of(context).colorScheme.secondaryContainer),
+                          onChanged: personalPageCubit.lastNameCheckBoxChange,
+                        ),
                 ),
                 _textFieldSpace(),
                 BaseTextField(
@@ -233,12 +236,14 @@ class _PersonalPageState extends State<PersonalPage> {
                             return null;
                           }
                         },
-                  prefixIcon: Checkbox(
-                    value: state.isPhone,
-                    fillColor: MaterialStateProperty.all(
-                        Theme.of(context).colorScheme.secondaryContainer),
-                    onChanged: personalPageCubit.phoneCheckBoxChange,
-                  ),
+                  prefixIcon: isEnterprise && widget.isFromOnBoarding
+                      ? null
+                      : Checkbox(
+                          value: state.isPhone,
+                          fillColor: MaterialStateProperty.all(
+                              Theme.of(context).colorScheme.secondaryContainer),
+                          onChanged: personalPageCubit.phoneCheckBoxChange,
+                        ),
                 ),
                 _textFieldSpace(),
                 BaseTextField(
@@ -255,12 +260,14 @@ class _PersonalPageState extends State<PersonalPage> {
                             return null;
                           }
                         },
-                  prefixIcon: Checkbox(
-                    value: state.isLocation,
-                    fillColor: MaterialStateProperty.all(
-                        Theme.of(context).colorScheme.secondaryContainer),
-                    onChanged: personalPageCubit.locationCheckBoxChange,
-                  ),
+                  prefixIcon: isEnterprise && widget.isFromOnBoarding
+                      ? null
+                      : Checkbox(
+                          value: state.isLocation,
+                          fillColor: MaterialStateProperty.all(
+                              Theme.of(context).colorScheme.secondaryContainer),
+                          onChanged: personalPageCubit.locationCheckBoxChange,
+                        ),
                 ),
                 _textFieldSpace(),
                 BaseTextField(
@@ -277,12 +284,14 @@ class _PersonalPageState extends State<PersonalPage> {
                             return null;
                           }
                         },
-                  prefixIcon: Checkbox(
-                    value: state.isEmail,
-                    fillColor: MaterialStateProperty.all(
-                        Theme.of(context).colorScheme.secondaryContainer),
-                    onChanged: personalPageCubit.emailCheckBoxChange,
-                  ),
+                  prefixIcon: isEnterprise && widget.isFromOnBoarding
+                      ? null
+                      : Checkbox(
+                          value: state.isEmail,
+                          fillColor: MaterialStateProperty.all(
+                              Theme.of(context).colorScheme.secondaryContainer),
+                          onChanged: personalPageCubit.emailCheckBoxChange,
+                        ),
                 ),
                 if (isEnterprise) _buildEnterpriseTextFields(state)
               ],
@@ -370,12 +379,14 @@ class _PersonalPageState extends State<PersonalPage> {
               return null;
             }
           },
-          prefixIcon: Checkbox(
-            value: state.isCompanyName,
-            fillColor: MaterialStateProperty.all(
-                Theme.of(context).colorScheme.secondaryContainer),
-            onChanged: personalPageCubit.companyNameCheckBoxChange,
-          ),
+          prefixIcon: isEnterprise && widget.isFromOnBoarding
+              ? null
+              : Checkbox(
+                  value: state.isCompanyName,
+                  fillColor: MaterialStateProperty.all(
+                      Theme.of(context).colorScheme.secondaryContainer),
+                  onChanged: personalPageCubit.companyNameCheckBoxChange,
+                ),
         ),
         _textFieldSpace(),
         BaseTextField(
@@ -390,12 +401,14 @@ class _PersonalPageState extends State<PersonalPage> {
               return null;
             }
           },
-          prefixIcon: Checkbox(
-            value: state.isCompanyWebsite,
-            fillColor: MaterialStateProperty.all(
-                Theme.of(context).colorScheme.secondaryContainer),
-            onChanged: personalPageCubit.companyWebsiteCheckBoxChange,
-          ),
+          prefixIcon: isEnterprise && widget.isFromOnBoarding
+              ? null
+              : Checkbox(
+                  value: state.isCompanyWebsite,
+                  fillColor: MaterialStateProperty.all(
+                      Theme.of(context).colorScheme.secondaryContainer),
+                  onChanged: personalPageCubit.companyWebsiteCheckBoxChange,
+                ),
         ),
         _textFieldSpace(),
         BaseTextField(
@@ -410,12 +423,14 @@ class _PersonalPageState extends State<PersonalPage> {
               return null;
             }
           },
-          prefixIcon: Checkbox(
-            value: state.isJobTitle,
-            fillColor: MaterialStateProperty.all(
-                Theme.of(context).colorScheme.secondaryContainer),
-            onChanged: personalPageCubit.jobTitleCheckBoxChange,
-          ),
+          prefixIcon: isEnterprise && widget.isFromOnBoarding
+              ? null
+              : Checkbox(
+                  value: state.isJobTitle,
+                  fillColor: MaterialStateProperty.all(
+                      Theme.of(context).colorScheme.secondaryContainer),
+                  onChanged: personalPageCubit.jobTitleCheckBoxChange,
+                ),
         ),
         _textFieldSpace()
       ],
