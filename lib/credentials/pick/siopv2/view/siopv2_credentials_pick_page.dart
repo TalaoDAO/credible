@@ -11,8 +11,8 @@ import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:flutter/material.dart';
 
 class SIOPV2CredentialPickPage extends StatefulWidget {
-  final credentials;
-  final sIOPV2Param;
+  final List<CredentialModel> credentials;
+  final SIOPV2Param sIOPV2Param;
 
   const SIOPV2CredentialPickPage({
     Key? key,
