@@ -35,35 +35,32 @@ class _RecoveryKeyPageState extends State<RecoveryKeyPage> {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: BasePage(
-        title: l10n.recoveryKeyTitle,
-        titleLeading: BackLeadingButton(),
-        scrollView: false,
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Column(
-              children: [
-                Text(
-                  l10n.genPhraseInstruction,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.subtitle1,
-                ),
-                const SizedBox(height: 8.0),
-                Text(
-                  l10n.genPhraseExplanation,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodyText1,
-                ),
-              ],
-            ),
-            const SizedBox(height: 32.0),
-            if (_mnemonic != null && _mnemonic!.isNotEmpty)
-              MnemonicDisplay(mnemonic: _mnemonic!),
-          ],
-        ),
+    return BasePage(
+      title: l10n.recoveryKeyTitle,
+      titleLeading: BackLeadingButton(),
+      scrollView: false,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Column(
+            children: [
+              Text(
+                l10n.genPhraseInstruction,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.subtitle1,
+              ),
+              const SizedBox(height: 8.0),
+              Text(
+                l10n.genPhraseExplanation,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodyText1,
+              ),
+            ],
+          ),
+          const SizedBox(height: 32.0),
+          if (_mnemonic != null && _mnemonic!.isNotEmpty)
+            MnemonicDisplay(mnemonic: _mnemonic!),
+        ],
       ),
     );
   }
