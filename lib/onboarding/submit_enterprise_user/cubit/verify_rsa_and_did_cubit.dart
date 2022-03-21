@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:json_path/json_path.dart';
 import 'package:logging/logging.dart';
 import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
@@ -45,39 +46,12 @@ class VerifyRSAAndDIDCubit extends Cubit<VerifyRSAAndDIDState> {
         }
         final RSAJsonFile = File(rsaFile.path!);
         final RSAJsonString = await RSAJsonFile.readAsString();
-        // final RSAJson = jsonDecode(RSAJsonString);
-        //
-        // // filter publicKeyJwk objects
-        // final publicKeyJwks = JsonPath(r'$..publicKeyJwk');
-        // final RSAKey = publicKeyJwks
-        //     .read(RSAJson)
-        //     .where((element) => element.value['kty'] == 'RSA')
-        //     .toList()
-        //     .first
-        //     .value['n'];
-        //
-        // final filteredPublicKeyJwks = publicKeyJwks
-        //     .read(resolvedDIDJson)
-        //     .where((element) => element.value['kty'] == 'RSA')
-        //     .toList();
-        //
-        // var verified = false;
-        // //start verifying RSA key
-        // for (var i = 0; i < filteredPublicKeyJwks.length; i++) {
-        //   final publicKeyJwk = filteredPublicKeyJwks[i].value;
-        //   if (publicKeyJwk['n'] == RSAKey &&
-        //       (resolvedDIDJson['didDocument']['assertionMethod']
-        //               as List<dynamic>)
-        //           .contains(publicKeyJwk['kid'])) {
-        //     verified = true;
-        //     break;
-        //   }
-        // }
-        if (true) {
+        final RSAKey = jsonDecode(RSAJsonString);
+        final isValidRSAKey = checkPublicRSAKey(RSAKey, resolvedDIDJson);
+        if (isValidRSAKey) {
           await secureStorageProvider.set(
               SecureStorageKeys.rsaKeyJson, RSAJsonString);
           await secureStorageProvider.set(SecureStorageKeys.key, RSAJsonString);
-          final RSAKey = jsonDecode(RSAJsonString);
           final verificationMethod = RSAKey['kid'];
           didCubit.set(
             did: did,
@@ -98,6 +72,28 @@ class VerifyRSAAndDIDCubit extends Cubit<VerifyRSAAndDIDState> {
       log.info('error in verifying RSA key :${e.toString()}, s: $s', e, s);
       emit(const VerifyRSAAndDIDState.error(
           VerifyRSAAndDIDErrorState.unknownError()));
+    }
+  }
+
+  bool checkPublicRSAKey(Map RSAKey, Map resolvedDID) {
+    try {
+      final publicKeyJwks = JsonPath(r'$..publicKeyJwk');
+      final publicKeyJwksList = publicKeyJwks
+          .read(resolvedDID)
+          .where((element) => element.value['kty'] == 'RSA')
+          .toList();
+      final privateRSAKeyAssertionMethod = resolvedDID['didDocument']['assertionMethod'] as List<dynamic>?;
+      //               as List<dynamic>
+      for (var i = 0; i < publicKeyJwksList.length; i++) {
+        final privateRSAKey = publicKeyJwksList[i].value['n'];
+        if (privateRSAKey == RSAKey['n'] &&
+            (privateRSAKeyAssertionMethod?.contains(RSAKey['kid']) ?? false)) {
+          return true;
+        }
+      }
+      return false;
+    } catch (e, s) {
+      return false;
     }
   }
 }
