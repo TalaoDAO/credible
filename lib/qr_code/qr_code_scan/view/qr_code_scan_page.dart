@@ -90,12 +90,11 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
           ///Check openId or https
           if (qrCodeCubit.isOpenIdUrl()) {
             ///restrict non-enterprise user
-            ///TODO: Remove this comment
-            // if (!profileCubit.state.model.isEnterprise) {
-            //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            //       content: Text(l10n.personalOpenIdRestrictionMessage)));
-            //   return;
-            // }
+            if (!profileCubit.state.model.isEnterprise) {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(l10n.personalOpenIdRestrictionMessage)));
+              return;
+            }
 
             ///credential should not be empty since we have to present
             if (walletCubit.state.credentials.isEmpty) {

@@ -324,12 +324,11 @@ class _SplashPageState extends State<SplashPage> {
             ///Check openId or https
             if (qrCodeCubit.isOpenIdUrl()) {
               ///restrict non-enterprise user
-              ///TODO: Remove this comment
-              // if (!profileCubit.state.model.isEnterprise) {
-              //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              //       content: Text(l10n.personalOpenIdRestrictionMessage)));
-              //   return;
-              // }
+              if (!profileCubit.state.model.isEnterprise) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(l10n.personalOpenIdRestrictionMessage)));
+                return;
+              }
 
               ///credential should not be empty since we have to present
               if (walletCubit.state.credentials.isEmpty) {
@@ -396,20 +395,8 @@ class _SplashPageState extends State<SplashPage> {
                 }
               });
 
-              if (selectedCredentials.isEmpty) {
-                ///TODO: User should be directed to url to add credentials.
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text(
-                        'User should be directed to url to add credentials.')));
-                return;
-              }
-
-              ///TODO: Present Credentials
-
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(
-                    'Credential : $openIdCredential\nIssuer: $openIdIssuer'),
-              ));
+              qrCodeCubit.presentCredentialToSiopV2Request(
+                  selectedCredentials, sIOPV2Param);
             } else {
               var approvedIssuer = Issuer.emptyIssuer();
               final isIssuerVerificationSettingTrue =
