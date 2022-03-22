@@ -20,7 +20,7 @@ void main() {
   setUp(() {
     profileCubit = MockProfileCubit();
     when(() => profileCubit.state).thenReturn(
-      ProfileState(model: ProfileModel.empty(isEnterprise: false)),
+      ProfileState(model: ProfileModel.empty()),
     );
     themeCubit = MockThemeCubit();
   });

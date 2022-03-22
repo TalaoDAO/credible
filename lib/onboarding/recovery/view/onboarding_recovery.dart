@@ -85,7 +85,7 @@ class _OnBoardingRecoveryPageState extends State<OnBoardingRecoveryPage> {
                     await Navigator.of(context).pushReplacement(
                       PersonalPage.route(
                           isFromOnBoarding: true,
-                          profileModel: ProfileModel.empty(isEnterprise: false)),
+                          profileModel: ProfileModel.empty()),
                     );
                   }
                 : null,

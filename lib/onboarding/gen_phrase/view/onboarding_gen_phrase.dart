@@ -46,7 +46,7 @@ class _OnBoardingGenPhrasePageState extends State<OnBoardingGenPhrasePage> {
           if (state.status == OnBoardingGenPhraseStatus.success) {
             await Navigator.of(context).pushReplacement(
               PersonalPage.route(
-                  isFromOnBoarding: true, profileModel: ProfileModel.empty(isEnterprise: false)),
+                  isFromOnBoarding: true, profileModel: ProfileModel.empty()),
             );
           }
           if (state.status == OnBoardingGenPhraseStatus.failure) {

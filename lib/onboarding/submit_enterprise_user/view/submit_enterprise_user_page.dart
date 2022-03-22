@@ -61,8 +61,8 @@ class _SubmitEnterpriseUserPageState extends State<SubmitEnterpriseUserPage> {
       title: localization.submit,
       titleLeading: IconButton(
         icon: const Icon(Icons.arrow_back),
-        onPressed: () => Navigator.of(context)
-            .pushReplacement(ChooseWalletTypePage.route()),
+        onPressed: () =>
+            Navigator.of(context).pushReplacement(ChooseWalletTypePage.route()),
       ),
       body: Column(
         mainAxisSize: MainAxisSize.min,
@@ -93,40 +93,41 @@ class _SubmitEnterpriseUserPageState extends State<SubmitEnterpriseUserPage> {
           ),
           BlocBuilder<SubmitEnterpriseUserCubit, SubmitEnterpriseUserState>(
               builder: (_, state) {
-                if (state.rsaFile == null) {
-                  return PickFileButton(
-                      onTap: () => _pickRSAJsonFile(localization));
-                } else {
-                  return PickedFile(
-                    fileName: state.rsaFile!.name,
-                    onDeleteButtonPress: () {
-                      context.read<SubmitEnterpriseUserCubit>().setRSAFile(null);
-                    },
-                  );
-                }
-              }),
+            if (state.rsaFile == null) {
+              return PickFileButton(
+                  onTap: () => _pickRSAJsonFile(localization));
+            } else {
+              return PickedFile(
+                fileName: state.rsaFile!.name,
+                onDeleteButtonPress: () {
+                  context.read<SubmitEnterpriseUserCubit>().setRSAFile(null);
+                },
+              );
+            }
+          }),
         ],
       ),
       navigation: BlocConsumer<VerifyRSAAndDIDCubit, VerifyRSAAndDIDState>(
           listener: (_, state) {
-            state.maybeWhen(
-                orElse: () => null,
-                error: (errorState) {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text(errorState.getMessage(context)),
-                    backgroundColor: Theme.of(context).colorScheme.error,
-                  ));
-                },
-                verified: () async {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text(
-                          localization.didKeyAndRSAKeyVerifiedSuccessfully)));
+        state.maybeWhen(
+            orElse: () => null,
+            error: (errorState) {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(errorState.getMessage(context)),
+                backgroundColor: Theme.of(context).colorScheme.error,
+              ));
+            },
+            verified: () async {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content:
+                      Text(localization.didKeyAndRSAKeyVerifiedSuccessfully)));
 
-                  await Navigator.of(context).pushReplacement(PersonalPage.route(
-                      profileModel: ProfileModel.empty(isEnterprise: true),
-                      isFromOnBoarding: true));
-                });
-          }, builder: (context, state) {
+              await Navigator.of(context).pushReplacement(PersonalPage.route(
+                  profileModel:
+                      ProfileModel.empty().copyWith(isEnterprise: true),
+                  isFromOnBoarding: true));
+            });
+      }, builder: (context, state) {
         return state.maybeWhen(
           orElse: () {
             return BaseButton.primary(
@@ -138,23 +139,18 @@ class _SubmitEnterpriseUserPageState extends State<SubmitEnterpriseUserPage> {
                   if (_didController.text.trim().isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Text(localization.pleaseEnterYourDIDKey),
-                        backgroundColor:
-                        Theme.of(context).colorScheme.error));
+                        backgroundColor: Theme.of(context).colorScheme.error));
                     return;
                   }
                   if (rsaFile == null) {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Text(localization.pleaseImportYourRSAKey),
-                        backgroundColor:
-                        Theme.of(context).colorScheme.error));
+                        backgroundColor: Theme.of(context).colorScheme.error));
                     return;
                   }
                   context.read<VerifyRSAAndDIDCubit>().verify(
                       _didController.text,
-                      context
-                          .read<SubmitEnterpriseUserCubit>()
-                          .state
-                          .rsaFile!);
+                      context.read<SubmitEnterpriseUserCubit>().state.rsaFile!);
                 },
                 child: Text(localization.confirm));
           },

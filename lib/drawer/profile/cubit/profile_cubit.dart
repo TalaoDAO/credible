@@ -15,7 +15,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   final SecureStorageProvider secureStorageProvider;
 
   ProfileCubit({required this.secureStorageProvider})
-      : super(ProfileState(model: ProfileModel.empty(isEnterprise: false))) {
+      : super(ProfileState(model: ProfileModel.empty())) {
     load();
   }
 
@@ -77,7 +77,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     await secureStorageProvider.delete(SecureStorageKeys.companyWebsite);
     await secureStorageProvider.delete(SecureStorageKeys.companyName);
     await secureStorageProvider.delete(SecureStorageKeys.isEnterpriseUser);
-    emit(ProfileState(model: ProfileModel.empty(isEnterprise: false)));
+    emit(ProfileState(model: ProfileModel.empty()));
   }
 
   Future<void> update(ProfileModel profileModel) async {
@@ -118,10 +118,13 @@ class ProfileCubit extends Cubit<ProfileState> {
         SecureStorageKeys.issuerVerificationSettingKey,
         profileModel.issuerVerificationSetting.toString(),
       );
-      final isEnterprise =
-          await secureStorageProvider.get(SecureStorageKeys.isEnterpriseUser);
-      emit(ProfileState(
-          model: profileModel.copyWith(isEnterprise: isEnterprise == 'true')));
+
+      await secureStorageProvider.set(
+        SecureStorageKeys.isEnterpriseUser,
+        profileModel.isEnterprise.toString(),
+      );
+
+      emit(ProfileState(model: profileModel));
     } catch (e) {
       log.severe('something went wrong', e);
 

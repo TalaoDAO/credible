@@ -21,7 +21,7 @@ class ProfileModel extends Equatable {
   factory ProfileModel.fromJson(Map<String, dynamic> json) =>
       _$ProfileModelFromJson(json);
 
-  factory ProfileModel.empty({required bool isEnterprise}) => ProfileModel(
+  factory ProfileModel.empty( ) => ProfileModel(
         firstName: '',
         lastName: '',
         phone: '',
@@ -31,7 +31,7 @@ class ProfileModel extends Equatable {
         companyWebsite: '',
         jobTitle: '',
         issuerVerificationSetting: true,
-        isEnterprise: isEnterprise,
+        isEnterprise: false,
       );
 
   final String firstName;
