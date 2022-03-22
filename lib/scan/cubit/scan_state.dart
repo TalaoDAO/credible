@@ -1,7 +1,5 @@
 part of 'scan_cubit.dart';
 
-enum ScanStatus { init, idle, insert, delete, update, reset }
-
 @JsonSerializable()
 class ScanState extends Equatable {
   ScanState({
@@ -13,6 +11,7 @@ class ScanState extends Equatable {
     this.challenge,
     this.domain,
     this.done,
+    this.loading = false,
   });
 
   factory ScanState.fromJson(Map<String, dynamic> json) =>
@@ -27,25 +26,35 @@ class ScanState extends Equatable {
   final String? domain;
   @JsonKey(ignore: true)
   final void Function(String)? done;
+  final bool loading;
 
   Map<String, dynamic> toJson() => _$ScanStateToJson(this);
 
   @override
   List<Object?> get props =>
-      [message, preview, data, uri, keyId, challenge, domain, done];
+      [message, preview, data, uri, keyId, challenge, domain, done, loading];
 }
 
-class ScanStateIdle extends ScanState {}
+class ScanStateLoading extends ScanState {
+  ScanStateLoading() : super(loading: true);
+}
+
+class ScanStateIdle extends ScanState {
+  ScanStateIdle() : super(loading: false);
+}
 
 class ScanStateMessage extends ScanState {
-  ScanStateMessage({StateMessage? message}) : super(message: message);
+  ScanStateMessage({StateMessage? message})
+      : super(message: message, loading: false);
 }
 
 class ScanStatePreview extends ScanState {
   ScanStatePreview({Map<String, dynamic>? preview}) : super(preview: preview);
 }
 
-class ScanStateSuccess extends ScanState {}
+class ScanStateSuccess extends ScanState {
+  ScanStateSuccess() : super(loading: false);
+}
 
 class ScanStateStoreQueryByExample extends ScanState {
   ScanStateStoreQueryByExample({Map<String, dynamic>? data, Uri? uri})

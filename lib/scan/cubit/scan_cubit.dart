@@ -312,9 +312,10 @@ class ScanCubit extends Cubit<ScanState> {
 
   void presentCredentialToSiopV2Request(
       {required credential, required sIOPV2Param}) async {
+    emit(ScanStateLoading());
     final log =
         Logger('talao-wallet/scan/present-credential-to-siop-v2-request');
-
+    await Future.delayed(Duration(milliseconds: 500));
     try {
       final vpToken = await createVpToken(
           credential: credential, challenge: sIOPV2Param.nonce);

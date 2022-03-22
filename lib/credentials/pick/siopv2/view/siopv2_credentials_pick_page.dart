@@ -42,58 +42,90 @@ class _SIOPV2CredentialPickPageState extends State<SIOPV2CredentialPickPage> {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
+    OverlayEntry? _overlay;
+
     return BlocBuilder<SIOPV2CredentialPickCubit, SIOPV2CredentialPickState>(
       builder: (context, state) {
-        return BasePage(
-          title: l10n.credentialPickTitle,
-          titleTrailing: IconButton(
-            onPressed: () {
-              Navigator.of(context).pop();
+        return WillPopScope(
+          onWillPop: () async {
+            if (context.read<ScanCubit>().state.loading) {
+              return false;
+            }
+            return true;
+          },
+          child: BlocListener<ScanCubit, ScanState>(
+            listener: (context, state) {
+              if (state.loading) {
+                _overlay = OverlayEntry(
+                  builder: (context) => WillPopScope(
+                    onWillPop: () => Future.value(false),
+                    child: AlertDialog(
+                      backgroundColor: Theme.of(context).colorScheme.background,
+                      title: Center(
+                        child: Text(l10n.loading),
+                      ),
+                    ),
+                  ),
+                );
+                Overlay.of(context)!.insert(_overlay!);
+              } else {
+                _overlay!.remove();
+                _overlay = null;
+              }
             },
-            icon: Icon(Icons.close),
-          ),
-          padding: const EdgeInsets.symmetric(
-            vertical: 24.0,
-            horizontal: 16.0,
-          ),
-          navigation: SafeArea(
-            child: Container(
-              padding: const EdgeInsets.all(16.0),
-              height: kBottomNavigationBarHeight + 16,
-              child: Tooltip(
-                message: l10n.credentialPickPresent,
-                child: Builder(builder: (context) {
-                  return BaseButton.primary(
-                    context: context,
-                    onPressed: () {
-                      final scanCubit = context.read<ScanCubit>();
-                      scanCubit.presentCredentialToSiopV2Request(
-                          credential: widget.credentials[state.index],
-                          sIOPV2Param: widget.sIOPV2Param);
-                    },
-                    child: Text(l10n.credentialPickPresent),
-                  );
-                }),
+            child: BasePage(
+              title: l10n.credentialPickTitle,
+              titleTrailing: IconButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                icon: Icon(Icons.close),
               ),
-            ),
-          ),
-          body: Column(
-            children: <Widget>[
-              Text(
-                l10n.siopV2credentialPickSelect,
-                style: Theme.of(context).textTheme.bodyText1,
+              padding: const EdgeInsets.symmetric(
+                vertical: 24.0,
+                horizontal: 16.0,
               ),
-              const SizedBox(height: 12.0),
-              ...List.generate(
-                widget.credentials.length,
-                (index) => CredentialsListPageItem(
-                  item: widget.credentials[index],
-                  selected: state.index == index,
-                  onTap: () =>
-                      context.read<SIOPV2CredentialPickCubit>().toggle(index),
+              navigation: SafeArea(
+                child: Container(
+                  padding: const EdgeInsets.all(16.0),
+                  height: kBottomNavigationBarHeight + 16,
+                  child: Tooltip(
+                    message: l10n.credentialPickPresent,
+                    child: Builder(builder: (context) {
+                      return BaseButton.primary(
+                        context: context,
+                        onPressed: () {
+                          final scanCubit = context.read<ScanCubit>();
+                          scanCubit.presentCredentialToSiopV2Request(
+                              credential: widget.credentials[state.index],
+                              sIOPV2Param: widget.sIOPV2Param);
+                        },
+                        child: Text(l10n.credentialPickPresent),
+                      );
+                    }),
+                  ),
                 ),
               ),
-            ],
+              body: Column(
+                children: <Widget>[
+                  Text(
+                    l10n.siopV2credentialPickSelect,
+                    style: Theme.of(context).textTheme.bodyText1,
+                  ),
+                  const SizedBox(height: 12.0),
+                  ...List.generate(
+                    widget.credentials.length,
+                    (index) => CredentialsListPageItem(
+                      item: widget.credentials[index],
+                      selected: state.index == index,
+                      onTap: () => context
+                          .read<SIOPV2CredentialPickCubit>()
+                          .toggle(index),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
         );
       },

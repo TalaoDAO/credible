@@ -271,5 +271,6 @@
   "personalOpenIdRestrictionMessage": "Personal wallet does not have access.",
   "credentialEmptyError": "You do not have any credential in your wallet.",
   "credentialPresentTitleSiopV2": "Present Credential",
-  "confirmSiopV2": "Please confirm the credential presented"
+  "confirmSiopV2": "Please confirm the credential presented",
+  "loading": "Loading!!!"
 }

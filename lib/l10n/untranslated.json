@@ -102,7 +102,8 @@
     "personalOpenIdRestrictionMessage",
     "credentialEmptyError",
     "credentialPresentTitleSiopV2",
-    "confirmSiopV2"
+    "confirmSiopV2",
+    "loading"
   ],
 
   "es": [
@@ -207,7 +208,8 @@
     "personalOpenIdRestrictionMessage",
     "credentialEmptyError",
     "credentialPresentTitleSiopV2",
-    "confirmSiopV2"
+    "confirmSiopV2",
+    "loading"
   ],
 
   "fr": [
@@ -287,7 +289,8 @@
     "personalOpenIdRestrictionMessage",
     "credentialEmptyError",
     "credentialPresentTitleSiopV2",
-    "confirmSiopV2"
+    "confirmSiopV2",
+    "loading"
   ],
 
   "it": [
@@ -394,6 +397,7 @@
     "personalOpenIdRestrictionMessage",
     "credentialEmptyError",
     "credentialPresentTitleSiopV2",
-    "confirmSiopV2"
+    "confirmSiopV2",
+    "loading"
   ]
 }
