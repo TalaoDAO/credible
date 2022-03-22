@@ -7,6 +7,7 @@ import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/base/text_field.dart';
+import 'package:talao/app/shared/widget/confirm_dialog.dart';
 import 'package:talao/did/cubit/did_cubit.dart';
 import 'package:talao/drawer/profile/models/profile.dart';
 import 'package:talao/l10n/l10n.dart';
@@ -170,7 +171,7 @@ class _SubmitEnterpriseUserPageState extends State<SubmitEnterpriseUserPage> {
   Future<void> _pickRSAJsonFile(AppLocalizations localizations) async {
     final storagePermission = await requestPermission(Permission.storage);
     if (!storagePermission) {
-      await openAppSettings();
+      await _showPermissionPopup(localizations);
       return;
     }
     final pickedFiles = await FilePicker.platform.pickFiles(
@@ -182,6 +183,24 @@ class _SubmitEnterpriseUserPageState extends State<SubmitEnterpriseUserPage> {
       context
           .read<SubmitEnterpriseUserCubit>()
           .setRSAFile(pickedFiles.files.first);
+    }
+  }
+
+  Future<void> _showPermissionPopup(AppLocalizations localizations) async{
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (context) => ConfirmDialog(
+        title: localizations.storagePermissionRequired,
+        subtitle:
+        localizations.youNeedStoragePermissionForUploadingFileGoToAppSettingsAndGrantAccessToStoragePermission,
+        yes: localizations.ok,
+        no: localizations.cancel,
+      ),
+    ) ??
+        false;
+
+    if (confirm) {
+      await openAppSettings();
     }
   }
 

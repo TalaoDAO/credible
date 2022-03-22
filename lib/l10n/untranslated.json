@@ -102,7 +102,10 @@
     "personalOpenIdRestrictionMessage",
     "credentialEmptyError",
     "credentialPresentTitleSiopV2",
-    "confirmSiopV2"
+    "confirmSiopV2",
+    "storagePermissionRequired",
+    "youNeedStoragePermissionForUploadingFileGoToAppSettingsAndGrantAccessToStoragePermission",
+    "cancel"
   ],
 
   "es": [
@@ -207,7 +210,10 @@
     "personalOpenIdRestrictionMessage",
     "credentialEmptyError",
     "credentialPresentTitleSiopV2",
-    "confirmSiopV2"
+    "confirmSiopV2",
+    "storagePermissionRequired",
+    "youNeedStoragePermissionForUploadingFileGoToAppSettingsAndGrantAccessToStoragePermission",
+    "cancel"
   ],
 
   "fr": [
@@ -287,7 +293,10 @@
     "personalOpenIdRestrictionMessage",
     "credentialEmptyError",
     "credentialPresentTitleSiopV2",
-    "confirmSiopV2"
+    "confirmSiopV2",
+    "storagePermissionRequired",
+    "youNeedStoragePermissionForUploadingFileGoToAppSettingsAndGrantAccessToStoragePermission",
+    "cancel"
   ],
 
   "it": [
@@ -394,6 +403,9 @@
     "personalOpenIdRestrictionMessage",
     "credentialEmptyError",
     "credentialPresentTitleSiopV2",
-    "confirmSiopV2"
+    "confirmSiopV2",
+    "storagePermissionRequired",
+    "youNeedStoragePermissionForUploadingFileGoToAppSettingsAndGrantAccessToStoragePermission",
+    "cancel"
   ]
 }

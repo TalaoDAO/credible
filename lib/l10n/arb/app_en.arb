@@ -271,5 +271,8 @@
   "personalOpenIdRestrictionMessage": "Personal wallet does not have access.",
   "credentialEmptyError": "You do not have any credential in your wallet.",
   "credentialPresentTitleSiopV2": "Present Credential",
-  "confirmSiopV2": "Please confirm the credential presented"
+  "confirmSiopV2": "Please confirm the credential presented",
+  "storagePermissionRequired": "Storage permission required",
+  "youNeedStoragePermissionForUploadingFileGoToAppSettingsAndGrantAccessToStoragePermission": "You need storage permission for uploading file, go to app settings and grant access to storage permission.",
+  "cancel": "Cancel"
 }
