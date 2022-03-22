@@ -282,15 +282,10 @@ class _SplashPageState extends State<SplashPage> {
         ///Note - Sync listener content with qr code scan listener
         BlocListener<QRCodeScanCubit, QRCodeScanState>(
             listener: (context, state) async {
-          if (state.isDeepLink == null) return;
-          if (!state.isDeepLink!) return;
-
           if (state is QRCodeScanStateHost) {
-            final isDeepLink = true;
             var profileCubit = context.read<ProfileCubit>();
             final qrCodeCubit = context.read<QRCodeScanCubit>();
             final walletCubit = context.read<WalletCubit>();
-            // qrCodeCubit.promptDeactivate();
 
             ///Check openId or https
             if (qrCodeCubit.isOpenIdUrl()) {
@@ -310,23 +305,20 @@ class _SplashPageState extends State<SplashPage> {
 
               ///request attribute check
               if (qrCodeCubit.requestAttributeExists()) {
-                return qrCodeCubit.emitQRCodeScanStateUnknown(
-                    isDeepLink: isDeepLink);
+                return qrCodeCubit.emitQRCodeScanStateUnknown();
               }
 
               ///request_uri attribute check
               if (!qrCodeCubit.requestUriAttributeExists()) {
-                return qrCodeCubit.emitQRCodeScanStateUnknown(
-                    isDeepLink: isDeepLink);
+                return qrCodeCubit.emitQRCodeScanStateUnknown();
               }
 
-              var sIOPV2Param =
-                  await qrCodeCubit.getSIOPV2Parameters(isDeepLink: isDeepLink);
+              var sIOPV2Param = await qrCodeCubit.getSIOPV2Parameters(
+                  isDeepLink: state.isDeepLink);
 
               ///check if claims exists
               if (sIOPV2Param.claims == null) {
-                return qrCodeCubit.emitQRCodeScanStateUnknown(
-                    isDeepLink: isDeepLink);
+                return qrCodeCubit.emitQRCodeScanStateUnknown();
               }
 
               var openIdCredential =
@@ -336,8 +328,7 @@ class _SplashPageState extends State<SplashPage> {
               ///check if credential and issuer both are not present
               ///TODO: Review this code... JSONPath should not cause issue in future
               if (openIdCredential == '' && openIdIssuer == '') {
-                return qrCodeCubit.emitQRCodeScanStateUnknown(
-                    isDeepLink: isDeepLink);
+                return qrCodeCubit.emitQRCodeScanStateUnknown();
               }
 
               var selectedCredentials = <CredentialModel>[];
@@ -413,25 +404,22 @@ class _SplashPageState extends State<SplashPage> {
                   false;
 
               if (acceptHost) {
-                context
-                    .read<QRCodeScanCubit>()
-                    .accept(uri: state.uri!, isDeepLink: isDeepLink);
+                context.read<QRCodeScanCubit>().accept(uri: state.uri!);
               } else {
-                //await qrController.resumeCamera();
                 context.read<QRCodeScanCubit>().emitWorkingState();
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(l10n.scanRefuseHost),
-                ));
+                context.read<QRCodeScanCubit>().emitQRCodeScanStateMessage(
+                    message: ScanMessageStringState.scanRefuseHost());
               }
             }
           }
           if (state is QRCodeScanStateSuccess) {
-            //   await qrController.stopCamera();
-            ///Note: Push
-            await Navigator.of(context).push(state.route!);
+            if (state.isDeepLink) {
+              await Navigator.of(context).push(state.route!);
+            } else {
+              await Navigator.of(context).pushReplacement(state.route!);
+            }
           }
           if (state is QRCodeScanStateMessage) {
-            //   await qrController.resumeCamera();
             final errorHandler = state.message!.errorHandler;
             if (errorHandler != null) {
               final color =
@@ -445,7 +433,6 @@ class _SplashPageState extends State<SplashPage> {
             }
           }
           if (state is QRCodeScanStateUnknown) {
-            //   await qrController.resumeCamera();
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text(l10n.scanUnsupportedMessage),
             ));
