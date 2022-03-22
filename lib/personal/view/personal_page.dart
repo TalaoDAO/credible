@@ -65,7 +65,6 @@ class _PersonalPageState extends State<PersonalPage> {
   late final l10n = context.l10n;
   late final personalPageCubit = context.read<PersonalPgeCubit>();
   late final isEnterprise = widget.profileModel.isEnterprise;
-  late final enterpriseFormKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -109,11 +108,6 @@ class _PersonalPageState extends State<PersonalPage> {
         titleTrailing: InkWell(
           borderRadius: BorderRadius.circular(8.0),
           onTap: () async {
-            if (isEnterprise) {
-              if (!enterpriseFormKey.currentState!.validate()) {
-                return;
-              }
-            }
             var model = widget.profileModel.copyWith(
                 firstName: firstNameController.text,
                 lastName: lastNameController.text,
@@ -159,9 +153,7 @@ class _PersonalPageState extends State<PersonalPage> {
         ),
         body: BlocBuilder<PersonalPgeCubit, PersonalPageState>(
             builder: (context, state) {
-          return Form(
-            key: enterpriseFormKey,
-            child: Column(
+          return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Padding(
@@ -179,15 +171,6 @@ class _PersonalPageState extends State<PersonalPage> {
                   controller: firstNameController,
                   icon: Icons.person,
                   textCapitalization: TextCapitalization.words,
-                  validator: !isEnterprise
-                      ? null
-                      : (value) {
-                          if (value?.isEmpty ?? true) {
-                            return l10n.thisFieldIsRequired;
-                          } else {
-                            return null;
-                          }
-                        },
                   prefixIcon: isEnterprise && widget.isFromOnBoarding
                       ? null
                       : Checkbox(
@@ -203,15 +186,6 @@ class _PersonalPageState extends State<PersonalPage> {
                   controller: lastNameController,
                   icon: Icons.person,
                   textCapitalization: TextCapitalization.words,
-                  validator: !isEnterprise
-                      ? null
-                      : (value) {
-                          if (value?.isEmpty ?? true) {
-                            return l10n.thisFieldIsRequired;
-                          } else {
-                            return null;
-                          }
-                        },
                   prefixIcon: isEnterprise && widget.isFromOnBoarding
                       ? null
                       : Checkbox(
@@ -227,15 +201,6 @@ class _PersonalPageState extends State<PersonalPage> {
                   controller: phoneController,
                   icon: Icons.phone,
                   type: TextInputType.phone,
-                  validator: !isEnterprise
-                      ? null
-                      : (value) {
-                          if (value?.isEmpty ?? true) {
-                            return l10n.thisFieldIsRequired;
-                          } else {
-                            return null;
-                          }
-                        },
                   prefixIcon: isEnterprise && widget.isFromOnBoarding
                       ? null
                       : Checkbox(
@@ -251,15 +216,6 @@ class _PersonalPageState extends State<PersonalPage> {
                   controller: locationController,
                   icon: Icons.location_pin,
                   textCapitalization: TextCapitalization.words,
-                  validator: !isEnterprise
-                      ? null
-                      : (value) {
-                          if (value?.isEmpty ?? true) {
-                            return l10n.thisFieldIsRequired;
-                          } else {
-                            return null;
-                          }
-                        },
                   prefixIcon: isEnterprise && widget.isFromOnBoarding
                       ? null
                       : Checkbox(
@@ -275,15 +231,6 @@ class _PersonalPageState extends State<PersonalPage> {
                   controller: emailController,
                   icon: Icons.email,
                   type: TextInputType.emailAddress,
-                  validator: !isEnterprise
-                      ? null
-                      : (value) {
-                          if (value?.isEmpty ?? true) {
-                            return l10n.thisFieldIsRequired;
-                          } else {
-                            return null;
-                          }
-                        },
                   prefixIcon: isEnterprise && widget.isFromOnBoarding
                       ? null
                       : Checkbox(
@@ -295,7 +242,6 @@ class _PersonalPageState extends State<PersonalPage> {
                 ),
                 if (isEnterprise) _buildEnterpriseTextFields(state)
               ],
-            ),
           );
         }),
         navigation: !widget.isFromOnBoarding
@@ -372,13 +318,6 @@ class _PersonalPageState extends State<PersonalPage> {
           controller: companyNameController,
           icon: Icons.apartment,
           type: TextInputType.text,
-          validator: (value) {
-            if (value?.isEmpty ?? true) {
-              return l10n.thisFieldIsRequired;
-            } else {
-              return null;
-            }
-          },
           prefixIcon: isEnterprise && widget.isFromOnBoarding
               ? null
               : Checkbox(
@@ -394,13 +333,6 @@ class _PersonalPageState extends State<PersonalPage> {
           controller: companyWebsiteController,
           icon: Icons.web_outlined,
           type: TextInputType.url,
-          validator: (value) {
-            if (value?.isEmpty ?? true) {
-              return l10n.thisFieldIsRequired;
-            } else {
-              return null;
-            }
-          },
           prefixIcon: isEnterprise && widget.isFromOnBoarding
               ? null
               : Checkbox(
@@ -416,13 +348,6 @@ class _PersonalPageState extends State<PersonalPage> {
           controller: jobTitleController,
           icon: Icons.work_outlined,
           type: TextInputType.text,
-          validator: (value) {
-            if (value?.isEmpty ?? true) {
-              return l10n.thisFieldIsRequired;
-            } else {
-              return null;
-            }
-          },
           prefixIcon: isEnterprise && widget.isFromOnBoarding
               ? null
               : Checkbox(
