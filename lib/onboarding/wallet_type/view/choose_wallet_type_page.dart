@@ -55,13 +55,11 @@ class _ChooseWalletTypePageState extends State<ChooseWalletTypePage> {
                     const SizedBox(height: 20.0),
                     BaseButton.primary(
                       context: context,
-                      onPressed: () async {
+                      onPressed: () {
                         context
                             .read<ChooseWalletTypeCubit>()
-                            .onChangeWalletType(WalletTypes.enterprise);
-                        await context.read<ChooseWalletTypeCubit>().save();
-                        await Navigator.of(context)
-                            .push(OnBoardingKeyPage.route());
+                            .onChangeWalletType(WalletTypes.personal);
+                        Navigator.of(context).push(OnBoardingKeyPage.route());
                       },
                       child: Text(l10n.createPersonalWalletButtonTitle),
                     ),
@@ -87,12 +85,11 @@ class _ChooseWalletTypePageState extends State<ChooseWalletTypePage> {
                     const SizedBox(height: 20.0),
                     BaseButton.primary(
                       context: context,
-                      onPressed: () async {
+                      onPressed: () {
                         context
                             .read<ChooseWalletTypeCubit>()
                             .onChangeWalletType(WalletTypes.enterprise);
-                        await context.read<ChooseWalletTypeCubit>().save();
-                        await Navigator.of(context)
+                        Navigator.of(context)
                             .push(SubmitEnterpriseUserPage.route());
                       },
                       child: Text(l10n.createEnterpriseWalletButtonTitle),

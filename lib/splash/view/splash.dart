@@ -83,6 +83,7 @@ class _SplashPageState extends State<SplashPage> {
 
         final isEnterprise =
             await secureStorageProvider.get(SecureStorageKeys.isEnterpriseUser);
+
         if (isEnterprise == null || isEnterprise.isEmpty) {
           return await onBoarding();
         }
