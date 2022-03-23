@@ -16,7 +16,6 @@ ScanState _$ScanStateFromJson(Map<String, dynamic> json) => ScanState(
       keyId: json['keyId'] as String?,
       challenge: json['challenge'] as String?,
       domain: json['domain'] as String?,
-      loading: json['loading'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$ScanStateToJson(ScanState instance) => <String, dynamic>{
@@ -27,5 +26,4 @@ Map<String, dynamic> _$ScanStateToJson(ScanState instance) => <String, dynamic>{
       'keyId': instance.keyId,
       'challenge': instance.challenge,
       'domain': instance.domain,
-      'loading': instance.loading,
     };

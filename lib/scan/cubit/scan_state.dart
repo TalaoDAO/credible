@@ -11,7 +11,6 @@ class ScanState extends Equatable {
     this.challenge,
     this.domain,
     this.done,
-    this.loading = false,
   });
 
   factory ScanState.fromJson(Map<String, dynamic> json) =>
@@ -26,35 +25,27 @@ class ScanState extends Equatable {
   final String? domain;
   @JsonKey(ignore: true)
   final void Function(String)? done;
-  final bool loading;
 
   Map<String, dynamic> toJson() => _$ScanStateToJson(this);
 
   @override
   List<Object?> get props =>
-      [message, preview, data, uri, keyId, challenge, domain, done, loading];
+      [message, preview, data, uri, keyId, challenge, domain, done];
 }
 
-class ScanStateLoading extends ScanState {
-  ScanStateLoading() : super(loading: true);
-}
+class ScanStateLoading extends ScanState {}
 
-class ScanStateIdle extends ScanState {
-  ScanStateIdle() : super(loading: false);
-}
+class ScanStateIdle extends ScanState {}
 
 class ScanStateMessage extends ScanState {
-  ScanStateMessage({StateMessage? message})
-      : super(message: message, loading: false);
+  ScanStateMessage({StateMessage? message}) : super(message: message);
 }
 
 class ScanStatePreview extends ScanState {
   ScanStatePreview({Map<String, dynamic>? preview}) : super(preview: preview);
 }
 
-class ScanStateSuccess extends ScanState {
-  ScanStateSuccess() : super(loading: false);
-}
+class ScanStateSuccess extends ScanState {}
 
 class ScanStateStoreQueryByExample extends ScanState {
   ScanStateStoreQueryByExample({Map<String, dynamic>? data, Uri? uri})
