@@ -407,6 +407,7 @@ class _SplashPageState extends State<SplashPage> {
               if (acceptHost) {
                 context.read<QRCodeScanCubit>().accept(uri: state.uri!);
               } else {
+                /// We emit the working state to reset the state because state may already be same QRCodeScanStateMessage
                 context.read<QRCodeScanCubit>().emitWorkingState();
                 context.read<QRCodeScanCubit>().emitQRCodeScanStateMessage(
                     message: ScanMessageStringState.scanRefuseHost());

@@ -58,6 +58,10 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
                     .thisQRCodeDoseNotContainAValidMessage())));
       } else {
         var uri = Uri.parse(url);
+
+        /// current QRCodeScanStateMessage may already be the QRCodeScanStateHost we want to emit and nothing will happen if that's the case.
+        /// In order to avoid this, we emit QRCodeScanStateWorking which don't trigger any action.
+        emit(QRCodeScanStateWorking(isDeepLink: isDeepLink));
         emit(QRCodeScanStateHost(isDeepLink: isDeepLink, uri: uri));
       }
     } on FormatException {
