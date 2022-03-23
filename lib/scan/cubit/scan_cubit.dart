@@ -58,9 +58,9 @@ class ScanCubit extends Cubit<ScanState> {
       final optStr = jsonEncode({'proofPurpose': 'assertionMethod'});
       final verification = await didKitProvider.verifyCredential(vcStr, optStr);
 
-      print('[wallet/credential-offer/verify/vc] $vcStr');
-      print('[wallet/credential-offer/verify/options] $optStr');
-      print('[wallet/credential-offer/verify/result] $verification');
+      print('[credible/credential-offer/verify/vc] $vcStr');
+      print('[credible/credential-offer/verify/options] $optStr');
+      print('[credible/credential-offer/verify/result] $verification');
 
       final jsonVerification = jsonDecode(verification);
 
@@ -204,9 +204,9 @@ class ScanCubit extends Cubit<ScanState> {
       final optStr = jsonEncode({'proofPurpose': 'assertionMethod'});
       final verification = await didKitProvider.verifyCredential(vcStr, optStr);
 
-      print('[wallet/chapi-store/verify/vc] $vcStr');
-      print('[wallet/chapi-store/verify/options] $optStr');
-      print('[wallet/chapi-store/verify/result] $verification');
+      print('[credible/chapi-store/verify/vc] $vcStr');
+      print('[credible/chapi-store/verify/options] $optStr');
+      print('[credible/chapi-store/verify/result] $verification');
 
       final jsonVerification = jsonDecode(verification);
 
