@@ -20,3 +20,28 @@ class SIOPV2CredentialPickState extends Equatable {
   @override
   List<Object?> get props => [index, loading];
 }
+
+@JsonSerializable()
+class SIOPV2CredentialPresentState extends SIOPV2CredentialPickState {
+  SIOPV2CredentialPresentState({this.index = 0, this.loading = false});
+
+  factory SIOPV2CredentialPresentState.fromJson(Map<String, dynamic> json) =>
+      _$SIOPV2CredentialPresentStateFromJson(json);
+
+  @override
+  final int index;
+  @override
+  final bool loading;
+
+  @override
+  SIOPV2CredentialPresentState copyWith({int? index, bool? loading}) {
+    return SIOPV2CredentialPresentState(
+        index: index ?? this.index, loading: loading ?? this.loading);
+  }
+
+  @override
+  Map<String, dynamic> toJson() => _$SIOPV2CredentialPresentStateToJson(this);
+
+  @override
+  List<Object?> get props => [index, loading];
+}

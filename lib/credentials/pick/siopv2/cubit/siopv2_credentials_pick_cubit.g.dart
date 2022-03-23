@@ -19,3 +19,17 @@ Map<String, dynamic> _$SIOPV2CredentialPickStateToJson(
       'index': instance.index,
       'loading': instance.loading,
     };
+
+SIOPV2CredentialPresentState _$SIOPV2CredentialPresentStateFromJson(
+        Map<String, dynamic> json) =>
+    SIOPV2CredentialPresentState(
+      index: json['index'] as int? ?? 0,
+      loading: json['loading'] as bool? ?? false,
+    );
+
+Map<String, dynamic> _$SIOPV2CredentialPresentStateToJson(
+        SIOPV2CredentialPresentState instance) =>
+    <String, dynamic>{
+      'index': instance.index,
+      'loading': instance.loading,
+    };
