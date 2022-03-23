@@ -19,6 +19,7 @@ import 'package:talao/did/cubit/did_cubit.dart';
 import 'package:talao/credentials/credentials.dart';
 import 'package:talao/deep_link/deep_link.dart';
 import 'package:talao/drawer/drawer.dart';
+import 'package:talao/issuer_websites_page/view/issuer_websites_page.dart';
 import 'package:talao/l10n/l10n.dart';
 import 'package:talao/onboarding/onboarding.dart';
 import 'package:talao/qr_code/qr_code_scan/qr_code_scan.dart';
@@ -359,7 +360,8 @@ class _SplashPageState extends State<SplashPage> {
               });
 
               if (selectedCredentials.isEmpty) {
-                ///TODO: User should be directed to url to add credentials.
+                await Navigator.of(context)
+                    .push(IssuerWebsitesPage.route(openIdCredential));
                 return;
               }
 

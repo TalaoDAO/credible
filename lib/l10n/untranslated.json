@@ -106,7 +106,8 @@
     "storagePermissionRequired",
     "youNeedStoragePermissionForUploadingFileGoToAppSettingsAndGrantAccessToStoragePermission",
     "cancel",
-    "loading"
+    "loading",
+    "issuerWebsitesTitle"
   ],
 
   "es": [
@@ -215,7 +216,8 @@
     "storagePermissionRequired",
     "youNeedStoragePermissionForUploadingFileGoToAppSettingsAndGrantAccessToStoragePermission",
     "cancel",
-    "loading"
+    "loading",
+    "issuerWebsitesTitle"
   ],
 
   "fr": [
@@ -299,7 +301,8 @@
     "storagePermissionRequired",
     "youNeedStoragePermissionForUploadingFileGoToAppSettingsAndGrantAccessToStoragePermission",
     "cancel",
-    "loading"
+    "loading",
+    "issuerWebsitesTitle"
   ],
 
   "it": [
@@ -410,6 +413,7 @@
     "storagePermissionRequired",
     "youNeedStoragePermissionForUploadingFileGoToAppSettingsAndGrantAccessToStoragePermission",
     "cancel",
-    "loading"
+    "loading",
+    "issuerWebsitesTitle"
   ]
 }

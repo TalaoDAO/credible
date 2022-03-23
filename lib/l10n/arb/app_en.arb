@@ -275,5 +275,6 @@
   "storagePermissionRequired": "Storage permission required",
   "youNeedStoragePermissionForUploadingFileGoToAppSettingsAndGrantAccessToStoragePermission": "You need storage permission for uploading file, go to app settings and grant access to storage permission.",
   "cancel": "Cancel",
-  "loading": "Please wait..."
+  "loading": "Please wait...",
+  "issuerWebsitesTitle": "Get some credentials"
 }
