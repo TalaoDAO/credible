@@ -1,7 +1,5 @@
 part of 'scan_cubit.dart';
 
-enum ScanStatus { init, idle, insert, delete, update, reset }
-
 @JsonSerializable()
 class ScanState extends Equatable {
   ScanState({
@@ -34,6 +32,8 @@ class ScanState extends Equatable {
   List<Object?> get props =>
       [message, preview, data, uri, keyId, challenge, domain, done];
 }
+
+class ScanStateLoading extends ScanState {}
 
 class ScanStateIdle extends ScanState {}
 

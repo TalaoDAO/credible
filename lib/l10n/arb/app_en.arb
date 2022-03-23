@@ -274,5 +274,6 @@
   "confirmSiopV2": "Please confirm the credential presented",
   "storagePermissionRequired": "Storage permission required",
   "youNeedStoragePermissionForUploadingFileGoToAppSettingsAndGrantAccessToStoragePermission": "You need storage permission for uploading file, go to app settings and grant access to storage permission.",
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "loading": "Loading!!!"
 }

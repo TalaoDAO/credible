@@ -105,7 +105,8 @@
     "confirmSiopV2",
     "storagePermissionRequired",
     "youNeedStoragePermissionForUploadingFileGoToAppSettingsAndGrantAccessToStoragePermission",
-    "cancel"
+    "cancel",
+    "loading"
   ],
 
   "es": [
@@ -213,7 +214,8 @@
     "confirmSiopV2",
     "storagePermissionRequired",
     "youNeedStoragePermissionForUploadingFileGoToAppSettingsAndGrantAccessToStoragePermission",
-    "cancel"
+    "cancel",
+    "loading"
   ],
 
   "fr": [
@@ -296,7 +298,8 @@
     "confirmSiopV2",
     "storagePermissionRequired",
     "youNeedStoragePermissionForUploadingFileGoToAppSettingsAndGrantAccessToStoragePermission",
-    "cancel"
+    "cancel",
+    "loading"
   ],
 
   "it": [
@@ -406,6 +409,7 @@
     "confirmSiopV2",
     "storagePermissionRequired",
     "youNeedStoragePermissionForUploadingFileGoToAppSettingsAndGrantAccessToStoragePermission",
-    "cancel"
+    "cancel",
+    "loading"
   ]
 }

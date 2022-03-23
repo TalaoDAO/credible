@@ -10,10 +10,12 @@ SIOPV2CredentialPickState _$SIOPV2CredentialPickStateFromJson(
         Map<String, dynamic> json) =>
     SIOPV2CredentialPickState(
       index: json['index'] as int? ?? 0,
+      loading: json['loading'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$SIOPV2CredentialPickStateToJson(
         SIOPV2CredentialPickState instance) =>
     <String, dynamic>{
       'index': instance.index,
+      'loading': instance.loading,
     };
