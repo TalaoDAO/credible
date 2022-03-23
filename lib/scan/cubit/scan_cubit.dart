@@ -342,7 +342,7 @@ class ScanCubit extends Cubit<ScanState> {
 
       client.changeHeaders({'Content-Type': 'application/json; charset=UTF-8'});
 
-      if (result == 'ok') {
+      if (result == 'Congrats ! Everything is ok') {
         emit(ScanStateMessage(
             message: StateMessage.success(
                 message:
