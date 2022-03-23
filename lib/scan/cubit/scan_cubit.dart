@@ -42,7 +42,7 @@ class ScanCubit extends Cubit<ScanState> {
       required CredentialModel credentialModel,
       required String keyId}) async {
     final log = Logger('talao-wallet/scan/credential-offer');
-    emit(ScanStateLoading());
+
     try {
       final did = (await secureStorageProvider.get(SecureStorageKeys.did))!;
 
@@ -113,7 +113,6 @@ class ScanCubit extends Cubit<ScanState> {
       required String domain}) async {
     final log = Logger('talao-wallet/scan/verifiable-presentation-request');
 
-    emit(ScanStateLoading());
     try {
       final key = (await secureStorageProvider.get(keyId))!;
       final did = await secureStorageProvider.get(SecureStorageKeys.did);
@@ -175,7 +174,6 @@ class ScanCubit extends Cubit<ScanState> {
       required void Function(String) done}) async {
     final log = Logger('talao-wallet/scan/chapi-store');
 
-    emit(ScanStateLoading());
     try {
       late final type;
 
@@ -255,7 +253,6 @@ class ScanCubit extends Cubit<ScanState> {
       required String domain}) async {
     final log = Logger('talao-wallet/scan/chapi-get-didauth');
 
-    emit(ScanStateLoading());
     try {
       final key = (await secureStorageProvider.get(keyId))!;
       final did = await secureStorageProvider.get(SecureStorageKeys.did);
@@ -313,12 +310,11 @@ class ScanCubit extends Cubit<ScanState> {
     }
   }
 
-  Future<dynamic> presentCredentialToSiopV2Request(
+  void presentCredentialToSiopV2Request(
       {required credential, required sIOPV2Param}) async {
     final log =
         Logger('talao-wallet/scan/present-credential-to-siop-v2-request');
-    emit(ScanStateLoading());
-    await Future.delayed(Duration(milliseconds: 500));
+
     try {
       final vpToken = await createVpToken(
           credential: credential, challenge: sIOPV2Param.nonce);
@@ -347,6 +343,8 @@ class ScanCubit extends Cubit<ScanState> {
             message: StateMessage.success(
                 message:
                     ScanMessageStringState.successfullyPresentedYourDID())));
+
+        emit(ScanStateSuccess());
       } else {
         emit(ScanStateMessage(
             message: StateMessage.error(
@@ -366,7 +364,7 @@ class ScanCubit extends Cubit<ScanState> {
                 message: ScanMessageStringState
                     .somethingsWentWrongTryAgainLater())));
       }
-      return;
+      emit(ScanStateIdle());
     }
   }
 
@@ -380,7 +378,6 @@ class ScanCubit extends Cubit<ScanState> {
     required Uri uri,
   }) async {
     final log = Logger('talao-wallet/scan/chapi-get-querybyexample');
-    emit(ScanStateLoading());
 
     try {
       final key = (await secureStorageProvider.get(keyId))!;
