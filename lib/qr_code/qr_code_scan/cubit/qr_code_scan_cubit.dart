@@ -45,7 +45,7 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
   }
 
   void emitWorkingState() {
-    emit(QRCodeScanStateWorking());
+    emit(QRCodeScanStateWorking(isDeepLink: state.isDeepLink));
   }
 
   void host({required String? url, required bool isDeepLink}) async {
@@ -86,7 +86,7 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
     }
   }
 
-  void accept({required Uri uri, required bool isDeepLink}) async {
+  void accept({required Uri uri}) async {
     final log = Logger('talao-wallet/qrcode/accept');
 
     late final data;
@@ -99,7 +99,7 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
       switch (data['type']) {
         case 'CredentialOffer':
           emit(QRCodeScanStateSuccess(
-              isDeepLink: isDeepLink,
+              isDeepLink: state.isDeepLink,
               route: CredentialsReceivePage.route(uri)));
           break;
 
@@ -118,20 +118,21 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
               );
             } else if (data['query'].first['type'] == 'QueryByExample') {
               emit(QRCodeScanStateSuccess(
-                  isDeepLink: isDeepLink,
+                  isDeepLink: state.isDeepLink,
                   route: CredentialsPresentPage.route(uri: uri)));
             } else {
               throw UnimplementedError('Unimplemented Query Type');
             }
           } else {
             emit(QRCodeScanStateSuccess(
-                isDeepLink: isDeepLink,
+                isDeepLink: state.isDeepLink,
                 route: CredentialsPresentPage.route(uri: uri)));
           }
           break;
 
         default:
-          emit(QRCodeScanStateUnknown(isDeepLink: isDeepLink, uri: state.uri!));
+          emit(QRCodeScanStateUnknown(
+              isDeepLink: state.isDeepLink, uri: state.uri!));
           break;
       }
     } catch (e) {
@@ -139,13 +140,13 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
 
       if (e is ErrorHandler) {
         emit(QRCodeScanStateMessage(
-            isDeepLink: isDeepLink,
+            isDeepLink: state.isDeepLink,
             message: StateMessage.error(
                 message: ScanMessageStringState.anErrorOccurred(),
                 errorHandler: e)));
       } else {
         emit(QRCodeScanStateMessage(
-            isDeepLink: isDeepLink,
+            isDeepLink: state.isDeepLink,
             message: StateMessage.error(
                 message: ScanMessageStringState
                     .anErrorOccurredWhileConnectingToTheServer())));
@@ -271,7 +272,13 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
     return issuerField['filter']['pattern'];
   }
 
-  void emitQRCodeScanStateUnknown({required bool isDeepLink}) {
-    emit(QRCodeScanStateUnknown(isDeepLink: isDeepLink, uri: state.uri!));
+  void emitQRCodeScanStateUnknown() {
+    emit(QRCodeScanStateUnknown(isDeepLink: state.isDeepLink, uri: state.uri!));
+  }
+
+  void emitQRCodeScanStateMessage({required ScanMessageStringState message}) {
+    emit(QRCodeScanStateMessage(
+        isDeepLink: state.isDeepLink,
+        message: StateMessage.error(message: message)));
   }
 }
