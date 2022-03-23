@@ -35,7 +35,7 @@ class CredentialSubject {
         _backgroundColor = Colors.white;
         break;
       case 'SelfIssued':
-        _backgroundColor = Color(0xffdac5f8);
+        _backgroundColor = Color(0xffEFF0F6);
         break;
       case 'IdentityPass':
         _backgroundColor = Color(0xffCAFFBF);
