@@ -1,4 +1,4 @@
-package co.talao.credible
+package co.talao.wallet
 
 import io.flutter.embedding.android.FlutterActivity
 

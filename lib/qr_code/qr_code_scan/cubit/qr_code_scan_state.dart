@@ -2,7 +2,8 @@ part of 'qr_code_scan_cubit.dart';
 
 @JsonSerializable()
 class QRCodeScanState extends Equatable {
-  QRCodeScanState({this.uri, this.route, this.isDeepLink, this.message});
+  QRCodeScanState(
+      {this.uri, this.route, this.isDeepLink = false, this.message});
 
   factory QRCodeScanState.fromJson(Map<String, dynamic> json) =>
       _$QRCodeScanStateFromJson(json);
@@ -10,7 +11,7 @@ class QRCodeScanState extends Equatable {
   final Uri? uri;
   @JsonKey(ignore: true)
   final Route? route;
-  final bool? isDeepLink;
+  final bool isDeepLink;
   final StateMessage? message;
 
   Map<String, dynamic> toJson() => _$QRCodeScanStateToJson(this);
@@ -30,7 +31,8 @@ class QRCodeScanState extends Equatable {
 }
 
 class QRCodeScanStateWorking extends QRCodeScanState {
-  QRCodeScanStateWorking() : super();
+  QRCodeScanStateWorking({bool isDeepLink = false})
+      : super(isDeepLink: isDeepLink);
 }
 
 class QRCodeScanStateHost extends QRCodeScanState {

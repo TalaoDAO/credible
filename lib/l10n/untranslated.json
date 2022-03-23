@@ -103,6 +103,9 @@
     "credentialEmptyError",
     "credentialPresentTitleSiopV2",
     "confirmSiopV2",
+    "storagePermissionRequired",
+    "youNeedStoragePermissionForUploadingFileGoToAppSettingsAndGrantAccessToStoragePermission",
+    "cancel",
     "loading"
   ],
 
@@ -209,6 +212,9 @@
     "credentialEmptyError",
     "credentialPresentTitleSiopV2",
     "confirmSiopV2",
+    "storagePermissionRequired",
+    "youNeedStoragePermissionForUploadingFileGoToAppSettingsAndGrantAccessToStoragePermission",
+    "cancel",
     "loading"
   ],
 
@@ -290,6 +296,9 @@
     "credentialEmptyError",
     "credentialPresentTitleSiopV2",
     "confirmSiopV2",
+    "storagePermissionRequired",
+    "youNeedStoragePermissionForUploadingFileGoToAppSettingsAndGrantAccessToStoragePermission",
+    "cancel",
     "loading"
   ],
 
@@ -398,6 +407,9 @@
     "credentialEmptyError",
     "credentialPresentTitleSiopV2",
     "confirmSiopV2",
+    "storagePermissionRequired",
+    "youNeedStoragePermissionForUploadingFileGoToAppSettingsAndGrantAccessToStoragePermission",
+    "cancel",
     "loading"
   ]
 }
