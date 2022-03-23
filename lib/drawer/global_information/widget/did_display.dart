@@ -82,15 +82,18 @@ class DIDDisplay extends StatelessWidget {
                 ),
               ),
             if (!isEnterpriseUser)
-              TextButton(
-                style: TextButton.styleFrom(
-                  backgroundColor:
-                      Theme.of(context).colorScheme.primary.withOpacity(0.1),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor:
+                        Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                  ),
+                  onPressed: () {
+                    Clipboard.setData(ClipboardData(text: blockChainAddress));
+                  },
+                  child: Text(l10n.adressDisplayCopy),
                 ),
-                onPressed: () {
-                  Clipboard.setData(ClipboardData(text: blockChainAddress));
-                },
-                child: Text(l10n.adressDisplayCopy),
               ),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -115,15 +118,18 @@ class DIDDisplay extends StatelessWidget {
                 ],
               ),
             ),
-            TextButton(
-              style: TextButton.styleFrom(
-                backgroundColor:
-                    Theme.of(context).colorScheme.primary.withOpacity(0.1),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextButton(
+                style: TextButton.styleFrom(
+                  backgroundColor:
+                      Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                ),
+                onPressed: () {
+                  Clipboard.setData(ClipboardData(text: did));
+                },
+                child: Text(l10n.didDisplayCopy),
               ),
-              onPressed: () {
-                Clipboard.setData(ClipboardData(text: did));
-              },
-              child: Text(l10n.didDisplayCopy),
             ),
           ],
         );

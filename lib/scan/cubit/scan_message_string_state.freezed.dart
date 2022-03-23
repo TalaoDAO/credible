@@ -80,8 +80,8 @@ class _$ScanMessageStringStateTearOff {
     return const FailedToLoadDID();
   }
 
-  ScanRefuseHost scanRefuseHost() {
-    return const ScanRefuseHost();
+  ScanRefusedHost scanRefuseHost() {
+    return const ScanRefusedHost();
   }
 }
 
@@ -178,7 +178,7 @@ mixin _$ScanMessageStringState {
     required TResult Function(FailedToLoadProfile value) failedToLoadProfile,
     required TResult Function(FailedToSaveProfile value) failedToSaveProfile,
     required TResult Function(FailedToLoadDID value) failedToLoadDID,
-    required TResult Function(ScanRefuseHost value) scanRefuseHost,
+    required TResult Function(ScanRefusedHost value) scanRefuseHost,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -207,7 +207,7 @@ mixin _$ScanMessageStringState {
     TResult Function(FailedToLoadProfile value)? failedToLoadProfile,
     TResult Function(FailedToSaveProfile value)? failedToSaveProfile,
     TResult Function(FailedToLoadDID value)? failedToLoadDID,
-    TResult Function(ScanRefuseHost value)? scanRefuseHost,
+    TResult Function(ScanRefusedHost value)? scanRefuseHost,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -236,7 +236,7 @@ mixin _$ScanMessageStringState {
     TResult Function(FailedToLoadProfile value)? failedToLoadProfile,
     TResult Function(FailedToSaveProfile value)? failedToSaveProfile,
     TResult Function(FailedToLoadDID value)? failedToLoadDID,
-    TResult Function(ScanRefuseHost value)? scanRefuseHost,
+    TResult Function(ScanRefusedHost value)? scanRefuseHost,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -403,7 +403,7 @@ class _$CredentialVerificationReturnWarning
     required TResult Function(FailedToLoadProfile value) failedToLoadProfile,
     required TResult Function(FailedToSaveProfile value) failedToSaveProfile,
     required TResult Function(FailedToLoadDID value) failedToLoadDID,
-    required TResult Function(ScanRefuseHost value) scanRefuseHost,
+    required TResult Function(ScanRefusedHost value) scanRefuseHost,
   }) {
     return credentialVerificationReturnWarning(this);
   }
@@ -435,7 +435,7 @@ class _$CredentialVerificationReturnWarning
     TResult Function(FailedToLoadProfile value)? failedToLoadProfile,
     TResult Function(FailedToSaveProfile value)? failedToSaveProfile,
     TResult Function(FailedToLoadDID value)? failedToLoadDID,
-    TResult Function(ScanRefuseHost value)? scanRefuseHost,
+    TResult Function(ScanRefusedHost value)? scanRefuseHost,
   }) {
     return credentialVerificationReturnWarning?.call(this);
   }
@@ -467,7 +467,7 @@ class _$CredentialVerificationReturnWarning
     TResult Function(FailedToLoadProfile value)? failedToLoadProfile,
     TResult Function(FailedToSaveProfile value)? failedToSaveProfile,
     TResult Function(FailedToLoadDID value)? failedToLoadDID,
-    TResult Function(ScanRefuseHost value)? scanRefuseHost,
+    TResult Function(ScanRefusedHost value)? scanRefuseHost,
     required TResult orElse(),
   }) {
     if (credentialVerificationReturnWarning != null) {
@@ -624,7 +624,7 @@ class _$FailedToVerifyCredential extends FailedToVerifyCredential {
     required TResult Function(FailedToLoadProfile value) failedToLoadProfile,
     required TResult Function(FailedToSaveProfile value) failedToSaveProfile,
     required TResult Function(FailedToLoadDID value) failedToLoadDID,
-    required TResult Function(ScanRefuseHost value) scanRefuseHost,
+    required TResult Function(ScanRefusedHost value) scanRefuseHost,
   }) {
     return failedToVerifyCredential(this);
   }
@@ -656,7 +656,7 @@ class _$FailedToVerifyCredential extends FailedToVerifyCredential {
     TResult Function(FailedToLoadProfile value)? failedToLoadProfile,
     TResult Function(FailedToSaveProfile value)? failedToSaveProfile,
     TResult Function(FailedToLoadDID value)? failedToLoadDID,
-    TResult Function(ScanRefuseHost value)? scanRefuseHost,
+    TResult Function(ScanRefusedHost value)? scanRefuseHost,
   }) {
     return failedToVerifyCredential?.call(this);
   }
@@ -688,7 +688,7 @@ class _$FailedToVerifyCredential extends FailedToVerifyCredential {
     TResult Function(FailedToLoadProfile value)? failedToLoadProfile,
     TResult Function(FailedToSaveProfile value)? failedToSaveProfile,
     TResult Function(FailedToLoadDID value)? failedToLoadDID,
-    TResult Function(ScanRefuseHost value)? scanRefuseHost,
+    TResult Function(ScanRefusedHost value)? scanRefuseHost,
     required TResult orElse(),
   }) {
     if (failedToVerifyCredential != null) {
@@ -842,7 +842,7 @@ class _$AnErrorOccurred extends AnErrorOccurred {
     required TResult Function(FailedToLoadProfile value) failedToLoadProfile,
     required TResult Function(FailedToSaveProfile value) failedToSaveProfile,
     required TResult Function(FailedToLoadDID value) failedToLoadDID,
-    required TResult Function(ScanRefuseHost value) scanRefuseHost,
+    required TResult Function(ScanRefusedHost value) scanRefuseHost,
   }) {
     return anErrorOccurred(this);
   }
@@ -874,7 +874,7 @@ class _$AnErrorOccurred extends AnErrorOccurred {
     TResult Function(FailedToLoadProfile value)? failedToLoadProfile,
     TResult Function(FailedToSaveProfile value)? failedToSaveProfile,
     TResult Function(FailedToLoadDID value)? failedToLoadDID,
-    TResult Function(ScanRefuseHost value)? scanRefuseHost,
+    TResult Function(ScanRefusedHost value)? scanRefuseHost,
   }) {
     return anErrorOccurred?.call(this);
   }
@@ -906,7 +906,7 @@ class _$AnErrorOccurred extends AnErrorOccurred {
     TResult Function(FailedToLoadProfile value)? failedToLoadProfile,
     TResult Function(FailedToSaveProfile value)? failedToSaveProfile,
     TResult Function(FailedToLoadDID value)? failedToLoadDID,
-    TResult Function(ScanRefuseHost value)? scanRefuseHost,
+    TResult Function(ScanRefusedHost value)? scanRefuseHost,
     required TResult orElse(),
   }) {
     if (anErrorOccurred != null) {
@@ -1065,7 +1065,7 @@ class _$SomethingsWentWrongTryAgainLater
     required TResult Function(FailedToLoadProfile value) failedToLoadProfile,
     required TResult Function(FailedToSaveProfile value) failedToSaveProfile,
     required TResult Function(FailedToLoadDID value) failedToLoadDID,
-    required TResult Function(ScanRefuseHost value) scanRefuseHost,
+    required TResult Function(ScanRefusedHost value) scanRefuseHost,
   }) {
     return somethingsWentWrongTryAgainLater(this);
   }
@@ -1097,7 +1097,7 @@ class _$SomethingsWentWrongTryAgainLater
     TResult Function(FailedToLoadProfile value)? failedToLoadProfile,
     TResult Function(FailedToSaveProfile value)? failedToSaveProfile,
     TResult Function(FailedToLoadDID value)? failedToLoadDID,
-    TResult Function(ScanRefuseHost value)? scanRefuseHost,
+    TResult Function(ScanRefusedHost value)? scanRefuseHost,
   }) {
     return somethingsWentWrongTryAgainLater?.call(this);
   }
@@ -1129,7 +1129,7 @@ class _$SomethingsWentWrongTryAgainLater
     TResult Function(FailedToLoadProfile value)? failedToLoadProfile,
     TResult Function(FailedToSaveProfile value)? failedToSaveProfile,
     TResult Function(FailedToLoadDID value)? failedToLoadDID,
-    TResult Function(ScanRefuseHost value)? scanRefuseHost,
+    TResult Function(ScanRefusedHost value)? scanRefuseHost,
     required TResult orElse(),
   }) {
     if (somethingsWentWrongTryAgainLater != null) {
@@ -1289,7 +1289,7 @@ class _$SuccessfullyPresentedYourCredential
     required TResult Function(FailedToLoadProfile value) failedToLoadProfile,
     required TResult Function(FailedToSaveProfile value) failedToSaveProfile,
     required TResult Function(FailedToLoadDID value) failedToLoadDID,
-    required TResult Function(ScanRefuseHost value) scanRefuseHost,
+    required TResult Function(ScanRefusedHost value) scanRefuseHost,
   }) {
     return successfullyPresentedYourCredential(this);
   }
@@ -1321,7 +1321,7 @@ class _$SuccessfullyPresentedYourCredential
     TResult Function(FailedToLoadProfile value)? failedToLoadProfile,
     TResult Function(FailedToSaveProfile value)? failedToSaveProfile,
     TResult Function(FailedToLoadDID value)? failedToLoadDID,
-    TResult Function(ScanRefuseHost value)? scanRefuseHost,
+    TResult Function(ScanRefusedHost value)? scanRefuseHost,
   }) {
     return successfullyPresentedYourCredential?.call(this);
   }
@@ -1353,7 +1353,7 @@ class _$SuccessfullyPresentedYourCredential
     TResult Function(FailedToLoadProfile value)? failedToLoadProfile,
     TResult Function(FailedToSaveProfile value)? failedToSaveProfile,
     TResult Function(FailedToLoadDID value)? failedToLoadDID,
-    TResult Function(ScanRefuseHost value)? scanRefuseHost,
+    TResult Function(ScanRefusedHost value)? scanRefuseHost,
     required TResult orElse(),
   }) {
     if (successfullyPresentedYourCredential != null) {
@@ -1513,7 +1513,7 @@ class _$SuccessfullyPresentedYourDID extends SuccessfullyPresentedYourDID {
     required TResult Function(FailedToLoadProfile value) failedToLoadProfile,
     required TResult Function(FailedToSaveProfile value) failedToSaveProfile,
     required TResult Function(FailedToLoadDID value) failedToLoadDID,
-    required TResult Function(ScanRefuseHost value) scanRefuseHost,
+    required TResult Function(ScanRefusedHost value) scanRefuseHost,
   }) {
     return successfullyPresentedYourDID(this);
   }
@@ -1545,7 +1545,7 @@ class _$SuccessfullyPresentedYourDID extends SuccessfullyPresentedYourDID {
     TResult Function(FailedToLoadProfile value)? failedToLoadProfile,
     TResult Function(FailedToSaveProfile value)? failedToSaveProfile,
     TResult Function(FailedToLoadDID value)? failedToLoadDID,
-    TResult Function(ScanRefuseHost value)? scanRefuseHost,
+    TResult Function(ScanRefusedHost value)? scanRefuseHost,
   }) {
     return successfullyPresentedYourDID?.call(this);
   }
@@ -1577,7 +1577,7 @@ class _$SuccessfullyPresentedYourDID extends SuccessfullyPresentedYourDID {
     TResult Function(FailedToLoadProfile value)? failedToLoadProfile,
     TResult Function(FailedToSaveProfile value)? failedToSaveProfile,
     TResult Function(FailedToLoadDID value)? failedToLoadDID,
-    TResult Function(ScanRefuseHost value)? scanRefuseHost,
+    TResult Function(ScanRefusedHost value)? scanRefuseHost,
     required TResult orElse(),
   }) {
     if (successfullyPresentedYourDID != null) {
@@ -1736,7 +1736,7 @@ class _$ThisQRCodeDoseNotContainAValidMessage
     required TResult Function(FailedToLoadProfile value) failedToLoadProfile,
     required TResult Function(FailedToSaveProfile value) failedToSaveProfile,
     required TResult Function(FailedToLoadDID value) failedToLoadDID,
-    required TResult Function(ScanRefuseHost value) scanRefuseHost,
+    required TResult Function(ScanRefusedHost value) scanRefuseHost,
   }) {
     return thisQRCodeDoseNotContainAValidMessage(this);
   }
@@ -1768,7 +1768,7 @@ class _$ThisQRCodeDoseNotContainAValidMessage
     TResult Function(FailedToLoadProfile value)? failedToLoadProfile,
     TResult Function(FailedToSaveProfile value)? failedToSaveProfile,
     TResult Function(FailedToLoadDID value)? failedToLoadDID,
-    TResult Function(ScanRefuseHost value)? scanRefuseHost,
+    TResult Function(ScanRefusedHost value)? scanRefuseHost,
   }) {
     return thisQRCodeDoseNotContainAValidMessage?.call(this);
   }
@@ -1800,7 +1800,7 @@ class _$ThisQRCodeDoseNotContainAValidMessage
     TResult Function(FailedToLoadProfile value)? failedToLoadProfile,
     TResult Function(FailedToSaveProfile value)? failedToSaveProfile,
     TResult Function(FailedToLoadDID value)? failedToLoadDID,
-    TResult Function(ScanRefuseHost value)? scanRefuseHost,
+    TResult Function(ScanRefusedHost value)? scanRefuseHost,
     required TResult orElse(),
   }) {
     if (thisQRCodeDoseNotContainAValidMessage != null) {
@@ -1961,7 +1961,7 @@ class _$ThisUrlDoseNotContainAValidMessage
     required TResult Function(FailedToLoadProfile value) failedToLoadProfile,
     required TResult Function(FailedToSaveProfile value) failedToSaveProfile,
     required TResult Function(FailedToLoadDID value) failedToLoadDID,
-    required TResult Function(ScanRefuseHost value) scanRefuseHost,
+    required TResult Function(ScanRefusedHost value) scanRefuseHost,
   }) {
     return thisUrlDoseNotContainAValidMessage(this);
   }
@@ -1993,7 +1993,7 @@ class _$ThisUrlDoseNotContainAValidMessage
     TResult Function(FailedToLoadProfile value)? failedToLoadProfile,
     TResult Function(FailedToSaveProfile value)? failedToSaveProfile,
     TResult Function(FailedToLoadDID value)? failedToLoadDID,
-    TResult Function(ScanRefuseHost value)? scanRefuseHost,
+    TResult Function(ScanRefusedHost value)? scanRefuseHost,
   }) {
     return thisUrlDoseNotContainAValidMessage?.call(this);
   }
@@ -2025,7 +2025,7 @@ class _$ThisUrlDoseNotContainAValidMessage
     TResult Function(FailedToLoadProfile value)? failedToLoadProfile,
     TResult Function(FailedToSaveProfile value)? failedToSaveProfile,
     TResult Function(FailedToLoadDID value)? failedToLoadDID,
-    TResult Function(ScanRefuseHost value)? scanRefuseHost,
+    TResult Function(ScanRefusedHost value)? scanRefuseHost,
     required TResult orElse(),
   }) {
     if (thisUrlDoseNotContainAValidMessage != null) {
@@ -2187,7 +2187,7 @@ class _$AnErrorOccurredWhileConnectingToTheServer
     required TResult Function(FailedToLoadProfile value) failedToLoadProfile,
     required TResult Function(FailedToSaveProfile value) failedToSaveProfile,
     required TResult Function(FailedToLoadDID value) failedToLoadDID,
-    required TResult Function(ScanRefuseHost value) scanRefuseHost,
+    required TResult Function(ScanRefusedHost value) scanRefuseHost,
   }) {
     return anErrorOccurredWhileConnectingToTheServer(this);
   }
@@ -2219,7 +2219,7 @@ class _$AnErrorOccurredWhileConnectingToTheServer
     TResult Function(FailedToLoadProfile value)? failedToLoadProfile,
     TResult Function(FailedToSaveProfile value)? failedToSaveProfile,
     TResult Function(FailedToLoadDID value)? failedToLoadDID,
-    TResult Function(ScanRefuseHost value)? scanRefuseHost,
+    TResult Function(ScanRefusedHost value)? scanRefuseHost,
   }) {
     return anErrorOccurredWhileConnectingToTheServer?.call(this);
   }
@@ -2251,7 +2251,7 @@ class _$AnErrorOccurredWhileConnectingToTheServer
     TResult Function(FailedToLoadProfile value)? failedToLoadProfile,
     TResult Function(FailedToSaveProfile value)? failedToSaveProfile,
     TResult Function(FailedToLoadDID value)? failedToLoadDID,
-    TResult Function(ScanRefuseHost value)? scanRefuseHost,
+    TResult Function(ScanRefusedHost value)? scanRefuseHost,
     required TResult orElse(),
   }) {
     if (anErrorOccurredWhileConnectingToTheServer != null) {
@@ -2412,7 +2412,7 @@ class _$CredentialDetailDeleteSuccessMessage
     required TResult Function(FailedToLoadProfile value) failedToLoadProfile,
     required TResult Function(FailedToSaveProfile value) failedToSaveProfile,
     required TResult Function(FailedToLoadDID value) failedToLoadDID,
-    required TResult Function(ScanRefuseHost value) scanRefuseHost,
+    required TResult Function(ScanRefusedHost value) scanRefuseHost,
   }) {
     return credentialDetailDeleteSuccessMessage(this);
   }
@@ -2444,7 +2444,7 @@ class _$CredentialDetailDeleteSuccessMessage
     TResult Function(FailedToLoadProfile value)? failedToLoadProfile,
     TResult Function(FailedToSaveProfile value)? failedToSaveProfile,
     TResult Function(FailedToLoadDID value)? failedToLoadDID,
-    TResult Function(ScanRefuseHost value)? scanRefuseHost,
+    TResult Function(ScanRefusedHost value)? scanRefuseHost,
   }) {
     return credentialDetailDeleteSuccessMessage?.call(this);
   }
@@ -2476,7 +2476,7 @@ class _$CredentialDetailDeleteSuccessMessage
     TResult Function(FailedToLoadProfile value)? failedToLoadProfile,
     TResult Function(FailedToSaveProfile value)? failedToSaveProfile,
     TResult Function(FailedToLoadDID value)? failedToLoadDID,
-    TResult Function(ScanRefuseHost value)? scanRefuseHost,
+    TResult Function(ScanRefusedHost value)? scanRefuseHost,
     required TResult orElse(),
   }) {
     if (credentialDetailDeleteSuccessMessage != null) {
@@ -2632,7 +2632,7 @@ class _$ErrorGeneratingKey extends ErrorGeneratingKey {
     required TResult Function(FailedToLoadProfile value) failedToLoadProfile,
     required TResult Function(FailedToSaveProfile value) failedToSaveProfile,
     required TResult Function(FailedToLoadDID value) failedToLoadDID,
-    required TResult Function(ScanRefuseHost value) scanRefuseHost,
+    required TResult Function(ScanRefusedHost value) scanRefuseHost,
   }) {
     return errorGeneratingKey(this);
   }
@@ -2664,7 +2664,7 @@ class _$ErrorGeneratingKey extends ErrorGeneratingKey {
     TResult Function(FailedToLoadProfile value)? failedToLoadProfile,
     TResult Function(FailedToSaveProfile value)? failedToSaveProfile,
     TResult Function(FailedToLoadDID value)? failedToLoadDID,
-    TResult Function(ScanRefuseHost value)? scanRefuseHost,
+    TResult Function(ScanRefusedHost value)? scanRefuseHost,
   }) {
     return errorGeneratingKey?.call(this);
   }
@@ -2696,7 +2696,7 @@ class _$ErrorGeneratingKey extends ErrorGeneratingKey {
     TResult Function(FailedToLoadProfile value)? failedToLoadProfile,
     TResult Function(FailedToSaveProfile value)? failedToSaveProfile,
     TResult Function(FailedToLoadDID value)? failedToLoadDID,
-    TResult Function(ScanRefuseHost value)? scanRefuseHost,
+    TResult Function(ScanRefusedHost value)? scanRefuseHost,
     required TResult orElse(),
   }) {
     if (errorGeneratingKey != null) {
@@ -2855,7 +2855,7 @@ class _$FailedToSaveMnemonicPleaseTryAgain
     required TResult Function(FailedToLoadProfile value) failedToLoadProfile,
     required TResult Function(FailedToSaveProfile value) failedToSaveProfile,
     required TResult Function(FailedToLoadDID value) failedToLoadDID,
-    required TResult Function(ScanRefuseHost value) scanRefuseHost,
+    required TResult Function(ScanRefusedHost value) scanRefuseHost,
   }) {
     return failedToSaveMnemonicPleaseTryAgain(this);
   }
@@ -2887,7 +2887,7 @@ class _$FailedToSaveMnemonicPleaseTryAgain
     TResult Function(FailedToLoadProfile value)? failedToLoadProfile,
     TResult Function(FailedToSaveProfile value)? failedToSaveProfile,
     TResult Function(FailedToLoadDID value)? failedToLoadDID,
-    TResult Function(ScanRefuseHost value)? scanRefuseHost,
+    TResult Function(ScanRefusedHost value)? scanRefuseHost,
   }) {
     return failedToSaveMnemonicPleaseTryAgain?.call(this);
   }
@@ -2919,7 +2919,7 @@ class _$FailedToSaveMnemonicPleaseTryAgain
     TResult Function(FailedToLoadProfile value)? failedToLoadProfile,
     TResult Function(FailedToSaveProfile value)? failedToSaveProfile,
     TResult Function(FailedToLoadDID value)? failedToLoadDID,
-    TResult Function(ScanRefuseHost value)? scanRefuseHost,
+    TResult Function(ScanRefusedHost value)? scanRefuseHost,
     required TResult orElse(),
   }) {
     if (failedToSaveMnemonicPleaseTryAgain != null) {
@@ -3075,7 +3075,7 @@ class _$FailedToLoadProfile extends FailedToLoadProfile {
     required TResult Function(FailedToLoadProfile value) failedToLoadProfile,
     required TResult Function(FailedToSaveProfile value) failedToSaveProfile,
     required TResult Function(FailedToLoadDID value) failedToLoadDID,
-    required TResult Function(ScanRefuseHost value) scanRefuseHost,
+    required TResult Function(ScanRefusedHost value) scanRefuseHost,
   }) {
     return failedToLoadProfile(this);
   }
@@ -3107,7 +3107,7 @@ class _$FailedToLoadProfile extends FailedToLoadProfile {
     TResult Function(FailedToLoadProfile value)? failedToLoadProfile,
     TResult Function(FailedToSaveProfile value)? failedToSaveProfile,
     TResult Function(FailedToLoadDID value)? failedToLoadDID,
-    TResult Function(ScanRefuseHost value)? scanRefuseHost,
+    TResult Function(ScanRefusedHost value)? scanRefuseHost,
   }) {
     return failedToLoadProfile?.call(this);
   }
@@ -3139,7 +3139,7 @@ class _$FailedToLoadProfile extends FailedToLoadProfile {
     TResult Function(FailedToLoadProfile value)? failedToLoadProfile,
     TResult Function(FailedToSaveProfile value)? failedToSaveProfile,
     TResult Function(FailedToLoadDID value)? failedToLoadDID,
-    TResult Function(ScanRefuseHost value)? scanRefuseHost,
+    TResult Function(ScanRefusedHost value)? scanRefuseHost,
     required TResult orElse(),
   }) {
     if (failedToLoadProfile != null) {
@@ -3293,7 +3293,7 @@ class _$FailedToSaveProfile extends FailedToSaveProfile {
     required TResult Function(FailedToLoadProfile value) failedToLoadProfile,
     required TResult Function(FailedToSaveProfile value) failedToSaveProfile,
     required TResult Function(FailedToLoadDID value) failedToLoadDID,
-    required TResult Function(ScanRefuseHost value) scanRefuseHost,
+    required TResult Function(ScanRefusedHost value) scanRefuseHost,
   }) {
     return failedToSaveProfile(this);
   }
@@ -3325,7 +3325,7 @@ class _$FailedToSaveProfile extends FailedToSaveProfile {
     TResult Function(FailedToLoadProfile value)? failedToLoadProfile,
     TResult Function(FailedToSaveProfile value)? failedToSaveProfile,
     TResult Function(FailedToLoadDID value)? failedToLoadDID,
-    TResult Function(ScanRefuseHost value)? scanRefuseHost,
+    TResult Function(ScanRefusedHost value)? scanRefuseHost,
   }) {
     return failedToSaveProfile?.call(this);
   }
@@ -3357,7 +3357,7 @@ class _$FailedToSaveProfile extends FailedToSaveProfile {
     TResult Function(FailedToLoadProfile value)? failedToLoadProfile,
     TResult Function(FailedToSaveProfile value)? failedToSaveProfile,
     TResult Function(FailedToLoadDID value)? failedToLoadDID,
-    TResult Function(ScanRefuseHost value)? scanRefuseHost,
+    TResult Function(ScanRefusedHost value)? scanRefuseHost,
     required TResult orElse(),
   }) {
     if (failedToSaveProfile != null) {
@@ -3511,7 +3511,7 @@ class _$FailedToLoadDID extends FailedToLoadDID {
     required TResult Function(FailedToLoadProfile value) failedToLoadProfile,
     required TResult Function(FailedToSaveProfile value) failedToSaveProfile,
     required TResult Function(FailedToLoadDID value) failedToLoadDID,
-    required TResult Function(ScanRefuseHost value) scanRefuseHost,
+    required TResult Function(ScanRefusedHost value) scanRefuseHost,
   }) {
     return failedToLoadDID(this);
   }
@@ -3543,7 +3543,7 @@ class _$FailedToLoadDID extends FailedToLoadDID {
     TResult Function(FailedToLoadProfile value)? failedToLoadProfile,
     TResult Function(FailedToSaveProfile value)? failedToSaveProfile,
     TResult Function(FailedToLoadDID value)? failedToLoadDID,
-    TResult Function(ScanRefuseHost value)? scanRefuseHost,
+    TResult Function(ScanRefusedHost value)? scanRefuseHost,
   }) {
     return failedToLoadDID?.call(this);
   }
@@ -3575,7 +3575,7 @@ class _$FailedToLoadDID extends FailedToLoadDID {
     TResult Function(FailedToLoadProfile value)? failedToLoadProfile,
     TResult Function(FailedToSaveProfile value)? failedToSaveProfile,
     TResult Function(FailedToLoadDID value)? failedToLoadDID,
-    TResult Function(ScanRefuseHost value)? scanRefuseHost,
+    TResult Function(ScanRefusedHost value)? scanRefuseHost,
     required TResult orElse(),
   }) {
     if (failedToLoadDID != null) {
@@ -3591,28 +3591,28 @@ abstract class FailedToLoadDID extends ScanMessageStringState {
 }
 
 /// @nodoc
-abstract class $ScanRefuseHostCopyWith<$Res> {
-  factory $ScanRefuseHostCopyWith(
-          ScanRefuseHost value, $Res Function(ScanRefuseHost) then) =
-      _$ScanRefuseHostCopyWithImpl<$Res>;
+abstract class $ScanRefusedHostCopyWith<$Res> {
+  factory $ScanRefusedHostCopyWith(
+          ScanRefusedHost value, $Res Function(ScanRefusedHost) then) =
+      _$ScanRefusedHostCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class _$ScanRefuseHostCopyWithImpl<$Res>
+class _$ScanRefusedHostCopyWithImpl<$Res>
     extends _$ScanMessageStringStateCopyWithImpl<$Res>
-    implements $ScanRefuseHostCopyWith<$Res> {
-  _$ScanRefuseHostCopyWithImpl(
-      ScanRefuseHost _value, $Res Function(ScanRefuseHost) _then)
-      : super(_value, (v) => _then(v as ScanRefuseHost));
+    implements $ScanRefusedHostCopyWith<$Res> {
+  _$ScanRefusedHostCopyWithImpl(
+      ScanRefusedHost _value, $Res Function(ScanRefusedHost) _then)
+      : super(_value, (v) => _then(v as ScanRefusedHost));
 
   @override
-  ScanRefuseHost get _value => super._value as ScanRefuseHost;
+  ScanRefusedHost get _value => super._value as ScanRefusedHost;
 }
 
 /// @nodoc
 
-class _$ScanRefuseHost extends ScanRefuseHost {
-  const _$ScanRefuseHost() : super._();
+class _$ScanRefusedHost extends ScanRefusedHost {
+  const _$ScanRefusedHost() : super._();
 
   @override
   String toString() {
@@ -3622,7 +3622,7 @@ class _$ScanRefuseHost extends ScanRefuseHost {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is ScanRefuseHost);
+        (other.runtimeType == runtimeType && other is ScanRefusedHost);
   }
 
   @override
@@ -3729,7 +3729,7 @@ class _$ScanRefuseHost extends ScanRefuseHost {
     required TResult Function(FailedToLoadProfile value) failedToLoadProfile,
     required TResult Function(FailedToSaveProfile value) failedToSaveProfile,
     required TResult Function(FailedToLoadDID value) failedToLoadDID,
-    required TResult Function(ScanRefuseHost value) scanRefuseHost,
+    required TResult Function(ScanRefusedHost value) scanRefuseHost,
   }) {
     return scanRefuseHost(this);
   }
@@ -3761,7 +3761,7 @@ class _$ScanRefuseHost extends ScanRefuseHost {
     TResult Function(FailedToLoadProfile value)? failedToLoadProfile,
     TResult Function(FailedToSaveProfile value)? failedToSaveProfile,
     TResult Function(FailedToLoadDID value)? failedToLoadDID,
-    TResult Function(ScanRefuseHost value)? scanRefuseHost,
+    TResult Function(ScanRefusedHost value)? scanRefuseHost,
   }) {
     return scanRefuseHost?.call(this);
   }
@@ -3793,7 +3793,7 @@ class _$ScanRefuseHost extends ScanRefuseHost {
     TResult Function(FailedToLoadProfile value)? failedToLoadProfile,
     TResult Function(FailedToSaveProfile value)? failedToSaveProfile,
     TResult Function(FailedToLoadDID value)? failedToLoadDID,
-    TResult Function(ScanRefuseHost value)? scanRefuseHost,
+    TResult Function(ScanRefusedHost value)? scanRefuseHost,
     required TResult orElse(),
   }) {
     if (scanRefuseHost != null) {
@@ -3803,7 +3803,7 @@ class _$ScanRefuseHost extends ScanRefuseHost {
   }
 }
 
-abstract class ScanRefuseHost extends ScanMessageStringState {
-  const factory ScanRefuseHost() = _$ScanRefuseHost;
-  const ScanRefuseHost._() : super._();
+abstract class ScanRefusedHost extends ScanMessageStringState {
+  const factory ScanRefusedHost() = _$ScanRefusedHost;
+  const ScanRefusedHost._() : super._();
 }

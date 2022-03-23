@@ -51,35 +51,36 @@ class ScanMessageStringState with _$ScanMessageStringState {
 
   const factory ScanMessageStringState.failedToLoadDID() = FailedToLoadDID;
 
-  const factory ScanMessageStringState.scanRefuseHost() = ScanRefuseHost;
+  const factory ScanMessageStringState.scanRefuseHost() = ScanRefusedHost;
 
   String getMessage(BuildContext context) {
     final localization = context.l10n;
     return when(
-        credentialVerificationReturnWarning: () =>
-            localization.credentialVerificationReturnWarning,
-        failedToVerifyCredential: () => localization.failedToVerifyCredential,
-        anErrorOccurred: () => localization.anUnknownErrorHappened,
-        somethingsWentWrongTryAgainLater: () =>
-            localization.somethingsWentWrongTryAgainLater,
-        successfullyPresentedYourCredential: () =>
-            localization.successfullyPresentedYourCredential,
-        successfullyPresentedYourDID: () =>
-            localization.successfullyPresentedYourDID,
-        thisQRCodeDoseNotContainAValidMessage: () =>
-            localization.thisQRCodeDoseNotContainAValidMessage,
-        thisUrlDoseNotContainAValidMessage: () =>
-            localization.thisUrlDoseNotContainAValidMessage,
-        anErrorOccurredWhileConnectingToTheServer: () =>
-            localization.anErrorOccurredWhileConnectingToTheServer,
-        credentialDetailDeleteSuccessMessage: () =>
-            localization.credentialDetailDeleteSuccessMessage,
-        errorGeneratingKey: () => localization.errorGeneratingKey,
-        failedToSaveMnemonicPleaseTryAgain: () =>
-            localization.failedToSaveMnemonicPleaseTryAgain,
-        failedToLoadProfile: () => localization.failedToLoadProfile,
-        failedToSaveProfile: () => localization.failedToSaveProfile,
-        failedToLoadDID: () => localization.failedToLoadDID,
-        scanRefuseHost: () => localization.scanRefuseHost);
+      credentialVerificationReturnWarning: () =>
+          localization.credentialVerificationReturnWarning,
+      failedToVerifyCredential: () => localization.failedToVerifyCredential,
+      anErrorOccurred: () => localization.anUnknownErrorHappened,
+      somethingsWentWrongTryAgainLater: () =>
+          localization.somethingsWentWrongTryAgainLater,
+      successfullyPresentedYourCredential: () =>
+          localization.successfullyPresentedYourCredential,
+      successfullyPresentedYourDID: () =>
+          localization.successfullyPresentedYourDID,
+      thisQRCodeDoseNotContainAValidMessage: () =>
+          localization.thisQRCodeDoseNotContainAValidMessage,
+      thisUrlDoseNotContainAValidMessage: () =>
+          localization.thisUrlDoseNotContainAValidMessage,
+      anErrorOccurredWhileConnectingToTheServer: () =>
+          localization.anErrorOccurredWhileConnectingToTheServer,
+      credentialDetailDeleteSuccessMessage: () =>
+          localization.credentialDetailDeleteSuccessMessage,
+      errorGeneratingKey: () => localization.errorGeneratingKey,
+      failedToSaveMnemonicPleaseTryAgain: () =>
+          localization.failedToSaveMnemonicPleaseTryAgain,
+      failedToLoadProfile: () => localization.failedToLoadProfile,
+      failedToSaveProfile: () => localization.failedToSaveProfile,
+      failedToLoadDID: () => localization.failedToLoadDID,
+      scanRefuseHost: () => localization.scanRefuseHost,
+    );
   }
 }
