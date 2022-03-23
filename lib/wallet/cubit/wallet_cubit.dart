@@ -72,9 +72,9 @@ class WalletCubit extends Cubit<WalletState> {
   }
 
   Future resetWallet() async {
-    await secureStorageProvider.delete('key');
-    await secureStorageProvider.delete('mnemonic');
-    await secureStorageProvider.delete('data');
+    await secureStorageProvider.delete(SecureStorageKeys.key);
+    await secureStorageProvider.delete(SecureStorageKeys.mnemonic);
+    await secureStorageProvider.delete(SecureStorageKeys.data);
     await repository.deleteAll();
     await profileCubit.resetProfile();
     emit(state.copyWith(status: WalletStatus.reset, credentials: []));

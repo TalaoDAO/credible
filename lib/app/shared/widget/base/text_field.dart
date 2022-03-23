@@ -2,23 +2,27 @@ import 'package:talao/app/shared/ui/ui.dart';
 import 'package:flutter/material.dart';
 
 class BaseTextField extends StatelessWidget {
-  final String label;
+  final String? label;
   final TextEditingController controller;
   final IconData icon;
   final TextInputType type;
   final TextCapitalization textCapitalization;
   final String? error;
   final Widget? prefixIcon;
+  final BoxConstraints? prefixConstraint;
+  final String? Function(String?)? validator;
 
   const BaseTextField({
     Key? key,
-    required this.label,
+    this.label,
     required this.controller,
     this.icon = Icons.edit,
     this.type = TextInputType.text,
     this.textCapitalization = TextCapitalization.none,
     this.error,
     this.prefixIcon,
+    this.prefixConstraint,
+    this.validator,
   }) : super(key: key);
 
   @override
@@ -41,6 +45,7 @@ class BaseTextField extends StatelessWidget {
         maxLines: 1,
         textCapitalization: textCapitalization,
         style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 17),
+        validator: validator,
         decoration: InputDecoration(
           border: InputBorder.none,
           enabledBorder: InputBorder.none,
@@ -57,6 +62,7 @@ class BaseTextField extends StatelessWidget {
           labelText: label,
           labelStyle: Theme.of(context).textTheme.bodyText1!,
           prefixIcon: prefixIcon,
+          prefixIconConstraints: prefixConstraint,
           suffixIcon: Icon(
             icon,
             color: Theme.of(context).colorScheme.secondaryContainer,

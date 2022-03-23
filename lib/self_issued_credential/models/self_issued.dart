@@ -19,6 +19,9 @@ class SelfIssued extends CredentialSubject {
   final String? givenName;
   final String? telephone;
   final String? email;
+  final String? workFor;
+  final String? companyWebsite;
+  final String? jobTitle;
 
   factory SelfIssued.fromJson(Map<String, dynamic> json) =>
       _$SelfIssuedFromJson(json);
@@ -30,7 +33,10 @@ class SelfIssued extends CredentialSubject {
       this.givenName,
       this.type = 'SelfIssued',
       this.telephone,
-      this.email})
+      this.email,
+      this.workFor,
+      this.companyWebsite,
+      this.jobTitle})
       : super(id, type, Author('', ''));
 
   @override
@@ -43,6 +49,9 @@ class SelfIssued extends CredentialSubject {
         if (address != null && address!.isNotEmpty) 'address': address,
         'type': type,
         if (email != null && email!.isNotEmpty) 'email': email,
+        if (workFor != null && workFor!.isNotEmpty) 'workFor': workFor,
+        if (companyWebsite != null && companyWebsite!.isNotEmpty) 'companyWebsite': companyWebsite,
+        if (jobTitle != null && jobTitle!.isNotEmpty) 'jobTitle': jobTitle,
       };
 
   @override
@@ -71,6 +80,15 @@ class SelfIssued extends CredentialSubject {
             : SizedBox.shrink(),
         email?.isNotEmpty ?? false
             ? CredentialField(title: localizations.personalMail, value: email!)
+            : SizedBox.shrink(),
+        workFor?.isNotEmpty ?? false
+            ? CredentialField(title: localizations.companyName, value: workFor!)
+            : SizedBox.shrink(),
+        companyWebsite?.isNotEmpty ?? false
+            ? CredentialField(title: localizations.companyWebsite, value: companyWebsite!)
+            : SizedBox.shrink(),
+        jobTitle?.isNotEmpty ?? false
+            ? CredentialField(title: localizations.jobTitle, value: jobTitle!)
             : SizedBox.shrink(),
       ],
     );

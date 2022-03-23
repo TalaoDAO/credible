@@ -1,36 +1,6 @@
 import 'package:bloc/bloc.dart';
 
-class PersonalPageState {
-  final bool isFirstName;
-  final bool isLastName;
-  final bool isPhone;
-  final bool isLocation;
-  final bool isEmail;
-
-  const PersonalPageState({
-    this.isFirstName = true,
-    this.isLastName = true,
-    this.isPhone = true,
-    this.isLocation = true,
-    this.isEmail = true,
-  });
-
-  PersonalPageState copyWith({
-    bool? isFirstName,
-    bool? isLastName,
-    bool? isPhone,
-    bool? isLocation,
-    bool? isEmail,
-  }) {
-    return PersonalPageState(
-      isFirstName: isFirstName ?? this.isFirstName,
-      isLastName: isLastName ?? this.isLastName,
-      isPhone: isPhone ?? this.isPhone,
-      isLocation: isLocation ?? this.isLocation,
-      isEmail: isEmail ?? this.isEmail,
-    );
-  }
-}
+import 'personal_page_state.dart';
 
 class PersonalPgeCubit extends Cubit<PersonalPageState> {
   PersonalPgeCubit() : super(const PersonalPageState());
@@ -53,5 +23,17 @@ class PersonalPgeCubit extends Cubit<PersonalPageState> {
 
   void emailCheckBoxChange(bool? value) {
     emit(state.copyWith(isEmail: value));
+  }
+
+  void companyNameCheckBoxChange(bool? value) {
+    emit(state.copyWith(isCompanyName: value));
+  }
+
+  void companyWebsiteCheckBoxChange(bool? value) {
+    emit(state.copyWith(isCompanyWebsite: value));
+  }
+
+  void jobTitleCheckBoxChange(bool? value) {
+    emit(state.copyWith(isJobTitle: value));
   }
 }

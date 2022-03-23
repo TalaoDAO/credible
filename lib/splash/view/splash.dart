@@ -11,16 +11,19 @@ import 'package:talao/app/interop/network/network_client.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/shared/constants.dart';
 import 'package:talao/app/shared/error_handler/error_handler.dart';
+import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:talao/app/shared/model/message.dart';
-import 'package:talao/app/shared/widget/confirm_dialog.dart';
-import 'package:talao/drawer/drawer.dart';
-import 'package:talao/l10n/l10n.dart';
-import 'package:talao/onboarding/key/onboarding_key.dart';
-import 'package:talao/qr_code/qr_code_scan/qr_code_scan.dart';
-import 'package:talao/credentials/credentials.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
+import 'package:talao/app/shared/widget/confirm_dialog.dart';
+import 'package:talao/did/cubit/did_cubit.dart';
+import 'package:talao/credentials/credentials.dart';
 import 'package:talao/deep_link/deep_link.dart';
+import 'package:talao/drawer/drawer.dart';
+import 'package:talao/issuer_websites_page/view/issuer_websites_page.dart';
+import 'package:talao/l10n/l10n.dart';
 import 'package:talao/onboarding/onboarding.dart';
+import 'package:talao/qr_code/qr_code_scan/qr_code_scan.dart';
+import 'package:talao/scan/cubit/scan_message_string_state.dart';
 import 'package:talao/scan/scan.dart';
 import 'package:talao/theme/theme.dart';
 import 'package:talao/wallet/wallet.dart';
@@ -46,6 +49,7 @@ class _SplashPageState extends State<SplashPage> {
   StreamSubscription? _sub;
   VideoPlayerController? _controller;
   Future<void>? _initializeVideoPlayerFuture;
+  SecureStorageProvider secureStorageProvider = SecureStorageProvider.instance;
 
   @override
   void initState() {
@@ -58,22 +62,50 @@ class _SplashPageState extends State<SplashPage> {
       Duration(seconds: 0),
       () async {
         await context.read<ThemeCubit>().getCurrentTheme();
-        final key = await SecureStorageProvider.instance.get('key');
-        if (key == null) {
-          await onBoarding();
-        } else {
-          if (key.isEmpty) {
-            await onBoarding();
-          } else {
-            Future.delayed(
-              Duration(seconds: 2),
-              () async {
-                await _controller!.pause();
-                return Navigator.of(context).push(CredentialsListPage.route());
-              },
-            );
+        final key = await secureStorageProvider.get(SecureStorageKeys.key);
+        if (key == null || key.isEmpty) {
+          return await onBoarding();
+        }
+
+        var did = await secureStorageProvider.get(SecureStorageKeys.did);
+        var didMethod =
+            await secureStorageProvider.get(SecureStorageKeys.didMethod);
+        var didMethodName =
+            await secureStorageProvider.get(SecureStorageKeys.didMethodName);
+        if (did == null || did.isEmpty) {
+          return await onBoarding();
+        }
+        if (didMethod == null || didMethod.isEmpty) {
+          return await onBoarding();
+        }
+        if (didMethodName == null || didMethodName.isEmpty) {
+          return await onBoarding();
+        }
+
+        final isEnterprise =
+            await secureStorageProvider.get(SecureStorageKeys.isEnterpriseUser);
+
+        if (isEnterprise == null || isEnterprise.isEmpty) {
+          return await onBoarding();
+        }
+
+        if (isEnterprise == 'true') {
+          final rsaKeyJson =
+              await secureStorageProvider.get(SecureStorageKeys.rsaKeyJson);
+          if (rsaKeyJson == null || rsaKeyJson.isEmpty) {
+            return await onBoarding();
           }
         }
+        context
+            .read<DIDCubit>()
+            .load(did: did, didMethod: didMethod, didMethodName: didMethodName);
+        Future.delayed(
+          Duration(seconds: 5),
+          () async {
+            await _controller!.pause();
+            return Navigator.of(context).push(CredentialsListPage.route());
+          },
+        );
       },
     );
     super.initState();
@@ -183,17 +215,19 @@ class _SplashPageState extends State<SplashPage> {
             }
             if (state.status == WalletStatus.delete) {
               final message = StateMessage(
-                message: l10n.credentialDetailDeleteSuccessMessage,
+                message: ScanMessageStringState
+                    .credentialDetailDeleteSuccessMessage(),
                 type: MessageType.success,
               );
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 backgroundColor: message.color,
-                content: Text(message.message!),
+                content: Text(message.getMessage(context) ?? ''),
               ));
               Navigator.of(context).pop();
             }
             if (state.status == WalletStatus.reset) {
-              Navigator.of(context).pushReplacement(OnBoardingKeyPage.route());
+              Navigator.of(context)
+                  .pushReplacement(ChooseWalletTypePage.route());
             }
           },
         ),
@@ -208,7 +242,7 @@ class _SplashPageState extends State<SplashPage> {
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   backgroundColor: state.message!.color,
-                  content: Text(state.message!.message!),
+                  content: Text(state.message?.getMessage(context) ?? ''),
                 ));
               }
             }
@@ -250,18 +284,101 @@ class _SplashPageState extends State<SplashPage> {
         ///Note - Sync listener content with qr code scan listener
         BlocListener<QRCodeScanCubit, QRCodeScanState>(
             listener: (context, state) async {
-          if (state.isDeepLink == null) return;
-          if (!state.isDeepLink!) return;
-
           if (state is QRCodeScanStateHost) {
-            // if (state.promptActive!) return;
-            // context.read<QRCodeScanCubit>().promptDeactivate();
-            var approvedIssuer = Issuer.emptyIssuer();
-
             var profileCubit = context.read<ProfileCubit>();
-            if (profileCubit.state is ProfileStateDefault) {
+            final qrCodeCubit = context.read<QRCodeScanCubit>();
+            final walletCubit = context.read<WalletCubit>();
+
+            ///Check openId or https
+            if (qrCodeCubit.isOpenIdUrl()) {
+              ///restrict non-enterprise user
+              if (!profileCubit.state.model.isEnterprise) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(l10n.personalOpenIdRestrictionMessage)));
+                return;
+              }
+
+              ///credential should not be empty since we have to present
+              if (walletCubit.state.credentials.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(l10n.credentialEmptyError)));
+                return;
+              }
+
+              ///request attribute check
+              if (qrCodeCubit.requestAttributeExists()) {
+                return qrCodeCubit.emitQRCodeScanStateUnknown();
+              }
+
+              ///request_uri attribute check
+              if (!qrCodeCubit.requestUriAttributeExists()) {
+                return qrCodeCubit.emitQRCodeScanStateUnknown();
+              }
+
+              var sIOPV2Param = await qrCodeCubit.getSIOPV2Parameters(
+                  isDeepLink: state.isDeepLink);
+
+              ///check if claims exists
+              if (sIOPV2Param.claims == null) {
+                return qrCodeCubit.emitQRCodeScanStateUnknown();
+              }
+
+              var openIdCredential =
+                  qrCodeCubit.getCredential(sIOPV2Param.claims!);
+              var openIdIssuer = qrCodeCubit.getIssuer(sIOPV2Param.claims!);
+
+              ///check if credential and issuer both are not present
+              ///TODO: Review this code... JSONPath should not cause issue in future
+              if (openIdCredential == '' && openIdIssuer == '') {
+                return qrCodeCubit.emitQRCodeScanStateUnknown();
+              }
+
+              var selectedCredentials = <CredentialModel>[];
+              walletCubit.state.credentials
+                  .forEach((CredentialModel credentialModel) {
+                final credentialTypeList =
+                    credentialModel.credentialPreview.type;
+                final issuer = credentialModel.credentialPreview.issuer;
+
+                ///credential and issuer provided in claims
+                if (openIdCredential != '' && openIdIssuer != '') {
+                  if (credentialTypeList.contains(openIdCredential) &&
+                      openIdIssuer == issuer) {
+                    selectedCredentials.add(credentialModel);
+                  }
+                }
+
+                ///credential provided in claims
+                if (openIdCredential != '' && openIdIssuer == '') {
+                  if (credentialTypeList.contains(openIdCredential)) {
+                    selectedCredentials.add(credentialModel);
+                  }
+                }
+
+                ///issuer provided in claims
+                if (openIdCredential == '' && openIdIssuer != '') {
+                  if (openIdIssuer == issuer) {
+                    selectedCredentials.add(credentialModel);
+                  }
+                }
+              });
+
+              if (selectedCredentials.isEmpty) {
+                await Navigator.of(context)
+                    .push(IssuerWebsitesPage.route(openIdCredential));
+                return;
+              }
+
+              await Navigator.of(context).pushReplacement(
+                SIOPV2CredentialPickPage.route(
+                  credentials: selectedCredentials,
+                  sIOPV2Param: sIOPV2Param,
+                ),
+              );
+            } else {
+              var approvedIssuer = Issuer.emptyIssuer();
               final isIssuerVerificationSettingTrue =
-                  profileCubit.state.model!.issuerVerificationSetting;
+                  profileCubit.state.model.issuerVerificationSetting;
               if (isIssuerVerificationSettingTrue) {
                 try {
                   approvedIssuer = await CheckIssuer(
@@ -276,40 +393,41 @@ class _SplashPageState extends State<SplashPage> {
                   }
                 }
               }
-            }
-            var acceptHost = await showDialog<bool>(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return ConfirmDialog(
-                      title: l10n.scanPromptHost,
-                      subtitle: (approvedIssuer.did.isEmpty)
-                          ? state.uri!.host
-                          : '${approvedIssuer.organizationInfo.legalName}\n${approvedIssuer.organizationInfo.currentAddress}',
-                      yes: l10n.communicationHostAllow,
-                      no: l10n.communicationHostDeny,
-                      lock: (state.uri!.scheme == 'http') ? true : false,
-                    );
-                  },
-                ) ??
-                false;
 
-            if (acceptHost) {
-              context.read<QRCodeScanCubit>().accept(state.uri!, true);
-            } else {
-              //await qrController.resumeCamera();
-              context.read<QRCodeScanCubit>().emitWorkingState();
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(l10n.scanRefuseHost),
-              ));
+              var acceptHost = await showDialog<bool>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return ConfirmDialog(
+                        title: l10n.scanPromptHost,
+                        subtitle: (approvedIssuer.did.isEmpty)
+                            ? state.uri!.host
+                            : '${approvedIssuer.organizationInfo.legalName}\n${approvedIssuer.organizationInfo.currentAddress}',
+                        yes: l10n.communicationHostAllow,
+                        no: l10n.communicationHostDeny,
+                        lock: (state.uri!.scheme == 'http') ? true : false,
+                      );
+                    },
+                  ) ??
+                  false;
+
+              if (acceptHost) {
+                context.read<QRCodeScanCubit>().accept(uri: state.uri!);
+              } else {
+                /// We emit the working state to reset the state because state may already be same QRCodeScanStateMessage
+                context.read<QRCodeScanCubit>().emitWorkingState();
+                context.read<QRCodeScanCubit>().emitQRCodeScanStateMessage(
+                    message: ScanMessageStringState.scanRefuseHost());
+              }
             }
           }
           if (state is QRCodeScanStateSuccess) {
-            //   await qrController.stopCamera();
-            ///Note: Push
-            await Navigator.of(context).push(state.route!);
+            if (state.isDeepLink) {
+              await Navigator.of(context).push(state.route!);
+            } else {
+              await Navigator.of(context).pushReplacement(state.route!);
+            }
           }
           if (state is QRCodeScanStateMessage) {
-            //   await qrController.resumeCamera();
             final errorHandler = state.message!.errorHandler;
             if (errorHandler != null) {
               final color =
@@ -318,12 +436,11 @@ class _SplashPageState extends State<SplashPage> {
             } else {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 backgroundColor: state.message!.color,
-                content: Text(state.message!.message!),
+                content: Text(state.message?.getMessage(context) ?? ''),
               ));
             }
           }
           if (state is QRCodeScanStateUnknown) {
-            //   await qrController.resumeCamera();
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text(l10n.scanUnsupportedMessage),
             ));

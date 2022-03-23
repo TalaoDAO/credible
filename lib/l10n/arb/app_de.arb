@@ -89,7 +89,6 @@
   "scanTitle": "Scannen",
   "scanPromptHost": "Vertrauen Sie diesem Host?",
   "scanRefuseHost": "Die Kommunikationsanfrage wurde abgelehnt.",
-  "scanUnsupportedMessage": "Nicht unterstützte Nachricht erhalten.",
   "qrCodeSharing": "Sie teilen nun",
   "qrCodeNoValidMessage": "Dieser QR-Code enthält keine gültige Nachricht.",
   "profileTitle": "Einstellungen",
@@ -161,5 +160,7 @@
   "credential": "Nachweise",
   "issuanceDate": "Issuance date",
   "appContactWebsite": "Website",
+  "companyName": "Name der Firma",
+  "companyWebsite": "Unternehmenswebseite",
   "selfIssuedCreatedSuccessfully": "Selbst ausgestellter Berechtigungsnachweis erfolgreich erstellt"
 }

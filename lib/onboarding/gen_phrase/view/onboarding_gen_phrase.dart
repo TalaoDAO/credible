@@ -1,13 +1,15 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/interop/key_generation.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/mnemonic.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:talao/did/cubit/did_cubit.dart';
 import 'package:talao/drawer/profile/models/profile.dart';
+import 'package:talao/l10n/l10n.dart';
 import 'package:talao/onboarding/gen_phrase/cubit/onboarding_gen_phrase_cubit.dart';
 import 'package:talao/personal/view/personal_page.dart';
 
@@ -15,8 +17,11 @@ class OnBoardingGenPhrasePage extends StatefulWidget {
   static Route route() => MaterialPageRoute(
         builder: (context) => BlocProvider(
           create: (context) => OnBoardingGenPhraseCubit(
-              secureStorageProvider: SecureStorageProvider.instance,
-              keyGeneration: KeyGeneration()),
+            secureStorageProvider: SecureStorageProvider.instance,
+            didCubit: context.read<DIDCubit>(),
+            didKitProvider: DIDKitProvider.instance,
+            keyGeneration: KeyGeneration(),
+          ),
           child: OnBoardingGenPhrasePage(),
         ),
         settings: RouteSettings(name: '/onBoardingGenPhrasePage'),
@@ -30,7 +35,7 @@ class OnBoardingGenPhrasePage extends StatefulWidget {
 class _OnBoardingGenPhrasePageState extends State<OnBoardingGenPhrasePage> {
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
+    final localizations = context.l10n;
 
     return BasePage(
       title: localizations.onBoardingGenPhraseTitle,
@@ -41,13 +46,13 @@ class _OnBoardingGenPhrasePageState extends State<OnBoardingGenPhrasePage> {
           if (state.status == OnBoardingGenPhraseStatus.success) {
             await Navigator.of(context).pushReplacement(
               PersonalPage.route(
-                  isFromOnBoarding: true, profileModel: ProfileModel.empty),
+                  isFromOnBoarding: true, profileModel: ProfileModel.empty()),
             );
           }
           if (state.status == OnBoardingGenPhraseStatus.failure) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               backgroundColor: state.message!.color!,
-              content: Text(state.message!.message!),
+              content: Text(state.message?.getMessage(context) ?? ''),
             ));
           }
         },

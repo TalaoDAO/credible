@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:talao/app/interop/didkit/didkit.dart';
+import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/base/text_field.dart';
 import 'package:talao/credentials/credentials.dart';
+import 'package:talao/did/cubit/did_cubit.dart';
 import 'package:talao/drawer/profile/cubit/profile_cubit.dart';
 import 'package:talao/drawer/profile/models/profile.dart';
 import 'package:talao/l10n/l10n.dart';
 import 'package:talao/personal/cubit/personal_page_cubit.dart';
-import 'package:talao/self_issued_credential/cubit/self_issued_credential_cubit.dart';
-import 'package:talao/self_issued_credential/widget/sef_issued_credential_button.dart';
+import 'package:talao/self_issued_credential/sef_issued_credential.dart';
 import 'package:talao/wallet/cubit/wallet_cubit.dart';
+
+import '../cubit/personal_page_state.dart';
 
 class PersonalPage extends StatefulWidget {
   final ProfileModel profileModel;
@@ -30,8 +34,11 @@ class PersonalPage extends StatefulWidget {
           providers: [
             BlocProvider(create: (_) => PersonalPgeCubit()),
             BlocProvider(
-                create: (_) =>
-                    SelfIssuedCredentialCubit(context.read<WalletCubit>())),
+                create: (_) => SelfIssuedCredentialCubit(
+                    walletCubit: context.read<WalletCubit>(),
+                    secureStorageProvider: SecureStorageProvider.instance,
+                    didKitProvider: DIDKitProvider.instance,
+                    didCubit: context.read<DIDCubit>())),
           ],
           child: PersonalPage(
             profileModel: profileModel,
@@ -51,6 +58,13 @@ class _PersonalPageState extends State<PersonalPage> {
   late TextEditingController phoneController;
   late TextEditingController locationController;
   late TextEditingController emailController;
+  late TextEditingController companyNameController;
+  late TextEditingController companyWebsiteController;
+  late TextEditingController jobTitleController;
+
+  late final l10n = context.l10n;
+  late final personalPageCubit = context.read<PersonalPgeCubit>();
+  late final isEnterprise = widget.profileModel.isEnterprise;
 
   @override
   void initState() {
@@ -64,12 +78,17 @@ class _PersonalPageState extends State<PersonalPage> {
     locationController =
         TextEditingController(text: widget.profileModel.location);
     emailController = TextEditingController(text: widget.profileModel.email);
+    //enterprise
+    companyNameController =
+        TextEditingController(text: widget.profileModel.companyName);
+    companyWebsiteController =
+        TextEditingController(text: widget.profileModel.companyWebsite);
+    jobTitleController =
+        TextEditingController(text: widget.profileModel.jobTitle);
   }
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    final personalPageCubit = context.read<PersonalPgeCubit>();
     return WillPopScope(
       onWillPop: () async {
         if (!widget.isFromOnBoarding) {
@@ -83,77 +102,32 @@ class _PersonalPageState extends State<PersonalPage> {
         floatingActionButton: widget.isFromOnBoarding
             ? null
             : SelfIssuedCredentialButton(
-                selfIssuedCredentialButtonClick: () {
-                  return SelfIssuedCredentialDataModel(
-                    givenName: personalPageCubit.state.isFirstName
-                        ? firstNameController.text.isNotEmpty
-                            ? firstNameController.text
-                            : null
-                        : null,
-                    familyName: personalPageCubit.state.isLastName
-                        ? lastNameController.text.isNotEmpty
-                            ? lastNameController.text
-                            : null
-                        : null,
-                    telephone: personalPageCubit.state.isPhone
-                        ? phoneController.text.isNotEmpty
-                            ? phoneController.text
-                            : null
-                        : null,
-                    address: personalPageCubit.state.isLocation
-                        ? locationController.text
-                        : null,
-                    email: personalPageCubit.state.isEmail
-                        ? emailController.text
-                        : null,
-                  );
-                },
+                selfIssuedCredentialButtonClick: _getSelfIssuedCredential,
               ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         titleTrailing: InkWell(
           borderRadius: BorderRadius.circular(8.0),
           onTap: () async {
-            var model = ProfileModel(
+            var model = widget.profileModel.copyWith(
                 firstName: firstNameController.text,
                 lastName: lastNameController.text,
                 phone: phoneController.text,
                 location: locationController.text,
                 email: emailController.text,
+                companyName: companyNameController.text,
+                companyWebsite: companyWebsiteController.text,
+                jobTitle: jobTitleController.text,
                 issuerVerificationSetting:
                     widget.profileModel.issuerVerificationSetting);
 
             await context.read<ProfileCubit>().update(model);
             if (widget.isFromOnBoarding) {
               ///save selfIssued credential when user press save button during onboarding
-              final selfIssuedCredentialDataModel =
-                  SelfIssuedCredentialDataModel(
-                givenName: personalPageCubit.state.isFirstName
-                    ? firstNameController.text.isNotEmpty
-                        ? firstNameController.text
-                        : null
-                    : null,
-                familyName: personalPageCubit.state.isLastName
-                    ? lastNameController.text.isNotEmpty
-                        ? lastNameController.text
-                        : null
-                    : null,
-                telephone: personalPageCubit.state.isPhone
-                    ? phoneController.text.isNotEmpty
-                        ? phoneController.text
-                        : null
-                    : null,
-                address: personalPageCubit.state.isLocation
-                    ? locationController.text
-                    : null,
-                email: personalPageCubit.state.isEmail
-                    ? emailController.text
-                    : null,
-              );
               await context
                   .read<SelfIssuedCredentialCubit>()
                   .createSelfIssuedCredential(
                       selfIssuedCredentialDataModel:
-                          selfIssuedCredentialDataModel);
+                          _getSelfIssuedCredential());
               await Navigator.of(context)
                   .pushReplacement(CredentialsListPage.route());
             } else {
@@ -180,95 +154,94 @@ class _PersonalPageState extends State<PersonalPage> {
         body: BlocBuilder<PersonalPgeCubit, PersonalPageState>(
             builder: (context, state) {
           return Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: Text(
-                  l10n.personalSubtitle,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context)
-                      .textTheme
-                      .subtitle2!
-                      .copyWith(color: Theme.of(context).colorScheme.subtitle1),
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  child: Text(
+                    l10n.personalSubtitle,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                        color: Theme.of(context).colorScheme.subtitle1),
+                  ),
                 ),
-              ),
-              // Center(
-              //   child: Container(
-              //     width: MediaQuery.of(context).size.width * 0.2,
-              //     height: MediaQuery.of(context).size.width * 0.2,
-              //     decoration: BoxDecoration(
-              //       color: Colors.pink,
-              //       borderRadius: BorderRadius.circular(16.0),
-              //     ),
-              //   ),
-              // ),
-              const SizedBox(height: 32.0),
-              BaseTextField(
-                label: l10n.personalFirstName,
-                controller: firstNameController,
-                icon: Icons.person,
-                textCapitalization: TextCapitalization.words,
-                prefixIcon: Checkbox(
-                  value: state.isFirstName,
-                  fillColor: MaterialStateProperty.all(
-                      Theme.of(context).colorScheme.secondaryContainer),
-                  onChanged: personalPageCubit.firstNameCheckBoxChange,
+                const SizedBox(height: 32.0),
+                BaseTextField(
+                  label: l10n.personalFirstName,
+                  controller: firstNameController,
+                  icon: Icons.person,
+                  textCapitalization: TextCapitalization.words,
+                  prefixIcon: isEnterprise && widget.isFromOnBoarding
+                      ? null
+                      : Checkbox(
+                          value: state.isFirstName,
+                          fillColor: MaterialStateProperty.all(
+                              Theme.of(context).colorScheme.secondaryContainer),
+                          onChanged: personalPageCubit.firstNameCheckBoxChange,
+                        ),
                 ),
-              ),
-              const SizedBox(height: 16.0),
-              BaseTextField(
-                label: l10n.personalLastName,
-                controller: lastNameController,
-                icon: Icons.person,
-                textCapitalization: TextCapitalization.words,
-                prefixIcon: Checkbox(
-                  value: state.isLastName,
-                  fillColor: MaterialStateProperty.all(
-                      Theme.of(context).colorScheme.secondaryContainer),
-                  onChanged: personalPageCubit.lastNameCheckBoxChange,
+                _textFieldSpace(),
+                BaseTextField(
+                  label: l10n.personalLastName,
+                  controller: lastNameController,
+                  icon: Icons.person,
+                  textCapitalization: TextCapitalization.words,
+                  prefixIcon: isEnterprise && widget.isFromOnBoarding
+                      ? null
+                      : Checkbox(
+                          value: state.isLastName,
+                          fillColor: MaterialStateProperty.all(
+                              Theme.of(context).colorScheme.secondaryContainer),
+                          onChanged: personalPageCubit.lastNameCheckBoxChange,
+                        ),
                 ),
-              ),
-              const SizedBox(height: 16.0),
-              BaseTextField(
-                label: l10n.personalPhone,
-                controller: phoneController,
-                icon: Icons.phone,
-                type: TextInputType.phone,
-                prefixIcon: Checkbox(
-                  value: state.isPhone,
-                  fillColor: MaterialStateProperty.all(
-                      Theme.of(context).colorScheme.secondaryContainer),
-                  onChanged: personalPageCubit.phoneCheckBoxChange,
+                _textFieldSpace(),
+                BaseTextField(
+                  label: l10n.personalPhone,
+                  controller: phoneController,
+                  icon: Icons.phone,
+                  type: TextInputType.phone,
+                  prefixIcon: isEnterprise && widget.isFromOnBoarding
+                      ? null
+                      : Checkbox(
+                          value: state.isPhone,
+                          fillColor: MaterialStateProperty.all(
+                              Theme.of(context).colorScheme.secondaryContainer),
+                          onChanged: personalPageCubit.phoneCheckBoxChange,
+                        ),
                 ),
-              ),
-              const SizedBox(height: 16.0),
-              BaseTextField(
-                label: l10n.personalLocation,
-                controller: locationController,
-                icon: Icons.location_pin,
-                textCapitalization: TextCapitalization.words,
-                prefixIcon: Checkbox(
-                  value: state.isLocation,
-                  fillColor: MaterialStateProperty.all(
-                      Theme.of(context).colorScheme.secondaryContainer),
-                  onChanged: personalPageCubit.locationCheckBoxChange,
+                _textFieldSpace(),
+                BaseTextField(
+                  label: l10n.personalLocation,
+                  controller: locationController,
+                  icon: Icons.location_pin,
+                  textCapitalization: TextCapitalization.words,
+                  prefixIcon: isEnterprise && widget.isFromOnBoarding
+                      ? null
+                      : Checkbox(
+                          value: state.isLocation,
+                          fillColor: MaterialStateProperty.all(
+                              Theme.of(context).colorScheme.secondaryContainer),
+                          onChanged: personalPageCubit.locationCheckBoxChange,
+                        ),
                 ),
-              ),
-              const SizedBox(height: 16.0),
-              BaseTextField(
-                label: l10n.personalMail,
-                controller: emailController,
-                icon: Icons.email,
-                type: TextInputType.emailAddress,
-                prefixIcon: Checkbox(
-                  value: state.isEmail,
-                  fillColor: MaterialStateProperty.all(
-                      Theme.of(context).colorScheme.secondaryContainer),
-                  onChanged: personalPageCubit.emailCheckBoxChange,
+                _textFieldSpace(),
+                BaseTextField(
+                  label: l10n.personalMail,
+                  controller: emailController,
+                  icon: Icons.email,
+                  type: TextInputType.emailAddress,
+                  prefixIcon: isEnterprise && widget.isFromOnBoarding
+                      ? null
+                      : Checkbox(
+                          value: state.isEmail,
+                          fillColor: MaterialStateProperty.all(
+                              Theme.of(context).colorScheme.secondaryContainer),
+                          onChanged: personalPageCubit.emailCheckBoxChange,
+                        ),
                 ),
-              ),
-            ],
+                if (isEnterprise) _buildEnterpriseTextFields(state)
+              ],
           );
         }),
         navigation: !widget.isFromOnBoarding
@@ -294,6 +267,98 @@ class _PersonalPageState extends State<PersonalPage> {
                 ),
               ),
       ),
+    );
+  }
+
+  SelfIssuedCredentialDataModel _getSelfIssuedCredential() {
+    final selfIssuedCredentialDataModel = SelfIssuedCredentialDataModel(
+      givenName: personalPageCubit.state.isFirstName
+          ? firstNameController.text.isNotEmpty
+              ? firstNameController.text
+              : null
+          : null,
+      familyName: personalPageCubit.state.isLastName
+          ? lastNameController.text.isNotEmpty
+              ? lastNameController.text
+              : null
+          : null,
+      telephone: personalPageCubit.state.isPhone
+          ? phoneController.text.isNotEmpty
+              ? phoneController.text
+              : null
+          : null,
+      address:
+          personalPageCubit.state.isLocation ? locationController.text : null,
+      email: personalPageCubit.state.isEmail ? emailController.text : null,
+      companyName: personalPageCubit.state.isCompanyName
+          ? companyNameController.text
+          : null,
+      companyWebsite: personalPageCubit.state.isCompanyWebsite
+          ? companyWebsiteController.text
+          : null,
+      jobTitle:
+          personalPageCubit.state.isJobTitle ? jobTitleController.text : null,
+    );
+
+    return selfIssuedCredentialDataModel;
+  }
+
+  Widget _textFieldSpace() {
+    return const SizedBox(height: 16.0);
+  }
+
+  Widget _buildEnterpriseTextFields(PersonalPageState state) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        _textFieldSpace(),
+        BaseTextField(
+          label: l10n.companyName,
+          controller: companyNameController,
+          icon: Icons.apartment,
+          type: TextInputType.text,
+          prefixIcon: isEnterprise && widget.isFromOnBoarding
+              ? null
+              : Checkbox(
+                  value: state.isCompanyName,
+                  fillColor: MaterialStateProperty.all(
+                      Theme.of(context).colorScheme.secondaryContainer),
+                  onChanged: personalPageCubit.companyNameCheckBoxChange,
+                ),
+        ),
+        _textFieldSpace(),
+        BaseTextField(
+          label: l10n.companyWebsite,
+          controller: companyWebsiteController,
+          icon: Icons.web_outlined,
+          type: TextInputType.url,
+          prefixIcon: isEnterprise && widget.isFromOnBoarding
+              ? null
+              : Checkbox(
+                  value: state.isCompanyWebsite,
+                  fillColor: MaterialStateProperty.all(
+                      Theme.of(context).colorScheme.secondaryContainer),
+                  onChanged: personalPageCubit.companyWebsiteCheckBoxChange,
+                ),
+        ),
+        _textFieldSpace(),
+        BaseTextField(
+          label: l10n.jobTitle,
+          controller: jobTitleController,
+          icon: Icons.work_outlined,
+          type: TextInputType.text,
+          prefixIcon: isEnterprise && widget.isFromOnBoarding
+              ? null
+              : Checkbox(
+                  value: state.isJobTitle,
+                  fillColor: MaterialStateProperty.all(
+                      Theme.of(context).colorScheme.secondaryContainer),
+                  onChanged: personalPageCubit.jobTitleCheckBoxChange,
+                ),
+        ),
+        _textFieldSpace()
+      ],
     );
   }
 }

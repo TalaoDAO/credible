@@ -77,7 +77,7 @@ class _TextFieldDialogState extends State<TextFieldDialog> {
                 child: BaseButton.primary(
                   context: context,
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    Navigator.of(context).pop('');
                   },
                   child: Text(
                     widget.no,

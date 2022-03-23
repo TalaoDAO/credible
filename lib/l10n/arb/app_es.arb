@@ -89,7 +89,6 @@
   "scanTitle": "Escanear",
   "scanPromptHost": "¿Confía en este host?",
   "scanRefuseHost": "La comunicación solicitada se ha denegado.",
-  "scanUnsupportedMessage": "Mensaje no compatible recibido.",
   "qrCodeSharing": "Ahora comparte",
   "qrCodeNoValidMessage": "Este código QR no contiene un mensaje válido.",
   "profileTitle": "Configuración",
@@ -161,5 +160,7 @@
   "credential": "Credenciales",
   "issuanceDate": "Issuance date",
   "appContactWebsite": "Website",
+  "companyName": "Nombre de empresa",
+  "companyWebsite": "Página Web de la compañía",
   "selfIssuedCreatedSuccessfully": "Credencial autoemitida creada con éxito"
 }

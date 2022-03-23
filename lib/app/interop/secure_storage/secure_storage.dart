@@ -20,3 +20,26 @@ abstract class SecureStorageProvider {
 
   Future<void> deleteAll();
 }
+
+abstract class SecureStorageKeys {
+  static const data = 'data';
+  static const mnemonic = 'mnemonic';
+  static const isEnterpriseUser = 'isEnterpriseUser';
+  static const did = 'DID';
+  static const rsaKeyJson = 'RSAKeyJson';
+  static const key = 'key';
+  static const didMethod = 'DIDMethod';
+  static const didMethodName = 'DIDMethodName';
+  static const verificationMethod = 'VerificationMethod';
+  static const companyName = 'companyName';
+  static const companyWebsite = 'companyWebsite';
+  static const jobTitle = 'jobTitle';
+  //
+  static const String firstNameKey = 'profile/firstName';
+  static const String lastNameKey = 'profile/lastName';
+  static const String phoneKey = 'profile/phone';
+  static const String locationKey = 'profile/location';
+  static const String emailKey = 'profile/email';
+  static const String issuerVerificationSettingKey =
+      'profile/issuerVerificationSetting';
+}

@@ -7,6 +7,11 @@ import 'package:talao/did/did.dart';
 import 'package:talao/l10n/l10n.dart';
 
 class DIDDisplay extends StatelessWidget {
+  final bool isEnterpriseUser;
+
+  const DIDDisplay({Key? key, required this.isEnterpriseUser})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
@@ -16,7 +21,7 @@ class DIDDisplay extends StatelessWidget {
         if (state is DIDStateMessage) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             backgroundColor: state.message!.color,
-            content: Text(state.message!.message!),
+            content: Text(state.message?.getMessage(context) ?? ''),
           ));
         }
       },
@@ -31,58 +36,65 @@ class DIDDisplay extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Text(
-                    '${l10n.blockChainDisplayMethod} : ',
-                    style: Theme.of(context).textTheme.bodyText2,
-                  ),
-                  Text(
-                    Constants.defaultDIDMethodName,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText2!
-                        .copyWith(fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Text(
-                    '${l10n.blockChainAdress} : ',
-                    style: Theme.of(context).textTheme.bodyText2,
-                  ),
-                  Expanded(
-                    child: Text(
-                      blockChainAddress != ''
-                          ? '${blockChainAddress.substring(0, 10)} ... ${blockChainAddress.substring(blockChainAddress.length - 10)}'
-                          : '',
-                      maxLines: 2,
+            if (!isEnterpriseUser)
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Text(
+                      '${l10n.blockChainDisplayMethod} : ',
+                      style: Theme.of(context).textTheme.bodyText2,
+                    ),
+                    Text(
+                      //TODO : Can we change did method name according to the user type?
+                      Constants.defaultDIDMethodName,
                       style: Theme.of(context)
                           .textTheme
                           .bodyText2!
                           .copyWith(fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.start,
                     ),
+                  ],
+                ),
+              ),
+            if (!isEnterpriseUser)
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Text(
+                      '${l10n.blockChainAdress} : ',
+                      style: Theme.of(context).textTheme.bodyText2,
+                    ),
+                    Expanded(
+                      child: Text(
+                        blockChainAddress != ''
+                            ? '${blockChainAddress.substring(0, 10)} ... ${blockChainAddress.substring(blockChainAddress.length - 10)}'
+                            : '',
+                        maxLines: 2,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText2!
+                            .copyWith(fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.start,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            if (!isEnterpriseUser)
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor:
+                        Theme.of(context).colorScheme.primary.withOpacity(0.1),
                   ),
-                ],
+                  onPressed: () {
+                    Clipboard.setData(ClipboardData(text: blockChainAddress));
+                  },
+                  child: Text(l10n.adressDisplayCopy),
+                ),
               ),
-            ),
-            TextButton(
-              style: TextButton.styleFrom(
-                backgroundColor:
-                    Theme.of(context).colorScheme.primary.withOpacity(0.1),
-              ),
-              onPressed: () {
-                Clipboard.setData(ClipboardData(text: blockChainAddress));
-              },
-              child: Text(l10n.adressDisplayCopy),
-            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
@@ -106,15 +118,18 @@ class DIDDisplay extends StatelessWidget {
                 ],
               ),
             ),
-            TextButton(
-              style: TextButton.styleFrom(
-                backgroundColor:
-                    Theme.of(context).colorScheme.primary.withOpacity(0.1),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextButton(
+                style: TextButton.styleFrom(
+                  backgroundColor:
+                      Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                ),
+                onPressed: () {
+                  Clipboard.setData(ClipboardData(text: did));
+                },
+                child: Text(l10n.didDisplayCopy),
               ),
-              onPressed: () {
-                Clipboard.setData(ClipboardData(text: did));
-              },
-              child: Text(l10n.didDisplayCopy),
             ),
           ],
         );

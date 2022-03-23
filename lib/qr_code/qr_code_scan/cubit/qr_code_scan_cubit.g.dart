@@ -9,8 +9,7 @@ part of 'qr_code_scan_cubit.dart';
 QRCodeScanState _$QRCodeScanStateFromJson(Map<String, dynamic> json) =>
     QRCodeScanState(
       uri: json['uri'] == null ? null : Uri.parse(json['uri'] as String),
-      promptActive: json['promptActive'] as bool?,
-      isDeepLink: json['isDeepLink'] as bool?,
+      isDeepLink: json['isDeepLink'] as bool? ?? false,
       message: json['message'] == null
           ? null
           : StateMessage.fromJson(json['message'] as Map<String, dynamic>),
@@ -19,7 +18,6 @@ QRCodeScanState _$QRCodeScanStateFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$QRCodeScanStateToJson(QRCodeScanState instance) =>
     <String, dynamic>{
       'uri': instance.uri?.toString(),
-      'promptActive': instance.promptActive,
       'isDeepLink': instance.isDeepLink,
       'message': instance.message,
     };

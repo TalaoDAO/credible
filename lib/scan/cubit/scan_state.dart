@@ -33,6 +33,8 @@ class ScanState extends Equatable {
       [message, preview, data, uri, keyId, challenge, domain, done];
 }
 
+class ScanStateLoading extends ScanState {}
+
 class ScanStateIdle extends ScanState {}
 
 class ScanStateMessage extends ScanState {

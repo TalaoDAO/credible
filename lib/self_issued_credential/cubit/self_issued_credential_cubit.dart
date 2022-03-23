@@ -1,42 +1,34 @@
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
 import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/app/shared/enum/revokation_status.dart';
-import 'package:talao/app/shared/model/credential_model/credential_model.dart';
-import 'package:talao/app/shared/constants.dart';
 import 'package:talao/app/shared/model/credential.dart';
+import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:talao/app/shared/model/display.dart';
+import 'package:talao/did/cubit/did_cubit.dart';
 import 'package:talao/self_issued_credential/models/self_issued.dart';
 import 'package:talao/self_issued_credential/models/self_issued_credential.dart';
-import 'package:talao/self_issued_credential/widget/sef_issued_credential_button.dart';
 import 'package:talao/wallet/cubit/wallet_cubit.dart';
 import 'package:uuid/uuid.dart';
 
-part 'self_issued_credential_cubit.freezed.dart';
-
-@freezed
-class SelfIssuedCredentialState with _$SelfIssuedCredentialState {
-  const factory SelfIssuedCredentialState.initial() = Initial;
-
-  const factory SelfIssuedCredentialState.loading() = Loading;
-
-  const factory SelfIssuedCredentialState.error(String message) = Error;
-
-  const factory SelfIssuedCredentialState.warning(String message) = Warning;
-
-  const factory SelfIssuedCredentialState.credentialCreated() =
-      CredentialCreated;
-}
+import '../view/models/self_issued_credential_model.dart';
+import 'self_issued_credential_state.dart';
 
 class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
   final WalletCubit walletCubit;
+  final DIDCubit didCubit;
+  final SecureStorageProvider secureStorageProvider;
+  final DIDKitProvider didKitProvider;
 
-  SelfIssuedCredentialCubit(this.walletCubit)
+  SelfIssuedCredentialCubit(
+      {required this.walletCubit,
+      required this.secureStorageProvider,
+      required this.didCubit,
+      required this.didKitProvider})
       : super(const SelfIssuedCredentialState.initial());
 
   Future<void> createSelfIssuedCredential(
@@ -47,11 +39,13 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
       //show loading
       emit(const SelfIssuedCredentialState.loading());
       await Future.delayed(Duration(milliseconds: 500));
-      final key = (await SecureStorageProvider.instance.get('key'))!;
-      final did =
-          DIDKitProvider.instance.keyToDID(Constants.defaultDIDMethod, key);
-      final verificationMethod = await DIDKitProvider.instance
-          .keyToVerificationMethod(Constants.defaultDIDMethod, key);
+
+      final key = (await secureStorageProvider.get(SecureStorageKeys.key))!;
+      final verificationMethod =
+          await secureStorageProvider.get(SecureStorageKeys.verificationMethod);
+
+      final did = didCubit.state.did!;
+
       final options = {
         'proofPurpose': 'assertionMethod',
         'verificationMethod': verificationMethod
@@ -67,7 +61,10 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
           familyName: selfIssuedCredentialDataModel.familyName,
           givenName: selfIssuedCredentialDataModel.givenName,
           telephone: selfIssuedCredentialDataModel.telephone,
-          email: selfIssuedCredentialDataModel.email);
+          email: selfIssuedCredentialDataModel.email,
+          workFor: selfIssuedCredentialDataModel.companyName,
+          companyWebsite: selfIssuedCredentialDataModel.companyWebsite,
+          jobTitle: selfIssuedCredentialDataModel.jobTitle);
 
       final selfIssuedCredential = SelfIssuedCredential(
           id: id,
@@ -76,10 +73,10 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
           credentialSubject: selfIssued);
 
       await Future.delayed(Duration(milliseconds: 500));
-      final vc = await DIDKitProvider.instance.issueCredential(
+      final vc = await didKitProvider.issueCredential(
           jsonEncode(selfIssuedCredential.toJson()), jsonEncode(options), key);
-      final result = await DIDKitProvider.instance
-          .verifyCredential(vc, jsonEncode(verifyOptions));
+      final result =
+          await didKitProvider.verifyCredential(vc, jsonEncode(verifyOptions));
       final jsonVerification = jsonDecode(result);
 
       log.info('vc: $vc');
@@ -88,17 +85,14 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
       if (jsonVerification['warnings'].isNotEmpty) {
         log.warning('credential verification return warnings',
             jsonVerification['warnings']);
-
-        emit(SelfIssuedCredentialState.warning(
-            'Credential verification returned some warnings. '
-            'Check the logs for more information.'));
       }
 
       if (jsonVerification['errors'].isNotEmpty) {
         log.severe('failed to verify credential', jsonVerification['errors']);
         if (jsonVerification['errors'][0] != 'No applicable proof') {
-          emit(SelfIssuedCredentialState.error('Failed to verify credential. '
-              'Check the logs for more information.'));
+          emit(const SelfIssuedCredentialState.error(
+              SelfIssuedCredentialErrorState
+                  .failedToVerifySelfIssuedCredential()));
         } else {
           await _recordCredential(vc);
         }
@@ -109,9 +103,8 @@ class SelfIssuedCredentialCubit extends Cubit<SelfIssuedCredentialState> {
       print('e: $e,s: $s');
       log.severe('something went wrong', e, s);
 
-      emit(SelfIssuedCredentialState.error(
-          'Failed to create self issued credential. '
-          'Check the logs for more information.'));
+      emit(const SelfIssuedCredentialState.error(
+          SelfIssuedCredentialErrorState.failedToCreateSelfIssuedCredential()));
     }
   }
 
