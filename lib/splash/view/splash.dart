@@ -336,8 +336,9 @@ class _SplashPageState extends State<SplashPage> {
               var selectedCredentials = <CredentialModel>[];
               walletCubit.state.credentials
                   .forEach((CredentialModel credentialModel) {
-                var credentialTypeList = credentialModel.credentialPreview.type;
-                var issuer = credentialModel.credentialPreview.issuer;
+                final credentialTypeList =
+                    credentialModel.credentialPreview.type;
+                final issuer = credentialModel.credentialPreview.issuer;
 
                 ///credential and issuer provided in claims
                 if (openIdCredential != '' && openIdIssuer != '') {
@@ -348,14 +349,17 @@ class _SplashPageState extends State<SplashPage> {
                 }
 
                 ///credential provided in claims
-                if (openIdCredential != '' &&
-                    credentialTypeList.contains(openIdCredential)) {
-                  selectedCredentials.add(credentialModel);
+                if (openIdCredential != '' && openIdIssuer == '') {
+                  if (credentialTypeList.contains(openIdCredential)) {
+                    selectedCredentials.add(credentialModel);
+                  }
                 }
 
                 ///issuer provided in claims
-                if (openIdIssuer != '' && openIdIssuer == issuer) {
-                  selectedCredentials.add(credentialModel);
+                if (openIdCredential == '' && openIdIssuer != '') {
+                  if (openIdIssuer == issuer) {
+                    selectedCredentials.add(credentialModel);
+                  }
                 }
               });
 
