@@ -160,7 +160,7 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
 
   bool isOpenIdUrl() {
     var condition = false;
-    if (state.uri?.scheme == 'openid') {
+    if (state.uri?.queryParameters['scope'] == 'openid') {
       condition = true;
     }
     return condition;
