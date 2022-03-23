@@ -143,25 +143,25 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
               var credentialTypeList = credentialModel.credentialPreview.type;
               var issuer = credentialModel.credentialPreview.issuer;
 
-              selectedCredentials.add(credentialModel);
-              // ///credential and issuer provided in claims
-              // if (openIdCredential != '' && openIdIssuer != '') {
-              //   if (credentialTypeList.contains(openIdCredential) &&
-              //       openIdIssuer == issuer) {
-              //     selectedCredentials.add(credentialModel);
-              //   }
-              // }
-              //
-              // ///credential provided in claims
-              // if (openIdCredential != '' &&
-              //     credentialTypeList.contains(openIdCredential)) {
-              //   selectedCredentials.add(credentialModel);
-              // }
-              //
-              // ///issuer provided in claims
-              // if (openIdIssuer != '' && openIdIssuer == issuer) {
-              //   selectedCredentials.add(credentialModel);
-              // }
+              //selectedCredentials.add(credentialModel);
+              ///credential and issuer provided in claims
+              if (openIdCredential != '' && openIdIssuer != '') {
+                if (credentialTypeList.contains(openIdCredential) &&
+                    openIdIssuer == issuer) {
+                  selectedCredentials.add(credentialModel);
+                }
+              }
+
+              ///credential provided in claims
+              if (openIdCredential != '' &&
+                  credentialTypeList.contains(openIdCredential)) {
+                selectedCredentials.add(credentialModel);
+              }
+
+              ///issuer provided in claims
+              if (openIdIssuer != '' && openIdIssuer == issuer) {
+                selectedCredentials.add(credentialModel);
+              }
             });
 
             if (selectedCredentials.isEmpty) {
