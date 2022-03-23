@@ -10,21 +10,18 @@ class ChooseWalletTypeCubit extends Cubit<ChooseWalletTypeState> {
   ChooseWalletTypeCubit(this.secureStorageProvider)
       : super(ChooseWalletTypeState());
 
-  void onChangeWalletType(WalletTypes? value) {
-    emit(state.copyWith(selectedWallet: value));
+  void onChangeWalletType(WalletTypes walletType) {
+    save(walletType);
+    emit(state.copyWith(selectedWallet: walletType));
   }
 
-  Future<void> save() async {
-    if (isPersonalWalletSelected()) {
+  Future<void> save(WalletTypes walletType) async {
+    if (walletType == WalletTypes.personal) {
       await secureStorageProvider.set(
           SecureStorageKeys.isEnterpriseUser, false.toString());
     } else {
       await secureStorageProvider.set(
           SecureStorageKeys.isEnterpriseUser, true.toString());
     }
-  }
-
-  bool isPersonalWalletSelected() {
-    return state.selectedWallet == WalletTypes.personal;
   }
 }

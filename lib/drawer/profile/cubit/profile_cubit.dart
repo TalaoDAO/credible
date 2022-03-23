@@ -42,8 +42,9 @@ class ProfileCubit extends Cubit<ProfileState> {
       final issuerVerificationSetting = !(await secureStorageProvider
               .get(SecureStorageKeys.issuerVerificationSettingKey) ==
           'false');
-      final isEnterprise =
-          await secureStorageProvider.get(SecureStorageKeys.isEnterpriseUser);
+      final isEnterprise = (await secureStorageProvider
+              .get(SecureStorageKeys.isEnterpriseUser)) ==
+          'true';
 
       final profileModel = ProfileModel(
         firstName: firstName,
@@ -55,7 +56,7 @@ class ProfileCubit extends Cubit<ProfileState> {
         companyName: companyName,
         companyWebsite: companyWebsite,
         jobTitle: jobTitle,
-        isEnterprise: isEnterprise == 'true',
+        isEnterprise: isEnterprise,
       );
 
       emit(state.copyWith(model: profileModel));
