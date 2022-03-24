@@ -289,8 +289,9 @@ class _SplashPageState extends State<SplashPage> {
             final qrCodeCubit = context.read<QRCodeScanCubit>();
             final walletCubit = context.read<WalletCubit>();
 
-            ///Check openId or https
-            if (qrCodeCubit.isOpenIdUrl()) {
+            ///Check if SIOPV2 request
+            final isOpenIdUrl = qrCodeCubit.isOpenIdUrl();
+            if (isOpenIdUrl) {
               ///restrict non-enterprise user
               if (!profileCubit.state.model.isEnterprise) {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -368,13 +369,21 @@ class _SplashPageState extends State<SplashPage> {
                     IssuerWebsitesPage.route(openIdCredential));
                 return;
               }
-
-              await Navigator.of(context).pushReplacement(
-                SIOPV2CredentialPickPage.route(
-                  credentials: selectedCredentials,
-                  sIOPV2Param: sIOPV2Param,
-                ),
-              );
+              if (state.isDeepLink) {
+                await Navigator.of(context).push(
+                  SIOPV2CredentialPickPage.route(
+                    credentials: selectedCredentials,
+                    sIOPV2Param: sIOPV2Param,
+                  ),
+                );
+              } else {
+                await Navigator.of(context).pushReplacement(
+                  SIOPV2CredentialPickPage.route(
+                    credentials: selectedCredentials,
+                    sIOPV2Param: sIOPV2Param,
+                  ),
+                );
+              }
             } else {
               var approvedIssuer = Issuer.emptyIssuer();
               final isIssuerVerificationSettingTrue =
