@@ -22,7 +22,6 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
   final qrKey = GlobalKey(debugLabel: 'QR');
   late QRViewController qrController;
 
-  final isDeepLink = false;
   bool isQrCodeScanned = false;
 
   @override
@@ -54,7 +53,7 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
         isQrCodeScanned = true;
         context
             .read<QRCodeScanCubit>()
-            .host(url: scanData.code, isDeepLink: isDeepLink);
+            .host(url: scanData.code, isDeepLink: false);
       }
     });
   }
