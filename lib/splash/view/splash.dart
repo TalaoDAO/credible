@@ -364,8 +364,8 @@ class _SplashPageState extends State<SplashPage> {
               });
 
               if (selectedCredentials.isEmpty) {
-                await Navigator.of(context)
-                    .push(IssuerWebsitesPage.route(openIdCredential));
+                await Navigator.of(context).pushReplacement(
+                    IssuerWebsitesPage.route(openIdCredential));
                 return;
               }
 

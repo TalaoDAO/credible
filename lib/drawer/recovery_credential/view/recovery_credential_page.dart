@@ -1,9 +1,15 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:talao/app/shared/ui/theme.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:flutter/material.dart';
 import 'package:talao/app/shared/widget/base/text_field.dart';
+import 'package:talao/app/shared/widget/confirm_dialog.dart';
 import 'package:talao/drawer/recovery_credential/cubit/recovery_credential_cubit.dart';
 import 'package:talao/l10n/l10n.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -116,9 +122,11 @@ class _RecoveryCredentialPageState extends State<RecoveryCredentialPage> {
               onPressed: !state.isMnemonicValid
                   ? null
                   : () async {
-                      await context
-                          .read<RecoveryCredentialCubit>()
-                          .recoverWallet(mnemonicController.text);
+                      if (Platform.isAndroid) {
+                        var appDir = (await getTemporaryDirectory()).path;
+                        await Directory(appDir).delete(recursive: true);
+                      }
+                      await _pickRecoveryFile();
                     },
               child: Text(l10n.recoveryCredentialButtonTitle),
             )
@@ -126,5 +134,51 @@ class _RecoveryCredentialPageState extends State<RecoveryCredentialPage> {
         );
       }),
     );
+  }
+
+  Future<void> _pickRecoveryFile() async {
+    var localization = context.l10n;
+    var storagePermission = await Permission.storage.request();
+    if (storagePermission.isDenied) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(localization.storagePermissionDeniedMessage)));
+      return;
+    }
+
+    if (storagePermission.isPermanentlyDenied) {
+      await _showPermissionPopup();
+      return;
+    }
+
+    if (storagePermission.isGranted || storagePermission.isLimited) {
+      var pickedFile = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowMultiple: false,
+        allowedExtensions: ['txt'],
+      );
+      if (pickedFile != null) {
+        await context
+            .read<RecoveryCredentialCubit>()
+            .recoverWallet(mnemonicController.text, pickedFile);
+      }
+    }
+  }
+
+  Future<void> _showPermissionPopup() async {
+    var localizations = context.l10n;
+    final confirm = await showDialog<bool>(
+          context: context,
+          builder: (context) => ConfirmDialog(
+            title: localizations.storagePermissionRequired,
+            subtitle: localizations.storagePermissionPermanentlyDeniedMessage,
+            yes: localizations.ok,
+            no: localizations.cancel,
+          ),
+        ) ??
+        false;
+
+    if (confirm) {
+      await openAppSettings();
+    }
   }
 }
