@@ -32,50 +32,42 @@ class RecoveryCredentialCubit extends Cubit<RecoveryCredentialState> {
     );
   }
 
-  Future<void> recoverWallet(String mnemonic) async {
-    if (Platform.isAndroid) {
-      var appDir = (await getTemporaryDirectory()).path;
-      await Directory(appDir).delete(recursive: true);
-    }
-    var result = await FilePicker.platform
-        .pickFiles(type: FileType.custom, allowedExtensions: ['txt']);
-    if (result != null) {
-      try {
-        var file = File(result.files.single.path!);
-        var text = await file.readAsString();
-        Map json = jsonDecode(text) as Map<String, dynamic>;
-        if (!json.containsKey('cipherText') ||
-            !json.containsKey('authenticationTag') ||
-            !(json['cipherText'] is String) ||
-            !(json['authenticationTag'] is String)) {
-          throw FormatException();
-        }
-        var encryption = Encryption(
-            cipherText: json['cipherText'],
-            authenticationTag: json['authenticationTag']);
-        var decryptedText = await CryptoKeys().decrypt(mnemonic, encryption);
-        Map decryptedJson = jsonDecode(decryptedText);
-        if (!decryptedJson.containsKey('date') ||
-            !decryptedJson.containsKey('credentials') ||
-            !(decryptedJson['date'] is String)) {
-          throw FormatException();
-        }
-        List credentialJson = decryptedJson['credentials'];
-        var credentials = credentialJson
-            .map((credential) => CredentialModel.fromJson(credential));
-        await walletCubit.recoverWallet(credentials.toList());
-        emit(state.copyWith(
-            status: RecoveryCredentialStatus.success,
-            recoveredCredentialLength: credentials.length));
-      } on FormatException {
-        emit(state.copyWith(status: RecoveryCredentialStatus.invalidJson));
-      } catch (e) {
-        print(e.toString());
-        if (e.toString().startsWith('Auth error')) {
-          emit(state.copyWith(status: RecoveryCredentialStatus.authError));
-        } else {
-          emit(state.copyWith(status: RecoveryCredentialStatus.failure));
-        }
+  Future<void> recoverWallet(String mnemonic, FilePickerResult result) async {
+    try {
+      var file = File(result.files.single.path!);
+      var text = await file.readAsString();
+      Map json = jsonDecode(text) as Map<String, dynamic>;
+      if (!json.containsKey('cipherText') ||
+          !json.containsKey('authenticationTag') ||
+          !(json['cipherText'] is String) ||
+          !(json['authenticationTag'] is String)) {
+        throw FormatException();
+      }
+      var encryption = Encryption(
+          cipherText: json['cipherText'],
+          authenticationTag: json['authenticationTag']);
+      var decryptedText = await CryptoKeys().decrypt(mnemonic, encryption);
+      Map decryptedJson = jsonDecode(decryptedText);
+      if (!decryptedJson.containsKey('date') ||
+          !decryptedJson.containsKey('credentials') ||
+          !(decryptedJson['date'] is String)) {
+        throw FormatException();
+      }
+      List credentialJson = decryptedJson['credentials'];
+      var credentials = credentialJson
+          .map((credential) => CredentialModel.fromJson(credential));
+      await walletCubit.recoverWallet(credentials.toList());
+      emit(state.copyWith(
+          status: RecoveryCredentialStatus.success,
+          recoveredCredentialLength: credentials.length));
+    } on FormatException {
+      emit(state.copyWith(status: RecoveryCredentialStatus.invalidJson));
+    } catch (e) {
+      print(e.toString());
+      if (e.toString().startsWith('Auth error')) {
+        emit(state.copyWith(status: RecoveryCredentialStatus.authError));
+      } else {
+        emit(state.copyWith(status: RecoveryCredentialStatus.failure));
       }
     }
   }
