@@ -133,6 +133,7 @@ class _SubmitEnterpriseUserPageState extends State<SubmitEnterpriseUserPage> {
           orElse: () {
             return BaseButton.primary(
                 context: context,
+                height: 40,
                 margin: EdgeInsets.all(15),
                 onPressed: () {
                   final rsaFile =

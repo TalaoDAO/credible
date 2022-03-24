@@ -98,7 +98,7 @@ class BaseButton extends StatelessWidget {
     final textColor = this.textColor ?? Theme.of(context).colorScheme.button;
 
     return Container(
-      height: height ?? 38,
+      height: height,
       margin: margin,
       decoration: BoxDecoration(
         gradient: gradient,
