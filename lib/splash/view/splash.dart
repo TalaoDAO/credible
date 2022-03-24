@@ -303,6 +303,8 @@ class _SplashPageState extends State<SplashPage> {
               if (walletCubit.state.credentials.isEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text(l10n.credentialEmptyError)));
+                await Navigator.of(context)
+                    .pushReplacement(IssuerWebsitesPage.route(''));
                 return;
               }
 

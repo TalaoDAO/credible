@@ -9,6 +9,7 @@ import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/app/shared/widget/base/text_field.dart';
 import 'package:talao/app/shared/widget/confirm_dialog.dart';
 import 'package:talao/did/cubit/did_cubit.dart';
+import 'package:talao/drawer/profile/cubit/profile_cubit.dart';
 import 'package:talao/drawer/profile/models/profile.dart';
 import 'package:talao/l10n/l10n.dart';
 import 'package:talao/onboarding/wallet_type/choose_wallet_type.dart';
@@ -122,11 +123,10 @@ class _SubmitEnterpriseUserPageState extends State<SubmitEnterpriseUserPage> {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content:
                       Text(localization.didKeyAndRSAKeyVerifiedSuccessfully)));
-
+              final model = ProfileModel.empty().copyWith(isEnterprise: true);
+              await context.read<ProfileCubit>().update(model);
               await Navigator.of(context).pushReplacement(PersonalPage.route(
-                  profileModel:
-                      ProfileModel.empty().copyWith(isEnterprise: true),
-                  isFromOnBoarding: true));
+                  profileModel: model, isFromOnBoarding: true));
             });
       }, builder: (context, state) {
         return state.maybeWhen(
