@@ -104,7 +104,8 @@
     "credentialPresentTitleSiopV2",
     "confirmSiopV2",
     "storagePermissionRequired",
-    "youNeedStoragePermissionForUploadingFileGoToAppSettingsAndGrantAccessToStoragePermission",
+    "storagePermissionDeniedMessage",
+    "storagePermissionPermanentlyDeniedMessage",
     "cancel",
     "loading",
     "issuerWebsitesTitle"
@@ -214,7 +215,8 @@
     "credentialPresentTitleSiopV2",
     "confirmSiopV2",
     "storagePermissionRequired",
-    "youNeedStoragePermissionForUploadingFileGoToAppSettingsAndGrantAccessToStoragePermission",
+    "storagePermissionDeniedMessage",
+    "storagePermissionPermanentlyDeniedMessage",
     "cancel",
     "loading",
     "issuerWebsitesTitle"
@@ -299,7 +301,8 @@
     "credentialPresentTitleSiopV2",
     "confirmSiopV2",
     "storagePermissionRequired",
-    "youNeedStoragePermissionForUploadingFileGoToAppSettingsAndGrantAccessToStoragePermission",
+    "storagePermissionDeniedMessage",
+    "storagePermissionPermanentlyDeniedMessage",
     "cancel",
     "loading",
     "issuerWebsitesTitle"
@@ -411,7 +414,8 @@
     "credentialPresentTitleSiopV2",
     "confirmSiopV2",
     "storagePermissionRequired",
-    "youNeedStoragePermissionForUploadingFileGoToAppSettingsAndGrantAccessToStoragePermission",
+    "storagePermissionDeniedMessage",
+    "storagePermissionPermanentlyDeniedMessage",
     "cancel",
     "loading",
     "issuerWebsitesTitle"

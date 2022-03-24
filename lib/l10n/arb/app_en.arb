@@ -273,7 +273,8 @@
   "credentialPresentTitleSiopV2": "Present Credential",
   "confirmSiopV2": "Please confirm the credential presented",
   "storagePermissionRequired": "Storage permission required",
-  "youNeedStoragePermissionForUploadingFileGoToAppSettingsAndGrantAccessToStoragePermission": "You need storage permission for uploading file, go to app settings and grant access to storage permission.",
+  "storagePermissionDeniedMessage": "Please allow storage access in order to upload the file.",
+  "storagePermissionPermanentlyDeniedMessage": "You need storage permission for uploading file. Please go to app settings and grant access to storage permission.",
   "cancel": "Cancel",
   "loading": "Please wait...",
   "issuerWebsitesTitle": "Get some credentials"

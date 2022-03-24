@@ -82,7 +82,8 @@ class VerifyRSAAndDIDCubit extends Cubit<VerifyRSAAndDIDState> {
           .read(resolvedDID)
           .where((element) => element.value['kty'] == 'RSA')
           .toList();
-      final privateRSAKeyAssertionMethod = resolvedDID['didDocument']['assertionMethod'] as List<dynamic>?;
+      final privateRSAKeyAssertionMethod =
+          resolvedDID['didDocument']['assertionMethod'] as List<dynamic>?;
       //               as List<dynamic>
       for (var i = 0; i < publicKeyJwksList.length; i++) {
         final privateRSAKey = publicKeyJwksList[i].value['n'];
@@ -92,7 +93,7 @@ class VerifyRSAAndDIDCubit extends Cubit<VerifyRSAAndDIDState> {
         }
       }
       return false;
-    } catch (e, s) {
+    } catch (e) {
       return false;
     }
   }

@@ -168,52 +168,48 @@ class _SubmitEnterpriseUserPageState extends State<SubmitEnterpriseUserPage> {
     );
   }
 
-  Future<void> _pickRSAJsonFile(AppLocalizations localizations) async {
-    final storagePermission = await requestPermission(Permission.storage);
-    if (!storagePermission) {
-      await _showPermissionPopup(localizations);
+  Future<void> _pickRSAJsonFile(AppLocalizations localization) async {
+    var storagePermission = await Permission.storage.request();
+    if (storagePermission.isDenied) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(localization.storagePermissionDeniedMessage)));
       return;
     }
-    final pickedFiles = await FilePicker.platform.pickFiles(
-        dialogTitle: localizations.pleaseSelectRSAKeyFileWithJsonExtension,
-        type: FileType.custom,
-        allowMultiple: false,
-        allowedExtensions: ['json', 'txt']);
-    if (pickedFiles != null) {
-      context
-          .read<SubmitEnterpriseUserCubit>()
-          .setRSAFile(pickedFiles.files.first);
+
+    if (storagePermission.isPermanentlyDenied) {
+      await _showPermissionPopup();
+      return;
+    }
+
+    if (storagePermission.isGranted || storagePermission.isLimited) {
+      final pickedFiles = await FilePicker.platform.pickFiles(
+          dialogTitle: localization.pleaseSelectRSAKeyFileWithJsonExtension,
+          type: FileType.custom,
+          allowMultiple: false,
+          allowedExtensions: ['json', 'txt']);
+      if (pickedFiles != null) {
+        context
+            .read<SubmitEnterpriseUserCubit>()
+            .setRSAFile(pickedFiles.files.first);
+      }
     }
   }
 
-  Future<void> _showPermissionPopup(AppLocalizations localizations) async{
+  Future<void> _showPermissionPopup() async {
+    var localizations = context.l10n;
     final confirm = await showDialog<bool>(
-      context: context,
-      builder: (context) => ConfirmDialog(
-        title: localizations.storagePermissionRequired,
-        subtitle:
-        localizations.youNeedStoragePermissionForUploadingFileGoToAppSettingsAndGrantAccessToStoragePermission,
-        yes: localizations.ok,
-        no: localizations.cancel,
-      ),
-    ) ??
+          context: context,
+          builder: (context) => ConfirmDialog(
+            title: localizations.storagePermissionRequired,
+            subtitle: localizations.storagePermissionPermanentlyDeniedMessage,
+            yes: localizations.ok,
+            no: localizations.cancel,
+          ),
+        ) ??
         false;
 
     if (confirm) {
       await openAppSettings();
-    }
-  }
-
-  Future<bool> requestPermission(Permission setting) async {
-    final _result = await setting.request();
-    switch (_result) {
-      case PermissionStatus.granted:
-      case PermissionStatus.limited:
-        return true;
-      case PermissionStatus.denied:
-      case PermissionStatus.restricted:
-      case PermissionStatus.permanentlyDenied:
-        return false;
     }
   }
 }
