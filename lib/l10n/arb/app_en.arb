@@ -277,5 +277,5 @@
   "storagePermissionPermanentlyDeniedMessage": "You need storage permission for uploading file. Please go to app settings and grant access to storage permission.",
   "cancel": "Cancel",
   "loading": "Please wait...",
-  "issuerWebsitesTitle": "Get some credentials"
+  "issuerWebsitesTitle": "Get the credentials requested"
 }
