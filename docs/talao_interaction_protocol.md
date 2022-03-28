@@ -109,6 +109,7 @@ Currently (Credible 0.1) when the wallet makes a GET to the Issuer endpoint, a J
            "exires" : "2022-09-1T19:29:39Z"
  })
 
+```
 
 The modification consists in adding a "display" attribute and a shareLInk attribute to the JSON returned by the Issuer (Issuer GET response).
  
@@ -126,7 +127,7 @@ example:
 }
 ```
 
-The "display" attribute is a description of the Issuer expectations about the UI design of the VC.
+The "display" attribute is a description of the Issuer expectations about the UI design of the VC. The nonce arttribute will be used for DID_auth response or self-issued.
 
 example:
 
@@ -159,7 +160,7 @@ If there are items other than“ subject_id ”, the actions of the wallet will 
 }
 ```
 
-verifiablePresentation is the self issued VC if it exist or did_auth with nonce if available in teh request. 
+verifiablePresentation is the self issued VC if it exists or did_auth with nonce if available in teh request. 
 
 In the event that an attribute is missing in the wallet profile it would be replaced by “”.
 
