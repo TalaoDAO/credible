@@ -106,7 +106,7 @@ Currently (Credible 0.1) when the wallet makes a GET to the Issuer endpoint, a J
 {
            "type": "CredentialOffer",
            "credentialPreview": {...},
-           "expires" : 12/08/2021Z "
+           "exires" : "2022-09-1T19:29:39Z"
  })
 
 
@@ -121,7 +121,7 @@ example:
 {
            "type": "CredentialOffer",
            "credentialPreview": {...},
-           "expires" : 12/08/2021Z ",
+           "expires" : "2021-09-18T19:29:39Z",
            "shareLink" : "https://talao.co/shareLink"
 }
 ```
@@ -139,6 +139,7 @@ example:
                         "nameFallback" : "By default this is the name of the VC",
                         "descriptionFallback" : "By default this is the description of the VC."
                         },
+            "nonce" : "mjh45",
             "shareLInk" : "https://talao.co/credential/link?issuer=did:tz:tz1e5YakmACgZZprF7YWHMqnSvcWVXZ2TsPW&id=urnn:idnn:4564:..."
                        
 }
@@ -157,6 +158,8 @@ If there are items other than“ subject_id ”, the actions of the wallet will 
             “verifiablePresentation”: {...}
 }
 ```
+
+verifiablePresentation is the self issued VC if it exist or did_auth with nonce if available in teh request. 
 
 In the event that an attribute is missing in the wallet profile it would be replaced by “”.
 
