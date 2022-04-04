@@ -156,7 +156,7 @@ If there are items other than“ subject_id ”, the actions of the wallet will 
 ```javascript
 {
            “Subject_id”, ”did: tz: tz1e5YakmACgZZprF7YWHMqnSvcWVXZ2TsPW”,
-            “verifiablePresentation”: {...}
+            “verifiablePresentation”: [{...}]
 }
 ```
 
