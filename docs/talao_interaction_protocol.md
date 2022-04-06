@@ -1,6 +1,6 @@
 # Interaction between the wallet and an Issuer / Verifier
 
-6th janauary 2022
+6tt April 2022
 
 ## Context
 
@@ -106,7 +106,7 @@ Currently (Credible 0.1) when the wallet makes a GET to the Issuer endpoint, a J
 {
            "type": "CredentialOffer",
            "credentialPreview": {...},
-           "exires" : "2022-09-1T19:29:39Z"
+           "expires" : "2022-09-1T19:29:39Z"
  })
 
 ```
@@ -146,12 +146,12 @@ example:
 }
 ```
 
-## Wallet implementation (to be done for scope or self signed VC)
+## Wallet implementation
  
 If there are items other than“ subject_id ”, the actions of the wallet will be:
 
 1. ask the user for consent to transfer their personal data (a “consent screen”)
-2. add the attributes and their value saved in the wallet to the JSON verifiablePresentation (wallet POST request), in our example:
+2. add VCs in the verifiablePresentation (wallet POST request), in our example:
 
 ```javascript
 {
@@ -160,7 +160,7 @@ If there are items other than“ subject_id ”, the actions of the wallet will 
 }
 ```
 
-verifiablePresentation is the self issued VC if it exists or did_auth with nonce if available in teh request. 
+verifiablePresentation is the self issued VC if it exists or did_auth with nonce if available in teh request.It must be bound to the nonce received.  
 
 In the event that an attribute is missing in the wallet profile it would be replaced by “”.
 
