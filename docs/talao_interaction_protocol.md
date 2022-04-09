@@ -44,8 +44,9 @@ will be made.*
 *<sup>3</sup> The body of the request contains a field `subject_id` set to the
 chosen DID.*
 
-
 ![issuer.png](issuer.png)
+
+
 
 ## Requesting a Verifiable Presentation (Credible 0.3)
 
