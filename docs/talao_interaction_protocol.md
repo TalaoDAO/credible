@@ -10,7 +10,9 @@ This protocol is described by Spruce: https://github.com/spruceid/credible#suppo
 
 This protocol occurs when a user wishes to use his wallet to collect credentials or to present them to access resources. 
 
-## Collecting a Verifiable Credential (Credible 0.3)
+In the following document we will noted the options added by Talao as "Talao build".
+
+## Collecting a Verifiable Credential (Credible build)
 
 When the user wants to collect VCs, it is very likely that he will access this service after a first authentication. This wallet protocol does not automatically integrate this first authentication. The user must either authenticate with a pre-existing means of authentication (login/password, openID Connect flow, ...) or possibly use a VC already collected to introduce himself. This process will be used for most of the VCs to be collected such as the identity card, a professional certificate, an electronic bank card, a membership card,…. However, there are special cases where the sender collects information in an anonymous session just before issuing a VC. This is the case of a proof of email, a proof of phone, .... 
  
@@ -47,8 +49,7 @@ chosen DID.*
 ![issuer2.png](issuer2.png)
 
 
-
-## Requesting a Verifiable Presentation (Credible 0.3)
+## Requesting a Verifiable Presentation (Credible build)
 
 The presentation of a VC or without any VC can be used for authentication or to request very specific and different services as submit a file, open a bank account, buy online ...
 
@@ -83,7 +84,7 @@ verifiable presentation.*
 
 ![verifier_cross_device.png](verifier_cross_device.png)
 
-## Verification of the identity of Issuer / Verifier (Talao build 1.0)
+## Verification of the identity of Issuer / Verifier (Talao build)
 
 ### Motivation
 The protocol of interaction between the wallet and an Issuer or a Verifier currently used by Credible is light, simple and quick to implement, However it does not allow the user of the wallet to ensure the identity of the other party but only the domain name specified in the URL encoded in the QR Code. On the other hand, a simple solution based on access to a public register of Issuers / Verifier makes it possible to obtain more information for the user and therefore better control without considerably increasing the complexity of the protocol. However hhis service must be considered as optional due to correlation issues.
@@ -94,7 +95,7 @@ The Issuer (or Verifier) DID is passed as an argument in the QRcode callback URL
 example : https://talao.co/....?issuer=did:ethr:0xee09654eedaa79429f8d216fa51a129db0f72250).
 
 
-# credentialOffer protocol (Talao build 1.0)
+# credentialOffer protocol (Talao build)
 
 ## Motivation
 
@@ -161,7 +162,7 @@ For display descriptors : "name" and "description" fallback will ne used if any 
 
 See https://talao.co/wallet/test/credentialOffer for testing.
 
-# presentationRequest Query types (To be done)
+# presentationRequest Query types (Talao build)
 
 ## Motivation
 
