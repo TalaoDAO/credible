@@ -45,6 +45,7 @@ will be made.*
 chosen DID.*
 
 
+![Alt text here](images/someimage.png)
 
 ## Requesting a Verifiable Presentation (Credible 0.3)
 
