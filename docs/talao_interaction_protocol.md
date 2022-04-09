@@ -44,7 +44,7 @@ will be made.*
 *<sup>3</sup> The body of the request contains a field `subject_id` set to the
 chosen DID.*
 
-![issuer.png](issuer2.png)
+![issuer2.png](issuer2.png)
 
 
 
@@ -80,6 +80,8 @@ will be made.*
 *<sup>3</sup> The body of the request contains a field `presentation` set to the
 verifiable presentation.*
 
+
+![verifier_cross_device.png](verifier_cross_device.png)
 
 ## Verification of the identity of Issuer / Verifier (Talao build 1.0)
 
