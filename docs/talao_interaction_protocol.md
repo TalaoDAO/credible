@@ -113,21 +113,11 @@ Currently (Credible 0.1) when the wallet makes a GET to the Issuer endpoint, a J
 
 The modification consists in adding a "display" attribute and a shareLInk attribute to the JSON returned by the Issuer (Issuer GET response).
  
-The "shareLink" attribute is an UR to be presented for share link as user convenience.
+The "shareLink" attribute is an UR to be presented for share link as user convenience.  
 
+The "display" attribute is a description of the Issuer expectations about the UI design of the VC. 
 
-example:
-
-```javascript
-{
-           "type": "CredentialOffer",
-           "credentialPreview": {...},
-           "expires" : "2021-09-18T19:29:39Z",
-           "shareLink" : "https://talao.co/shareLink"
-}
-```
-
-The "display" attribute is a description of the Issuer expectations about the UI design of the VC. The nonce arttribute will be used for DID_auth response or self-issued.
+The nonce arttribute will be used for DID_auth response or self-issued.  
 
 example:
 
