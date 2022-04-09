@@ -106,7 +106,7 @@ Currently (Credible 0.1) when the wallet makes a GET to the Issuer endpoint, a J
 {
            "type": "CredentialOffer",
            "credentialPreview": {...},
-           "expires" : "2022-09-1T19:29:39Z"
+           "expires" : "2022-09-01T19:29:39Z"
  })
 
 ```
@@ -125,12 +125,12 @@ example:
 {
            "type": "CredentialOffer",
            "credentialPreview": {...},
-           "expires" : 12/08/2021Z ",
+           "expires" : 2022-09-01T19:29:39Z",
            "display" : { "backgroundColor : "#efefef",
                         "nameFallback" : "By default this is the name of the VC",
                         "descriptionFallback" : "By default this is the description of the VC."
                         },
-            "nonce" : "mjh45",
+            "nonce" : "mjh45RT56",
             "shareLInk" : "https://talao.co/credential/link?issuer=did:tz:tz1e5YakmACgZZprF7YWHMqnSvcWVXZ2TsPW&id=urnn:idnn:4564:..."
                        
 }
@@ -141,7 +141,7 @@ example:
 If there are items other than“ subject_id ”, the actions of the wallet will be:
 
 1. ask the user for consent to transfer their personal data (a “consent screen”)
-2. add VCs in the verifiablePresentation (wallet POST request), in our example:
+2. add VPs in the verifiablePresentation (wallet POST request), in our example:
 
 ```javascript
 {
@@ -150,9 +150,8 @@ If there are items other than“ subject_id ”, the actions of the wallet will 
 }
 ```
 
-verifiablePresentation is the self issued VC if it exists or did_auth with nonce if available in teh request.It must be bound to the nonce received.  
+verifiablePresentation is the self issued VC if it exists or did_auth with nonce if available in the request.It must be bound to the nonce received.  
 
-In the event that an attribute is missing in the wallet profile it would be replaced by “”.
 
 For display descriptors : "name" and "description" fallback will ne used if any attribute "name" or "description" exists in the VC. There is no internationalization support for those attributes. See "icon" and "color" values in examples. 
 
