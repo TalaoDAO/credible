@@ -1,6 +1,6 @@
 # Interaction between the wallet and an Issuer / Verifier
 
-6tt April 2022
+10th April 2022
 
 ## Context
 
@@ -122,7 +122,11 @@ The "shareLink" attribute is an UR to be presented for share link as user conven
 
 The "display" attribute is a description of the Issuer expectations about the UI design of the VC. 
 
-The nonce arttribute will be used for DID_auth response or self-issued.  
+The challenge arttribute will be used for DID_auth response or self-issued.  
+
+Manifest attribute will be used later for the credential manifest json file.
+
+Display, challenge, sharlink and manfiest are optional attributes.
 
 example:
 
@@ -135,8 +139,9 @@ example:
                         "nameFallback" : "By default this is the name of the VC",
                         "descriptionFallback" : "By default this is the description of the VC."
                         },
-            "nonce" : "mjh45RT56",
-            "shareLInk" : "https://talao.co/credential/link?issuer=did:tz:tz1e5YakmACgZZprF7YWHMqnSvcWVXZ2TsPW&id=urnn:idnn:4564:..."
+            "challenge" : "mjh45RT56",
+            "shareLInk" : "https://talao.co/credential/link?issuer=did:tz:tz1e5YakmACgZZprF7YWHMqnSvcWVXZ2TsPW&id=urnn:idnn:4564:...",
+            "manifest" : "{....}"
                        
 }
 ```
