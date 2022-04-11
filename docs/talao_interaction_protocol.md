@@ -1,6 +1,6 @@
 # Interaction between the wallet and an Issuer / Verifier
 
-6th janauary 2022
+10th April 2022
 
 ## Context
 
@@ -10,7 +10,9 @@ This protocol is described by Spruce: https://github.com/spruceid/credible#suppo
 
 This protocol occurs when a user wishes to use his wallet to collect credentials or to present them to access resources. 
 
-## Collecting a Verifiable Credential (Credible 0.3)
+In the following document we will noted the options added by Talao as "Talao build".
+
+## Collecting a Verifiable Credential (Credible build)
 
 When the user wants to collect VCs, it is very likely that he will access this service after a first authentication. This wallet protocol does not automatically integrate this first authentication. The user must either authenticate with a pre-existing means of authentication (login/password, openID Connect flow, ...) or possibly use a VC already collected to introduce himself. This process will be used for most of the VCs to be collected such as the identity card, a professional certificate, an electronic bank card, a membership card,…. However, there are special cases where the sender collects information in an anonymous session just before issuing a VC. This is the case of a proof of email, a proof of phone, .... 
  
@@ -44,9 +46,10 @@ will be made.*
 *<sup>3</sup> The body of the request contains a field `subject_id` set to the
 chosen DID.*
 
+![issuer2.png](issuer2.png)
 
 
-## Requesting a Verifiable Presentation (Credible 0.3)
+## Requesting a Verifiable Presentation (Credible build)
 
 The presentation of a VC or without any VC can be used for authentication or to request very specific and different services as submit a file, open a bank account, buy online ...
 
@@ -79,7 +82,9 @@ will be made.*
 verifiable presentation.*
 
 
-## Verification of the identity of Issuer / Verifier (Talao build 1.0)
+![verifier_cross_device.png](verifier_cross_device.png)
+
+## Verification of an issuer or verifier identity (Talao build)
 
 ### Motivation
 The protocol of interaction between the wallet and an Issuer or a Verifier currently used by Credible is light, simple and quick to implement, However it does not allow the user of the wallet to ensure the identity of the other party but only the domain name specified in the URL encoded in the QR Code. On the other hand, a simple solution based on access to a public register of Issuers / Verifier makes it possible to obtain more information for the user and therefore better control without considerably increasing the complexity of the protocol. However hhis service must be considered as optional due to correlation issues.
@@ -90,14 +95,16 @@ The Issuer (or Verifier) DID is passed as an argument in the QRcode callback URL
 example : https://talao.co/....?issuer=did:ethr:0xee09654eedaa79429f8d216fa51a129db0f72250).
 
 
-# credentialOffer protocol (Talao build 1.0)
+# credentialOffer protocol (Talao build)
 
 ## Motivation
 
 For holders wishes to engage with Issuers to acquire credentials, there must exist a mechanism for assessing what inputs are required from an issuer to process a request for credential issuance. A manifest is a common data format for describing the inputs a user must provide to an Issuer and the way the VCs shopuild be presented. This draft has been inpired by the Credential Manfifest specification with a very limited implementations :
 
-- display output descriptors as labels (name, description) et templates objetcs (label name, description, color,...).
-- share link : a way to use the wallet to link to a cloud service (vault, etc).
+- display output descriptors as labels (name, description) et templates objetcs (label name, description, color,...),
+- input descriptor,
+- share link : a way to use the wallet to link to a cloud service (vault, etc),
+- challenge to sign a VP.
 
 ## Issuer implementation
 Currently (Credible 0.1) when the wallet makes a GET to the Issuer endpoint, a JSON is returned to the wallet (Issuer GET response):
@@ -106,27 +113,22 @@ Currently (Credible 0.1) when the wallet makes a GET to the Issuer endpoint, a J
 {
            "type": "CredentialOffer",
            "credentialPreview": {...},
-           "expires" : 12/08/2021Z "
+           "expires" : "2022-09-01T19:29:39Z"
  })
 
+```
 
 The modification consists in adding a "display" attribute and a shareLInk attribute to the JSON returned by the Issuer (Issuer GET response).
  
-The "shareLink" attribute is an UR to be presented for share link as user convenience.
+The "shareLink" attribute is an UR to be presented for share link as user convenience.  
 
+The "display" attribute is a description of the Issuer expectations about the UI design of the VC. 
 
-example:
+The challenge arttribute will be used for DID_auth response or self-issued.  
 
-```javascript
-{
-           "type": "CredentialOffer",
-           "credentialPreview": {...},
-           "expires" : 12/08/2021Z ",
-           "shareLink" : "https://talao.co/shareLink"
-}
-```
+Manifest attribute will be used later for the credential manifest json file.
 
-The "display" attribute is a description of the Issuer expectations about the UI design of the VC.
+Display, challenge, sharlink and manfiest are optional attributes.
 
 example:
 
@@ -134,37 +136,43 @@ example:
 {
            "type": "CredentialOffer",
            "credentialPreview": {...},
-           "expires" : 12/08/2021Z ",
+           "expires" : 2022-09-01T19:29:39Z",
            "display" : { "backgroundColor : "#efefef",
                         "nameFallback" : "By default this is the name of the VC",
                         "descriptionFallback" : "By default this is the description of the VC."
                         },
-            "shareLInk" : "https://talao.co/credential/link?issuer=did:tz:tz1e5YakmACgZZprF7YWHMqnSvcWVXZ2TsPW&id=urnn:idnn:4564:..."
+            "challenge" : "mjh45RT56",
+            "shareLInk" : "https://talao.co/credential/link?issuer=did:tz:tz1e5YakmACgZZprF7YWHMqnSvcWVXZ2TsPW&id=urnn:idnn:4564:...",
+            "manifest" : "{....}"
                        
 }
 ```
 
-## Wallet implementation (to be done for scope or self signed VC)
+manifest : TODO give an example of an input_descriptor.  
+
+
+## Wallet implementation
  
 If there are items other than“ subject_id ”, the actions of the wallet will be:
 
 1. ask the user for consent to transfer their personal data (a “consent screen”)
-2. add the attributes and their value saved in the wallet to the JSON verifiablePresentation (wallet POST request), in our example:
+2. add VPs in the verifiablePresentation (wallet POST request), in our example:
 
 ```javascript
 {
            “Subject_id”, ”did: tz: tz1e5YakmACgZZprF7YWHMqnSvcWVXZ2TsPW”,
-            “verifiablePresentation”: {...}
+            “verifiablePresentation”: [{...}]
 }
 ```
 
-In the event that an attribute is missing in the wallet profile it would be replaced by “”.
+verifiablePresentation is the self issued VC if it exists or did_auth with nonce if available in the request.It must be bound to the nonce received.  
+
 
 For display descriptors : "name" and "description" fallback will ne used if any attribute "name" or "description" exists in the VC. There is no internationalization support for those attributes. See "icon" and "color" values in examples. 
 
 See https://talao.co/wallet/test/credentialOffer for testing.
 
-# presentationRequest Query types (To be done)
+# presentationRequest Query types (Talao build)
 
 ## Motivation
 
