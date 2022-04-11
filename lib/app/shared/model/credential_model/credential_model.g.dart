@@ -19,6 +19,7 @@ CredentialModel _$CredentialModelFromJson(Map<String, dynamic> json) =>
       revocationStatus: $enumDecodeNullable(
               _$RevocationStatusEnumMap, json['revocationStatus']) ??
           RevocationStatus.unknown,
+      expirationDate: json['expirationDate'] as String?,
     );
 
 Map<String, dynamic> _$CredentialModelToJson(CredentialModel instance) =>
@@ -30,6 +31,7 @@ Map<String, dynamic> _$CredentialModelToJson(CredentialModel instance) =>
       'shareLink': instance.shareLink,
       'credentialPreview': instance.credentialPreview.toJson(),
       'display': instance.display.toJson(),
+      'expirationDate': instance.expirationDate,
       'revocationStatus': _$RevocationStatusEnumMap[instance.revocationStatus],
     };
 

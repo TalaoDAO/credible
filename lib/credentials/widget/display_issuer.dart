@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:talao/app/shared/model/author.dart';
 import 'package:talao/app/shared/ui/theme.dart';
+import 'package:talao/app/shared/widget/image_from_network.dart';
 
 class DisplayIssuer extends StatelessWidget {
   const DisplayIssuer({
@@ -23,7 +24,7 @@ class DisplayIssuer extends StatelessWidget {
           (issuer.logo != '')
               ? Container(
                   height: 30,
-                  child: Image.network(
+                  child: ImageFromNetwork(
                     issuer.logo,
                     fit: BoxFit.cover,
                   ))

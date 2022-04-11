@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/shared/enum/credential_status.dart';
 import 'package:talao/app/shared/enum/revokation_status.dart';
+import 'package:talao/app/shared/model/over18/over18.dart';
 import 'package:talao/credentials/widget/display_issuer.dart';
 import 'package:talao/app/shared/model/certificate_of_employment/certificate_of_employment.dart';
 import 'package:talao/app/shared/model/credential.dart';
@@ -36,6 +37,7 @@ class CredentialModel extends Equatable {
   final Credential credentialPreview;
   @JsonKey(fromJson: fromJsonDisplay)
   final Display display;
+  final String? expirationDate;
   @JsonKey(defaultValue: RevocationStatus.unknown)
   RevocationStatus revocationStatus;
 
@@ -51,6 +53,7 @@ class CredentialModel extends Equatable {
     required this.display,
     required this.data,
     required this.revocationStatus,
+    this.expirationDate,
   });
 
   factory CredentialModel.fromJson(Map<String, dynamic> json) {
@@ -70,13 +73,10 @@ class CredentialModel extends Equatable {
 
   String get issuer => data['issuer']!;
 
-  DateTime? get expirationDate => (data['expirationDate'] != null)
-      ? DateTime.parse(data['expirationDate'])
-      : null;
-
   Future<CredentialStatus> get status async {
     if (expirationDate != null) {
-      if (!(expirationDate!.isAfter(DateTime.now()))) {
+      DateTime? dateTimeExpirationDate = DateTime.parse(expirationDate!);
+      if (!(dateTimeExpirationDate!.isAfter(DateTime.now()))) {
         revocationStatus = RevocationStatus.expired;
         return CredentialStatus.expired;
       }
@@ -158,6 +158,9 @@ class CredentialModel extends Equatable {
       return credentialPreview.credentialSubject.displayDetail(context, item);
     }
     if (credentialPreview.credentialSubject is LoyaltyCard) {
+      return credentialPreview.credentialSubject.displayDetail(context, item);
+    }
+    if (credentialPreview.credentialSubject is Over18) {
       return credentialPreview.credentialSubject.displayDetail(context, item);
     }
     if (credentialPreview.credentialSubject is Voucher) {

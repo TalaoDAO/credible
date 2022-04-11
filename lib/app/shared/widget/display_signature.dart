@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:talao/app/shared/model/signature.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:talao/app/shared/widget/base/credential_field.dart';
+import 'package:talao/app/shared/widget/image_from_network.dart';
 
 class DisplaySignatures extends StatelessWidget {
   const DisplaySignatures({
@@ -23,16 +24,7 @@ class DisplaySignatures extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
                   height: 100,
-                  child: Image.network(item.image,
-                      loadingBuilder: (context, child, loadingProgress) =>
-                          (loadingProgress == null)
-                              ? child
-                              : Container(
-                                  height: 50,
-                                  child: CircularProgressIndicator(),
-                                ),
-                      errorBuilder: (context, error, stackTrace) =>
-                          SizedBox.shrink()),
+                  child: ImageFromNetwork(item.image),
                 ),
               )
             : SizedBox.shrink(),

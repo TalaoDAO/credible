@@ -8,6 +8,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:talao/app/shared/ui/date.dart';
 import 'package:talao/app/shared/ui/theme.dart';
 import 'package:talao/app/shared/widget/base/credential_field.dart';
+import 'package:talao/app/shared/widget/image_from_network.dart';
 import 'package:talao/credentials/widget/display_issuer.dart';
 
 part 'certificate_of_employment.g.dart';
@@ -84,7 +85,7 @@ class CertificateOfEmployment extends CredentialSubject {
                     Spacer(),
                     (workFor.logo != '')
                         ? Container(
-                            height: 30, child: Image.network(workFor.logo))
+                            height: 30, child: ImageFromNetwork(workFor.logo))
                         : SizedBox.shrink()
                   ],
                 ),

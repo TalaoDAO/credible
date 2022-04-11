@@ -9,6 +9,7 @@ import 'package:talao/app/shared/model/email_pass/email_pass.dart';
 import 'package:talao/app/shared/model/identity_pass/identity_pass.dart';
 import 'package:talao/app/shared/model/learning_achievement/learning_achievement.dart';
 import 'package:talao/app/shared/model/loyalty_card/loyalty_card.dart';
+import 'package:talao/app/shared/model/over18/over18.dart';
 import 'package:talao/app/shared/model/phone_pass/phone_pass.dart';
 import 'package:talao/app/shared/model/professional_experience_assessment/professional_experience_assessment.dart';
 import 'package:talao/app/shared/model/professional_skil_assessment/professional_skill_assessment.dart';
@@ -44,6 +45,9 @@ class CredentialSubject {
         _backgroundColor = Color(0xffCAFFBF);
         break;
       case 'LoyaltyCard':
+        _backgroundColor = Color(0xffCAFFBF);
+        break;
+      case 'Over18':
         _backgroundColor = Color(0xffCAFFBF);
         break;
       case 'ProfessionalStudentCard':
@@ -87,6 +91,9 @@ class CredentialSubject {
         break;
       case 'LoyaltyCard':
         _icon = Icon(Icons.loyalty);
+        break;
+      case 'Over18':
+        _icon = Icon(Icons.accessible_rounded);
         break;
       case 'ProfessionalStudentCard':
         _icon = Icon(Icons.perm_identity);
@@ -137,6 +144,8 @@ class CredentialSubject {
         return Ecole42LearningAchievement.fromJson(json);
       case 'LoyaltyCard':
         return LoyaltyCard.fromJson(json);
+      case 'Over18':
+        return Over18.fromJson(json);
       case 'ProfessionalStudentCard':
         return ProfessionalStudentCard.fromJson(json);
       case 'CertificateOfEmployment':

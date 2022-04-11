@@ -8,6 +8,7 @@ import 'package:talao/app/shared/ui/ui.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:talao/app/shared/widget/card_animation.dart';
 import 'package:talao/app/shared/widget/image_card_text.dart';
+import 'package:talao/app/shared/widget/image_from_network.dart';
 
 part 'professional_student_card.g.dart';
 
@@ -137,7 +138,7 @@ class JobStudentCardRecto extends Recto {
                   ),
                   LayoutId(
                     id: 'image',
-                    child: Container(child: Image.network(recipient.image)),
+                    child: Container(child: ImageFromNetwork(recipient.image)),
                   )
                 ],
               ))),

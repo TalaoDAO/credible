@@ -47,6 +47,7 @@ dependencies:
   logging: ^1.0.2
   open_file: ^3.2.1
   package_info_plus: ^1.3.0
+  passbase_flutter: ^2.13.0
   path: ^1.8.0
   path_provider: ^2.0.8
   permission_handler: ^9.2.0

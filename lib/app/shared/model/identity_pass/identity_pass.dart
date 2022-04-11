@@ -1,5 +1,6 @@
 import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:talao/app/shared/ui/ui.dart';
+import 'package:talao/app/shared/widget/image_from_network.dart';
 import 'package:talao/credentials/widget/display_issuer.dart';
 import 'package:talao/app/shared/model/author.dart';
 import 'package:talao/app/shared/model/credential_subject.dart';
@@ -60,13 +61,7 @@ class IdentityPass extends CredentialSubject {
         recipient.image != ''
             ? Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Image.network(recipient.image,
-                    loadingBuilder: (context, child, loadingProgress) =>
-                        (loadingProgress == null)
-                            ? child
-                            : CircularProgressIndicator(),
-                    errorBuilder: (context, error, stackTrace) =>
-                        SizedBox.shrink()),
+                child: ImageFromNetwork(recipient.image),
               )
             : SizedBox.shrink(),
         recipient.address != ''

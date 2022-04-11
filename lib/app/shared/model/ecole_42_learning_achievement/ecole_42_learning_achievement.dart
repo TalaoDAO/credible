@@ -7,6 +7,7 @@ import 'package:talao/app/shared/model/ecole_42_learning_achievement/has_credent
 import 'package:talao/app/shared/model/signature.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/image_card_text.dart';
+import 'package:talao/app/shared/widget/image_from_network.dart';
 import 'package:talao/l10n/l10n.dart';
 
 part 'ecole_42_learning_achievement.g.dart';
@@ -111,15 +112,8 @@ class Ecole42LearningAchievement extends CredentialSubject {
                                   child: Container(
                                     height: 80 *
                                         MediaQuery.of(context).size.aspectRatio,
-                                    child: Image.network(signatureLines.image,
-                                        loadingBuilder: (context, child,
-                                                loadingProgress) =>
-                                            (loadingProgress == null)
-                                                ? child
-                                                : CircularProgressIndicator(),
-                                        errorBuilder:
-                                            (context, error, stackTrace) =>
-                                                SizedBox.shrink()),
+                                    child:
+                                        ImageFromNetwork(signatureLines.image),
                                   ),
                                 )
                               : SizedBox.shrink(),

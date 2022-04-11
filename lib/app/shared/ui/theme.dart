@@ -292,6 +292,12 @@ extension CustomTextTheme on TextTheme {
         fontWeight: FontWeight.w600,
       );
 
+  TextStyle get over18 => GoogleFonts.roboto(
+        color: const Color(0xffffffff),
+        fontSize: 20,
+        fontWeight: FontWeight.normal,
+      );
+
   TextStyle get professionalExperienceAssessmentRating =>
       GoogleFonts.montserrat(
         color: const Color(0xff212121),

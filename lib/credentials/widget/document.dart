@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:talao/app/shared/model/ecole_42_learning_achievement/ecole_42_learning_achievement.dart';
 import 'package:talao/app/shared/model/loyalty_card/loyalty_card.dart';
+import 'package:talao/app/shared/model/over18/over18.dart';
 import 'package:talao/app/shared/model/professional_student_card/professional_student_card.dart';
 import 'package:talao/app/shared/model/voucher/voucher.dart';
 import 'package:talao/app/shared/ui/ui.dart';
@@ -24,6 +25,9 @@ class DocumentWidget extends StatelessWidget {
       return model.displayDetail(context, model);
     }
     if (model.credentialPreview.credentialSubject is LoyaltyCard) {
+      return model.displayDetail(context, model);
+    }
+    if (model.credentialPreview.credentialSubject is Over18) {
       return model.displayDetail(context, model);
     }
     if (model.credentialPreview.credentialSubject is Voucher) {
