@@ -84,7 +84,7 @@ verifiable presentation.*
 
 ![verifier_cross_device.png](verifier_cross_device.png)
 
-## Verification of the identity of Issuer / Verifier (Talao build)
+## Verification of an issuer or verifier identity (Talao build)
 
 ### Motivation
 The protocol of interaction between the wallet and an Issuer or a Verifier currently used by Credible is light, simple and quick to implement, However it does not allow the user of the wallet to ensure the identity of the other party but only the domain name specified in the URL encoded in the QR Code. On the other hand, a simple solution based on access to a public register of Issuers / Verifier makes it possible to obtain more information for the user and therefore better control without considerably increasing the complexity of the protocol. However hhis service must be considered as optional due to correlation issues.
@@ -101,8 +101,10 @@ example : https://talao.co/....?issuer=did:ethr:0xee09654eedaa79429f8d216fa51a12
 
 For holders wishes to engage with Issuers to acquire credentials, there must exist a mechanism for assessing what inputs are required from an issuer to process a request for credential issuance. A manifest is a common data format for describing the inputs a user must provide to an Issuer and the way the VCs shopuild be presented. This draft has been inpired by the Credential Manfifest specification with a very limited implementations :
 
-- display output descriptors as labels (name, description) et templates objetcs (label name, description, color,...).
-- share link : a way to use the wallet to link to a cloud service (vault, etc).
+- display output descriptors as labels (name, description) et templates objetcs (label name, description, color,...),
+- input descriptor,
+- share link : a way to use the wallet to link to a cloud service (vault, etc),
+- challenge to sign a VP.
 
 ## Issuer implementation
 Currently (Credible 0.1) when the wallet makes a GET to the Issuer endpoint, a JSON is returned to the wallet (Issuer GET response):
@@ -145,6 +147,9 @@ example:
                        
 }
 ```
+
+manifest : TODO give an example of an input_descriptor.  
+
 
 ## Wallet implementation
  
