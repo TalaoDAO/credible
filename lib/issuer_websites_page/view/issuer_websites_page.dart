@@ -4,10 +4,10 @@ import 'package:passbase_flutter/passbase_flutter.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
-import 'package:talao/did/cubit/did_cubit.dart';
 import 'package:talao/drawer/profile/cubit/profile_cubit.dart';
 import 'package:talao/issuer_websites_page/feature/kyc_feature.dart';
 import 'package:talao/l10n/l10n.dart';
+import 'package:talao/wallet/cubit/wallet_cubit.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class IssuerWebsitesPage extends StatelessWidget {
@@ -73,8 +73,8 @@ class KYCButton extends StatelessWidget {
     /// Sending email and DID to passbase
     final email = context.read<ProfileCubit>().state.model.email;
     setKYCEmail(email);
-    final did = context.read<DIDCubit>().state.did;
-    setKYCMetadat(did);
+    final walletCubit = context.read<WalletCubit>();
+    setKYCMetadat(walletCubit);
 
     return Stack(
       children: [
