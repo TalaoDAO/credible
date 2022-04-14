@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:talao/app/shared/model/credential.dart';
+import 'package:talao/app/shared/model/over18/over18.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/box_decoration.dart';
 import 'package:talao/app/shared/widget/hero_workaround.dart';
@@ -120,8 +121,11 @@ class CredentialsListPageItem extends StatelessWidget {
     );
   }
 
-  Row displayListElement(BuildContext context) {
+  Widget displayListElement(BuildContext context) {
     final credential = Credential.fromJsonOrDummy(item.data);
+    if (credential.credentialSubject is Over18) {
+      return credential.credentialSubject.displayInList(context, item);
+    }
 
     return Row(
       children: <Widget>[

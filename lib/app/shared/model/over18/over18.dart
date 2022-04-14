@@ -29,7 +29,7 @@ class Over18 extends CredentialSubject {
 
   @override
   Widget displayInList(BuildContext context, CredentialModel item) {
-    return Text('display list identity');
+    return Over18Recto();
   }
 
   @override
