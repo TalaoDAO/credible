@@ -108,7 +108,9 @@
     "storagePermissionPermanentlyDeniedMessage",
     "cancel",
     "loading",
-    "issuerWebsitesTitle"
+    "issuerWebsitesTitle",
+    "getCredentialTitle",
+    "participantCredential"
   ],
 
   "es": [
@@ -219,7 +221,9 @@
     "storagePermissionPermanentlyDeniedMessage",
     "cancel",
     "loading",
-    "issuerWebsitesTitle"
+    "issuerWebsitesTitle",
+    "getCredentialTitle",
+    "participantCredential"
   ],
 
   "fr": [
@@ -305,7 +309,9 @@
     "storagePermissionPermanentlyDeniedMessage",
     "cancel",
     "loading",
-    "issuerWebsitesTitle"
+    "issuerWebsitesTitle",
+    "getCredentialTitle",
+    "participantCredential"
   ],
 
   "it": [
@@ -418,6 +424,8 @@
     "storagePermissionPermanentlyDeniedMessage",
     "cancel",
     "loading",
-    "issuerWebsitesTitle"
+    "issuerWebsitesTitle",
+    "getCredentialTitle",
+    "participantCredential"
   ]
 }

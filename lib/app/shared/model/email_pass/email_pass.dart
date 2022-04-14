@@ -21,11 +21,14 @@ class EmailPass extends CredentialSubject {
   final String type;
   @override
   final Author issuedBy;
+  @JsonKey(defaultValue: '')
+  final String passbaseMetadata;
 
   factory EmailPass.fromJson(Map<String, dynamic> json) =>
       _$EmailPassFromJson(json);
 
-  EmailPass(this.expires, this.email, this.id, this.type, this.issuedBy)
+  EmailPass(this.expires, this.email, this.id, this.type, this.issuedBy,
+      this.passbaseMetadata)
       : super(id, type, issuedBy);
 
   @override

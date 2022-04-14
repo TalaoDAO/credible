@@ -277,5 +277,7 @@
   "storagePermissionPermanentlyDeniedMessage": "You need storage permission for uploading file. Please go to app settings and grant access to storage permission.",
   "cancel": "Cancel",
   "loading": "Please wait...",
-  "issuerWebsitesTitle": "Get the credentials requested"
+  "issuerWebsitesTitle": "Get the credentials requested",
+  "getCredentialTitle": "Get credentials",
+  "participantCredential": "GaiaX pass"
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:passbase_flutter/passbase_flutter.dart';
 import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:talao/credentials/widget/list_item.dart';
 import 'package:talao/drawer/drawer.dart';
@@ -53,21 +52,6 @@ class _CredentialsListPageState extends State<CredentialsListPage> {
         return false;
       },
       child: BasePage(
-        floatingActionButton: PassbaseButton(
-          height: 50,
-          onFinish: (identityAccessKey) {
-            // do stuff in case of success
-          },
-          onSubmitted: (identityAccessKey) {
-            // do stuff in case of success
-          },
-          onError: (errorCode) {
-            // do stuff in case of cancel
-          },
-          onStart: () {
-            // do stuff in case of start
-          },
-        ),
         scaffoldKey: scaffoldKey,
         title: l10n.credentialListTitle,
         padding: const EdgeInsets.symmetric(

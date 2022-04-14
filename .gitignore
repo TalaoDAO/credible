@@ -96,5 +96,5 @@ app.*.map.json
 **/fastlane/test_output
 /android/app/google-services.json
 /ios/GoogleService-Info.plist
-
-
+/assets/keys/passbase-private-key.pem
+/assets/keys/passbase-public-key.pub
