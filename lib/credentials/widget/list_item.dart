@@ -14,6 +14,7 @@ class _BaseItem extends StatefulWidget {
   final bool enabled;
   final bool? selected;
   final Color color;
+  final bool isCustom;
 
   const _BaseItem({
     Key? key,
@@ -22,6 +23,7 @@ class _BaseItem extends StatefulWidget {
     this.enabled = true,
     this.selected,
     this.color = Colors.white,
+    this.isCustom = false,
   }) : super(key: key);
 
   @override
@@ -60,37 +62,41 @@ class __BaseItemState extends State<_BaseItem>
                     offset: Offset(3, 3))
               ],
             ),
-            child: Container(
-              // margin: const EdgeInsets.symmetric(vertical: 4.0),
-              decoration: BaseBoxDecoration(
-                color: widget.color,
-                shapeColor: Theme.of(context).colorScheme.documentShape,
-                value: 1.0,
-                anchors: <Alignment>[
-                  Alignment.bottomRight,
-                ],
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                    color: Theme.of(context).colorScheme.documentShadow,
-                    offset: Offset(0.0, 2.0),
-                    blurRadius: 2.0,
+            child: widget.isCustom
+                ? InkWell(
+                    onTap: widget.onTap,
+                    child: IntrinsicHeight(child: widget.child))
+                : Container(
+                    // margin: const EdgeInsets.symmetric(vertical: 4.0),
+                    decoration: BaseBoxDecoration(
+                      color: widget.color,
+                      shapeColor: Theme.of(context).colorScheme.documentShape,
+                      value: 1.0,
+                      anchors: <Alignment>[
+                        Alignment.bottomRight,
+                      ],
+                      boxShadow: <BoxShadow>[
+                        BoxShadow(
+                          color: Theme.of(context).colorScheme.documentShadow,
+                          offset: Offset(0.0, 2.0),
+                          blurRadius: 2.0,
+                        ),
+                      ],
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    child: Material(
+                      color: Theme.of(context).colorScheme.transparent,
+                      borderRadius: BorderRadius.circular(20.0),
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(20.0),
+                        onTap: widget.onTap,
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: IntrinsicHeight(child: widget.child),
+                        ),
+                      ),
+                    ),
                   ),
-                ],
-                borderRadius: BorderRadius.circular(20.0),
-              ),
-              child: Material(
-                color: Theme.of(context).colorScheme.transparent,
-                borderRadius: BorderRadius.circular(20.0),
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(20.0),
-                  onTap: widget.onTap,
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: IntrinsicHeight(child: widget.child),
-                  ),
-                ),
-              ),
-            ),
           ),
         ),
       );
@@ -110,6 +116,20 @@ class CredentialsListPageItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final credential = Credential.fromJsonOrDummy(item.data);
+    if (credential.credentialSubject is Over18) {
+      return _BaseItem(
+        isCustom: true,
+        enabled: true,
+        onTap: onTap ??
+            () => Navigator.of(context).push(
+                  CredentialsDetailsPage.route(item),
+                ),
+        color: item.backgroundColor,
+        child: credential.credentialSubject.displayInList(context, item),
+      );
+    }
+
     return _BaseItem(
       enabled: true,
       onTap: onTap ??
@@ -123,9 +143,6 @@ class CredentialsListPageItem extends StatelessWidget {
 
   Widget displayListElement(BuildContext context) {
     final credential = Credential.fromJsonOrDummy(item.data);
-    if (credential.credentialSubject is Over18) {
-      return credential.credentialSubject.displayInList(context, item);
-    }
 
     return Row(
       children: <Widget>[
