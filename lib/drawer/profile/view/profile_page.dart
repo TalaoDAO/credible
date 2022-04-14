@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talao/app/shared/widget/confirm_dialog.dart';
 import 'package:talao/drawer/drawer.dart';
+import 'package:talao/issuer_websites_page/view/issuer_websites_page.dart';
 import 'package:talao/l10n/l10n.dart';
 import 'package:talao/personal/view/personal_page.dart';
 import 'package:talao/theme/theme.dart';
@@ -51,6 +52,13 @@ class ProfileView extends StatelessWidget {
                       profileModel: state.model,
                       isFromOnBoarding: false,
                     ),
+                  ),
+                ),
+                MenuItem(
+                  icon: Icons.important_devices,
+                  title: l10n.getCredentialTitle,
+                  onTap: () => Navigator.of(context).push(
+                    IssuerWebsitesPage.route(null),
                   ),
                 ),
                 MenuItem(

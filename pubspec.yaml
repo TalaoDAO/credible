@@ -23,6 +23,7 @@ dependencies:
   dotted_border: ^2.0.0+2
   ed25519_hd_key: ^2.2.0
   equatable: ^2.0.3
+  encrypt: ^5.0.1
   file_picker: ^4.4.0
   file_saver: ^0.1.0
   flutter:
@@ -51,6 +52,7 @@ dependencies:
   path: ^1.8.0
   path_provider: ^2.0.8
   permission_handler: ^9.2.0
+  pointycastle: ^3.5.2
   qr_code_scanner: ^0.6.1
   qr_flutter: ^4.0.0
   secp256k1: ^0.3.0
@@ -91,3 +93,4 @@ flutter:
     - assets/terms/
     - assets/icon/
     - assets/splash/
+    - assets/keys/
