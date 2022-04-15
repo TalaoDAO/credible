@@ -42,12 +42,16 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>NSAllowsArbitraryLoads</key>
-    <true/>
-    <key>LSSupportsOpeningDocumentsInPlace</key>
-    <true/>
-    <key>UIFileSharingEnabled</key>
-    <true/>
-    <key>NSPhotoLibraryUsageDescription</key>
-    <string>Photo Library Access Warning</string>
+	<true/>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<true/>
+	<key>UIFileSharingEnabled</key>
+	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Please give us access to your camera, to complete the verification.</string>
+	<key>io.flutter.embedded_views_preview</key>
+	<true/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Photo Library Access Warning</string>
 </dict>
 </plist>
