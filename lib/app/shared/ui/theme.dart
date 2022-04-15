@@ -244,10 +244,22 @@ extension CustomTextTheme on TextTheme {
         fontWeight: FontWeight.bold,
       );
 
+  TextStyle get credentialTitleCard => GoogleFonts.roboto(
+        color: const Color(0xFFFFFFFF),
+        fontSize: 20.0,
+        fontWeight: FontWeight.bold,
+      );
+
   TextStyle get credentialDescription => GoogleFonts.montserrat(
         color: const Color(0xFF757575),
         fontSize: 14.0,
         fontWeight: FontWeight.bold,
+      );
+
+  TextStyle get credentialTextCard => GoogleFonts.roboto(
+        color: const Color(0xff212121),
+        fontSize: 14.0,
+        fontWeight: FontWeight.normal,
       );
 
   TextStyle get credentialFieldTitle => GoogleFonts.montserrat(

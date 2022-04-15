@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/shared/enum/credential_status.dart';
 import 'package:talao/app/shared/enum/revokation_status.dart';
+import 'package:talao/app/shared/model/email_pass/email_pass.dart';
 import 'package:talao/app/shared/model/over18/over18.dart';
 import 'package:talao/credentials/widget/display_issuer.dart';
 import 'package:talao/app/shared/model/certificate_of_employment/certificate_of_employment.dart';
@@ -161,6 +162,9 @@ class CredentialModel extends Equatable {
       return credentialPreview.credentialSubject.displayDetail(context, item);
     }
     if (credentialPreview.credentialSubject is Over18) {
+      return credentialPreview.credentialSubject.displayDetail(context, item);
+    }
+    if (credentialPreview.credentialSubject is EmailPass) {
       return credentialPreview.credentialSubject.displayDetail(context, item);
     }
     if (credentialPreview.credentialSubject is Voucher) {

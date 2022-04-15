@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:talao/app/shared/model/credential.dart';
+import 'package:talao/app/shared/model/email_pass/email_pass.dart';
 import 'package:talao/app/shared/model/over18/over18.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/box_decoration.dart';
@@ -117,7 +118,8 @@ class CredentialsListPageItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final credential = Credential.fromJsonOrDummy(item.data);
-    if (credential.credentialSubject is Over18) {
+    if (credential.credentialSubject is Over18 ||
+        credential.credentialSubject is EmailPass) {
       return _BaseItem(
         isCustom: true,
         enabled: true,
