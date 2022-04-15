@@ -2,14 +2,8 @@ import 'package:passbase_flutter/passbase_flutter.dart';
 import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:talao/app/shared/model/email_pass/email_pass.dart';
 
-/// Give user email to KYC. When KYC is successful this email is used to send the over18 credential link to user.
-void setKYCEmail(String email) {
-  PassbaseSDK.prefillUserEmail = email;
-  print(email);
-}
-
 /// Give user metadata to KYC. Currently we are just sending user DID.
-Future<void> setKYCMetadat(walletCubit) async {
+bool setKYCMetadat(walletCubit) {
   var selectedCredentials = <CredentialModel>[];
   walletCubit.state.credentials.forEach((CredentialModel credentialModel) {
     final credentialTypeList = credentialModel.credentialPreview.type;
@@ -23,8 +17,11 @@ Future<void> setKYCMetadat(walletCubit) async {
     final firstEmailPassCredentialSubject =
         selectedCredentials.first.credentialPreview.credentialSubject;
     if (firstEmailPassCredentialSubject is EmailPass) {
-      print('AAA${firstEmailPassCredentialSubject.passbaseMetadata}AAA');
+      /// Give user email from first EmailPass to KYC. When KYC is successful this email is used to send the over18 credential link to user.
+      PassbaseSDK.prefillUserEmail = firstEmailPassCredentialSubject.email;
       PassbaseSDK.metaData = firstEmailPassCredentialSubject.passbaseMetadata;
+      return true;
     }
   }
+  return false;
 }

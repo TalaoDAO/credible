@@ -280,6 +280,7 @@
   "issuerWebsitesTitle": "Obtenez l'attestation",
   "getCredentialTitle": "Obtenez des attestation",
   "participantCredential": "Pass GaiaX",
-  "phonePassCredential": "Pass Téléphone",
-  "emailPassCredential": "Pass Email"
+  "phonePassCredential": "Preuve de téléphone",
+  "emailPassCredential": "Preuve d'email",
+  "needEmailPass": "Vous devez dabord aquérir une preuve d'email."
 }
