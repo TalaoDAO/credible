@@ -252,8 +252,8 @@ extension CustomTextTheme on TextTheme {
 
   TextStyle get credentialDescription => GoogleFonts.montserrat(
         color: const Color(0xFF757575),
-        fontSize: 14.0,
-        fontWeight: FontWeight.bold,
+        fontSize: 13.0,
+        fontWeight: FontWeight.normal,
       );
 
   TextStyle get credentialTextCard => GoogleFonts.roboto(
