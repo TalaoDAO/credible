@@ -55,7 +55,7 @@ class _RecoveryCredentialPageState extends State<RecoveryCredentialPage> {
           var credentialLength = state.recoveredCredentialLength;
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text(l10n.recoveryCredentialSuccessMessage(
-                  '$credentialLength ${credentialLength! > 1 ? 'credentials' : 'credential'}'))));
+                  '$credentialLength ${credentialLength! > 1 ? '${l10n.credential}s' : '${l10n.credential}'}'))));
           Navigator.of(context).pop();
           Navigator.of(context).pop();
         }
