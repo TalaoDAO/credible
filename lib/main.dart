@@ -14,7 +14,7 @@ Future<void> main() async {
   await LocalNotification().init();
   await PassbaseSDK.initialize(
       publishableApiKey:
-          'pW3isq9daL3WPKIZMu2rUiNb7S6laFJqo3h75ZL3Uf8bCIJnwd4fcRlmAMnB50xc');
+          'Ww3TIde3B8nh5M3EZ57tkzIbMyAVwzh9YzW8FcwADKgpQ76UfT5bqox2dvdNTDVo');
   runApp(
     AppWidget(),
   );
