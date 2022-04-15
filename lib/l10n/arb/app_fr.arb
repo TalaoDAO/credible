@@ -279,5 +279,7 @@
   "loading": "Merci d'attendre...",
   "issuerWebsitesTitle": "Obtenez l'attestation",
   "getCredentialTitle": "Obtenez des attestation",
-  "participantCredential": "GaiaX pass"
+  "participantCredential": "Pass GaiaX",
+  "phonePassCredential": "Pass Téléphone",
+  "emailPassCredential": "Pass Email"
 }

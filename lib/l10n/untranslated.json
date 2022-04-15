@@ -110,7 +110,9 @@
     "loading",
     "issuerWebsitesTitle",
     "getCredentialTitle",
-    "participantCredential"
+    "participantCredential",
+    "phonePassCredential",
+    "emailPassCredential"
   ],
 
   "es": [
@@ -223,7 +225,9 @@
     "loading",
     "issuerWebsitesTitle",
     "getCredentialTitle",
-    "participantCredential"
+    "participantCredential",
+    "phonePassCredential",
+    "emailPassCredential"
   ],
 
   "it": [
@@ -338,6 +342,8 @@
     "loading",
     "issuerWebsitesTitle",
     "getCredentialTitle",
-    "participantCredential"
+    "participantCredential",
+    "phonePassCredential",
+    "emailPassCredential"
   ]
 }

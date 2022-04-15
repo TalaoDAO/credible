@@ -279,5 +279,7 @@
   "loading": "Please wait...",
   "issuerWebsitesTitle": "Get the credentials requested",
   "getCredentialTitle": "Get credentials",
-  "participantCredential": "GaiaX pass"
+  "participantCredential": "GaiaX Pass",
+  "phonePassCredential": "Phone Pass",
+  "emailPassCredential": "Email Pass"
 }

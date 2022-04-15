@@ -33,7 +33,7 @@ class IssuerWebsitesPage extends StatelessWidget {
           BaseButton.primary(
             context: context,
             onPressed: () {
-              _launchURL('https://talao.co/gaiax/pass');
+              _launchURL('https://talao.co/emailpass');
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -47,7 +47,30 @@ class IssuerWebsitesPage extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(l10n.participantCredential),
+                  child: Text(l10n.emailPassCredential),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 20),
+          BaseButton.primary(
+            context: context,
+            onPressed: () {
+              _launchURL('https://talao.co/phonepass');
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Icon(Icons.phone),
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(l10n.phonePassCredential),
                 ),
               ],
             ),
