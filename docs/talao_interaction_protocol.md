@@ -123,7 +123,7 @@ The modification consists in adding a "display" attribute and a shareLInk attrib
 The "id" attribute will be used to follow a wallet session with a static QRcode (optional)  
 The "shareLink" attribute is an UR to be presented for share link as user convenience.  
 The "display" attribute is a description of the Issuer expectations about the UI design of the VC. 
-The challenge arttribute will be used for DID_auth response or self-issued.  
+The challenge and domain arttributes will be used for DID_auth response or self-issued.  
 Manifest attribute will be used later for the credential manifest json file.  
 
 Display, challenge, sharlink and manfiest are optional attributes. Manifest input descriptors will request the challenge attribute.  
@@ -141,6 +141,7 @@ example:
                         "descriptionFallback" : "By default this is the description of the VC."
                         },
             "challenge" : "mjh45RT56",
+            "domain" : "talao.co",
             "shareLInk" : "https://talao.co/credential/link?issuer=did:tz:tz1e5YakmACgZZprF7YWHMqnSvcWVXZ2TsPW&id=urnn:idnn:4564:...",
             "manifest" : "{....}"
                        
