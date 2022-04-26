@@ -1,3 +1,6 @@
+DEPRECATED    see latest release   https://github.com/TalaoDAO/wallet-interaction/blob/main/README.md
+
+
 # Interaction between the wallet and an Issuer / Verifier
 
 10th April 2022
