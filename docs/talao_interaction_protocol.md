@@ -1,3 +1,6 @@
+**DEPRECATED    see latest release**   https://github.com/TalaoDAO/wallet-interaction/blob/main/README.md
+
+
 # Interaction between the wallet and an Issuer / Verifier
 
 10th April 2022
@@ -120,20 +123,19 @@ Currently (Credible 0.1) when the wallet makes a GET to the Issuer endpoint, a J
 
 The modification consists in adding a "display" attribute and a shareLInk attribute to the JSON returned by the Issuer (Issuer GET response).
  
+The "id" attribute will be used to follow a wallet session with a static QRcode (optional)  
 The "shareLink" attribute is an UR to be presented for share link as user convenience.  
-
 The "display" attribute is a description of the Issuer expectations about the UI design of the VC. 
+The challenge and domain arttributes will be used for DID_auth response or self-issued.  
+Manifest attribute will be used later for the credential manifest json file.  
 
-The challenge arttribute will be used for DID_auth response or self-issued.  
-
-Manifest attribute will be used later for the credential manifest json file.
-
-Display, challenge, sharlink and manfiest are optional attributes.
+Display, challenge, sharlink and manfiest are optional attributes. Manifest input descriptors will request the challenge attribute.  
 
 example:
 
 ```javascript
 {
+          "id ": "uuid:urn:...",
            "type": "CredentialOffer",
            "credentialPreview": {...},
            "expires" : 2022-09-01T19:29:39Z",
@@ -142,6 +144,7 @@ example:
                         "descriptionFallback" : "By default this is the description of the VC."
                         },
             "challenge" : "mjh45RT56",
+            "domain" : "talao.co",
             "shareLInk" : "https://talao.co/credential/link?issuer=did:tz:tz1e5YakmACgZZprF7YWHMqnSvcWVXZ2TsPW&id=urnn:idnn:4564:...",
             "manifest" : "{....}"
                        
@@ -153,13 +156,15 @@ manifest : TODO give an example of an input_descriptor.
 
 ## Wallet implementation
  
-If there are items other than“ subject_id ”, the actions of the wallet will be:
+The id attribute is the qame as the one of teh request.  
+If there are items other than“ subject_id ”, the actions of the wallet will be:  
 
 1. ask the user for consent to transfer their personal data (a “consent screen”)
 2. add VPs in the verifiablePresentation (wallet POST request), in our example:
 
 ```javascript
 {
+           "id" : "uuid:urn....",
            “Subject_id”, ”did: tz: tz1e5YakmACgZZprF7YWHMqnSvcWVXZ2TsPW”,
             “verifiablePresentation”: [{...}]
 }
