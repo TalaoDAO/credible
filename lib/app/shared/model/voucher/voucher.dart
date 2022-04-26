@@ -1,4 +1,3 @@
-import 'package:intl/intl.dart';
 import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:talao/app/shared/model/author.dart';
 import 'package:talao/app/shared/model/credential_subject.dart';
@@ -7,6 +6,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:talao/app/shared/model/voucher/offer/offer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:talao/app/shared/ui/ui.dart';
+import 'package:talao/app/shared/widget/card_animation.dart';
 import 'package:talao/app/shared/widget/image_card_text.dart';
 
 part 'voucher.g.dart';
@@ -39,7 +39,7 @@ class Voucher extends CredentialSubject {
 
   @override
   Widget displayInList(BuildContext context, CredentialModel item) {
-    return Text('display Loyalty card');
+    return VoucherRecto(item);
   }
 
   @override
@@ -49,51 +49,12 @@ class Voucher extends CredentialSubject {
     return Column(
       children: [
         AspectRatio(
-
-            /// this size comes from law publication about job student card specs
-            aspectRatio: 508.67 / 319.67,
+            aspectRatio: 584 / 317,
             child: Container(
-              height: 319.67,
-              width: 508.67,
-              child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      image: DecorationImage(
-                          fit: BoxFit.fill,
-                          image: AssetImage(
-                            'assets/image/voucher.png',
-                          ))),
-                  child: AspectRatio(
-
-                      /// random size, copy from professional student card
-                      aspectRatio: 508.67 / 319.67,
-                      child: Container(
-                        height: 319.67,
-                        width: 508.67,
-                        child: CustomMultiChildLayout(
-                          delegate: VoucherDelegate(position: Offset.zero),
-                          children: [
-                            LayoutId(
-                                id: 'voucherValue',
-                                child: Transform.rotate(
-                                  angle: 0.53,
-                                  child: Row(
-                                    children: [
-                                      TextWithVoucherStyle(
-                                        value: NumberFormat.currency(
-                                                name: offer.currency,
-                                                locale:
-                                                    localizations.localeName)
-                                            .format(
-                                          double.parse(offer.value),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ))
-                          ],
-                        ),
-                      ))),
+              height: 317,
+              width: 584,
+              child: CardAnimation(
+                  recto: VoucherRecto(item), verso: VoucherVerso(item)),
             )),
       ],
     );
@@ -141,5 +102,167 @@ class TextWithVoucherStyle extends StatelessWidget {
     } else {
       return const SizedBox.shrink();
     }
+  }
+}
+
+class VoucherRecto extends Recto {
+  VoucherRecto(this.item);
+  final CredentialModel item;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            image: DecorationImage(
+                fit: BoxFit.fitWidth,
+                image: AssetImage(
+                  'assets/image/carte-coupon-recto.png',
+                ))),
+        child: AspectRatio(
+
+            /// size from over18 recto picture
+            aspectRatio: 584 / 317,
+            child: Container(
+              height: 317,
+              width: 584,
+              child: CustomMultiChildLayout(
+                delegate: VoucherVersoDelegate(position: Offset.zero),
+                children: [
+                  // LayoutId(
+                  //   id: 'name',
+                  //   child: DisplayNameCard(item),
+                  // ),
+                  // LayoutId(
+                  //   id: 'description',
+                  //   child: Padding(
+                  //     padding: EdgeInsets.only(
+                  //         right: 250 * MediaQuery.of(context).size.aspectRatio),
+                  //     child: DisplayDescriptionCard(item),
+                  //   ),
+                  // ),
+                  // LayoutId(
+                  //   id: 'issuer',
+                  //   child: Row(
+                  //     children: [
+                  //       Container(
+                  //           height: 30,
+                  //           child: ImageFromNetwork(
+                  //             item.credentialPreview.credentialSubject.issuedBy
+                  //                 .logo,
+                  //             fit: BoxFit.cover,
+                  //           )),
+                  //     ],
+                  //   ),
+                  // )
+                ],
+              ),
+            )));
+  }
+}
+
+class VoucherVerso extends Verso {
+  VoucherVerso(this.item);
+  final CredentialModel item;
+  @override
+  Widget build(BuildContext context) {
+    // final l10n = AppLocalizations.of(context)!;
+    // final credentialSubject = item.credentialPreview.credentialSubject;
+    return Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            image: DecorationImage(
+                fit: BoxFit.fitWidth,
+                image: AssetImage(
+                  'assets/image/carte-coupon-verso.png',
+                ))),
+        child: AspectRatio(
+
+            /// size from over18 recto picture
+            aspectRatio: 584 / 317,
+            child: Container(
+              height: 317,
+              width: 584,
+              child: CustomMultiChildLayout(
+                delegate: VoucherVersoDelegate(position: Offset.zero),
+                children: [
+                  // LayoutId(
+                  //   id: 'name',
+                  //   child: DisplayNameCard(item),
+                  // ),
+                  // LayoutId(
+                  //   id: 'description',
+                  //   child: Padding(
+                  //     padding: EdgeInsets.only(
+                  //         right: 250 * MediaQuery.of(context).size.aspectRatio),
+                  //     child: DisplayDescriptionCard(item),
+                  //   ),
+                  // ),
+                  // LayoutId(
+                  //   id: 'issuer',
+                  //   child: Row(
+                  //     children: [
+                  //       Container(
+                  //           height: 30,
+                  //           child: ImageFromNetwork(
+                  //             item.credentialPreview.credentialSubject.issuedBy
+                  //                 .logo,
+                  //             fit: BoxFit.cover,
+                  //           )),
+                  //       SizedBox(width: 10),
+                  //       Row(
+                  //         children: [
+                  //           Text(
+                  //             '${l10n.personalMail}: ',
+                  //             style: Theme.of(context)
+                  //                 .textTheme
+                  //                 .credentialTextCard
+                  //                 .copyWith(fontWeight: FontWeight.bold),
+                  //           ),
+                  //           credentialSubject is Voucher
+                  //               ? Text(
+                  //                   credentialSubject.offer.value,
+                  //                   style: Theme.of(context)
+                  //                       .textTheme
+                  //                       .credentialTextCard,
+                  //                 )
+                  //               : SizedBox.shrink(),
+                  //         ],
+                  //       )
+                  //     ],
+                  //   ),
+                  // )
+                ],
+              ),
+            )));
+  }
+}
+
+class VoucherVersoDelegate extends MultiChildLayoutDelegate {
+  final Offset position;
+
+  VoucherVersoDelegate({this.position = Offset.zero});
+
+  @override
+  void performLayout(Size size) {
+    if (hasChild('name')) {
+      layoutChild('name', BoxConstraints.loose(size));
+      positionChild('name', Offset(size.width * 0.06, size.height * 0.14));
+    }
+    if (hasChild('description')) {
+      layoutChild('description', BoxConstraints.loose(size));
+      positionChild(
+          'description', Offset(size.width * 0.06, size.height * 0.33));
+    }
+
+    if (hasChild('issuer')) {
+      layoutChild('issuer', BoxConstraints.loose(size));
+      positionChild('issuer', Offset(size.width * 0.06, size.height * 0.783));
+    }
+  }
+
+  @override
+  bool shouldRelayout(VoucherVersoDelegate oldDelegate) {
+    return oldDelegate.position != position;
   }
 }
