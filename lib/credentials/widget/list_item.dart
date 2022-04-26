@@ -128,7 +128,38 @@ class CredentialsListPageItem extends StatelessWidget {
                   CredentialsDetailsPage.route(item),
                 ),
         color: item.backgroundColor,
-        child: credential.credentialSubject.displayInList(context, item),
+        child: Stack(children: [
+          credential.credentialSubject.displayInList(context, item),
+          Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                HeroFix(
+                  tag: 'credential/${item.id}/icon',
+                  child: selected == null
+                      ? SizedBox.shrink()
+                      : selected!
+                          ? Icon(
+                              Icons.check_box,
+                              size: 24.0,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .primaryContainer,
+                            )
+                          : Icon(
+                              Icons.check_box_outline_blank,
+                              size: 24.0,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .primaryContainer,
+                            ),
+                ),
+                SizedBox(height: 72.0),
+              ],
+            ),
+          ),
+        ]),
       );
     }
 
