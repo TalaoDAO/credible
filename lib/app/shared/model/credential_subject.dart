@@ -15,6 +15,7 @@ import 'package:talao/app/shared/model/professional_experience_assessment/profes
 import 'package:talao/app/shared/model/professional_skil_assessment/professional_skill_assessment.dart';
 import 'package:talao/app/shared/model/professional_student_card/professional_student_card.dart';
 import 'package:talao/app/shared/model/resident_card/resident_card.dart';
+import 'package:talao/app/shared/model/student_card/student_card.dart';
 import 'package:talao/app/shared/model/voucher/voucher.dart';
 import 'package:talao/self_issued_credential/models/self_issued.dart';
 
@@ -148,6 +149,8 @@ class CredentialSubject {
         return Over18.fromJson(json);
       case 'ProfessionalStudentCard':
         return ProfessionalStudentCard.fromJson(json);
+      case 'StudentCard':
+        return StudentCard.fromJson(json);
       case 'CertificateOfEmployment':
         return CertificateOfEmployment.fromJson(json);
       case 'EmailPass':

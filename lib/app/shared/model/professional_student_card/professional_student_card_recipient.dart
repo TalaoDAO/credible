@@ -23,6 +23,9 @@ class ProfessionalStudentCardRecipient {
   @JsonKey(defaultValue: '')
   final String jobTitle;
 
+  factory ProfessionalStudentCardRecipient.empty() =>
+      ProfessionalStudentCardRecipient('', '', '', '', '', '', '', '', '');
+
   factory ProfessionalStudentCardRecipient.fromJson(
           Map<String, dynamic> json) =>
       _$ProfessionalStudentCardRecipientFromJson(json);

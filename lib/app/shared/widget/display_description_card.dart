@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:talao/app/shared/model/credential_model/credential_model.dart';
-import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/credentials/credentials.dart';
 import 'package:talao/l10n/l10n.dart';
 
 class DisplayDescriptionCard extends StatelessWidget {
-  const DisplayDescriptionCard(this.item, {Key? key}) : super(key: key);
+  const DisplayDescriptionCard(this.item, this.style, {Key? key})
+      : super(key: key);
   final CredentialModel item;
+  final TextStyle style;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +15,7 @@ class DisplayDescriptionCard extends StatelessWidget {
     return Text(
       nameValue,
       overflow: TextOverflow.fade,
-      style: Theme.of(context).textTheme.credentialTextCard,
+      style: style,
     );
   }
 

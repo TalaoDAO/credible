@@ -262,6 +262,24 @@ extension CustomTextTheme on TextTheme {
         fontWeight: FontWeight.normal,
       );
 
+  TextStyle get credentialStudentCardTextCard => GoogleFonts.roboto(
+        color: const Color(0xffffffff),
+        fontSize: 14.0,
+        fontWeight: FontWeight.normal,
+      );
+
+  TextStyle get studentCardSchool => GoogleFonts.roboto(
+        color: const Color(0xff9dc5ff),
+        fontSize: 18.0,
+        fontWeight: FontWeight.bold,
+      );
+
+  TextStyle get studentCardData => GoogleFonts.roboto(
+        color: const Color(0xffffffff),
+        fontSize: 12.0,
+        fontWeight: FontWeight.normal,
+      );
+
   TextStyle get credentialFieldTitle => GoogleFonts.montserrat(
         color: const Color(0xff212121),
         fontSize: 12.0,

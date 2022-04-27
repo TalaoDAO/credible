@@ -3,6 +3,7 @@ import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:talao/app/shared/model/credential.dart';
 import 'package:talao/app/shared/model/email_pass/email_pass.dart';
 import 'package:talao/app/shared/model/over18/over18.dart';
+import 'package:talao/app/shared/model/student_card/student_card.dart';
 import 'package:talao/app/shared/model/voucher/voucher.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/box_decoration.dart';
@@ -121,6 +122,7 @@ class CredentialsListPageItem extends StatelessWidget {
     final credential = Credential.fromJsonOrDummy(item.data);
     if (credential.credentialSubject is Over18 ||
         credential.credentialSubject is EmailPass ||
+        credential.credentialSubject is StudentCard ||
         credential.credentialSubject is Voucher) {
       return _BaseItem(
         isCustom: true,

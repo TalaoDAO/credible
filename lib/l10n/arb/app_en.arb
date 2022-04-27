@@ -282,5 +282,6 @@
   "participantCredential": "GaiaX Pass",
   "phonePassCredential": "Proof of Phone",
   "emailPassCredential": "Proof of Email",
-  "needEmailPass": "You need to get a Proof of Email first."
+  "needEmailPass": "You need to get a Proof of Email first.",
+  "signature": "Signature"
 }

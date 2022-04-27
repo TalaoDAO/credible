@@ -6,6 +6,7 @@ import 'package:talao/app/shared/model/email_pass/email_pass.dart';
 import 'package:talao/app/shared/model/loyalty_card/loyalty_card.dart';
 import 'package:talao/app/shared/model/over18/over18.dart';
 import 'package:talao/app/shared/model/professional_student_card/professional_student_card.dart';
+import 'package:talao/app/shared/model/student_card/student_card.dart';
 import 'package:talao/app/shared/model/voucher/voucher.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/box_decoration.dart';
@@ -23,6 +24,9 @@ class DocumentWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     /// Professional Student Card, Loyalty Card and Voucher have aspecific display
     if (model.credentialPreview.credentialSubject is ProfessionalStudentCard) {
+      return model.displayDetail(context, model);
+    }
+    if (model.credentialPreview.credentialSubject is StudentCard) {
       return model.displayDetail(context, model);
     }
     if (model.credentialPreview.credentialSubject is LoyaltyCard) {

@@ -113,7 +113,8 @@
     "participantCredential",
     "phonePassCredential",
     "emailPassCredential",
-    "needEmailPass"
+    "needEmailPass",
+    "signature"
   ],
 
   "es": [
@@ -229,7 +230,8 @@
     "participantCredential",
     "phonePassCredential",
     "emailPassCredential",
-    "needEmailPass"
+    "needEmailPass",
+    "signature"
   ],
 
   "it": [
@@ -347,6 +349,7 @@
     "participantCredential",
     "phonePassCredential",
     "emailPassCredential",
-    "needEmailPass"
+    "needEmailPass",
+    "signature"
   ]
 }

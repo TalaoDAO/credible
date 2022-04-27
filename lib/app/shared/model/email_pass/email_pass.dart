@@ -85,14 +85,20 @@ class EmailPassRecto extends Recto {
                 children: [
                   LayoutId(
                     id: 'name',
-                    child: DisplayNameCard(item),
+                    child: DisplayNameCard(
+                      item,
+                      Theme.of(context).textTheme.credentialTitleCard,
+                    ),
                   ),
                   LayoutId(
                     id: 'description',
                     child: Padding(
                       padding: EdgeInsets.only(
                           right: 250 * MediaQuery.of(context).size.aspectRatio),
-                      child: DisplayDescriptionCard(item),
+                      child: DisplayDescriptionCard(
+                        item,
+                        Theme.of(context).textTheme.credentialTextCard,
+                      ),
                     ),
                   ),
                   LayoutId(
@@ -142,14 +148,18 @@ class EmailPassVerso extends Verso {
                 children: [
                   LayoutId(
                     id: 'name',
-                    child: DisplayNameCard(item),
+                    child: DisplayNameCard(
+                      item,
+                      Theme.of(context).textTheme.credentialTitleCard,
+                    ),
                   ),
                   LayoutId(
                     id: 'description',
                     child: Padding(
                       padding: EdgeInsets.only(
                           right: 250 * MediaQuery.of(context).size.aspectRatio),
-                      child: DisplayDescriptionCard(item),
+                      child: DisplayDescriptionCard(
+                          item, Theme.of(context).textTheme.credentialTextCard),
                     ),
                   ),
                   LayoutId(

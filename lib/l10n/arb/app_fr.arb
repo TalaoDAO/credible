@@ -151,7 +151,7 @@
   "employmentType": "Type d'emploi",
   "jobTitle": "Emploi",
   "baseSalary": "Salaire",
-  "expires": "Expires",
+  "expires": "Expire",
   "globalInformationLabel": "Informations générales",
   "appPresentation1": "Cette application est la version numérique de votre portefeuille. Collectez les attestations, certificats, permis, passes, cartes de fidélité, cartes de paiement, tickets et diplômes émis par les institutions, les entreprises, les universités et les associations. Ces documents électroniques signés prouvent votre identité et vos droits auprès des tiers.",
   "appPresentation2": "Avec ces attestations vous pourrez par exemple vous connecter à un service internet sans même avoir de compte et de mot de passe, acheter en ligne en gardant le contrôle de vos  données personnelles, utiliser votre smartphone pour accéder à des bureaux, une salle de spectacle... Vous pourrez également bientôt réaliser en ligne toutes les démarches qui nécessitaient auparavant un déplacement.",
@@ -282,5 +282,6 @@
   "participantCredential": "Pass GaiaX",
   "phonePassCredential": "Preuve de téléphone",
   "emailPassCredential": "Preuve d'email",
-  "needEmailPass": "Vous devez dabord aquérir une preuve d'email."
+  "needEmailPass": "Vous devez dabord aquérir une preuve d'email.",
+  "signature": "Signature"
 }
