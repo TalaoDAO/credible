@@ -55,11 +55,6 @@ class CertificateOfEmployment extends CredentialSubject {
   Map<String, dynamic> toJson() => _$CertificateOfEmploymentToJson(this);
 
   @override
-  Widget displayInList(BuildContext context, CredentialModel item) {
-    return Text('display list certificate');
-  }
-
-  @override
   Widget displayDetail(BuildContext context, CredentialModel item) {
     final localizations = AppLocalizations.of(context)!;
 

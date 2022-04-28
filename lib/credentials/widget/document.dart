@@ -2,12 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:talao/app/shared/model/ecole_42_learning_achievement/ecole_42_learning_achievement.dart';
-import 'package:talao/app/shared/model/email_pass/email_pass.dart';
-import 'package:talao/app/shared/model/loyalty_card/loyalty_card.dart';
-import 'package:talao/app/shared/model/over18/over18.dart';
-import 'package:talao/app/shared/model/professional_student_card/professional_student_card.dart';
-import 'package:talao/app/shared/model/student_card/student_card.dart';
-import 'package:talao/app/shared/model/voucher/voucher.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/box_decoration.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -23,30 +17,13 @@ class DocumentWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     /// Professional Student Card, Loyalty Card and Voucher have aspecific display
-    if (model.credentialPreview.credentialSubject is ProfessionalStudentCard) {
-      return model.displayDetail(context, model);
-    }
-    if (model.credentialPreview.credentialSubject is StudentCard) {
-      return model.displayDetail(context, model);
-    }
-    if (model.credentialPreview.credentialSubject is LoyaltyCard) {
-      return model.displayDetail(context, model);
-    }
-    if (model.credentialPreview.credentialSubject is Over18) {
-      return model.displayDetail(context, model);
-    }
-    if (model.credentialPreview.credentialSubject is EmailPass) {
-      return model.displayDetail(context, model);
-    }
-    if (model.credentialPreview.credentialSubject is Voucher) {
-      return model.displayDetail(context, model);
-    }
     if (model.credentialPreview.credentialSubject
         is Ecole42LearningAchievement) {
       final localizations = AppLocalizations.of(context)!;
       return Column(
         children: [
-          model.displayDetail(context, model),
+          model.credentialPreview.credentialSubject
+              .displayDetail(context, model),
           if (model.credentialPreview.evidence.first.id != '')
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -113,7 +90,8 @@ class DocumentWidget extends StatelessWidget {
   Widget displayCredentialDetail(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: model.displayDetail(context, model),
+      child: model.credentialPreview.credentialSubject
+          .displayDetail(context, model),
     );
   }
 

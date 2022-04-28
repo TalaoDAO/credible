@@ -35,11 +35,6 @@ class ProfessionalStudentCard extends CredentialSubject {
   Map<String, dynamic> toJson() => _$ProfessionalStudentCardToJson(this);
 
   @override
-  Widget displayInList(BuildContext context, CredentialModel item) {
-    return Text('display list identity');
-  }
-
-  @override
   Widget displayDetail(BuildContext context, CredentialModel item) {
     return Column(
       children: [

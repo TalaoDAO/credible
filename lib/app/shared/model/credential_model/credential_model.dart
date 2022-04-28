@@ -5,24 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/shared/enum/credential_status.dart';
 import 'package:talao/app/shared/enum/revokation_status.dart';
-import 'package:talao/app/shared/model/email_pass/email_pass.dart';
-import 'package:talao/app/shared/model/over18/over18.dart';
-import 'package:talao/app/shared/model/student_card/student_card.dart';
-import 'package:talao/credentials/widget/display_issuer.dart';
-import 'package:talao/app/shared/model/certificate_of_employment/certificate_of_employment.dart';
 import 'package:talao/app/shared/model/credential.dart';
 import 'package:talao/app/shared/model/display.dart';
-import 'package:talao/app/shared/model/ecole_42_learning_achievement/ecole_42_learning_achievement.dart';
-import 'package:talao/app/shared/model/loyalty_card/loyalty_card.dart';
-import 'package:talao/app/shared/model/professional_student_card/professional_student_card.dart';
-import 'package:talao/app/shared/model/translation.dart';
-import 'package:talao/app/shared/model/voucher/voucher.dart';
-import 'package:talao/app/shared/ui/ui.dart';
-import 'package:talao/app/shared/widget/base/credential_field.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 part 'credential_model.g.dart';
 
@@ -151,166 +137,6 @@ class CredentialModel extends Equatable {
     return _backgroundColor;
   }
 
-  Widget displayDetail(BuildContext context, CredentialModel item) {
-    final localizations = AppLocalizations.of(context)!;
-    final _issuanceDate = credentialPreview.issuanceDate;
-
-    /// Professional Student Card, Voucher and Loyalty Card have both aspecific display
-    if (credentialPreview.credentialSubject is ProfessionalStudentCard) {
-      return credentialPreview.credentialSubject.displayDetail(context, item);
-    }
-    if (credentialPreview.credentialSubject is StudentCard) {
-      return credentialPreview.credentialSubject.displayDetail(context, item);
-    }
-    if (credentialPreview.credentialSubject is LoyaltyCard) {
-      return credentialPreview.credentialSubject.displayDetail(context, item);
-    }
-    if (credentialPreview.credentialSubject is Over18) {
-      return credentialPreview.credentialSubject.displayDetail(context, item);
-    }
-    if (credentialPreview.credentialSubject is EmailPass) {
-      return credentialPreview.credentialSubject.displayDetail(context, item);
-    }
-    if (credentialPreview.credentialSubject is Voucher) {
-      return credentialPreview.credentialSubject.displayDetail(context, item);
-    }
-    if (credentialPreview.credentialSubject is Ecole42LearningAchievement) {
-      return credentialPreview.credentialSubject.displayDetail(context, item);
-    }
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: displayName(context),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: displayDescription(context),
-        ),
-        credentialPreview.credentialSubject.displayDetail(context, item),
-        credentialPreview.credentialSubject is CertificateOfEmployment
-            ? CredentialField(
-                value: UiDate.displayDate(localizations, _issuanceDate),
-                // value: _issuanceDate.toString(),
-                title: localizations.issuanceDate)
-            : SizedBox.shrink(),
-        credentialPreview.evidence.first.id != ''
-            ? Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Text(
-                      '${localizations.evidenceLabel}: ',
-                      style: Theme.of(context).textTheme.credentialFieldTitle,
-                    ),
-                    Flexible(
-                      child: InkWell(
-                        onTap: () =>
-                            _launchURL(credentialPreview.evidence.first.id),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            children: [
-                              Text(
-                                credentialPreview.evidence.first.id,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .credentialFieldDescription,
-                                maxLines: 5,
-                                overflow: TextOverflow.fade,
-                                softWrap: true,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            : SizedBox.shrink()
-      ],
-    );
-  }
-
-  Widget displayList(BuildContext context, CredentialModel item) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: displayName(context),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(height: 48, child: displayDescription(context)),
-        ),
-        DisplayIssuer(issuer: credentialPreview.credentialSubject.issuedBy)
-      ],
-    );
-  }
-
-  String getName(BuildContext context, List<Translation> translations) {
-    final localizations = AppLocalizations.of(context)!;
-
-    var _nameValue = getTranslation(translations, localizations);
-    if (_nameValue == '') {
-      _nameValue = display.nameFallback;
-    }
-    if (_nameValue == '') {
-      _nameValue = credentialPreview.type.last;
-    }
-
-    return _nameValue;
-  }
-
-  String getDescription(BuildContext context, List<Translation> translations) {
-    final localizations = AppLocalizations.of(context)!;
-
-    var _nameValue = getTranslation(translations, localizations);
-    if (_nameValue == '') {
-      _nameValue = display.descriptionFallback;
-    }
-
-    return _nameValue;
-  }
-
-  String getTranslation(
-      List<Translation> translations, AppLocalizations localizations) {
-    var _translation;
-    var translated = translations
-        .where((element) => element.language == localizations.localeName);
-    if (translated.isEmpty) {
-      var titi = translations.where((element) => element.language == 'en');
-      if (titi.isEmpty) {
-        _translation = '';
-      } else {
-        _translation = titi.single.value;
-      }
-    } else {
-      _translation = translated.single.value;
-    }
-    return _translation;
-  }
-
-  Widget displayName(BuildContext context) {
-    final nameValue = getName(context, credentialPreview.name);
-    return Text(
-      nameValue.toString(),
-      maxLines: 1,
-      overflow: TextOverflow.clip,
-      style: Theme.of(context).textTheme.credentialTitle,
-    );
-  }
-
-  Widget displayDescription(BuildContext context) {
-    final nameValue = getDescription(context, credentialPreview.description);
-    return Text(
-      nameValue,
-      overflow: TextOverflow.fade,
-      style: Theme.of(context).textTheme.credentialDescription,
-    );
-  }
-
   Future<CredentialStatus> checkRevocationStatus() async {
     switch (revocationStatus) {
       case RevocationStatus.active:
@@ -360,10 +186,6 @@ class CredentialModel extends Equatable {
     revocationStatus = RevocationStatus.unknown;
     print('revocation status: $revocationStatus');
   }
-
-  void _launchURL(String _url) async => await canLaunch(_url)
-      ? await launch(_url)
-      : throw 'Could not launch $_url';
 
   @override
   List<Object?> get props => [

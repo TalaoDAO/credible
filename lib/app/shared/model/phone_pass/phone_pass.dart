@@ -32,11 +32,6 @@ class PhonePass extends CredentialSubject {
   Map<String, dynamic> toJson() => _$PhonePassToJson(this);
 
   @override
-  Widget displayInList(BuildContext context, CredentialModel item) {
-    return Text('display list identity');
-  }
-
-  @override
   Widget displayDetail(BuildContext context, CredentialModel item) {
     final localizations = AppLocalizations.of(context)!;
 

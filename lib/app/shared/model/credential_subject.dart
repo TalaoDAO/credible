@@ -16,8 +16,14 @@ import 'package:talao/app/shared/model/professional_skil_assessment/professional
 import 'package:talao/app/shared/model/professional_student_card/professional_student_card.dart';
 import 'package:talao/app/shared/model/resident_card/resident_card.dart';
 import 'package:talao/app/shared/model/student_card/student_card.dart';
+import 'package:talao/app/shared/model/translation.dart';
 import 'package:talao/app/shared/model/voucher/voucher.dart';
+import 'package:talao/app/shared/ui/ui.dart';
+import 'package:talao/app/shared/widget/base/credential_field.dart';
+import 'package:talao/credentials/widget/display_issuer.dart';
+import 'package:talao/l10n/l10n.dart';
 import 'package:talao/self_issued_credential/models/self_issued.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 part 'credential_subject.g.dart';
 
@@ -124,11 +130,80 @@ class CredentialSubject {
   }
 
   Widget displayInList(BuildContext context, CredentialModel item) {
-    return Text('first display');
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: displayName(context, item),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child:
+              Container(height: 48, child: displayDescription(context, item)),
+        ),
+        DisplayIssuer(issuer: item.credentialPreview.credentialSubject.issuedBy)
+      ],
+    );
   }
 
   Widget displayDetail(BuildContext context, CredentialModel item) {
-    return Text('first display');
+    final localizations = AppLocalizations.of(context)!;
+    final _issuanceDate = item.credentialPreview.issuanceDate;
+
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: displayName(context, item),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: displayDescription(context, item),
+        ),
+        item.credentialPreview.credentialSubject.displayDetail(context, item),
+        item.credentialPreview.credentialSubject is CertificateOfEmployment
+            ? CredentialField(
+                value: UiDate.displayDate(localizations, _issuanceDate),
+                // value: _issuanceDate.toString(),
+                title: localizations.issuanceDate)
+            : SizedBox.shrink(),
+        item.credentialPreview.evidence.first.id != ''
+            ? Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Text(
+                      '${localizations.evidenceLabel}: ',
+                      style: Theme.of(context).textTheme.credentialFieldTitle,
+                    ),
+                    Flexible(
+                      child: InkWell(
+                        onTap: () => _launchURL(
+                            item.credentialPreview.evidence.first.id),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              Text(
+                                item.credentialPreview.evidence.first.id,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .credentialFieldDescription,
+                                maxLines: 5,
+                                overflow: TextOverflow.fade,
+                                softWrap: true,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            : SizedBox.shrink()
+      ],
+    );
   }
 
   factory CredentialSubject.fromJson(Map<String, dynamic> json) {
@@ -175,4 +250,71 @@ class CredentialSubject {
     }
     return Author.fromJson(json);
   }
+
+  String getName(BuildContext context, CredentialModel item) {
+    final localizations = AppLocalizations.of(context)!;
+
+    var _nameValue = getTranslation(item.credentialPreview.name, localizations);
+    if (_nameValue == '') {
+      _nameValue = item.display.nameFallback;
+    }
+    if (_nameValue == '') {
+      _nameValue = item.credentialPreview.type.last;
+    }
+
+    return _nameValue;
+  }
+
+  String getDescription(BuildContext context, CredentialModel item) {
+    final localizations = AppLocalizations.of(context)!;
+
+    var _nameValue =
+        getTranslation(item.credentialPreview.description, localizations);
+    if (_nameValue == '') {
+      _nameValue = item.display.descriptionFallback;
+    }
+
+    return _nameValue;
+  }
+
+  String getTranslation(
+      List<Translation> translations, AppLocalizations localizations) {
+    var _translation;
+    var translated = translations
+        .where((element) => element.language == localizations.localeName);
+    if (translated.isEmpty) {
+      var titi = translations.where((element) => element.language == 'en');
+      if (titi.isEmpty) {
+        _translation = '';
+      } else {
+        _translation = titi.single.value;
+      }
+    } else {
+      _translation = translated.single.value;
+    }
+    return _translation;
+  }
+
+  Widget displayName(BuildContext context, CredentialModel item) {
+    final nameValue = getName(context, item);
+    return Text(
+      nameValue.toString(),
+      maxLines: 1,
+      overflow: TextOverflow.clip,
+      style: Theme.of(context).textTheme.credentialTitle,
+    );
+  }
+
+  Widget displayDescription(BuildContext context, CredentialModel item) {
+    final nameValue = getDescription(context, item);
+    return Text(
+      nameValue,
+      overflow: TextOverflow.fade,
+      style: Theme.of(context).textTheme.credentialDescription,
+    );
+  }
+
+  void _launchURL(String _url) async => await canLaunch(_url)
+      ? await launch(_url)
+      : throw 'Could not launch $_url';
 }

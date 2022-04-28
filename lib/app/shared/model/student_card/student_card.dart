@@ -48,10 +48,10 @@ class StudentCard extends CredentialSubject {
         AspectRatio(
 
             /// this size comes from law publication about job student card specs
-            aspectRatio: 584 / 317,
+            aspectRatio: 572 / 315,
             child: Container(
-              height: 317,
-              width: 584,
+              height: 315,
+              width: 572,
               child: CardAnimation(
                 recto: StudentCardRecto(item),
                 verso: StudentCardVerso(
@@ -90,10 +90,10 @@ class StudentCardRecto extends Recto {
         child: AspectRatio(
 
             /// size from over18 recto picture
-            aspectRatio: 584 / 317,
+            aspectRatio: 572 / 315,
             child: Container(
-              height: 317,
-              width: 584,
+              height: 315,
+              width: 572,
               child: CustomMultiChildLayout(
                 delegate: StudentCardVersoDelegate(position: Offset.zero),
                 children: [
@@ -156,10 +156,10 @@ class StudentCardVerso extends Verso {
       child: AspectRatio(
 
           /// this size comes from law publication about job student card specs
-          aspectRatio: 584 / 317,
+          aspectRatio: 572 / 315,
           child: Container(
-              height: 317,
-              width: 584,
+              height: 315,
+              width: 572,
               child: CustomMultiChildLayout(
                 delegate: StudentCardDelegate(position: Offset.zero),
                 children: [

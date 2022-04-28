@@ -36,6 +36,7 @@ class DisplayStatus extends StatelessWidget {
                       child: Icon(
                         Icons.check_circle,
                         color: Theme.of(context).colorScheme.activeCredential,
+                        size: 32,
                       ),
                     ),
                     displayLabel
@@ -61,6 +62,7 @@ class DisplayStatus extends StatelessWidget {
                       child: Icon(
                         Icons.alarm_off,
                         color: Theme.of(context).colorScheme.expiredCredential,
+                        size: 32,
                       ),
                     ),
                     displayLabel
@@ -87,6 +89,7 @@ class DisplayStatus extends StatelessWidget {
                       child: Icon(
                         Icons.block,
                         color: Theme.of(context).colorScheme.revokedCredential,
+                        size: 32,
                       ),
                     ),
                     displayLabel

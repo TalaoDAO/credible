@@ -7,7 +7,6 @@ import 'package:talao/app/shared/model/professional_experience_assessment/skill.
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:talao/app/shared/model/translation.dart';
 import 'package:talao/app/shared/widget/base/credential_field.dart';
 import 'package:talao/app/shared/widget/display_signature.dart';
 import 'package:talao/app/shared/widget/skills_list_display.dart';
@@ -40,11 +39,6 @@ class ProfessionalSkillAssessment extends CredentialSubject {
 
   @override
   Map<String, dynamic> toJson() => _$ProfessionalSkillAssessmentToJson(this);
-
-  @override
-  Widget displayInList(BuildContext context, CredentialModel item) {
-    return Text('display list identity');
-  }
 
   @override
   Widget displayDetail(BuildContext context, CredentialModel item) {
@@ -82,23 +76,5 @@ class ProfessionalSkillAssessment extends CredentialSubject {
           .toList();
     }
     return [Signature.fromJson(json)];
-  }
-
-  String getTranslation(
-      List<Translation> translations, AppLocalizations localizations) {
-    var _translation;
-    var translated = translations
-        .where((element) => element.language == localizations.localeName);
-    if (translated.isEmpty) {
-      var trans = translations.where((element) => element.language == 'en');
-      if (trans.isEmpty) {
-        _translation = '';
-      } else {
-        _translation = trans.single.value;
-      }
-    } else {
-      _translation = translated.single.value;
-    }
-    return _translation;
   }
 }
