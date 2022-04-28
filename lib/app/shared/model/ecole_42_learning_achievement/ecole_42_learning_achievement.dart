@@ -43,11 +43,6 @@ class Ecole42LearningAchievement extends CredentialSubject {
   Map<String, dynamic> toJson() => _$Ecole42LearningAchievementToJson(this);
 
   @override
-  Widget displayInList(BuildContext context, CredentialModel item) {
-    return Text('display Loyalty card');
-  }
-
-  @override
   Widget displayDetail(BuildContext context, CredentialModel item) {
     final _height = 1753.0;
     final _width = 1240.0;
