@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:talao/app/shared/model/credential.dart';
-import 'package:talao/app/shared/model/email_pass/email_pass.dart';
-import 'package:talao/app/shared/model/over18/over18.dart';
-import 'package:talao/app/shared/model/voucher/voucher.dart';
-import 'package:talao/app/shared/ui/ui.dart';
-import 'package:talao/app/shared/widget/base/box_decoration.dart';
 import 'package:talao/app/shared/widget/hero_workaround.dart';
 import 'package:talao/credentials/detail/credentials_detail.dart';
 import 'package:talao/credentials/widget/credential_container.dart';
@@ -54,38 +49,10 @@ class __BaseItemState extends State<_BaseItem>
   Widget build(BuildContext context) => Opacity(
         opacity: !widget.enabled ? 0.33 : 1.0,
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: widget.isCustom
-              ? InkWell(
-                  onTap: widget.onTap,
-                  child: IntrinsicHeight(child: widget.child))
-              : CredentialContainer(
-                  child: Container(
-                    // margin: const EdgeInsets.symmetric(vertical: 4.0),
-                    decoration: BaseBoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: widget.color,
-                      shapeColor: Theme.of(context).colorScheme.documentShape,
-                      value: 1.0,
-                      anchors: <Alignment>[
-                        Alignment.bottomRight,
-                      ],
-                    ),
-                    child: Material(
-                      color: Theme.of(context).colorScheme.transparent,
-                      borderRadius: BorderRadius.circular(20.0),
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(20.0),
-                        onTap: widget.onTap,
-                        child: Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: IntrinsicHeight(child: widget.child),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-        ),
+            padding: const EdgeInsets.all(8.0),
+            child: InkWell(
+                onTap: widget.onTap,
+                child: IntrinsicHeight(child: widget.child))),
       );
 }
 
@@ -118,34 +85,8 @@ class CredentialsListPageItem extends StatelessWidget {
   }
 
   Widget displayListElement(BuildContext context) {
-    final credential = Credential.fromJsonOrDummy(item.data);
-
-    return Row(
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              HeroFix(
-                tag: 'credential/${item.id}/icon',
-                child: selected == null
-                    ? CredentialIcon(credential: credential)
-                    : selected!
-                        ? CredentialCheckedBox()
-                        : CredentialUncheckedBox(),
-              ),
-              SizedBox(height: 16.0),
-              DisplayStatus(item, false),
-            ],
-          ),
-        ),
-        Expanded(
-          child: item.credentialPreview.credentialSubject
-              .displayInList(context, item),
-        ),
-      ],
-    );
+    return item.credentialPreview.credentialSubject
+        .displayInList(context, item);
   }
 
   Widget displaySelectionElement(BuildContext context) {
