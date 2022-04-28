@@ -96,7 +96,7 @@ class CredentialsListPageItem extends StatelessWidget {
         children: <Widget>[
           CredentialContainer(
             child: item.credentialPreview.credentialSubject
-                .displayInList(context, item),
+                .displayInSelectionList(context, item),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),

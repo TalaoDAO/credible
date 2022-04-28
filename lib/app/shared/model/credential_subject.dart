@@ -195,8 +195,6 @@ class CredentialSubject {
   }
 
   Widget displayInSelectionList(BuildContext context, CredentialModel item) {
-    final credential = Credential.fromJsonOrDummy(item.data);
-
     return CredentialContainer(
       child: Container(
         // margin: const EdgeInsets.symmetric(vertical: 4.0),
@@ -214,37 +212,19 @@ class CredentialSubject {
           borderRadius: BorderRadius.circular(20.0),
           child: Padding(
             padding: const EdgeInsets.all(12.0),
-            child: Row(
+            child: Column(
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      HeroFix(
-                          tag: 'credential/${item.id}/icon',
-                          child: CredentialIcon(credential: credential)),
-                      SizedBox(height: 16.0),
-                      DisplayStatus(item, false),
-                    ],
-                  ),
+                  child: displayName(context, item),
                 ),
-                Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: displayName(context, item),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                          height: 48, child: displayDescription(context, item)),
-                    ),
-                    DisplayIssuer(
-                        issuer:
-                            item.credentialPreview.credentialSubject.issuedBy)
-                  ],
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                      height: 48, child: displayDescription(context, item)),
                 ),
+                DisplayIssuer(
+                    issuer: item.credentialPreview.credentialSubject.issuedBy)
               ],
             ),
           ),
