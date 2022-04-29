@@ -23,6 +23,7 @@ import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/box_decoration.dart';
 import 'package:talao/app/shared/widget/base/credential_field.dart';
 import 'package:talao/app/shared/widget/hero_workaround.dart';
+import 'package:talao/credentials/widget/credential_background.dart';
 import 'package:talao/credentials/widget/credential_container.dart';
 import 'package:talao/credentials/widget/display_issuer.dart';
 import 'package:talao/credentials/widget/display_status.dart';
@@ -237,58 +238,55 @@ class CredentialSubject {
     final localizations = AppLocalizations.of(context)!;
     final _issuanceDate = item.credentialPreview.issuanceDate;
 
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: displayName(context, item),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: displayDescription(context, item),
-        ),
-        item.credentialPreview.credentialSubject is CertificateOfEmployment
-            ? CredentialField(
-                value: UiDate.displayDate(localizations, _issuanceDate),
-                // value: _issuanceDate.toString(),
-                title: localizations.issuanceDate)
-            : SizedBox.shrink(),
-        item.credentialPreview.evidence.first.id != ''
-            ? Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Text(
-                      '${localizations.evidenceLabel}: ',
-                      style: Theme.of(context).textTheme.credentialFieldTitle,
-                    ),
-                    Flexible(
-                      child: InkWell(
-                        onTap: () => _launchURL(
-                            item.credentialPreview.evidence.first.id),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            children: [
-                              Text(
-                                item.credentialPreview.evidence.first.id,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .credentialFieldDescription,
-                                maxLines: 5,
-                                overflow: TextOverflow.fade,
-                                softWrap: true,
-                              ),
-                            ],
+    return CredentialBackground(
+      model: item,
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: displayName(context, item),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: displayDescription(context, item),
+          ),
+          item.credentialPreview.evidence.first.id != ''
+              ? Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Text(
+                        '${localizations.evidenceLabel}: ',
+                        style: Theme.of(context).textTheme.credentialFieldTitle,
+                      ),
+                      Flexible(
+                        child: InkWell(
+                          onTap: () => _launchURL(
+                              item.credentialPreview.evidence.first.id),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Text(
+                                  item.credentialPreview.evidence.first.id,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .credentialFieldDescription,
+                                  maxLines: 5,
+                                  overflow: TextOverflow.fade,
+                                  softWrap: true,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              )
-            : SizedBox.shrink()
-      ],
+                    ],
+                  ),
+                )
+              : SizedBox.shrink()
+        ],
+      ),
     );
   }
 
