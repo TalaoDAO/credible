@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:talao/app/shared/model/author.dart';
 import 'package:talao/app/shared/model/credential_subject.dart';
