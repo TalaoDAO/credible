@@ -1,11 +1,12 @@
-
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:talao/credentials/widget/credential_container.dart';
 
 abstract class Recto extends StatelessWidget {
   const Recto({Key? key});
 }
+
 abstract class Verso extends StatelessWidget {
   const Verso();
 }
@@ -22,10 +23,8 @@ class CardAnimation extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<CardAnimation> createState() =>
-      _CardAnimationState();
+  State<CardAnimation> createState() => _CardAnimationState();
 }
-
 
 class _CardAnimationState extends State<CardAnimation>
     with SingleTickerProviderStateMixin {
@@ -70,19 +69,8 @@ class _CardAnimationState extends State<CardAnimation>
               transform:
                   Matrix4.rotationX((1 - _animationController.value) * pi / 2),
               alignment: Alignment.center,
-              child: Container(
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black54,
-                      offset: Offset(9, 9),
-                      blurRadius: 10,
-                      spreadRadius: 5.0,
-                    )
-                  ],
-                ),
-                alignment: Alignment.center,
-                child: _card,
+              child: CredentialContainer(
+                child: Container(alignment: Alignment.center, child: _card),
               ),
             );
           },
