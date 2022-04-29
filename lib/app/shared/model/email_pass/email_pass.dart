@@ -43,6 +43,11 @@ class EmailPass extends CredentialSubject {
   }
 
   @override
+  Widget displayInSelectionList(BuildContext context, CredentialModel item) {
+    return EmailPassRecto(item);
+  }
+
+  @override
   Widget displayDetail(BuildContext context, CredentialModel item) {
     return Column(
       children: [
