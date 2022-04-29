@@ -8,6 +8,7 @@ import 'package:talao/app/shared/model/credential_subject.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:talao/credentials/widget/credential_container.dart';
 
 part 'over18.g.dart';
 
@@ -29,7 +30,12 @@ class Over18 extends CredentialSubject {
 
   @override
   Widget displayInList(BuildContext context, CredentialModel item) {
-    return Over18Recto();
+    return CredentialContainer(child: Over18Recto());
+  }
+
+  @override
+  Widget displayInSelectionList(BuildContext context, CredentialModel item) {
+    return CredentialContainer(child: Over18Recto());
   }
 
   @override

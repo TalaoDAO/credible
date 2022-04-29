@@ -21,7 +21,6 @@ import 'package:talao/app/shared/model/translation.dart';
 import 'package:talao/app/shared/model/voucher/voucher.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/box_decoration.dart';
-import 'package:talao/app/shared/widget/base/credential_field.dart';
 import 'package:talao/app/shared/widget/hero_workaround.dart';
 import 'package:talao/credentials/widget/credential_background.dart';
 import 'package:talao/credentials/widget/credential_container.dart';
@@ -236,7 +235,6 @@ class CredentialSubject {
 
   Widget displayDetail(BuildContext context, CredentialModel item) {
     final localizations = AppLocalizations.of(context)!;
-    final _issuanceDate = item.credentialPreview.issuanceDate;
 
     return CredentialBackground(
       model: item,

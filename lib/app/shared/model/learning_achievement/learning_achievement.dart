@@ -51,12 +51,12 @@ class LearningAchievement extends CredentialSubject {
 
   @override
   Widget displayInList(BuildContext context, CredentialModel item) {
-    return LearningAchievementRecto(item);
+    return CredentialContainer(child: LearningAchievementRecto(item));
   }
 
   @override
   Widget displayInSelectionList(BuildContext context, CredentialModel item) {
-    return LearningAchievementRecto(item);
+    return CredentialContainer(child: LearningAchievementRecto(item));
   }
 
   @override

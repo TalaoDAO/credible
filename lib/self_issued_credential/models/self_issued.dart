@@ -4,6 +4,7 @@ import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:talao/app/shared/model/author.dart';
 import 'package:talao/app/shared/model/credential_subject.dart';
 import 'package:talao/app/shared/widget/base/credential_field.dart';
+import 'package:talao/credentials/widget/credential_background.dart';
 import 'package:talao/l10n/l10n.dart';
 
 part 'self_issued.g.dart';
@@ -50,47 +51,50 @@ class SelfIssued extends CredentialSubject {
         'type': type,
         if (email != null && email!.isNotEmpty) 'email': email,
         if (workFor != null && workFor!.isNotEmpty) 'workFor': workFor,
-        if (companyWebsite != null && companyWebsite!.isNotEmpty) 'companyWebsite': companyWebsite,
+        if (companyWebsite != null && companyWebsite!.isNotEmpty)
+          'companyWebsite': companyWebsite,
         if (jobTitle != null && jobTitle!.isNotEmpty) 'jobTitle': jobTitle,
       };
 
   @override
-  Widget displayInList(BuildContext context, CredentialModel item) {
-    return Text('display self-issued data');
-  }
-
-  @override
   Widget displayDetail(BuildContext context, CredentialModel item) {
     final localizations = context.l10n;
-    return Column(
-      children: [
-        givenName?.isNotEmpty ?? false
-            ? CredentialField(title: localizations.firstName, value: givenName!)
-            : SizedBox.shrink(),
-        familyName?.isNotEmpty ?? false
-            ? CredentialField(
-                title: localizations.lastName, value: familyName!)
-            : SizedBox.shrink(),
-        telephone?.isNotEmpty ?? false
-            ? CredentialField(
-                title: localizations.personalPhone, value: telephone!)
-            : SizedBox.shrink(),
-        address?.isNotEmpty ?? false
-            ? CredentialField(title: localizations.address, value: address!)
-            : SizedBox.shrink(),
-        email?.isNotEmpty ?? false
-            ? CredentialField(title: localizations.personalMail, value: email!)
-            : SizedBox.shrink(),
-        workFor?.isNotEmpty ?? false
-            ? CredentialField(title: localizations.companyName, value: workFor!)
-            : SizedBox.shrink(),
-        companyWebsite?.isNotEmpty ?? false
-            ? CredentialField(title: localizations.companyWebsite, value: companyWebsite!)
-            : SizedBox.shrink(),
-        jobTitle?.isNotEmpty ?? false
-            ? CredentialField(title: localizations.jobTitle, value: jobTitle!)
-            : SizedBox.shrink(),
-      ],
+    return CredentialBackground(
+      model: item,
+      child: Column(
+        children: [
+          givenName?.isNotEmpty ?? false
+              ? CredentialField(
+                  title: localizations.firstName, value: givenName!)
+              : SizedBox.shrink(),
+          familyName?.isNotEmpty ?? false
+              ? CredentialField(
+                  title: localizations.lastName, value: familyName!)
+              : SizedBox.shrink(),
+          telephone?.isNotEmpty ?? false
+              ? CredentialField(
+                  title: localizations.personalPhone, value: telephone!)
+              : SizedBox.shrink(),
+          address?.isNotEmpty ?? false
+              ? CredentialField(title: localizations.address, value: address!)
+              : SizedBox.shrink(),
+          email?.isNotEmpty ?? false
+              ? CredentialField(
+                  title: localizations.personalMail, value: email!)
+              : SizedBox.shrink(),
+          workFor?.isNotEmpty ?? false
+              ? CredentialField(
+                  title: localizations.companyName, value: workFor!)
+              : SizedBox.shrink(),
+          companyWebsite?.isNotEmpty ?? false
+              ? CredentialField(
+                  title: localizations.companyWebsite, value: companyWebsite!)
+              : SizedBox.shrink(),
+          jobTitle?.isNotEmpty ?? false
+              ? CredentialField(title: localizations.jobTitle, value: jobTitle!)
+              : SizedBox.shrink(),
+        ],
+      ),
     );
   }
 }

@@ -11,6 +11,7 @@ import 'package:talao/app/shared/widget/display_description_card.dart';
 import 'package:talao/app/shared/widget/display_name_card.dart';
 import 'package:talao/app/shared/widget/image_card_text.dart';
 import 'package:talao/app/shared/widget/image_from_network.dart';
+import 'package:talao/credentials/widget/credential_container.dart';
 
 part 'student_card.g.dart';
 
@@ -38,12 +39,12 @@ class StudentCard extends CredentialSubject {
 
   @override
   Widget displayInList(BuildContext context, CredentialModel item) {
-    return StudentCardRecto(item);
+    return CredentialContainer(child: StudentCardRecto(item));
   }
 
   @override
   Widget displayInSelectionList(BuildContext context, CredentialModel item) {
-    return StudentCardRecto(item);
+    return CredentialContainer(child: StudentCardRecto(item));
   }
 
   @override
