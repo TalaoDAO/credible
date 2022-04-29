@@ -73,7 +73,7 @@
   "credentialDetailCopyFieldValue": "Copier la valeur !",
   "credentialDetailStatus": "Verification Status",
   "credentialPresentTitle": "Demande de présentation",
-  "credentialPresentTitleDIDAuth": "Demande DIDAuth",
+  "credentialPresentTitleDIDAuth": "Demande ProDIDAuth",
   "credentialPresentRequiredCredential": "On demande votre",
   "credentialPresentConfirm": "Sélectionner le(s) attestation(s)",
   "credentialPresentCancel": "Rejeter",
@@ -283,5 +283,6 @@
   "phonePassCredential": "Preuve de téléphone",
   "emailPassCredential": "Preuve d'email",
   "needEmailPass": "Vous devez dabord aquérir une preuve d'email.",
-  "signature": "Signature"
+  "signature": "Signature",
+  "proof": "Preuve"
 }

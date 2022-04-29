@@ -114,7 +114,8 @@
     "phonePassCredential",
     "emailPassCredential",
     "needEmailPass",
-    "signature"
+    "signature",
+    "proof"
   ],
 
   "es": [
@@ -231,7 +232,8 @@
     "phonePassCredential",
     "emailPassCredential",
     "needEmailPass",
-    "signature"
+    "signature",
+    "proof"
   ],
 
   "it": [
@@ -350,6 +352,7 @@
     "phonePassCredential",
     "emailPassCredential",
     "needEmailPass",
-    "signature"
+    "signature",
+    "proof"
   ]
 }
