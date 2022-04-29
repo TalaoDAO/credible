@@ -10,7 +10,11 @@ bool setKYCMetadat(walletCubit) {
 
     ///credential and issuer provided in claims
     if (credentialTypeList.contains('EmailPass')) {
-      selectedCredentials.add(credentialModel);
+      final credentialSubject =
+          credentialModel.credentialPreview.credentialSubject as EmailPass;
+      if (credentialSubject.passbaseMetadata != '') {
+        selectedCredentials.add(credentialModel);
+      }
     }
   });
   if (selectedCredentials.isNotEmpty) {
