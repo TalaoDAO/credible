@@ -26,8 +26,8 @@ class QueryByExampleCredentialPickPage extends StatefulWidget {
       MaterialPageRoute(
         builder: (context) => BlocProvider(
           create: (context) => QueryByExampleCredentialPickCubit(),
-          child: QueryByExampleCredentialPickPage(
-              uri: routeUri, preview: preview),
+          child:
+              QueryByExampleCredentialPickPage(uri: routeUri, preview: preview),
         ),
         settings: RouteSettings(name: '/QueryByExampleCredentialPickPage'),
       );

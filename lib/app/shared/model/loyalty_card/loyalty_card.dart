@@ -52,11 +52,6 @@ class LoyaltyCard extends CredentialSubject {
   Map<String, dynamic> toJson() => _$LoyaltyCardToJson(this);
 
   @override
-  Widget displayInList(BuildContext context, CredentialModel item) {
-    return Text('display Loyalty card');
-  }
-
-  @override
   Widget displayDetail(BuildContext context, CredentialModel item) {
     return Column(
       children: [

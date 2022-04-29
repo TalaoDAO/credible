@@ -9,6 +9,7 @@ import 'package:talao/app/shared/ui/date.dart';
 import 'package:talao/app/shared/ui/theme.dart';
 import 'package:talao/app/shared/widget/base/credential_field.dart';
 import 'package:talao/app/shared/widget/image_from_network.dart';
+import 'package:talao/credentials/widget/credential_background.dart';
 import 'package:talao/credentials/widget/display_issuer.dart';
 
 part 'certificate_of_employment.g.dart';
@@ -58,47 +59,50 @@ class CertificateOfEmployment extends CredentialSubject {
   Widget displayDetail(BuildContext context, CredentialModel item) {
     final localizations = AppLocalizations.of(context)!;
 
-    return Column(
-      children: [
-        CredentialField(title: localizations.firstName, value: familyName),
-        CredentialField(title: localizations.lastName, value: givenName),
-        CredentialField(title: localizations.jobTitle, value: jobTitle),
-        (workFor.name != '')
-            ? Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Text('${localizations.workFor}: ',
-                        style:
-                            Theme.of(context).textTheme.credentialFieldTitle),
-                    Text(
-                      workFor.name,
-                      style: Theme.of(context)
-                          .textTheme
-                          .credentialFieldDescription,
-                    ),
-                    Spacer(),
-                    (workFor.logo != '')
-                        ? Container(
-                            height: 30, child: ImageFromNetwork(workFor.logo))
-                        : SizedBox.shrink()
-                  ],
-                ),
-              )
-            : SizedBox.shrink(),
-        CredentialField(
-            title: localizations.startDate,
-            value: UiDate.displayDate(localizations, startDate)),
-        CredentialField(
-            value: employmentType, title: localizations.employmentType),
-        CredentialField(title: localizations.baseSalary, value: baseSalary),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: DisplayIssuer(
-            issuer: issuedBy,
-          ),
-        )
-      ],
+    return CredentialBackground(
+      model: item,
+      child: Column(
+        children: [
+          CredentialField(title: localizations.firstName, value: familyName),
+          CredentialField(title: localizations.lastName, value: givenName),
+          CredentialField(title: localizations.jobTitle, value: jobTitle),
+          (workFor.name != '')
+              ? Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Text('${localizations.workFor}: ',
+                          style:
+                              Theme.of(context).textTheme.credentialFieldTitle),
+                      Text(
+                        workFor.name,
+                        style: Theme.of(context)
+                            .textTheme
+                            .credentialFieldDescription,
+                      ),
+                      Spacer(),
+                      (workFor.logo != '')
+                          ? Container(
+                              height: 30, child: ImageFromNetwork(workFor.logo))
+                          : SizedBox.shrink()
+                    ],
+                  ),
+                )
+              : SizedBox.shrink(),
+          CredentialField(
+              title: localizations.startDate,
+              value: UiDate.displayDate(localizations, startDate)),
+          CredentialField(
+              value: employmentType, title: localizations.employmentType),
+          CredentialField(title: localizations.baseSalary, value: baseSalary),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: DisplayIssuer(
+              issuer: issuedBy,
+            ),
+          )
+        ],
+      ),
     );
   }
 }

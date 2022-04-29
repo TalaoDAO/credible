@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:talao/app/shared/model/credential.dart';
 import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:talao/app/shared/model/author.dart';
 import 'package:talao/app/shared/model/certificate_of_employment/certificate_of_employment.dart';
@@ -19,8 +20,13 @@ import 'package:talao/app/shared/model/student_card/student_card.dart';
 import 'package:talao/app/shared/model/translation.dart';
 import 'package:talao/app/shared/model/voucher/voucher.dart';
 import 'package:talao/app/shared/ui/ui.dart';
+import 'package:talao/app/shared/widget/base/box_decoration.dart';
 import 'package:talao/app/shared/widget/base/credential_field.dart';
+import 'package:talao/app/shared/widget/hero_workaround.dart';
+import 'package:talao/credentials/widget/credential_container.dart';
 import 'package:talao/credentials/widget/display_issuer.dart';
+import 'package:talao/credentials/widget/display_status.dart';
+import 'package:talao/credentials/widget/list_item.dart';
 import 'package:talao/l10n/l10n.dart';
 import 'package:talao/self_issued_credential/models/self_issued.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -130,19 +136,100 @@ class CredentialSubject {
   }
 
   Widget displayInList(BuildContext context, CredentialModel item) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: displayName(context, item),
+    final credential = Credential.fromJsonOrDummy(item.data);
+
+    return CredentialContainer(
+      child: Container(
+        // margin: const EdgeInsets.symmetric(vertical: 4.0),
+        decoration: BaseBoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: item.backgroundColor,
+          shapeColor: Theme.of(context).colorScheme.documentShape,
+          value: 1.0,
+          anchors: <Alignment>[
+            Alignment.bottomRight,
+          ],
         ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child:
-              Container(height: 48, child: displayDescription(context, item)),
+        child: Material(
+          color: Theme.of(context).colorScheme.transparent,
+          borderRadius: BorderRadius.circular(20.0),
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Row(
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    HeroFix(
+                        tag: 'credential/${item.id}/icon',
+                        child: CredentialIcon(credential: credential)),
+                    SizedBox(height: 16.0),
+                    DisplayStatus(item, false),
+                  ],
+                ),
+                Expanded(
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: displayName(context, item),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                            height: 48,
+                            child: displayDescription(context, item)),
+                      ),
+                      DisplayIssuer(
+                          issuer:
+                              item.credentialPreview.credentialSubject.issuedBy)
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
-        DisplayIssuer(issuer: item.credentialPreview.credentialSubject.issuedBy)
-      ],
+      ),
+    );
+  }
+
+  Widget displayInSelectionList(BuildContext context, CredentialModel item) {
+    return CredentialContainer(
+      child: Container(
+        // margin: const EdgeInsets.symmetric(vertical: 4.0),
+        decoration: BaseBoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: item.backgroundColor,
+          shapeColor: Theme.of(context).colorScheme.documentShape,
+          value: 1.0,
+          anchors: <Alignment>[
+            Alignment.bottomRight,
+          ],
+        ),
+        child: Material(
+          color: Theme.of(context).colorScheme.transparent,
+          borderRadius: BorderRadius.circular(20.0),
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: displayName(context, item),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                      height: 48, child: displayDescription(context, item)),
+                ),
+                DisplayIssuer(
+                    issuer: item.credentialPreview.credentialSubject.issuedBy)
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 
@@ -160,7 +247,6 @@ class CredentialSubject {
           padding: const EdgeInsets.all(8.0),
           child: displayDescription(context, item),
         ),
-        item.credentialPreview.credentialSubject.displayDetail(context, item),
         item.credentialPreview.credentialSubject is CertificateOfEmployment
             ? CredentialField(
                 value: UiDate.displayDate(localizations, _issuanceDate),
@@ -314,7 +400,7 @@ class CredentialSubject {
     );
   }
 
-  void _launchURL(String _url) async => await canLaunch(_url)
-      ? await launch(_url)
+  void _launchURL(String _url) async => await canLaunchUrl(Uri.parse(_url))
+      ? await launchUrl(Uri.parse(_url))
       : throw 'Could not launch $_url';
 }

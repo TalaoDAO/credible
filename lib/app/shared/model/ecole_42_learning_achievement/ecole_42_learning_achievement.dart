@@ -9,6 +9,7 @@ import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/image_card_text.dart';
 import 'package:talao/app/shared/widget/image_from_network.dart';
 import 'package:talao/l10n/l10n.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 part 'ecole_42_learning_achievement.g.dart';
 
@@ -43,86 +44,120 @@ class Ecole42LearningAchievement extends CredentialSubject {
   Map<String, dynamic> toJson() => _$Ecole42LearningAchievementToJson(this);
 
   @override
-  Widget displayInList(BuildContext context, CredentialModel item) {
-    return Text('display Loyalty card');
-  }
-
-  @override
   Widget displayDetail(BuildContext context, CredentialModel item) {
     final _height = 1753.0;
     final _width = 1240.0;
     final _aspectRatio = _width / _height;
     final localizations = AppLocalizations.of(context)!;
 
-    return AspectRatio(
+    return Column(
+      children: [
+        AspectRatio(
 
-        /// this size comes from law publication about job student card specs
-        aspectRatio: _aspectRatio,
-        child: Container(
-          height: _height,
-          width: _width,
-          child: Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  image: DecorationImage(
-                      fit: BoxFit.fitWidth,
-                      image: AssetImage(
-                        'assets/image/certificate-42.png',
-                      ))),
-              child: AspectRatio(
+            /// this size comes from law publication about job student card specs
+            aspectRatio: _aspectRatio,
+            child: Container(
+              height: _height,
+              width: _width,
+              child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      image: DecorationImage(
+                          fit: BoxFit.fitWidth,
+                          image: AssetImage(
+                            'assets/image/certificate-42.png',
+                          ))),
+                  child: AspectRatio(
 
-                  /// random size, copy from professional student card
-                  aspectRatio: _aspectRatio,
-                  child: Container(
-                    height: _height,
-                    width: _width,
-                    child: CustomMultiChildLayout(
-                      delegate: Ecole42LearningAchievementDelegate(
-                          position: Offset.zero),
-                      children: [
-                        LayoutId(
-                            id: 'studentIdentity',
-                            child: Row(
-                              children: [
-                                ImageCardText(
-                                    text:
-                                        '$givenName $familyName, born ${UiDate.displayDate(localizations, birthDate)}',
-                                    textStyle: Theme.of(context)
-                                        .textTheme
-                                        .ecole42LearningAchievementStudentIdentity),
-                              ],
-                            )),
-                        LayoutId(
-                            id: 'level',
-                            child: Row(
-                              children: [
-                                ImageCardText(
-                                  text: 'Level ${hasCredential.level}',
-                                  textStyle: Theme.of(context)
-                                      .textTheme
-                                      .ecole42LearningAchievementLevel,
-                                ),
-                              ],
-                            )),
-                        LayoutId(
-                          id: 'signature',
-                          child: item.image != ''
-                              ? Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    height: 80 *
-                                        MediaQuery.of(context).size.aspectRatio,
-                                    child:
-                                        ImageFromNetwork(signatureLines.image),
-                                  ),
-                                )
-                              : SizedBox.shrink(),
+                      /// random size, copy from professional student card
+                      aspectRatio: _aspectRatio,
+                      child: Container(
+                        height: _height,
+                        width: _width,
+                        child: CustomMultiChildLayout(
+                          delegate: Ecole42LearningAchievementDelegate(
+                              position: Offset.zero),
+                          children: [
+                            LayoutId(
+                                id: 'studentIdentity',
+                                child: Row(
+                                  children: [
+                                    ImageCardText(
+                                        text:
+                                            '$givenName $familyName, born ${UiDate.displayDate(localizations, birthDate)}',
+                                        textStyle: Theme.of(context)
+                                            .textTheme
+                                            .ecole42LearningAchievementStudentIdentity),
+                                  ],
+                                )),
+                            LayoutId(
+                                id: 'level',
+                                child: Row(
+                                  children: [
+                                    ImageCardText(
+                                      text: 'Level ${hasCredential.level}',
+                                      textStyle: Theme.of(context)
+                                          .textTheme
+                                          .ecole42LearningAchievementLevel,
+                                    ),
+                                  ],
+                                )),
+                            LayoutId(
+                              id: 'signature',
+                              child: item.image != ''
+                                  ? Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        height: 80 *
+                                            MediaQuery.of(context)
+                                                .size
+                                                .aspectRatio,
+                                        child: ImageFromNetwork(
+                                            signatureLines.image),
+                                      ),
+                                    )
+                                  : SizedBox.shrink(),
+                            ),
+                          ],
                         ),
-                      ],
+                      ))),
+            )),
+        if (item.credentialPreview.evidence.first.id != '')
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Text(
+                  '${localizations.evidenceLabel}: ',
+                  style: Theme.of(context).textTheme.bodyText2,
+                ),
+                SizedBox(width: 5),
+                Flexible(
+                  child: InkWell(
+                    onTap: () =>
+                        _launchURL(item.credentialPreview.evidence.first.id),
+                    child: Text(
+                      '${item.credentialPreview.evidence.first.id.substring(0, 30)}...',
+                      style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                            color: Theme.of(context).colorScheme.markDownA,
+                            decoration: TextDecoration.underline,
+                          ),
+                      maxLines: 5,
+                      overflow: TextOverflow.fade,
+                      softWrap: true,
                     ),
-                  ))),
-        ));
+                  ),
+                ),
+              ],
+            ),
+          )
+      ],
+    );
   }
+
+  void _launchURL(String _url) async => await canLaunchUrl(Uri.parse(_url))
+      ? await launchUrl(Uri.parse(_url))
+      : throw 'Could not launch $_url';
 
   static Signature _signatureLinesFromJson(json) {
     if (json == null || json == '') {

@@ -42,6 +42,11 @@ class StudentCard extends CredentialSubject {
   }
 
   @override
+  Widget displayInSelectionList(BuildContext context, CredentialModel item) {
+    return StudentCardRecto(item);
+  }
+
+  @override
   Widget displayDetail(BuildContext context, CredentialModel item) {
     return Column(
       children: [

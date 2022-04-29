@@ -1,4 +1,5 @@
 import 'package:talao/app/shared/model/credential_model/credential_model.dart';
+import 'package:talao/credentials/widget/credential_background.dart';
 import 'package:talao/credentials/widget/display_issuer.dart';
 import 'package:talao/app/shared/model/author.dart';
 import 'package:talao/app/shared/model/credential_subject.dart';
@@ -43,26 +44,29 @@ class ProfessionalSkillAssessment extends CredentialSubject {
   @override
   Widget displayDetail(BuildContext context, CredentialModel item) {
     final localizations = AppLocalizations.of(context)!;
-    return Column(
-      children: [
-        CredentialField(title: localizations.lastName, value: givenName),
-        CredentialField(title: localizations.firstName, value: familyName),
-        SkillsListDisplay(
-          skillWidgetList: skills,
-        ),
-        Column(
-          children: signatureLines
-              .map((e) =>
-                  DisplaySignatures(localizations: localizations, item: e))
-              .toList(),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: DisplayIssuer(
-            issuer: issuedBy,
+    return CredentialBackground(
+      model: item,
+      child: Column(
+        children: [
+          CredentialField(title: localizations.lastName, value: givenName),
+          CredentialField(title: localizations.firstName, value: familyName),
+          SkillsListDisplay(
+            skillWidgetList: skills,
           ),
-        ),
-      ],
+          Column(
+            children: signatureLines
+                .map((e) =>
+                    DisplaySignatures(localizations: localizations, item: e))
+                .toList(),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: DisplayIssuer(
+              issuer: issuedBy,
+            ),
+          ),
+        ],
+      ),
     );
   }
 

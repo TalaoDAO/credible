@@ -35,10 +35,8 @@ class MarkdownPage extends StatelessWidget {
                       color: Theme.of(context).colorScheme.markDownH1),
                   h2: TextStyle(
                       color: Theme.of(context).colorScheme.markDownH2),
-                  a: TextStyle(
-                      color: Theme.of(context).colorScheme.markDownA),
-                  p: TextStyle(
-                      color: Theme.of(context).colorScheme.markDownP),
+                  a: TextStyle(color: Theme.of(context).colorScheme.markDownA),
+                  p: TextStyle(color: Theme.of(context).colorScheme.markDownP),
                 ),
                 onTapLink: (text, href, title) => _onTapLink(href),
               );
@@ -62,8 +60,8 @@ class MarkdownPage extends StatelessWidget {
   void _onTapLink(String? href) async {
     if (href == null) return;
 
-    if (await canLaunch(href)) {
-      await launch(href);
+    if (await canLaunchUrl(Uri.parse(href))) {
+      await launchUrl(Uri.parse(href));
     } else {
       _log.severe('cannot launch url: $href');
     }

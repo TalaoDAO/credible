@@ -108,10 +108,25 @@ class DisplayStatus extends StatelessWidget {
                   ],
                 );
               default:
-                return CircularProgressIndicator();
+                return Container(
+                    height: 20, child: CircularProgressIndicator());
             }
           } else {
-            return CircularProgressIndicator();
+            print('tata');
+
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child:
+                      Container(height: 32, child: CircularProgressIndicator()),
+                ),
+                SizedBox(
+                  width: 63,
+                )
+              ],
+            );
           }
         });
   }
