@@ -247,7 +247,6 @@ class CredentialSubject {
           padding: const EdgeInsets.all(8.0),
           child: displayDescription(context, item),
         ),
-        item.credentialPreview.credentialSubject.displayDetail(context, item),
         item.credentialPreview.credentialSubject is CertificateOfEmployment
             ? CredentialField(
                 value: UiDate.displayDate(localizations, _issuanceDate),

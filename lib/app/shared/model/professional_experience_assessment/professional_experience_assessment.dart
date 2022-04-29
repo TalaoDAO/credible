@@ -1,4 +1,5 @@
 import 'package:talao/app/shared/model/credential_model/credential_model.dart';
+import 'package:talao/credentials/widget/credential_background.dart';
 import 'package:talao/credentials/widget/display_issuer.dart';
 import 'package:talao/app/shared/model/author.dart';
 import 'package:talao/app/shared/model/credential_subject.dart';
@@ -76,80 +77,83 @@ class ProfessionalExperienceAssessment extends CredentialSubject {
     final localizations = AppLocalizations.of(context)!;
     final _startDate = UiDate.displayDate(localizations, startDate);
     final _endDate = UiDate.displayDate(localizations, endDate);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        CredentialField(title: localizations.lastName, value: givenName),
-        CredentialField(title: localizations.firstName, value: familyName),
-        CredentialField(title: localizations.jobTitle, value: title),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              Text(
-                '${localizations.from} ',
-                style: Theme.of(context).textTheme.credentialFieldTitle,
-              ),
-              Text(
-                '${UiDate.displayDate(localizations, _startDate)}',
-                style: Theme.of(context).textTheme.credentialFieldDescription,
-              ),
-              Text(
-                ' ${localizations.to} ',
-                style: Theme.of(context).textTheme.credentialFieldTitle,
-              ),
-              Text(
-                '${UiDate.displayDate(localizations, _endDate)}',
-                style: Theme.of(context).textTheme.credentialFieldDescription,
-              ),
-            ],
+    return CredentialBackground(
+      model: item,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CredentialField(title: localizations.lastName, value: givenName),
+          CredentialField(title: localizations.firstName, value: familyName),
+          CredentialField(title: localizations.jobTitle, value: title),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Text(
+                  '${localizations.from} ',
+                  style: Theme.of(context).textTheme.credentialFieldTitle,
+                ),
+                Text(
+                  '${UiDate.displayDate(localizations, _startDate)}',
+                  style: Theme.of(context).textTheme.credentialFieldDescription,
+                ),
+                Text(
+                  ' ${localizations.to} ',
+                  style: Theme.of(context).textTheme.credentialFieldTitle,
+                ),
+                Text(
+                  '${UiDate.displayDate(localizations, _endDate)}',
+                  style: Theme.of(context).textTheme.credentialFieldDescription,
+                ),
+              ],
+            ),
           ),
-        ),
-        CredentialField(value: description),
-        SkillsListDisplay(
-          skillWidgetList: skills,
-        ),
-        Container(
-          height: 150,
-          child: ListView.builder(
-              itemCount: review.length,
-              itemBuilder: (context, index) {
-                final item = review[index];
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        getTranslation(item.reviewBody, localizations),
-                        style: Theme.of(context)
-                            .textTheme
-                            .professionalExperienceAssessmentRating,
-                      ),
-                      StarRating(
-                        starCount: 5,
-                        rating: double.parse(item.reviewRating.ratingValue),
-                        onRatingChanged: (_) => null,
-                        color: Theme.of(context).colorScheme.star,
-                      ),
-                    ],
-                  ),
-                );
-              }),
-        ),
-        Column(
-          children: signatureLines
-              .map((e) =>
-                  DisplaySignatures(localizations: localizations, item: e))
-              .toList(),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: DisplayIssuer(
-            issuer: issuedBy,
+          CredentialField(value: description),
+          SkillsListDisplay(
+            skillWidgetList: skills,
           ),
-        ),
-      ],
+          Container(
+            height: 150,
+            child: ListView.builder(
+                itemCount: review.length,
+                itemBuilder: (context, index) {
+                  final item = review[index];
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          getTranslation(item.reviewBody, localizations),
+                          style: Theme.of(context)
+                              .textTheme
+                              .professionalExperienceAssessmentRating,
+                        ),
+                        StarRating(
+                          starCount: 5,
+                          rating: double.parse(item.reviewRating.ratingValue),
+                          onRatingChanged: (_) => null,
+                          color: Theme.of(context).colorScheme.star,
+                        ),
+                      ],
+                    ),
+                  );
+                }),
+          ),
+          Column(
+            children: signatureLines
+                .map((e) =>
+                    DisplaySignatures(localizations: localizations, item: e))
+                .toList(),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: DisplayIssuer(
+              issuer: issuedBy,
+            ),
+          ),
+        ],
+      ),
     );
   }
 

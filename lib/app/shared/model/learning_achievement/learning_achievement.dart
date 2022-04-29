@@ -1,5 +1,6 @@
 import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:talao/app/shared/ui/ui.dart';
+import 'package:talao/credentials/widget/credential_background.dart';
 import 'package:talao/credentials/widget/display_issuer.dart';
 import 'package:talao/app/shared/model/author.dart';
 import 'package:talao/app/shared/model/credential_subject.dart';
@@ -43,38 +44,41 @@ class LearningAchievement extends CredentialSubject {
   Widget displayDetail(BuildContext context, CredentialModel item) {
     final localizations = AppLocalizations.of(context)!;
 
-    return Column(
-      children: [
-        CredentialField(value: familyName, title: localizations.firstName),
-        CredentialField(title: localizations.lastName, value: givenName),
-        CredentialField(title: localizations.personalMail, value: email),
-        CredentialField(
-            title: localizations.birthdate,
-            value: UiDate.displayDate(localizations, birthDate)),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            hasCredential.title,
-            style: Theme.of(context).textTheme.learningAchievementTitle,
-            maxLines: 5,
-            overflow: TextOverflow.fade,
-            softWrap: true,
+    return CredentialBackground(
+      model: item,
+      child: Column(
+        children: [
+          CredentialField(value: familyName, title: localizations.firstName),
+          CredentialField(title: localizations.lastName, value: givenName),
+          CredentialField(title: localizations.personalMail, value: email),
+          CredentialField(
+              title: localizations.birthdate,
+              value: UiDate.displayDate(localizations, birthDate)),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              hasCredential.title,
+              style: Theme.of(context).textTheme.learningAchievementTitle,
+              maxLines: 5,
+              overflow: TextOverflow.fade,
+              softWrap: true,
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            hasCredential.description,
-            style: Theme.of(context).textTheme.learningAchievementDescription,
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              hasCredential.description,
+              style: Theme.of(context).textTheme.learningAchievementDescription,
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: DisplayIssuer(
-            issuer: issuedBy,
-          ),
-        )
-      ],
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: DisplayIssuer(
+              issuer: issuedBy,
+            ),
+          )
+        ],
+      ),
     );
   }
 }

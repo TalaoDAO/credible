@@ -1,5 +1,6 @@
 import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:talao/app/shared/ui/ui.dart';
+import 'package:talao/credentials/widget/credential_background.dart';
 import 'package:talao/credentials/widget/display_issuer.dart';
 import 'package:talao/app/shared/model/author.dart';
 import 'package:talao/app/shared/model/credential_subject.dart';
@@ -65,41 +66,46 @@ class ResidentCard extends CredentialSubject {
   Widget displayDetail(BuildContext context, CredentialModel item) {
     final localizations = AppLocalizations.of(context)!;
 
-    return Column(
-      children: [
-        DisplayIssuer(issuer: issuedBy),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CredentialField(title: localizations.lastName, value: familyName),
-            CredentialField(title: localizations.firstName, value: givenName),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Text(
-                    '${localizations.gender}: ',
-                    style: Theme.of(context).textTheme.credentialFieldTitle,
-                  ),
-                  Flexible(
-                    child: genderDisplay(context),
-                  ),
-                ],
+    return CredentialBackground(
+      model: item,
+      child: Column(
+        children: [
+          DisplayIssuer(issuer: issuedBy),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CredentialField(title: localizations.lastName, value: familyName),
+              CredentialField(title: localizations.firstName, value: givenName),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Text(
+                      '${localizations.gender}: ',
+                      style: Theme.of(context).textTheme.credentialFieldTitle,
+                    ),
+                    Flexible(
+                      child: genderDisplay(context),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            CredentialField(
-                title: localizations.birthdate,
-                value: UiDate.displayDate(localizations, birthDate)),
-            CredentialField(title: localizations.birthplace, value: birthPlace),
-            CredentialField(title: localizations.address, value: address),
-            CredentialField(
-                title: localizations.maritalStatus, value: maritalStatus),
-            CredentialField(title: localizations.identifier, value: identifier),
-            CredentialField(
-                title: localizations.nationality, value: nationality),
-          ],
-        ),
-      ],
+              CredentialField(
+                  title: localizations.birthdate,
+                  value: UiDate.displayDate(localizations, birthDate)),
+              CredentialField(
+                  title: localizations.birthplace, value: birthPlace),
+              CredentialField(title: localizations.address, value: address),
+              CredentialField(
+                  title: localizations.maritalStatus, value: maritalStatus),
+              CredentialField(
+                  title: localizations.identifier, value: identifier),
+              CredentialField(
+                  title: localizations.nationality, value: nationality),
+            ],
+          ),
+        ],
+      ),
     );
   }
 

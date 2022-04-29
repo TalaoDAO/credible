@@ -44,8 +44,6 @@ class Voucher extends CredentialSubject {
 
   @override
   Widget displayDetail(BuildContext context, CredentialModel item) {
-    final localizations = AppLocalizations.of(context)!;
-
     return Column(
       children: [
         AspectRatio(
