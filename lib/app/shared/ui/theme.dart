@@ -250,7 +250,19 @@ extension CustomTextTheme on TextTheme {
         fontWeight: FontWeight.bold,
       );
 
+  TextStyle get certificateOfEmploymentTitleCard => GoogleFonts.roboto(
+        color: const Color(0xFF0650C6),
+        fontSize: 20.0,
+        fontWeight: FontWeight.bold,
+      );
+
   TextStyle get credentialDescription => GoogleFonts.montserrat(
+        color: const Color(0xFF434e62),
+        fontSize: 13.0,
+        fontWeight: FontWeight.normal,
+      );
+
+  TextStyle get certificateOfEmploymentDescription => GoogleFonts.montserrat(
         color: const Color(0xFF757575),
         fontSize: 13.0,
         fontWeight: FontWeight.normal,
@@ -276,6 +288,12 @@ extension CustomTextTheme on TextTheme {
 
   TextStyle get studentCardData => GoogleFonts.roboto(
         color: const Color(0xffffffff),
+        fontSize: 12.0,
+        fontWeight: FontWeight.normal,
+      );
+
+  TextStyle get certificateOfEmploymentData => GoogleFonts.roboto(
+        color: const Color(0xFF434e62),
         fontSize: 12.0,
         fontWeight: FontWeight.normal,
       );
