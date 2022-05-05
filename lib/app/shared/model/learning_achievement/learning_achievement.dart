@@ -1,5 +1,6 @@
 // ignore_for_file: unused_import
 
+import 'package:talao/app/interop/launch_url/launch_url.dart';
 import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/card_animation.dart';
@@ -275,7 +276,7 @@ class LearningAchievementVerso extends Verso {
                                 .copyWith(fontWeight: FontWeight.bold),
                           ),
                           InkWell(
-                            onTap: () => _launchURL(
+                            onTap: () => LaunchUrl.launch(
                                 item.credentialPreview.evidence.first.id),
                             child: ImageCardText(
                               text: item.credentialPreview.evidence.first.id,
@@ -291,10 +292,6 @@ class LearningAchievementVerso extends Verso {
       ),
     );
   }
-
-  void _launchURL(String _url) async => await canLaunchUrl(Uri.parse(_url))
-      ? await launchUrl(Uri.parse(_url))
-      : throw 'Could not launch $_url';
 }
 
 class LearningAchievementDelegate extends MultiChildLayoutDelegate {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:talao/app/interop/launch_url/launch_url.dart';
 import 'package:talao/app/shared/model/credential.dart';
 import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:talao/app/shared/model/author.dart';
@@ -29,7 +30,6 @@ import 'package:talao/credentials/widget/display_status.dart';
 import 'package:talao/credentials/widget/list_item.dart';
 import 'package:talao/l10n/l10n.dart';
 import 'package:talao/self_issued_credential/models/self_issued.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 part 'credential_subject.g.dart';
 
@@ -259,7 +259,7 @@ class CredentialSubject {
                       ),
                       Flexible(
                         child: InkWell(
-                          onTap: () => _launchURL(
+                          onTap: () => LaunchUrl.launch(
                               item.credentialPreview.evidence.first.id),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
@@ -395,8 +395,4 @@ class CredentialSubject {
       style: Theme.of(context).textTheme.credentialDescription,
     );
   }
-
-  void _launchURL(String _url) async => await canLaunchUrl(Uri.parse(_url))
-      ? await launchUrl(Uri.parse(_url))
-      : throw 'Could not launch $_url';
 }

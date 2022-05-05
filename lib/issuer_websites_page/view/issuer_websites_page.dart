@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:passbase_flutter/passbase_flutter.dart';
+import 'package:talao/app/interop/launch_url/launch_url.dart';
 import 'package:talao/app/shared/widget/back_leading_button.dart';
 import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:talao/issuer_websites_page/feature/kyc_feature.dart';
 import 'package:talao/l10n/l10n.dart';
 import 'package:talao/wallet/cubit/wallet_cubit.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class IssuerWebsitesPage extends StatelessWidget {
   final String? issuerFilter;
@@ -32,7 +32,7 @@ class IssuerWebsitesPage extends StatelessWidget {
           BaseButton.primary(
             context: context,
             onPressed: () {
-              _launchURL('https://talao.co/emailpass');
+              LaunchUrl.launch('https://issuer.talao.co/emailpass');
               Navigator.pop(context);
               Navigator.pop(context);
             },
@@ -57,7 +57,7 @@ class IssuerWebsitesPage extends StatelessWidget {
           BaseButton.primary(
             context: context,
             onPressed: () {
-              _launchURL('https://talao.co/phonepass');
+              LaunchUrl.launch('https://issuer.talao.co/phonepass');
               Navigator.pop(context);
               Navigator.pop(context);
             },
@@ -84,10 +84,6 @@ class IssuerWebsitesPage extends StatelessWidget {
       ),
     );
   }
-
-  void _launchURL(String _url) async => await canLaunchUrl(Uri.parse(_url))
-      ? await launchUrl(Uri.parse(_url))
-      : throw 'Could not launch $_url';
 }
 
 class KYCButton extends StatelessWidget {
@@ -104,14 +100,6 @@ class KYCButton extends StatelessWidget {
     return hasMetadata
         ? Stack(
             children: [
-              BaseButton.primary(
-                context: context,
-                onPressed: () {},
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(''),
-                ),
-              ),
               Padding(
                 padding: const EdgeInsets.all(5.0),
                 child: PassbaseButton(
@@ -129,6 +117,13 @@ class KYCButton extends StatelessWidget {
                   onStart: () {
                     // do stuff in case of start
                   },
+                ),
+              ),
+              IgnorePointer(
+                ignoring: true,
+                child: BaseButton.primary(
+                  context: context,
+                  child: PassbaseCustomButton(),
                 ),
               ),
             ],
@@ -177,10 +172,33 @@ class KYCButton extends StatelessWidget {
                 ),
               );
             },
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text('Verify me'),
-            ),
+            child: PassbaseCustomButton(),
           );
+  }
+}
+
+class PassbaseCustomButton extends StatelessWidget {
+  const PassbaseCustomButton({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Image.asset(
+            'assets/icon/passbase.png',
+            width: 28,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text('Over18'),
+        ),
+      ],
+    );
   }
 }

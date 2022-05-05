@@ -1,3 +1,4 @@
+import 'package:talao/app/interop/launch_url/launch_url.dart';
 import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:talao/app/shared/model/author.dart';
 import 'package:talao/app/shared/model/credential_subject.dart';
@@ -9,7 +10,6 @@ import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/image_card_text.dart';
 import 'package:talao/app/shared/widget/image_from_network.dart';
 import 'package:talao/l10n/l10n.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 part 'ecole_42_learning_achievement.g.dart';
 
@@ -134,8 +134,8 @@ class Ecole42LearningAchievement extends CredentialSubject {
                 SizedBox(width: 5),
                 Flexible(
                   child: InkWell(
-                    onTap: () =>
-                        _launchURL(item.credentialPreview.evidence.first.id),
+                    onTap: () => LaunchUrl.launch(
+                        item.credentialPreview.evidence.first.id),
                     child: Text(
                       '${item.credentialPreview.evidence.first.id.substring(0, 30)}...',
                       style: Theme.of(context).textTheme.bodyText2!.copyWith(
@@ -154,10 +154,6 @@ class Ecole42LearningAchievement extends CredentialSubject {
       ],
     );
   }
-
-  void _launchURL(String _url) async => await canLaunchUrl(Uri.parse(_url))
-      ? await launchUrl(Uri.parse(_url))
-      : throw 'Could not launch $_url';
 
   static Signature _signatureLinesFromJson(json) {
     if (json == null || json == '') {

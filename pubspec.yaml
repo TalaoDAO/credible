@@ -57,7 +57,7 @@ dependencies:
   qr_flutter: ^4.0.0
   secp256k1: ^0.3.0
   uni_links: ^0.5.1
-  url_launcher: ^6.0.17
+  url_launcher: ^6.1.0
   uuid: ^3.0.5
   video_player: ^2.2.19
   jose: ^0.3.2
