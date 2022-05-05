@@ -141,7 +141,7 @@ class CertificateOfEmploymentVerso extends Verso {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context)!;
     final credentialSubject =
         item.credentialPreview.credentialSubject as CertificateOfEmployment;
 
@@ -177,7 +177,7 @@ class CertificateOfEmploymentVerso extends Verso {
                       child: Row(
                         children: [
                           ImageCardText(
-                            text: '${localizations.personalLastName}: ',
+                            text: '${l10n.personalLastName}: ',
                             textStyle: Theme.of(context)
                                 .textTheme
                                 .certificateOfEmploymentData
@@ -196,7 +196,7 @@ class CertificateOfEmploymentVerso extends Verso {
                     child: Row(
                       children: [
                         ImageCardText(
-                          text: '${localizations.personalFirstName}: ',
+                          text: '${l10n.personalFirstName}: ',
                           textStyle: Theme.of(context)
                               .textTheme
                               .certificateOfEmploymentData
@@ -216,7 +216,7 @@ class CertificateOfEmploymentVerso extends Verso {
                     child: Row(
                       children: [
                         ImageCardText(
-                          text: '${localizations.workFor}: ',
+                          text: '${l10n.workFor}: ',
                           textStyle: Theme.of(context)
                               .textTheme
                               .certificateOfEmploymentData
@@ -243,7 +243,7 @@ class CertificateOfEmploymentVerso extends Verso {
                     child: Row(
                       children: [
                         ImageCardText(
-                          text: '${localizations.startDate}: ',
+                          text: '${l10n.startDate}: ',
                           textStyle: Theme.of(context)
                               .textTheme
                               .certificateOfEmploymentData
@@ -251,7 +251,7 @@ class CertificateOfEmploymentVerso extends Verso {
                         ),
                         ImageCardText(
                           text: UiDate.displayDate(
-                              localizations, credentialSubject.startDate),
+                              l10n, credentialSubject.startDate),
                           textStyle: Theme.of(context)
                               .textTheme
                               .certificateOfEmploymentData,
@@ -264,7 +264,7 @@ class CertificateOfEmploymentVerso extends Verso {
                     child: Row(
                       children: [
                         ImageCardText(
-                          text: '${localizations.jobTitle}: ',
+                          text: '${l10n.jobTitle}: ',
                           textStyle: Theme.of(context)
                               .textTheme
                               .certificateOfEmploymentData
@@ -284,7 +284,7 @@ class CertificateOfEmploymentVerso extends Verso {
                     child: Row(
                       children: [
                         ImageCardText(
-                          text: '${localizations.employmentType}: ',
+                          text: '${l10n.employmentType}: ',
                           textStyle: Theme.of(context)
                               .textTheme
                               .certificateOfEmploymentData
@@ -304,7 +304,7 @@ class CertificateOfEmploymentVerso extends Verso {
                     child: Row(
                       children: [
                         ImageCardText(
-                          text: '${localizations.baseSalary}: ',
+                          text: '${l10n.baseSalary}: ',
                           textStyle: Theme.of(context)
                               .textTheme
                               .certificateOfEmploymentData
@@ -324,15 +324,15 @@ class CertificateOfEmploymentVerso extends Verso {
                     child: Row(
                       children: [
                         ImageCardText(
-                          text: '${localizations.issuanceDate}: ',
+                          text: '${l10n.issuanceDate}: ',
                           textStyle: Theme.of(context)
                               .textTheme
                               .certificateOfEmploymentData
                               .copyWith(fontWeight: FontWeight.bold),
                         ),
                         ImageCardText(
-                          text: UiDate.displayDate(localizations,
-                              item.credentialPreview.issuanceDate),
+                          text: UiDate.displayDate(
+                              l10n, item.credentialPreview.issuanceDate),
                           textStyle: Theme.of(context)
                               .textTheme
                               .certificateOfEmploymentData,
