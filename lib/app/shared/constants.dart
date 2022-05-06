@@ -1,6 +1,6 @@
 class Constants {
   //TODO: Handle based on isEnterprise
-  static final String defaultDIDMethod = 'tz';
+  static final String defaultDIDMethod = 'key';
   static final String defaultDIDMethodName = 'Tezos';
   static final String enterpriseDIDMethod = 'web';
   static final String enterpriseDIDMethodName = 'Web';
@@ -10,7 +10,6 @@ class Constants {
   static const String appContactMail = 'contact@talao.io';
   static const String checkIssuerServerUrl =
       'https://talao.co/trusted-issuers-registry/v1/issuers';
-
 
   static const String ivVector = 'Talao';
   static const String additionalAuthenticatedData = 'Credible';
