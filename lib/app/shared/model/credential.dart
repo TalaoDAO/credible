@@ -5,6 +5,8 @@ import 'package:talao/app/shared/model/default_credential_subject/default_creden
 import 'package:talao/app/shared/model/evidence.dart';
 import 'package:talao/app/shared/model/proof.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:talao/app/shared/model/proof_ebsi.dart';
+import 'package:talao/app/shared/model/proof_generic.dart';
 import 'package:talao/app/shared/model/translation.dart';
 
 part 'credential.g.dart';
@@ -68,12 +70,22 @@ class Credential {
     if (json == null) {
       return [Proof.dummy()];
     }
+
     if (json is List) {
-      return (json)
-          .map((e) => Proof.fromJson(e as Map<String, dynamic>))
-          .toList();
+      return (json).map((e) {
+        if (e['proofPurpose'] == null) {
+          return ProofEbsi.fromJson(e as Map<String, dynamic>);
+        } else {
+          return ProofGeneric.fromJson(e as Map<String, dynamic>);
+        }
+      }).toList();
+    } else {
+      if (json['proofPurpose'] == null) {
+        return [ProofEbsi.fromJson(json)];
+      } else {
+        return [ProofGeneric.fromJson(json)];
+      }
     }
-    return [Proof.fromJson(json)];
   }
 
   static List<Translation> _fromJsonTranslations(json) {
@@ -106,7 +118,6 @@ class Credential {
     }
     return [Evidence.fromJson(json)];
   }
-
 
   static Credential fromJsonOrDummy(Map<String, dynamic> data) {
     try {

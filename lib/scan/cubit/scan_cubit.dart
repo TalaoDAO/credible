@@ -53,36 +53,40 @@ class ScanCubit extends Cubit<ScanState> {
 
       final jsonCredential =
           credential is String ? jsonDecode(credential) : credential;
+      final issuer = jsonCredential['issuer'] as String;
+      if (!issuer.startsWith('did:ebsi')) {
+        final vcStr = jsonEncode(jsonCredential);
+        final optStr = jsonEncode({'proofPurpose': 'assertionMethod'});
+        final verification =
+            await didKitProvider.verifyCredential(vcStr, optStr);
 
-      // final vcStr = jsonEncode(jsonCredential);
-      // final optStr = jsonEncode({'proofPurpose': 'assertionMethod'});
-      // final verification = await didKitProvider.verifyCredential(vcStr, optStr);
+        print('[wallet/credential-offer/verify/vc] $vcStr');
+        print('[wallet/credential-offer/verify/options] $optStr');
+        print('[wallet/credential-offer/verify/result] $verification');
 
-      // print('[wallet/credential-offer/verify/vc] $vcStr');
-      // print('[wallet/credential-offer/verify/options] $optStr');
-      // print('[wallet/credential-offer/verify/result] $verification');
+        final jsonVerification = jsonDecode(verification);
 
-      // final jsonVerification = jsonDecode(verification);
+        if (jsonVerification['warnings'].isNotEmpty) {
+          log.warning('credential verification return warnings',
+              jsonVerification['warnings']);
 
-      // if (jsonVerification['warnings'].isNotEmpty) {
-      //   log.warning('credential verification return warnings',
-      //       jsonVerification['warnings']);
+          emit(ScanStateMessage(
+              message: StateMessage.warning(
+                  message: ScanMessageStringState
+                      .credentialVerificationReturnWarning())));
+        }
 
-      //   emit(ScanStateMessage(
-      //       message: StateMessage.warning(
-      //           message: ScanMessageStringState
-      //               .credentialVerificationReturnWarning())));
-      // }
-
-      // if (jsonVerification['errors'].isNotEmpty) {
-      //   log.severe('failed to verify credential', jsonVerification['errors']);
-      //   if (jsonVerification['errors'][0] != 'No applicable proof') {
-      //     emit(ScanStateMessage(
-      //         message: StateMessage.error(
-      //             message: ScanMessageStringState.failedToVerifyCredential())));
-      //     return emit(ScanStateIdle());
-      //   }
-      // }
+        if (jsonVerification['errors'].isNotEmpty) {
+          log.severe('failed to verify credential', jsonVerification['errors']);
+          if (jsonVerification['errors'][0] != 'No applicable proof') {
+            emit(ScanStateMessage(
+                message: StateMessage.error(
+                    message:
+                        ScanMessageStringState.failedToVerifyCredential())));
+            return emit(ScanStateIdle());
+          }
+        }
+      }
 
       await walletCubit.insertCredential(CredentialModel.copyWithData(
           oldCredentialModel: credentialModel, newData: jsonCredential));

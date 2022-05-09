@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talao/app/shared/widget/confirm_dialog.dart';
 import 'package:talao/drawer/drawer.dart';
+import 'package:talao/drawer/profile/view/widget/menu_item.dart';
 import 'package:talao/issuer_websites_page/view/issuer_websites_page.dart';
 import 'package:talao/l10n/l10n.dart';
 import 'package:talao/personal/view/personal_page.dart';
 import 'package:talao/theme/theme.dart';
 import 'package:talao/wallet/wallet.dart';
-
-import 'widget/menu_item.dart';
 
 class ProfilePage extends StatelessWidget {
   ProfilePage({Key? key}) : super(key: key);
