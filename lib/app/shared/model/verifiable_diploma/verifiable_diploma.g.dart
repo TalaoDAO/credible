@@ -16,6 +16,8 @@ VerifiableDiploma _$VerifiableDiplomaFromJson(Map<String, dynamic> json) =>
       json['dateOfBirth'] as String? ?? '',
       CredentialSubject.fromJsonAuthor(json['issuedBy']),
       json['identifier'] as String? ?? '',
+      VerifiableDiploma._learningAchievementFromJson(
+          json['learningAchievement']),
     );
 
 Map<String, dynamic> _$VerifiableDiplomaToJson(VerifiableDiploma instance) =>
@@ -27,5 +29,6 @@ Map<String, dynamic> _$VerifiableDiplomaToJson(VerifiableDiploma instance) =>
       'email': instance.email,
       'dateOfBirth': instance.dateOfBirth,
       'identifier': instance.identifier,
+      'learningAchievement': instance.learningAchievement.toJson(),
       'issuedBy': instance.issuedBy.toJson(),
     };

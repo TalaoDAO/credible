@@ -2,6 +2,7 @@
 
 import 'package:talao/app/interop/launch_url/launch_url.dart';
 import 'package:talao/app/shared/model/credential_model/credential_model.dart';
+import 'package:talao/app/shared/model/verifiable_diploma/sub_learning_achievement.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/card_animation.dart';
 import 'package:talao/app/shared/widget/display_description_card.dart';
@@ -38,11 +39,21 @@ class VerifiableDiploma extends CredentialSubject {
   String dateOfBirth;
   @JsonKey(defaultValue: '')
   String identifier;
+  @JsonKey(fromJson: _learningAchievementFromJson)
+  SubLearningAchievement learningAchievement;
   @override
   final Author issuedBy;
 
-  VerifiableDiploma(this.id, this.type, this.familyName, this.givenName,
-      this.email, this.dateOfBirth, this.issuedBy, this.identifier)
+  VerifiableDiploma(
+      this.id,
+      this.type,
+      this.familyName,
+      this.givenName,
+      this.email,
+      this.dateOfBirth,
+      this.issuedBy,
+      this.identifier,
+      this.learningAchievement)
       : super(id, type, issuedBy);
 
   factory VerifiableDiploma.fromJson(Map<String, dynamic> json) =>
@@ -81,6 +92,13 @@ class VerifiableDiploma extends CredentialSubject {
             )),
       ],
     );
+  }
+
+  static SubLearningAchievement _learningAchievementFromJson(json) {
+    if (json == null || json == '') {
+      return SubLearningAchievement('', '', '');
+    }
+    return SubLearningAchievement.fromJson(json);
   }
 }
 
@@ -248,21 +266,12 @@ class VerifiableDiplomaVerso extends Verso {
                     ),
                     LayoutId(
                       id: 'hasCredential',
-                      child: Row(
-                        children: [
-                          // ImageCardText(
-                          //   text: '${credentialSubject.hasCredential.title}: ',
-                          //   textStyle: Theme.of(context)
-                          //       .textTheme
-                          //       .studentCardData
-                          //       .copyWith(fontWeight: FontWeight.bold),
-                          // ),
-                          // ImageCardText(
-                          //   text: credentialSubject.hasCredential.description,
-                          //   textStyle:
-                          //       Theme.of(context).textTheme.studentCardData,
-                          // ),
-                        ],
+                      child: ImageCardText(
+                        text: '${credentialSubject.learningAchievement.title}',
+                        textStyle: Theme.of(context)
+                            .textTheme
+                            .studentCardData
+                            .copyWith(fontWeight: FontWeight.bold),
                       ),
                     ),
                     LayoutId(
@@ -315,22 +324,22 @@ class VerifiableDiplomaDelegate extends MultiChildLayoutDelegate {
     if (hasChild('familyName')) {
       layoutChild('familyName', BoxConstraints.loose(size));
       positionChild(
-          'familyName', Offset(size.width * 0.06, size.height * 0.63));
+          'familyName', Offset(size.width * 0.06, size.height * 0.53));
     }
     if (hasChild('givenName')) {
       layoutChild('givenName', BoxConstraints.loose(size));
-      positionChild('givenName', Offset(size.width * 0.06, size.height * 0.53));
+      positionChild('givenName', Offset(size.width * 0.06, size.height * 0.43));
     }
 
     if (hasChild('birthDate')) {
       layoutChild('birthDate', BoxConstraints.loose(size));
-      positionChild('birthDate', Offset(size.width * 0.45, size.height * 0.53));
+      positionChild('birthDate', Offset(size.width * 0.45, size.height * 0.43));
     }
 
     if (hasChild('hasCredential')) {
       layoutChild('hasCredential', BoxConstraints.loose(size));
       positionChild(
-          'hasCredential', Offset(size.width * 0.45, size.height * 0.63));
+          'hasCredential', Offset(size.width * 0.06, size.height * 0.63));
     }
 
     if (hasChild('proof')) {
