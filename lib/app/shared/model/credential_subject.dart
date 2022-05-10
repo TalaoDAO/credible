@@ -19,6 +19,7 @@ import 'package:talao/app/shared/model/professional_student_card/professional_st
 import 'package:talao/app/shared/model/resident_card/resident_card.dart';
 import 'package:talao/app/shared/model/student_card/student_card.dart';
 import 'package:talao/app/shared/model/translation.dart';
+import 'package:talao/app/shared/model/verifiable_diploma/verifiable_diploma.dart';
 import 'package:talao/app/shared/model/voucher/voucher.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/box_decoration.dart';
@@ -320,6 +321,8 @@ class CredentialSubject {
         return ProfessionalSkillAssessment.fromJson(json);
       case 'LearningAchievement':
         return LearningAchievement.fromJson(json);
+      case 'VerifiableDiploma':
+        return VerifiableDiploma.fromJson(json);
     }
     return DefaultCredentialSubject.fromJson(json);
   }
