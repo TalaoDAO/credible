@@ -1,4 +1,4 @@
-![Talao header](https://avatars.githubusercontent.com/u/36969426?s=200&v=4)
+![Talao header](https://github.com/TalaoDAO/talao-wallet/blob/dev-talao/Screen%20app%20store%20-%20MASTER.png)
 
 
 [![](https://img.shields.io/badge/Flutter-1.22.6-blue)](https://flutter.dev/docs/get-started/install) [![](https://img.shields.io/badge/ssi-v0.3-green)](https://www.github.com/spruceid/ssi) [![](https://img.shields.io/badge/DIDKit-v0.3-green)](https://www.github.com/spruceid/didkit) [![](https://img.shields.io/badge/License-Apache--2.0-green)](https://github.com/TalaoDAO/talao-wallet/blob/dev-talao/LICENSE) 
