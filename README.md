@@ -36,7 +36,7 @@ The wallet code is open source under the Apache license available on github. The
 ## Technical characteristics 
 
 
-* Android application, iOS
+* Developed with Flutter/Dart for Android and iOS devices,  
 * Supported DIDs: did:tz, did:web, did:key; did:ethr, did: pkh, did:ion,  
 * Revocation of VCs: RevocationList2020  
 * SDK development environment: C, Rust, Python, NodeJS, java, Flutter, ...
