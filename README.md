@@ -31,7 +31,7 @@ The chain of trust which is essential in all SSI models must allow the Holder wi
 The protection of the user's personal data has also been a primary concern. It resulted in the strict application of the rules of the GDPR and in particular by the use of DID formats that do not require writing on a blockchain as well as by the request for the user's agreement on certain features.
 
 
-For the developments we used the [didkit sdk](https://spruceid.dev/docs/didkit/ ) from Spruce and the [Credible]( https://spruceid.dev/docs/credible/ ) platform from the company Spruce. The tools offered by Spruce are probably the only ones allowing in a cross-platform environment to support so many identity models and signature suites adapted to the JSON-LD format. The Crédible platform was our starting point and allowed us to save a lot of time. Our work focused on a specific support for the VCs of our use cases, and the enrichment of the interaction protocol between the wallet and the Issuers and Verifiers to accommodate new ones. All of these features allow an Issuer to customize the support for their own VCs in a matter of minutes.
+For the developments we used the [didkit sdk](https://spruceid.dev/docs/didkit/ ) from the company Spruce. The tools offered by Spruce are probably the only ones allowing in a cross-platform environment to support so many identity models and signature suites adapted to the JSON-LD format. Our work focused on a specific support for the VCs of our use cases, and the enrichment of the interaction protocol between the wallet and the Issuers and Verifiers to accommodate new ones. All of these features allow an Issuer to customize the support for their own VCs in a matter of minutes.
 
 
 The wallet code is open source under the Apache license available on github. The wallet is free to download on the google and IOS stores in 5 languages. Talao provides support to all teams who wish to integrate a wallet in the ISS format in their project. A digital safe allowing the user to archive his VCs or possibly to publish them is also available on the talao.co website
@@ -41,11 +41,10 @@ The wallet code is open source under the Apache license available on github. The
 
 
 * Android application, iOS
-* Wallet DID: did: tz, did: key
-* Issuer Supported DIDs: did: tz, did: web, did: key; did: ethr, did: pkh.
-* Revocation of VCs: RevocationList2020
-* SDK development environment: PHP, Python, NodeJS, java, C, Flutter, ...
-* Wallet VC schema : employer certificate, experience certificate, skills certificate, company pass , proof of email, proof of telephone, certificate of residence, loyalty card, diplomas, student card, ...
+* Supported DIDs: did:tz, did:web, did:key; did:ethr, did: pkh, did:ion,  
+* Revocation of VCs: RevocationList2020  
+* SDK development environment: C, Rust, Python, NodeJS, java, Flutter, ...
+* Wallet VC schema : voucher, Loyalty cards, memebership cad, employer certificate, experience certificate, skills certificate, company pass , proof of email, proof of telephone, diplomas, student card, ...
 * Wallet languages: English, French, German, Spanish, Italian
 
 ## Commercial Support
