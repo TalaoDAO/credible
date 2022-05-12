@@ -3,24 +3,20 @@
 
 [![](https://img.shields.io/badge/Flutter-1.22.6-blue)](https://flutter.dev/docs/get-started/install) [![](https://img.shields.io/badge/ssi-v0.3-green)](https://www.github.com/spruceid/ssi) [![](https://img.shields.io/badge/DIDKit-v0.3-green)](https://www.github.com/spruceid/didkit) [![](https://img.shields.io/badge/License-Apache--2.0-green)](https://github.com/TalaoDAO/talao-wallet/blob/dev-talao/LICENSE) 
 
-# Talao SSI wallet
+# Talao Self Sovereign Identity wallet
 
 ## Motivation 
 
 
-Our ambition for this wallet is that a project team can integrate it into its application in less than a week, with the minimum of dependencies and whatever its environment, whether for projects carried by companies than by institutions. This ease of implementation seems to us today essential for the adoption of SSI concepts and technologies by as many people as possible.
-
+Our ambition for this wallet is that a project team can integrate it into its application in the shortest possible time with the minimum of dependencies and whatever its environment, whether for projects carried by companies than by institutions. This ease of implementation seems to us today essential for the adoption of SSI concepts and technologies by as many people as possible.  
 
 Our ambition is also to offer an SSI wallet adapted to the European market, taking into account the specifications that have been put forward by the EU working groups both in terms of technology and regulation. 
-
 
 Finally, our project is to offer for the first time a smartphone wallet available on the Apple and Google stores which carries the identity in the format of the Tezos channel ([did: tz]( https://did-tezos-draft.spruceid.com/ )). The Tezos blockchain has many advantages for SSI, in particu projectslar that of open governance, high security and by a proof of stake consensus which makes it one of the most popular blockchains. less energy consuming in the world. This wallet allows all Tezos applications to offer their users an SSI identity to access their services.
  
 ## Architecture
 
-
-To achieve these objectives we have opted for a minimalist design adapted to the use cases of today's SSI and based on W3C standards. The wallet exclusively supports Verifiable Credentials in JSON-LD format, the Decentralized Identifier (DIDs) standard and the Credential Status List 2020 specifications for the revocation of VCs.
-
+To achieve these objectives we have opted for a design adapted to the use cases of today's SSI and based on W3C standards. The wallet exclusively supports Verifiable Credentials in JSON-LD format, the Decentralized Identifier (DIDs) standard and the Credential Status List 2020 specifications for the revocation of VCs.  
 
 For the interaction of the wallet with Issuers and Verifiers, which is a decisive function in the implementation of this type of solution, we have retained the specifications of the [W3C Presentation Request]( https://w3c-ccg.github.io/vp-request-spec/ ) as well as the [Spruce protocol]( https://github.com/spruceid/credible#supported-protocols )  for the management of the QR Code on a HTTPS transport layer. This protocol has the advantage of being quick and easy to implement while providing most of the necessary functions. There are currently several very promising protocols that are being defined or even in production but they seem to us too complex and ultimately useless for current use cases which remain simple.
 
