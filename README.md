@@ -40,8 +40,8 @@ The wallet code is open source under the Apache license available on github. The
 * Supported DIDs: did:tz, did:web, did:key; did:ethr, did: pkh, did:ion,  
 * Revocation of VCs: RevocationList2020  
 * SDK development environment: C, Rust, Python, NodeJS, java, Flutter, ...
-* Wallet VC schema : voucher, Loyalty cards, memebership cad, employer certificate, experience certificate, skills certificate, company pass , proof of email, proof of telephone, diplomas, student card, ...
-* Wallet languages: English, French, German, Spanish, Italian
+* Wallet VC schema : voucher, loyalty cards, membership card, employer certificate, skills certificate, company pass, proof of email, proof of telephone, diplomas, student card, ...  
+* Wallet languages: English, French, German, Spanish, Italian  
 
 ## Commercial Support
 
