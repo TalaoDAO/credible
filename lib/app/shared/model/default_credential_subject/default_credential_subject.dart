@@ -13,7 +13,9 @@ import 'package:talao/app/shared/model/credential_subject.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/credential_field.dart';
+import 'package:talao/app/shared/widget/image_from_network.dart';
 import 'package:talao/credentials/widget/credential_background.dart';
+import 'package:talao/credentials/widget/credential_container.dart';
 import 'package:talao/l10n/l10n.dart';
 
 part 'default_credential_subject.g.dart';
@@ -94,13 +96,7 @@ class DefaultCredentialSubject extends CredentialSubject {
         ),
       );
     } else {
-      return CredentialBackground(
-        model: item,
-        child: Container(
-          color: Colors.amber,
-          child: OutputDescriptorWidget(outputDescriptor, item),
-        ),
-      );
+      return OutputDescriptorWidget(outputDescriptor, item);
     }
   }
 }
@@ -112,26 +108,75 @@ class OutputDescriptorWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final widgets = <Widget>[];
-    outputDescriptor.forEach(((element) => widgets.add(Column(
-          children: [
-            displayMappingWidget(
-              element.display?.title,
-              item,
+
+    outputDescriptor.forEach(((element) {
+      var textcolor = element.styles?.text != null
+          ? Color(int.parse(
+              'FF${element.styles?.background!.color!.substring(1)}',
+              radix: 16))
+          : null;
+      widgets.add(Padding(
+        padding: const EdgeInsets.only(bottom: 8),
+        child: CredentialContainer(
+          child: CredentialBackground(
+            backgroundColor: element.styles?.background != null
+                ? Color(int.parse(
+                    'FF${element.styles?.background!.color!.substring(1)}',
+                    radix: 16))
+                : null,
+            model: item,
+            child: Column(
+              children: [
+                if (element.styles?.hero != null)
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ImageFromNetwork(element.styles!.hero!.uri),
+                  )
+                else
+                  SizedBox.shrink(),
+                Row(
+                  children: [
+                    if (element.styles?.thumbnail != null)
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          width: 30,
+                          child:
+                              ImageFromNetwork(element.styles!.thumbnail!.uri),
+                        ),
+                      )
+                    else
+                      SizedBox.shrink(),
+                    Expanded(
+                      child: displayMappingWidget(
+                        element.display?.title,
+                        item,
+                        textcolor,
+                      ),
+                    ),
+                  ],
+                ),
+                displayMappingWidget(
+                  element.display?.subtitle,
+                  item,
+                  textcolor,
+                ),
+                displayMappingWidget(
+                  element.display?.description,
+                  item,
+                  textcolor,
+                ),
+                displayPropertiesWidget(
+                  element.display?.properties,
+                  item,
+                  textcolor,
+                ),
+              ],
             ),
-            displayMappingWidget(
-              element.display?.subtitle,
-              item,
-            ),
-            displayMappingWidget(
-              element.display?.description,
-              item,
-            ),
-            displayPropertiesWidget(
-              element.display?.properties,
-              item,
-            ),
-          ],
-        ))));
+          ),
+        ),
+      ));
+    }));
     return Column(
       children: widgets,
     );
@@ -139,10 +184,14 @@ class OutputDescriptorWidget extends StatelessWidget {
 }
 
 Widget displayPropertiesWidget(
-    List<DisplayMapping>? properties, CredentialModel item) {
+    List<DisplayMapping>? properties, CredentialModel item, Color? textColor) {
   final widgets = <Widget>[];
   properties?.forEach((element) {
-    widgets.add(labeledDisplayMappingWidget(element, item));
+    widgets.add(labeledDisplayMappingWidget(
+      element,
+      item,
+      textColor,
+    ));
   });
   if (widgets.isNotEmpty) {
     return Column(
@@ -153,17 +202,29 @@ Widget displayPropertiesWidget(
 }
 
 Widget displayMappingWidget(
-    DisplayMapping? displayMapping, CredentialModel item) {
+  DisplayMapping? displayMapping,
+  CredentialModel item,
+  Color? textColor,
+) {
   if (displayMapping is DisplayMappingText) {
-    return CredentialField(value: displayMapping.text);
+    return CredentialField(
+      value: displayMapping.text,
+      textColor: textColor,
+    );
   }
   if (displayMapping is DisplayMappingPath) {
     final widgets = <Widget>[];
     displayMapping.path.forEach(((e) {
       final fieldsPath = JsonPath(e);
-      fieldsPath
-          .read(item.data)
-          .map((a) => widgets.add(CredentialField(value: a.value)));
+      fieldsPath.read(item.data).forEach((a) {
+        print('one more');
+        if (a.value is String) {
+          widgets.add(CredentialField(
+            value: a.value,
+            textColor: textColor,
+          ));
+        }
+      });
     }));
     if (widgets.isNotEmpty) {
       return Column(
@@ -173,6 +234,7 @@ Widget displayMappingWidget(
     if (displayMapping.fallback != null) {
       return CredentialField(
         value: displayMapping.fallback ?? '',
+        textColor: textColor,
       );
     }
   }
@@ -180,18 +242,31 @@ Widget displayMappingWidget(
 }
 
 Widget labeledDisplayMappingWidget(
-    DisplayMapping? displayMapping, CredentialModel item) {
+  DisplayMapping? displayMapping,
+  CredentialModel item,
+  Color? textColor,
+) {
   if (displayMapping is LabeledDisplayMappingText) {
-    return CredentialField(value: displayMapping.text);
+    return CredentialField(
+      value: displayMapping.text,
+      textColor: textColor,
+    );
   }
   if (displayMapping is LabeledDisplayMappingPath) {
     final widgets = <Widget>[];
-    displayMapping.path.map(((e) {
-      final fieldsPath = JsonPath(e);
-      fieldsPath.read(item.data).map((a) => widgets.add(CredentialField(
-            value: a.value,
-            title: displayMapping.label,
-          )));
+    displayMapping.path.forEach(((e) {
+      if (e != "\$.name[0].@value") {
+        final fieldsPath = JsonPath(e);
+        fieldsPath.read(item.data).forEach((a) {
+          if (a.value is String) {
+            widgets.add(CredentialField(
+              value: a.value,
+              title: displayMapping.label,
+              textColor: textColor,
+            ));
+          }
+        });
+      }
     }));
     if (widgets.isNotEmpty) {
       return Column(
@@ -202,6 +277,7 @@ Widget labeledDisplayMappingWidget(
       return CredentialField(
         value: displayMapping.fallback ?? '',
         title: displayMapping.label,
+        textColor: textColor,
       );
     }
   }

@@ -92,6 +92,8 @@ class CredentialModel extends Equatable {
       display: oldCredentialModel.display,
       credentialPreview: oldCredentialModel.credentialPreview,
       revocationStatus: oldCredentialModel.revocationStatus,
+      expirationDate: oldCredentialModel.expirationDate,
+      credentialManifest: oldCredentialModel.credentialManifest,
     );
   }
 
@@ -107,6 +109,8 @@ class CredentialModel extends Equatable {
       display: oldCredentialModel.display,
       credentialPreview: Credential.fromJson(newData),
       revocationStatus: oldCredentialModel.revocationStatus,
+      expirationDate: oldCredentialModel.expirationDate,
+      credentialManifest: oldCredentialModel.credentialManifest,
     );
   }
 
