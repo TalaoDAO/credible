@@ -37,10 +37,11 @@ The wallet code is open source under the Apache license available on github. The
 
 
 * Developed with Flutter/Dart for Android and iOS devices,  
-* Supported DIDs: did:tz, did:web, did:key; did:ethr, did: pkh, did:ion,  
+* Supported DIDs: did:tz, did:web, did:key, did:ethr, did: pkh, did:ion, 
+* VC/VP : JSON-LD, W3C signature suite,  
 * Protocols : Presentation Request, SIOPv2, Credential Manifest, Presentation Exchange,  
-* Revocation of VCs: RevocationList2020  
-* SDK development environment: C, Rust, Python, NodeJS, java, Flutter, ...
+* Revocation of VCs: RevocationList2020, RevocationList2021,    
+* SDK development environment for Issuers and Verifiers : C, Rust, Python, NodeJS, java, Flutter/Dart,  
 * Wallet VC custom templates : voucher, loyalty cards, community card, decentralized kyc, over 18 proof, employer certificate, skills certificate, company pass, proof of email, proof of telephone, diplomas, student card, ...  
 * Wallet languages: English, French, German, Spanish, Italian  
 
