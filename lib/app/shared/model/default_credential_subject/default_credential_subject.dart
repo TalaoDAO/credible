@@ -111,8 +111,7 @@ class OutputDescriptorWidget extends StatelessWidget {
 
     outputDescriptor.forEach(((element) {
       var textcolor = element.styles?.text != null
-          ? Color(int.parse(
-              'FF${element.styles?.background!.color!.substring(1)}',
+          ? Color(int.parse('FF${element.styles?.text!.color!.substring(1)}',
               radix: 16))
           : null;
       widgets.add(Padding(
@@ -136,17 +135,6 @@ class OutputDescriptorWidget extends StatelessWidget {
                   SizedBox.shrink(),
                 Row(
                   children: [
-                    if (element.styles?.thumbnail != null)
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          width: 30,
-                          child:
-                              ImageFromNetwork(element.styles!.thumbnail!.uri),
-                        ),
-                      )
-                    else
-                      SizedBox.shrink(),
                     Expanded(
                       child: displayMappingWidget(
                         element.display?.title,
@@ -154,6 +142,18 @@ class OutputDescriptorWidget extends StatelessWidget {
                         textcolor,
                       ),
                     ),
+                    if (element.styles?.thumbnail != null)
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          constraints:
+                              BoxConstraints(maxHeight: 100, maxWidth: 100),
+                          child:
+                              ImageFromNetwork(element.styles!.thumbnail!.uri),
+                        ),
+                      )
+                    else
+                      SizedBox.shrink(),
                   ],
                 ),
                 displayMappingWidget(

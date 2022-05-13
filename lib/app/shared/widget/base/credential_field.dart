@@ -14,7 +14,11 @@ class CredentialField extends StatelessWidget {
   Widget build(BuildContext context) {
     return HasDisplay(
         value: value,
-        child: DisplayCredentialField(title: title, value: value));
+        child: DisplayCredentialField(
+          title: title,
+          value: value,
+          textColor: textColor,
+        ));
   }
 }
 

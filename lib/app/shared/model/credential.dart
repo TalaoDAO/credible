@@ -1,5 +1,4 @@
 import 'package:talao/app/shared/model/author.dart';
-import 'package:talao/app/shared/model/credential_manifest/credential_manifest.dart';
 import 'package:talao/app/shared/model/credential_status_field.dart';
 import 'package:talao/app/shared/model/credential_subject.dart';
 import 'package:talao/app/shared/model/default_credential_subject/default_credential_subject.dart';
