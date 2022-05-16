@@ -6,8 +6,8 @@ import 'package:talao/app/interop/didkit/didkit.dart';
 import 'package:talao/app/shared/enum/credential_status.dart';
 import 'package:talao/app/shared/enum/revokation_status.dart';
 import 'package:talao/app/shared/model/credential.dart';
-import 'package:talao/app/shared/model/credential_manifest/credential_manifest.dart';
 import 'package:talao/app/shared/model/display.dart';
+import 'package:talao/credential_manifest/models/credential_manifest.dart';
 import 'package:uuid/uuid.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -49,8 +49,8 @@ class CredentialModel extends Equatable {
   });
 
   factory CredentialModel.fromJson(Map<String, dynamic> json) {
-    // ignore: omit_local_variable_types1
-    Map<String, dynamic> newJson = Map.from(json);
+    // ignore: omit_local_variable_types
+    final Map<String, dynamic> newJson = Map.from(json);
     if (newJson['data'] != null) {
       newJson.putIfAbsent('credentialPreview', () => newJson['data']);
     }

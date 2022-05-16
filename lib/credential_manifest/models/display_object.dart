@@ -1,9 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:talao/app/shared/model/credential_manifest/display_mapping.dart';
-import 'package:talao/app/shared/model/credential_manifest/display_mapping_path.dart';
-import 'package:talao/app/shared/model/credential_manifest/display_mapping_text.dart';
-import 'package:talao/app/shared/model/credential_manifest/labeled_display_mapping_path.dart';
-import 'package:talao/app/shared/model/credential_manifest/labeled_display_mapping_text.dart';
+import 'package:talao/credential_manifest/models/display_mapping.dart';
+import 'package:talao/credential_manifest/models/display_mapping_path.dart';
+import 'package:talao/credential_manifest/models/display_mapping_text.dart';
+import 'package:talao/credential_manifest/models/labeled_display_mapping_text.dart';
+import 'package:talao/credential_manifest/models/labeled_display_mapping_path.dart';
 
 part 'display_object.g.dart';
 

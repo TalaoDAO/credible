@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:talao/app/shared/model/credential_manifest/display_mapping.dart';
-import 'package:talao/app/shared/model/credential_manifest/display_mapping_path.dart';
-import 'package:talao/app/shared/model/credential_manifest/display_mapping_text.dart';
 import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:talao/app/shared/ui/ui.dart';
 import 'package:talao/app/shared/widget/base/credential_field.dart';
 import 'package:talao/credential_manifest/helpers/get_text_from_credential.dart';
+import 'package:talao/credential_manifest/models/display_mapping.dart';
+import 'package:talao/credential_manifest/models/display_mapping_path.dart';
+import 'package:talao/credential_manifest/models/display_mapping_text.dart';
 
 class DisplayDescriptionWidget extends StatelessWidget {
   const DisplayDescriptionWidget(this.displayMapping, this.item, this.textColor,

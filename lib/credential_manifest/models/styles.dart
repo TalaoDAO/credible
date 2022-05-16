@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:talao/app/shared/model/credential_manifest/color_object.dart';
-import 'package:talao/app/shared/model/credential_manifest/image_object.dart';
+import 'package:talao/credential_manifest/models/color_object.dart';
+import 'package:talao/credential_manifest/models/image_object.dart';
 
 part 'styles.g.dart';
 

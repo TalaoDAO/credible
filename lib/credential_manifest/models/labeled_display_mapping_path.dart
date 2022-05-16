@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:talao/app/shared/model/credential_manifest/display_mapping.dart';
-import 'package:talao/app/shared/model/credential_manifest/schema.dart';
+import 'package:talao/credential_manifest/models/display_mapping.dart';
+import 'package:talao/credential_manifest/models/schema.dart';
 
 part 'labeled_display_mapping_path.g.dart';
 

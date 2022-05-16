@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:talao/app/shared/model/credential_manifest/output_descriptor.dart';
 import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:talao/app/shared/widget/image_from_network.dart';
+import 'package:talao/credential_manifest/models/output_descriptor.dart';
 import 'package:talao/credential_manifest/ui/get_color_from_credential.dart';
 import 'package:talao/credential_manifest/view/display_mapping_widget.dart';
 import 'package:talao/credential_manifest/view/display_properties_widget.dart';

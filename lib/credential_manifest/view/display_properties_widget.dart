@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:talao/app/shared/model/credential_manifest/display_mapping.dart';
 import 'package:talao/app/shared/model/credential_model/credential_model.dart';
+import 'package:talao/credential_manifest/models/display_mapping.dart';
 import 'package:talao/credential_manifest/view/labeled_display_mapping_widget.dart';
 
 class DisplayPropertiesWidget extends StatelessWidget {

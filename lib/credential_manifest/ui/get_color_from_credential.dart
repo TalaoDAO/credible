@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:talao/app/shared/model/credential_manifest/color_object.dart';
+import 'package:talao/credential_manifest/models/color_object.dart';
 
 Color? getColorFromCredential(ColorObject? colorCode, Color fallbackColor) {
   var color = colorCode != null
