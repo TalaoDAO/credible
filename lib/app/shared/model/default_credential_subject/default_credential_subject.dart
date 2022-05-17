@@ -131,6 +131,7 @@ class DefaultCredentialSubject extends CredentialSubject {
                             textColor,
                           )),
                     ),
+                    Spacer(),
                     DisplayIssuanceDateWidget(
                       item.credentialPreview.issuanceDate,
                       textColor,
@@ -266,6 +267,7 @@ class DefaultCredentialSubject extends CredentialSubject {
                                   textColor,
                                 )),
                           ),
+                          Spacer(),
                           DisplayIssuanceDateWidget(
                             item.credentialPreview.issuanceDate,
                             textColor,
