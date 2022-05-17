@@ -181,13 +181,6 @@ class EmailPassVerso extends Verso {
                         SizedBox(width: 10),
                         Row(
                           children: [
-                            Text(
-                              '${l10n.personalMail}: ',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .credentialTextCard
-                                  .copyWith(fontWeight: FontWeight.bold),
-                            ),
                             credentialSubject is EmailPass
                                 ? Text(
                                     credentialSubject.email,
