@@ -46,36 +46,40 @@ class DefaultCredentialSubject extends CredentialSubject {
     // If outputDescriptor exist, the credential has a credential manifest telling us what to display
     if (outputDescriptor == null) {
       return CredentialContainer(
-        child: Container(
-          // margin: const EdgeInsets.symmetric(vertical: 4.0),
-          decoration: BaseBoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: item.backgroundColor,
-            shapeColor: Theme.of(context).colorScheme.documentShape,
-            value: 1.0,
-            anchors: <Alignment>[
-              Alignment.bottomRight,
-            ],
-          ),
-          child: Material(
-            color: Theme.of(context).colorScheme.transparent,
-            borderRadius: BorderRadius.circular(20.0),
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: displayName(context, item),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                        height: 48, child: displayDescription(context, item)),
-                  ),
-                  DisplayIssuer(
-                      issuer: item.credentialPreview.credentialSubject.issuedBy)
-                ],
+        child: AspectRatio(
+          aspectRatio: 584 / 317,
+          child: Container(
+            // margin: const EdgeInsets.symmetric(vertical: 4.0),
+            decoration: BaseBoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: item.backgroundColor,
+              shapeColor: Theme.of(context).colorScheme.documentShape,
+              value: 1.0,
+              anchors: <Alignment>[
+                Alignment.bottomRight,
+              ],
+            ),
+            child: Material(
+              color: Theme.of(context).colorScheme.transparent,
+              borderRadius: BorderRadius.circular(20.0),
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: displayName(context, item),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                          height: 48, child: displayDescription(context, item)),
+                    ),
+                    DisplayIssuer(
+                        issuer:
+                            item.credentialPreview.credentialSubject.issuedBy)
+                  ],
+                ),
               ),
             ),
           ),
@@ -88,48 +92,51 @@ class DefaultCredentialSubject extends CredentialSubject {
       );
 
       return CredentialContainer(
-        child: Container(
-          // margin: const EdgeInsets.symmetric(vertical: 4.0),
-          decoration: BaseBoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: getColorFromCredential(
-                outputDescriptor.styles?.background, Colors.white),
-            shapeColor: Theme.of(context).colorScheme.documentShape,
-            value: 1.0,
-            anchors: <Alignment>[
-              Alignment.bottomRight,
-            ],
-          ),
-          child: Material(
-            color: Theme.of(context).colorScheme.transparent,
-            borderRadius: BorderRadius.circular(20.0),
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: DisplayTitleWidget(
-                      outputDescriptor.display?.title,
-                      item,
-                      textColor,
+        child: AspectRatio(
+          aspectRatio: 584 / 317,
+          child: Container(
+            // margin: const EdgeInsets.symmetric(vertical: 4.0),
+            decoration: BaseBoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: getColorFromCredential(
+                  outputDescriptor.styles?.background, Colors.white),
+              shapeColor: Theme.of(context).colorScheme.documentShape,
+              value: 1.0,
+              anchors: <Alignment>[
+                Alignment.bottomRight,
+              ],
+            ),
+            child: Material(
+              color: Theme.of(context).colorScheme.transparent,
+              borderRadius: BorderRadius.circular(20.0),
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: DisplayTitleWidget(
+                        outputDescriptor.display?.title,
+                        item,
+                        textColor,
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                        height: 48,
-                        child: DisplayDescriptionWidget(
-                          outputDescriptor.display?.description,
-                          item,
-                          textColor,
-                        )),
-                  ),
-                  DisplayIssuanceDateWidget(
-                    item.credentialPreview.issuanceDate,
-                    textColor,
-                  )
-                ],
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                          height: 48,
+                          child: DisplayDescriptionWidget(
+                            outputDescriptor.display?.description,
+                            item,
+                            textColor,
+                          )),
+                    ),
+                    DisplayIssuanceDateWidget(
+                      item.credentialPreview.issuanceDate,
+                      textColor,
+                    )
+                  ],
+                ),
               ),
             ),
           ),
@@ -145,54 +152,57 @@ class DefaultCredentialSubject extends CredentialSubject {
     // If outputDescriptor exist, the credential has a credential manifest telling us what to display
     if (outputDescriptor == null) {
       return CredentialContainer(
-        child: Container(
-          // margin: const EdgeInsets.symmetric(vertical: 4.0),
-          decoration: BaseBoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: item.backgroundColor,
-            shapeColor: Theme.of(context).colorScheme.documentShape,
-            value: 1.0,
-            anchors: <Alignment>[
-              Alignment.bottomRight,
-            ],
-          ),
-          child: Material(
-            color: Theme.of(context).colorScheme.transparent,
-            borderRadius: BorderRadius.circular(20.0),
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Row(
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      HeroFix(
-                          tag: 'credential/${item.id}/icon',
-                          child: CredentialIcon(credential: credential)),
-                      SizedBox(height: 16.0),
-                      DisplayStatus(item, false),
-                    ],
-                  ),
-                  Expanded(
-                    child: Column(
+        child: AspectRatio(
+          aspectRatio: 584 / 317,
+          child: Container(
+            // margin: const EdgeInsets.symmetric(vertical: 4.0),
+            decoration: BaseBoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: item.backgroundColor,
+              shapeColor: Theme.of(context).colorScheme.documentShape,
+              value: 1.0,
+              anchors: <Alignment>[
+                Alignment.bottomRight,
+              ],
+            ),
+            child: Material(
+              color: Theme.of(context).colorScheme.transparent,
+              borderRadius: BorderRadius.circular(20.0),
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Row(
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: displayName(context, item),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                              height: 48,
-                              child: displayDescription(context, item)),
-                        ),
-                        DisplayIssuer(
-                            issuer: item
-                                .credentialPreview.credentialSubject.issuedBy)
+                        HeroFix(
+                            tag: 'credential/${item.id}/icon',
+                            child: CredentialIcon(credential: credential)),
+                        SizedBox(height: 16.0),
+                        DisplayStatus(item, false),
                       ],
                     ),
-                  ),
-                ],
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: displayName(context, item),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                                height: 48,
+                                child: displayDescription(context, item)),
+                          ),
+                          DisplayIssuer(
+                              issuer: item
+                                  .credentialPreview.credentialSubject.issuedBy)
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -202,66 +212,69 @@ class DefaultCredentialSubject extends CredentialSubject {
       var textColor =
           getColorFromCredential(outputDescriptor.styles?.text, Colors.black);
       return CredentialContainer(
-        child: Container(
-          // margin: const EdgeInsets.symmetric(vertical: 4.0),
-          decoration: BaseBoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: getColorFromCredential(
-                outputDescriptor.styles?.background, Colors.white),
-            shapeColor: Theme.of(context).colorScheme.documentShape,
-            value: 1.0,
-            anchors: <Alignment>[
-              Alignment.bottomRight,
-            ],
-          ),
-          child: Material(
-            color: Theme.of(context).colorScheme.transparent,
-            borderRadius: BorderRadius.circular(20.0),
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Row(
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      HeroFix(
-                          tag: 'credential/${item.id}/icon',
-                          child: CredentialIcon(credential: credential)),
-                      SizedBox(height: 16.0),
-                      DisplayStatus(item, false),
-                    ],
-                  ),
-                  Expanded(
-                    child: Column(
+        child: AspectRatio(
+          aspectRatio: 584 / 317,
+          child: Container(
+            // margin: const EdgeInsets.symmetric(vertical: 4.0),
+            decoration: BaseBoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: getColorFromCredential(
+                  outputDescriptor.styles?.background, Colors.white),
+              shapeColor: Theme.of(context).colorScheme.documentShape,
+              value: 1.0,
+              anchors: <Alignment>[
+                Alignment.bottomRight,
+              ],
+            ),
+            child: Material(
+              color: Theme.of(context).colorScheme.transparent,
+              borderRadius: BorderRadius.circular(20.0),
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Row(
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: outputDescriptor.display?.title != null
-                              ? DisplayTitleWidget(
-                                  outputDescriptor.display?.title,
-                                  item,
-                                  textColor,
-                                )
-                              : Text(''),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                              height: 48,
-                              child: DisplayDescriptionWidget(
-                                outputDescriptor.display?.description,
-                                item,
-                                textColor,
-                              )),
-                        ),
-                        DisplayIssuanceDateWidget(
-                          item.credentialPreview.issuanceDate,
-                          textColor,
-                        )
+                        HeroFix(
+                            tag: 'credential/${item.id}/icon',
+                            child: CredentialIcon(credential: credential)),
+                        SizedBox(height: 16.0),
+                        DisplayStatus(item, false),
                       ],
                     ),
-                  ),
-                ],
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: outputDescriptor.display?.title != null
+                                ? DisplayTitleWidget(
+                                    outputDescriptor.display?.title,
+                                    item,
+                                    textColor,
+                                  )
+                                : Text(''),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                                height: 48,
+                                child: DisplayDescriptionWidget(
+                                  outputDescriptor.display?.description,
+                                  item,
+                                  textColor,
+                                )),
+                          ),
+                          DisplayIssuanceDateWidget(
+                            item.credentialPreview.issuanceDate,
+                            textColor,
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
