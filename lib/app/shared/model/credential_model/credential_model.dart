@@ -7,6 +7,7 @@ import 'package:talao/app/shared/enum/credential_status.dart';
 import 'package:talao/app/shared/enum/revokation_status.dart';
 import 'package:talao/app/shared/model/credential.dart';
 import 'package:talao/app/shared/model/display.dart';
+import 'package:talao/credential_manifest/models/credential_manifest.dart';
 import 'package:uuid/uuid.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -28,6 +29,8 @@ class CredentialModel extends Equatable {
   final String? expirationDate;
   @JsonKey(defaultValue: RevocationStatus.unknown)
   RevocationStatus revocationStatus;
+  @JsonKey(name: 'credential_manifest')
+  final CredentialManifest? credentialManifest;
 
   // @JsonKey(fromJson: fromJsonDisplay)
   // final Scope display;
@@ -42,11 +45,12 @@ class CredentialModel extends Equatable {
     required this.data,
     required this.revocationStatus,
     this.expirationDate,
+    this.credentialManifest,
   });
 
   factory CredentialModel.fromJson(Map<String, dynamic> json) {
     // ignore: omit_local_variable_types
-    Map<String, dynamic> newJson = Map.from(json);
+    final Map<String, dynamic> newJson = Map.from(json);
     if (newJson['data'] != null) {
       newJson.putIfAbsent('credentialPreview', () => newJson['data']);
     }
@@ -64,7 +68,7 @@ class CredentialModel extends Equatable {
   Future<CredentialStatus> get status async {
     if (expirationDate != null) {
       DateTime? dateTimeExpirationDate = DateTime.parse(expirationDate!);
-      if (!(dateTimeExpirationDate!.isAfter(DateTime.now()))) {
+      if (!(dateTimeExpirationDate.isAfter(DateTime.now()))) {
         revocationStatus = RevocationStatus.expired;
         return CredentialStatus.expired;
       }
@@ -88,6 +92,8 @@ class CredentialModel extends Equatable {
       display: oldCredentialModel.display,
       credentialPreview: oldCredentialModel.credentialPreview,
       revocationStatus: oldCredentialModel.revocationStatus,
+      expirationDate: oldCredentialModel.expirationDate,
+      credentialManifest: oldCredentialModel.credentialManifest,
     );
   }
 
@@ -103,6 +109,8 @@ class CredentialModel extends Equatable {
       display: oldCredentialModel.display,
       credentialPreview: Credential.fromJson(newData),
       revocationStatus: oldCredentialModel.revocationStatus,
+      expirationDate: oldCredentialModel.expirationDate,
+      credentialManifest: oldCredentialModel.credentialManifest,
     );
   }
 

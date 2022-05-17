@@ -26,6 +26,7 @@ class Credential {
   final List<Evidence> evidence;
   @JsonKey(fromJson: _fromJsonCredentialStatus)
   final CredentialStatusField credentialStatus;
+
   Credential(
     this.id,
     this.type,
@@ -48,18 +49,19 @@ class Credential {
 
   factory Credential.dummy() {
     return Credential(
-        'dummy',
-        ['dummy'],
-        'dummy',
-        'dummy',
-        [
-          Proof.dummy(),
-        ],
-        DefaultCredentialSubject('dummy', 'dummy', Author('', '')),
-        [Translation('en', '')],
-        [Translation('en', '')],
-        CredentialStatusField.emptyCredentialStatusField(),
-        [Evidence.emptyEvidence()]);
+      'dummy',
+      ['dummy'],
+      'dummy',
+      'dummy',
+      [
+        Proof.dummy(),
+      ],
+      DefaultCredentialSubject('dummy', 'dummy', Author('', '')),
+      [Translation('en', '')],
+      [Translation('en', '')],
+      CredentialStatusField.emptyCredentialStatusField(),
+      [Evidence.emptyEvidence()],
+    );
   }
 
   Map<String, dynamic> toJson() => _$CredentialToJson(this);
@@ -106,7 +108,6 @@ class Credential {
     }
     return [Evidence.fromJson(json)];
   }
-
 
   static Credential fromJsonOrDummy(Map<String, dynamic> data) {
     try {

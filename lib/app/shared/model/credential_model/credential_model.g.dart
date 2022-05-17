@@ -20,6 +20,10 @@ CredentialModel _$CredentialModelFromJson(Map<String, dynamic> json) =>
               _$RevocationStatusEnumMap, json['revocationStatus']) ??
           RevocationStatus.unknown,
       expirationDate: json['expirationDate'] as String?,
+      credentialManifest: json['credential_manifest'] == null
+          ? null
+          : CredentialManifest.fromJson(
+              json['credential_manifest'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$CredentialModelToJson(CredentialModel instance) =>
@@ -33,6 +37,7 @@ Map<String, dynamic> _$CredentialModelToJson(CredentialModel instance) =>
       'display': instance.display.toJson(),
       'expirationDate': instance.expirationDate,
       'revocationStatus': _$RevocationStatusEnumMap[instance.revocationStatus],
+      'credential_manifest': instance.credentialManifest?.toJson(),
     };
 
 const _$RevocationStatusEnumMap = {

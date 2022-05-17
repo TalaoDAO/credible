@@ -85,7 +85,7 @@ class CredentialSubject {
         _backgroundColor = Color(0xFFFFADAD);
         break;
       default:
-        _backgroundColor = Colors.black;
+        _backgroundColor = Colors.white;
     }
     return _backgroundColor;
   }
