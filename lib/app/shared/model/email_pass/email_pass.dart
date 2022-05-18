@@ -8,7 +8,6 @@ import 'package:talao/app/shared/model/author.dart';
 import 'package:talao/app/shared/model/credential_subject.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 part 'email_pass.g.dart';
 
@@ -131,7 +130,6 @@ class EmailPassVerso extends Verso {
   final CredentialModel item;
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
     final credentialSubject = item.credentialPreview.credentialSubject;
     return Container(
         decoration: BoxDecoration(

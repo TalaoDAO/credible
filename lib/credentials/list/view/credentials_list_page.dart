@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talao/app/shared/model/credential_model/credential_model.dart';
+import 'package:talao/credentials/list/view/search.dart';
 import 'package:talao/credentials/widget/list_item.dart';
 import 'package:talao/drawer/drawer.dart';
 import 'package:talao/l10n/l10n.dart';
@@ -84,11 +85,14 @@ class _CredentialsListPageState extends State<CredentialsListPage> {
             var _credentialList = <CredentialModel>[];
             _credentialList = state.credentials;
             return Column(
-              children: List.generate(
-                _credentialList.length,
-                (index) =>
-                    CredentialsListPageItem(item: _credentialList[index]),
-              ),
+              children: [
+                search(),
+                ...List.generate(
+                  _credentialList.length,
+                  (index) =>
+                      CredentialsListPageItem(item: _credentialList[index]),
+                )
+              ],
             );
           },
         ),

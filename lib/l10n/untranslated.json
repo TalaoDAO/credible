@@ -115,7 +115,8 @@
     "emailPassCredential",
     "needEmailPass",
     "signature",
-    "proof"
+    "proof",
+    "search"
   ],
 
   "es": [
@@ -233,7 +234,8 @@
     "emailPassCredential",
     "needEmailPass",
     "signature",
-    "proof"
+    "proof",
+    "search"
   ],
 
   "it": [
@@ -353,6 +355,7 @@
     "emailPassCredential",
     "needEmailPass",
     "signature",
-    "proof"
+    "proof",
+    "search"
   ]
 }
