@@ -284,5 +284,6 @@
   "emailPassCredential": "Proof of Email",
   "needEmailPass": "You need to get a Proof of Email first.",
   "signature": "Signature",
-  "proof": "Proof"
+  "proof": "Proof",
+  "search": "Search"
 }
