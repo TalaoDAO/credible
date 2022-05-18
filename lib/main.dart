@@ -1,3 +1,4 @@
+import 'package:google_fonts/google_fonts.dart';
 import 'package:passbase_flutter/passbase_flutter.dart';
 import 'package:talao/app/app_widget.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,9 @@ Future<void> main() async {
   await PassbaseSDK.initialize(
       publishableApiKey:
           'Ww3TIde3B8nh5M3EZ57tkzIbMyAVwzh9YzW8FcwADKgpQ76UfT5bqox2dvdNTDVo');
+
+  /// Disable Http google font
+  GoogleFonts.config.allowRuntimeFetching = false;
   runApp(
     AppWidget(),
   );
