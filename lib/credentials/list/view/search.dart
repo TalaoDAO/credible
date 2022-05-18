@@ -38,10 +38,12 @@ class _searchState extends State<search> {
     return BaseTextField(
       prefixIcon: searchController.text.isNotEmpty
           ? InkWell(
-              onTap: () {
+              onTap: () async {
                 searchController.text = '';
                 focusNode.unfocus();
-                context.read<WalletCubit>().resetSearch();
+                await context
+                    .read<WalletCubit>()
+                    .loadAllCredentialsFromRepository();
               },
               child: Icon(
                 Icons.cancel,

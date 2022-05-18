@@ -112,19 +112,21 @@ class DisplayStatus extends StatelessWidget {
                     height: 20, child: CircularProgressIndicator());
             }
           } else {
-            print('tata');
-
             return Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child:
-                      Container(height: 32, child: CircularProgressIndicator()),
+                  child: Container(
+                      width: 32,
+                      height: 32,
+                      child: CircularProgressIndicator()),
                 ),
-                SizedBox(
-                  width: 63,
-                )
+                displayLabel
+                    ? SizedBox(
+                        width: 63,
+                      )
+                    : SizedBox.shrink()
               ],
             );
           }

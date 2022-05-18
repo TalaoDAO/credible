@@ -31,16 +31,18 @@ class WalletCubit extends Cubit<WalletState> {
       if (key.isNotEmpty) {
         /// When app is initialized, set all credentials with active status to unknown status
         await repository.initializeRevocationStatus();
-
-        /// load all credentials from repository
-        await repository.findAll(/* filters */).then((values) {
-          emit(state.copyWith(
-              status: WalletStatus.init,
-              credentials: values,
-              credentialsFromStorage: values));
-        });
+        await loadAllCredentialsFromRepository();
       }
     }
+  }
+
+  Future loadAllCredentialsFromRepository() async {
+    await repository.findAll(/* filters */).then((values) {
+      emit(state.copyWith(
+        status: WalletStatus.init,
+        credentials: values,
+      ));
+    });
   }
 
   Future deleteById(String id) async {
@@ -48,9 +50,9 @@ class WalletCubit extends Cubit<WalletState> {
     final credentials = List.of(state.credentials)
       ..removeWhere((element) => element.id == id);
     emit(state.copyWith(
-        status: WalletStatus.delete,
-        credentials: credentials,
-        credentialsFromStorage: credentials));
+      status: WalletStatus.delete,
+      credentials: credentials,
+    ));
   }
 
   Future updateCredential(CredentialModel credential) async {
@@ -61,31 +63,33 @@ class WalletCubit extends Cubit<WalletState> {
       ..removeWhere((element) => element.id == credential.id)
       ..insert(index, credential);
     emit(state.copyWith(
-        status: WalletStatus.update,
-        credentials: credentials,
-        credentialsFromStorage: credentials));
+      status: WalletStatus.update,
+      credentials: credentials,
+    ));
   }
 
   Future handleUnknownRevocationStatus(CredentialModel credential) async {
     await repository.update(credential);
     final index = state.credentials
         .indexWhere((element) => element.id == credential.id.toString());
-    final credentials = List.of(state.credentials)
-      ..removeWhere((element) => element.id == credential.id)
-      ..insert(index, credential);
-    emit(state.copyWith(
+    if (index != -1) {
+      final credentials = List.of(state.credentials)
+        ..removeWhere((element) => element.id == credential.id)
+        ..insert(index, credential);
+      emit(state.copyWith(
         status: WalletStatus.idle,
         credentials: credentials,
-        credentialsFromStorage: credentials));
+      ));
+    }
   }
 
   Future insertCredential(CredentialModel credential) async {
     await repository.insert(credential);
     final credentials = List.of(state.credentials)..add(credential);
     emit(state.copyWith(
-        status: WalletStatus.insert,
-        credentials: credentials,
-        credentialsFromStorage: credentials));
+      status: WalletStatus.insert,
+      credentials: credentials,
+    ));
   }
 
   Future resetWallet() async {
@@ -95,9 +99,9 @@ class WalletCubit extends Cubit<WalletState> {
     await repository.deleteAll();
     await profileCubit.resetProfile();
     emit(state.copyWith(
-        status: WalletStatus.reset,
-        credentials: [],
-        credentialsFromStorage: []));
+      status: WalletStatus.reset,
+      credentials: [],
+    ));
     emit(state.copyWith(status: WalletStatus.init));
   }
 
@@ -106,38 +110,34 @@ class WalletCubit extends Cubit<WalletState> {
     credentials
         .forEach((credential) async => await repository.insert(credential));
     emit(state.copyWith(
-        status: WalletStatus.init,
-        credentials: credentials,
-        credentialsFromStorage: credentials));
+      status: WalletStatus.init,
+      credentials: credentials,
+    ));
   }
 
   Future searchWallet(String search) async {
     final searchKeywords = search.split(' ');
-    print(searchKeywords);
-    emit(state.copyWith(
-        status: WalletStatus.search,
-        credentials: state.credentialsFromStorage));
-    final searchList = state.credentials.where((element) {
-      var isMatch = false;
-      searchKeywords.forEach(
-        (keyword) {
-          print('keyword "$keyword"');
-          if (removeDiacritics(jsonEncode(element))
-                  .toLowerCase()
-                  .contains(removeDiacritics(keyword.toLowerCase())) &&
-              keyword != '') {
-            isMatch = true;
-          }
-        },
-      );
-      return isMatch;
-    }).toList();
-    emit(state.copyWith(status: WalletStatus.search, credentials: searchList));
-  }
 
-  void resetSearch() {
-    emit(state.copyWith(
-        status: WalletStatus.init, credentials: state.credentialsFromStorage));
+    /// We remove empty strings from the list of keyWords
+    searchKeywords.removeWhere((element) => element == '');
+    if (searchKeywords.isNotEmpty) {
+      await loadAllCredentialsFromRepository();
+      final searchList = state.credentials.where((element) {
+        var isMatch = false;
+        searchKeywords.forEach(
+          (keyword) {
+            if (removeDiacritics(jsonEncode(element))
+                .toLowerCase()
+                .contains(removeDiacritics(keyword.toLowerCase()))) {
+              isMatch = true;
+            }
+          },
+        );
+        return isMatch;
+      }).toList();
+      emit(
+          state.copyWith(status: WalletStatus.search, credentials: searchList));
+    }
   }
 }
 

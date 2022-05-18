@@ -7,27 +7,21 @@ class WalletState extends Equatable {
   WalletState({
     this.status = WalletStatus.init,
     List<CredentialModel>? credentials,
-    List<CredentialModel>? credentialsFromStorage,
-  })  : credentials = credentials ?? [],
-        credentialsFromStorage = credentialsFromStorage ?? [];
+  }) : credentials = credentials ?? [];
 
   factory WalletState.fromJson(Map<String, dynamic> json) =>
       _$WalletStateFromJson(json);
 
   final WalletStatus status;
   final List<CredentialModel> credentials;
-  final List<CredentialModel> credentialsFromStorage;
 
   WalletState copyWith({
     WalletStatus? status,
     List<CredentialModel>? credentials,
-    List<CredentialModel>? credentialsFromStorage,
   }) {
     return WalletState(
       status: status ?? this.status,
       credentials: credentials ?? this.credentials,
-      credentialsFromStorage:
-          credentialsFromStorage ?? this.credentialsFromStorage,
     );
   }
 
