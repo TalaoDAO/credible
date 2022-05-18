@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:talao/app/shared/ui/ui.dart';
-import 'package:talao/app/shared/widget/base/credential_field.dart';
 import 'package:talao/credential_manifest/helpers/get_text_from_credential.dart';
 import 'package:talao/credential_manifest/models/display_mapping.dart';
 import 'package:talao/credential_manifest/models/display_mapping_path.dart';
@@ -19,9 +18,16 @@ class DisplayDescriptionWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final object = displayMapping;
     if (object is DisplayMappingText) {
-      return CredentialField(
-        value: object.text,
-        textColor: textColor,
+      return Text(
+        object.text,
+        maxLines: 1,
+        overflow: TextOverflow.fade,
+        style: textColor == null
+            ? Theme.of(context).textTheme.credentialDescription
+            : Theme.of(context)
+                .textTheme
+                .credentialDescription
+                .copyWith(color: textColor),
       );
     }
     if (object is DisplayMappingPath) {
@@ -32,8 +38,7 @@ class DisplayDescriptionWidget extends StatelessWidget {
       if (textList.isNotEmpty) {
         return Text(
           textList.first,
-          maxLines: 1,
-          overflow: TextOverflow.clip,
+          overflow: TextOverflow.fade,
           style: textColor == null
               ? Theme.of(context).textTheme.credentialDescription
               : Theme.of(context)
@@ -45,8 +50,7 @@ class DisplayDescriptionWidget extends StatelessWidget {
       if (object.fallback != null) {
         return Text(
           object.fallback ?? '',
-          maxLines: 1,
-          overflow: TextOverflow.clip,
+          overflow: TextOverflow.fade,
           style: textColor == null
               ? Theme.of(context).textTheme.credentialDescription
               : Theme.of(context)
