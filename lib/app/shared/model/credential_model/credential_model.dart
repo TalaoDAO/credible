@@ -180,6 +180,7 @@ class CredentialModel extends Equatable {
       DIDKitProvider.instance.verifyCredential(vcStr, optStr),
       Future.delayed(const Duration(seconds: 4))
     ]);
+    if (result == null) return RevocationStatus.active;
     final jsonResult = jsonDecode(result);
     if (jsonResult['errors']?[0] == 'Credential is revoked.') {
       revocationStatus = RevocationStatus.revoked;
