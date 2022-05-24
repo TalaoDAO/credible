@@ -86,7 +86,7 @@ class _CredentialsListPageState extends State<CredentialsListPage> {
             _credentialList = state.credentials;
             return Column(
               children: [
-                search(),
+                Search(),
                 ...List.generate(
                   _credentialList.length,
                   (index) =>

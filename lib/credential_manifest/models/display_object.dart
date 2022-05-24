@@ -29,19 +29,12 @@ class DisplayObject {
     if (json == null || json == '') {
       return null;
     }
-    if (json is List) {
-      return (json).map((e) {
-        if (e['text'] == null) {
-          return LabeledDisplayMappingPath.fromJson(e);
-        }
-        return LabeledDisplayMappingText.fromJson(e);
-      }).toList();
-    }
-
-    if (json['text'] == null) {
-      return [LabeledDisplayMappingPath.fromJson(json)];
-    }
-    return [LabeledDisplayMappingText.fromJson(json)];
+    return (json).map((e) {
+      if (e['text'] == null) {
+        return LabeledDisplayMappingPath.fromJson(e);
+      }
+      return LabeledDisplayMappingText.fromJson(e);
+    }).toList();
   }
 
   static DisplayMapping? _displayMappingFromJson(json) {

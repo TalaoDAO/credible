@@ -4,14 +4,14 @@ import 'package:talao/app/shared/widget/base/text_field.dart';
 import 'package:talao/l10n/l10n.dart';
 import 'package:talao/wallet/wallet.dart';
 
-class search extends StatefulWidget {
-  const search({Key? key}) : super(key: key);
+class Search extends StatefulWidget {
+  const Search({Key? key}) : super(key: key);
 
   @override
-  State<search> createState() => _searchState();
+  State<Search> createState() => _SearchState();
 }
 
-class _searchState extends State<search> {
+class _SearchState extends State<Search> {
   final searchController = TextEditingController();
   final focusNode = FocusNode();
 
