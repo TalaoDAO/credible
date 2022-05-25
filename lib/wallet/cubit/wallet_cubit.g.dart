@@ -27,4 +27,5 @@ const _$WalletStatusEnumMap = {
   WalletStatus.delete: 'delete',
   WalletStatus.update: 'update',
   WalletStatus.reset: 'reset',
+  WalletStatus.search: 'search',
 };
