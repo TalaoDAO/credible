@@ -11,10 +11,14 @@ CredentialManifestPickState _$CredentialManifestPickStateFromJson(
     CredentialManifestPickState(
       selection:
           (json['selection'] as List<dynamic>?)?.map((e) => e as int).toList(),
+      filteredCredentialList: (json['filteredCredentialList'] as List<dynamic>)
+          .map((e) => CredentialModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$CredentialManifestPickStateToJson(
         CredentialManifestPickState instance) =>
     <String, dynamic>{
       'selection': instance.selection,
+      'filteredCredentialList': instance.filteredCredentialList,
     };

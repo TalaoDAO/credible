@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/credentials/pick/credential_manifest/credential_manifest_pick.dart';
-import 'package:talao/credentials/pick/query_by_example/cubit/query_by_example_credentials_pick_cubit.dart';
 import 'package:talao/l10n/l10n.dart';
 import 'package:talao/scan/scan.dart';
 import 'package:talao/wallet/wallet.dart';
@@ -26,7 +25,8 @@ class CredentialManifestPickPage extends StatefulWidget {
     return MaterialPageRoute(
       builder: (context) => BlocProvider(
         create: (context) => CredentialManifestPickCubit(
-            preview: preview,
+            presentationDefinition: preview['credential_manifest']
+                ['presentation_definition'],
             credentialList: context.read<WalletCubit>().state.credentials),
         child: CredentialManifestPickPage(uri: routeUri, preview: preview),
       ),
