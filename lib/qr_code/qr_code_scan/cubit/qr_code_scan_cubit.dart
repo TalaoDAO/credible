@@ -10,6 +10,7 @@ import 'package:logging/logging.dart';
 import 'package:talao/app/interop/network/network_client.dart';
 import 'package:talao/app/shared/error_handler/error_handler.dart';
 import 'package:talao/app/shared/model/message.dart';
+import 'package:talao/credentials/pick/credential_manifest/view/credential_manifest_pick_page.dart';
 import 'package:talao/qr_code/qr_code_scan/model/siopv2_param.dart';
 import 'package:talao/credentials/credentials.dart';
 import 'package:talao/deep_link/cubit/deep_link.dart';
@@ -127,6 +128,12 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
             } else {
               throw UnimplementedError('Unimplemented Query Type');
             }
+          }
+
+          if (data['credential_manifest']['presentation_definition'] != null) {
+            emit(QRCodeScanStateSuccess(
+                isDeepLink: state.isDeepLink,
+                route: CredentialManifestPickPage.route(uri, data)));
           } else {
             emit(QRCodeScanStateSuccess(
                 isDeepLink: state.isDeepLink,
