@@ -29,12 +29,15 @@ class DisplayObject {
     if (json == null || json == '') {
       return null;
     }
-    return (json).map((e) {
-      if (e['text'] == null) {
-        return LabeledDisplayMappingPath.fromJson(e);
-      }
-      return LabeledDisplayMappingText.fromJson(e);
-    }).toList();
+    if (json is List) {
+      return (json).map((e) {
+        if (e['text'] == null) {
+          return LabeledDisplayMappingPath.fromJson(e as Map<String, dynamic>);
+        }
+        return LabeledDisplayMappingText.fromJson(e as Map<String, dynamic>);
+      }).toList();
+    }
+    return null;
   }
 
   static DisplayMapping? _displayMappingFromJson(json) {
@@ -42,8 +45,8 @@ class DisplayObject {
       return null;
     }
     if (json['text'] == null) {
-      return DisplayMappingPath.fromJson(json);
+      return DisplayMappingPath.fromJson(json as Map<String, dynamic>);
     }
-    return DisplayMappingText.fromJson(json);
+    return DisplayMappingText.fromJson(json as Map<String, dynamic>);
   }
 }
