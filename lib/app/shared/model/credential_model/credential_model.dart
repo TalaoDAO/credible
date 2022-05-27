@@ -18,6 +18,8 @@ part 'credential_model.g.dart';
 class CredentialModel extends Equatable {
   @JsonKey(fromJson: fromJsonId)
   final String id;
+  @JsonKey(readValue: readValueReceivedId)
+  late String? receivedId;
   final String? alias;
   final String? image;
   final Map<String, dynamic> data;
@@ -46,6 +48,7 @@ class CredentialModel extends Equatable {
     required this.revocationStatus,
     this.expirationDate,
     this.credentialManifest,
+    this.receivedId,
   });
 
   factory CredentialModel.fromJson(Map<String, dynamic> json) {
@@ -94,6 +97,7 @@ class CredentialModel extends Equatable {
       revocationStatus: oldCredentialModel.revocationStatus,
       expirationDate: oldCredentialModel.expirationDate,
       credentialManifest: oldCredentialModel.credentialManifest,
+      receivedId: oldCredentialModel.receivedId,
     );
   }
 
@@ -111,6 +115,7 @@ class CredentialModel extends Equatable {
       revocationStatus: oldCredentialModel.revocationStatus,
       expirationDate: oldCredentialModel.expirationDate,
       credentialManifest: oldCredentialModel.credentialManifest,
+      receivedId: oldCredentialModel.receivedId,
     );
   }
 
@@ -120,6 +125,13 @@ class CredentialModel extends Equatable {
     } else {
       return json;
     }
+  }
+
+  static String? readValueReceivedId(Map map, String value) {
+    if (map['receivedId'] != null) {
+      return map['receivedId'];
+    }
+    return map['id'];
   }
 
   static Display fromJsonDisplay(json) {

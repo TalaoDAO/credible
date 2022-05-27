@@ -24,11 +24,14 @@ CredentialModel _$CredentialModelFromJson(Map<String, dynamic> json) =>
           ? null
           : CredentialManifest.fromJson(
               json['credential_manifest'] as Map<String, dynamic>),
+      receivedId:
+          CredentialModel.readValueReceivedId(json, 'receivedId') as String?,
     );
 
 Map<String, dynamic> _$CredentialModelToJson(CredentialModel instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'receivedId': instance.receivedId,
       'alias': instance.alias,
       'image': instance.image,
       'data': instance.data,
