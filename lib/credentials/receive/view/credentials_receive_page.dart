@@ -5,6 +5,7 @@ import 'package:talao/app/shared/widget/text_field_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:talao/credentials/pick/credential_manifest/view/credential_manifest_credential_offer_pick_page.dart';
 import 'package:talao/credentials/widget/document.dart';
 import 'package:talao/scan/scan.dart';
 
@@ -68,12 +69,23 @@ class CredentialsReceivePage extends StatelessWidget {
                         title: localizations.credentialPickAlertMessage,
                       ),
                     );
-                    context.read<ScanCubit>().credentialOffer(
-                          url: url.toString(),
-                          credentialModel: CredentialModel.copyWithAlias(
-                              oldCredentialModel: credential, newAlias: alias),
-                          keyId: 'key',
-                        );
+
+                    if (credential.credentialManifest?.presentationDefinition !=
+                        null) {
+                      await Navigator.of(context).pushReplacement(
+                          CredentialManifestOfferPickPage.route(
+                        url,
+                        credential,
+                      ));
+                    } else {
+                      context.read<ScanCubit>().credentialOffer(
+                            url: url.toString(),
+                            credentialModel: CredentialModel.copyWithAlias(
+                                oldCredentialModel: credential,
+                                newAlias: alias),
+                            keyId: 'key',
+                          );
+                    }
                   },
                   child: Text(localizations.credentialReceiveConfirm),
                 ),

@@ -37,18 +37,76 @@ class ScanCubit extends Cubit<ScanState> {
     emit(ScanStatePreview(preview: preview));
   }
 
-  void credentialOffer(
-      {required String url,
-      required CredentialModel credentialModel,
-      required String keyId}) async {
+  void credentialOffer({
+    required String url,
+    required CredentialModel credentialModel,
+    required String keyId,
+    CredentialModel? signatureOwnershipProof,
+  }) async {
     final log = Logger('talao-wallet/scan/credential-offer');
+
     emit(ScanStateLoading());
     try {
       final did = (await secureStorageProvider.get(SecureStorageKeys.did))!;
 
+      /// If credential manifest exist we follow instructions to present credential
+      /// If credential manifest doesn't exist we add DIDAuth to the post
+      /// If id was in preview we send it in the post
+      ///  https://github.com/TalaoDAO/wallet-interaction/blob/main/README.md#credential-offer-protocol
+      ///
+      final key = (await secureStorageProvider.get(keyId))!;
+      final verificationMethod =
+          await secureStorageProvider.get(SecureStorageKeys.verificationMethod);
+
+      var presentation;
+      if (signatureOwnershipProof == null) {
+        presentation = await didKitProvider.DIDAuth(
+          did,
+          jsonEncode({
+            'verificationMethod': verificationMethod,
+            'proofPurpose': 'authentication',
+            'challenge': credentialModel.challenge,
+            'domain': credentialModel.domain,
+          }),
+          key,
+        );
+      } else {
+        final presentationId = 'urn:uuid:' + Uuid().v4();
+
+        presentation = await didKitProvider.issuePresentation(
+          jsonEncode({
+            '@context': ['https://www.w3.org/2018/credentials/v1'],
+            'type': ['VerifiablePresentation'],
+            'id': presentationId,
+            'holder': did,
+            'verifiableCredential': signatureOwnershipProof.data,
+          }),
+          jsonEncode({
+            'verificationMethod': verificationMethod,
+            'proofPurpose': 'assertionMethod',
+            'challenge': credentialModel.challenge,
+            'domain': credentialModel.domain,
+          }),
+          key,
+        );
+      }
+      var data;
+      if (credentialModel.receivedId == null) {
+        data = FormData.fromMap(<String, dynamic>{
+          'subject_id': did,
+          'presentation': presentation,
+        });
+      } else {
+        data = FormData.fromMap(<String, dynamic>{
+          'id': credentialModel.receivedId,
+          'subject_id': did,
+          'presentation': presentation,
+        });
+      }
+
       final credential = await client.post(
         url,
-        data: FormData.fromMap(<String, dynamic>{'subject_id': did}),
+        data: data,
       );
 
       final jsonCredential =

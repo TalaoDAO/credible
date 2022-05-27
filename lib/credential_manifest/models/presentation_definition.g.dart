@@ -9,12 +9,14 @@ part of 'presentation_definition.dart';
 PresentationDefinition _$PresentationDefinitionFromJson(
         Map<String, dynamic> json) =>
     PresentationDefinition(
-      InputDescriptor.fromJson(
-          json['input_descriptors'] as Map<String, dynamic>),
+      (json['input_descriptors'] as List<dynamic>)
+          .map((e) => InputDescriptor.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$PresentationDefinitionToJson(
         PresentationDefinition instance) =>
     <String, dynamic>{
-      'input_descriptors': instance.inputDescriptors.toJson(),
+      'input_descriptors':
+          instance.inputDescriptors.map((e) => e.toJson()).toList(),
     };

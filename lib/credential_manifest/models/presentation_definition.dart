@@ -8,7 +8,7 @@ class PresentationDefinition {
   factory PresentationDefinition.fromJson(Map<String, dynamic> json) =>
       _$PresentationDefinitionFromJson(json);
   @JsonKey(name: 'input_descriptors')
-  final InputDescriptor inputDescriptors;
+  final List<InputDescriptor> inputDescriptors;
 
   PresentationDefinition(this.inputDescriptors);
 

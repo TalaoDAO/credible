@@ -8,20 +8,18 @@ part of 'credential_manifest.dart';
 
 CredentialManifest _$CredentialManifestFromJson(Map<String, dynamic> json) =>
     CredentialManifest(
-      json['id'] as String,
-      (json['output_descriptors'] as List<dynamic>)
-          .map((e) => OutputDescriptor.fromJson(e as Map<String, dynamic>))
+      json['id'] as String?,
+      (json['output_descriptors'] as List<dynamic>?)
+          ?.map((e) => OutputDescriptor.fromJson(e as Map<String, dynamic>))
           .toList(),
-      json['presentation_definition'] == null
-          ? null
-          : PresentationDefinition.fromJson(
-              json['presentation_definition'] as Map<String, dynamic>),
+      CredentialManifest.presentationDefinitionFromJson(
+          json['presentation_definition']),
     );
 
 Map<String, dynamic> _$CredentialManifestToJson(CredentialManifest instance) =>
     <String, dynamic>{
       'id': instance.id,
       'output_descriptors':
-          instance.outputDescriptors.map((e) => e.toJson()).toList(),
+          instance.outputDescriptors?.map((e) => e.toJson()).toList(),
       'presentation_definition': instance.presentationDefinition?.toJson(),
     };

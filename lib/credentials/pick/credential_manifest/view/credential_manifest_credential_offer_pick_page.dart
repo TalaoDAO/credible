@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:talao/app/interop/secure_storage/secure_storage.dart';
+import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:talao/credentials/pick/credential_manifest/credential_manifest_pick.dart';
 import 'package:talao/l10n/l10n.dart';
 import 'package:talao/scan/scan.dart';
@@ -11,36 +11,45 @@ import 'package:talao/app/shared/widget/base/button.dart';
 import 'package:talao/app/shared/widget/base/page.dart';
 import 'package:flutter/material.dart';
 
-class CredentialManifestPickPage extends StatefulWidget {
+class CredentialManifestOfferPickPage extends StatefulWidget {
   final Uri uri;
-  final Map<String, dynamic> preview;
+  final CredentialModel credential;
 
-  const CredentialManifestPickPage({
+  const CredentialManifestOfferPickPage({
     Key? key,
     required this.uri,
-    required this.preview,
+    required this.credential,
   }) : super(key: key);
 
-  static Route route(Uri routeUri, Map<String, dynamic> preview) {
+  static Route route(Uri routeUri, CredentialModel credential) {
     return MaterialPageRoute(
       builder: (context) => BlocProvider(
-        create: (context) => CredentialManifestPickCubit(
-            presentationDefinition: preview['credential_manifest']
-                ['presentation_definition'],
-            credentialList: context.read<WalletCubit>().state.credentials),
-        child: CredentialManifestPickPage(uri: routeUri, preview: preview),
+        create: (context) {
+          final presentationDefinition =
+              credential.credentialManifest?.presentationDefinition;
+          if (presentationDefinition != null) {
+            return CredentialManifestPickCubit(
+                presentationDefinition: presentationDefinition.toJson(),
+                credentialList: context.read<WalletCubit>().state.credentials);
+          }
+          return CredentialManifestPickCubit(
+              presentationDefinition: {},
+              credentialList: context.read<WalletCubit>().state.credentials);
+        },
+        child: CredentialManifestOfferPickPage(
+            uri: routeUri, credential: credential),
       ),
       settings: RouteSettings(name: '/CredentialManifestPickPage'),
     );
   }
 
   @override
-  _CredentialManifestPickPageState createState() =>
-      _CredentialManifestPickPageState();
+  _CredentialManifestOfferPickPageState createState() =>
+      _CredentialManifestOfferPickPageState();
 }
 
-class _CredentialManifestPickPageState
-    extends State<CredentialManifestPickPage> {
+class _CredentialManifestOfferPickPageState
+    extends State<CredentialManifestOfferPickPage> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
@@ -78,16 +87,16 @@ class _CredentialManifestPickPageState
                             content: Text(l10n.credentialPickSelect),
                           ));
                         } else {
-                          final scanCubit = context.read<ScanCubit>();
-                          scanCubit.verifiablePresentationRequest(
-                            url: widget.uri.toString(),
-                            keyId: SecureStorageKeys.key,
-                            credentials: state.selection
-                                .map((i) => state.filteredCredentialList[i])
-                                .toList(),
-                            challenge: widget.preview['challenge'],
-                            domain: widget.preview['domain'],
-                          );
+                          final selectedCredentialsList = state.selection
+                              .map((i) => state.filteredCredentialList[i])
+                              .toList();
+                          context.read<ScanCubit>().credentialOffer(
+                                url: widget.uri.toString(),
+                                credentialModel: widget.credential,
+                                keyId: 'key',
+                                signatureOwnershipProof:
+                                    selectedCredentialsList.first,
+                              );
                         }
                       },
                       child: Text(l10n.credentialPickPresent),

@@ -42,7 +42,7 @@ class DefaultCredentialSubject extends CredentialSubject {
 
   @override
   Widget displayInSelectionList(BuildContext context, CredentialModel item) {
-    final outputDescriptor = item.credentialManifest?.outputDescriptors.first;
+    final outputDescriptor = item.credentialManifest?.outputDescriptors?.first;
     // If outputDescriptor exist, the credential has a credential manifest telling us what to display
     if (outputDescriptor == null) {
       return CredentialContainer(
@@ -149,7 +149,7 @@ class DefaultCredentialSubject extends CredentialSubject {
   @override
   Widget displayInList(BuildContext context, CredentialModel item) {
     final credential = Credential.fromJsonOrDummy(item.data);
-    final outputDescriptor = item.credentialManifest?.outputDescriptors.first;
+    final outputDescriptor = item.credentialManifest?.outputDescriptors?.first;
     // If outputDescriptor exist, the credential has a credential manifest telling us what to display
     if (outputDescriptor == null) {
       return CredentialContainer(

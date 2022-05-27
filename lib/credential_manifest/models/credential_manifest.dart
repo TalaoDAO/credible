@@ -12,11 +12,19 @@ class CredentialManifest {
   factory CredentialManifest.fromJson(Map<String, dynamic> json) =>
       _$CredentialManifestFromJson(json);
 
-  final String id;
+  final String? id;
   @JsonKey(name: 'output_descriptors')
-  final List<OutputDescriptor> outputDescriptors;
-  @JsonKey(name: 'presentation_definition')
+  final List<OutputDescriptor>? outputDescriptors;
+  @JsonKey(
+      name: 'presentation_definition', fromJson: presentationDefinitionFromJson)
   final PresentationDefinition? presentationDefinition;
 
   Map<String, dynamic> toJson() => _$CredentialManifestToJson(this);
+
+  static PresentationDefinition? presentationDefinitionFromJson(json) {
+    if (json == null || json['input_descriptors'] == null) {
+      return null;
+    }
+    return PresentationDefinition.fromJson(json);
+  }
 }

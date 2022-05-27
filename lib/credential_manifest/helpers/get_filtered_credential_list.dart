@@ -3,11 +3,13 @@ import 'package:talao/credential_manifest/helpers/get_text_from_credential.dart'
 import 'package:talao/credential_manifest/models/field.dart';
 import 'package:talao/credential_manifest/models/presentation_definition.dart';
 
-void getFilteredCredentialList(Map<String, dynamic> presentationDefinition,
+List<CredentialModel> getFilteredCredentialList(
+    Map<String, dynamic> presentationDefinition,
     List<CredentialModel> credentialList) {
   /// Get instruction to filter credentials of the wallet
   final claims = PresentationDefinition.fromJson(presentationDefinition);
-  final filterList = claims.inputDescriptors.constraints?.fields ?? <Field>[];
+  final filterList =
+      claims.inputDescriptors.first.constraints?.fields ?? <Field>[];
 
   /// If we have some instructions we filter the wallet's crendential list whith it
   if (filterList.isNotEmpty) {
@@ -20,6 +22,7 @@ void getFilteredCredentialList(Map<String, dynamic> presentationDefinition,
         var isFieldCandidate = false;
         for (final path in field.path) {
           final searchList = getTextsFromCredential(path, credential.data);
+          print('searchList: ${searchList.length}');
           if (searchList.isNotEmpty) {
             /// I remove credential not
             searchList.removeWhere(
@@ -43,4 +46,6 @@ void getFilteredCredentialList(Map<String, dynamic> presentationDefinition,
       return !isPresentationCandidate;
     });
   }
+  print(credentialList.length);
+  return credentialList;
 }
