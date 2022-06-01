@@ -32,7 +32,7 @@ class IssuerVerificationSetting extends StatelessWidget {
               groupValue = IssuerVerificationRegistry.ebsi;
               break;
           }
-          final String fakeGroupValue = 'titi';
+          final fakeGroupValue = 'titi';
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

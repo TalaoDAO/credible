@@ -130,7 +130,8 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
             }
           }
 
-          if (data['credential_manifest']['presentation_definition'] != null) {
+          if (data?['credential_manifest']?['presentation_definition'] !=
+              null) {
             emit(QRCodeScanStateSuccess(
                 isDeepLink: state.isDeepLink,
                 route: CredentialManifestPickPage.route(

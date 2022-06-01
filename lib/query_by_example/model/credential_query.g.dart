@@ -12,9 +12,13 @@ CredentialQuery _$CredentialQueryFromJson(Map<String, dynamic> json) =>
               ?.map((e) => Translation.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
+      json['example'] == null
+          ? null
+          : Example.fromJson(json['example'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$CredentialQueryToJson(CredentialQuery instance) =>
     <String, dynamic>{
-      'reason': instance.reason.map((e) => e.toJson()).toList(),
+      'reason': instance.reason?.map((e) => e.toJson()).toList(),
+      'example': instance.example?.toJson(),
     };

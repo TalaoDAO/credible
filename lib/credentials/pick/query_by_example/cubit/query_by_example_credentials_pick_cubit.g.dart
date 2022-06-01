@@ -11,10 +11,14 @@ QueryByExampleCredentialPickState _$QueryByExampleCredentialPickStateFromJson(
     QueryByExampleCredentialPickState(
       selection:
           (json['selection'] as List<dynamic>?)?.map((e) => e as int).toList(),
+      filteredCredentialList: (json['filteredCredentialList'] as List<dynamic>)
+          .map((e) => CredentialModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$QueryByExampleCredentialPickStateToJson(
         QueryByExampleCredentialPickState instance) =>
     <String, dynamic>{
       'selection': instance.selection,
+      'filteredCredentialList': instance.filteredCredentialList,
     };

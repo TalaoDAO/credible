@@ -25,17 +25,8 @@ class CredentialManifestPickState extends Equatable {
   Map<String, dynamic> toJson() => _$CredentialManifestPickStateToJson(this);
 
   @override
-  List<Object?> get props => [selection, filteredCredentialList];
-}
-
-class CredentialManifestPickLoadingState extends CredentialManifestPickState {
-  CredentialManifestPickLoadingState(
-      {required List<CredentialModel> filteredCredentialList})
-      : super(filteredCredentialList: filteredCredentialList);
-}
-
-class CredentialManifestPickReadyState extends CredentialManifestPickState {
-  CredentialManifestPickReadyState(
-      {required List<CredentialModel> filteredCredentialList})
-      : super(filteredCredentialList: filteredCredentialList);
+  List<Object?> get props => [
+        selection,
+        filteredCredentialList,
+      ];
 }

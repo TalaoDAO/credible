@@ -25,7 +25,13 @@ class QueryByExampleCredentialPickPage extends StatefulWidget {
   static Route route(Uri routeUri, Map<String, dynamic> preview) =>
       MaterialPageRoute(
         builder: (context) => BlocProvider(
-          create: (context) => QueryByExampleCredentialPickCubit(),
+          create: (context) => QueryByExampleCredentialPickCubit(
+              credentialQuery: context
+                  .read<QueryByExampleCubit>()
+                  .state
+                  .credentialQuery
+                  .first,
+              credentialList: context.read<WalletCubit>().state.credentials),
           child:
               QueryByExampleCredentialPickPage(uri: routeUri, preview: preview),
         ),
@@ -47,91 +53,91 @@ class _QueryByExampleCredentialPickPageState
     if (queryByExampleCubit.type != '') {
       /// get all the reasons
       queryByExampleCubit.credentialQuery.forEach((e) {
-        reasonList += getTranslation(e.reason, l10n) + '\n';
+        final _reason = e.reason;
+        if (_reason != null) {
+          reasonList += getTranslation(_reason, l10n) + '\n';
+        }
       });
     }
-    return BlocBuilder<WalletCubit, WalletState>(
-        builder: (context, walletState) {
-      return BlocBuilder<QueryByExampleCredentialPickCubit,
-          QueryByExampleCredentialPickState>(
-        builder: (context, state) {
-          return BasePage(
-            title: l10n.credentialPickTitle,
-            titleTrailing: IconButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              icon: Icon(Icons.close),
-            ),
-            padding: const EdgeInsets.symmetric(
-              vertical: 24.0,
-              horizontal: 16.0,
-            ),
-            navigation: SafeArea(
-              child: Container(
-                padding: const EdgeInsets.all(16.0),
-                height: kBottomNavigationBarHeight + 16,
-                child: Tooltip(
-                  message: l10n.credentialPickPresent,
-                  child: Builder(builder: (context) {
-                    return BaseButton.primary(
-                      context: context,
-                      onPressed: () {
-                        if (state.selection.isEmpty) {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            backgroundColor:
-                                Theme.of(context).colorScheme.snackBarError,
-                            content: Text(l10n.credentialPickSelect),
-                          ));
-                        } else {
-                          final scanCubit = context.read<ScanCubit>();
-                          scanCubit.verifiablePresentationRequest(
-                            url: widget.uri.toString(),
-                            keyId: SecureStorageKeys.key,
-                            credentials: state.selection
-                                .map((i) => walletState.credentials[i])
-                                .toList(),
-                            challenge: widget.preview['challenge'],
-                            domain: widget.preview['domain'],
-                          );
-                        }
-                      },
-                      child: Text(l10n.credentialPickPresent),
-                    );
-                  }),
-                ),
+    return BlocBuilder<QueryByExampleCredentialPickCubit,
+        QueryByExampleCredentialPickState>(
+      builder: (context, state) {
+        return BasePage(
+          title: l10n.credentialPickTitle,
+          titleTrailing: IconButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: Icon(Icons.close),
+          ),
+          padding: const EdgeInsets.symmetric(
+            vertical: 24.0,
+            horizontal: 16.0,
+          ),
+          navigation: SafeArea(
+            child: Container(
+              padding: const EdgeInsets.all(16.0),
+              height: kBottomNavigationBarHeight + 16,
+              child: Tooltip(
+                message: l10n.credentialPickPresent,
+                child: Builder(builder: (context) {
+                  return BaseButton.primary(
+                    context: context,
+                    onPressed: () {
+                      if (state.selection.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          backgroundColor:
+                              Theme.of(context).colorScheme.snackBarError,
+                          content: Text(l10n.credentialPickSelect),
+                        ));
+                      } else {
+                        final scanCubit = context.read<ScanCubit>();
+                        scanCubit.verifiablePresentationRequest(
+                          url: widget.uri.toString(),
+                          keyId: SecureStorageKeys.key,
+                          credentials: state.selection
+                              .map((i) => state.filteredCredentialList[i])
+                              .toList(),
+                          challenge: widget.preview['challenge'],
+                          domain: widget.preview['domain'],
+                        );
+                      }
+                    },
+                    child: Text(l10n.credentialPickPresent),
+                  );
+                }),
               ),
             ),
-            body: Column(
-              children: <Widget>[
-                Text(
-                  reasonList == ''
-                      ? l10n.credentialPickSelect
-                      : l10n.credentialPresentConfirm,
-                  style: Theme.of(context).textTheme.bodyText1,
+          ),
+          body: Column(
+            children: <Widget>[
+              Text(
+                reasonList == ''
+                    ? l10n.credentialPickSelect
+                    : l10n.credentialPresentConfirm,
+                style: Theme.of(context).textTheme.bodyText1,
+              ),
+              Text(reasonList,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText1
+                      ?.copyWith(fontWeight: FontWeight.w600)),
+              const SizedBox(height: 12.0),
+              ...List.generate(
+                state.filteredCredentialList.length,
+                (index) => CredentialsListPageItem(
+                  item: state.filteredCredentialList[index],
+                  selected: state.selection.contains(index),
+                  onTap: () => context
+                      .read<QueryByExampleCredentialPickCubit>()
+                      .toggle(index),
                 ),
-                Text(reasonList,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText1
-                        ?.copyWith(fontWeight: FontWeight.w600)),
-                const SizedBox(height: 12.0),
-                ...List.generate(
-                  walletState.credentials.length,
-                  (index) => CredentialsListPageItem(
-                    item: walletState.credentials[index],
-                    selected: state.selection.contains(index),
-                    onTap: () => context
-                        .read<QueryByExampleCredentialPickCubit>()
-                        .toggle(index),
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
-      );
-    });
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }
 
