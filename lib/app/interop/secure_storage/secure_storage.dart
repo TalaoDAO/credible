@@ -40,6 +40,6 @@ abstract class SecureStorageKeys {
   static const String phoneKey = 'profile/phone';
   static const String locationKey = 'profile/location';
   static const String emailKey = 'profile/email';
-  static const String issuerVerificationSettingKey =
-      'profile/issuerVerificationSetting';
+  static const String issuerVerificationUrlKey =
+      'profile/issuerVerificationUrl';
 }

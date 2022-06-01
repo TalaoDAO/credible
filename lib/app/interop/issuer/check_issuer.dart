@@ -1,6 +1,7 @@
-
 import 'package:talao/app/interop/issuer/models/issuer.dart';
 import 'package:talao/app/interop/network/network_client.dart';
+import 'package:talao/app/interop/network/network_exception.dart';
+import 'package:talao/app/shared/constants.dart';
 
 class CheckIssuer {
   final DioClient client;
@@ -20,6 +21,10 @@ class CheckIssuer {
         didToTest = value;
       }
     });
+    if (checkIssuerServerUrl == Constants.checkIssuerEbsiUrl &&
+        didToTest.startsWith('did:ebsi')) {
+      return Issuer.emptyIssuer();
+    }
     try {
       final response = await client.get('$checkIssuerServerUrl/$didToTest');
       final issuer = Issuer.fromJson(response);
@@ -28,6 +33,10 @@ class CheckIssuer {
       }
       return Issuer.emptyIssuer();
     } catch (e) {
+      if (checkIssuerServerUrl == Constants.checkIssuerEbsiUrl &&
+          e is NotFound) {
+        return Issuer.emptyIssuer();
+      }
       rethrow;
     }
   }

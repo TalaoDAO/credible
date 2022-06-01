@@ -117,8 +117,8 @@ class _PersonalPageState extends State<PersonalPage> {
                 companyName: companyNameController.text,
                 companyWebsite: companyWebsiteController.text,
                 jobTitle: jobTitleController.text,
-                issuerVerificationSetting:
-                    widget.profileModel.issuerVerificationSetting);
+                issuerVerificationUrl:
+                    widget.profileModel.issuerVerificationUrl);
 
             await context.read<ProfileCubit>().update(model);
             if (widget.isFromOnBoarding) {
@@ -154,94 +154,96 @@ class _PersonalPageState extends State<PersonalPage> {
         body: BlocBuilder<PersonalPgeCubit, PersonalPageState>(
             builder: (context, state) {
           return Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                  child: Text(
-                    l10n.personalSubtitle,
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.subtitle2!.copyWith(
-                        color: Theme.of(context).colorScheme.subtitle1),
-                  ),
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                child: Text(
+                  l10n.personalSubtitle,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context)
+                      .textTheme
+                      .subtitle2!
+                      .copyWith(color: Theme.of(context).colorScheme.subtitle1),
                 ),
-                const SizedBox(height: 32.0),
-                BaseTextField(
-                  label: l10n.personalFirstName,
-                  controller: firstNameController,
-                  icon: Icons.person,
-                  textCapitalization: TextCapitalization.words,
-                  prefixIcon: isEnterprise && widget.isFromOnBoarding
-                      ? null
-                      : Checkbox(
-                          value: state.isFirstName,
-                          fillColor: MaterialStateProperty.all(
-                              Theme.of(context).colorScheme.secondaryContainer),
-                          onChanged: personalPageCubit.firstNameCheckBoxChange,
-                        ),
-                ),
-                _textFieldSpace(),
-                BaseTextField(
-                  label: l10n.personalLastName,
-                  controller: lastNameController,
-                  icon: Icons.person,
-                  textCapitalization: TextCapitalization.words,
-                  prefixIcon: isEnterprise && widget.isFromOnBoarding
-                      ? null
-                      : Checkbox(
-                          value: state.isLastName,
-                          fillColor: MaterialStateProperty.all(
-                              Theme.of(context).colorScheme.secondaryContainer),
-                          onChanged: personalPageCubit.lastNameCheckBoxChange,
-                        ),
-                ),
-                _textFieldSpace(),
-                BaseTextField(
-                  label: l10n.personalPhone,
-                  controller: phoneController,
-                  icon: Icons.phone,
-                  type: TextInputType.phone,
-                  prefixIcon: isEnterprise && widget.isFromOnBoarding
-                      ? null
-                      : Checkbox(
-                          value: state.isPhone,
-                          fillColor: MaterialStateProperty.all(
-                              Theme.of(context).colorScheme.secondaryContainer),
-                          onChanged: personalPageCubit.phoneCheckBoxChange,
-                        ),
-                ),
-                _textFieldSpace(),
-                BaseTextField(
-                  label: l10n.personalLocation,
-                  controller: locationController,
-                  icon: Icons.location_pin,
-                  textCapitalization: TextCapitalization.words,
-                  prefixIcon: isEnterprise && widget.isFromOnBoarding
-                      ? null
-                      : Checkbox(
-                          value: state.isLocation,
-                          fillColor: MaterialStateProperty.all(
-                              Theme.of(context).colorScheme.secondaryContainer),
-                          onChanged: personalPageCubit.locationCheckBoxChange,
-                        ),
-                ),
-                _textFieldSpace(),
-                BaseTextField(
-                  label: l10n.personalMail,
-                  controller: emailController,
-                  icon: Icons.email,
-                  type: TextInputType.emailAddress,
-                  prefixIcon: isEnterprise && widget.isFromOnBoarding
-                      ? null
-                      : Checkbox(
-                          value: state.isEmail,
-                          fillColor: MaterialStateProperty.all(
-                              Theme.of(context).colorScheme.secondaryContainer),
-                          onChanged: personalPageCubit.emailCheckBoxChange,
-                        ),
-                ),
-                if (isEnterprise) _buildEnterpriseTextFields(state)
-              ],
+              ),
+              const SizedBox(height: 32.0),
+              BaseTextField(
+                label: l10n.personalFirstName,
+                controller: firstNameController,
+                icon: Icons.person,
+                textCapitalization: TextCapitalization.words,
+                prefixIcon: isEnterprise && widget.isFromOnBoarding
+                    ? null
+                    : Checkbox(
+                        value: state.isFirstName,
+                        fillColor: MaterialStateProperty.all(
+                            Theme.of(context).colorScheme.secondaryContainer),
+                        onChanged: personalPageCubit.firstNameCheckBoxChange,
+                      ),
+              ),
+              _textFieldSpace(),
+              BaseTextField(
+                label: l10n.personalLastName,
+                controller: lastNameController,
+                icon: Icons.person,
+                textCapitalization: TextCapitalization.words,
+                prefixIcon: isEnterprise && widget.isFromOnBoarding
+                    ? null
+                    : Checkbox(
+                        value: state.isLastName,
+                        fillColor: MaterialStateProperty.all(
+                            Theme.of(context).colorScheme.secondaryContainer),
+                        onChanged: personalPageCubit.lastNameCheckBoxChange,
+                      ),
+              ),
+              _textFieldSpace(),
+              BaseTextField(
+                label: l10n.personalPhone,
+                controller: phoneController,
+                icon: Icons.phone,
+                type: TextInputType.phone,
+                prefixIcon: isEnterprise && widget.isFromOnBoarding
+                    ? null
+                    : Checkbox(
+                        value: state.isPhone,
+                        fillColor: MaterialStateProperty.all(
+                            Theme.of(context).colorScheme.secondaryContainer),
+                        onChanged: personalPageCubit.phoneCheckBoxChange,
+                      ),
+              ),
+              _textFieldSpace(),
+              BaseTextField(
+                label: l10n.personalLocation,
+                controller: locationController,
+                icon: Icons.location_pin,
+                textCapitalization: TextCapitalization.words,
+                prefixIcon: isEnterprise && widget.isFromOnBoarding
+                    ? null
+                    : Checkbox(
+                        value: state.isLocation,
+                        fillColor: MaterialStateProperty.all(
+                            Theme.of(context).colorScheme.secondaryContainer),
+                        onChanged: personalPageCubit.locationCheckBoxChange,
+                      ),
+              ),
+              _textFieldSpace(),
+              BaseTextField(
+                label: l10n.personalMail,
+                controller: emailController,
+                icon: Icons.email,
+                type: TextInputType.emailAddress,
+                prefixIcon: isEnterprise && widget.isFromOnBoarding
+                    ? null
+                    : Checkbox(
+                        value: state.isEmail,
+                        fillColor: MaterialStateProperty.all(
+                            Theme.of(context).colorScheme.secondaryContainer),
+                        onChanged: personalPageCubit.emailCheckBoxChange,
+                      ),
+              ),
+              if (isEnterprise) _buildEnterpriseTextFields(state)
+            ],
           );
         }),
         navigation: !widget.isFromOnBoarding

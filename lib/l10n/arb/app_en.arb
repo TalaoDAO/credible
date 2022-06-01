@@ -285,5 +285,6 @@
   "needEmailPass": "You need to get a Proof of Email first.",
   "signature": "Signature",
   "proof": "Proof",
-  "search": "Search"
+  "search": "Search",
+  "credentialSelectionListEmptyError": "You do not have any compatible credential in your wallet."
 }

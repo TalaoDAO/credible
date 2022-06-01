@@ -116,7 +116,8 @@
     "needEmailPass",
     "signature",
     "proof",
-    "search"
+    "search",
+    "credentialSelectionListEmptyError"
   ],
 
   "es": [
@@ -235,7 +236,8 @@
     "needEmailPass",
     "signature",
     "proof",
-    "search"
+    "search",
+    "credentialSelectionListEmptyError"
   ],
 
   "it": [
@@ -356,6 +358,7 @@
     "needEmailPass",
     "signature",
     "proof",
-    "search"
+    "search",
+    "credentialSelectionListEmptyError"
   ]
 }

@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:talao/app/shared/constants.dart';
 
 part 'profile.g.dart';
 
@@ -11,7 +12,7 @@ class ProfileModel extends Equatable {
     required this.phone,
     required this.location,
     required this.email,
-    required this.issuerVerificationSetting,
+    required this.issuerVerificationUrl,
     required this.isEnterprise,
     this.companyName = '',
     this.companyWebsite = '',
@@ -21,7 +22,7 @@ class ProfileModel extends Equatable {
   factory ProfileModel.fromJson(Map<String, dynamic> json) =>
       _$ProfileModelFromJson(json);
 
-  factory ProfileModel.empty( ) => ProfileModel(
+  factory ProfileModel.empty() => ProfileModel(
         firstName: '',
         lastName: '',
         phone: '',
@@ -30,7 +31,7 @@ class ProfileModel extends Equatable {
         companyName: '',
         companyWebsite: '',
         jobTitle: '',
-        issuerVerificationSetting: true,
+        issuerVerificationUrl: Constants.checkIssuerTalaoUrl,
         isEnterprise: false,
       );
 
@@ -42,7 +43,7 @@ class ProfileModel extends Equatable {
   final String companyName;
   final String companyWebsite;
   final String jobTitle;
-  final bool issuerVerificationSetting;
+  final String issuerVerificationUrl;
   final bool isEnterprise;
 
   @override
@@ -52,7 +53,7 @@ class ProfileModel extends Equatable {
         phone,
         location,
         email,
-        issuerVerificationSetting,
+        issuerVerificationUrl,
         companyName,
         companyWebsite,
         jobTitle,
@@ -70,7 +71,7 @@ class ProfileModel extends Equatable {
       String? companyName,
       String? companyWebsite,
       String? jobTitle,
-      bool? issuerVerificationSetting,
+      String? issuerVerificationUrl,
       bool? isEnterprise}) {
     return ProfileModel(
       firstName: firstName ?? this.firstName,
@@ -81,8 +82,8 @@ class ProfileModel extends Equatable {
       companyName: companyName ?? this.companyName,
       companyWebsite: companyWebsite ?? this.companyWebsite,
       jobTitle: jobTitle ?? this.jobTitle,
-      issuerVerificationSetting:
-          issuerVerificationSetting ?? this.issuerVerificationSetting,
+      issuerVerificationUrl:
+          issuerVerificationUrl ?? this.issuerVerificationUrl,
       isEnterprise: isEnterprise ?? this.isEnterprise,
     );
   }

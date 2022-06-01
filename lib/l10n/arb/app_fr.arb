@@ -285,5 +285,6 @@
   "needEmailPass": "Vous devez dabord aquérir une preuve d'email.",
   "signature": "Signature",
   "proof": "Preuve",
-  "search": "Rechercher"
+  "search": "Rechercher",
+  "credentialSelectionListEmptyError": "Vous n'avez pas d'attestation compatible dans votre portefeuille."
 }

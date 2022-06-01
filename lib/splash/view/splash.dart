@@ -389,12 +389,12 @@ class _SplashPageState extends State<SplashPage> {
             } else {
               var approvedIssuer = Issuer.emptyIssuer();
               final isIssuerVerificationSettingTrue =
-                  profileCubit.state.model.issuerVerificationSetting;
+                  profileCubit.state.model.issuerVerificationUrl != '';
               if (isIssuerVerificationSettingTrue) {
                 try {
                   approvedIssuer = await CheckIssuer(
-                          DioClient(Constants.checkIssuerServerUrl, Dio()),
-                          Constants.checkIssuerServerUrl,
+                          DioClient(Constants.checkIssuerTalaoUrl, Dio()),
+                          profileCubit.state.model.issuerVerificationUrl,
                           state.uri!)
                       .isIssuerInApprovedList();
                 } catch (e) {

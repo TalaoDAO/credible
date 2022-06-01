@@ -75,7 +75,8 @@ class CredentialsReceivePage extends StatelessWidget {
                       await Navigator.of(context).pushReplacement(
                           CredentialManifestOfferPickPage.route(
                         url,
-                        credential,
+                        CredentialModel.copyWithAlias(
+                            oldCredentialModel: credential, newAlias: alias),
                       ));
                     } else {
                       context.read<ScanCubit>().credentialOffer(

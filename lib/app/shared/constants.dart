@@ -8,9 +8,10 @@ class Constants {
   static const String appContactWebsiteUrl = 'https://talao.io';
   static const String appContactWebsiteName = 'talao.io';
   static const String appContactMail = 'contact@talao.io';
-  static const String checkIssuerServerUrl =
+  static const String checkIssuerTalaoUrl =
       'https://talao.co/trusted-issuers-registry/v1/issuers';
-
+  static const String checkIssuerEbsiUrl =
+      'https://api.conformance.intebsi.xyz/trusted-issuers-registry/v2/issuers';
 
   static const String ivVector = 'Talao';
   static const String additionalAuthenticatedData = 'Credible';

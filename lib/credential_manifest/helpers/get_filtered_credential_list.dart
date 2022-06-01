@@ -22,7 +22,6 @@ List<CredentialModel> getFilteredCredentialList(
         var isFieldCandidate = false;
         for (final path in field.path) {
           final searchList = getTextsFromCredential(path, credential.data);
-          print('searchList: ${searchList.length}');
           if (searchList.isNotEmpty) {
             /// I remove credential not
             searchList.removeWhere(

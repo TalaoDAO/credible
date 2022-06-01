@@ -58,6 +58,15 @@ class _CredentialManifestOfferPickPageState
       return BlocBuilder<CredentialManifestPickCubit,
           CredentialManifestPickState>(
         builder: (context, state) {
+          final credentialCandidateList = List.generate(
+            state.filteredCredentialList.length,
+            (index) => CredentialsListPageItem(
+              item: state.filteredCredentialList[index],
+              selected: state.selection.contains(index),
+              onTap: () =>
+                  context.read<CredentialManifestPickCubit>().toggle(index),
+            ),
+          );
           return BasePage(
             title: l10n.credentialPickTitle,
             titleTrailing: IconButton(
@@ -112,16 +121,19 @@ class _CredentialManifestOfferPickPageState
                   style: Theme.of(context).textTheme.bodyText1,
                 ),
                 const SizedBox(height: 12.0),
-                ...List.generate(
-                  state.filteredCredentialList.length,
-                  (index) => CredentialsListPageItem(
-                    item: state.filteredCredentialList[index],
-                    selected: state.selection.contains(index),
-                    onTap: () => context
-                        .read<CredentialManifestPickCubit>()
-                        .toggle(index),
-                  ),
-                ),
+                ...credentialCandidateList,
+                credentialCandidateList.isEmpty
+                    ? Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          l10n.credentialSelectionListEmptyError,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText1
+                              ?.copyWith(fontWeight: FontWeight.bold),
+                        ),
+                      )
+                    : SizedBox.shrink(),
               ],
             ),
           );
