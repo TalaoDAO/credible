@@ -13,56 +13,57 @@ class QueryByExampleCredentialPickCubit
     extends Cubit<QueryByExampleCredentialPickState> {
   QueryByExampleCredentialPickCubit({
     List<CredentialModel> credentialList = const <CredentialModel>[],
-    required CredentialQuery credentialQuery,
+    required CredentialQuery? credentialQuery,
   }) : super(QueryByExampleCredentialPickState(filteredCredentialList: [])) {
     final filteredCredentialList = List<CredentialModel>.from(credentialList);
-
-    /// filter credential list if there are type restrictions
-    if (credentialQuery.example?.type != null) {
-      filteredCredentialList.removeWhere((credential) {
-        /// A credential must satisfy each field to be candidate for presentation
-        var isPresentationCandidate = false;
-        final searchList = getTextsFromCredential(r'$.type', credential.data);
-        if (searchList.isNotEmpty) {
-          /// I remove credential not
-          searchList.removeWhere((element) =>
-              element == credentialQuery.example?.type ? false : true);
-
-          /// if [searchList] is not empty we mark this credential as a valid candidate
+    if (credentialQuery != null) {
+      /// filter credential list if there are type restrictions
+      if (credentialQuery.example?.type != null) {
+        filteredCredentialList.removeWhere((credential) {
+          /// A credential must satisfy each field to be candidate for presentation
+          var isPresentationCandidate = false;
+          final searchList = getTextsFromCredential(r'$.type', credential.data);
           if (searchList.isNotEmpty) {
-            isPresentationCandidate = true;
-          }
-        }
-
-        /// Remove non candidate credential from the list
-        return !isPresentationCandidate;
-      });
-    }
-
-    /// filter credential list if there are issuer restrictions
-    var issuerList = credentialQuery.example?.trustedIssuer;
-    if (issuerList != null) {
-      filteredCredentialList.removeWhere((credential) {
-        var isPresentationCandidate = false;
-        for (final issuer in issuerList) {
-          /// A credential must satisfy one issuer value to be candidate for presentation
-          final searchList =
-              getTextsFromCredential(r'$.issuer', credential.data);
-          if (searchList.isNotEmpty) {
-            /// I remove element not matching requested issuer
-            searchList.removeWhere(
-                (element) => element == issuer.issuer ? false : true);
+            /// I remove credential not
+            searchList.removeWhere((element) =>
+                element == credentialQuery.example?.type ? false : true);
 
             /// if [searchList] is not empty we mark this credential as a valid candidate
             if (searchList.isNotEmpty) {
               isPresentationCandidate = true;
             }
           }
-        }
 
-        /// Remove non candidate credential from the list
-        return !isPresentationCandidate;
-      });
+          /// Remove non candidate credential from the list
+          return !isPresentationCandidate;
+        });
+      }
+
+      /// filter credential list if there are issuer restrictions
+      var issuerList = credentialQuery.example?.trustedIssuer;
+      if (issuerList != null) {
+        filteredCredentialList.removeWhere((credential) {
+          var isPresentationCandidate = false;
+          for (final issuer in issuerList) {
+            /// A credential must satisfy one issuer value to be candidate for presentation
+            final searchList =
+                getTextsFromCredential(r'$.issuer', credential.data);
+            if (searchList.isNotEmpty) {
+              /// I remove element not matching requested issuer
+              searchList.removeWhere(
+                  (element) => element == issuer.issuer ? false : true);
+
+              /// if [searchList] is not empty we mark this credential as a valid candidate
+              if (searchList.isNotEmpty) {
+                isPresentationCandidate = true;
+              }
+            }
+          }
+
+          /// Remove non candidate credential from the list
+          return !isPresentationCandidate;
+        });
+      }
     }
 
     emit(QueryByExampleCredentialPickState(
