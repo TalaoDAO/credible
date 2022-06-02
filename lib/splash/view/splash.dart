@@ -254,7 +254,7 @@ class _SplashPageState extends State<SplashPage> {
                     context: context,
                     builder: (context) => ConfirmDialog(
                       title:
-                          '${l10n.credentialPresentTitleDIDAuth}\n${l10n.confimrDIDAuth}',
+                          '${l10n.credentialPresentTitleDIDAuth}\n\n${l10n.confimrDIDAuth}',
                       yes: l10n.showDialogYes,
                       no: l10n.showDialogNo,
                     ),

@@ -73,7 +73,7 @@
   "credentialDetailCopyFieldValue": "Copier la valeur !",
   "credentialDetailStatus": "Verification Status",
   "credentialPresentTitle": "Demande de présentation",
-  "credentialPresentTitleDIDAuth": "Demande ProDIDAuth",
+  "credentialPresentTitleDIDAuth": "Demande authentification",
   "credentialPresentRequiredCredential": "On demande votre",
   "credentialPresentConfirm": "Sélectionner le(s) attestation(s)",
   "credentialPresentCancel": "Rejeter",

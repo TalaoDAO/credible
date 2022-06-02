@@ -79,7 +79,7 @@
   "credentialDetailCopyFieldValue": "Copied field value to clipboard!",
   "credentialDetailStatus": "Verification Status",
   "credentialPresentTitle": "Presentation Request",
-  "credentialPresentTitleDIDAuth": "DIDAuth Request",
+  "credentialPresentTitleDIDAuth": "Authentication Request",
   "credentialPresentRequiredCredential": "Someone is asking for your",
   "credentialPresentConfirm": "Select credential(s)",
   "credentialPresentCancel": "Reject",
