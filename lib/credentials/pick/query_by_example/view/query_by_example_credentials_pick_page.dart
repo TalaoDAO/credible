@@ -2,7 +2,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talao/app/interop/secure_storage/secure_storage.dart';
 import 'package:talao/credentials/pick/query_by_example/cubit/query_by_example_credentials_pick_cubit.dart';
 import 'package:talao/l10n/l10n.dart';
-import 'package:talao/query_by_example/model/credential_query.dart';
 import 'package:talao/scan/scan.dart';
 import 'package:talao/wallet/wallet.dart';
 import 'package:talao/credentials/widget/list_item.dart';
