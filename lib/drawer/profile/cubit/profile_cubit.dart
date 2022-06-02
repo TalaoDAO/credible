@@ -144,13 +144,13 @@ class ProfileCubit extends Cubit<ProfileState> {
     Logger('talao-wallet/profile/updateIssuerVerificationUrl');
     var _issuerVerificationUrl = Constants.checkIssuerTalaoUrl;
     switch (registry) {
-      case IssuerVerificationRegistry.ebsi:
+      case IssuerVerificationRegistry.EBSI:
         _issuerVerificationUrl = Constants.checkIssuerEbsiUrl;
         break;
-      case IssuerVerificationRegistry.none:
+      case IssuerVerificationRegistry.None:
         _issuerVerificationUrl = '';
         break;
-      case IssuerVerificationRegistry.talao:
+      case IssuerVerificationRegistry.Talao:
         _issuerVerificationUrl = Constants.checkIssuerTalaoUrl;
         break;
     }

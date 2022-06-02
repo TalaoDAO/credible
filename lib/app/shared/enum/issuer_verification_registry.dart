@@ -2,9 +2,9 @@ import 'package:json_annotation/json_annotation.dart';
 
 enum IssuerVerificationRegistry {
   @JsonValue('none')
-  none,
+  None,
   @JsonValue('talao')
-  talao,
+  Talao,
   @JsonValue('ebsi')
-  ebsi,
+  EBSI,
 }

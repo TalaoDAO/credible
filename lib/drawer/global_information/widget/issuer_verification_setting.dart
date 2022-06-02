@@ -23,13 +23,13 @@ class IssuerVerificationSetting extends StatelessWidget {
           }
         },
         builder: (context, state) {
-          var groupValue = IssuerVerificationRegistry.talao;
+          var groupValue = IssuerVerificationRegistry.Talao;
           switch (state.model.issuerVerificationUrl) {
             case '':
-              groupValue = IssuerVerificationRegistry.none;
+              groupValue = IssuerVerificationRegistry.None;
               break;
             case Constants.checkIssuerEbsiUrl:
-              groupValue = IssuerVerificationRegistry.ebsi;
+              groupValue = IssuerVerificationRegistry.EBSI;
               break;
           }
           final fakeGroupValue = 'titi';
@@ -50,14 +50,16 @@ class IssuerVerificationSetting extends StatelessWidget {
                 children: [
                   IssuerVerificationRegistrySelector(
                     issuerVerificationRegistry:
-                        IssuerVerificationRegistry.talao,
+                        IssuerVerificationRegistry.Talao,
                     groupValue: groupValue,
                   ),
                   IssuerVerificationRegistrySelector(
-                    issuerVerificationRegistry: IssuerVerificationRegistry.ebsi,
+                    issuerVerificationRegistry: IssuerVerificationRegistry.EBSI,
                     groupValue: groupValue,
                   ),
                   ListTile(
+                    dense: true,
+                    visualDensity: VisualDensity.compact,
                     title: Text(
                       'Compellio',
                       style: Theme.of(context)
@@ -72,7 +74,7 @@ class IssuerVerificationSetting extends StatelessWidget {
                     ),
                   ),
                   IssuerVerificationRegistrySelector(
-                    issuerVerificationRegistry: IssuerVerificationRegistry.none,
+                    issuerVerificationRegistry: IssuerVerificationRegistry.None,
                     groupValue: groupValue,
                   ),
                 ],
@@ -108,6 +110,8 @@ class _IssuerVerificationRegistrySelectorState
       },
       builder: (context, state) {
         return ListTile(
+          dense: true,
+          visualDensity: VisualDensity.compact,
           title: Text(
             widget.issuerVerificationRegistry.name,
             style: Theme.of(context).textTheme.bodyText2,
