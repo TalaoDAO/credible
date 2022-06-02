@@ -286,5 +286,5 @@
   "signature": "Signature",
   "proof": "Preuve",
   "search": "Rechercher",
-  "credentialSelectionListEmptyError": "Vous n'avez pas d'attestation compatible dans votre portefeuille."
+  "credentialSelectionListEmptyError": "Vous n'avez pas l'attestation nécessaire pour poursuivre."
 }

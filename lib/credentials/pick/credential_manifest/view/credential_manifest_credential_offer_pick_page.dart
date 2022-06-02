@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:talao/app/shared/model/credential.dart';
 import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:talao/credentials/pick/credential_manifest/credential_manifest_pick.dart';
 import 'package:talao/l10n/l10n.dart';
@@ -67,6 +68,8 @@ class _CredentialManifestOfferPickPageState
                   context.read<CredentialManifestPickCubit>().toggle(index),
             ),
           );
+          final _purpose = widget.credential.credentialManifest
+              ?.presentationDefinition?.inputDescriptors.first.purpose;
           return BasePage(
             title: l10n.credentialPickTitle,
             titleTrailing: IconButton(
@@ -79,49 +82,56 @@ class _CredentialManifestOfferPickPageState
               vertical: 24.0,
               horizontal: 16.0,
             ),
-            navigation: SafeArea(
-              child: Container(
-                padding: const EdgeInsets.all(16.0),
-                height: kBottomNavigationBarHeight + 16,
-                child: Tooltip(
-                  message: l10n.credentialPickPresent,
-                  child: Builder(builder: (context) {
-                    return BaseButton.primary(
-                      context: context,
-                      onPressed: () {
-                        if (state.selection.isEmpty) {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            backgroundColor:
-                                Theme.of(context).colorScheme.snackBarError,
-                            content: Text(l10n.credentialPickSelect),
-                          ));
-                        } else {
-                          final selectedCredentialsList = state.selection
-                              .map((i) => state.filteredCredentialList[i])
-                              .toList();
-                          context.read<ScanCubit>().credentialOffer(
-                                url: widget.uri.toString(),
-                                credentialModel: widget.credential,
-                                keyId: 'key',
-                                signatureOwnershipProof:
-                                    selectedCredentialsList.first,
-                              );
-                        }
-                      },
-                      child: Text(l10n.credentialPickPresent),
-                    );
-                  }),
-                ),
-              ),
-            ),
+            navigation: credentialCandidateList.isNotEmpty
+                ? SafeArea(
+                    child: Container(
+                      padding: const EdgeInsets.all(16.0),
+                      height: kBottomNavigationBarHeight + 16,
+                      child: Tooltip(
+                        message: l10n.credentialPickPresent,
+                        child: Builder(builder: (context) {
+                          return BaseButton.primary(
+                            context: context,
+                            onPressed: () {
+                              if (state.selection.isEmpty) {
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(SnackBar(
+                                  backgroundColor: Theme.of(context)
+                                      .colorScheme
+                                      .snackBarError,
+                                  content: Text(l10n.credentialPickSelect),
+                                ));
+                              } else {
+                                final selectedCredentialsList = state.selection
+                                    .map((i) => state.filteredCredentialList[i])
+                                    .toList();
+                                context.read<ScanCubit>().credentialOffer(
+                                      url: widget.uri.toString(),
+                                      credentialModel: widget.credential,
+                                      keyId: 'key',
+                                      signatureOwnershipProof:
+                                          selectedCredentialsList.first,
+                                    );
+                              }
+                            },
+                            child: Text(l10n.credentialPickPresent),
+                          );
+                        }),
+                      ),
+                    ),
+                  )
+                : SizedBox.shrink(),
             body: Column(
               children: <Widget>[
-                Text(
-                  l10n.credentialPickSelect,
-                  style: Theme.of(context).textTheme.bodyText1,
-                ),
-                const SizedBox(height: 12.0),
-                ...credentialCandidateList,
+                _purpose != null
+                    ? Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          _purpose,
+                          style: Theme.of(context).textTheme.bodyText1,
+                        ),
+                      )
+                    : SizedBox.shrink(),
                 credentialCandidateList.isEmpty
                     ? Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -133,7 +143,12 @@ class _CredentialManifestOfferPickPageState
                               ?.copyWith(fontWeight: FontWeight.bold),
                         ),
                       )
-                    : SizedBox.shrink(),
+                    : Text(
+                        l10n.credentialPickSelect,
+                        style: Theme.of(context).textTheme.bodyText1,
+                      ),
+                const SizedBox(height: 12.0),
+                ...credentialCandidateList,
               ],
             ),
           );

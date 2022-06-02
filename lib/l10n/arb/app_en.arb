@@ -286,5 +286,5 @@
   "signature": "Signature",
   "proof": "Proof",
   "search": "Search",
-  "credentialSelectionListEmptyError": "You do not have any compatible credential in your wallet."
+  "credentialSelectionListEmptyError": "You do not have the requested credential to pursue."
 }

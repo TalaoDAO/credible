@@ -9,8 +9,9 @@ class InputDescriptor {
       _$InputDescriptorFromJson(json);
 
   final Constraints? constraints;
+  final String? purpose;
 
-  InputDescriptor(this.constraints);
+  InputDescriptor(this.constraints, this.purpose);
 
   Map<String, dynamic> toJson() => _$InputDescriptorToJson(this);
 }

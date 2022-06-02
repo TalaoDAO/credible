@@ -77,39 +77,42 @@ class _QueryByExampleCredentialPickPageState
             horizontal: 16.0,
           ),
           navigation: SafeArea(
-            child: Container(
-              padding: const EdgeInsets.all(16.0),
-              height: kBottomNavigationBarHeight + 16,
-              child: Tooltip(
-                message: l10n.credentialPickPresent,
-                child: Builder(builder: (context) {
-                  return BaseButton.primary(
-                    context: context,
-                    onPressed: () {
-                      if (state.selection.isEmpty) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          backgroundColor:
-                              Theme.of(context).colorScheme.snackBarError,
-                          content: Text(l10n.credentialPickSelect),
-                        ));
-                      } else {
-                        final scanCubit = context.read<ScanCubit>();
-                        scanCubit.verifiablePresentationRequest(
-                          url: widget.uri.toString(),
-                          keyId: SecureStorageKeys.key,
-                          credentials: state.selection
-                              .map((i) => state.filteredCredentialList[i])
-                              .toList(),
-                          challenge: widget.preview['challenge'],
-                          domain: widget.preview['domain'],
+            child: state.filteredCredentialList.isNotEmpty
+                ? Container(
+                    padding: const EdgeInsets.all(16.0),
+                    height: kBottomNavigationBarHeight + 16,
+                    child: Tooltip(
+                      message: l10n.credentialPickPresent,
+                      child: Builder(builder: (context) {
+                        return BaseButton.primary(
+                          context: context,
+                          onPressed: () {
+                            if (state.selection.isEmpty) {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                backgroundColor:
+                                    Theme.of(context).colorScheme.snackBarError,
+                                content: Text(l10n.credentialPickSelect),
+                              ));
+                            } else {
+                              final scanCubit = context.read<ScanCubit>();
+                              scanCubit.verifiablePresentationRequest(
+                                url: widget.uri.toString(),
+                                keyId: SecureStorageKeys.key,
+                                credentials: state.selection
+                                    .map((i) => state.filteredCredentialList[i])
+                                    .toList(),
+                                challenge: widget.preview['challenge'],
+                                domain: widget.preview['domain'],
+                              );
+                            }
+                          },
+                          child: Text(l10n.credentialPickPresent),
                         );
-                      }
-                    },
-                    child: Text(l10n.credentialPickPresent),
-                  );
-                }),
-              ),
-            ),
+                      }),
+                    ),
+                  )
+                : SizedBox.shrink(),
           ),
           body: Column(
             children: <Widget>[

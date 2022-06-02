@@ -11,9 +11,11 @@ InputDescriptor _$InputDescriptorFromJson(Map<String, dynamic> json) =>
       json['constraints'] == null
           ? null
           : Constraints.fromJson(json['constraints'] as Map<String, dynamic>),
+      json['purpose'] as String?,
     );
 
 Map<String, dynamic> _$InputDescriptorToJson(InputDescriptor instance) =>
     <String, dynamic>{
       'constraints': instance.constraints?.toJson(),
+      'purpose': instance.purpose,
     };
