@@ -42,10 +42,10 @@ class QueryByExampleCredentialPickCubit
     /// filter credential list if there are issuer restrictions
     var issuerList = credentialQuery.example?.trustedIssuer;
     if (issuerList != null) {
-      for (final issuer in issuerList) {
-        filteredCredentialList.removeWhere((credential) {
-          /// A credential must satisfy each field to be candidate for presentation
-          var isPresentationCandidate = false;
+      filteredCredentialList.removeWhere((credential) {
+        var isPresentationCandidate = false;
+        for (final issuer in issuerList) {
+          /// A credential must satisfy one issuer value to be candidate for presentation
           final searchList =
               getTextsFromCredential(r'$.issuer', credential.data);
           if (searchList.isNotEmpty) {
@@ -58,11 +58,11 @@ class QueryByExampleCredentialPickCubit
               isPresentationCandidate = true;
             }
           }
+        }
 
-          /// Remove non candidate credential from the list
-          return !isPresentationCandidate;
-        });
-      }
+        /// Remove non candidate credential from the list
+        return !isPresentationCandidate;
+      });
     }
 
     emit(QueryByExampleCredentialPickState(
