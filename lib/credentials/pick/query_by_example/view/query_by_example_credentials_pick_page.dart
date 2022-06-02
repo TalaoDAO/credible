@@ -135,6 +135,18 @@ class _QueryByExampleCredentialPickPageState
                       .toggle(index),
                 ),
               ),
+              state.filteredCredentialList.isEmpty
+                  ? Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        l10n.credentialSelectionListEmptyError,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText1
+                            ?.copyWith(fontWeight: FontWeight.bold),
+                      ),
+                    )
+                  : SizedBox.shrink(),
             ],
           ),
         );
