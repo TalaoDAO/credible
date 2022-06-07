@@ -1,5 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:talao/app/shared/model/credential.dart';
 import 'package:talao/app/shared/model/credential_model/credential_model.dart';
 import 'package:talao/credentials/pick/credential_manifest/credential_manifest_pick.dart';
 import 'package:talao/l10n/l10n.dart';

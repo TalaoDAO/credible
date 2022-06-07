@@ -117,7 +117,8 @@
     "signature",
     "proof",
     "search",
-    "credentialSelectionListEmptyError"
+    "credentialSelectionListEmptyError",
+    "trustedIssuer"
   ],
 
   "es": [
@@ -237,7 +238,8 @@
     "signature",
     "proof",
     "search",
-    "credentialSelectionListEmptyError"
+    "credentialSelectionListEmptyError",
+    "trustedIssuer"
   ],
 
   "it": [
@@ -359,6 +361,7 @@
     "signature",
     "proof",
     "search",
-    "credentialSelectionListEmptyError"
+    "credentialSelectionListEmptyError",
+    "trustedIssuer"
   ]
 }

@@ -286,5 +286,6 @@
   "signature": "Signature",
   "proof": "Preuve",
   "search": "Rechercher",
-  "credentialSelectionListEmptyError": "Vous n'avez pas l'attestation nécessaire pour poursuivre."
+  "credentialSelectionListEmptyError": "Vous n'avez pas l'attestation nécessaire pour poursuivre.",
+  "trustedIssuer": "Ce fournisseur est appouvé par EBSI."
 }

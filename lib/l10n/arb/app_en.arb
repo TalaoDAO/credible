@@ -286,5 +286,6 @@
   "signature": "Signature",
   "proof": "Proof",
   "search": "Search",
-  "credentialSelectionListEmptyError": "You do not have the requested credential to pursue."
+  "credentialSelectionListEmptyError": "You do not have the requested credential to pursue.",
+  "trustedIssuer": "This issuer is approved by EBSI."
 }
