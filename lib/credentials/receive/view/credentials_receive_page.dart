@@ -63,12 +63,8 @@ class CredentialsReceivePage extends StatelessWidget {
                 BaseButton.primary(
                   context: context,
                   onPressed: () async {
-                    final alias = await showDialog<String>(
-                      context: builderContext,
-                      builder: (context) => TextFieldDialog(
-                        title: localizations.credentialPickAlertMessage,
-                      ),
-                    );
+                    /// We removed dialog box which is asking for the user to provide alias to the credential.
+                    final alias = '';
 
                     if (credential.credentialManifest?.presentationDefinition !=
                         null) {
