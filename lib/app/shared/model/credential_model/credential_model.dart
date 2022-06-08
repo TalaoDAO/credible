@@ -1,3 +1,5 @@
+// ignore_for_file: omit_local_variable_types
+
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
@@ -192,15 +194,16 @@ class CredentialModel extends Equatable {
   }
 
   Future<RevocationStatus> getRevocationStatus() async {
-    final vcStr = jsonEncode(data);
-    final optStr = jsonEncode({
+    final String vcStr = jsonEncode(data);
+    final String optStr = jsonEncode({
       'checks': ['credentialStatus']
     });
-    final result = await Future.any([
+    final String? result = await Future.any([
       DIDKitProvider.instance.verifyCredential(vcStr, optStr),
       Future.delayed(const Duration(seconds: 4))
     ]);
-    final jsonResult = jsonDecode(result);
+    if (result == null) return RevocationStatus.active;
+    final jsonResult = jsonDecode(result) as Map<String, dynamic>;
     if (jsonResult['errors']?[0] == 'Credential is revoked.') {
       revocationStatus = RevocationStatus.revoked;
       return RevocationStatus.revoked;
