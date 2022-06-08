@@ -43,4 +43,17 @@ class DIDCubit extends Cubit<DIDState> {
         did: did, didMethod: didMethod, didMethodName: didMethodName));
     log.info('successfully Loaded');
   }
+
+  Future<void> reset() async {
+    final log = Logger('talao-wallet/DID/delete');
+
+    emit(DIDStateWorking());
+    await secureStorageProvider.delete(SecureStorageKeys.did);
+    await secureStorageProvider.delete(SecureStorageKeys.didMethod);
+    await secureStorageProvider.delete(SecureStorageKeys.verificationMethod);
+    await secureStorageProvider.delete(SecureStorageKeys.didMethodName);
+    emit(DIDState());
+
+    log.info('successfully Deleted did information');
+  }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talao/app/shared/widget/confirm_dialog.dart';
+import 'package:talao/did/cubit/did_cubit.dart';
 import 'package:talao/drawer/drawer.dart';
 import 'package:talao/issuer_websites_page/view/issuer_websites_page.dart';
 import 'package:talao/l10n/l10n.dart';
@@ -116,6 +117,7 @@ class ProfileView extends StatelessWidget {
                         false;
                     if (confirm) {
                       await context.read<WalletCubit>().resetWallet();
+                      await context.read<DIDCubit>().reset();
                     }
                   },
                 ),
