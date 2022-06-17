@@ -1,18 +1,9 @@
-import 'package:talao/app/shared/widget/base/button.dart';
-import 'package:talao/app/shared/widget/base/page.dart';
+import 'package:altme/app/app.dart';
+import 'package:altme/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class BaseIllustrationPage extends StatelessWidget {
-  final String asset;
-  final String? description;
-  final String action;
-
-  final VoidCallback? onPressed;
-
-  final Color backgroundColor;
-
   const BaseIllustrationPage({
     Key? key,
     required this.asset,
@@ -21,6 +12,14 @@ class BaseIllustrationPage extends StatelessWidget {
     this.onPressed,
     this.backgroundColor = Colors.transparent,
   }) : super(key: key);
+
+  final String asset;
+  final String? description;
+  final String action;
+
+  final VoidCallback? onPressed;
+
+  final Color backgroundColor;
 
   @override
   Widget build(BuildContext context) {
@@ -42,11 +41,8 @@ class BaseIllustrationPage extends StatelessWidget {
                 Text(
                   description!,
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.poppins(
-                    color: Colors.white,
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style:
+                      Theme.of(context).textTheme.illustrationPageDescription,
                 ),
               Expanded(child: Container()),
               BaseButton.white(

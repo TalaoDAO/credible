@@ -1,113 +1,100 @@
+import 'package:altme/app/app.dart';
+import 'package:altme/l10n/l10n.dart';
+import 'package:altme/onboarding/gen_phrase/view/onboarding_gen_phrase.dart';
+import 'package:altme/onboarding/recovery/view/onboarding_recovery.dart';
+import 'package:altme/pin_code/pin_code.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:logging/logging.dart';
-import 'package:talao/app/shared/ui/ui.dart';
-import 'package:talao/app/shared/widget/base/button.dart';
-import 'package:talao/app/shared/widget/base/page.dart';
-import 'package:talao/app/shared/widget/spinner.dart';
-import 'package:talao/l10n/l10n.dart';
-import 'package:talao/onboarding/wallet_type/choose_wallet_type.dart';
+import 'package:secure_storage/secure_storage.dart';
 
 class OnBoardingTosPage extends StatelessWidget {
-  static Route route() => MaterialPageRoute(
-        builder: (context) => OnBoardingTosPage(),
-        settings: RouteSettings(name: '/onBoardingTermsPage'),
+  const OnBoardingTosPage({Key? key, required this.routeType})
+      : super(key: key);
+
+  final WalletRouteType routeType;
+
+  static Route route({required WalletRouteType routeType}) =>
+      MaterialPageRoute<void>(
+        builder: (context) => OnBoardingTosPage(routeType: routeType),
+        settings: const RouteSettings(name: '/onBoardingTermsPage'),
       );
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final _log = Logger('talao-wallet/markdown_page');
 
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: BasePage(
-        backgroundColor: Theme.of(context).colorScheme.background,
-        title: l10n.onBoardingTosTitle,
-        scrollView: false,
-        padding: EdgeInsets.zero,
-        useSafeArea: false,
-        navigation: Container(
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surface,
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                color: Theme.of(context).colorScheme.shadow,
-                offset: Offset(-1.0, -1.0),
-                blurRadius: 4.0,
-              ),
-            ],
-          ),
-          padding: const EdgeInsets.symmetric(
-            vertical: 12.0,
-          ),
-          child: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    l10n.onBoardingTosText,
-                    style: Theme.of(context).textTheme.bodyText2,
-                  ),
-                  const SizedBox(height: 20.0),
-                  BaseButton.primary(
-                    context: context,
-                    onPressed: () {
-                      Navigator.of(context)
-                          .pushReplacement(ChooseWalletTypePage.route());
-                    },
-                    child: Text(l10n.onBoardingTosButton),
-                  )
-                ],
-              ),
+    return BasePage(
+      backgroundColor: Theme.of(context).colorScheme.background,
+      title: l10n.onBoardingTosTitle,
+      titleLeading: const BackLeadingButton(),
+      scrollView: false,
+      padding: EdgeInsets.zero,
+      useSafeArea: false,
+      navigation: Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surface,
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+              color: Theme.of(context).colorScheme.shadow,
+              offset: const Offset(-1, -1),
+              blurRadius: 4,
+            ),
+          ],
+        ),
+        padding: const EdgeInsets.symmetric(
+          vertical: 12,
+        ),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  l10n.onBoardingTosText,
+                  style: Theme.of(context).textTheme.bodyText2,
+                ),
+                const SizedBox(height: 20),
+                BaseButton.primary(
+                  context: context,
+                  onPressed: () async {
+                    late Route routeTo;
+                    if (routeType == WalletRouteType.create) {
+                      routeTo = OnBoardingGenPhrasePage.route();
+                    } else if (routeType == WalletRouteType.recover) {
+                      routeTo = OnBoardingRecoveryPage.route();
+                    }
+
+                    final pinCode =
+                        await getSecureStorage.get(SecureStorageKeys.pinCode);
+                    if (pinCode?.isEmpty ?? true) {
+                      await Navigator.of(context).push<void>(
+                        EnterNewPinCodePage.route(
+                          isValidCallback: () {
+                            Navigator.of(context)
+                                .pushReplacement<void, void>(routeTo);
+                          },
+                        ),
+                      );
+                    } else {
+                      await Navigator.of(context).push<void>(
+                        PinCodePage.route(
+                          isValidCallback: () {
+                            Navigator.of(context)
+                                .pushReplacement<void, void>(routeTo);
+                          },
+                        ),
+                      );
+                    }
+                  },
+                  child: Text(l10n.onBoardingTosButton),
+                )
+              ],
             ),
           ),
         ),
-        body: displayTerms(context, _log),
       ),
+      body: const DisplayTerms(),
     );
-  }
-
-  FutureBuilder<String> displayTerms(BuildContext context, Logger _log) {
-    final localizations = context.l10n;
-    final String path;
-    final languagesList = ['fr', 'it', 'es', 'de'];
-    if (languagesList.contains(localizations.localeName)) {
-      path = 'assets/privacy/privacy_${localizations.localeName}.md';
-    } else {
-      path = 'assets/privacy/privacy_en.md';
-    }
-    return FutureBuilder<String>(
-        future: _loadFile(path),
-        builder: (context, snapshot) {
-          if (snapshot.data != null) {
-            return Markdown(
-              data: snapshot.data!,
-              styleSheet: MarkdownStyleSheet(
-                h1: TextStyle(color: Theme.of(context).colorScheme.markDownH1),
-                h2: TextStyle(color: Theme.of(context).colorScheme.markDownH2),
-                a: TextStyle(color: Theme.of(context).colorScheme.markDownA),
-                p: TextStyle(color: Theme.of(context).colorScheme.markDownP),
-                // onTapLink: (text, href, title) => _onTapLink(href),
-              ),
-            );
-          }
-
-          if (snapshot.error != null) {
-            _log.severe(
-                'something went wrong when loading $path', snapshot.error);
-            return SizedBox.shrink();
-          }
-
-          return Spinner();
-        });
-  }
-
-  Future<String> _loadFile(String path) async {
-    return await rootBundle.loadString(path);
   }
 }

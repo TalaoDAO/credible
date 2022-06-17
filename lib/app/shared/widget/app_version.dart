@@ -9,23 +9,26 @@ class AppVersion extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-        child: FutureBuilder<PackageInfo>(
-      future: PackageInfo.fromPlatform(),
-      builder: (context, snapshot) {
-        switch (snapshot.connectionState) {
-          case ConnectionState.done:
-            final appName = snapshot.data?.appName ?? 'Talao';
-            final version = snapshot.data?.version ?? '0.1.0';
-            final buildNumber = snapshot.data?.buildNumber ?? '1';
+      child: FutureBuilder<PackageInfo>(
+        future: PackageInfo.fromPlatform(),
+        builder: (context, snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.done:
+              final appName = snapshot.data?.appName ?? 'Talao';
+              final version = snapshot.data?.version ?? '0.1.0';
+              final buildNumber = snapshot.data?.buildNumber ?? '1';
 
-            return Text(
-              '$appName v$version ($buildNumber)',
-              style: Theme.of(context).textTheme.bodyText2,
-            );
-          default:
-            return const SizedBox();
-        }
-      },
-    ));
+              return Text(
+                '$appName v$version ($buildNumber)',
+                style: Theme.of(context).textTheme.bodyText2,
+              );
+            case ConnectionState.waiting:
+            case ConnectionState.none:
+            case ConnectionState.active:
+              return const SizedBox();
+          }
+        },
+      ),
+    );
   }
 }

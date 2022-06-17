@@ -1,17 +1,19 @@
+import 'package:altme/app/app.dart';
+import 'package:altme/l10n/l10n.dart';
 import 'package:flutter/material.dart';
-import 'package:talao/app/shared/enum/verification_status.dart';
 
 extension VerifyExtension on VerificationState {
-  String get message {
+  String message(BuildContext context) {
+    final l10n = context.l10n;
     switch (this) {
       case VerificationState.Unverified:
-        return 'Pending';
+        return l10n.pending;
       case VerificationState.Verified:
-        return 'Verified';
+        return l10n.verified;
       case VerificationState.VerifiedWithWarning:
-        return 'Verified (with warnings)';
+        return l10n.verifiedWithWarning;
       case VerificationState.VerifiedWithError:
-        return 'Failed verification';
+        return l10n.failedVerification;
     }
   }
 

@@ -12,10 +12,16 @@ class ImageFromNetwork extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.network(url,
-        fit: fit,
-        loadingBuilder: (context, child, loadingProgress) =>
-            (loadingProgress == null) ? child : CircularProgressIndicator(),
-        errorBuilder: (context, error, stackTrace) => SizedBox.shrink());
+    return Image.network(
+      url,
+      fit: fit,
+      loadingBuilder: (context, child, loadingProgress) =>
+          (loadingProgress == null)
+              ? child
+              : const Center(
+                  child: CircularProgressIndicator(),
+                ),
+      errorBuilder: (context, error, stackTrace) => const SizedBox.shrink(),
+    );
   }
 }

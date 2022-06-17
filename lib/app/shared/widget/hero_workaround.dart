@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 class HeroFix extends StatelessWidget {
-  final String tag;
-  final Widget child;
-
   const HeroFix({
     Key? key,
     required this.tag,
     required this.child,
   }) : super(key: key);
+
+  final String tag;
+  final Widget child;
 
   @override
   Widget build(BuildContext context) => Hero(
@@ -21,6 +21,7 @@ class HeroFix extends StatelessWidget {
           BuildContext toHeroContext,
         ) =>
             Material(
+          key: const Key('shuttleKey'),
           color: Colors.transparent,
           child: toHeroContext.widget,
         ),

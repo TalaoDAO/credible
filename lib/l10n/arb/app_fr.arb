@@ -1,4 +1,5 @@
 {
+  "@@locale": "fr",
   "genericError": "Une erreur est survenue !",
   "@genericError": {
     "description": "Message d’erreur générique",
@@ -73,7 +74,7 @@
   "credentialDetailCopyFieldValue": "Copier la valeur !",
   "credentialDetailStatus": "Verification Status",
   "credentialPresentTitle": "Demande de présentation",
-  "credentialPresentTitleDIDAuth": "Demande authentification",
+  "credentialPresentTitleDIDAuth": "Demande ProDIDAuth",
   "credentialPresentRequiredCredential": "On demande votre",
   "credentialPresentConfirm": "Sélectionner le(s) attestation(s)",
   "credentialPresentCancel": "Rejeter",
@@ -185,6 +186,7 @@
   "networkErrorUnauthenticated": "Vous devez être authentifié pour accéder à cette ressource",
   "networkErrorUnauthorizedRequest": "Requête non autorisée",
   "networkErrorUnexpectedError": "Une erreur inattendue s'est produite",
+  "networkErrorNotFound": "Non trouvé",
   "companyName": "Nom de l'entreprise",
   "companyWebsite": "Site Web d'entreprise",
   "selfIssuedCreatedSuccessfully": "Votre attestation a été créée avec succès",
@@ -287,5 +289,14 @@
   "proof": "Preuve",
   "search": "Rechercher",
   "credentialSelectionListEmptyError": "Vous n'avez pas l'attestation nécessaire pour poursuivre.",
-  "trustedIssuer": "Ce fournisseur est appouvé par EBSI."
+  "trustedIssuer": "Ce fournisseur est appouvé par EBSI.",
+  "yourPinCodeChangedSuccessfully": "Votre pin est changé",
+  "gamingCards": "Cartes de jeu",
+  "identityCards": "Cartes d'identité",
+  "communityCards": "Cartes de communauté",
+  "otherCards": "Autres cartes",
+  "inMyWallet": "Dans mon portefeuille",
+  "details": "Détails",
+  "getThisCard": "Obtenir cette carte",
+  "tezosNetwork": "Réseau Tezos"
 }

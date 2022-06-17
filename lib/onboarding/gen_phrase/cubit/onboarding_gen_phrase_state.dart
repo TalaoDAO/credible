@@ -1,11 +1,9 @@
 part of 'onboarding_gen_phrase_cubit.dart';
 
-enum OnBoardingGenPhraseStatus { idle, loading, success, failure }
-
 @JsonSerializable()
 class OnBoardingGenPhraseState extends Equatable {
   OnBoardingGenPhraseState({
-    this.status = OnBoardingGenPhraseStatus.idle,
+    this.status = AppStatus.init,
     this.message,
     List<String>? mnemonic,
   }) : mnemonic = mnemonic ?? bip39.generateMnemonic().split(' ');
@@ -13,18 +11,37 @@ class OnBoardingGenPhraseState extends Equatable {
   factory OnBoardingGenPhraseState.fromJson(Map<String, dynamic> json) =>
       _$OnBoardingGenPhraseStateFromJson(json);
 
-  final OnBoardingGenPhraseStatus status;
+  final AppStatus status;
   final List<String> mnemonic;
   final StateMessage? message;
 
-  OnBoardingGenPhraseState copyWith(
-      {OnBoardingGenPhraseStatus? status,
-      List<String>? mnemonic,
-      StateMessage? message}) {
+  OnBoardingGenPhraseState loading() {
     return OnBoardingGenPhraseState(
-      status: status ?? this.status,
-      mnemonic: mnemonic ?? this.mnemonic,
-      message: message ?? this.message,
+      status: AppStatus.loading,
+      mnemonic: mnemonic,
+    );
+  }
+
+  OnBoardingGenPhraseState error({
+    required MessageHandler messageHandler,
+  }) {
+    return OnBoardingGenPhraseState(
+      status: AppStatus.error,
+      message: StateMessage.error(messageHandler: messageHandler),
+      mnemonic: mnemonic,
+    );
+  }
+
+  OnBoardingGenPhraseState success({
+    MessageHandler? messageHandler,
+    String? filePath,
+  }) {
+    return OnBoardingGenPhraseState(
+      status: AppStatus.success,
+      message: messageHandler == null
+          ? null
+          : StateMessage.success(messageHandler: messageHandler),
+      mnemonic: mnemonic,
     );
   }
 

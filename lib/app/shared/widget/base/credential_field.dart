@@ -1,10 +1,13 @@
+import 'package:altme/theme/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:talao/app/shared/ui/theme.dart';
 
 class CredentialField extends StatelessWidget {
-  const CredentialField(
-      {Key? key, required this.value, this.title, this.textColor})
-      : super(key: key);
+  const CredentialField({
+    Key? key,
+    required this.value,
+    this.title,
+    this.textColor,
+  }) : super(key: key);
 
   final String value;
   final String? title;
@@ -13,12 +16,13 @@ class CredentialField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return HasDisplay(
+      value: value,
+      child: DisplayCredentialField(
+        title: title,
         value: value,
-        child: DisplayCredentialField(
-          title: title,
-          value: value,
-          textColor: textColor,
-        ));
+        textColor: textColor,
+      ),
+    );
   }
 }
 
@@ -37,7 +41,7 @@ class DisplayCredentialField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(8),
       child: Row(
         children: [
           if (title != null)
@@ -52,7 +56,7 @@ class DisplayCredentialField extends StatelessWidget {
             ),
           Flexible(
             child: Text(
-              '$value',
+              value,
               style: textColor == null
                   ? Theme.of(context).textTheme.credentialFieldDescription
                   : Theme.of(context)
@@ -82,7 +86,7 @@ class HasDisplay extends StatelessWidget {
     if (value != '') {
       return child;
     } else {
-      return SizedBox.shrink();
+      return const SizedBox.shrink();
     }
   }
 }

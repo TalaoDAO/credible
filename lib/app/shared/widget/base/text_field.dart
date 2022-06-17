@@ -1,74 +1,94 @@
-import 'package:talao/app/shared/ui/ui.dart';
+import 'package:altme/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 class BaseTextField extends StatelessWidget {
-  final String? label;
-  final TextEditingController controller;
-  final IconData icon;
-  final TextInputType type;
-  final TextCapitalization textCapitalization;
-  final String? error;
-  final Widget? prefixIcon;
-  final BoxConstraints? prefixConstraint;
-  final String? Function(String?)? validator;
-  final FocusNode? focusNode;
-
   const BaseTextField({
     Key? key,
     this.label,
     required this.controller,
-    this.icon = Icons.edit,
+    this.suffixIcon,
     this.type = TextInputType.text,
     this.textCapitalization = TextCapitalization.none,
     this.error,
     this.prefixIcon,
-    this.prefixConstraint,
     this.validator,
     this.focusNode,
+    this.contentPadding =
+        const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+    this.borderColor,
   }) : super(key: key);
+
+  final String? label;
+  final TextEditingController controller;
+  final Widget? suffixIcon;
+  final TextInputType type;
+  final TextCapitalization textCapitalization;
+  final String? error;
+  final Widget? prefixIcon;
+  final String? Function(String?)? validator;
+  final FocusNode? focusNode;
+  final EdgeInsetsGeometry contentPadding;
+  final Color? borderColor;
+
+  static const double borderRadius = 50;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: UiConstraints.textFieldPadding,
-      padding: EdgeInsets.only(
-        right: 24.0,
-        left: prefixIcon != null ? 0.0 : 24.0,
-      ),
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
-        border: Border.all(color: Theme.of(context).colorScheme.borderColor),
-        borderRadius: UiConstraints.textFieldRadius,
-      ),
-      child: TextFormField(
-        focusNode: focusNode,
-        controller: controller,
-        cursorColor: Theme.of(context).colorScheme.secondaryContainer,
-        keyboardType: type,
-        maxLines: 1,
-        textCapitalization: textCapitalization,
-        style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 17),
-        validator: validator,
-        decoration: InputDecoration(
-          border: InputBorder.none,
-          enabledBorder: InputBorder.none,
-          disabledBorder: InputBorder.none,
-          errorBorder: InputBorder.none,
-          focusedBorder: InputBorder.none,
-          focusedErrorBorder: InputBorder.none,
-          fillColor: Theme.of(context).colorScheme.primary,
-          hoverColor: Theme.of(context).colorScheme.primary,
-          focusColor: Theme.of(context).colorScheme.primary,
-          errorText: error,
-          labelText: label,
-          labelStyle: Theme.of(context).textTheme.bodyText1!,
-          prefixIcon: prefixIcon,
-          prefixIconConstraints: prefixConstraint,
-          suffixIcon: Icon(
-            icon,
-            color: Theme.of(context).colorScheme.secondaryContainer,
+    final border = borderColor ?? Theme.of(context).colorScheme.tertiary;
+    return TextFormField(
+      focusNode: focusNode,
+      controller: controller,
+      cursorColor: Theme.of(context).colorScheme.primary,
+      keyboardType: type,
+      maxLines: 1,
+      textCapitalization: textCapitalization,
+      style: Theme.of(context).textTheme.normal,
+      validator: validator,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(borderRadius),
+          borderSide: BorderSide(
+            color: border,
+            width: 1,
           ),
         ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(borderRadius),
+          borderSide: BorderSide(
+            color: border,
+            width: 1,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(borderRadius),
+          borderSide: BorderSide(
+            color: border,
+            width: 1.5,
+          ),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(borderRadius),
+          borderSide: BorderSide(
+            color: Theme.of(context).colorScheme.error,
+            width: 1,
+          ),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(borderRadius),
+          borderSide: BorderSide(
+            color: Theme.of(context).colorScheme.error,
+            width: 1.5,
+          ),
+        ),
+        fillColor: Theme.of(context).colorScheme.background,
+        errorText: error,
+        labelText: label,
+        labelStyle: Theme.of(context).textTheme.normal,
+        prefixIcon: prefixIcon,
+        prefixIconConstraints: const BoxConstraints(minWidth: 60),
+        suffixIcon: suffixIcon,
+        suffixIconConstraints: const BoxConstraints(minWidth: 60),
+        contentPadding: contentPadding,
       ),
     );
   }

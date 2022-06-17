@@ -1,4 +1,5 @@
 {
+  "@@locale": "es",
   "genericError": "¡Se ha producido un error!",
   "@genericError": {
     "description": "Mensaje de error genérico",

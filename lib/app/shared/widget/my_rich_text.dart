@@ -2,15 +2,16 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class MyRichText extends StatelessWidget {
-  final TextSpan text;
-  final TextStyle? style;
-  final int maxLines;
-
-  MyRichText({
+  const MyRichText({
+    Key? key,
     required this.text,
     this.style,
     this.maxLines = 1,
-  });
+  }) : super(key: key);
+
+  final TextSpan text;
+  final TextStyle? style;
+  final int maxLines;
 
   @override
   Widget build(BuildContext context) {

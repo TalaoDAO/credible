@@ -1,17 +1,7 @@
-import 'package:talao/app/shared/widget/hero_workaround.dart';
+import 'package:altme/app/shared/widget/hero_workaround.dart';
 import 'package:flutter/material.dart';
 
 class TooltipText extends StatelessWidget {
-  final String? tag;
-  final String text;
-  final String? tooltip;
-
-  final int? maxLines;
-  final TextStyle? style;
-  final TextAlign textAlign;
-
-  final bool softWrap;
-
   const TooltipText({
     Key? key,
     this.tag,
@@ -22,6 +12,16 @@ class TooltipText extends StatelessWidget {
     this.textAlign = TextAlign.start,
     this.softWrap = false,
   }) : super(key: key);
+
+  final String? tag;
+  final String text;
+  final String? tooltip;
+
+  final int? maxLines;
+  final TextStyle? style;
+  final TextAlign textAlign;
+
+  final bool softWrap;
 
   @override
   Widget build(BuildContext context) {

@@ -4,12 +4,12 @@ part 'example_issuer.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class ExampleIssuer {
-  final String issuer;
+  ExampleIssuer({required this.issuer});
 
   factory ExampleIssuer.fromJson(Map<String, dynamic> json) =>
       _$ExampleIssuerFromJson(json);
 
-  ExampleIssuer({required this.issuer});
+  final String issuer;
 
   Map<String, dynamic> toJson() => _$ExampleIssuerToJson(this);
 }
