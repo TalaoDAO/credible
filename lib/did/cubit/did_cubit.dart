@@ -1,59 +1,71 @@
+import 'package:altme/app/app.dart';
 import 'package:bloc/bloc.dart';
-import 'package:talao/app/interop/didkit/didkit.dart';
-import 'package:talao/app/interop/secure_storage/secure_storage.dart';
-import 'package:logging/logging.dart';
-import 'package:talao/did/cubit/did_state.dart';
+import 'package:did_kit/did_kit.dart';
+import 'package:equatable/equatable.dart';
+import 'package:json_annotation/json_annotation.dart';
+
+import 'package:secure_storage/secure_storage.dart';
+
+part 'did_cubit.g.dart';
+
+part 'did_state.dart';
 
 class DIDCubit extends Cubit<DIDState> {
+  DIDCubit({
+    required this.didKitProvider,
+    required this.secureStorageProvider,
+  }) : super(const DIDState());
+
   final SecureStorageProvider secureStorageProvider;
   final DIDKitProvider didKitProvider;
 
-  DIDCubit({required this.didKitProvider, required this.secureStorageProvider})
-      : super(DIDState());
-
-  void set({
+  Future<void> set({
     required String did,
     required String didMethod,
     required String didMethodName,
     required String verificationMethod,
   }) async {
-    final log = Logger('talao-wallet/DID/set');
+    final log = getLogger('DIDCubit - set');
 
-    emit(DIDStateWorking());
+    emit(state.loading());
     await secureStorageProvider.set(SecureStorageKeys.did, did);
     await secureStorageProvider.set(SecureStorageKeys.didMethod, didMethod);
+    const didMethodName = AltMeStrings.defaultDIDMethodName;
     await secureStorageProvider.set(
-        SecureStorageKeys.verificationMethod, verificationMethod);
+      SecureStorageKeys.didMethodName,
+      didMethodName,
+    );
     await secureStorageProvider.set(
-        SecureStorageKeys.didMethodName, didMethodName);
-    emit(DIDStateDefault(
-        did: did, didMethod: didMethod, didMethodName: didMethodName));
-
-    log.info('successfully Set');
+      SecureStorageKeys.verificationMethod,
+      verificationMethod,
+    );
+    emit(
+      state.success(
+        did: did,
+        didMethod: didMethod,
+        didMethodName: didMethodName,
+        verificationMethod: verificationMethod,
+      ),
+    );
+    log.i('successfully Set');
   }
 
-  void load({
+  Future<void> load({
     required String did,
     required String didMethod,
     required String didMethodName,
+    required String verificationMethod,
   }) async {
-    final log = Logger('talao-wallet/DID/load');
-    emit(DIDStateWorking());
-    emit(DIDStateDefault(
-        did: did, didMethod: didMethod, didMethodName: didMethodName));
-    log.info('successfully Loaded');
-  }
-
-  Future<void> reset() async {
-    final log = Logger('talao-wallet/DID/delete');
-
-    emit(DIDStateWorking());
-    await secureStorageProvider.delete(SecureStorageKeys.did);
-    await secureStorageProvider.delete(SecureStorageKeys.didMethod);
-    await secureStorageProvider.delete(SecureStorageKeys.verificationMethod);
-    await secureStorageProvider.delete(SecureStorageKeys.didMethodName);
-    emit(DIDState());
-
-    log.info('successfully Deleted did information');
+    final log = getLogger('DIDCubit - load');
+    emit(state.loading());
+    emit(
+      state.success(
+        did: did,
+        didMethod: didMethod,
+        didMethodName: didMethodName,
+        verificationMethod: verificationMethod,
+      ),
+    );
+    log.i('successfully Loaded');
   }
 }

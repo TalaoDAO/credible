@@ -1,30 +1,32 @@
-import 'package:talao/app/shared/ui/ui.dart';
-import 'package:talao/app/shared/widget/back_leading_button.dart';
-import 'package:talao/app/shared/widget/base/page.dart';
-import 'package:talao/app/shared/widget/spinner.dart';
+import 'package:altme/app/app.dart';
+import 'package:altme/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:logging/logging.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class MarkdownPage extends StatelessWidget {
+  MarkdownPage({Key? key, required this.title, required this.file})
+      : super(key: key);
+
   final String title;
   final String file;
 
-  final _log = Logger('talao-wallet/markdown_page');
-
-  MarkdownPage({Key? key, required this.title, required this.file})
-      : super(key: key);
+  final log = getLogger('MarkdownPage');
 
   @override
   Widget build(BuildContext context) {
     return BasePage(
       title: title,
-      titleLeading: BackLeadingButton(),
+      titleAlignment: Alignment.topCenter,
+      titleLeading: const BackLeadingButton(),
       scrollView: false,
-      padding: const EdgeInsets.all(0.0),
-      body: FutureBuilder<String>(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 15,
+        vertical: 0,
+      ),
+      body: BackgroundCard(
+        padding: EdgeInsets.zero,
+        child: FutureBuilder<String>(
           future: _loadFile(),
           builder: (context, snapshot) {
             if (snapshot.data != null) {
@@ -32,9 +34,11 @@ class MarkdownPage extends StatelessWidget {
                 data: snapshot.data!,
                 styleSheet: MarkdownStyleSheet(
                   h1: TextStyle(
-                      color: Theme.of(context).colorScheme.markDownH1),
+                    color: Theme.of(context).colorScheme.markDownH1,
+                  ),
                   h2: TextStyle(
-                      color: Theme.of(context).colorScheme.markDownH2),
+                    color: Theme.of(context).colorScheme.markDownH2,
+                  ),
                   a: TextStyle(color: Theme.of(context).colorScheme.markDownA),
                   p: TextStyle(color: Theme.of(context).colorScheme.markDownP),
                 ),
@@ -43,27 +47,26 @@ class MarkdownPage extends StatelessWidget {
             }
 
             if (snapshot.error != null) {
-              _log.severe(
-                  'something went wrong when loading $file', snapshot.error);
+              log.e(
+                'something went wrong when loading $file',
+                snapshot.error,
+              );
               return Container();
             }
 
-            return Spinner();
-          }),
+            return const Spinner();
+          },
+        ),
+      ),
     );
   }
 
   Future<String> _loadFile() async {
-    return await rootBundle.loadString(file);
+    return rootBundle.loadString(file);
   }
 
-  void _onTapLink(String? href) async {
+  Future<void> _onTapLink(String? href) async {
     if (href == null) return;
-
-    if (await canLaunchUrl(Uri.parse(href))) {
-      await launchUrl(Uri.parse(href));
-    } else {
-      _log.severe('cannot launch url: $href');
-    }
+    await LaunchUrl.launch(href);
   }
 }

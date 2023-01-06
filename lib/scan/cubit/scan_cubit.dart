@@ -1,55 +1,50 @@
 import 'dart:convert';
 
+import 'package:altme/app/app.dart';
+import 'package:altme/dashboard/dashboard.dart';
+import 'package:altme/dashboard/home/tab_bar/credentials/models/activity/activity.dart';
+import 'package:altme/wallet/wallet.dart';
 import 'package:bloc/bloc.dart';
+import 'package:did_kit/did_kit.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:jose/jose.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:logging/logging.dart';
-import 'package:talao/app/interop/didkit/didkit.dart';
-import 'package:talao/app/interop/network/network_client.dart';
-import 'package:talao/app/interop/secure_storage/secure_storage.dart';
-import 'package:talao/app/shared/error_handler/error_handler.dart';
-import 'package:talao/app/shared/model/credential_model/credential_model.dart';
-import 'package:talao/app/shared/model/message.dart';
-import 'package:talao/scan/cubit/scan_message_string_state.dart';
-import 'package:talao/wallet/wallet.dart';
+
+import 'package:secure_storage/secure_storage.dart';
 import 'package:uuid/uuid.dart';
 
 part 'scan_cubit.g.dart';
-
 part 'scan_state.dart';
 
 class ScanCubit extends Cubit<ScanState> {
-  final DioClient client;
-  final WalletCubit walletCubit;
-  final DIDKitProvider didKitProvider;
-  final SecureStorageProvider secureStorageProvider;
-
   ScanCubit({
     required this.client,
     required this.walletCubit,
     required this.didKitProvider,
     required this.secureStorageProvider,
-  }) : super(ScanStateIdle());
+  }) : super(const ScanState());
 
-  void emitScanStatePreview({Map<String, dynamic>? preview}) {
-    emit(ScanStatePreview(preview: preview));
-  }
+  final DioClient client;
+  final WalletCubit walletCubit;
+  final DIDKitProvider didKitProvider;
+  final SecureStorageProvider secureStorageProvider;
 
-  void credentialOffer({
-    required String url,
+  Future<void> credentialOffer({
+    required Uri uri,
     required CredentialModel credentialModel,
     required String keyId,
-    CredentialModel? signatureOwnershipProof,
+    List<CredentialModel>? credentialsToBePresented,
+    required Issuer issuer,
   }) async {
-    final log = Logger('talao-wallet/scan/credential-offer');
-
-    emit(ScanStateLoading());
+    emit(state.loading());
+    await Future<void>.delayed(const Duration(milliseconds: 500));
+    final log = getLogger('ScanCubit - credentialOffer');
     try {
       final did = (await secureStorageProvider.get(SecureStorageKeys.did))!;
 
-      /// If credential manifest exist we follow instructions to present credential
+      /// If credential manifest exist we follow instructions to present
+      /// credential
       /// If credential manifest doesn't exist we add DIDAuth to the post
       /// If id was in preview we send it in the post
       ///  https://github.com/TalaoDAO/wallet-interaction/blob/main/README.md#credential-offer-protocol
@@ -58,136 +53,208 @@ class ScanCubit extends Cubit<ScanState> {
       final verificationMethod =
           await secureStorageProvider.get(SecureStorageKeys.verificationMethod);
 
-      var presentation;
-      if (signatureOwnershipProof == null) {
-        presentation = await didKitProvider.DIDAuth(
-          did,
-          jsonEncode({
-            'verificationMethod': verificationMethod,
-            'proofPurpose': 'authentication',
-            'challenge': credentialModel.challenge,
-            'domain': credentialModel.domain,
-          }),
-          key,
-        );
-      } else {
-        final presentationId = 'urn:uuid:' + Uuid().v4();
+      List<String> presentations = <String>[];
+      if (credentialsToBePresented == null) {
+        final options = <String, dynamic>{
+          'verificationMethod': verificationMethod,
+          'proofPurpose': 'authentication',
+          'challenge': credentialModel.challenge ?? '',
+          'domain': credentialModel.domain ?? '',
+        };
 
-        presentation = await didKitProvider.issuePresentation(
-          jsonEncode({
-            '@context': ['https://www.w3.org/2018/credentials/v1'],
-            'type': ['VerifiablePresentation'],
-            'id': presentationId,
-            'holder': did,
-            'verifiableCredential': signatureOwnershipProof.data,
-          }),
-          jsonEncode({
-            'verificationMethod': verificationMethod,
-            'proofPurpose': 'assertionMethod',
-            'challenge': credentialModel.challenge,
-            'domain': credentialModel.domain,
-          }),
+        final presentation = await didKitProvider.didAuth(
+          did,
+          jsonEncode(options),
           key,
         );
+
+        presentations = List.of(presentations)..add(presentation);
+      } else {
+        for (final item in credentialsToBePresented) {
+          final presentationId = 'urn:uuid:${const Uuid().v4()}';
+
+          final presentation = await didKitProvider.issuePresentation(
+            jsonEncode({
+              '@context': ['https://www.w3.org/2018/credentials/v1'],
+              'type': ['VerifiablePresentation'],
+              'id': presentationId,
+              'holder': did,
+              'verifiableCredential': item.data,
+            }),
+            jsonEncode({
+              'verificationMethod': verificationMethod,
+              'proofPurpose': 'assertionMethod',
+              'challenge': credentialModel.challenge,
+              'domain': credentialModel.domain,
+            }),
+            key,
+          );
+          presentations = List.of(presentations)..add(presentation);
+        }
       }
-      var data;
+
+      FormData data;
       if (credentialModel.receivedId == null) {
         data = FormData.fromMap(<String, dynamic>{
           'subject_id': did,
-          'presentation': [presentation],
+          'presentation': presentations.length > 1
+              ? jsonEncode(presentations)
+              : presentations,
         });
       } else {
         data = FormData.fromMap(<String, dynamic>{
           'id': credentialModel.receivedId,
           'subject_id': did,
-          'presentation': [presentation],
+          'presentation': presentations.length > 1
+              ? jsonEncode(presentations)
+              : presentations,
         });
       }
 
-      final credential = await client.post(
-        url,
+      final dynamic credential = await client.post(
+        uri.toString(),
         data: data,
       );
 
-      final jsonCredential =
+      final dynamic jsonCredential =
           credential is String ? jsonDecode(credential) : credential;
 
-      final vcStr = jsonEncode(jsonCredential);
-      final optStr = jsonEncode({'proofPurpose': 'assertionMethod'});
-      final verification = await didKitProvider.verifyCredential(vcStr, optStr);
+      if (!isEbsiIssuer(credentialModel)) {
+        /// not verifying credential for did:ebsi issuer
+        log.i('verifying Credential');
 
-      print('[wallet/credential-offer/verify/vc] $vcStr');
-      print('[wallet/credential-offer/verify/options] $optStr');
-      print('[wallet/credential-offer/verify/result] $verification');
+        final vcStr = jsonEncode(jsonCredential);
+        final optStr = jsonEncode({'proofPurpose': 'assertionMethod'});
 
-      final jsonVerification = jsonDecode(verification);
+        await Future<void>.delayed(const Duration(milliseconds: 500));
+        final verification =
+            await didKitProvider.verifyCredential(vcStr, optStr);
 
-      if (jsonVerification['warnings'].isNotEmpty) {
-        log.warning('credential verification return warnings',
-            jsonVerification['warnings']);
+        log.i('[wallet/credential-offer/verify/vc] $vcStr');
+        log.i('[wallet/credential-offer/verify/options] $optStr');
+        log.i('[wallet/credential-offer/verify/result] $verification');
 
-        emit(ScanStateMessage(
-            message: StateMessage.warning(
-                message: ScanMessageStringState
-                    .credentialVerificationReturnWarning())));
-      }
+        final jsonVerification =
+            jsonDecode(verification) as Map<String, dynamic>;
 
-      if (jsonVerification['errors'].isNotEmpty) {
-        log.severe('failed to verify credential', jsonVerification['errors']);
-        if (jsonVerification['errors'][0] != 'No applicable proof') {
-          emit(ScanStateMessage(
-              message: StateMessage.error(
-                  message: ScanMessageStringState.failedToVerifyCredential())));
-          return emit(ScanStateIdle());
+        if ((jsonVerification['warnings'] as List).isNotEmpty) {
+          log.w(
+            'credential verification return warnings',
+            jsonVerification['warnings'],
+          );
+
+          emit(
+            state.warning(
+              messageHandler: ResponseMessage(
+                ResponseString
+                    .RESPONSE_STRING_CREDENTIAL_VERIFICATION_RETURN_WARNING,
+              ),
+            ),
+          );
+        }
+
+        if ((jsonVerification['errors'] as List).isNotEmpty) {
+          log.w('failed to verify credential', jsonVerification['errors']);
+          if (jsonVerification['errors'][0] != 'No applicable proof') {
+            throw ResponseMessage(
+              ResponseString.RESPONSE_STRING_FAILED_TO_VERIFY_CREDENTIAL,
+            );
+          }
         }
       }
 
-      await walletCubit.insertCredential(CredentialModel.copyWithData(
-          oldCredentialModel: credentialModel, newData: jsonCredential));
+      final List<Activity> activities =
+          List<Activity>.of(credentialModel.activities)
+            ..add(Activity(acquisitionAt: DateTime.now()));
 
-      emit(ScanStateSuccess());
-    } catch (e) {
-      log.severe('something went wrong', e);
-      if (e is ErrorHandler) {
-        emit(ScanStateMessage(
-            message: StateMessage.error(
-                message: ScanMessageStringState.anErrorOccurred(),
-                errorHandler: e)));
-      } else {
-        emit(ScanStateMessage(
-            message: StateMessage.error(
-                message: ScanMessageStringState
-                    .somethingsWentWrongTryAgainLater())));
+      await walletCubit.insertCredential(
+        credential: CredentialModel.copyWithData(
+          oldCredentialModel: credentialModel,
+          newData: jsonCredential as Map<String, dynamic>,
+          activities: activities,
+        ),
+      );
+
+      if (credentialsToBePresented != null) {
+        await presentationActivity(
+          credentialModels: credentialsToBePresented,
+          issuer: issuer,
+        );
       }
-      emit(ScanStateIdle());
+
+      emit(state.copyWith(status: ScanStatus.success));
+    } catch (e) {
+      log.e('something went wrong - $e');
+      if (e is ResponseMessage) {
+        emit(state.error(messageHandler: e));
+      } else if (e is NetworkException) {
+        log.e('NetworkException - $e');
+        if (e.message == NetworkError.NETWORK_ERROR_PRECONDITION_FAILED) {
+          emit(
+            state.copyWith(
+              status: ScanStatus.error,
+              message: StateMessage.error(
+                messageHandler: e.data != null
+                    ? null
+                    : ResponseMessage(
+                        ResponseString.RESPONSE_STRING_userNotFitErrorMessage,
+                      ),
+                stringMessage: e.data?.toString(),
+                showDialog: true,
+              ),
+            ),
+          );
+        } else {
+          emit(
+            state.error(
+              messageHandler: ResponseMessage(
+                ResponseString
+                    .RESPONSE_STRING_SOMETHING_WENT_WRONG_TRY_AGAIN_LATER,
+              ),
+            ),
+          );
+        }
+      } else {
+        emit(
+          state.error(
+            messageHandler: ResponseMessage(
+              ResponseString
+                  .RESPONSE_STRING_SOMETHING_WENT_WRONG_TRY_AGAIN_LATER, // ignore: lines_longer_than_80_chars
+            ),
+          ),
+        );
+      }
     }
   }
 
-  void verifiablePresentationRequest(
-      {required String url,
-      required String keyId,
-      required List<CredentialModel> credentials,
-      required String challenge,
-      required String domain}) async {
-    final log = Logger('talao-wallet/scan/verifiable-presentation-request');
+  Future<void> verifiablePresentationRequest({
+    required String url,
+    required String keyId,
+    required List<CredentialModel> credentialsToBePresented,
+    required String challenge,
+    required String domain,
+    required Issuer issuer,
+  }) async {
+    final log = getLogger('ScanCubit - verifiablePresentationRequest');
 
-    emit(ScanStateLoading());
+    emit(state.loading());
+    await Future<void>.delayed(const Duration(milliseconds: 500));
     try {
       final key = (await secureStorageProvider.get(keyId))!;
       final did = await secureStorageProvider.get(SecureStorageKeys.did);
       final verificationMethod =
           await secureStorageProvider.get(SecureStorageKeys.verificationMethod);
 
-      final presentationId = 'urn:uuid:' + Uuid().v4();
+      final presentationId = 'urn:uuid:${const Uuid().v4()}';
       final presentation = await didKitProvider.issuePresentation(
         jsonEncode({
           '@context': ['https://www.w3.org/2018/credentials/v1'],
           'type': ['VerifiablePresentation'],
           'id': presentationId,
           'holder': did,
-          'verifiableCredential': credentials.length == 1
-              ? credentials.first.data
-              : credentials.map((c) => c.data).toList(),
+          'verifiableCredential': credentialsToBePresented.length == 1
+              ? credentialsToBePresented.first.data
+              : credentialsToBePresented.map((c) => c.data).toList(),
         }),
         jsonEncode({
           'verificationMethod': verificationMethod,
@@ -198,122 +265,59 @@ class ScanCubit extends Cubit<ScanState> {
         key,
       );
 
-      await client.post(
-        url.toString(),
-        data: FormData.fromMap(<String, dynamic>{
-          'presentation': presentation,
-        }),
+      log.i('presentation $presentation');
+
+      final FormData formData = FormData.fromMap(<String, dynamic>{
+        'presentation': presentation,
+      });
+
+      await client.post(url, data: formData);
+
+      await presentationActivity(
+        credentialModels: credentialsToBePresented,
+        issuer: issuer,
       );
 
-      emit(ScanStateMessage(
+      emit(
+        state.copyWith(
+          status: ScanStatus.success,
           message: StateMessage.success(
-              message: ScanMessageStringState
-                  .successfullyPresentedYourCredential())));
-
-      emit(ScanStateSuccess());
+            messageHandler: ResponseMessage(
+              ResponseString
+                  .RESPONSE_STRING_SUCCESSFULLY_PRESENTED_YOUR_CREDENTIAL,
+            ),
+          ),
+        ),
+      );
     } catch (e) {
-      log.severe('something went wrong', e);
-      if (e is ErrorHandler) {
-        emit(ScanStateMessage(
-            message: StateMessage.error(
-                message: ScanMessageStringState.anErrorOccurred(),
-                errorHandler: e)));
+      if (e is MessageHandler) {
+        emit(
+          state.error(messageHandler: e),
+        );
       } else {
-        emit(ScanStateMessage(
-            message: StateMessage.error(
-                message: ScanMessageStringState
-                    .somethingsWentWrongTryAgainLater())));
+        emit(
+          state.error(
+            messageHandler: ResponseMessage(
+              ResponseString
+                  .RESPONSE_STRING_SOMETHING_WENT_WRONG_TRY_AGAIN_LATER, // ignore: lines_longer_than_80_chars
+            ),
+          ),
+        );
       }
     }
   }
 
-  //
-  void storeCHAPI(
-      {required Map<String, dynamic> data,
-      required void Function(String) done}) async {
-    final log = Logger('talao-wallet/scan/chapi-store');
+  Future<void> getDIDAuthCHAPI({
+    required Uri uri,
+    required String keyId,
+    required void Function(String) done,
+    required String challenge,
+    required String domain,
+  }) async {
+    final log = getLogger('ScanCubit - getDIDAuthCHAPI');
 
-    emit(ScanStateLoading());
-    try {
-      late final type;
-
-      if (data['type'] is List<dynamic>) {
-        type = data['type'].first;
-      } else {
-        type = data['type'];
-      }
-
-      late final vc;
-
-      switch (type) {
-        case 'VerifiablePresentation':
-          vc = data['verifiableCredential'];
-          break;
-
-        case 'VerifiableCredential':
-          vc = data;
-          break;
-
-        default:
-          throw UnimplementedError('Unsupported dataType: $type');
-      }
-
-      final vcStr = jsonEncode(vc);
-      final optStr = jsonEncode({'proofPurpose': 'assertionMethod'});
-      final verification = await didKitProvider.verifyCredential(vcStr, optStr);
-
-      print('[wallet/chapi-store/verify/vc] $vcStr');
-      print('[wallet/chapi-store/verify/options] $optStr');
-      print('[wallet/chapi-store/verify/result] $verification');
-
-      final jsonVerification = jsonDecode(verification);
-
-      if (jsonVerification['warnings'].isNotEmpty) {
-        log.warning('credential verification return warnings',
-            jsonVerification['warnings']);
-
-        emit(ScanStateMessage(
-            message: StateMessage.warning(
-                message: ScanMessageStringState
-                    .credentialVerificationReturnWarning())));
-      }
-
-      if (jsonVerification['errors'].isNotEmpty) {
-        log.severe('failed to verify credential', jsonVerification['errors']);
-
-        // done(jsonEncode(jsonVerification['errors']));
-
-        emit(ScanStateMessage(
-            message: StateMessage.error(
-                message: ScanMessageStringState.failedToVerifyCredential())));
-      }
-      await walletCubit.insertCredential(vc);
-
-      done(vcStr);
-
-      // emit(ScanStateMessage(StateMessage.success(
-      //     'A new credential has been successfully added!')));
-    } catch (e) {
-      log.severe('something went wrong', e);
-
-      emit(ScanStateMessage(
-          message: StateMessage.error(
-              message:
-                  ScanMessageStringState.somethingsWentWrongTryAgainLater())));
-    }
-
-    emit(ScanStateSuccess());
-  }
-
-  void getDIDAuthCHAPI(
-      {required Uri uri,
-      required String keyId,
-      required void Function(String) done,
-      required String challenge,
-      required String domain}) async {
-    final log = Logger('talao-wallet/scan/chapi-get-didauth');
-
-    emit(ScanStateLoading());
+    emit(state.loading());
+    await Future<void>.delayed(const Duration(milliseconds: 500));
     try {
       final key = (await secureStorageProvider.get(keyId))!;
       final did = await secureStorageProvider.get(SecureStorageKeys.did);
@@ -321,7 +325,7 @@ class ScanCubit extends Cubit<ScanState> {
           await secureStorageProvider.get(SecureStorageKeys.verificationMethod);
 
       if (did != null) {
-        final presentation = await didKitProvider.DIDAuth(
+        final presentation = await didKitProvider.didAuth(
           did,
           jsonEncode({
             'verificationMethod': verificationMethod,
@@ -331,7 +335,7 @@ class ScanCubit extends Cubit<ScanState> {
           }),
           key,
         );
-        final credential = await client.post(
+        final dynamic credential = await client.post(
           uri.toString(),
           data: FormData.fromMap(<String, dynamic>{
             'presentation': presentation,
@@ -340,172 +344,144 @@ class ScanCubit extends Cubit<ScanState> {
         if (credential == 'ok') {
           done(presentation);
 
-          emit(ScanStateMessage(
+          emit(
+            state.copyWith(
+              status: ScanStatus.success,
               message: StateMessage.success(
-                  message:
-                      ScanMessageStringState.successfullyPresentedYourDID())));
-
-          emit(ScanStateSuccess());
+                messageHandler: ResponseMessage(
+                  ResponseString
+                      .RESPONSE_STRING_SUCCESSFULLY_PRESENTED_YOUR_CREDENTIAL,
+                ),
+              ),
+            ),
+          );
         } else {
-          emit(ScanStateMessage(
-              message: StateMessage.error(
-                  message: ScanMessageStringState
-                      .somethingsWentWrongTryAgainLater())));
+          throw ResponseMessage(
+            ResponseString.RESPONSE_STRING_SOMETHING_WENT_WRONG_TRY_AGAIN_LATER,
+          );
         }
       } else {
         throw Exception('DID is not set. It is required to present DIDAuth');
       }
     } catch (e) {
-      log.severe('something went wrong', e);
-      if (e is ErrorHandler) {
-        emit(ScanStateMessage(
-            message: StateMessage.error(
-                message: ScanMessageStringState.anErrorOccurred(),
-                errorHandler: e)));
+      log.e('something went wrong', e);
+      if (e is MessageHandler) {
+        emit(
+          state.error(messageHandler: e),
+        );
       } else {
-        emit(ScanStateMessage(
-            message: StateMessage.error(
-                message: ScanMessageStringState
-                    .somethingsWentWrongTryAgainLater())));
+        emit(
+          state.error(
+            messageHandler: ResponseMessage(
+              ResponseString
+                  .RESPONSE_STRING_SOMETHING_WENT_WRONG_TRY_AGAIN_LATER, // ignore: lines_longer_than_80_chars
+            ),
+          ),
+        );
       }
     }
   }
 
-  Future<dynamic> presentCredentialToSiopV2Request(
-      {required credential, required sIOPV2Param}) async {
-    final log =
-        Logger('talao-wallet/scan/present-credential-to-siop-v2-request');
-    emit(ScanStateLoading());
-    await Future.delayed(Duration(milliseconds: 500));
+  Future<dynamic> presentCredentialToSiopV2Request({
+    required CredentialModel credential,
+    required SIOPV2Param sIOPV2Param,
+    required Issuer issuer,
+  }) async {
+    final log = getLogger('ScanCubit - presentCredentialToSiopV2Request');
+    emit(state.loading());
+    await Future<void>.delayed(const Duration(milliseconds: 500));
     try {
       final vpToken = await createVpToken(
-          credential: credential, challenge: sIOPV2Param.nonce);
-      final idToken = await createIdToken(nonce: sIOPV2Param.nonce);
+        credential: credential,
+        challenge: sIOPV2Param.nonce!,
+      );
+      final idToken = await createIdToken(nonce: sIOPV2Param.nonce!);
       // prepare the post request
       // Content-Type: application/x-www-form-urlencoded
       // data =
       // id_token=encoded_jwt&vp_token=verifiable_presentation
-      // There is a stackoverflow question about How to post x-www-form-urlencoded in Flutter
+
+      // There is a stackoverflow question about How to post
+      // x-www-form-urlencoded in Flutter
+
       // execute the request
       // Request is sent to redirect_uri.
-      client
-          .changeHeaders({'Content-Type': 'application/x-www-form-urlencoded'});
-      final result = await client.post(
-        sIOPV2Param.redirect_uri,
+
+      final dynamic result = await client.post(
+        sIOPV2Param.redirect_uri!,
         data: FormData.fromMap(<String, dynamic>{
           'vp_token': vpToken,
           'id_token': idToken,
         }),
+        headers: <String, dynamic>{
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
       );
 
-      client.changeHeaders({'Content-Type': 'application/json; charset=UTF-8'});
-
       if (result == 'Congrats ! Everything is ok') {
-        emit(ScanStateMessage(
+        await presentationActivity(
+          credentialModels: [credential],
+          issuer: issuer,
+        );
+        emit(
+          state.copyWith(
+            status: ScanStatus.success,
             message: StateMessage.success(
-                message:
-                    ScanMessageStringState.successfullyPresentedYourDID())));
+              messageHandler: ResponseMessage(
+                ResponseString
+                    .RESPONSE_STRING_SUCCESSFULLY_PRESENTED_YOUR_CREDENTIAL,
+              ),
+            ),
+          ),
+        );
       } else {
-        emit(ScanStateMessage(
-            message: StateMessage.error(
-                message: ScanMessageStringState
-                    .somethingsWentWrongTryAgainLater())));
+        throw ResponseMessage(
+          ResponseString.RESPONSE_STRING_SOMETHING_WENT_WRONG_TRY_AGAIN_LATER,
+        );
       }
     } catch (e) {
-      log.severe('something went wrong', e);
-      if (e is ErrorHandler) {
-        emit(ScanStateMessage(
-            message: StateMessage.error(
-                message: ScanMessageStringState.anErrorOccurred(),
-                errorHandler: e)));
+      log.e('something went wrong', e);
+      if (e is MessageHandler) {
+        emit(
+          state.error(messageHandler: e),
+        );
       } else {
-        emit(ScanStateMessage(
-            message: StateMessage.error(
-                message: ScanMessageStringState
-                    .somethingsWentWrongTryAgainLater())));
+        emit(
+          state.error(
+            messageHandler: ResponseMessage(
+              ResponseString
+                  .RESPONSE_STRING_SOMETHING_WENT_WRONG_TRY_AGAIN_LATER, // ignore: lines_longer_than_80_chars
+            ),
+          ),
+        );
       }
       return;
     }
   }
 
-  //
-  void getQueryByExampleCHAPI({
+  Future<void> askPermissionDIDAuthCHAPI({
     required String keyId,
-    required List<CredentialModel> credentials,
-    required String? challenge,
-    required String? domain,
-    required void Function(String) done,
+    String? challenge,
+    String? domain,
     required Uri uri,
+    required void Function(String) done,
   }) async {
-    final log = Logger('talao-wallet/scan/chapi-get-querybyexample');
-    emit(ScanStateLoading());
-
-    try {
-      final key = (await secureStorageProvider.get(keyId))!;
-      final did = await secureStorageProvider.get(SecureStorageKeys.did);
-      final verificationMethod =
-          await secureStorageProvider.get(SecureStorageKeys.verificationMethod);
-
-      final presentationId = 'urn:uuid:' + Uuid().v4();
-      final presentation = await didKitProvider.issuePresentation(
-        jsonEncode({
-          '@context': ['https://www.w3.org/2018/credentials/v1'],
-          'type': ['VerifiablePresentation'],
-          'id': presentationId,
-          'holder': did,
-          'verifiableCredential': credentials.length == 1
-              ? credentials.first.toJson()
-              : credentials.map((c) => c.toJson()).toList(),
-        }),
-        jsonEncode({
-          'verificationMethod': verificationMethod,
-          'proofPurpose': 'authentication',
-          'challenge': challenge,
-          'domain': domain,
-        }),
-        key,
-      );
-
-      done(presentation);
-
-      emit(ScanStateMessage(
-          message: StateMessage.success(
-              message: ScanMessageStringState
-                  .successfullyPresentedYourCredential())));
-    } catch (e) {
-      log.severe('something went wrong', e);
-
-      emit(ScanStateMessage(
-          message: StateMessage.error(
-              message:
-                  ScanMessageStringState.somethingsWentWrongTryAgainLater())));
-    }
-
-    emit(ScanStateSuccess());
-  }
-
-  //
-  void storeQueryByExampleCHAPI(
-      {required Map<String, dynamic> data, required Uri uri}) async {
-    emit(ScanStateStoreQueryByExample(data: data, uri: uri));
-  }
-
-  void askPermissionDIDAuthCHAPI(
-      {required String keyId,
-      String? challenge,
-      String? domain,
-      required Uri uri,
-      required void Function(String) done}) async {
-    emit(ScanStateAskPermissionDIDAuth(
+    emit(
+      state.scanPermission(
         keyId: keyId,
         done: done,
         uri: uri,
         challenge: challenge,
-        domain: domain));
+        domain: domain,
+      ),
+    );
   }
 
-  Future<String> createVpToken({challenge, credential}) async {
-    final key = await secureStorageProvider.get(SecureStorageKeys.key);
+  Future<String> createVpToken({
+    required String challenge,
+    required CredentialModel credential,
+  }) async {
+    final ssiKey = await secureStorageProvider.get(SecureStorageKeys.ssiKey);
     final did = await secureStorageProvider.get(SecureStorageKeys.did);
     final options = jsonEncode({
       'verificationMethod':
@@ -513,26 +489,28 @@ class ScanCubit extends Cubit<ScanState> {
       'proofPurpose': 'authentication',
       'challenge': challenge
     });
-    final presentationId = 'urn:uuid:' + Uuid().v4();
+    final presentationId = 'urn:uuid:${const Uuid().v4()}';
     final vpToken = await didKitProvider.issuePresentation(
-        jsonEncode({
-          '@context': ['https://www.w3.org/2018/credentials/v1'],
-          'type': ['VerifiablePresentation'],
-          'id': presentationId,
-          'holder': did,
-          'verifiableCredential': credential.data,
-        }),
-        options,
-        key!);
+      jsonEncode({
+        '@context': ['https://www.w3.org/2018/credentials/v1'],
+        'type': ['VerifiablePresentation'],
+        'id': presentationId,
+        'holder': did,
+        'verifiableCredential': credential.data,
+      }),
+      options,
+      ssiKey!,
+    );
     return vpToken;
   }
 
-  Future<String> createIdToken({nonce}) async {
-    final key = await secureStorageProvider.get(SecureStorageKeys.key);
+  Future<String> createIdToken({required String nonce}) async {
+    final log = getLogger('ScanCubit - createIdToken');
+    final ssiKey = await secureStorageProvider.get(SecureStorageKeys.ssiKey);
     final did = await secureStorageProvider.get(SecureStorageKeys.did);
 
     final timeStamp = DateTime.now().millisecondsSinceEpoch ~/ 1000;
-    var claims = JsonWebTokenClaims.fromJson({
+    final dynamic claims = JsonWebTokenClaims.fromJson(<String, dynamic>{
       'exp': timeStamp + 600,
       'iat': timeStamp,
       'i_am_siop': true,
@@ -542,21 +520,46 @@ class ScanCubit extends Cubit<ScanState> {
 
     // create a builder, decoding the JWT in a JWS, so using a
     // JsonWebSignatureBuilder
-    var builder = JsonWebSignatureBuilder();
+    final builder = JsonWebSignatureBuilder();
 
     // set the content
     builder.jsonContent = claims.toJson();
 
     // add a key to sign, can only add one for JWT
-    builder.addRecipient(JsonWebKey.fromJson(jsonDecode(key!)),
-        algorithm: 'RS256');
+    builder.addRecipient(
+      JsonWebKey.fromJson(jsonDecode(ssiKey!) as Map<String, dynamic>),
+      algorithm: 'RS256',
+    );
 
     // build the jws
-    var jws = builder.build();
+    final jws = builder.build();
 
     // output the compact serialization
-    print('jwt compact serialization: ${jws.toCompactSerialization()}');
+    log.i('jwt compact serialization: ${jws.toCompactSerialization()}');
 
     return jws.toCompactSerialization();
+  }
+
+  Future<void> presentationActivity({
+    required List<CredentialModel> credentialModels,
+    required Issuer issuer,
+  }) async {
+    final log = getLogger('ScanCubit');
+    log.i('adding presentation Activity');
+    for (final credentialModel in credentialModels) {
+      final Activity activity = Activity(
+        presentation: Presentation(
+          issuer: issuer,
+          presentedAt: DateTime.now(),
+        ),
+      );
+      credentialModel.activities.add(activity);
+
+      log.i('presentation activity added to the credential');
+      await walletCubit.updateCredential(
+        credential: credentialModel,
+        showMessage: false,
+      );
+    }
   }
 }

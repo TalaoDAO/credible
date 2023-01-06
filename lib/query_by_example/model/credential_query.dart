@@ -1,18 +1,22 @@
+import 'package:altme/query_by_example/model/example.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:talao/app/shared/model/translation.dart';
-import 'package:talao/query_by_example/model/example.dart';
 
 part 'credential_query.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class CredentialQuery {
-  @JsonKey(defaultValue: [])
-  final List<Translation>? reason;
-  final Example? example;
+  CredentialQuery({
+    this.reason,
+    this.example,
+    this.required,
+  });
+
   factory CredentialQuery.fromJson(Map<String, dynamic> json) =>
       _$CredentialQueryFromJson(json);
 
-  CredentialQuery(this.reason, this.example);
+  final Example? example;
+  final String? reason;
+  final bool? required;
 
   Map<String, dynamic> toJson() => _$CredentialQueryToJson(this);
 }

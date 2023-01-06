@@ -1,82 +1,92 @@
+import 'package:altme/app/app.dart';
+import 'package:altme/dashboard/dashboard.dart';
+import 'package:altme/did/did.dart';
+import 'package:altme/wallet/wallet.dart';
 import 'package:bip39/bip39.dart' as bip39;
+import 'package:did_kit/did_kit.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:logging/logging.dart';
-import 'package:talao/app/interop/didkit/didkit.dart';
-import 'package:talao/app/interop/key_generation.dart';
-import 'package:talao/app/interop/secure_storage/secure_storage.dart';
-import 'package:talao/app/shared/constants.dart';
-import 'package:talao/app/shared/model/message.dart';
-import 'package:talao/did/cubit/did_cubit.dart';
-import 'package:talao/scan/cubit/scan_message_string_state.dart';
+import 'package:key_generator/key_generator.dart';
+
+import 'package:secure_storage/secure_storage.dart';
 
 part 'onboarding_gen_phrase_cubit.g.dart';
 
 part 'onboarding_gen_phrase_state.dart';
 
 class OnBoardingGenPhraseCubit extends Cubit<OnBoardingGenPhraseState> {
-  final SecureStorageProvider secureStorageProvider;
-  final KeyGeneration keyGeneration;
-  final DIDKitProvider didKitProvider;
-  final DIDCubit didCubit;
-
   OnBoardingGenPhraseCubit({
     required this.secureStorageProvider,
-    required this.keyGeneration,
+    required this.keyGenerator,
     required this.didKitProvider,
     required this.didCubit,
+    required this.homeCubit,
+    required this.walletCubit,
   }) : super(OnBoardingGenPhraseState());
 
-  final log = Logger('talao-wallet/on-boarding/key-generation');
+  final SecureStorageProvider secureStorageProvider;
+  final KeyGenerator keyGenerator;
+  final DIDKitProvider didKitProvider;
+  final DIDCubit didCubit;
+  final HomeCubit homeCubit;
+  final WalletCubit walletCubit;
 
-  Future<void> generateKey(BuildContext context, List<String> mnemonic) async {
+  final log = getLogger('OnBoardingGenPhraseCubit');
+
+  Future<void> switchTick() async {
+    emit(state.copyWith(isTicked: !state.isTicked));
+  }
+
+  Future<void> generateSSIAndCryptoAccount(List<String> mnemonic) async {
+    emit(state.loading());
+    await Future<void>.delayed(const Duration(milliseconds: 500));
     try {
-      emit(state.copyWith(status: OnBoardingGenPhraseStatus.loading));
       final mnemonicFormatted = mnemonic.join(' ');
-      await secureStorageProvider.set('mnemonic', mnemonicFormatted);
-      final key = await keyGeneration.privateKey(mnemonicFormatted);
-      await secureStorageProvider.set(SecureStorageKeys.key, key);
 
-      final didMethod = Constants.defaultDIDMethod;
-      final did = didKitProvider.keyToDID(didMethod, key);
+      /// ssi wallet
+      await secureStorageProvider.set(
+        SecureStorageKeys.ssiMnemonic,
+        mnemonicFormatted,
+      );
+
+      final ssiKey = await keyGenerator.jwkFromMnemonic(
+        mnemonic: mnemonicFormatted,
+        accountType: AccountType.ssi,
+      );
+      await secureStorageProvider.set(SecureStorageKeys.ssiKey, ssiKey);
+
+      const didMethod = AltMeStrings.defaultDIDMethod;
+      final did = didKitProvider.keyToDID(didMethod, ssiKey);
+      const didMethodName = AltMeStrings.defaultDIDMethodName;
       final verificationMethod =
-          await didKitProvider.keyToVerificationMethod(didMethod, key);
+          await didKitProvider.keyToVerificationMethod(didMethod, ssiKey);
 
-      didCubit.set(
+      await didCubit.set(
         did: did,
         didMethod: didMethod,
-        didMethodName: Constants.defaultDIDMethodName,
+        didMethodName: didMethodName,
         verificationMethod: verificationMethod,
       );
 
-      emit(state.copyWith(status: OnBoardingGenPhraseStatus.success));
+      /// crypto wallet
+      await walletCubit.createCryptoWallet(
+        mnemonicOrKey: mnemonicFormatted,
+        isImported: false,
+        isFromOnboarding: true,
+      );
+
+      await homeCubit.emitHasWallet();
+      emit(state.success());
     } catch (error) {
-      log.severe('something went wrong when generating a key', error);
+      log.e('something went wrong when generating a key', error);
       emit(
-        state.copyWith(
-          status: OnBoardingGenPhraseStatus.failure,
-          message: StateMessage.error(
-              message: ScanMessageStringState.errorGeneratingKey()),
+        state.error(
+          messageHandler: ResponseMessage(
+            ResponseString.RESPONSE_STRING_ERROR_GENERATING_KEY,
+          ),
         ),
       );
-    }
-  }
-
-  Future<void> saveMnemonicKey(String mnemonic) async {
-    try {
-      log.info('will save mnemonic to secure storage');
-      await secureStorageProvider.set('mnemonic', mnemonic);
-      log.info('mnemonic saved');
-    } catch (error) {
-      log.severe('error ocurred setting mnemonic to secure storate', error);
-      emit(state.copyWith(
-        status: OnBoardingGenPhraseStatus.failure,
-        message: StateMessage.error(
-            message:
-                ScanMessageStringState.failedToSaveMnemonicPleaseTryAgain()),
-      ));
     }
   }
 }

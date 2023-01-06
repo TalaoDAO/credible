@@ -3,9 +3,10 @@ import 'package:bloc/bloc.dart';
 class DeepLinkCubit extends Cubit<String> {
   DeepLinkCubit() : super('');
 
-  void addDeepLink(url) {
+  void addDeepLink(String url) {
     emit(url);
   }
+
   void resetDeepLink() {
     emit('');
   }

@@ -1,278 +1,742 @@
+import 'dart:async';
 import 'dart:convert';
 
-import 'package:equatable/equatable.dart';
-import 'package:json_annotation/json_annotation.dart';
-import 'package:talao/app/interop/secure_storage/secure_storage.dart';
-import 'package:talao/app/shared/model/credential_model/credential_model.dart';
+import 'package:altme/app/app.dart';
+import 'package:altme/connection_bridge/connection_bridge.dart';
+import 'package:altme/dashboard/dashboard.dart';
+import 'package:altme/dashboard/home/tab_bar/credentials/models/activity/activity.dart';
+import 'package:altme/did/did.dart';
+import 'package:altme/wallet/wallet.dart';
 import 'package:bloc/bloc.dart';
-import 'package:talao/credentials/credentials.dart';
-import 'package:talao/drawer/drawer.dart';
+import 'package:credential_manifest/credential_manifest.dart';
+import 'package:device_info_plus/device_info_plus.dart';
+import 'package:did_kit/did_kit.dart';
+import 'package:equatable/equatable.dart';
+import 'package:intl/intl.dart';
+import 'package:json_annotation/json_annotation.dart';
+import 'package:key_generator/key_generator.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
-part 'wallet_state.dart';
+import 'package:secure_storage/secure_storage.dart';
+import 'package:uuid/uuid.dart';
+
+part 'helper_function.dart';
 
 part 'wallet_cubit.g.dart';
 
-class WalletCubit extends Cubit<WalletState> {
-  final CredentialsRepository repository;
-  final SecureStorageProvider secureStorageProvider;
-  final ProfileCubit profileCubit;
+part 'wallet_state.dart';
 
+class WalletCubit extends Cubit<WalletState> {
   WalletCubit({
-    required this.repository,
+    required this.credentialsRepository,
+    required this.connectedDappRepository,
     required this.secureStorageProvider,
     required this.profileCubit,
-  }) : super(WalletState()) {
-    initialize();
-  }
+    required this.homeCubit,
+    required this.credentialListCubit,
+    required this.keyGenerator,
+    required this.didCubit,
+    required this.didKitProvider,
+    required this.advanceSettingsCubit,
+  }) : super(WalletState());
 
-  Future initialize() async {
-    final key = await secureStorageProvider.get('key');
-    if (key != null) {
-      if (key.isNotEmpty) {
-        /// When app is initialized, set all credentials with active status to unknown status
-        await repository.initializeRevocationStatus();
-        await loadAllCredentialsFromRepository();
+  final CredentialsRepository credentialsRepository;
+  final ConnectedDappRepository connectedDappRepository;
+  final SecureStorageProvider secureStorageProvider;
+  final ProfileCubit profileCubit;
+  final HomeCubit homeCubit;
+  final CredentialListCubit credentialListCubit;
+  final KeyGenerator keyGenerator;
+  final DIDCubit didCubit;
+  final DIDKitProvider didKitProvider;
+  final AdvanceSettingsCubit advanceSettingsCubit;
+
+  final log = getLogger('WalletCubit');
+
+  Future initialize({required String? ssiKey}) async {
+    if (ssiKey != null) {
+      if (ssiKey.isNotEmpty) {
+        unawaited(loadAllCredentials(ssiKey: ssiKey));
       }
     }
   }
 
-  Future loadAllCredentialsFromRepository() async {
-    await repository.findAll(/* filters */).then((values) {
-      emit(state.copyWith(
-        status: WalletStatus.init,
-        credentials: values,
-      ));
-    });
+  Future loadAllCredentials({required String ssiKey}) async {
+    final log = getLogger('loadAllCredentials');
+    final savedCredentials = await credentialsRepository.findAll(/* filters */);
+    emit(
+      state.copyWith(
+        status: WalletStatus.populate,
+        credentials: savedCredentials,
+      ),
+    );
+    log.i('credentials loaded from repository - ${savedCredentials.length}');
+    await addRequiredCredentials(ssiKey: ssiKey);
   }
 
-  Future deleteById(String id) async {
-    await repository.deleteById(id);
-    final credentials = List.of(state.credentials)
-      ..removeWhere((element) => element.id == id);
-    emit(state.copyWith(
-      status: WalletStatus.delete,
-      credentials: credentials,
-    ));
+  Future addRequiredCredentials({required String ssiKey}) async {
+    final log = getLogger('addRequiredCredentials');
+
+    /// device info card
+    final deviceInfoCards = await credentialListFromCredentialSubjectType(
+      CredentialSubjectType.deviceInfo,
+    );
+    if (deviceInfoCards.isEmpty) {
+      final deviceInfoCredential = await generateDeviceInfoCredential(
+        ssiKey: ssiKey,
+        didKitProvider: didKitProvider,
+        didCubit: didCubit,
+      );
+      if (deviceInfoCredential != null) {
+        log.i('CredentialSubjectType.deviceInfo added');
+        await insertCredential(
+          credential: deviceInfoCredential,
+          showMessage: false,
+        );
+      }
+    }
   }
 
-  Future updateCredential(CredentialModel credential) async {
-    await repository.update(credential);
-    final index = state.credentials
-        .indexWhere((element) => element.id == credential.id.toString());
+  Future<void> setCurrentWalletAccount(int index) async {
+    emit(state.loading());
+    await secureStorageProvider.set(
+      SecureStorageKeys.currentCryptoIndex,
+      index.toString(),
+    );
+    emit(
+      state.copyWith(
+        status: WalletStatus.populate,
+        currentCryptoIndex: index,
+      ),
+    );
+  }
+
+  Future<void> createCryptoWallet({
+    String? accountName,
+    required String mnemonicOrKey,
+    required bool isImported,
+    required bool isFromOnboarding,
+    BlockchainType? blockchainType,
+    Function({
+      required CryptoAccount cryptoAccount,
+      required MessageHandler messageHandler,
+    })?
+        onComplete,
+  }) async {
+    if (isFromOnboarding) {
+      final String? ssiKey =
+          await secureStorageProvider.get(SecureStorageKeys.ssiKey);
+      if (ssiKey != null) {
+        await addRequiredCredentials(ssiKey: ssiKey);
+      }
+    }
+
+    /// tracking added accounts
+    final String totalAccountsYet = await secureStorageProvider.get(
+          SecureStorageKeys.cryptoAccounTrackingIndex,
+        ) ??
+        '0';
+
+    final int accountsCount = int.parse(totalAccountsYet);
+    late CryptoAccount updatedCryptoAccount;
+
+    final isSecretKey = isValidPrivateKey(mnemonicOrKey);
+
+    /// when blockchain type is pre-selected
+    if (blockchainType != null) {
+      log.i('creating both $blockchainType accounts');
+      updatedCryptoAccount = await createBlockchainAccount(
+        accountName: accountName,
+        mnemonicOrKey: mnemonicOrKey,
+        isImported: isImported,
+        isSecretKey: isSecretKey,
+        blockchainType: blockchainType,
+        totalAccountsYet: accountsCount,
+      );
+    } else {
+      if (isSecretKey) {
+        final isTezosSecretKey = mnemonicOrKey.startsWith('edsk') ||
+            mnemonicOrKey.startsWith('spsk') ||
+            mnemonicOrKey.startsWith('p2sk');
+
+        log.i(
+          'creating ${isTezosSecretKey ? 'tezos' : 'ethereum based'} account',
+        );
+
+        if (isTezosSecretKey) {
+          /// creating tezos account
+          updatedCryptoAccount = await createBlockchainAccount(
+            accountName: accountName,
+            mnemonicOrKey: mnemonicOrKey,
+            isImported: isImported,
+            isSecretKey: isSecretKey,
+            blockchainType: BlockchainType.tezos,
+            totalAccountsYet: accountsCount,
+          );
+        } else {
+          /// creating all ethereum based accounts
+          await createBlockchainAccount(
+            accountName: accountName,
+            mnemonicOrKey: mnemonicOrKey,
+            isImported: isImported,
+            isSecretKey: isSecretKey,
+            blockchainType: BlockchainType.fantom,
+            totalAccountsYet: accountsCount,
+          );
+          await createBlockchainAccount(
+            accountName: accountName,
+            mnemonicOrKey: mnemonicOrKey,
+            isImported: isImported,
+            isSecretKey: isSecretKey,
+            blockchainType: BlockchainType.polygon,
+            totalAccountsYet: accountsCount + 1,
+          );
+          await createBlockchainAccount(
+            accountName: accountName,
+            mnemonicOrKey: mnemonicOrKey,
+            isImported: isImported,
+            isSecretKey: isSecretKey,
+            blockchainType: BlockchainType.binance,
+            totalAccountsYet: accountsCount + 2,
+          );
+          updatedCryptoAccount = await createBlockchainAccount(
+            accountName: accountName,
+            mnemonicOrKey: mnemonicOrKey,
+            isImported: isImported,
+            isSecretKey: isSecretKey,
+            blockchainType: BlockchainType.ethereum,
+            totalAccountsYet: accountsCount + 3,
+          );
+        }
+      } else {
+        /// only creating tezos at start
+        updatedCryptoAccount = await createBlockchainAccount(
+          accountName: accountName,
+          mnemonicOrKey: mnemonicOrKey,
+          isImported: isImported,
+          isSecretKey: isSecretKey,
+          blockchainType: BlockchainType.tezos,
+          totalAccountsYet: accountsCount,
+        );
+      }
+    }
+
+    onComplete?.call(
+      cryptoAccount: updatedCryptoAccount,
+      messageHandler: ResponseMessage(
+        ResponseString.RESPONSE_STRING_CRYPTO_ACCOUNT_ADDED,
+      ),
+    );
+  }
+
+  Future<CryptoAccount> createBlockchainAccount({
+    String? accountName,
+    required String mnemonicOrKey,
+    required bool isImported,
+    required bool isSecretKey,
+    required BlockchainType blockchainType,
+    required int totalAccountsYet,
+  }) async {
+    final AccountType accountType = blockchainType.accountType;
+
+    int derivePathIndex = 0;
+    final bool isCreated = !isImported;
+
+    log.i('isImported - $isImported');
+    if (isCreated) {
+      /// Note: while adding derivePathIndex is always increased
+      final String? savedDerivePathIndex =
+          await secureStorageProvider.get(blockchainType.derivePathIndexKey);
+
+      if (savedDerivePathIndex != null && savedDerivePathIndex.isNotEmpty) {
+        derivePathIndex = int.parse(savedDerivePathIndex) + 1;
+      }
+
+      await secureStorageProvider.set(
+        blockchainType.derivePathIndexKey,
+        derivePathIndex.toString(),
+      );
+    }
+
+    log.i('derivePathIndex - $derivePathIndex');
+
+    /// Note: while importing derivePathIndex is always 0
+
+    late String walletAddress;
+    late String secretKey;
+
+    if (isSecretKey) {
+      secretKey = mnemonicOrKey;
+
+      walletAddress = await keyGenerator.walletAddressFromSecretKey(
+        secretKey: secretKey,
+        accountType: accountType,
+      );
+    } else {
+      secretKey = await keyGenerator.secretKeyFromMnemonic(
+        mnemonic: mnemonicOrKey,
+        accountType: accountType,
+        derivePathIndex: derivePathIndex,
+      );
+
+      walletAddress = await keyGenerator.walletAddressFromMnemonic(
+        mnemonic: mnemonicOrKey,
+        accountType: accountType,
+        derivePathIndex: derivePathIndex,
+      );
+    }
+
+    final int newCount = totalAccountsYet + 1;
+
+    await secureStorageProvider.set(
+      SecureStorageKeys.cryptoAccounTrackingIndex,
+      newCount.toString(),
+    );
+
+    String name = 'My Account $newCount';
+
+    if (accountName != null && accountName.isNotEmpty) {
+      name = accountName;
+    }
+
+    final CryptoAccountData cryptoAccountData = CryptoAccountData(
+      name: name,
+      walletAddress: walletAddress,
+      secretKey: secretKey,
+      isImported: isImported,
+      blockchainType: blockchainType,
+    );
+    final cryptoAccounts = List.of(state.cryptoAccount.data)
+      ..add(cryptoAccountData);
+
+    final CryptoAccount cryptoAccount = CryptoAccount(data: cryptoAccounts);
+    final String cryptoAccountString = jsonEncode(cryptoAccount);
+
+    await secureStorageProvider.set(
+      SecureStorageKeys.cryptoAccount,
+      cryptoAccountString,
+    );
+
+    emitCryptoAccount(cryptoAccount);
+
+    /// set new account as current
+    await setCurrentWalletAccount(cryptoAccounts.length - 1);
+    log.i('$blockchainType created');
+
+    final credential = await generateAssociatedWalletCredential(
+      cryptoAccountData: cryptoAccountData,
+      didCubit: didCubit,
+      didKitProvider: didKitProvider,
+      blockchainType: blockchainType,
+      keyGenerator: keyGenerator,
+    );
+
+    if (credential != null) {
+      await insertCredential(
+        credential: credential,
+        showMessage: false,
+      );
+    }
+
+    return cryptoAccount;
+  }
+
+  Future<void> editCryptoAccountName({
+    required String newAccountName,
+    required int index,
+    Function(CryptoAccount cryptoAccount)? onComplete,
+    required BlockchainType blockchainType,
+  }) async {
+    final CryptoAccountData cryptoAccountData = state.cryptoAccount.data[index];
+    cryptoAccountData.name = newAccountName;
+
+    final cryptoAccounts = List.of(state.cryptoAccount.data);
+    cryptoAccounts[index] = cryptoAccountData;
+
+    final CryptoAccount cryptoAccount = CryptoAccount(data: cryptoAccounts);
+    final String cryptoAccountString = jsonEncode(cryptoAccount.toJson());
+
+    await secureStorageProvider.set(
+      SecureStorageKeys.cryptoAccount,
+      cryptoAccountString,
+    );
+
+    /// get id of current AssociatedAddres credential of this account
+    final oldCredentialList = List<CredentialModel>.from(state.credentials);
+
+    final filteredCredentialList = getCredentialsFromFilterList(
+      [
+        Field(path: [r'$..type'], filter: blockchainType.filter),
+        Field(
+          path: [r'$..associatedAddress'],
+          filter: Filter('String', cryptoAccountData.walletAddress),
+        ),
+      ],
+      oldCredentialList,
+    );
+
+    /// update or create AssociatedAddres credential with new name
+    if (filteredCredentialList.isNotEmpty) {
+      final credential = await generateAssociatedWalletCredential(
+        cryptoAccountData: cryptoAccountData,
+        oldId: filteredCredentialList.first.id,
+        didCubit: didCubit,
+        didKitProvider: didKitProvider,
+        blockchainType: blockchainType,
+        keyGenerator: keyGenerator,
+      );
+      if (credential != null) {
+        await updateCredential(credential: credential);
+      }
+    } else {
+      final credential = await generateAssociatedWalletCredential(
+        cryptoAccountData: cryptoAccountData,
+        didCubit: didCubit,
+        didKitProvider: didKitProvider,
+        blockchainType: blockchainType,
+        keyGenerator: keyGenerator,
+      );
+      if (credential != null) {
+        await insertCredential(credential: credential);
+      }
+    }
+
+    emitCryptoAccount(cryptoAccount);
+
+    onComplete?.call(cryptoAccount);
+  }
+
+  void emitCryptoAccount(CryptoAccount cryptoAccount) {
+    emit(
+      state.copyWith(
+        status: WalletStatus.populate,
+        cryptoAccount: cryptoAccount,
+      ),
+    );
+  }
+
+  Future deleteById({
+    required CredentialModel credential,
+    bool showMessage = true,
+  }) async {
+    emit(state.loading());
+    await credentialsRepository.deleteById(credential.id);
     final credentials = List.of(state.credentials)
-      ..removeWhere((element) => element.id == credential.id)
-      ..insert(index, credential);
-    emit(state.copyWith(
-      status: WalletStatus.update,
-      credentials: credentials,
-    ));
+      ..removeWhere((element) => element.id == credential.id);
+    await credentialListCubit.deleteById(credential);
+    emit(
+      state.copyWith(
+        status: WalletStatus.delete,
+        credentials: credentials,
+        messageHandler: showMessage
+            ? ResponseMessage(
+                ResponseString
+                    .RESPONSE_STRING_CREDENTIAL_DETAIL_DELETE_SUCCESS_MESSAGE,
+              )
+            : null,
+      ),
+    );
+  }
+
+  Future updateCredential({
+    required CredentialModel credential,
+    bool showMessage = true,
+  }) async {
+    await credentialsRepository.update(credential);
+    final index =
+        state.credentials.indexWhere((element) => element.id == credential.id);
+
+    final credentials = List.of(state.credentials);
+    credentials[index] = credential;
+
+    await credentialListCubit.updateCredential(credential);
+    emit(
+      state.copyWith(
+        status: WalletStatus.update,
+        credentials: credentials,
+        messageHandler: showMessage
+            ? ResponseMessage(
+                ResponseString
+                    .RESPONSE_STRING_CREDENTIAL_DETAIL_EDIT_SUCCESS_MESSAGE,
+              )
+            : null,
+      ),
+    );
   }
 
   Future handleUnknownRevocationStatus(CredentialModel credential) async {
-    await repository.update(credential);
-    final index = state.credentials
-        .indexWhere((element) => element.id == credential.id.toString());
+    await credentialsRepository.update(credential);
+    final index =
+        state.credentials.indexWhere((element) => element.id == credential.id);
     if (index != -1) {
       final credentials = List.of(state.credentials)
         ..removeWhere((element) => element.id == credential.id)
         ..insert(index, credential);
-      emit(state.copyWith(
-        status: WalletStatus.idle,
-        credentials: credentials,
-      ));
-    }
-  }
-
-  Future insertCredential(CredentialModel credential) async {
-    await repository.insert(credential);
-    final credentials = List.of(state.credentials)..add(credential);
-    emit(state.copyWith(
-      status: WalletStatus.insert,
-      credentials: credentials,
-    ));
-  }
-
-  Future resetWallet() async {
-    await secureStorageProvider.delete(SecureStorageKeys.key);
-    await secureStorageProvider.delete(SecureStorageKeys.mnemonic);
-    await secureStorageProvider.delete(SecureStorageKeys.data);
-    await repository.deleteAll();
-    await profileCubit.resetProfile();
-    emit(state.copyWith(
-      status: WalletStatus.reset,
-      credentials: [],
-    ));
-    emit(state.copyWith(status: WalletStatus.init));
-  }
-
-  Future<void> recoverWallet(List<CredentialModel> credentials) async {
-    await repository.deleteAll();
-    credentials
-        .forEach((credential) async => await repository.insert(credential));
-    emit(state.copyWith(
-      status: WalletStatus.init,
-      credentials: credentials,
-    ));
-  }
-
-  Future searchWallet(String search) async {
-    final searchKeywords = search.split(' ');
-
-    /// We remove empty strings from the list of keyWords
-    searchKeywords.removeWhere((element) => element == '');
-    if (searchKeywords.isNotEmpty) {
-      await loadAllCredentialsFromRepository();
-      final searchList = state.credentials.where((element) {
-        var isMatch = false;
-        searchKeywords.forEach(
-          (keyword) {
-            if (removeDiacritics(jsonEncode(element))
-                .toLowerCase()
-                .contains(removeDiacritics(keyword.toLowerCase()))) {
-              isMatch = true;
-            }
-          },
-        );
-        return isMatch;
-      }).toList();
       emit(
-          state.copyWith(status: WalletStatus.search, credentials: searchList));
+        state.copyWith(
+          status: WalletStatus.populate,
+          credentials: credentials,
+        ),
+      );
     }
   }
-}
 
-String removeDiacritics(String str) {
-  final diacriticsMap = {};
+  Future insertCredential({
+    required CredentialModel credential,
+    bool showMessage = true,
+  }) async {
+    await replaceCredential(credential: credential);
 
-  if (diacriticsMap.isEmpty) {
-    for (var i = 0; i < ACCENTUATIONS.length; i++) {
-      final letters = ACCENTUATIONS[i]['letters'] as String;
-      for (var j = 0; j < letters.length; j++) {
-        diacriticsMap[letters[j]] = ACCENTUATIONS[i]['key'];
+    /// if same email credential is present
+    await credentialsRepository.insert(credential);
+    final credentials = List.of(state.credentials)..add(credential);
+
+    final CredentialCategory credentialCategory =
+        credential.credentialPreview.credentialSubjectModel.credentialCategory;
+
+    if (credentialCategory == CredentialCategory.gamingCards &&
+        credentialListCubit.state.gamingCredentials.isEmpty) {
+      if (!advanceSettingsCubit.state.isGamingEnabled) {
+        advanceSettingsCubit.toggleGamingRadio();
+      }
+    }
+
+    if (credentialCategory == CredentialCategory.communityCards &&
+        credentialListCubit.state.communityCredentials.isEmpty) {
+      if (!advanceSettingsCubit.state.isCommunityEnabled) {
+        advanceSettingsCubit.toggleCommunityRadio();
+      }
+    }
+
+    if (credentialCategory == CredentialCategory.identityCards &&
+        credentialListCubit.state.identityCredentials.isEmpty) {
+      if (!advanceSettingsCubit.state.isIdentityEnabled) {
+        advanceSettingsCubit.toggleIdentityRadio();
+      }
+    }
+
+    if (credentialCategory == CredentialCategory.passCards &&
+        credentialListCubit.state.passCredentials.isEmpty) {
+      if (!advanceSettingsCubit.state.isPassEnabled) {
+        advanceSettingsCubit.togglePassRadio();
+      }
+    }
+
+    // if (credentialCategory == CredentialCategory.blockchainAccountsCards &&
+    //     credentialListCubit.state.blockchainAccountsCredentials.isEmpty) {
+    //   if (!advanceSettingsCubit.state.isBlockchainAccountsEnabled) {
+    //     advanceSettingsCubit.toggleBlockchainAccountsRadio();
+    //   }
+    // }
+
+    if (credentialCategory == CredentialCategory.othersCards &&
+        credentialListCubit.state.othersCredentials.isEmpty) {
+      if (!advanceSettingsCubit.state.isOtherEnabled) {
+        advanceSettingsCubit.toggleOtherRadio();
+      }
+    }
+
+    await credentialListCubit.insertCredential(
+      credential: credential,
+    );
+
+    emit(
+      state.copyWith(
+        status: WalletStatus.insert,
+        credentials: credentials,
+        messageHandler: showMessage
+            ? ResponseMessage(
+                ResponseString.RESPONSE_STRING_CREDENTIAL_ADDED_MESSAGE,
+              )
+            : null,
+      ),
+    );
+  }
+
+  Future replaceCredential({
+    required CredentialModel credential,
+    bool showMessage = true,
+  }) async {
+    final credentialSubjectModel =
+        credential.credentialPreview.credentialSubjectModel;
+
+    /// Old EmailPass needs to be removed if currently adding new EmailPass
+    /// with same email address
+    if (credentialSubjectModel.credentialSubjectType ==
+        CredentialSubjectType.emailPass) {
+      final String? email = (credentialSubjectModel as EmailPassModel).email;
+
+      final List<CredentialModel> allCredentials =
+          await credentialsRepository.findAll();
+
+      if (email != null) {
+        for (final storedCredential in allCredentials) {
+          final iteratedCredentialSubjectModel =
+              storedCredential.credentialPreview.credentialSubjectModel;
+
+          if (storedCredential.credentialPreview.credentialSubjectModel
+                  .credentialSubjectType ==
+              CredentialSubjectType.emailPass) {
+            if (email ==
+                (iteratedCredentialSubjectModel as EmailPassModel).email) {
+              await deleteById(
+                credential: storedCredential,
+                showMessage: false,
+              );
+              break;
+            }
+          }
+        }
+      }
+    }
+
+    ///remove old card added by YOTI
+    if (credentialSubjectModel.credentialSubjectType ==
+        CredentialSubjectType.over13) {
+      final List<CredentialModel> allCredentials =
+          await credentialsRepository.findAll();
+      for (final storedCredential in allCredentials) {
+        final credentialSubjectModel =
+            storedCredential.credentialPreview.credentialSubjectModel;
+        if (credentialSubjectModel.credentialSubjectType ==
+            CredentialSubjectType.over13) {
+          await deleteById(
+            credential: storedCredential,
+            showMessage: false,
+          );
+          break;
+        }
+      }
+    }
+
+    ///remove old card added by YOTI
+    if (credentialSubjectModel.credentialSubjectType ==
+        CredentialSubjectType.over18) {
+      final List<CredentialModel> allCredentials =
+          await credentialsRepository.findAll();
+      for (final storedCredential in allCredentials) {
+        final credentialSubjectModel =
+            storedCredential.credentialPreview.credentialSubjectModel;
+        if (credentialSubjectModel.credentialSubjectType ==
+            CredentialSubjectType.over18) {
+          await deleteById(
+            credential: storedCredential,
+            showMessage: false,
+          );
+          break;
+        }
+      }
+    }
+
+    ///remove old card added by YOTI
+    if (credentialSubjectModel.credentialSubjectType ==
+        CredentialSubjectType.ageRange) {
+      final List<CredentialModel> allCredentials =
+          await credentialsRepository.findAll();
+      for (final storedCredential in allCredentials) {
+        final credentialSubjectModel =
+            storedCredential.credentialPreview.credentialSubjectModel;
+        if (credentialSubjectModel.credentialSubjectType ==
+            CredentialSubjectType.ageRange) {
+          await deleteById(
+            credential: storedCredential,
+            showMessage: false,
+          );
+          break;
+        }
       }
     }
   }
 
-  return str.replaceAllMapped(
-    RegExp('[^\u0000-\u007E]', multiLine: true),
-    (a) {
-      // ignore: prefer_if_null_operators
-      return diacriticsMap[a.group(0)] != null
-          ? diacriticsMap[a.group(0)]
-          : a.group(0);
-    },
-  );
-}
+  Future resetWallet() async {
+    /// reward operations id in all accounts
+    for (final cryptoAccountData in state.cryptoAccount.data) {
+      await secureStorageProvider.delete(
+        SecureStorageKeys.lastNotifiedXTZRewardId +
+            cryptoAccountData.walletAddress,
+      );
+      await secureStorageProvider.delete(
+        SecureStorageKeys.lastNotifiedUNORewardId +
+            cryptoAccountData.walletAddress,
+      );
+    }
 
-const ACCENTUATIONS = [
-  {
-    'key': 'a',
-    'letters':
-        '\u0061\u24D0\uFF41\u1E9A\u00E0\u00E1\u00E2\u1EA7\u1EA5\u1EAB\u1EA9\u00E3\u0101\u0103\u1EB1\u1EAF\u1EB5\u1EB3\u0227\u01E1\u00E4\u01DF\u1EA3\u00E5\u01FB\u01CE\u0201\u0203\u1EA1\u1EAD\u1EB7\u1E01\u0105\u2C65\u0250'
-  },
-  {
-    'key': 'A',
-    'letters':
-        '\u0041\u24B6\uFF21\u00C0\u00C1\u00C2\u1EA6\u1EA4\u1EAA\u1EA8\u00C3\u0100\u0102\u1EB0\u1EAE\u1EB4\u1EB2\u0226\u01E0\u00C4\u01DE\u1EA2\u00C5\u01FA\u01CD\u0200\u0202\u1EA0\u1EAC\u1EB6\u1E00\u0104\u023A\u2C6F'
-  },
-  {
-    'key': 'E',
-    'letters':
-        '\u0045\u24BA\uFF25\u00C8\u00C9\u00CA\u1EC0\u1EBE\u1EC4\u1EC2\u1EBC\u0112\u1E14\u1E16\u0114\u0116\u00CB\u1EBA\u011A\u0204\u0206\u1EB8\u1EC6\u0228\u1E1C\u0118\u1E18\u1E1A\u0190\u018E'
-  },
-  {
-    'key': 'e',
-    'letters':
-        '\u0065\u24D4\uFF45\u00E8\u00E9\u00EA\u1EC1\u1EBF\u1EC5\u1EC3\u1EBD\u0113\u1E15\u1E17\u0115\u0117\u00EB\u1EBB\u011B\u0205\u0207\u1EB9\u1EC7\u0229\u1E1D\u0119\u1E19\u1E1B\u0247\u025B\u01DD'
-  },
-  {
-    'key': 'o',
-    'letters':
-        '\u006F\u24DE\uFF4F\u00F2\u00F3\u00F4\u1ED3\u1ED1\u1ED7\u1ED5\u00F5\u1E4D\u022D\u1E4F\u014D\u1E51\u1E53\u014F\u022F\u0231\u00F6\u022B\u1ECF\u0151\u01D2\u020D\u020F\u01A1\u1EDD\u1EDB\u1EE1\u1EDF\u1EE3\u1ECD\u1ED9\u01EB\u01ED\u00F8\u01FF\u0254\uA74B\uA74D\u0275'
-  },
-  {
-    'key': 'O',
-    'letters':
-        '\u004F\u24C4\uFF2F\u00D2\u00D3\u00D4\u1ED2\u1ED0\u1ED6\u1ED4\u00D5\u1E4C\u022C\u1E4E\u014C\u1E50\u1E52\u014E\u022E\u0230\u00D6\u022A\u1ECE\u0150\u01D1\u020C\u020E\u01A0\u1EDC\u1EDA\u1EE0\u1EDE\u1EE2\u1ECC\u1ED8\u01EA\u01EC\u00D8\u01FE\u0186\u019F\uA74A\uA74C'
-  },
-  {
-    'key': 'C',
-    'letters':
-        '\u0043\u24B8\uFF23\u0106\u0108\u010A\u010C\u00C7\u1E08\u0187\u023B\uA73E'
-  },
-  {
-    'key': 'c',
-    'letters':
-        '\u0063\u24D2\uFF43\u0107\u0109\u010B\u010D\u00E7\u1E09\u0188\u023C\uA73F\u2184'
-  },
-  {
-    'key': 'D',
-    'letters':
-        '\u0044\u24B9\uFF24\u1E0A\u010E\u1E0C\u1E10\u1E12\u1E0E\u0110\u018B\u018A\u0189\uA779'
-  },
-  {
-    'key': 'd',
-    'letters':
-        '\u0064\u24D3\uFF44\u1E0B\u010F\u1E0D\u1E11\u1E13\u1E0F\u0111\u018C\u0256\u0257\uA77A'
-  },
-  {
-    'key': 'i',
-    'letters':
-        '\u0069\u24D8\uFF49\u00EC\u00ED\u00EE\u0129\u012B\u012D\u00EF\u1E2F\u1EC9\u01D0\u0209\u020B\u1ECB\u012F\u1E2D\u0268\u0131'
-  },
-  {
-    'key': 'I',
-    'letters':
-        '\u0049\u24BE\uFF29\u00CC\u00CD\u00CE\u0128\u012A\u012C\u0130\u00CF\u1E2E\u1EC8\u01CF\u0208\u020A\u1ECA\u012E\u1E2C\u0197'
-  },
-  {
-    'key': 'u',
-    'letters':
-        '\u0075\u24E4\uFF55\u00F9\u00FA\u00FB\u0169\u1E79\u016B\u1E7B\u016D\u00FC\u01DC\u01D8\u01D6\u01DA\u1EE7\u016F\u0171\u01D4\u0215\u0217\u01B0\u1EEB\u1EE9\u1EEF\u1EED\u1EF1\u1EE5\u1E73\u0173\u1E77\u1E75\u0289'
-  },
-  {
-    'key': 'U',
-    'letters':
-        '\u0055\u24CA\uFF35\u00D9\u00DA\u00DB\u0168\u1E78\u016A\u1E7A\u016C\u00DC\u01DB\u01D7\u01D5\u01D9\u1EE6\u016E\u0170\u01D3\u0214\u0216\u01AF\u1EEA\u1EE8\u1EEE\u1EEC\u1EF0\u1EE4\u1E72\u0172\u1E76\u1E74\u0244'
-  },
-  {
-    'key': 'n',
-    'letters':
-        '\u006E\u24DD\uFF4E\u01F9\u0144\u00F1\u1E45\u0148\u1E47\u0146\u1E4B\u1E49\u019E\u0272\u0149\uA791\uA7A5'
-  },
-  {
-    'key': 'N',
-    'letters':
-        '\u004E\u24C3\uFF2E\u01F8\u0143\u00D1\u1E44\u0147\u1E46\u0145\u1E4A\u1E48\u0220\u019D\uA790\uA7A4'
-  },
-  {
-    'key': 's',
-    'letters':
-        '\u0073\u24E2\uFF53\u00DF\u015B\u1E65\u015D\u1E61\u0161\u1E67\u1E63\u1E69\u0219\u015F\u023F\uA7A9\uA785\u1E9B'
-  },
-  {
-    'key': 'S',
-    'letters':
-        '\u0053\u24C8\uFF33\u1E9E\u015A\u1E64\u015C\u1E60\u0160\u1E66\u1E62\u1E68\u0218\u015E\u2C7E\uA7A8\uA784'
-  },
-  {
-    'key': 'y',
-    'letters':
-        '\u0079\u24E8\uFF59\u1EF3\u00FD\u0177\u1EF9\u0233\u1E8F\u00FF\u1EF7\u1E99\u1EF5\u01B4\u024F\u1EFF'
-  },
-  {
-    'key': 'Y',
-    'letters':
-        '\u0059\u24CE\uFF39\u1EF2\u00DD\u0176\u1EF8\u0232\u1E8E\u0178\u1EF6\u1EF4\u01B3\u024E\u1EFE'
-  },
-  {
-    'key': 'z',
-    'letters':
-        '\u007A\u24E9\uFF5A\u017A\u1E91\u017C\u017E\u1E93\u1E95\u01B6\u0225\u0240\u2C6C\uA763'
-  },
-  {
-    'key': 'Z',
-    'letters':
-        '\u005A\u24CF\uFF3A\u0179\u1E90\u017B\u017D\u1E92\u1E94\u01B5\u0224\u2C7F\u2C6B\uA762'
-  },
-];
+    /// ssi
+    await secureStorageProvider.delete(SecureStorageKeys.ssiMnemonic);
+    await secureStorageProvider.delete(SecureStorageKeys.ssiKey);
+
+    /// did
+    await secureStorageProvider.delete(SecureStorageKeys.did);
+    await secureStorageProvider.delete(SecureStorageKeys.didMethod);
+    await secureStorageProvider.delete(SecureStorageKeys.didMethodName);
+    await secureStorageProvider.delete(SecureStorageKeys.verificationMethod);
+
+    /// crypto
+    await secureStorageProvider.delete(SecureStorageKeys.cryptoAccount);
+    await secureStorageProvider
+        .delete(SecureStorageKeys.cryptoAccounTrackingIndex);
+    await secureStorageProvider.delete(SecureStorageKeys.tezosDerivePathIndex);
+    await secureStorageProvider
+        .delete(SecureStorageKeys.ethereumDerivePathIndex);
+    await secureStorageProvider.delete(SecureStorageKeys.fantomDerivePathIndex);
+    await secureStorageProvider
+        .delete(SecureStorageKeys.polygonDerivePathIndex);
+    await secureStorageProvider
+        .delete(SecureStorageKeys.binanceDerivePathIndex);
+    await secureStorageProvider.delete(SecureStorageKeys.currentCryptoIndex);
+    await secureStorageProvider.delete(SecureStorageKeys.data);
+
+    /// credentials
+    await credentialsRepository.deleteAll();
+
+    /// passBase
+    await secureStorageProvider.delete(SecureStorageKeys.passBaseStatus);
+    await secureStorageProvider
+        .delete(SecureStorageKeys.passBaseVerificationDate);
+    await secureStorageProvider.delete(SecureStorageKeys.preAuthorizedCode);
+
+    /// user data
+    await profileCubit.resetProfile();
+    await secureStorageProvider.delete(SecureStorageKeys.pinCode);
+
+    //save dapps
+    await connectedDappRepository.deleteAll();
+
+    /// clear app states
+    homeCubit.emitHasNoWallet();
+    await credentialListCubit.clearHomeCredentials();
+    emit(
+      state.copyWith(
+        status: WalletStatus.reset,
+        credentials: [],
+        cryptoAccount: CryptoAccount(data: const []),
+        currentCryptoIndex: null,
+      ),
+    );
+    emit(state.copyWith(status: WalletStatus.init));
+  }
+
+  Future<void> recoverWallet(List<CredentialModel> credentials) async {
+    await credentialsRepository.deleteAll();
+    for (final credential in credentials) {
+      await credentialsRepository.insert(credential);
+    }
+    emit(state.copyWith(status: WalletStatus.init, credentials: credentials));
+  }
+
+  Future<List<CredentialModel>> credentialListFromCredentialSubjectType(
+    CredentialSubjectType credentialSubjectType,
+  ) async {
+    if (state.credentials.isEmpty) return [];
+    final List<CredentialModel> resultList = [];
+    for (final credential in state.credentials) {
+      final credentialSubjectModel =
+          credential.credentialPreview.credentialSubjectModel;
+      if (credentialSubjectModel.credentialSubjectType ==
+          credentialSubjectType) {
+        resultList.add(credential);
+      }
+    }
+    return resultList;
+  }
+}

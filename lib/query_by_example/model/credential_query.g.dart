@@ -8,17 +8,16 @@ part of 'credential_query.dart';
 
 CredentialQuery _$CredentialQueryFromJson(Map<String, dynamic> json) =>
     CredentialQuery(
-      (json['reason'] as List<dynamic>?)
-              ?.map((e) => Translation.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          [],
-      json['example'] == null
+      reason: json['reason'] as String?,
+      example: json['example'] == null
           ? null
           : Example.fromJson(json['example'] as Map<String, dynamic>),
+      required: json['required'] as bool?,
     );
 
 Map<String, dynamic> _$CredentialQueryToJson(CredentialQuery instance) =>
     <String, dynamic>{
-      'reason': instance.reason?.map((e) => e.toJson()).toList(),
       'example': instance.example?.toJson(),
+      'reason': instance.reason,
+      'required': instance.required,
     };

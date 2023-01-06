@@ -1,123 +1,207 @@
+import 'package:altme/app/app.dart';
+import 'package:altme/dashboard/dashboard.dart';
+import 'package:altme/did/did.dart';
+import 'package:altme/l10n/l10n.dart';
+import 'package:altme/onboarding/onboarding.dart';
+import 'package:altme/theme/theme.dart';
+import 'package:altme/wallet/cubit/wallet_cubit.dart';
+import 'package:did_kit/did_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:talao/app/interop/didkit/didkit.dart';
-import 'package:talao/app/interop/key_generation.dart';
-import 'package:talao/app/interop/secure_storage/secure_storage.dart';
-import 'package:talao/app/shared/widget/back_leading_button.dart';
-import 'package:talao/app/shared/widget/base/button.dart';
-import 'package:talao/app/shared/widget/base/page.dart';
-import 'package:talao/app/shared/widget/mnemonic.dart';
-import 'package:talao/did/cubit/did_cubit.dart';
-import 'package:talao/drawer/profile/models/profile.dart';
-import 'package:talao/l10n/l10n.dart';
-import 'package:talao/onboarding/gen_phrase/cubit/onboarding_gen_phrase_cubit.dart';
-import 'package:talao/personal/view/personal_page.dart';
+import 'package:key_generator/key_generator.dart';
+import 'package:secure_storage/secure_storage.dart';
 
-class OnBoardingGenPhrasePage extends StatefulWidget {
-  static Route route() => MaterialPageRoute(
-        builder: (context) => BlocProvider(
-          create: (context) => OnBoardingGenPhraseCubit(
-            secureStorageProvider: SecureStorageProvider.instance,
-            didCubit: context.read<DIDCubit>(),
-            didKitProvider: DIDKitProvider.instance,
-            keyGeneration: KeyGeneration(),
-          ),
-          child: OnBoardingGenPhrasePage(),
-        ),
-        settings: RouteSettings(name: '/onBoardingGenPhrasePage'),
+class OnBoardingGenPhrasePage extends StatelessWidget {
+  const OnBoardingGenPhrasePage({Key? key}) : super(key: key);
+
+  static Route route() => MaterialPageRoute<void>(
+        builder: (context) => const OnBoardingGenPhrasePage(),
+        settings: const RouteSettings(name: '/onBoardingGenPhrasePage'),
       );
 
   @override
-  _OnBoardingGenPhrasePageState createState() =>
-      _OnBoardingGenPhrasePageState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => OnBoardingGenPhraseCubit(
+        secureStorageProvider: getSecureStorage,
+        didCubit: context.read<DIDCubit>(),
+        didKitProvider: DIDKitProvider(),
+        keyGenerator: KeyGenerator(),
+        homeCubit: context.read<HomeCubit>(),
+        walletCubit: context.read<WalletCubit>(),
+      ),
+      child: const OnBoardingGenPhraseView(),
+    );
+  }
 }
 
-class _OnBoardingGenPhrasePageState extends State<OnBoardingGenPhrasePage> {
+class OnBoardingGenPhraseView extends StatelessWidget {
+  const OnBoardingGenPhraseView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    final localizations = context.l10n;
+    final l10n = context.l10n;
 
-    return BasePage(
-      title: localizations.onBoardingGenPhraseTitle,
-      titleLeading: BackLeadingButton(),
-      scrollView: true,
-      body: BlocConsumer<OnBoardingGenPhraseCubit, OnBoardingGenPhraseState>(
-        listener: (context, state) async {
-          if (state.status == OnBoardingGenPhraseStatus.success) {
-            await Navigator.of(context).pushReplacement(
-              PersonalPage.route(
-                  isFromOnBoarding: true, profileModel: ProfileModel.empty()),
-            );
-          }
-          if (state.status == OnBoardingGenPhraseStatus.failure) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              backgroundColor: state.message!.color!,
-              content: Text(state.message?.getMessage(context) ?? ''),
-            ));
-          }
-        },
-        builder: (context, state) {
-          return Column(
+    return BlocConsumer<OnBoardingGenPhraseCubit, OnBoardingGenPhraseState>(
+      listener: (context, state) {
+        if (state.status == AppStatus.loading) {
+          LoadingView().show(context: context);
+        } else {
+          LoadingView().hide();
+        }
+
+        if (state.message != null) {
+          AlertMessage.showStateMessage(
+            context: context,
+            stateMessage: state.message!,
+          );
+        }
+        if (state.status == AppStatus.success) {
+          Navigator.pushAndRemoveUntil<void>(
+            context,
+            WalletReadyPage.route(),
+            (Route<dynamic> route) => route.isFirst,
+          );
+        }
+      },
+      builder: (context, state) {
+        return BasePage(
+          scrollView: false,
+          useSafeArea: true,
+          padding: const EdgeInsets.symmetric(horizontal: Sizes.spaceXSmall),
+          titleLeading: BackLeadingButton(
+            onPressed: () {
+              if (context.read<OnBoardingGenPhraseCubit>().state.status !=
+                  AppStatus.loading) {
+                Navigator.of(context).pop();
+              }
+            },
+          ),
+          body: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.max,
             children: <Widget>[
-              Column(
-                children: [
-                  Text(
-                    localizations.genPhraseInstruction,
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.subtitle1,
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      const MStepper(
+                        step: 3,
+                        totalStep: 3,
+                      ),
+                      const SizedBox(
+                        height: Sizes.spaceNormal,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: Sizes.spaceNormal,
+                        ),
+                        child: Text(
+                          l10n.onboardingPleaseStoreMessage,
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.headline5,
+                        ),
+                      ),
+                      const SizedBox(height: Sizes.spaceNormal),
+                      MnemonicDisplay(mnemonic: state.mnemonic),
+                      const SizedBox(
+                        height: Sizes.spaceSmall,
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Clipboard.setData(
+                            ClipboardData(
+                              text: state.mnemonic.join(' '),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          l10n.copyToClipboard,
+                          style: Theme.of(context).textTheme.copyToClipBoard,
+                        ),
+                      ),
+                      const SizedBox(height: Sizes.spaceLarge),
+                      Text(
+                        l10n.onboardingAltmeMessage,
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.genPhraseSubmessage,
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 8.0),
-                  Text(
-                    localizations.genPhraseExplanation,
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodyText1,
-                  ),
-                ],
+                ),
               ),
-              const SizedBox(height: 32.0),
-              MnemonicDisplay(mnemonic: state.mnemonic),
+              //const Spacer(),
               Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16.0,
-                  vertical: 24.0,
+                padding: const EdgeInsets.all(
+                  Sizes.spaceNormal,
                 ),
                 child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
-                    Icon(
-                      Icons.privacy_tip_outlined,
-                      color: Theme.of(context).colorScheme.primary,
+                    Transform.scale(
+                      scale: 1.5,
+                      child: Checkbox(
+                        value: state.isTicked,
+                        fillColor: MaterialStateProperty.all(
+                          Theme.of(context).colorScheme.primary,
+                        ),
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(6),
+                          ),
+                        ),
+                        onChanged: (newValue) => context
+                            .read<OnBoardingGenPhraseCubit>()
+                            .switchTick(),
+                      ),
                     ),
-                    const SizedBox(width: 16.0),
+                    const SizedBox(
+                      width: Sizes.spaceXSmall,
+                    ),
                     Expanded(
-                      child: Text(
-                        localizations.genPhraseViewLatterText,
-                        style: Theme.of(context).textTheme.caption!.copyWith(
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
+                      child: InkWell(
+                        onTap: () {
+                          context.read<OnBoardingGenPhraseCubit>().switchTick();
+                        },
+                        child: MyText(
+                          l10n.onboardingWroteDownMessage,
+                          style: Theme.of(context)
+                              .textTheme
+                              .onBoardingCheckMessage,
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
-              Container(
-                height: 42,
-                child: BaseButton.primary(
-                  context: context,
-                  onPressed: state.status == OnBoardingGenPhraseStatus.loading
-                      ? null
-                      : () async {
-                          await context
-                              .read<OnBoardingGenPhraseCubit>()
-                              .generateKey(context, state.mnemonic);
-                        },
-                  child: Text(localizations.onBoardingGenPhraseButton),
-                ),
-              ),
             ],
-          );
-        },
-      ),
+          ),
+          navigation: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: Sizes.spaceSmall,
+                vertical: Sizes.spaceSmall,
+              ),
+              child: MyGradientButton(
+                text: l10n.onBoardingGenPhraseButton,
+                verticalSpacing: 18,
+                onPressed: state.isTicked
+                    ? () async {
+                        await context
+                            .read<OnBoardingGenPhraseCubit>()
+                            .generateSSIAndCryptoAccount(state.mnemonic);
+                      }
+                    : null,
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

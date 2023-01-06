@@ -68,14 +68,14 @@ class BaseBoxDecoration extends Decoration {
   BaseBoxDecoration? lerpFrom(Decoration? a, double t) {
     if (a == null) return scale(t);
     if (a is BaseBoxDecoration) return BaseBoxDecoration.lerp(a, this, t);
-    return super.lerpFrom(a, t) as BaseBoxDecoration;
+    return super.lerpFrom(a, t) as BaseBoxDecoration?;
   }
 
   @override
   BaseBoxDecoration? lerpTo(Decoration? b, double t) {
     if (b == null) return scale(1.0 - t);
     if (b is BaseBoxDecoration) return BaseBoxDecoration.lerp(this, b, t);
-    return super.lerpTo(b, t) as BaseBoxDecoration;
+    return super.lerpTo(b, t) as BaseBoxDecoration?;
   }
 
   static BaseBoxDecoration? lerp(
@@ -112,11 +112,11 @@ class BaseBoxDecoration extends Decoration {
 
   @override
   int get hashCode {
-    return hashValues(
+    return Object.hash(
       color,
       shapeColor,
       borderRadius,
-      hashList(boxShadow),
+      Object.hashAll(boxShadow!),
       gradient,
     );
   }
@@ -130,18 +130,36 @@ class BaseBoxDecoration extends Decoration {
 
     properties.add(ColorProperty('color', color, defaultValue: null));
     properties.add(ColorProperty('shapeColor', shapeColor, defaultValue: null));
-    properties.add(DiagnosticsProperty<BorderRadiusGeometry>(
-        'borderRadius', borderRadius,
-        defaultValue: null));
-    properties.add(IterableProperty<BoxShadow>('boxShadow', boxShadow,
-        defaultValue: null, style: DiagnosticsTreeStyle.whitespace));
-    properties.add(DiagnosticsProperty<Gradient>('gradient', gradient,
-        defaultValue: null));
+    properties.add(
+      DiagnosticsProperty<BorderRadiusGeometry>(
+        'borderRadius',
+        borderRadius,
+        defaultValue: null,
+      ),
+    );
+    properties.add(
+      IterableProperty<BoxShadow>(
+        'boxShadow',
+        boxShadow,
+        defaultValue: null,
+        style: DiagnosticsTreeStyle.whitespace,
+      ),
+    );
+    properties.add(
+      DiagnosticsProperty<Gradient>(
+        'gradient',
+        gradient,
+        defaultValue: null,
+      ),
+    );
   }
 
   @override
   bool hitTest(Size size, Offset position, {TextDirection? textDirection}) {
-    assert((Offset.zero & size).contains(position));
+    assert(
+      (Offset.zero & size).contains(position),
+      'size must contain position!',
+    );
     if (borderRadius != null) {
       final bounds =
           borderRadius!.resolve(textDirection).toRRect(Offset.zero & size);
@@ -167,7 +185,9 @@ class _BaseBoxDecorationPainter extends BoxPainter {
 
   Paint? _getBackgroundPaint(Rect rect, TextDirection textDirection) {
     assert(
-        _decoration.gradient != null || _rectForCachedBackgroundPaint == null);
+      _decoration.gradient != null || _rectForCachedBackgroundPaint == null,
+      '_decoration.gradient != null || _rectForCachedBackgroundPaint == null',
+    );
 
     if (_cachedBackgroundPaint == null ||
         (_decoration.gradient != null &&
@@ -245,14 +265,14 @@ class _BaseBoxDecorationPainter extends BoxPainter {
     final length = (_decoration.shapeSize! * 1.73205) / 2.0;
 
     final triangle = Path();
-    triangle.moveTo(0.0, length);
+    triangle.moveTo(0, length);
 
-    final r120 = (120.0 * 3.14159) / 180.0;
+    const r120 = (120.0 * 3.14159) / 180.0;
     final bx = -(length * sin(r120));
     final by = length * cos(r120);
     triangle.lineTo(bx, by);
 
-    var r240 = (240.0 * 3.14159) / 180.0;
+    const r240 = (240.0 * 3.14159) / 180.0;
     final ax = -(length * sin(r240));
     final ay = length * cos(r240);
     triangle.lineTo(ax, ay);
@@ -292,7 +312,7 @@ class _BaseBoxDecorationPainter extends BoxPainter {
 
   @override
   void paint(Canvas canvas, Offset offset, ImageConfiguration configuration) {
-    assert(configuration.size != null);
+    assert(configuration.size != null, 'configuration size must not be null');
     final rect = offset & configuration.size!;
     final textDirection = configuration.textDirection;
     _paintShadows(canvas, rect, textDirection!);
