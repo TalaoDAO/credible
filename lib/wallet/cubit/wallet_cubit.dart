@@ -78,19 +78,19 @@ class WalletCubit extends Cubit<WalletState> {
     final log = getLogger('addRequiredCredentials');
 
     /// device info card
-    final deviceInfoCards = await credentialListFromCredentialSubjectType(
-      CredentialSubjectType.deviceInfo,
+    final walletCredentialCards = await credentialListFromCredentialSubjectType(
+      CredentialSubjectType.walletCredential,
     );
-    if (deviceInfoCards.isEmpty) {
-      final deviceInfoCredential = await generateDeviceInfoCredential(
+    if (walletCredentialCards.isEmpty) {
+      final walletCredential = await generateWalletCredential(
         ssiKey: ssiKey,
         didKitProvider: didKitProvider,
         didCubit: didCubit,
       );
-      if (deviceInfoCredential != null) {
-        log.i('CredentialSubjectType.deviceInfo added');
+      if (walletCredential != null) {
+        log.i('CredentialSubjectType.walletCredential added');
         await insertCredential(
-          credential: deviceInfoCredential,
+          credential: walletCredential,
           showMessage: false,
         );
       }
@@ -323,13 +323,17 @@ class WalletCubit extends Cubit<WalletState> {
     await setCurrentWalletAccount(cryptoAccounts.length - 1);
     log.i('$blockchainType created');
 
-    final credential = await generateAssociatedWalletCredential(
-      cryptoAccountData: cryptoAccountData,
-      didCubit: didCubit,
-      didKitProvider: didKitProvider,
-      blockchainType: blockchainType,
-      keyGenerator: keyGenerator,
-    );
+    /// If we are not using crypto in the wallet we are not generating
+    /// AssociatedAddress credentials.
+    final credential = Parameters.hasCryptoCallToAction
+        ? await generateAssociatedWalletCredential(
+            cryptoAccountData: cryptoAccountData,
+            didCubit: didCubit,
+            didKitProvider: didKitProvider,
+            blockchainType: blockchainType,
+            keyGenerator: keyGenerator,
+          )
+        : null;
 
     if (credential != null) {
       await insertCredential(
@@ -574,8 +578,7 @@ class WalletCubit extends Cubit<WalletState> {
           final iteratedCredentialSubjectModel =
               storedCredential.credentialPreview.credentialSubjectModel;
 
-          if (storedCredential.credentialPreview.credentialSubjectModel
-                  .credentialSubjectType ==
+          if (iteratedCredentialSubjectModel.credentialSubjectType ==
               CredentialSubjectType.emailPass) {
             if (email ==
                 (iteratedCredentialSubjectModel as EmailPassModel).email) {
@@ -710,7 +713,7 @@ class WalletCubit extends Cubit<WalletState> {
         status: WalletStatus.reset,
         credentials: [],
         cryptoAccount: CryptoAccount(data: const []),
-        currentCryptoIndex: null,
+        currentCryptoIndex: 0,
       ),
     );
     emit(state.copyWith(status: WalletStatus.init));

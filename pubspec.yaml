@@ -1,6 +1,6 @@
 name: altme
 description: AltMe Flutter App 
-version: 1.8.4+133
+version: 1.8.6+135
 publish_to: none
 
 environment:
@@ -104,6 +104,7 @@ dependency_overrides:
 dev_dependencies:
   bloc_test: ^9.0.3
   build_runner: ^2.1.10
+  flutter_launcher_icons: "^0.11.0"
   flutter_test:
     sdk: flutter
   http_mock_adapter: ^0.3.2
@@ -127,3 +128,10 @@ flutter:
     - assets/privacy/
     - assets/terms/
     - assets/notices/
+    - assets/faq.json
+flutter_icons:
+  android: "ic_launcher"
+  ios: true
+  remove_alpha_ios: true
+  image_path: "assets/launcher_icon.png"
+  min_sdk_android: 21

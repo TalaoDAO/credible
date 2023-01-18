@@ -632,7 +632,7 @@
     "tezoniaPassWhyGetThisCard",
     "tezoniaPassExpirationDate",
     "tezoniaPassHowToGetIt",
-    "deviceInfo",
+    "wallet_credential",
     "walletSecurity",
     "walletSecurityDescription",
     "blockchainSettings",
@@ -707,7 +707,11 @@
     "youAreMissing",
     "credentialsRequestedBy",
     "transactionIsLikelyToFail",
-    "buy"
+    "buy",
+    "thisFeatureIsNotSupportedYetForFantom",
+    "thisFeatureIsNotSupportedYetForBinance",
+    "faqs",
+    "softwareLicenses"
   ],
 
   "es": [
@@ -1343,7 +1347,7 @@
     "tezoniaPassWhyGetThisCard",
     "tezoniaPassExpirationDate",
     "tezoniaPassHowToGetIt",
-    "deviceInfo",
+    "wallet_credential",
     "walletSecurity",
     "walletSecurityDescription",
     "blockchainSettings",
@@ -1418,7 +1422,11 @@
     "youAreMissing",
     "credentialsRequestedBy",
     "transactionIsLikelyToFail",
-    "buy"
+    "buy",
+    "thisFeatureIsNotSupportedYetForFantom",
+    "thisFeatureIsNotSupportedYetForBinance",
+    "faqs",
+    "softwareLicenses"
   ],
 
   "fr": [
@@ -2054,7 +2062,7 @@
     "tezoniaPassWhyGetThisCard",
     "tezoniaPassExpirationDate",
     "tezoniaPassHowToGetIt",
-    "deviceInfo",
+    "wallet_credential",
     "walletSecurity",
     "walletSecurityDescription",
     "blockchainSettings",
@@ -2129,7 +2137,11 @@
     "youAreMissing",
     "credentialsRequestedBy",
     "transactionIsLikelyToFail",
-    "buy"
+    "buy",
+    "thisFeatureIsNotSupportedYetForFantom",
+    "thisFeatureIsNotSupportedYetForBinance",
+    "faqs",
+    "softwareLicenses"
   ],
 
   "it": [
@@ -2765,7 +2777,7 @@
     "tezoniaPassWhyGetThisCard",
     "tezoniaPassExpirationDate",
     "tezoniaPassHowToGetIt",
-    "deviceInfo",
+    "wallet_credential",
     "walletSecurity",
     "walletSecurityDescription",
     "blockchainSettings",
@@ -2840,6 +2852,10 @@
     "youAreMissing",
     "credentialsRequestedBy",
     "transactionIsLikelyToFail",
-    "buy"
+    "buy",
+    "thisFeatureIsNotSupportedYetForFantom",
+    "thisFeatureIsNotSupportedYetForBinance",
+    "faqs",
+    "softwareLicenses"
   ]
 }

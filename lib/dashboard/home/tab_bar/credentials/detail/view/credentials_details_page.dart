@@ -108,7 +108,7 @@ class _CredentialsDetailsViewState extends State<CredentialsDetailsView> {
 
         final bool disAllowDelete = widget.credentialModel.credentialPreview
                     .credentialSubjectModel.credentialSubjectType ==
-                CredentialSubjectType.deviceInfo ||
+                CredentialSubjectType.walletCredential ||
             widget.credentialModel.credentialPreview.credentialSubjectModel
                     .credentialCategory ==
                 CredentialCategory.blockchainAccountsCards;
@@ -117,10 +117,16 @@ class _CredentialsDetailsViewState extends State<CredentialsDetailsView> {
           title: l10n.cardDetails,
           titleAlignment: Alignment.topCenter,
           titleLeading: const BackLeadingButton(),
-          // titleTrailing: IconButton(
-          //   onPressed: _edit,
-          //   icon: const Icon(Icons.edit),
-          // ),
+          titleTrailing: IconButton(
+            onPressed: () {
+              Navigator.of(context)
+                  .push<void>(CredentialQrPage.route(widget.credentialModel));
+            },
+            icon: Icon(
+              Icons.qr_code,
+              color: Theme.of(context).colorScheme.onBackground,
+            ),
+          ),
           navigation: SafeArea(
             child: Container(
               padding: const EdgeInsets.symmetric(

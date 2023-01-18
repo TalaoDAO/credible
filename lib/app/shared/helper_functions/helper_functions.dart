@@ -6,10 +6,30 @@ import 'package:altme/dashboard/home/home.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:convert/convert.dart';
 import 'package:dartez/dartez.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:json_path/json_path.dart';
 import 'package:key_generator/key_generator.dart';
 import 'package:secure_storage/secure_storage.dart';
 import 'package:web3dart/web3dart.dart';
+
+Future<void> openBlockchainExplorer(
+  BlockchainNetwork network,
+  String txHash,
+) async {
+  if (network is TezosNetwork) {
+    await LaunchUrl.launch(
+      'https://tzkt.io/$txHash',
+    );
+  } else if (network is PolygonNetwork) {
+    await LaunchUrl.launch(
+      'https://polygonscan.com/tx/$txHash',
+    );
+  } else {
+    await LaunchUrl.launch(
+      'https://etherscan.io/tx/$txHash',
+    );
+  }
+}
 
 String generateDefaultAccountName(
   int accountIndex,
@@ -93,6 +113,9 @@ String char2Bytes(String text) {
 
 Future<bool> isConnected() async {
   final log = getLogger('Check Internet Connection');
+  if (!(await DeviceInfoPlugin().iosInfo).isPhysicalDevice) {
+    return true;
+  }
   final connectivityResult = await Connectivity().checkConnectivity();
   if (connectivityResult == ConnectivityResult.mobile ||
       connectivityResult == ConnectivityResult.wifi) {
@@ -100,23 +123,6 @@ Future<bool> isConnected() async {
   }
   log.e('No Internet Connection');
   return false;
-}
-
-double formatEthAmount({
-  required BigInt amount,
-  EtherUnit fromUnit = EtherUnit.wei,
-  EtherUnit toUnit = EtherUnit.ether,
-}) {
-  if (amount == BigInt.zero) return 0;
-
-  final String ethAmount = EtherAmount.fromUnitAndValue(fromUnit, amount)
-      .getValueInUnit(toUnit)
-      .toStringAsFixed(6)
-      .characters
-      .take(7)
-      .toString();
-
-  return double.parse(ethAmount);
 }
 
 String getCredentialName(String constraints) {
@@ -206,4 +212,12 @@ Future<bool> isCredentialAvaialble(
   }
 
   return false;
+}
+
+String timeFormatter({required int timeInSecond}) {
+  final int sec = timeInSecond % 60;
+  final int min = (timeInSecond / 60).floor();
+  final String minute = min.toString().length <= 1 ? '0$min' : '$min';
+  final String second = sec.toString().length <= 1 ? '0$sec' : '$sec';
+  return '$minute : $second';
 }

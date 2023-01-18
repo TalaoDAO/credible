@@ -15,8 +15,10 @@ class ImageStrings {
   static const String biometrics = '$imagePath/biometrics.png';
   static const String emailProof = '$imagePath/email-proof.png';
   static const String phoneProof = '$imagePath/phone-proof.png';
-  static const String androidProof = '$imagePath/android-proof.png';
-  static const String iOSProof = '$imagePath/iOS-proof.png';
+  static const String walletCertificateiOS =
+      '$imagePath/wallet-certificate-ios.png';
+  static const String walletCertificateAndroid =
+      '$imagePath/wallet-certificate-android.png';
   static const String bloometaPass = '$imagePath/bloometa-pass.png';
   static const String tezotopiaMemberShip =
       '$imagePath/tezotopia-membership.png';
@@ -71,14 +73,8 @@ class ImageStrings {
   static const String verifiableIdCard = '$imagePath/verifiable_id_card.png';
   static const String linkedInCard = '$imagePath/linkedin_card.png';
 
-  static const String paymentTezosCard = '$imagePath/payment-tezos-card.png';
-  static const String paymentEthereumCard =
-      '$imagePath/payment-ethereum-card.png';
-  static const String paymentFantomCard = '$imagePath/payment-fantom-card.png';
-  static const String paymentPolygonCard =
-      '$imagePath/payment-polygon-card.png';
-  static const String paymentBinanceCard =
-      '$imagePath/payment-binance-card.png';
+  static const String myAccountCard = '$imagePath/my_account_card.png';
+  static const String pooAccountCard = '$imagePath/poo_account_card.png';
 
   static const String diplomaCard = '$imagePath/diploma_card.png';
 

@@ -15,7 +15,7 @@ extension CredentialSubjectTypeExtension on CredentialSubjectType {
 
   Color get defaultBackgroundColor {
     switch (this) {
-      case CredentialSubjectType.deviceInfo:
+      case CredentialSubjectType.walletCredential:
         return const Color(0xff14181D);
       case CredentialSubjectType.bloometaPass:
         return const Color(0xff14181D);
@@ -43,8 +43,6 @@ extension CredentialSubjectTypeExtension on CredentialSubjectType {
         return const Color(0xff273496);
       case CredentialSubjectType.gender:
         return const Color(0xff8C0D8E);
-      case CredentialSubjectType.tezosAssociatedWallet:
-        return const Color(0xffFE7400);
       case CredentialSubjectType.residentCard:
         return Colors.white;
       case CredentialSubjectType.selfIssued:
@@ -105,6 +103,12 @@ extension CredentialSubjectTypeExtension on CredentialSubjectType {
       case CredentialSubjectType.fantomAssociatedWallet:
       case CredentialSubjectType.polygonAssociatedWallet:
       case CredentialSubjectType.binanceAssociatedWallet:
+      case CredentialSubjectType.tezosAssociatedWallet:
+      case CredentialSubjectType.ethereumPooAddress:
+      case CredentialSubjectType.fantomPooAddress:
+      case CredentialSubjectType.polygonPooAddress:
+      case CredentialSubjectType.binancePooAddress:
+      case CredentialSubjectType.tezosPooAddress:
         return const Color(0xff4700D8);
       case CredentialSubjectType.defaultCredential:
         return Colors.white;
@@ -115,7 +119,7 @@ extension CredentialSubjectTypeExtension on CredentialSubjectType {
 
   IconData get iconData {
     switch (this) {
-      case CredentialSubjectType.deviceInfo:
+      case CredentialSubjectType.walletCredential:
         return Icons.phone_android_rounded;
       case CredentialSubjectType.bloometaPass:
         return Icons.games;
@@ -205,6 +209,11 @@ extension CredentialSubjectTypeExtension on CredentialSubjectType {
       case CredentialSubjectType.fantomAssociatedWallet:
       case CredentialSubjectType.polygonAssociatedWallet:
       case CredentialSubjectType.binanceAssociatedWallet:
+      case CredentialSubjectType.ethereumPooAddress:
+      case CredentialSubjectType.fantomPooAddress:
+      case CredentialSubjectType.polygonPooAddress:
+      case CredentialSubjectType.binancePooAddress:
+      case CredentialSubjectType.tezosPooAddress:
         return Icons.accessible_rounded;
       case CredentialSubjectType.defaultCredential:
         return Icons.fact_check_outlined;
@@ -256,8 +265,8 @@ extension CredentialSubjectTypeExtension on CredentialSubjectType {
         return 'Nationality';
       case CredentialSubjectType.gender:
         return 'Gender';
-      case CredentialSubjectType.deviceInfo:
-        return 'DeviceInfo';
+      case CredentialSubjectType.walletCredential:
+        return 'WalletCredential';
       case CredentialSubjectType.tezosAssociatedWallet:
         return 'TezosAssociatedAddress';
       case CredentialSubjectType.ethereumAssociatedWallet:
@@ -268,6 +277,16 @@ extension CredentialSubjectTypeExtension on CredentialSubjectType {
         return 'PolygonAssociatedAddress';
       case CredentialSubjectType.binanceAssociatedWallet:
         return 'BinanceAssociatedAddress';
+      case CredentialSubjectType.ethereumPooAddress:
+        return 'EthereumPooAddress';
+      case CredentialSubjectType.fantomPooAddress:
+        return 'FantomPooAddress';
+      case CredentialSubjectType.polygonPooAddress:
+        return 'PolygonPooAddress';
+      case CredentialSubjectType.binancePooAddress:
+        return 'BinancePooAddress';
+      case CredentialSubjectType.tezosPooAddress:
+        return 'TezosPooAddress';
       case CredentialSubjectType.certificateOfEmployment:
         return 'CertificateOfEmployment';
       case CredentialSubjectType.ecole42LearningAchievement:
@@ -359,8 +378,8 @@ extension CredentialSubjectTypeExtension on CredentialSubjectType {
         return NationalityModel.fromJson(json);
       case CredentialSubjectType.gender:
         return GenderModel.fromJson(json);
-      case CredentialSubjectType.deviceInfo:
-        return DeviceInfoModel.fromJson(json);
+      case CredentialSubjectType.walletCredential:
+        return WalletCredentialModel.fromJson(json);
       case CredentialSubjectType.tezosAssociatedWallet:
         return TezosAssociatedAddressModel.fromJson(json);
       case CredentialSubjectType.ethereumAssociatedWallet:
@@ -429,6 +448,16 @@ extension CredentialSubjectTypeExtension on CredentialSubjectType {
         return PcdsAgentCertificateModel.fromJson(json);
       case CredentialSubjectType.linkedInCard:
         return LinkedinCardModel.fromJson(json);
+      case CredentialSubjectType.ethereumPooAddress:
+        return EthereumPooAddressModel.fromJson(json);
+      case CredentialSubjectType.fantomPooAddress:
+        return FantomPooAddressModel.fromJson(json);
+      case CredentialSubjectType.polygonPooAddress:
+        return PolygonPooAddressModel.fromJson(json);
+      case CredentialSubjectType.binancePooAddress:
+        return BinancePooAddressModel.fromJson(json);
+      case CredentialSubjectType.tezosPooAddress:
+        return TezosPooAddressModel.fromJson(json);
     }
   }
 

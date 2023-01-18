@@ -59,17 +59,11 @@ class _SendReceiveHomePageState extends State<SendReceiveHomePage> {
   }
 }
 
-class _SendReceiveHomePageView extends StatefulWidget {
+class _SendReceiveHomePageView extends StatelessWidget {
   const _SendReceiveHomePageView({
     Key? key,
   }) : super(key: key);
 
-  @override
-  State<_SendReceiveHomePageView> createState() =>
-      _SendReceiveHomePageViewState();
-}
-
-class _SendReceiveHomePageViewState extends State<_SendReceiveHomePageView> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
@@ -157,7 +151,11 @@ class _SendReceiveHomePageViewState extends State<_SendReceiveHomePageView> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         MyText(
-                          state.selectedToken.calculatedBalance.formatNumber(),
+                          state.selectedToken.calculatedBalanceInDouble
+                              .toStringAsFixed(
+                                state.selectedToken.decimalsToShow,
+                              )
+                              .formatNumber(),
                           style: Theme.of(context).textTheme.headline4,
                           maxLength: 12,
                         ),
@@ -229,7 +227,7 @@ class _SendReceiveHomePageViewState extends State<_SendReceiveHomePageView> {
                                         .read<WalletCubit>()
                                         .state
                                         .currentAccount
-                                        .walletAddress,
+                                        !.walletAddress,
                                     item: state.selectedToken.symbol,
                                     description:
                                         l10n.sendOnlyToThisAddressDescription(
@@ -246,24 +244,30 @@ class _SendReceiveHomePageViewState extends State<_SendReceiveHomePageView> {
                     const SizedBox(
                       height: Sizes.spaceNormal,
                     ),
-                    RecentTransactions(
-                      decimal: int.parse(state.selectedToken.decimals),
-                      decimalToShow:state.selectedToken.decimalsToShow,
-                      symbol: state.selectedToken.symbol,
-                      tokenUsdPrice: state.selectedToken.tokenUSDPrice,
-                      onRefresh: () async {
-                        await context
-                            .read<SendReceiveHomeCubit>()
-                            .getOperations(
-                              baseUrl: context
-                                  .read<ManageNetworkCubit>()
-                                  .state
-                                  .network
-                                  .apiUrl,
-                            );
-                      },
-                      operations: state.operations,
-                    )
+                    if (state.status == AppStatus.success)
+                      RecentTransactions(
+                        decimal: int.parse(state.selectedToken.decimals),
+                        symbol: state.selectedToken.symbol,
+                        tokenUsdPrice: state.selectedToken.tokenUSDPrice,
+                        onRefresh: () async {
+                          await context
+                              .read<SendReceiveHomeCubit>()
+                              .getOperations(
+                                baseUrl: context
+                                    .read<ManageNetworkCubit>()
+                                    .state
+                                    .network
+                                    .apiUrl,
+                              );
+                        },
+                        operations: state.operations,
+                      )
+                    else
+                      const Expanded(
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      ),
                   ],
                 )
               ],

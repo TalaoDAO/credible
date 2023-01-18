@@ -11,6 +11,7 @@ class AboutAltmeMenu extends StatelessWidget {
   static Route route() {
     return MaterialPageRoute<void>(
       builder: (_) => const AboutAltmeMenu(),
+      settings: const RouteSettings(name: '/AboutAltmeMenu'),
     );
   }
 
@@ -67,6 +68,11 @@ class AboutAltmeView extends StatelessWidget {
                   title: l10n.licenses,
                   onTap: () =>
                       Navigator.of(context).push<void>(LicensesPage.route()),
+                ),
+                DrawerItem(
+                  title: l10n.softwareLicenses,
+                  onTap: () => Navigator.of(context)
+                      .push<void>(SoftwareLicensePage.route()),
                 ),
               ],
             ),

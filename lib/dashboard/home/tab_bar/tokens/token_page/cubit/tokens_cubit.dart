@@ -18,9 +18,7 @@ class TokensCubit extends Cubit<TokensState> {
     required this.networkCubit,
     required this.allTokensCubit,
     required this.secureStorageProvider,
-  }) : super(const TokensState()) {
-    getTokens();
-  }
+  }) : super(const TokensState());
 
   final SecureStorageProvider secureStorageProvider;
   final DioClient client;
@@ -38,7 +36,7 @@ class TokensCubit extends Cubit<TokensState> {
 
   Future<void> fetchFromZero() async {
     _offsetOfLoadedData = -1;
-    emit(state.copyWith(offset: 0));
+    emit(state.copyWith(offset: 0, totalBalanceInUSD: 0));
     await getTokens();
   }
 
@@ -49,14 +47,11 @@ class TokensCubit extends Cubit<TokensState> {
   }
 
   Future<void> getTokens() async {
-    final activeIndex = walletCubit.state.currentCryptoIndex;
-
     if (state.offset == _offsetOfLoadedData) return;
     _offsetOfLoadedData = state.offset;
     if (data.length < state.offset) return;
     try {
-      //final activeIndex = walletCubit.state.currentCryptoIndex;
-      if (walletCubit.state.cryptoAccount.data.isEmpty) {
+      if (walletCubit.state.currentAccount == null) {
         final String? ssiKey =
             await secureStorageProvider.get(SecureStorageKeys.ssiKey);
         await walletCubit.initialize(ssiKey: ssiKey);
@@ -65,10 +60,9 @@ class TokensCubit extends Cubit<TokensState> {
           return;
         }
       }
-      final walletAddress =
-          walletCubit.state.cryptoAccount.data[activeIndex].walletAddress;
+      final walletAddress = walletCubit.state.currentAccount!.walletAddress;
       final selectedAccountBlockchainType =
-          walletCubit.state.cryptoAccount.data[activeIndex].blockchainType;
+          walletCubit.state.currentAccount!.blockchainType;
       if (state.blockchainType != selectedAccountBlockchainType) {
         emit(state.reset(blockchainType: selectedAccountBlockchainType));
       }
@@ -130,20 +124,23 @@ class TokensCubit extends Cubit<TokensState> {
     ) as List<dynamic>;
     List<TokenModel> newData = [];
     if (tokensBalancesJsonArray.isNotEmpty) {
-      newData = tokensBalancesJsonArray
-          .map(
-            (dynamic json) => TokenModel(
-              contractAddress: json['token_address'] as String,
-              name: (json['name'] as String?) ?? '',
-              symbol: (json['symbol'] as String?) ?? '',
-              balance: (json['balance'] as String?) ?? '',
-              decimals: ((json['decimals'] as int?) ?? 0).toString(),
-              thumbnailUri: json['thumbnail'] as String?,
-              icon: json['logo'] as String?,
-              decimalsToShow: 5,
-            ),
-          )
-          .toList();
+      newData = tokensBalancesJsonArray.map(
+        (dynamic json) {
+          final icon = (json['logo'] == null && json['symbol'] == 'TALAO')
+              ? IconStrings.talaoIcon
+              : json['logo'] as String?;
+          return TokenModel(
+            contractAddress: json['token_address'] as String,
+            name: (json['name'] as String?) ?? '',
+            symbol: (json['symbol'] as String?) ?? '',
+            balance: (json['balance'] as String?) ?? '',
+            decimals: ((json['decimals'] as int?) ?? 0).toString(),
+            thumbnailUri: json['thumbnail'] as String?,
+            icon: icon,
+            decimalsToShow: 2,
+          );
+        },
+      ).toList();
     }
 
     if (offset == 0) {
@@ -167,10 +164,15 @@ class TokensCubit extends Cubit<TokensState> {
           '${Urls.cryptoCompareBaseUrl}/data/price?fsym=${token.symbol}&tsyms=USD',
         );
         if (response['USD'] != null) {
-          final balanceUSDPrice = response['USD'] as double;
+          final tokenUSDPrice = response['USD'] as num;
           data[i] = token.copyWith(
-            tokenUSDPrice: balanceUSDPrice,
-            balanceInUSD: balanceUSDPrice * token.calculatedBalanceInDouble,
+            tokenUSDPrice: tokenUSDPrice.toDouble(),
+            balanceInUSD: tokenUSDPrice * token.calculatedBalanceInDouble,
+            decimalsToShow: token.calculatedBalanceInDouble < 1.0 ? 5 : 2,
+          );
+        } else {
+          data[i] = token.copyWith(
+            decimalsToShow: token.calculatedBalanceInDouble < 1.0 ? 5 : 2,
           );
         }
       } catch (e, s) {
@@ -216,11 +218,14 @@ class TokensCubit extends Cubit<TokensState> {
     ) as List<dynamic>;
     List<TokenModel> newData = [];
     if (tokensBalancesJsonArray.isNotEmpty) {
-      newData = tokensBalancesJsonArray
-          .map(
-            (dynamic json) => TokenModel.fromJson(json as Map<String, dynamic>),
-          )
-          .toList();
+      newData = tokensBalancesJsonArray.map(
+        (dynamic json) {
+          final token = TokenModel.fromJson(json as Map<String, dynamic>);
+          return token.copyWith(
+            decimalsToShow: token.calculatedBalanceInDouble < 1.0 ? 5 : 2,
+          );
+        },
+      ).toList();
     }
 
     if (offset == 0) {
@@ -267,6 +272,7 @@ class TokensCubit extends Cubit<TokensState> {
                 icon: e.thumbnailUri,
                 decimals: e.decimals.toString(),
                 standard: e.type,
+                decimalsToShow: 2,
               ),
             ),
       );
@@ -288,6 +294,7 @@ class TokensCubit extends Cubit<TokensState> {
               icon: token.icon ?? contract.iconUrl,
               tokenUSDPrice: contract.usdValue,
               balanceInUSD: token.calculatedBalanceInDouble * contract.usdValue,
+              decimalsToShow: token.calculatedBalanceInDouble < 1.0 ? 5 : 2,
             );
           } else {
             getLogger(toString()).i(
@@ -373,10 +380,11 @@ class TokensCubit extends Cubit<TokensState> {
       contractAddress: '',
       name: 'Tezos',
       symbol: 'XTZ',
-      icon: 'https://s2.coinmarketcap.com/static/img/coins/64x64/2011.png',
+      icon: IconStrings.tezos,
       balance: balance.toString(),
       decimals: '6',
       standard: 'fa1.2',
+      decimalsToShow: balance < 1 ? 5 : 2,
     );
 
     try {
@@ -388,6 +396,7 @@ class TokensCubit extends Cubit<TokensState> {
       return token.copyWith(
         tokenUSDPrice: xtzUSDPrice,
         balanceInUSD: token.calculatedBalanceInDouble * xtzUSDPrice,
+        decimalsToShow: token.calculatedBalanceInDouble < 1.0 ? 5 : 2,
       );
     } catch (e, s) {
       getLogger(toString()).e('unable to get usd balance of XTZ, e: $e, s: $s');
