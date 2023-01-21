@@ -2,19 +2,19 @@ import 'package:didkit/didkit.dart';
 
 class DIDKitProvider {
   String getVersion() {
-    return DIDKit.getVersion();
+    return 'stub';
   }
 
   String generateEd25519Key() {
-    return DIDKit.generateEd25519Key();
+    return '''{"kty":"OKP","crv":"Ed25519","x":"VW4M2_QGNxcplUzDMflsguYD-doia0FdKnmbQXdT4gU","d":"lwKFU-Ol4m_WM_V-3Fp_OIuN6VlOIxAr53Y9QCPP2R4"}''';
   }
 
   String keyToDID(String methodName, String key) {
-    return DIDKit.keyToDID(methodName, key);
+    return 'did:key:z6MkkCk2d3LN8qn6tWxR1qxibMCpp9E9vJVBrfv5djSk3F56';
   }
 
   Future<String> keyToVerificationMethod(String methodName, String key) async {
-    return DIDKit.keyToVerificationMethod(methodName, key);
+    return '''did:key:z6MkkCk2d3LN8qn6tWxR1qxibMCpp9E9vJVBrfv5djSk3F56#z6MkkCk2d3LN8qn6tWxR1qxibMCpp9E9vJVBrfv5djSk3F56''';
   }
 
   Future<String> issueCredential(
@@ -22,14 +22,14 @@ class DIDKitProvider {
     String options,
     String key,
   ) async {
-    return DIDKit.issueCredential(credential, options, key);
+    return 'didKit stub';
   }
 
   Future<String> verifyCredential(
     String credential,
     String options,
   ) async {
-    return DIDKit.verifyCredential(credential, options);
+    return 'didKit stub';
   }
 
   Future<String> issuePresentation(
@@ -37,28 +37,28 @@ class DIDKitProvider {
     String options,
     String key,
   ) async {
-    return DIDKit.issuePresentation(presentation, options, key);
+    return 'didKit stub';
   }
 
   Future<String> verifyPresentation(
     String presentation,
     String options,
   ) async {
-    return DIDKit.verifyPresentation(presentation, options);
+    return 'didKit stub';
   }
 
   Future<String> resolveDID(
     String did,
     String inputMetadata,
   ) async {
-    return DIDKit.resolveDID(did, inputMetadata);
+    return 'didKit stub';
   }
 
   Future<String> dereferenceDIDURL(
     String didUrl,
     String inputMetadata,
   ) async {
-    return DIDKit.dereferenceDIDURL(didUrl, inputMetadata);
+    return 'didKit stub';
   }
 
   Future<String> didAuth(
@@ -66,6 +66,6 @@ class DIDKitProvider {
     String options,
     String key,
   ) async {
-    return DIDKit.DIDAuth(did, options, key);
+    return 'didKit stub';
   }
 }
