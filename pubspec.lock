@@ -455,13 +455,6 @@ packages:
       relative: true
     source: path
     version: "1.0.0+1"
-  didkit:
-    dependency: transitive
-    description:
-      path: "../didkit/lib/flutter"
-      relative: true
-    source: path
-    version: "0.0.2"
   diff_match_patch:
     dependency: transitive
     description:

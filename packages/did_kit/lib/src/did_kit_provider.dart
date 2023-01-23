@@ -1,5 +1,3 @@
-import 'package:didkit/didkit.dart';
-
 class DIDKitProvider {
   String getVersion() {
     return 'stub';
