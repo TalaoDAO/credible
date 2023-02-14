@@ -14,12 +14,15 @@ import 'package:secure_storage/secure_storage.dart';
 
 class ImportWalletPage extends StatelessWidget {
   const ImportWalletPage({
-    Key? key,
+    super.key,
     this.accountName,
     required this.isFromOnboarding,
-  }) : super(key: key);
+  });
 
-  static Route route({String? accountName, required bool isFromOnboarding}) =>
+  static Route<dynamic> route({
+    String? accountName,
+    required bool isFromOnboarding,
+  }) =>
       MaterialPageRoute<void>(
         builder: (context) => ImportWalletPage(
           accountName: accountName,
@@ -52,10 +55,10 @@ class ImportWalletPage extends StatelessWidget {
 
 class ImportWalletView extends StatefulWidget {
   const ImportWalletView({
-    Key? key,
+    super.key,
     this.accountName,
     required this.isFromOnboarding,
-  }) : super(key: key);
+  });
 
   final String? accountName;
   final bool isFromOnboarding;
@@ -106,6 +109,7 @@ class _ImportWalletViewState extends State<ImportWalletView> {
         if (state.status == AppStatus.success) {
           /// Removes every stack except first route (splashPage)
           if (widget.isFromOnboarding) {
+            context.read<LiveChatCubit>().init();
             Navigator.pushAndRemoveUntil<void>(
               context,
               WalletReadyPage.route(),

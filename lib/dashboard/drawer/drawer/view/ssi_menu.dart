@@ -1,5 +1,6 @@
 import 'package:altme/app/app.dart';
 import 'package:altme/dashboard/dashboard.dart';
+import 'package:altme/dashboard/drawer/manage_did/view/did_menu.dart';
 import 'package:altme/l10n/l10n.dart';
 import 'package:altme/pin_code/pin_code.dart';
 import 'package:altme/theme/theme.dart';
@@ -8,7 +9,7 @@ import 'package:flutter/material.dart';
 class SSIMenu extends StatelessWidget {
   const SSIMenu({super.key});
 
-  static Route route() {
+  static Route<dynamic> route() {
     return MaterialPageRoute<void>(
       settings: const RouteSettings(name: '/ssiMenu'),
       builder: (_) => const SSIMenu(),
@@ -49,7 +50,7 @@ class SSIView extends StatelessWidget {
                 DrawerItem(
                   title: l10n.manageDecentralizedID,
                   onTap: () {
-                    Navigator.of(context).push<void>(ManageDIDPage.route());
+                    Navigator.of(context).push<void>(DidMenu.route());
                   },
                 ),
                 DrawerItem(
@@ -99,6 +100,12 @@ class SSIView extends StatelessWidget {
                   onTap: () async {
                     await Navigator.of(context)
                         .push<void>(ManageIssuersRegistryPage.route());
+                  },
+                ),
+                DrawerItem(
+                  title: l10n.searchCredentials,
+                  onTap: () {
+                    Navigator.of(context).push<void>(SearchPage.route());
                   },
                 ),
               ],

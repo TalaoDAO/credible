@@ -120,11 +120,16 @@ class GlobalMessage {
   String get RESPONSE_STRING_BACKUP_CREDENTIAL_ERROR =>
       l10n.backupCredentialError;
 
-  String get RESPONSE_STRING_BACKUP_CREDENTIAL_PERMISSION_DENIED_MESSAGE =>
-      l10n.backupCredentialPermissionDeniedMessage;
+  String get STORAGE_PERMISSION_DENIED_MESSAGE => l10n.needStoragePermission;
 
   String get RESPONSE_STRING_BACKUP_CREDENTIAL_SUCCESS_MESSAGE =>
       l10n.backupCredentialSuccessMessage;
+
+  String get RESPONSE_STRING_linkedInBannerSuccessfullyExported =>
+      l10n.linkedInBannerSuccessfullyExported;
+
+  String get RESPONSE_STRING_credentialSuccessfullyExported =>
+      l10n.credentialSuccessfullyExported;
 
   String get RESPONSE_STRING_RECOVERY_CREDENTIAL_JSON_FORMAT_ERROR_MESSAGE =>
       l10n.recoveryCredentialJSONFormatErrorMessage;
@@ -260,19 +265,6 @@ class GlobalMessage {
       l10n.twitterExpirationDate;
   String get RESPONSE_STRING_twitterHowToGetIt => l10n.twitterHowToGetIt;
   String get RESPONSE_STRING_twitterDummyDesc => l10n.twitterDummyDesc;
-
-  String get RESPONSE_STRING_tezoniaPassWhyGetThisCard =>
-      l10n.tezoniaPassWhyGetThisCard;
-  String get RESPONSE_STRING_tezoniaPassExpirationDate =>
-      l10n.tezoniaPassExpirationDate;
-  String get RESPONSE_STRING_tezoniaPassHowToGetIt =>
-      l10n.tezoniaPassHowToGetIt;
-
-  String get RESPONSE_STRING_tzlandPassWhyGetThisCard =>
-      l10n.tzlandPassWhyGetThisCard;
-  String get RESPONSE_STRING_tzlandPassExpirationDate =>
-      l10n.tzlandPassExpirationDate;
-  String get RESPONSE_STRING_tzlandPassHowToGetIt => l10n.tzlandPassHowToGetIt;
 
   String get RESPONSE_STRING_trooperzPassWhyGetThisCard =>
       l10n.trooperzPassWhyGetThisCard;

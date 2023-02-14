@@ -4,16 +4,16 @@ import 'package:altme/l10n/l10n.dart';
 import 'package:altme/pin_code/pin_code.dart';
 import 'package:altme/theme/app_theme/app_theme.dart';
 import 'package:altme/wallet/cubit/wallet_cubit.dart';
-import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+//import 'package:confetti/confetti.dart';
 
 class AiAgeResultPage extends StatelessWidget {
   const AiAgeResultPage({super.key, required this.blocContext});
 
   final BuildContext blocContext;
 
-  static Route route(BuildContext context) {
+  static Route<dynamic> route(BuildContext context) {
     return MaterialPageRoute<void>(
       settings: const RouteSettings(name: '/AiAgeResultPage'),
       builder: (_) => AiAgeResultPage(blocContext: context),
@@ -29,29 +29,8 @@ class AiAgeResultPage extends StatelessWidget {
   }
 }
 
-class AiAgeResultView extends StatefulWidget {
+class AiAgeResultView extends StatelessWidget {
   const AiAgeResultView({super.key});
-
-  @override
-  State<AiAgeResultView> createState() => _AiAgeResultViewState();
-}
-
-class _AiAgeResultViewState extends State<AiAgeResultView> {
-  late final ConfettiController confettiController = ConfettiController();
-
-  @override
-  void initState() {
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => confettiController.play());
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    confettiController.stop();
-    confettiController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,8 +69,8 @@ class _AiAgeResultViewState extends State<AiAgeResultView> {
 class SuccessWidget extends StatelessWidget {
   const SuccessWidget(
     this.state, {
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
   final CameraState state;
 
   @override
@@ -114,7 +93,7 @@ class SuccessWidget extends StatelessWidget {
           child: Text(
             'Your AI age estimation is ${state.ageEstimate} years',
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.headline4,
+            style: Theme.of(context).textTheme.headlineMedium,
           ),
         ),
         const SizedBox(
@@ -125,7 +104,7 @@ class SuccessWidget extends StatelessWidget {
           child: Text(
             'You got ${state.acquiredCredentialsQuantity} credentials',
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.headline5?.copyWith(
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   fontWeight: FontWeight.normal,
                   color: Theme.of(context).colorScheme.onTertiary,
                 ),
@@ -151,8 +130,8 @@ class SuccessWidget extends StatelessWidget {
 class FailureWidget extends StatelessWidget {
   const FailureWidget(
     this.state, {
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
   final CameraState state;
 
   @override
@@ -173,7 +152,7 @@ class FailureWidget extends StatelessWidget {
         Text(
           'AI system was not able to estimate your age',
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.headline4,
+          style: Theme.of(context).textTheme.headlineMedium,
         ),
         const SizedBox(
           height: Sizes.spaceNormal,
@@ -181,7 +160,7 @@ class FailureWidget extends StatelessWidget {
         Text(
           'Would you like to get your credentials through KYC system?',
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.headline5?.copyWith(
+          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.normal,
                 color: Theme.of(context).colorScheme.onTertiary,
               ),

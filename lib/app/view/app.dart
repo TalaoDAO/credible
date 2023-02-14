@@ -12,6 +12,7 @@ import 'package:altme/deep_link/deep_link.dart';
 import 'package:altme/did/did.dart';
 import 'package:altme/flavor/cubit/flavor_cubit.dart';
 import 'package:altme/l10n/l10n.dart';
+import 'package:altme/lang/cubit/lang_cubit.dart';
 import 'package:altme/query_by_example/query_by_example.dart';
 import 'package:altme/route/route.dart';
 import 'package:altme/scan/scan.dart';
@@ -22,17 +23,19 @@ import 'package:beacon_flutter/beacon_flutter.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:did_kit/did_kit.dart';
 import 'package:dio/dio.dart';
+import 'package:ebsi/ebsi.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 import 'package:key_generator/key_generator.dart';
+import 'package:matrix/matrix.dart';
 import 'package:secure_storage/secure_storage.dart' as secure_storage;
 import 'package:secure_storage/secure_storage.dart';
+import 'package:uuid/uuid.dart';
 
 class App extends StatelessWidget {
-  const App({Key? key, this.flavorMode = FlavorMode.production})
-      : super(key: key);
+  const App({super.key, this.flavorMode = FlavorMode.production});
 
   final FlavorMode flavorMode;
 
@@ -113,6 +116,7 @@ class App extends StatelessWidget {
             walletCubit: context.read<WalletCubit>(),
             didKitProvider: DIDKitProvider(),
             secureStorageProvider: secure_storage.getSecureStorage,
+            ebsi: Ebsi(Dio()),
           ),
         ),
         BlocProvider<QRCodeScanCubit>(
@@ -169,6 +173,16 @@ class App extends StatelessWidget {
             manageNetworkCubit: context.read<ManageNetworkCubit>(),
           ),
         ),
+        BlocProvider(
+          create: (context) => LiveChatCubit(
+            dioClient: DioClient('', Dio()),
+            didCubit: context.read<DIDCubit>(),
+            secureStorageProvider: getSecureStorage,
+            client: Client(
+              'AltMeUser',
+            ),
+          ),
+        ),
       ],
       child: const MaterialAppDefinition(),
     );
@@ -176,26 +190,36 @@ class App extends StatelessWidget {
 }
 
 class MaterialAppDefinition extends StatelessWidget {
-  const MaterialAppDefinition({Key? key}) : super(key: key);
+  const MaterialAppDefinition({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      useInheritedMediaQuery: true,
-      builder: DevicePreview.appBuilder,
-      locale: DevicePreview.locale(context),
-      title: 'Talao Wallet',
-      darkTheme: AppTheme.darkThemeData,
-      navigatorObservers: [MyRouteObserver(context)],
-      themeMode: ThemeMode.dark,
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate
-      ],
-      supportedLocales: AppLocalizations.supportedLocales,
-      home: const SplashPage(),
+    final bool isStaging =
+        context.read<FlavorCubit>().flavorMode == FlavorMode.staging;
+    return BlocProvider(
+      create: (context) => LangCubit(),
+      child: BlocBuilder<LangCubit, Locale>(
+        builder: (context, lang) {
+          //context.read<LangCubit>().fetchLocale();
+          return MaterialApp(
+            useInheritedMediaQuery: true,
+            builder: isStaging ? DevicePreview.appBuilder : null,
+            locale: isStaging ? DevicePreview.locale(context) : lang,
+            title: 'Talao Wallet',
+            darkTheme: AppTheme.darkThemeData,
+            navigatorObservers: [MyRouteObserver(context)],
+            themeMode: ThemeMode.dark,
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate
+            ],
+            supportedLocales: AppLocalizations.supportedLocales,
+            home: const SplashPage(),
+          );
+        },
+      ),
     );
   }
 }

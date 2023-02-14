@@ -1,19 +1,18 @@
 import 'package:altme/app/app.dart';
 import 'package:altme/dashboard/dashboard.dart';
 import 'package:altme/l10n/l10n.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SendToPage extends StatelessWidget {
   const SendToPage({
-    Key? key,
+    super.key,
     required this.defaultSelectedToken,
-  }) : super(key: key);
+  });
 
   final TokenModel defaultSelectedToken;
 
-  static Route route({required TokenModel defaultSelectedToken}) {
+  static Route<dynamic> route({required TokenModel defaultSelectedToken}) {
     return MaterialPageRoute<void>(
       builder: (_) => SendToPage(
         defaultSelectedToken: defaultSelectedToken,
@@ -35,9 +34,9 @@ class SendToPage extends StatelessWidget {
 
 class SendToView extends StatefulWidget {
   const SendToView({
-    Key? key,
+    super.key,
     required this.defaultSelectedToken,
-  }) : super(key: key);
+  });
 
   final TokenModel defaultSelectedToken;
 
@@ -49,8 +48,6 @@ class _SendToViewState extends State<SendToView>
     with SingleTickerProviderStateMixin {
   final TextEditingController withdrawalAddressController =
       TextEditingController();
-  late final TabController tabController =
-      TabController(length: 2, vsync: this);
 
   @override
   void initState() {
@@ -59,12 +56,6 @@ class _SendToViewState extends State<SendToView>
             withdrawalAddress: withdrawalAddressController.text,
           );
     });
-    tabController.addListener(() {
-      context
-          .read<SendToCubit>()
-          .setOtherAccountTab(isOtherAccount: tabController.index == 0);
-    });
-
     super.initState();
   }
 
@@ -99,48 +90,9 @@ class _SendToViewState extends State<SendToView>
                 const SizedBox(
                   height: Sizes.spaceNormal,
                 ),
-                TabBar(
-                  controller: tabController,
-                  tabs: [
-                    Tab(
-                      icon: const Icon(Icons.account_balance_wallet_rounded),
-                      text: l10n.otherAccount,
-                    ),
-                    Tab(
-                      icon: const Icon(Icons.move_down),
-                      text: l10n.myAccount,
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: Sizes.spaceNormal,
-                ),
-                BlocBuilder<SendToCubit, SendToState>(
-                  buildWhen: (previous, current) =>
-                      previous.isOtherAccountTab != current.isOtherAccountTab,
-                  builder: (_, state) {
-                    context
-                        .read<SendToCubit>()
-                        .setWithdrawalAddress(withdrawalAddress: '');
-                    if (state.isOtherAccountTab) {
-                      withdrawalAddressController.text = '';
-                      return WithdrawalAddressInputView(
-                        withdrawalAddressController:
-                            withdrawalAddressController,
-                        caption: l10n.to,
-                      );
-                    } else {
-                      return ToAccountWidget(
-                        triggerInitialAccount: true,
-                        onAccountSelected: (cryptoAccount) {
-                          context.read<SendToCubit>().setWithdrawalAddress(
-                                withdrawalAddress:
-                                    cryptoAccount?.walletAddress ?? '',
-                              );
-                        },
-                      );
-                    }
-                  },
+                WithdrawalAddressInputView(
+                  withdrawalAddressController: withdrawalAddressController,
+                  caption: l10n.to,
                 ),
               ],
             ),

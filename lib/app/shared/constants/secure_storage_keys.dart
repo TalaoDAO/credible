@@ -1,4 +1,6 @@
 class SecureStorageKeys {
+  static const String isUserRegisteredMatrix = 'isUserRegisteredMatrix';
+  static const String supportRoomId = 'MatrixSupportRoomId';
   static const String isFirstSelectedTokenContracts =
       'isFirstSelectedTokenContracts';
   static const String selectedContracts = 'selectedContracts';
@@ -41,6 +43,8 @@ class SecureStorageKeys {
   static const String ssiMnemonic = 'ssi/mnemonic';
   static const String ssiKey = 'ssi/key';
 
+  static const String p256PrivateKey = 'ssi/p256PrivateKey';
+
   static const String cryptoAccount = 'cryptoAccount';
   static const String cryptoAccounTrackingIndex = 'cryptoAccounTrackingIndex';
   static const String currentCryptoIndex = 'currentCryptoIndex';
@@ -61,4 +65,6 @@ class SecureStorageKeys {
       'importAccountStep2Mnemonics';
 
   static const String recoverCredentialMnemonics = 'recoverCredentialMnemonics';
+  static const String version = 'version';
+  static const String buildNumber = 'buildNumber';
 }

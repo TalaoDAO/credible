@@ -109,15 +109,22 @@ class ResponseMessage with MessageHandler {
           return ResponseString.RESPONSE_STRING_BACKUP_CREDENTIAL_ERROR
               .localise(context);
 
-        case ResponseString
-            .RESPONSE_STRING_BACKUP_CREDENTIAL_PERMISSION_DENIED_MESSAGE:
-          return ResponseString
-              .RESPONSE_STRING_BACKUP_CREDENTIAL_PERMISSION_DENIED_MESSAGE
+        case ResponseString.STORAGE_PERMISSION_DENIED_MESSAGE:
+          return ResponseString.STORAGE_PERMISSION_DENIED_MESSAGE
               .localise(context);
 
         case ResponseString.RESPONSE_STRING_BACKUP_CREDENTIAL_SUCCESS_MESSAGE:
           return ResponseString
               .RESPONSE_STRING_BACKUP_CREDENTIAL_SUCCESS_MESSAGE
+              .localise(context);
+
+        case ResponseString.RESPONSE_STRING_linkedInBannerSuccessfullyExported:
+          return ResponseString
+                  .RESPONSE_STRING_linkedInBannerSuccessfullyExported
+              .localise(context);
+
+        case ResponseString.RESPONSE_STRING_credentialSuccessfullyExported:
+          return ResponseString.RESPONSE_STRING_credentialSuccessfullyExported
               .localise(context);
 
         case ResponseString
@@ -430,32 +437,6 @@ class ResponseMessage with MessageHandler {
 
         case ResponseString.RESPONSE_STRING_trooperzPassHowToGetIt:
           return ResponseString.RESPONSE_STRING_trooperzPassHowToGetIt.localise(
-            context,
-          );
-
-        case ResponseString.RESPONSE_STRING_tzlandPassWhyGetThisCard:
-          return ResponseString.RESPONSE_STRING_tzlandPassWhyGetThisCard
-              .localise(context);
-
-        case ResponseString.RESPONSE_STRING_tzlandPassExpirationDate:
-          return ResponseString.RESPONSE_STRING_tzlandPassExpirationDate
-              .localise(context);
-
-        case ResponseString.RESPONSE_STRING_tzlandPassHowToGetIt:
-          return ResponseString.RESPONSE_STRING_tzlandPassHowToGetIt.localise(
-            context,
-          );
-
-        case ResponseString.RESPONSE_STRING_tezoniaPassWhyGetThisCard:
-          return ResponseString.RESPONSE_STRING_tezoniaPassWhyGetThisCard
-              .localise(context);
-
-        case ResponseString.RESPONSE_STRING_tezoniaPassExpirationDate:
-          return ResponseString.RESPONSE_STRING_tezoniaPassExpirationDate
-              .localise(context);
-
-        case ResponseString.RESPONSE_STRING_tezoniaPassHowToGetIt:
-          return ResponseString.RESPONSE_STRING_tezoniaPassHowToGetIt.localise(
             context,
           );
 

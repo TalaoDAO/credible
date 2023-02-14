@@ -1,5 +1,6 @@
 import 'package:altme/app/app.dart';
 import 'package:altme/dashboard/drawer/drawer/drawer.dart';
+import 'package:altme/dashboard/drawer/live_chat/cubit/live_chat_cubit.dart';
 import 'package:altme/l10n/l10n.dart';
 import 'package:altme/pin_code/pin_code.dart';
 import 'package:altme/theme/theme.dart';
@@ -11,7 +12,7 @@ import 'package:secure_storage/secure_storage.dart';
 class ResetWalletMenu extends StatelessWidget {
   const ResetWalletMenu({super.key});
 
-  static Route route() {
+  static Route<dynamic> route() {
     return MaterialPageRoute<void>(
       builder: (_) => const ResetWalletMenu(),
       settings: const RouteSettings(name: '/ResetWalletMenu'),

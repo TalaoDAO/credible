@@ -80,13 +80,17 @@ extension ResponseStringX on ResponseString {
       case ResponseString.RESPONSE_STRING_BACKUP_CREDENTIAL_ERROR:
         return globalMessage.RESPONSE_STRING_BACKUP_CREDENTIAL_ERROR;
 
-      case ResponseString
-          .RESPONSE_STRING_BACKUP_CREDENTIAL_PERMISSION_DENIED_MESSAGE:
-        return globalMessage
-            .RESPONSE_STRING_BACKUP_CREDENTIAL_PERMISSION_DENIED_MESSAGE;
+      case ResponseString.STORAGE_PERMISSION_DENIED_MESSAGE:
+        return globalMessage.STORAGE_PERMISSION_DENIED_MESSAGE;
 
       case ResponseString.RESPONSE_STRING_BACKUP_CREDENTIAL_SUCCESS_MESSAGE:
         return globalMessage.RESPONSE_STRING_BACKUP_CREDENTIAL_SUCCESS_MESSAGE;
+
+      case ResponseString.RESPONSE_STRING_linkedInBannerSuccessfullyExported:
+        return globalMessage.RESPONSE_STRING_linkedInBannerSuccessfullyExported;
+
+      case ResponseString.RESPONSE_STRING_credentialSuccessfullyExported:
+        return globalMessage.RESPONSE_STRING_credentialSuccessfullyExported;
 
       case ResponseString
           .RESPONSE_STRING_RECOVERY_CREDENTIAL_JSON_FORMAT_ERROR_MESSAGE:
@@ -268,12 +272,6 @@ extension ResponseStringX on ResponseString {
       case ResponseString.RESPONSE_STRING_twitterHowToGetIt:
         return globalMessage.RESPONSE_STRING_twitterHowToGetIt;
 
-      case ResponseString.RESPONSE_STRING_tezoniaPassWhyGetThisCard:
-        return globalMessage.RESPONSE_STRING_tezoniaPassWhyGetThisCard;
-
-      case ResponseString.RESPONSE_STRING_tzlandPassWhyGetThisCard:
-        return globalMessage.RESPONSE_STRING_tzlandPassWhyGetThisCard;
-
       case ResponseString.RESPONSE_STRING_trooperzPassWhyGetThisCard:
         return globalMessage.RESPONSE_STRING_trooperzPassWhyGetThisCard;
 
@@ -318,18 +316,6 @@ extension ResponseStringX on ResponseString {
 
       case ResponseString.RESPONSE_STRING_trooperzPassHowToGetIt:
         return globalMessage.RESPONSE_STRING_trooperzPassHowToGetIt;
-
-      case ResponseString.RESPONSE_STRING_tzlandPassExpirationDate:
-        return globalMessage.RESPONSE_STRING_tzlandPassExpirationDate;
-
-      case ResponseString.RESPONSE_STRING_tzlandPassHowToGetIt:
-        return globalMessage.RESPONSE_STRING_tzlandPassHowToGetIt;
-
-      case ResponseString.RESPONSE_STRING_tezoniaPassExpirationDate:
-        return globalMessage.RESPONSE_STRING_tezoniaPassExpirationDate;
-
-      case ResponseString.RESPONSE_STRING_tezoniaPassHowToGetIt:
-        return globalMessage.RESPONSE_STRING_tezoniaPassHowToGetIt;
 
       case ResponseString.RESPONSE_STRING_over18WhyGetThisCard:
         return globalMessage.RESPONSE_STRING_over18WhyGetThisCard;
