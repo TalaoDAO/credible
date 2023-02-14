@@ -4,8 +4,6 @@ class DiscoverList {
   static final List<CredentialSubjectType> gamingCategories = [
     // CredentialSubjectType.tezotopiaMembership,
     // CredentialSubjectType.chainbornMembership,
-    // CredentialSubjectType.tezoniaPass,
-    // CredentialSubjectType.tzlandPass,
     // CredentialSubjectType.troopezPass,
     // CredentialSubjectType.pigsPass,
     // CredentialSubjectType.matterlightPass,
@@ -28,6 +26,6 @@ class DiscoverList {
     CredentialSubjectType.twitterCard,
   ];
   static final List<CredentialSubjectType> myProfessionalCategories = [
-    CredentialSubjectType.linkedInCard,
+    // CredentialSubjectType.linkedInCard,
   ];
 }

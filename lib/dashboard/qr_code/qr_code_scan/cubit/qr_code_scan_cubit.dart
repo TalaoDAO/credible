@@ -194,111 +194,116 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
     try {
       ///Check if SIOPV2 request
       if (uri?.queryParameters['scope'] == 'openid') {
-        ///restrict non-enterprise user
-        if (!profileCubit.state.model.isEnterprise) {
-          throw ResponseMessage(
-            ResponseString.RESPONSE_STRING_PERSONAL_OPEN_ID_RESTRICTION_MESSAGE,
-          );
-        }
-
-        ///credential should not be empty since we have to present
-        if (walletCubit.state.credentials.isEmpty) {
-          emit(
-            state.error(
-              messageHandler: ResponseMessage(
-                ResponseString.RESPONSE_STRING_CREDENTIAL_EMPTY_ERROR,
-              ),
-            ),
-          );
+        // Check if we can respond to presentation request:
+        // having credentials?
+        // having correct crv in ebsi key
+        if (!await isSiopV2RequestValid(uri!)) {
           emit(
             state.copyWith(
               qrScanStatus: QrScanStatus.success,
               route: IssuerWebsitesPage.route(''),
             ),
           );
+        } else {
+          var claims = uri.queryParameters['claims'] ?? '';
 
-          return;
-        }
+          // TODO(hawkbee) change when correction is done on verifier
+          claims = claims.replaceAll("'email': None", "'email': 'None'");
 
-        ///request attribute check
-        if (requestAttributeExists()) {
-          throw ResponseMessage(
-            ResponseString.RESPONSE_STRING_SCAN_UNSUPPORTED_MESSAGE,
+          claims = claims.replaceAll("'", '"');
+          final jsonPath = JsonPath(r'$..input_descriptors');
+          final outputDescriptors =
+              jsonPath.readValues(jsonDecode(claims)).first as List;
+          final inputDescriptorList = outputDescriptors
+              .map((e) => InputDescriptor.fromJson(e as Map<String, dynamic>))
+              .toList();
+
+          final PresentationDefinition presentationDefinition =
+              PresentationDefinition(inputDescriptorList);
+          final CredentialModel credentialPreview = CredentialModel(
+            id: 'id',
+            image: 'image',
+            credentialPreview: Credential.dummy(),
+            shareLink: 'shareLink',
+            display: Display.emptyDisplay(),
+            data: const {},
+            credentialManifest: CredentialManifest(
+              'id',
+              IssuedBy('', ''),
+              null,
+              presentationDefinition,
+            ),
           );
-        }
-
-        ///request_uri attribute check
-        if (!requestUriAttributeExists()) {
-          throw ResponseMessage(
-            ResponseString.RESPONSE_STRING_SCAN_UNSUPPORTED_MESSAGE,
-          );
-        }
-
-        final sIOPV2Param = await getSIOPV2Parameters();
-
-        ///check if claims exists
-        if (sIOPV2Param.claims == null) {
-          throw ResponseMessage(
-            ResponseString.RESPONSE_STRING_SCAN_UNSUPPORTED_MESSAGE,
-          );
-        }
-
-        final openIdCredential = getCredentialName(sIOPV2Param.claims!);
-        final openIdIssuer = getIssuersName(sIOPV2Param.claims!);
-
-        ///check if credential and issuer both are not present
-        if (openIdCredential == '' && openIdIssuer == '') {
-          throw ResponseMessage(
-            ResponseString.RESPONSE_STRING_SCAN_UNSUPPORTED_MESSAGE,
-          );
-        }
-
-        final selectedCredentials = <CredentialModel>[];
-        for (final credentialModel in walletCubit.state.credentials) {
-          final credentialTypeList = credentialModel.credentialPreview.type;
-          final issuer = credentialModel.credentialPreview.issuer;
-
-          ///credential and issuer provided in claims
-          if (openIdCredential != '' && openIdIssuer != '') {
-            if (credentialTypeList.contains(openIdCredential) &&
-                openIdIssuer == issuer) {}
-          }
-
-          ///credential provided in claims
-          if (openIdCredential != '' && openIdIssuer == '') {
-            if (credentialTypeList.contains(openIdCredential)) {
-              selectedCredentials.add(credentialModel);
-            }
-          }
-
-          ///issuer provided in claims
-          if (openIdCredential == '' && openIdIssuer != '') {
-            if (openIdIssuer == issuer) {
-              selectedCredentials.add(credentialModel);
-            }
-          }
-        }
-
-        if (selectedCredentials.isEmpty) {
           emit(
             state.copyWith(
               qrScanStatus: QrScanStatus.success,
-              route: IssuerWebsitesPage.route(openIdCredential),
+              route: CredentialManifestOfferPickPage.route(
+                uri: uri,
+                credential: credentialPreview,
+                issuer: Issuer.emptyIssuer('domain'),
+                inputDescriptorIndex: 0,
+                credentialsToBePresented: [],
+              ),
             ),
           );
-          return;
         }
 
-        emit(
-          state.copyWith(
-            qrScanStatus: QrScanStatus.success,
-            route: SIOPV2CredentialPickPage.route(
-              credentials: selectedCredentials,
-              sIOPV2Param: sIOPV2Param,
-              issuer: Issuer.emptyIssuer(uri.toString()),
-            ),
-          ),
-        );
+        // final openIdCredential = getCredentialName(sIOPV2Param.claims!);
+        // final openIdIssuer = getIssuersName(sIOPV2Param.claims!);
+
+        // ///check if credential and issuer both are not present
+        // if (openIdCredential == '' && openIdIssuer == '') {
+        //   throw ResponseMessage(
+        //     ResponseString.RESPONSE_STRING_SCAN_UNSUPPORTED_MESSAGE,
+        //   );
+        // }
+
+        // final selectedCredentials = <CredentialModel>[];
+        // for (final credentialModel in walletCubit.state.credentials) {
+        //   final credentialTypeList = credentialModel.credentialPreview.type;
+        //   final issuer = credentialModel.credentialPreview.issuer;
+
+        //   ///credential and issuer provided in claims
+        //   if (openIdCredential != '' && openIdIssuer != '') {
+        //     if (credentialTypeList.contains(openIdCredential) &&
+        //         openIdIssuer == issuer) {}
+        //   }
+
+        //   ///credential provided in claims
+        //   if (openIdCredential != '' && openIdIssuer == '') {
+        //     if (credentialTypeList.contains(openIdCredential)) {
+        //       selectedCredentials.add(credentialModel);
+        //     }
+        //   }
+
+        //   ///issuer provided in claims
+        //   if (openIdCredential == '' && openIdIssuer != '') {
+        //     if (openIdIssuer == issuer) {
+        //       selectedCredentials.add(credentialModel);
+        //     }
+        //   }
+        // }
+
+        // if (selectedCredentials.isEmpty) {
+        //   emit(
+        //     state.copyWith(
+        //       qrScanStatus: QrScanStatus.success,
+        //       route: IssuerWebsitesPage.route(openIdCredential),
+        //     ),
+        //   );
+        //   return;
+        // }
+
+        // emit(
+        //   state.copyWith(
+        //     qrScanStatus: QrScanStatus.success,
+        //     route: SIOPV2CredentialPickPage.route(
+        //       credentials: selectedCredentials,
+        //       sIOPV2Param: sIOPV2Param,
+        //       issuer: Issuer.emptyIssuer(uri.toString()),
+        //     ),
+        //   ),
+        // );
       } else {
         emit(state.acceptHost(uri: uri!));
       }
@@ -480,7 +485,7 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
       }
     } catch (e) {
       log.e(
-        'An error occurred while connecting to the server. ${e.toString()}',
+        'An error occurred while connecting to the server. $e',
       );
       if (e is MessageHandler) {
         emit(state.error(messageHandler: e));
@@ -497,9 +502,9 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
     }
   }
 
-  bool requestAttributeExists() {
+  bool requestAttributeExists(Uri uri) {
     var condition = false;
-    state.uri!.queryParameters.forEach((key, value) {
+    uri.queryParameters.forEach((key, value) {
       if (key == 'request') {
         condition = true;
       }
@@ -507,9 +512,9 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
     return condition;
   }
 
-  bool requestUriAttributeExists() {
+  bool requestUriAttributeExists(Uri uri) {
     var condition = false;
-    state.uri!.queryParameters.forEach((key, value) {
+    uri.queryParameters.forEach((key, value) {
       if (key == 'request_uri') {
         condition = true;
       }
@@ -517,14 +522,14 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
     return condition;
   }
 
-  Future<SIOPV2Param> getSIOPV2Parameters() async {
+  Future<SIOPV2Param> getSIOPV2Parameters(Uri uri) async {
     String? nonce;
     String? redirect_uri;
     String? request_uri;
     String? claims;
     String? requestUriPayload;
 
-    state.uri!.queryParameters.forEach((key, value) {
+    uri.queryParameters.forEach((key, value) {
       if (key == 'nonce') {
         nonce = value;
       }
@@ -579,5 +584,55 @@ class QRCodeScanCubit extends Cubit<QRCodeScanState> {
       log.e('An error occurred while decoding.', e);
     }
     return data;
+  }
+
+  Future<bool> isSiopV2RequestValid(Uri uri) async {
+    bool isValid = true;
+
+    ///credential should not be empty since we have to present
+    if (walletCubit.state.credentials.isEmpty) {
+      emit(
+        state.error(
+          messageHandler: ResponseMessage(
+            ResponseString.RESPONSE_STRING_CREDENTIAL_EMPTY_ERROR,
+          ),
+        ),
+      );
+      isValid = false;
+    }
+
+    ///request attribute check
+    if (requestAttributeExists(uri) && isValid) {
+      isValid = false;
+      emit(
+        state.error(
+          messageHandler: ResponseMessage(
+            ResponseString.RESPONSE_STRING_SCAN_UNSUPPORTED_MESSAGE,
+          ),
+        ),
+      );
+    }
+
+    ///request_uri attribute check
+    // if (!requestUriAttributeExists(uri)) {
+    //   throw ResponseMessage(
+    //     ResponseString.RESPONSE_STRING_SCAN_UNSUPPORTED_MESSAGE,
+    //   );
+    // }
+
+    final sIOPV2Param = await getSIOPV2Parameters(uri);
+
+    ///check if claims exists
+    if (sIOPV2Param.claims == null && isValid) {
+      emit(
+        state.error(
+          messageHandler: ResponseMessage(
+            ResponseString.RESPONSE_STRING_SCAN_UNSUPPORTED_MESSAGE,
+          ),
+        ),
+      );
+      isValid = false;
+    }
+    return isValid;
   }
 }

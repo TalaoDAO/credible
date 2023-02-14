@@ -15,16 +15,12 @@ OnBoardingGenPhraseState _$OnBoardingGenPhraseStateFromJson(
           ? null
           : StateMessage.fromJson(json['message'] as Map<String, dynamic>),
       isTicked: json['isTicked'] as bool? ?? false,
-      mnemonic: (json['mnemonic'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList(),
     );
 
 Map<String, dynamic> _$OnBoardingGenPhraseStateToJson(
         OnBoardingGenPhraseState instance) =>
     <String, dynamic>{
       'status': _$AppStatusEnumMap[instance.status]!,
-      'mnemonic': instance.mnemonic,
       'message': instance.message,
       'isTicked': instance.isTicked,
     };

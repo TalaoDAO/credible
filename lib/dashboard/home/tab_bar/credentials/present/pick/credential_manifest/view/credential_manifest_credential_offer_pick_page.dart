@@ -11,13 +11,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CredentialManifestOfferPickPage extends StatelessWidget {
   const CredentialManifestOfferPickPage({
-    Key? key,
+    super.key,
     required this.uri,
     required this.credential,
     required this.issuer,
     required this.inputDescriptorIndex,
     required this.credentialsToBePresented,
-  }) : super(key: key);
+  });
 
   final Uri uri;
   final CredentialModel credential;
@@ -25,7 +25,7 @@ class CredentialManifestOfferPickPage extends StatelessWidget {
   final int inputDescriptorIndex;
   final List<CredentialModel> credentialsToBePresented;
 
-  static Route route({
+  static Route<dynamic> route({
     required Uri uri,
     required CredentialModel credential,
     required Issuer issuer,
@@ -69,13 +69,13 @@ class CredentialManifestOfferPickPage extends StatelessWidget {
 
 class CredentialManifestOfferPickView extends StatelessWidget {
   const CredentialManifestOfferPickView({
-    Key? key,
+    super.key,
     required this.uri,
     required this.credential,
     required this.issuer,
     required this.inputDescriptorIndex,
     required this.credentialsToBePresented,
-  }) : super(key: key);
+  });
 
   final Uri uri;
   final CredentialModel credential;
@@ -95,7 +95,7 @@ class CredentialManifestOfferPickView extends StatelessWidget {
         return BlocBuilder<CredentialManifestPickCubit,
             CredentialManifestPickState>(
           builder: (context, credentialManifestState) {
-            final _purpose = presentationDefinition
+            final purpose = presentationDefinition
                 .inputDescriptors[inputDescriptorIndex].purpose;
 
             return BlocListener<ScanCubit, ScanState>(
@@ -106,127 +106,125 @@ class CredentialManifestOfferPickView extends StatelessWidget {
                   LoadingView().hide();
                 }
               },
-              child: BasePage(
-                title: l10n.credentialPickTitle,
-                titleAlignment: Alignment.topCenter,
-                titleTrailing: const WhiteCloseButton(),
-                padding:
-                    const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
-                body: Column(
-                  children: <Widget>[
-                    Text(
-                      '${inputDescriptorIndex + 1}/${presentationDefinition.inputDescriptors.length}',
-                      style: Theme.of(context).textTheme.credentialSteps,
-                    ),
-                    const SizedBox(height: 10),
-                    if (_purpose != null)
-                      Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: Text(
-                          _purpose,
-                          style: Theme.of(context).textTheme.credentialSubtitle,
-                        ),
-                      )
-                    else
-                      const SizedBox.shrink(),
-                    if (credentialManifestState.filteredCredentialList.isEmpty)
-                      Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: Text(
-                          l10n.credentialSelectionListEmptyError,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyText1
-                              ?.copyWith(fontWeight: FontWeight.bold),
-                        ),
-                      )
-                    else
-                      Text(
-                        l10n.credentialPickSelect,
-                        style: Theme.of(context).textTheme.bodyText1,
-                      ),
-                    const SizedBox(height: 12),
-                    ...List.generate(
-                      credentialManifestState.filteredCredentialList.length,
-                      (index) {
-                        return CredentialsListPageItem(
-                          credentialModel: credentialManifestState
-                              .filteredCredentialList[index],
-                          selected:
-                              credentialManifestState.selected.contains(index),
-                          onTap: () => context
-                              .read<CredentialManifestPickCubit>()
-                              .toggle(index),
-                        );
-                      },
-                    ),
-                  ],
-                ),
-                navigation: credentialManifestState
-                        .filteredCredentialList.isNotEmpty
-                    ? SafeArea(
-                        child: Container(
-                          padding: const EdgeInsets.all(16),
-                          child: Tooltip(
-                            message: l10n.credentialPickPresent,
-                            child: Builder(
-                              builder: (context) {
-                                final inputDescriptor = presentationDefinition
-                                    .inputDescriptors[inputDescriptorIndex];
-                                //no sure if I'm correct to take first field
-                                //to check optional
-                                final isOptional = inputDescriptor
-                                        .constraints?.fields?.first.optional ??
-                                    false;
-
-                                final bool isOngoingStep =
-                                    inputDescriptorIndex + 1 !=
-                                        presentationDefinition
-                                            .inputDescriptors.length;
-
-                                if (isOptional) {
-                                  return MyGradientButton(
-                                    onPressed: () => present(
-                                      context: context,
-                                      credentialManifestState:
-                                          credentialManifestState,
-                                      presentationDefinition:
-                                          presentationDefinition,
-                                      skip: credentialManifestState
-                                          .selected.isEmpty,
-                                    ),
-                                    text:
-                                        credentialManifestState.selected.isEmpty
-                                            ? l10n.skip
-                                            : isOngoingStep
-                                                ? l10n.next
-                                                : l10n.credentialPickPresent,
-                                  );
-                                } else {
-                                  return MyGradientButton(
-                                    onPressed:
-                                        credentialManifestState.selected.isEmpty
-                                            ? null
-                                            : () => present(
-                                                  context: context,
-                                                  credentialManifestState:
-                                                      credentialManifestState,
-                                                  presentationDefinition:
-                                                      presentationDefinition,
-                                                  skip: false,
-                                                ),
-                                    text: isOngoingStep
-                                        ? l10n.next
-                                        : l10n.credentialPickPresent,
-                                  );
-                                }
-                              },
-                            ),
+              child: credentialManifestState.filteredCredentialList.isEmpty
+                  ? const RequiredCredentialNotFound()
+                  : BasePage(
+                      title: l10n.credentialPickTitle,
+                      titleAlignment: Alignment.topCenter,
+                      titleTrailing: const WhiteCloseButton(),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 24, horizontal: 16),
+                      body: Column(
+                        children: <Widget>[
+                          Text(
+                            '${inputDescriptorIndex + 1}/${presentationDefinition.inputDescriptors.length}',
+                            style: Theme.of(context).textTheme.credentialSteps,
                           ),
-                        ),
-                      )
-                    : const SizedBox.shrink(),
-              ),
+                          const SizedBox(height: 10),
+                          if (purpose != null)
+                            Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: Text(
+                                purpose,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .credentialSubtitle,
+                              ),
+                            )
+                          else
+                            const SizedBox.shrink(),
+                          Text(
+                            l10n.credentialPickSelect,
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
+                          const SizedBox(height: 12),
+                          ...List.generate(
+                            credentialManifestState
+                                .filteredCredentialList.length,
+                            (index) {
+                              return CredentialsListPageItem(
+                                credentialModel: credentialManifestState
+                                    .filteredCredentialList[index],
+                                selected: credentialManifestState.selected
+                                    .contains(index),
+                                onTap: () => context
+                                    .read<CredentialManifestPickCubit>()
+                                    .toggle(index),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                      navigation: credentialManifestState
+                              .filteredCredentialList.isNotEmpty
+                          ? SafeArea(
+                              child: Container(
+                                padding: const EdgeInsets.all(16),
+                                child: Tooltip(
+                                  message: l10n.credentialPickPresent,
+                                  child: Builder(
+                                    builder: (context) {
+                                      final inputDescriptor =
+                                          presentationDefinition
+                                                  .inputDescriptors[
+                                              inputDescriptorIndex];
+                                      //no sure if I'm correct to take first field
+                                      //to check optional
+                                      final isOptional = inputDescriptor
+                                              .constraints
+                                              ?.fields
+                                              ?.first
+                                              .optional ??
+                                          false;
+
+                                      final bool isOngoingStep =
+                                          inputDescriptorIndex + 1 !=
+                                              presentationDefinition
+                                                  .inputDescriptors.length;
+
+                                      if (isOptional) {
+                                        return MyGradientButton(
+                                          onPressed: () => present(
+                                            context: context,
+                                            credentialManifestState:
+                                                credentialManifestState,
+                                            presentationDefinition:
+                                                presentationDefinition,
+                                            skip: credentialManifestState
+                                                .selected.isEmpty,
+                                          ),
+                                          text: credentialManifestState
+                                                  .selected.isEmpty
+                                              ? l10n.skip
+                                              : isOngoingStep
+                                                  ? l10n.next
+                                                  : l10n.credentialPickPresent,
+                                        );
+                                      } else {
+                                        return MyGradientButton(
+                                          onPressed: credentialManifestState
+                                                  .selected.isEmpty
+                                              ? null
+                                              : () => present(
+                                                    context: context,
+                                                    credentialManifestState:
+                                                        credentialManifestState,
+                                                    presentationDefinition:
+                                                        presentationDefinition,
+                                                    skip: false,
+                                                  ),
+                                          text: isOngoingStep
+                                              ? l10n.next
+                                              : l10n.credentialPickPresent,
+                                        );
+                                      }
+                                    },
+                                  ),
+                                ),
+                              ),
+                            )
+                          : const SizedBox.shrink(),
+                    ),
             );
           },
         );

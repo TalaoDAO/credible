@@ -27,6 +27,7 @@ class CredentialModel extends Equatable {
     this.challenge,
     this.domain,
     this.activities = const [],
+    this.jwt,
   });
 
   factory CredentialModel.fromJson(Map<String, dynamic> json) {
@@ -63,6 +64,7 @@ class CredentialModel extends Equatable {
       challenge: oldCredentialModel.challenge,
       domain: oldCredentialModel.domain,
       activities: activities,
+      jwt: oldCredentialModel.jwt,
     );
   }
 
@@ -83,6 +85,7 @@ class CredentialModel extends Equatable {
   final String? challenge;
   final String? domain;
   final List<Activity> activities;
+  final String? jwt;
 
   Map<String, dynamic> toJson() => _$CredentialModelToJson(this);
 
@@ -109,8 +112,8 @@ class CredentialModel extends Equatable {
   }
 
   Future<CredentialStatus> checkRevocationStatus() async {
-    final _status = await getRevocationStatus();
-    switch (_status) {
+    final status = await getRevocationStatus();
+    switch (status) {
       case RevocationStatus.active:
         return CredentialStatus.active;
       case RevocationStatus.revoked:
@@ -151,7 +154,7 @@ class CredentialModel extends Equatable {
     return CredentialManifest.fromJson(json);
   }
 
-  static String? readValueReceivedId(Map map, String value) {
+  static String? readValueReceivedId(Map<dynamic, dynamic> map, String value) {
     if (map['receivedId'] != null) {
       return map['receivedId'] as String;
     }
