@@ -57,6 +57,10 @@
       "ans": "You can contact us by using our support email :  support@Talao.io. Currently, the Talao SSI wallet is only available in English. However, we are working on expanding the availability of the wallet to other languages in the future."
     },
     {
+      "que": "Why my redirect does not go on the App? IOS/ANDROID",
+      "ans": "If the redirection is not done automatically you must go to your phone's settings > Settings > Apps > Altme/Talao > Set as default > Supported web addresses > app.altme.io  -> On"
+    },
+    {
       "que": "What are Talao's Terms of Service?",
       "ans": "Redirect to CGU.",
       "href": "https://talao.io/"

@@ -76,6 +76,8 @@ extension CredentialSubjectTypeExtension on CredentialSubjectType {
       case CredentialSubjectType.binancePooAddress:
       case CredentialSubjectType.tezosPooAddress:
       case CredentialSubjectType.pcdsAgentCertificate:
+      case CredentialSubjectType.euDiplomaCard:
+      case CredentialSubjectType.euVerifiableId:
         return Colors.white;
     }
   }
@@ -143,6 +145,8 @@ extension CredentialSubjectTypeExtension on CredentialSubjectType {
       case CredentialSubjectType.binancePooAddress:
       case CredentialSubjectType.tezosPooAddress:
       case CredentialSubjectType.pcdsAgentCertificate:
+      case CredentialSubjectType.euDiplomaCard:
+      case CredentialSubjectType.euVerifiableId:
         return Icons.perm_identity;
     }
   }
@@ -262,6 +266,10 @@ extension CredentialSubjectTypeExtension on CredentialSubjectType {
         return 'AragoOver18';
       case CredentialSubjectType.pcdsAgentCertificate:
         return 'PCDSAgentCertificate';
+      case CredentialSubjectType.euDiplomaCard:
+        return 'https://api.preprod.ebsi.eu/trusted-schemas-registry/v1/schemas/0xbf78fc08a7a9f28f5479f58dea269d3657f54f13ca37d380cd4e92237fb691dd';
+      case CredentialSubjectType.euVerifiableId:
+        return 'https://api-conformance.ebsi.eu/trusted-schemas-registry/v2/schemas/z22ZAMdQtNLwi51T2vdZXGGZaYyjrsuP1yzWyXZirCAHv';
       case CredentialSubjectType.defaultCredential:
         return '';
     }
@@ -373,6 +381,10 @@ extension CredentialSubjectTypeExtension on CredentialSubjectType {
         return BinancePooAddressModel.fromJson(json);
       case CredentialSubjectType.tezosPooAddress:
         return TezosPooAddressModel.fromJson(json);
+      case CredentialSubjectType.euDiplomaCard:
+        return EUDiplomaCardModel.fromJson(json);
+      case CredentialSubjectType.euVerifiableId:
+        return EUVerifiableIdModel.fromJson(json);
     }
   }
 
@@ -400,5 +412,154 @@ extension CredentialSubjectTypeExtension on CredentialSubjectType {
       return true;
     }
     return false;
+  }
+
+  bool get isEbsiCard {
+    if (this == CredentialSubjectType.euDiplomaCard ||
+        this == CredentialSubjectType.euVerifiableId) {
+      return true;
+    }
+    return false;
+  }
+
+  bool get isBlockchainAccount {
+    if (this == CredentialSubjectType.tezosAssociatedWallet ||
+        this == CredentialSubjectType.ethereumAssociatedWallet ||
+        this == CredentialSubjectType.binanceAssociatedWallet ||
+        this == CredentialSubjectType.fantomAssociatedWallet ||
+        this == CredentialSubjectType.polygonAssociatedWallet) {
+      return true;
+    }
+    return false;
+  }
+
+  Widget? get blockchainWidget {
+    if (this == CredentialSubjectType.tezosAssociatedWallet) {
+      return const TezosAssociatedAddressWidget();
+    } else if (this == CredentialSubjectType.ethereumAssociatedWallet) {
+      return const EthereumAssociatedAddressWidget();
+    } else if (this == CredentialSubjectType.polygonAssociatedWallet) {
+      return const PolygonAssociatedAddressWidget();
+    } else if (this == CredentialSubjectType.binanceAssociatedWallet) {
+      return const BinanceAssociatedAddressWidget();
+    } else if (this == CredentialSubjectType.tezosAssociatedWallet) {
+      return const TezosAssociatedAddressWidget();
+    } else if (this == CredentialSubjectType.fantomAssociatedWallet) {
+      return const FantomAssociatedAddressWidget();
+    }
+    return null;
+  }
+
+  String get title {
+    switch (this) {
+      case CredentialSubjectType.bloometaPass:
+        return 'Bloometa';
+      case CredentialSubjectType.troopezPass:
+        return 'Troopez Pass';
+      case CredentialSubjectType.pigsPass:
+        return 'Pigs Pass';
+      case CredentialSubjectType.matterlightPass:
+        return 'Matterlight Pass';
+      case CredentialSubjectType.dogamiPass:
+        return 'Dogami Pass';
+      case CredentialSubjectType.bunnyPass:
+        return 'Bunny Pass';
+      case CredentialSubjectType.tezotopiaMembership:
+        return 'Membership Card';
+      case CredentialSubjectType.chainbornMembership:
+        return 'Chainborn';
+      case CredentialSubjectType.twitterCard:
+        return 'Twitter Account Proof';
+      case CredentialSubjectType.ageRange:
+        return 'Age Range';
+      case CredentialSubjectType.nationality:
+        return 'Nationality';
+      case CredentialSubjectType.gender:
+        return 'Gender';
+      case CredentialSubjectType.walletCredential:
+        return 'Wallet Credential';
+      case CredentialSubjectType.tezosAssociatedWallet:
+        return 'Tezos Associated Address';
+      case CredentialSubjectType.ethereumAssociatedWallet:
+        return 'Ethereum Associated Address';
+      case CredentialSubjectType.fantomAssociatedWallet:
+        return 'Fantom Associated Address';
+      case CredentialSubjectType.polygonAssociatedWallet:
+        return 'Polygon Associated Address';
+      case CredentialSubjectType.binanceAssociatedWallet:
+        return 'Binance Associated Address';
+      case CredentialSubjectType.ethereumPooAddress:
+        return 'Ethereum Poo Address';
+      case CredentialSubjectType.fantomPooAddress:
+        return 'Fantom Poo Address';
+      case CredentialSubjectType.polygonPooAddress:
+        return 'Polygon Poo Address';
+      case CredentialSubjectType.binancePooAddress:
+        return 'Binance Poo Address';
+      case CredentialSubjectType.tezosPooAddress:
+        return 'Tezos Poo Address';
+      case CredentialSubjectType.certificateOfEmployment:
+        return 'Certificate of Employment';
+      case CredentialSubjectType.ecole42LearningAchievement:
+        return 'Ecole42 Learning Achievement';
+      case CredentialSubjectType.emailPass:
+        return 'Email Pass';
+      case CredentialSubjectType.identityPass:
+        return 'Identity Pass';
+      case CredentialSubjectType.verifiableIdCard:
+        return 'VerifiableId';
+      case CredentialSubjectType.linkedInCard:
+        return 'Linkedin Card';
+      case CredentialSubjectType.learningAchievement:
+        return 'Learning Achievement';
+      case CredentialSubjectType.loyaltyCard:
+        return 'Loyalty Card';
+      case CredentialSubjectType.over18:
+        return 'Over18';
+      case CredentialSubjectType.over13:
+        return 'Over13';
+      case CredentialSubjectType.passportFootprint:
+        return 'Passport Number';
+      case CredentialSubjectType.phonePass:
+        return 'Phone Proof';
+      case CredentialSubjectType.professionalExperienceAssessment:
+        return 'Professional Experience Assessment';
+      case CredentialSubjectType.professionalSkillAssessment:
+        return 'Professional Skill Assessment';
+      case CredentialSubjectType.professionalStudentCard:
+        return 'Professional Student Card';
+      case CredentialSubjectType.residentCard:
+        return 'Resident Card';
+      case CredentialSubjectType.selfIssued:
+        return 'Self Issued';
+      case CredentialSubjectType.studentCard:
+        return 'Student Card';
+      case CredentialSubjectType.voucher:
+        return 'Voucher';
+      case CredentialSubjectType.tezVoucher:
+        return 'TezVoucher';
+      case CredentialSubjectType.talaoCommunityCard:
+        return 'Talao Community';
+      case CredentialSubjectType.diplomaCard:
+        return 'Verifiable Diploma';
+      case CredentialSubjectType.aragoPass:
+        return 'Arago Pass';
+      case CredentialSubjectType.aragoEmailPass:
+        return 'Arago Email Pass';
+      case CredentialSubjectType.aragoIdentityCard:
+        return 'Arago Id Card';
+      case CredentialSubjectType.aragoLearningAchievement:
+        return 'Arago Learning Achievement';
+      case CredentialSubjectType.aragoOver18:
+        return 'Arago Over18';
+      case CredentialSubjectType.pcdsAgentCertificate:
+        return 'PCDS Agent Certificate';
+      case CredentialSubjectType.euDiplomaCard:
+        return 'EU Diploma';
+      case CredentialSubjectType.euVerifiableId:
+        return 'EU VerifiableID';
+      case CredentialSubjectType.defaultCredential:
+        return '';
+    }
   }
 }

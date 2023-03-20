@@ -44,6 +44,35 @@ Future<void> openBlockchainExplorer(
   }
 }
 
+Future<void> openAddressBlockchainExplorer(
+  BlockchainNetwork network,
+  String address,
+) async {
+  if (network is TezosNetwork) {
+    await LaunchUrl.launch(
+      'https://tzkt.io/$address/operations',
+    );
+  } else if (network is PolygonNetwork) {
+    await LaunchUrl.launch(
+      'https://polygonscan.com/address/$address',
+    );
+  } else if (network is BinanceNetwork) {
+    await LaunchUrl.launch(
+      'https://www.bscscan.com/address/$address',
+    );
+  } else if (network is FantomNetwork) {
+    await LaunchUrl.launch(
+      'https://ftmscan.com/address/$address',
+    );
+  } else if (network is EthereumNetwork) {
+    await LaunchUrl.launch(
+      'https://etherscan.io/address/$address',
+    );
+  } else {
+    UnimplementedError();
+  }
+}
+
 String generateDefaultAccountName(
   int accountIndex,
   List<String> accountNameList,
@@ -235,12 +264,17 @@ String timeFormatter({required int timeInSecond}) {
   return '$minute : $second';
 }
 
-Future<List<String>> getssiMnemonicsInList() async {
-  final phrase = await getSecureStorage.get(SecureStorageKeys.ssiMnemonic);
+Future<List<String>> getssiMnemonicsInList(
+  SecureStorageProvider secureStorageProvider,
+) async {
+  final phrase = await secureStorageProvider.get(SecureStorageKeys.ssiMnemonic);
   return phrase!.split(' ');
 }
 
 Future<bool> getStoragePermission() async {
+  if (isAndroid()) {
+    return true;
+  }
   if (await Permission.storage.request().isGranted) {
     return true;
   } else if (await Permission.storage.request().isPermanentlyDenied) {
@@ -292,4 +326,8 @@ Future<String> getRandomP256PrivateKey(
   } else {
     return p256PrivateKey;
   }
+}
+
+bool isVerifiableDiplomaType(CredentialModel credentialModel) {
+  return credentialModel.credentialPreview.type.contains('VerifiableDiploma');
 }

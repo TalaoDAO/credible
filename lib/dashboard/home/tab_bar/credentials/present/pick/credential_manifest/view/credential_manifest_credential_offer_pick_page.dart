@@ -113,7 +113,9 @@ class CredentialManifestOfferPickView extends StatelessWidget {
                       titleAlignment: Alignment.topCenter,
                       titleTrailing: const WhiteCloseButton(),
                       padding: const EdgeInsets.symmetric(
-                          vertical: 24, horizontal: 16),
+                        vertical: 24,
+                        horizontal: 16,
+                      ),
                       body: Column(
                         children: <Widget>[
                           Text(
@@ -121,21 +123,14 @@ class CredentialManifestOfferPickView extends StatelessWidget {
                             style: Theme.of(context).textTheme.credentialSteps,
                           ),
                           const SizedBox(height: 10),
-                          if (purpose != null)
-                            Padding(
-                              padding: const EdgeInsets.all(8),
-                              child: Text(
-                                purpose,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .credentialSubtitle,
-                              ),
-                            )
-                          else
-                            const SizedBox.shrink(),
-                          Text(
-                            l10n.credentialPickSelect,
-                            style: Theme.of(context).textTheme.bodyLarge,
+                          Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: Text(
+                              purpose ?? l10n.credentialPickSelect,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .credentialSubtitle,
+                            ),
                           ),
                           const SizedBox(height: 12),
                           ...List.generate(
@@ -168,8 +163,7 @@ class CredentialManifestOfferPickView extends StatelessWidget {
                                           presentationDefinition
                                                   .inputDescriptors[
                                               inputDescriptorIndex];
-                                      //no sure if I'm correct to take first field
-                                      //to check optional
+
                                       final isOptional = inputDescriptor
                                               .constraints
                                               ?.fields

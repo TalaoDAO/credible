@@ -59,6 +59,7 @@ class DiscoverDetailsView extends StatelessWidget {
     return BasePage(
       title: l10n.cardDetails,
       scrollView: false,
+      titleAlignment: Alignment.topCenter,
       titleLeading: const BackLeadingButton(),
       body: BackgroundCard(
         child: Column(
@@ -104,7 +105,7 @@ class DiscoverDetailsView extends StatelessWidget {
                         ),
                       ),
                     ),
-                    _buildDetailsFields(context, l10n),
+                    DetailFields(homeCredential: homeCredential),
                   ],
                 ),
               ),
@@ -125,8 +126,19 @@ class DiscoverDetailsView extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget _buildDetailsFields(BuildContext context, AppLocalizations l10n) {
+class DetailFields extends StatelessWidget {
+  const DetailFields({
+    super.key,
+    required this.homeCredential,
+  });
+
+  final HomeCredential homeCredential;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
     if (homeCredential.credentialSubjectType.isDisabled) {
       return DiscoverDynamicDetial(
         title: l10n.credentialManifestDescription,
@@ -134,12 +146,21 @@ class DiscoverDetailsView extends StatelessWidget {
       );
     }
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (homeCredential.websiteGameLink != null)
+        if (homeCredential.websiteLink != null)
           DiscoverDynamicDetial(
-            title: l10n.websiteGame,
-            value: homeCredential.websiteGameLink!,
+            title: l10n.website,
+            value: homeCredential.websiteLink!,
             format: AltMeStrings.uri,
+          ),
+        if (homeCredential.longDescription != null)
+          DiscoverDynamicDetial(
+            title: homeCredential.credentialSubjectType.title,
+            value: homeCredential.whyGetThisCard!.getMessage(
+              context,
+              homeCredential.longDescription!,
+            ),
           ),
         if (homeCredential.whyGetThisCard != null)
           DiscoverDynamicDetial(

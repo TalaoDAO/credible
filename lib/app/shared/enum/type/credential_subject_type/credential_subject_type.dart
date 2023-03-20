@@ -56,4 +56,6 @@ enum CredentialSubjectType {
   aragoOver18,
   pcdsAgentCertificate,
   twitterCard,
+  euDiplomaCard,
+  euVerifiableId,
 }

@@ -164,9 +164,31 @@ final qrCodeBlocListener = BlocListener<QRCodeScanCubit, QRCodeScanState>(
       if (state.uri != null) {
         final profileCubit = context.read<ProfileCubit>();
         var approvedIssuer = Issuer.emptyIssuer(state.uri!.host);
-        final isIssuerVerificationSettingTrue =
+
+        late bool isIssuerVerificationSettingTrue;
+
+        isIssuerVerificationSettingTrue =
             profileCubit.state.model.issuerVerificationUrl != '';
+
+        /// issuer side (oidc4VCI)
+        if (state.uri!.toString().startsWith('openid://initiate_issuance?')) {
+          isIssuerVerificationSettingTrue = true;
+        }
+
+        /// verifier side (siopv2) without request_uri
+        // if (state.uri?.queryParameters['scope'] == 'openid') {
+        //   isIssuerVerificationSettingTrue =
+        //       state.uri!.queryParameters['request_uri'] != null;
+        // }
+
+        /// verifier side (siopv2) with request_uri
+        if (state.uri.toString().startsWith('openid://?client_id')) {
+          isIssuerVerificationSettingTrue =
+              state.uri!.queryParameters['request_uri'] != null;
+        }
+
         log.i('checking issuer - $isIssuerVerificationSettingTrue');
+
         if (isIssuerVerificationSettingTrue) {
           try {
             approvedIssuer = await CheckIssuer(
@@ -175,6 +197,7 @@ final qrCodeBlocListener = BlocListener<QRCodeScanCubit, QRCodeScanState>(
               state.uri!,
             ).isIssuerInApprovedList();
           } catch (e) {
+            log.e(e);
             if (e is MessageHandler) {
               await context.read<QRCodeScanCubit>().emitError(e);
             } else {
@@ -191,16 +214,39 @@ final qrCodeBlocListener = BlocListener<QRCodeScanCubit, QRCodeScanState>(
 
         var acceptHost = true;
 
-        if (approvedIssuer.did.isEmpty &&
-            profileCubit.state.model.issuerVerificationUrl.isNotEmpty) {
+        if (approvedIssuer.did.isEmpty && isIssuerVerificationSettingTrue) {
+          String subtitle = (approvedIssuer.did.isEmpty)
+              ? state.uri!.host
+              : '''${approvedIssuer.organizationInfo.legalName}\n${approvedIssuer.organizationInfo.currentAddress}''';
+
+          /// issuer side (oidc4VCI)
+          if (state.uri!.toString().startsWith('openid://initiate_issuance?')) {
+            subtitle = state.uri!.queryParameters['issuer'].toString();
+          }
+
+          /// verifier side (siopv2) without request_uri
+          // if (state.uri?.queryParameters['scope'] == 'openid') {
+          //   subtitle = state.uri!.queryParameters['request_uri'].toString();
+          // }
+
+          /// verifier side (siopv2) with request_uri
+          if (state.uri.toString().startsWith('openid://?client_id')) {
+            subtitle = state.uri!.queryParameters['request_uri'].toString();
+          }
+
+          String title = l10n.scanPromptHost;
+
+          if (!state.isRequestVerified) {
+            title = '${l10n.service_not_registered_message} '
+                '${l10n.scanPromptHost}';
+          }
+
           acceptHost = await showDialog<bool>(
                 context: context,
                 builder: (BuildContext context) {
                   return ConfirmDialog(
-                    title: l10n.scanPromptHost,
-                    subtitle: (approvedIssuer.did.isEmpty)
-                        ? state.uri!.host
-                        : '''${approvedIssuer.organizationInfo.legalName}\n${approvedIssuer.organizationInfo.currentAddress}''',
+                    title: title,
+                    subtitle: subtitle,
                     yes: l10n.communicationHostAllow,
                     no: l10n.communicationHostDeny,
                     //lock: state.uri!.scheme == 'http',
@@ -211,11 +257,7 @@ final qrCodeBlocListener = BlocListener<QRCodeScanCubit, QRCodeScanState>(
         }
 
         if (acceptHost) {
-          await context.read<QRCodeScanCubit>().accept(
-                uri: state.uri!,
-                issuer: approvedIssuer,
-                isScan: state.isScan,
-              );
+          await context.read<QRCodeScanCubit>().accept(issuer: approvedIssuer);
         } else {
           await context.read<QRCodeScanCubit>().emitError(
                 ResponseMessage(

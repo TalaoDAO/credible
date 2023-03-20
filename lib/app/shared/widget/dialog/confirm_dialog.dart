@@ -28,12 +28,14 @@ class ConfirmDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = dialogColor ?? Theme.of(context).colorScheme.primary;
-    final background = bgColor ?? Theme.of(context).colorScheme.onBackground;
-    final text = textColor ?? Theme.of(context).colorScheme.dialogText;
+    final background = bgColor ?? Theme.of(context).colorScheme.popupBackground;
+    final textColor =
+        this.textColor ?? Theme.of(context).colorScheme.dialogText;
 
     final l10n = context.l10n;
     return AlertDialog(
       backgroundColor: background,
+      surfaceTintColor: Colors.transparent,
       contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(25)),
@@ -49,8 +51,10 @@ class ConfirmDialog extends StatelessWidget {
           ),
           Text(
             title,
-            style:
-                Theme.of(context).textTheme.dialogTitle.copyWith(color: text),
+            style: Theme.of(context)
+                .textTheme
+                .defaultDialogTitle
+                .copyWith(color: textColor),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: Sizes.spaceXSmall),
@@ -59,8 +63,8 @@ class ConfirmDialog extends StatelessWidget {
               subtitle!,
               style: Theme.of(context)
                   .textTheme
-                  .dialogSubtitle
-                  .copyWith(color: text),
+                  .defaultDialogSubtitle
+                  .copyWith(color: textColor),
               textAlign: TextAlign.center,
             ),
           const SizedBox(height: 24),

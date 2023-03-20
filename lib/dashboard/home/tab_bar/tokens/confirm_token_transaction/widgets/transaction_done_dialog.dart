@@ -40,7 +40,8 @@ class TransactionDoneDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     return AlertDialog(
-      backgroundColor: Theme.of(context).colorScheme.onBackground,
+      backgroundColor: Theme.of(context).colorScheme.popupBackground,
+      surfaceTintColor: Colors.transparent,
       contentPadding: const EdgeInsets.symmetric(
         horizontal: Sizes.spaceNormal,
         vertical: Sizes.spaceSmall,
@@ -57,6 +58,7 @@ class TransactionDoneDialog extends StatelessWidget {
               IconStrings.bigCheckCircle,
               height: Sizes.icon4x,
               width: Sizes.icon4x,
+              color: Theme.of(context).iconTheme.color,
             ),
             const SizedBox(height: Sizes.spaceNormal),
             Text(

@@ -4,19 +4,16 @@ import 'package:altme/app/app.dart';
 import 'package:altme/connection_bridge/connection_bridge.dart';
 import 'package:altme/dashboard/dashboard.dart';
 import 'package:altme/deep_link/deep_link.dart';
-import 'package:altme/ebsi/add_ebsi_credential.dart';
 import 'package:altme/ebsi/initiate_ebsi_credential_issuance.dart';
 import 'package:altme/splash/splash.dart';
 import 'package:altme/theme/app_theme/app_theme.dart';
 import 'package:altme/wallet/wallet.dart';
 import 'package:dio/dio.dart';
-import 'package:ebsi/ebsi.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' as services;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:secure_storage/secure_storage.dart' as secure_storage;
-import 'package:secure_storage/secure_storage.dart';
 import 'package:uni_links/uni_links.dart';
 
 bool _initialUriIsHandled = false;
@@ -67,64 +64,68 @@ class _SplashViewState extends State<SplashView> {
           if (!mounted) return;
           log.i('got uri: $uri');
           final url = '${uri!.scheme}://${uri.authority}${uri.path}';
+          // if (url == Parameters.ebsiUniversalLink) {
+          //   final client = Dio();
+          //   final ebsi = Ebsi(client);
+          //   final mnemonic =
+          //       await getSecureStorage.get(SecureStorageKeys.ssiMnemonic);
+          //   final privateKey =
+          //       await ebsi.privateKeyFromMnemonic(mnemonic: mnemonic!);
+          //   var credentialUri = uri;
+          //   if (uri.queryParameters['uri'] != null) {
+          //     final credentialUrl = uri.queryParameters['uri'];
+          //     credentialUri = Uri.parse(credentialUrl!);
+          //     if (credentialUri.queryParameters['scope'] == 'openid') {
+          //       print('we should launch SIOPV2');
+          //     }
+          //   }
 
-          if (url == Parameters.ebsiUniversalLink) {
-            final client = Dio();
-            final ebsi = Ebsi(client);
-            // final mnemonic = await secure_storage.getSecureStorage.get(
-            //   SecureStorageKeys.ssiMnemonic,
-            // );
-            var credentialUri = uri;
-            if (uri.queryParameters['uri'] != null) {
-              final credentialUrl = uri.queryParameters['uri'];
-              credentialUri = Uri.parse(credentialUrl!);
+          //   final dynamic encodedCredentialFromEbsi = await ebsi.getCredential(
+          //     credentialUri,
+          //     null,
+          //     privateKey,
+          //   );
+          //   await addEbsiCredential(
+          //     encodedCredentialFromEbsi,
+          //     credentialUri,
+          //     context.read<WalletCubit>(),
+          //   );
+          // } else {
+          String beaconData = '';
+          bool isBeaconRequest = false;
+          uri.queryParameters.forEach((key, value) async {
+            if (key == 'uri') {
+              final url = value.replaceAll(RegExp(r'ß^\"|\"$'), '');
+              context.read<DeepLinkCubit>().addDeepLink(url);
+              final ssiKey = await secure_storage.getSecureStorage
+                  .get(SecureStorageKeys.ssiKey);
+              if (ssiKey != null) {
+                await context.read<QRCodeScanCubit>().deepLink();
+              }
             }
-            final String p256PrivateKey =
-                await getRandomP256PrivateKey(getSecureStorage);
-            final dynamic encodedCredentialFromEbsi = await ebsi.getCredential(
-              credentialUri,
-              null,
-              p256PrivateKey,
-            );
-            await addEbsiCredential(
-              encodedCredentialFromEbsi,
-              credentialUri,
-              context.read<WalletCubit>(),
-            );
-          } else {
-            String beaconData = '';
-            bool isBeaconRequest = false;
-            uri.queryParameters.forEach((key, value) async {
-              if (key == 'uri') {
-                final url = value.replaceAll(RegExp(r'ß^\"|\"$'), '');
-                context.read<DeepLinkCubit>().addDeepLink(url);
-                final ssiKey = await secure_storage.getSecureStorage
-                    .get(SecureStorageKeys.ssiKey);
-                if (ssiKey != null) {
-                  await context.read<QRCodeScanCubit>().deepLink();
-                }
-              }
-              if (key == 'type' && value == 'tzip10') {
-                isBeaconRequest = true;
-              }
-              if (key == 'data') {
-                beaconData = value;
-              }
-              if (uri.scheme == 'openid' &&
-                  uri.authority == 'initiate_issuance') {
-                final DioClient client = DioClient('', Dio());
-                await initiateEbsiCredentialIssuance(
-                  uri.toString(),
-                  client,
-                  context.read<WalletCubit>(),
-                  secure_storage.getSecureStorage,
-                );
-              }
-            });
-            if (isBeaconRequest && beaconData != '') {
-              context.read<BeaconCubit>().peerFromDeepLink(beaconData);
+            if (key == 'type' && value == 'tzip10') {
+              isBeaconRequest = true;
             }
+            if (key == 'data') {
+              beaconData = value;
+            }
+            if (uri.scheme == 'openid' &&
+                uri.authority == 'initiate_issuance') {
+              final DioClient client = DioClient('', Dio());
+              await initiateEbsiCredentialIssuance(
+                uri.toString(),
+                client,
+                context.read<WalletCubit>(),
+                secure_storage.getSecureStorage,
+              );
+            }
+          });
+          if (isBeaconRequest && beaconData != '') {
+            unawaited(
+              context.read<BeaconCubit>().peerFromDeepLink(beaconData),
+            );
           }
+          // }
         },
         onError: (Object err) {
           if (!mounted) return;
