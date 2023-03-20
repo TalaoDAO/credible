@@ -46,15 +46,25 @@ class HelpCenterView extends StatelessWidget {
                   height: Sizes.spaceSmall,
                 ),
                 DrawerItem(
-                  title: l10n.faqs,
+                  title: l10n.altmeSupport,
                   onTap: () {
-                    Navigator.of(context).push<void>(FAQsPage.route());
+                    Navigator.of(context).push<void>(
+                      AltmeSupportChatPage.route(
+                        appBarTitle: l10n.altmeSupport,
+                      ),
+                    );
                   },
                 ),
                 DrawerItem(
-                  title: '${l10n.contactUs} : ${AltMeStrings.appSupportMail}',
+                  title: '${l10n.sendAnEmail} : ${AltMeStrings.appSupportMail}',
                   onTap: () {
                     Navigator.of(context).push<void>(ContactUsPage.route());
+                  },
+                ),
+                DrawerItem(
+                  title: l10n.faqs,
+                  onTap: () {
+                    Navigator.of(context).push<void>(FAQsPage.route());
                   },
                 ),
                 DrawerItem(
@@ -71,9 +81,9 @@ class HelpCenterView extends StatelessWidget {
                         Text(
                           AltMeStrings.appContactWebsiteName,
                           textAlign: TextAlign.left,
-                          style: Theme.of(context).textTheme.titleSmall,
+                          style: Theme.of(context).textTheme.drawerItem,
                         ),
-                        const SizedBox(width: 16),
+                        const Spacer(),
                         Icon(
                           Icons.chevron_right,
                           size: 26,
@@ -82,12 +92,6 @@ class HelpCenterView extends StatelessWidget {
                       ],
                     ),
                   ),
-                ),
-                DrawerItem(
-                  title: l10n.altmeSupport,
-                  onTap: () {
-                    Navigator.of(context).push<void>(LiveChatPage.route());
-                  },
                 ),
               ],
             ),

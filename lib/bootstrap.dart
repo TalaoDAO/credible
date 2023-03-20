@@ -91,7 +91,7 @@ class AppBlocObserver extends BlocObserver {
   @override
   void onChange(BlocBase<dynamic> bloc, Change<dynamic> change) {
     super.onChange(bloc, change);
-    log('onChange(${bloc.runtimeType}, $change)');
+    log('onChange(${bloc.runtimeType}, ${change.runtimeType})');
   }
 
   @override
@@ -125,6 +125,9 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   );
 
   await Dartez().init();
+
+  /// PolygonId SDK initialization
+  // await PolygonId().init();
 
   await runZonedGuarded(
     () async {

@@ -26,12 +26,13 @@ class WalletConnectCubit extends Cubit<WalletConnectState> {
       log.i('initialise');
       final List<SavedDappData> savedDapps =
           await connectedDappRepository.findAll();
-      final ethereumConnectedDapps = List.of(savedDapps).where(
-        (element) => element.blockchainType == BlockchainType.ethereum,
+
+      final connectedDapps = List.of(savedDapps).where(
+        (element) => element.blockchainType != BlockchainType.tezos,
       );
 
       final List<WCClient> wcClients = List.empty(growable: true);
-      for (final element in ethereumConnectedDapps) {
+      for (final element in connectedDapps) {
         final sessionStore = element.wcSessionStore;
 
         final WCClient? wcClient = createWCClient(element.wcSessionStore);

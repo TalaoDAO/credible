@@ -1,6 +1,8 @@
 class SecureStorageKeys {
   static const String isUserRegisteredMatrix = 'isUserRegisteredMatrix';
   static const String supportRoomId = 'MatrixSupportRoomId';
+  static const String loyaltyCardsupportRoomId =
+      'MatrixLoyaltyCardsupportRoomId';
   static const String isFirstSelectedTokenContracts =
       'isFirstSelectedTokenContracts';
   static const String selectedContracts = 'selectedContracts';
@@ -12,6 +14,7 @@ class SecureStorageKeys {
   static const String isGamingEnabled = 'isGamingEnabled';
   static const String isBlockchainAccountsEnabled =
       'isBlockchainAccountsEnabled';
+  static const String isEducationEnabled = 'isEducationEnabled';
   static const String isPassEnabled = 'isPassEnabled';
   static const String isSocialMediaEnabled = 'isSocialMediaEnabled';
   static const String fingerprintEnabled = 'fingerprintEnabled';
@@ -67,4 +70,6 @@ class SecureStorageKeys {
   static const String recoverCredentialMnemonics = 'recoverCredentialMnemonics';
   static const String version = 'version';
   static const String buildNumber = 'buildNumber';
+
+  static const String hasVerifiedMnemonics = 'hasVerifiedMnemonics';
 }

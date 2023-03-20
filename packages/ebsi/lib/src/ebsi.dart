@@ -4,18 +4,18 @@ import 'dart:convert';
 
 import 'package:bip32/bip32.dart' as bip32;
 import 'package:bip39/bip39.dart' as bip393;
+import 'package:cryptography/cryptography.dart' as cryptography;
 import 'package:dio/dio.dart';
 import 'package:ebsi/src/issuer_token_parameters.dart';
 import 'package:ebsi/src/token_parameters.dart';
+import 'package:ebsi/src/verification_type.dart';
 import 'package:ebsi/src/verifier_token_parameters.dart';
 import 'package:flutter/foundation.dart';
-// ignore: depend_on_referenced_packages
 import 'package:hex/hex.dart';
 import 'package:jose/jose.dart';
 import 'package:json_path/json_path.dart';
 import 'package:secp256k1/secp256k1.dart';
-// ignore: implementation_imports
-// ignore: implementation_imports, unnecessary_import
+import 'package:uuid/uuid.dart';
 
 /// {@template ebsi}
 /// EBSI wallet compliance
@@ -65,10 +65,10 @@ class Ebsi {
     final ay = HEX.decode(my);
     final y = base64Url.encode(ay).substring(0, 43);
     // ATTENTION !!!!!
-    /// we are using P-256K for dart library conformance which is
-    /// the same as secp256k1
+    /// we were using P-256K for dart library conformance which is
+    /// the same as secp256k1, but we are using secp256k1 now
     final jwk = {
-      'crv': 'P-256K',
+      'crv': 'secp256k1',
       'd': d,
       'kty': 'EC',
       'x': x,
@@ -202,12 +202,15 @@ class Ebsi {
 
     final response = await getToken(tokenEndPoint, tokenData);
 
+    final private = await getPrivateKey(mnemonic, privateKey);
+
+    final issuerTokenParameters = IssuerTokenParameters(private, issuer);
+
     final credentialData = await buildCredentialData(
       response as Map<String, dynamic>,
-      mnemonic,
-      privateKey,
-      issuer,
+      issuerTokenParameters,
       credentialRequestUri,
+      openidConfigurationResponse,
     );
 
     final credentialEndpoint =
@@ -263,13 +266,49 @@ class Ebsi {
     return issuer;
   }
 
+  Future<Response<Map<String, dynamic>>> getDidDocument(String didKey) async {
+    try {
+      final didDocument = await client.get<Map<String, dynamic>>(
+        'https://api-pilot.ebsi.eu/did-registry/v3/identifiers/$didKey',
+      );
+      return didDocument;
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
   String readTokenEndPoint(
     Response<Map<String, dynamic>> openidConfigurationResponse,
   ) {
     final jsonPath = JsonPath(r'$..token_endpoint');
+
     final tokenEndPoint =
         jsonPath.readValues(openidConfigurationResponse.data).first as String;
     return tokenEndPoint;
+  }
+
+  String readIssuerDid(
+    Response<Map<String, dynamic>> openidConfigurationResponse,
+  ) {
+    final jsonPath = JsonPath(r'$..issuer');
+    final data = jsonPath.read(openidConfigurationResponse.data).first.value;
+
+    return data['id'] as String;
+  }
+
+  Map<String, dynamic> readPublicKeyJwk(
+    String holderKid,
+    Response<Map<String, dynamic>> didDocumentResponse,
+  ) {
+    final jsonPath = JsonPath(r'$..verificationMethod');
+    final data = jsonPath.read(didDocumentResponse.data).first.value
+      ..where(
+        (dynamic e) => e['id'].toString() == holderKid,
+      ).toList();
+
+    final value = data.first['publicKeyJwk'];
+
+    return jsonDecode(jsonEncode(value)) as Map<String, dynamic>;
   }
 
   Future<Map<String, dynamic>> getPrivateKey(
@@ -284,31 +323,114 @@ class Ebsi {
     } else {
       private = jsonDecode(privateKey!) as Map<String, dynamic>;
     }
-
     return private;
   }
 
   Future<Map<String, dynamic>> buildCredentialData(
     Map<String, dynamic> response,
-    String? mnemonic,
-    String? privateKey,
-    String issuer,
+    IssuerTokenParameters issuerTokenParameters,
     Uri credentialRequestUri,
+    Response<Map<String, dynamic>> openidConfigurationResponse,
   ) async {
     final nonce = response['c_nonce'] as String;
 
-    final private = await getPrivateKey(mnemonic, privateKey);
+    final vcJwt = await getIssuerJwt(issuerTokenParameters, nonce);
 
-    final issuerTokenParameters = IssuerTokenParameters(private, issuer);
-    final jwt = await getIssuerJwt(issuerTokenParameters, nonce);
+    //final issuerDid = readIssuerDid(openidConfigurationResponse);
+
+    // final isVerified = await verifyEncodedData(
+    //   issuerDid: issuerDid,
+    //   jwt: vcJwt,
+    //   holderKid: issuerTokenParameters.kid,
+    // );
+
+    // if (isVerified == VerificationType.notVerified) {
+    //   throw Exception('VERIFICATION_ISSUE');
+    // }
+
     final credentialType =
         credentialRequestUri.queryParameters['credential_type'];
     final credentialData = <String, dynamic>{
       'type': credentialType,
       'format': 'jwt_vc',
-      'proof': {'proof_type': 'jwt', 'jwt': jwt}
+      'proof': {'proof_type': 'jwt', 'jwt': vcJwt}
     };
     return credentialData;
+  }
+
+  Future<VerificationType> verifyEncodedData({
+    required String issuerDid,
+    required String holderKid,
+    required String jwt,
+  }) async {
+    try {
+      final didDocument = await getDidDocument(issuerDid);
+
+      final publicKeyJwk = readPublicKeyJwk(holderKid, didDocument);
+
+      final kty = publicKeyJwk['kty'].toString();
+
+      late final bool isVerified;
+      if (kty == 'OKP') {
+        var xString = publicKeyJwk['x'].toString();
+        final paddingLength = 4 - (xString.length % 4);
+        xString += '=' * paddingLength;
+
+        final publicKeyBytes = base64Url.decode(xString);
+
+        final publicKey = cryptography.SimplePublicKey(
+          publicKeyBytes,
+          type: cryptography.KeyPairType.ed25519,
+        );
+
+        isVerified = await verifyJwt(jwt, publicKey);
+      } else {
+        // create a JsonWebSignature from the encoded string
+        final jws = JsonWebSignature.fromCompactSerialization(jwt);
+
+        // create a JsonWebKey for verifying the signature
+        final keyStore = JsonWebKeyStore()
+          ..addKey(
+            JsonWebKey.fromJson(publicKeyJwk),
+          );
+        isVerified = await jws.verify(keyStore);
+      }
+
+      if (isVerified) {
+        return VerificationType.verified;
+      } else {
+        return VerificationType.notVerified;
+      }
+    } catch (e) {
+      return VerificationType.unKnown;
+    }
+  }
+
+  Future<bool> verifyJwt(
+    String vcJwt,
+    cryptography.SimplePublicKey publicKey,
+  ) async {
+    final parts = vcJwt.split('.');
+
+    final header = parts[0];
+    final payload = parts[1];
+
+    final message = utf8.encode('$header.$payload');
+
+    // Get the signature
+    var signatureString = parts[2];
+    final paddingLength = 4 - (signatureString.length % 4);
+    signatureString += '=' * paddingLength;
+    final signatureBytes = base64Url.decode(signatureString);
+
+    final signature =
+        cryptography.Signature(signatureBytes, publicKey: publicKey);
+
+    //verify signature
+    final result =
+        await cryptography.Ed25519().verify(message, signature: signature);
+
+    return result;
   }
 
   String readCredentialEndpoint(
@@ -375,31 +497,41 @@ class Ebsi {
     String? mnemonic,
     String? privateKey,
   ) async {
-    final private = await getPrivateKey(mnemonic, privateKey);
+    //TODO(bibash):  if the "request_uri" attribute exists,
+    //wallet must do a GET to endpoint to get the request value as a
+    //json. The wallet receives a JWT which must be verified wit the public key
+    // of the verifier. It means that wallety must call the API to get teh DID
+    //document from EBSI and extract the correct public key with teh kid.
 
-    final tokenParameters = VerifierTokenParameters(
-      private,
-      uri,
-      credentialsToBePresented,
-    );
-
-    // structures
-    final verifierIdToken = await getIdToken(tokenParameters);
-
-    /// build vp token
-
-    final vpToken = await getVpToken(tokenParameters);
-
-    final responseHeaders = {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    };
-
-    final responseData = <String, dynamic>{
-      'id_token': verifierIdToken,
-      'vp_token': vpToken
-    };
     try {
-      final presentationResponse = await client.post<dynamic>(
+      // final dynamic response =
+      //     await client.get<dynamic>(uri.queryParameters['request_uri']!);
+
+      final private = await getPrivateKey(mnemonic, privateKey);
+
+      final tokenParameters = VerifierTokenParameters(
+        private,
+        uri,
+        credentialsToBePresented,
+      );
+
+      // structures
+      final verifierIdToken = await getIdToken(tokenParameters);
+
+      /// build vp token
+
+      final vpToken = await getVpToken(tokenParameters);
+
+      final responseHeaders = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      };
+
+      final responseData = <String, dynamic>{
+        'id_token': verifierIdToken,
+        'vp_token': vpToken
+      };
+
+      await client.post<dynamic>(
         uri.queryParameters['redirect_uri']!,
         options: Options(headers: responseHeaders),
         data: responseData,
@@ -427,15 +559,18 @@ class Ebsi {
         'id': 'http://example.org/presentations/talao/01',
         'type': ['VerifiablePresentation'],
         'holder': tokenParameters.didKey,
-        'verifiableCredential': [jsonEncode(tokenParameters.jwtsOfCredentials)]
+        'verifiableCredential': tokenParameters.jsonIdOrJwtList
       },
       'nonce': tokenParameters.nonce
     };
+
+    print(vpTokenPayload);
+
     final verifierVpJwt = generateToken(vpTokenPayload, tokenParameters);
+
     return verifierVpJwt;
   }
 
-  @visibleForTesting
   String generateToken(
     Map<String, Object> vpTokenPayload,
     TokenParameters tokenParameters,
@@ -443,6 +578,13 @@ class Ebsi {
     final vpVerifierClaims = JsonWebTokenClaims.fromJson(vpTokenPayload);
     // create a builder, decoding the JWT in a JWS, so using a
     // JsonWebSignatureBuilder
+    final privateKey = tokenParameters.privateKey;
+    if (tokenParameters.privateKey['crv'] == 'secp256k1') {
+      privateKey['crv'] = 'P-256K';
+    }
+
+    final key = JsonWebKey.fromJson(tokenParameters.privateKey);
+
     final vpBuilder = JsonWebSignatureBuilder()
       // set the content
       ..jsonContent = vpVerifierClaims.toJson()
@@ -452,10 +594,8 @@ class Ebsi {
       ..setProtectedHeader('kid', tokenParameters.kid)
 
       // add a key to sign, can only add one for JWT
-      ..addRecipient(
-        JsonWebKey.fromJson(tokenParameters.privateKey),
-        algorithm: tokenParameters.alg,
-      );
+      ..addRecipient(key, algorithm: tokenParameters.alg);
+
     // build the jws
     final vpJws = vpBuilder.build();
 
@@ -468,6 +608,9 @@ class Ebsi {
   Future<String> getIdToken(
     VerifierTokenParameters tokenParameters,
   ) async {
+    final uuid1 = const Uuid().v4();
+    final uuid2 = const Uuid().v4();
+
     /// build id token
     final payload = {
       'iat': DateTime.now().microsecondsSinceEpoch,
@@ -478,11 +621,11 @@ class Ebsi {
       'nonce': tokenParameters.nonce,
       '_vp_token': {
         'presentation_submission': {
-          'definition_id': 'conformance_mock_vp_request',
-          'id': 'VA presentation Talao',
+          'definition_id': 'Altme defintion for EBSI project',
+          'id': uuid1,
           'descriptor_map': [
             {
-              'id': 'conformance_mock_vp',
+              'id': uuid2,
               'format': 'jwt_vp',
               'path': r'$',
             }
@@ -502,5 +645,15 @@ class Ebsi {
 
     final tokenParameters = TokenParameters(private);
     return tokenParameters.didKey;
+  }
+
+  Future<String> getKid(
+    String? mnemonic,
+    String? privateKey,
+  ) async {
+    final private = await getPrivateKey(mnemonic, privateKey);
+
+    final tokenParameters = TokenParameters(private);
+    return tokenParameters.kid;
   }
 }

@@ -67,7 +67,10 @@ class ImageStrings {
   static const String talaoCommunityCard =
       '$imagePath/talao_community_card.png';
   static const String verifiableIdCard = '$imagePath/verifiable_id_card.png';
+
   static const String linkedInCard = '$imagePath/linkedin_card.png';
+  static const String euDiplomaCard = '$imagePath/eu_diploma_card.png';
+  static const String euVerifiableId = '$imagePath/eu_verifiable_id.png';
 
   static const String myAccountCard = '$imagePath/my_account_card.png';
   static const String pooAccountCard = '$imagePath/poo_account_card.png';
@@ -90,6 +93,7 @@ class ImageStrings {
       '$imagePath/dummy_nationality_card.png';
   static const String tezotopiaMemberShipDummy =
       '$imagePath/tezotopia-membership-dummy.png';
+  static const String bloometaDummy = '$imagePath/bloometa-dummy.png';
   static const String chainbornMemberShipDummy =
       '$imagePath/chainborn-membership-dummy.png';
   static const String twitterCardDummy = '$imagePath/twitter-card-dummy.png';

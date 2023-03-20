@@ -4,6 +4,7 @@ import 'package:altme/did/did.dart';
 import 'package:altme/import_wallet/import_wallet.dart';
 import 'package:altme/l10n/l10n.dart';
 import 'package:altme/onboarding/onboarding.dart';
+import 'package:altme/splash/splash.dart';
 import 'package:altme/theme/theme.dart';
 import 'package:altme/wallet/cubit/wallet_cubit.dart';
 import 'package:did_kit/did_kit.dart';
@@ -48,6 +49,7 @@ class ImportFromWalletPage extends StatelessWidget {
         keyGenerator: KeyGenerator(),
         homeCubit: context.read<HomeCubit>(),
         walletCubit: context.read<WalletCubit>(),
+        splashCubit: context.read<SplashCubit>(),
       ),
       child: ImportFromOtherWalletView(
         walletTypeModel: walletTypeModel,
@@ -111,7 +113,7 @@ class _ImportFromOtherWalletViewState extends State<ImportFromOtherWalletView> {
         if (state.status == AppStatus.success) {
           /// Removes every stack except first route (splashPage)
           if (widget.isFromOnboard) {
-            context.read<LiveChatCubit>().init();
+            context.read<AltmeChatSupportCubit>().init();
             Navigator.pushAndRemoveUntil<void>(
               context,
               WalletReadyPage.route(),

@@ -53,11 +53,13 @@ class _TextFieldDialogState extends State<TextFieldDialog> {
     final no = widget.no ?? l10n.no;
 
     final color = widget.dialogColor ?? Theme.of(context).colorScheme.primary;
-    final background = widget.bgColor ?? Theme.of(context).colorScheme.surface;
+    final background =
+        widget.bgColor ?? Theme.of(context).colorScheme.popupBackground;
     final text = widget.textColor ?? Theme.of(context).colorScheme.label;
 
     return AlertDialog(
       backgroundColor: background,
+      surfaceTintColor: Colors.transparent,
       contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
       shape: RoundedRectangleBorder(
         side: BorderSide(
@@ -71,8 +73,10 @@ class _TextFieldDialogState extends State<TextFieldDialog> {
         children: [
           Text(
             widget.title,
-            style:
-                Theme.of(context).textTheme.dialogTitle.copyWith(color: text),
+            style: Theme.of(context)
+                .textTheme
+                .defaultDialogTitle
+                .copyWith(color: text),
             textAlign: TextAlign.center,
           ),
           if (widget.subtitle != null)
@@ -80,7 +84,7 @@ class _TextFieldDialogState extends State<TextFieldDialog> {
               widget.subtitle!,
               style: Theme.of(context)
                   .textTheme
-                  .dialogSubtitle
+                  .defaultDialogSubtitle
                   .copyWith(color: text),
               textAlign: TextAlign.center,
             ),

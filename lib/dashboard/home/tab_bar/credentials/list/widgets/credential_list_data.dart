@@ -57,14 +57,13 @@ class CredentialListData extends StatelessWidget {
                   ),
                   const SizedBox(height: Sizes.spaceNormal),
                 ],
-                if (advanceSettingsState.isBlockchainAccountsEnabled &&
-                    state.blockchainAccountsCredentials.isNotEmpty) ...[
-                  /// BlockchainAccounts Credentials
+                if (advanceSettingsState.isEducationEnabled &&
+                    state.educationCredentials.isNotEmpty) ...[
+                  /// Education Credentials
                   HomeCredentialWidget(
-                    title: l10n.blockChainAccounts,
-                    credentials: state.blockchainAccountsCredentials,
-                    categorySubtitle:
-                        l10n.blockchainAccountsCredentialHomeSubtitle,
+                    title: l10n.educationCredentials,
+                    credentials: state.educationCredentials,
+                    categorySubtitle: l10n.educationCredentialHomeSubtitle,
                   ),
                   const SizedBox(height: Sizes.spaceNormal),
                 ],
@@ -97,6 +96,17 @@ class CredentialListData extends StatelessWidget {
                     credentials: state.othersCredentials,
                     showAddOption: true,
                     categorySubtitle: l10n.otherCredentialHomeSubtitle,
+                  ),
+                  const SizedBox(height: Sizes.spaceNormal),
+                ],
+                if (advanceSettingsState.isBlockchainAccountsEnabled &&
+                    state.blockchainAccountsCredentials.isNotEmpty) ...[
+                  /// BlockchainAccounts Credentials
+                  HomeCredentialWidget(
+                    title: l10n.blockchainAccounts,
+                    credentials: state.blockchainAccountsCredentials,
+                    categorySubtitle:
+                        l10n.blockchainAccountsCredentialHomeSubtitle,
                   ),
                   const SizedBox(height: Sizes.spaceNormal),
                 ],

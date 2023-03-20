@@ -14,7 +14,8 @@ class WalletDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     return AlertDialog(
-      backgroundColor: Theme.of(context).colorScheme.onBackground,
+      backgroundColor: Theme.of(context).colorScheme.popupBackground,
+      surfaceTintColor: Colors.transparent,
       contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(25)),
@@ -27,13 +28,13 @@ class WalletDialog extends StatelessWidget {
             const SizedBox(height: 15),
             Text(
               l10n.walletAltme,
-              style: Theme.of(context).textTheme.walletAltme,
+              style: Theme.of(context).textTheme.defaultDialogTitle,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 5),
             Text(
               l10n.createTitle,
-              style: Theme.of(context).textTheme.walletAltmeMessage,
+              style: Theme.of(context).textTheme.defaultDialogSubtitle,
               textAlign: TextAlign.center,
             ),
             Image.asset(
@@ -43,7 +44,7 @@ class WalletDialog extends StatelessWidget {
             ),
             Text(
               l10n.createSubtitle,
-              style: Theme.of(context).textTheme.walletAltmeMessage,
+              style: Theme.of(context).textTheme.defaultDialogSubtitle,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 15),

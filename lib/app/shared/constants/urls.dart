@@ -29,6 +29,8 @@ class Urls {
   static const String tezotopiaMembershipCardUrl =
       'https://issuer.talao.co/tezotopia/membershipcard/';
 
+  static const String bloometaCardUrl = 'https://issuer.talao.co/bloometa';
+
   static const String chainbornMembershipCardUrl =
       'https://issuer.talao.co/chainborn/membershipcard/';
 
@@ -49,7 +51,8 @@ class Urls {
 
   static const xtzPrice = 'https://api.teztools.io/v1/xtz-price';
   static const cryptoCompareBaseUrl = 'https://min-api.cryptocompare.com';
-  static const ethPrice = '$cryptoCompareBaseUrl/data/price?fsym=ETH&tsyms=USD';
+  static String ethPrice(String symbol) =>
+      '$cryptoCompareBaseUrl/data/price?fsym=$symbol&tsyms=USD';
 
   // TZKT
   static const tzktMainnetUrl = 'https://api.tzkt.io';
@@ -57,6 +60,9 @@ class Urls {
 
   //Moralis
   static const moralisBaseUrl = 'https://deep-index.moralis.io/api/v2';
+
+  //Infura
+  static const infuraBaseUrl = 'https://mainnet.infura.io/v3/';
 
   static const objktUrl = 'https://objkt.com/';
   static const raribleUrl = 'https://rarible.com/';
@@ -78,5 +84,4 @@ class Urls {
   static const matrixHomeServer = 'https://matrix.talao.co';
   static const getNonce = 'https://talao.co/matrix/nonce';
   static const registerToMatrix = 'https://talao.co/matrix/register';
-
 }
