@@ -1,3 +1,8 @@
+# Important
+**Both Altme and Talao Wallets's code isnow in the following repository : https://github.com/TalaoDAO/AltMe**
+
+**Especially, Talao code is in Talao branch: https://github.com/TalaoDAO/AltMe/tree/TALAO**
+
 # Talao
 
 ![coverage][coverage_badge]
